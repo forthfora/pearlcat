@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,14 @@ namespace TheSacrifice
     internal class CustomSlugcat
     {
         public readonly Player player;
+
+        private const int MAX_PEARL_STORAGE_COUNT = 10;
+
+        private List<DataPearl.AbstractDataPearl> storedPearls = new List<DataPearl.AbstractDataPearl>();
+
+        private DataPearl.AbstractDataPearl? activePearl = null!;
+        private DataPearl.AbstractDataPearl? heldPearl = null!;
+        private bool canSwallowOrRegurgitate = true;
 
         public CustomSlugcat(Player player)
         {
@@ -26,7 +36,7 @@ namespace TheSacrifice
         
             try
             {
-
+                IL.Player.GrabUpdate += Player_GrabUpdateIL;
             }
             catch (Exception e)
             {
@@ -34,14 +44,79 @@ namespace TheSacrifice
             }
         }
 
+        private void Player_GrabUpdateIL(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            ILLabel dest = null!;
+
+            // Allow disabling of ordinary swallowing mechanic
+            c.GotoNext(MoveType.After,
+                x => x.MatchLdcR4(0.5f),
+                x => x.MatchBltUn(out _),
+                x => x.MatchLdcI4(0),
+                x => x.MatchStloc(1),
+                x => x.MatchLdloc(1),
+                x => x.MatchBrfalse(out dest)
+                );
+
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<Func<Player, bool>>((player) => canSwallowOrRegurgitate);
+
+            c.Emit(OpCodes.Brfalse, dest);
+        }
 
         private void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
         {
+            if (player == self)
+            {
+                canSwallowOrRegurgitate = true;
+                heldPearl = null;
+
+                // Check if holding a pearl and if so get the pearl
+                // The right hand takes priority
+                for (int i = 0; i < self.grasps.Length; i++)
+                {
+                    if (self.grasps[i] == null) continue;
+
+                    AbstractPhysicalObject heldObject = self.grasps[i].grabbed.abstractPhysicalObject;
+
+                    // Several different types of pearls
+                    if (heldObject.type != AbstractPhysicalObject.AbstractObjectType.DataPearl
+                        && heldObject.type != AbstractPhysicalObject.AbstractObjectType.PebblesPearl
+                        && heldObject.type != MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.HalcyonPearl) 
+                        continue;
+
+                    heldPearl = (DataPearl.AbstractDataPearl)self.grasps[i].grabbed.abstractPhysicalObject;
+                    break;
+                }
+
+                if (heldPearl != null)
+                {
+                    if (storedPearls.Count < MAX_PEARL_STORAGE_COUNT)
+                    {
+                        canSwallowOrRegurgitate = false;
+                    }
+                }
+            }
+            
             orig(self, eu);
 
             if (player != self) return;
-        
+
+            if (heldPearl == null) return;
             
+            AddPearlToStorage(heldPearl);
+        }
+
+        private void AddPearlToStorage(DataPearl.AbstractDataPearl pearl)
+        {
+            if (storedPearls.Count >= MAX_PEARL_STORAGE_COUNT) return;
+
+            DataPearl.AbstractDataPearl pearlToStore = new DataPearl.AbstractDataPearl(pearl.world, pearl.type, null, pearl.pos, pearl.ID, -1, -1, null, pearl.dataPearlType);
+            storedPearls.Add(pearlToStore);
+
+            pearl.Destroy();
+            pearl.realizedObject.Destroy();
         }
 
         private void PlayerGraphics_ctor(On.PlayerGraphics.orig_ctor orig, PlayerGraphics self, PhysicalObject ow)
