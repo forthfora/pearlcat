@@ -22,6 +22,8 @@ namespace TheSacrifice
         public const string AUTHOR = "forthbridge";
         public const string MOD_NAME = "The Sacrifice";
 
+        public const string SLUGCAT_NAME = "Sacrifice";
+
         public static new ManualLogSource Logger { get; private set; } = null!;
 
         public void OnEnable()

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
@@ -29,6 +29,9 @@
     </Reference>
     <Reference Include="MonoMod.Utils">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\MonoMod.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="SlugBase">
+      <HintPath>..\..\Backups\Rain World\Rain World References\SlugBase.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.dll</HintPath>
