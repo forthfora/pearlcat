@@ -1,0 +1,172 @@
+{"frames": {
+
+"thesacrificeFaceA0.png":
+{
+	"frame": {"x":2,"y":2,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceA1.png":
+{
+	"frame": {"x":50,"y":2,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceA2.png":
+{
+	"frame": {"x":98,"y":2,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceA3.png":
+{
+	"frame": {"x":146,"y":2,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceA4.png":
+{
+	"frame": {"x":194,"y":2,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceA5.png":
+{
+	"frame": {"x":2,"y":52,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceA6.png":
+{
+	"frame": {"x":50,"y":52,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceA7.png":
+{
+	"frame": {"x":98,"y":52,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceA8.png":
+{
+	"frame": {"x":146,"y":52,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB0.png":
+{
+	"frame": {"x":194,"y":52,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB1.png":
+{
+	"frame": {"x":2,"y":102,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB2.png":
+{
+	"frame": {"x":50,"y":102,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB3.png":
+{
+	"frame": {"x":98,"y":102,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB4.png":
+{
+	"frame": {"x":146,"y":102,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB5.png":
+{
+	"frame": {"x":194,"y":102,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB6.png":
+{
+	"frame": {"x":2,"y":152,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB7.png":
+{
+	"frame": {"x":50,"y":152,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceB8.png":
+{
+	"frame": {"x":98,"y":152,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceDead.png":
+{
+	"frame": {"x":146,"y":152,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+},
+"thesacrificeFaceStunned.png":
+{
+	"frame": {"x":194,"y":152,"w":46,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
+	"sourceSize": {"w":46,"h":48}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "thesacrifice_face.png",
+	"format": "RGBA8888",
+	"size": {"w":242,"h":202},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:3dab4827439779e92017ec94a4d70305:fc9cb8802b5ea288d1f3d56a3ee5e7d0:d5b470ee17308bc246580d358ea3640d$"
+}
+}
