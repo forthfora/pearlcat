@@ -14,15 +14,17 @@ namespace TheSacrifice
     {
         public readonly Player player;
 
-        private const int MAX_PEARL_STORAGE_COUNT = 10;
+        private const int MAX_STORAGE_COUNT = 10;
 
-        // These are abstract definitions of pearls, meant to store their data only
-        private List<DataPearl.AbstractDataPearl> storedPearls = new List<DataPearl.AbstractDataPearl>();
-        private DataPearl.AbstractDataPearl? selectedPearl = null!;
+        // These are abstract definitions of objects, meant to store their data only
+        private List<AbstractPhysicalObject> storedObjects = new List<AbstractPhysicalObject>();
+        private int selectedStoredIndex = 0;
 
-        // Pearls that are actually realized in the world
-        private DataPearl.AbstractDataPearl? activePearl = null!;
-        private DataPearl.AbstractDataPearl? heldPearl = null!;
+        private AbstractPhysicalObject? SelectedObject => selectedStoredIndex >= storedObjects.Count ? null : storedObjects[selectedStoredIndex];
+
+        // Objects that are actually realized in the world
+        private AbstractPhysicalObject? activeObject = null!;
+        private AbstractPhysicalObject? heldStorable = null!;
 
         private bool canSwallowOrRegurgitate = true;
 
@@ -36,7 +38,7 @@ namespace TheSacrifice
         private void ApplyHooks()
         {
             On.Player.Update += Player_Update;
-            
+
             On.PlayerGraphics.DrawSprites += PlayerGraphics_DrawSprites;
             On.PlayerGraphics.ctor += PlayerGraphics_ctor;
             On.PlayerGraphics.PlayerObjectLooker.HowInterestingIsThisObject += PlayerObjectLooker_HowInterestingIsThisObject;
@@ -58,70 +60,114 @@ namespace TheSacrifice
             }
         }
 
-        private void Player_NewRoom(On.Player.orig_NewRoom orig, Player self, Room newRoom)
-        {
-            orig(self, newRoom);
-
-            if (self != player) return;
-
-            DestroyActivePearl();
-        }
-
-        private float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
-        {
-            if (obj != null && obj.abstractPhysicalObject == activePearl) return 0.0f;
-
-            return orig(self, obj);
-        }
-
-
-        // lol
-        private uint colorStacker = 0;
-        private const uint COLOR_STACKER_LIMIT = 400;
-
-        private Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
-        {
-            colorStacker = colorStacker >= COLOR_STACKER_LIMIT ? 0 : colorStacker + 1;
-            return Custom.HSL2RGB(colorStacker / (float)COLOR_STACKER_LIMIT, 1.0f, 0.5f);
-        }
-
         private void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
         {
             orig(self, entrancePos, carriedByOther);
 
             if (self != player) return;
 
-            DestroyActivePearl();
-        }
-
-        private void DestroyActivePearl()
-        {
-            activePearl?.Destroy();
-            activePearl?.realizedObject.Destroy();
-            activePearl = null!;
+            DestroyActiveObject();
         }
 
         private bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
         {
-            if (activePearl != null && obj == activePearl.realizedObject) return false;
+            if (activeObject != null && obj == activeObject.realizedObject) return false;
 
             return orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
         }
 
-        private Vector2 GetActivePearlPos()
+
+        #region Object
+
+        private const float ACTIVE_OBJECT_SPEED = 0.99f;
+        private readonly Vector2 activeObjectOffset = new Vector2(0.0f, 10.0f);
+
+        private void TryRealizeActiveObject()
         {
-            Vector2 pos = player.graphicsModule.bodyParts[6].pos + activePearlOffset;
+            if (activeObject != null) return;
+
+            if (SelectedObject == null) return;
+            if (storedObjects.Count == 0) return;
+
+            if (player.inShortcut) return;
+
+            activeObject = CloneAbstractObject(SelectedObject);
+            
+            WorldCoordinate newWorldCoordinate = player.room.ToWorldCoordinate(GetActiveObjectPos());
+            activeObject.ChangeRooms(newWorldCoordinate);
+            activeObject.pos = newWorldCoordinate;
+
+            activeObject.RealizeInRoom();
+            activeObject.realizedObject.CollideWithTerrain = false;
+            activeObject.realizedObject.gravity = 0.0f;
+
+            Plugin.Logger.LogWarning($"Active object realized at position ({activeObject.pos})!");
+        }
+
+        private void DestroyActiveObject()
+        {
+            activeObject?.Destroy();
+            activeObject?.realizedObject?.Destroy();
+            activeObject = null!;
+        }
+
+        private Vector2 GetActiveObjectPos()
+        {
+            Vector2 pos = player.graphicsModule.bodyParts[6].pos + activeObjectOffset;
 
             if (player.gravity == 0.0f)
             {
-                pos = player.graphicsModule.bodyParts[6].pos + activePearlOffset.magnitude * player.bodyChunks[0].Rotation;
+                pos = player.graphicsModule.bodyParts[6].pos + activeObjectOffset.magnitude * player.bodyChunks[0].Rotation;
             }
 
             return pos;
         }
 
-        private const float PEARL_SPEED = 0.99f;
-        private readonly Vector2 activePearlOffset = new Vector2(0.0f, 10.0f);
+        private void AddObjectToStorage(AbstractPhysicalObject abstractObject)
+        {
+            if (storedObjects.Count >= MAX_STORAGE_COUNT) return;
+
+            AbstractPhysicalObject objectToStore = CloneAbstractObject(abstractObject);
+            storedObjects.Add(objectToStore);
+
+            abstractObject.Destroy();
+            abstractObject.realizedObject.Destroy();
+
+            selectedStoredIndex = storedObjects.Count - 1;
+        }
+
+        private bool IsObjectStorable(AbstractPhysicalObject abstractObject)
+        {
+            if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.DataPearl) return true;
+
+            if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.PebblesPearl) return true;
+
+            if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.Rock) return true;
+
+
+            // Downpour
+            if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.HalcyonPearl) return true;
+
+            if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl) return true;
+
+            return false;
+        }
+
+        private AbstractPhysicalObject CloneAbstractObject(AbstractPhysicalObject originalObject)
+        {
+            if (originalObject is DataPearl.AbstractDataPearl originalPearl) return new DataPearl.AbstractDataPearl(originalPearl.world, originalPearl.type, null, originalPearl.pos, originalPearl.ID, -1, -1, null, originalPearl.dataPearlType);
+
+            return new AbstractPhysicalObject(originalObject.world, originalObject.type, null, originalObject.pos, originalObject.ID);
+        }
+
+        private void SaveStoredObjects(AbstractPhysicalObject originalObject)
+        {
+            
+        }
+
+        #endregion
+
+        #region Player Hooks
 
         private void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
         {
@@ -129,32 +175,12 @@ namespace TheSacrifice
 
             if (player != self) return;
 
-            RealizeActivePearl();
+            TryRealizeActiveObject();
 
-            if (activePearl == null) return;
+            if (activeObject == null) return;
 
-            Vector2 targetPos = GetActivePearlPos();
-            activePearl.realizedObject.firstChunk.pos = Vector2.Lerp(activePearl.realizedObject.firstChunk.pos, targetPos, PEARL_SPEED);
-        }
-
-        private void RealizeActivePearl()
-        {
-            if (activePearl != null || storedPearls.Count == 0) return;
-
-            if (player.inShortcut) return;
-
-            if (selectedPearl == null) return;
-
-            activePearl = CloneAbstractDataPearl(selectedPearl);
-
-            WorldCoordinate newWorldCoordinate = player.room.ToWorldCoordinate(GetActivePearlPos());
-            activePearl.pos = newWorldCoordinate;
-
-            activePearl.RealizeInRoom();
-            activePearl.realizedObject.CollideWithTerrain = false;
-            activePearl.realizedObject.gravity = 0.0f;
-            
-            //Plugin.Logger.LogWarning($"Active pearl realized at position ({activePearl.pos})!");
+            Vector2 targetPos = GetActiveObjectPos();
+            activeObject.realizedObject.firstChunk.pos = Vector2.Lerp(activeObject.realizedObject.firstChunk.pos, targetPos, ACTIVE_OBJECT_SPEED);
         }
 
         private void Player_GrabUpdateIL(ILContext il)
@@ -182,56 +208,49 @@ namespace TheSacrifice
         {
             if (player == self)
             {
-                canSwallowOrRegurgitate = true;
-                heldPearl = null;
+                heldStorable = null;
 
-                // Check if holding a pearl and if so get the pearl
                 // The right hand takes priority
                 for (int i = 0; i < self.grasps.Length; i++)
                 {
+                    if (storedObjects.Count >= MAX_STORAGE_COUNT) continue;
+                    
                     if (self.grasps[i] == null) continue;
 
                     AbstractPhysicalObject heldObject = self.grasps[i].grabbed.abstractPhysicalObject;
 
-                    // Several different types of pearls
-                    if (heldObject.type != AbstractPhysicalObject.AbstractObjectType.DataPearl
-                        && heldObject.type != AbstractPhysicalObject.AbstractObjectType.PebblesPearl
-                        && heldObject.type != MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.HalcyonPearl) 
-                        continue;
+                    if (!IsObjectStorable(heldObject)) continue;
 
-                    heldPearl = (DataPearl.AbstractDataPearl)self.grasps[i].grabbed.abstractPhysicalObject;
+                    heldStorable = heldObject;
                     break;
                 }
-
-                if (heldPearl != null)
-                {
-                    if (storedPearls.Count < MAX_PEARL_STORAGE_COUNT)
-                    {
-                        canSwallowOrRegurgitate = false;
-                    }
-                }
+             
+                canSwallowOrRegurgitate = heldStorable == null;
             }
             
             orig(self, eu);
 
             if (player != self) return;
 
-            if (heldPearl == null) return;
+            if (heldStorable == null) return;
             
-            AddPearlToStorage(heldPearl);
+            AddObjectToStorage(heldStorable);
         }
 
-        private void AddPearlToStorage(DataPearl.AbstractDataPearl pearl)
+        private void Player_NewRoom(On.Player.orig_NewRoom orig, Player self, Room newRoom)
         {
-            if (storedPearls.Count >= MAX_PEARL_STORAGE_COUNT) return;
+            orig(self, newRoom);
 
-            DataPearl.AbstractDataPearl pearlToStore = CloneAbstractDataPearl(pearl);
-            storedPearls.Add(pearlToStore);
+            if (self != player) return;
 
-            pearl.Destroy();
-            pearl.realizedObject.Destroy();
+            DestroyActiveObject();
+        }
 
-            selectedPearl = pearlToStore;
+        private float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
+        {
+            if (obj != null && obj.abstractPhysicalObject == activeObject) return 0.0f;
+
+            return orig(self, obj);
         }
 
         private void PlayerGraphics_ctor(On.PlayerGraphics.orig_ctor orig, PlayerGraphics self, PhysicalObject ow)
@@ -245,8 +264,6 @@ namespace TheSacrifice
             //self.tail[2] = new TailSegment(self, 4f, 3.5f, self.tail[1], 0.85f, 1f, 0.5f, true);
             //self.tail[3] = new TailSegment(self, 2f, 3.5f, self.tail[2], 0.85f, 1f, 0.5f, true);
         }
-
-        private DataPearl.AbstractDataPearl CloneAbstractDataPearl(DataPearl.AbstractDataPearl originalPearl) => new DataPearl.AbstractDataPearl(originalPearl.world, originalPearl.type, null, originalPearl.pos, originalPearl.ID, -1, -1, null, originalPearl.dataPearlType);
 
         private void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
         {
@@ -294,6 +311,18 @@ namespace TheSacrifice
                     sLeaser.sprites[spriteIndex].element = element;
                 }
             }
+        }
+
+        #endregion
+
+        // lol
+        private uint colorStacker = 0;
+        private const uint COLOR_STACKER_LIMIT = 400;
+
+        private Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
+        {
+            colorStacker = colorStacker >= COLOR_STACKER_LIMIT ? 0 : colorStacker + 1;
+            return Custom.HSL2RGB(colorStacker / (float)COLOR_STACKER_LIMIT, 1.0f, 0.5f);
         }
     }
 }
