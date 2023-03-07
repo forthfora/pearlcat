@@ -8,15 +8,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Rain World Modded\RainWorld_Data\StreamingAssets\mods\thesacrifice\plugins&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetDir)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Rain World Modded\RainWorld_Data\StreamingAssets\mods\thesacrifice\plugins&quot;" />
   </Target>
 
   <ItemGroup>
