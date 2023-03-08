@@ -24,7 +24,6 @@ namespace TheSacrifice
         }
 
         private const float HIGHLIGHT_COLOR_MULTIPLIER = 1.5f;
-        private const float SHADOW_COLOR_MULTIPLIER = 0.5f;
 
         private static List<Color> GetObjectAccentColors(AbstractPhysicalObject abstractObject)
         {
@@ -34,14 +33,17 @@ namespace TheSacrifice
 
             if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
             {
-                colors.Add(ItemSymbol.ColorForItem(dataPearl.type, 0));
+                if (dataPearl.dataPearlType == MoreSlugcats.MoreSlugcatsEnums.DataPearlType.DM)
+                {
+                    colors.Add(((DataPearl)dataPearl.realizedObject).color);
+                }
+                else
+                {
+                    colors.Add(ItemSymbol.ColorForItem(dataPearl.type, 0));
+                }
             }
 
-            if (colors.Count > 0)
-            {
-                colors.Add(colors[0] * SHADOW_COLOR_MULTIPLIER);
-                colors.Add(colors[0] * HIGHLIGHT_COLOR_MULTIPLIER);
-            }
+            if (colors.Count > 0) colors.Add(colors[0] * HIGHLIGHT_COLOR_MULTIPLIER);
 
             return colors;
         }

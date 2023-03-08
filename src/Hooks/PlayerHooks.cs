@@ -60,6 +60,8 @@ namespace TheSacrifice
         {
             public bool canSwallowOrRegurgitate = true;
 
+            public int storeObjectCounter = 0;
+
             public AbstractPhysicalObject? realizedActiveObject = null;
             public int? selectedIndex = null;
             public int? predictedIndex = null;
@@ -71,10 +73,12 @@ namespace TheSacrifice
 
 
         private const int MAX_STORAGE_COUNT = 10;
-        private const float FRAME_SHORTCUT_COLOR_ADDITION = 0.006f;
-        
+        private const float FRAME_SHORTCUT_COLOR_ADDITION = 0.003f;
+
+        private const int framesToStoreObject = 80;
+
         // Base offset of the object relative to the player's head
-        private static readonly Vector2 ACTIVE_OBJECT_BASE_OFFSET = new Vector2(0.0f, 10.0f);
+        private static readonly Vector2 ACTIVE_OBJECT_BASE_OFFSET = new Vector2(0.0f, 20.0f);
 
 
         private static bool IsCustomSlugcat(Player player) => player.SlugCatClass.ToString() == Plugin.SLUGCAT_ID;
@@ -90,6 +94,8 @@ namespace TheSacrifice
             if (!PlayerData.TryGetValue(player, out playerEx)) return null;
 
             if (playerEx.selectedIndex == null) return null;
+
+            if (playerEx.selectedIndex >= inventory.Count) return null;
 
             return inventory[(int)playerEx.selectedIndex];
         }
@@ -116,6 +122,8 @@ namespace TheSacrifice
 
             AbstractPhysicalObject realizedActiveObject = CloneObject(player.room.world, storedActiveObject);
 
+            //player.room.abstractRoom.AddEntity(realizedActiveObject);
+
             WorldCoordinate newWorldCoordinate = player.room.ToWorldCoordinate(GetActiveObjectPos(player));
             realizedActiveObject.pos = newWorldCoordinate;
 
@@ -140,7 +148,7 @@ namespace TheSacrifice
 
             AbstractPhysicalObject? realizedActiveObject = playerEx.realizedActiveObject;
             realizedActiveObject?.realizedObject?.Destroy();
-            realizedActiveObject?.realizedObject.Destroy();
+            realizedActiveObject?.Destroy();
             playerEx.realizedActiveObject = null;
         }
 
@@ -160,17 +168,46 @@ namespace TheSacrifice
             return pos;
         }
 
-        private static bool AddObjectToStorage(Player player, AbstractPhysicalObject abstractObject)
+        private static void AddObjectToStorage(Player player, AbstractPhysicalObject abstractObject)
         {
             List<AbstractPhysicalObject> inventory;
-            if (!GameInventory.TryGetValue(player.room.game, out inventory)) return false;
+            if (!GameInventory.TryGetValue(player.room.game, out inventory)) return;
 
-            if (inventory.Count >= MAX_STORAGE_COUNT) return false;
+            if (inventory.Count >= MAX_STORAGE_COUNT) return;
 
             inventory.Add(abstractObject);
             abstractObject.realizedObject?.Destroy();
+        }
 
-            return true;
+        private static void RemoveObjectFromStorage(Player player)
+        {
+            if (player.FreeHand() <= -1) return;
+
+            List<AbstractPhysicalObject> inventory;
+            if (!GameInventory.TryGetValue(player.room.game, out inventory)) return;
+
+            PlayerEx playerEx;
+            if (!PlayerData.TryGetValue(player, out playerEx)) return;
+
+            foreach (var a in inventory)
+                Plugin.Logger.LogWarning(inventory.IndexOf(a) + " - " + a.type);
+
+            AbstractPhysicalObject? activeObject = GetStoredActiveObject(player);
+
+            if (activeObject == null) return;
+
+            AbstractPhysicalObject objectForHand = CloneObject(player.room.world, activeObject);
+
+            objectForHand.pos = player.abstractCreature.pos;
+            player.room.abstractRoom.AddEntity(objectForHand);
+
+            objectForHand.RealizeInRoom();
+
+            inventory.Remove(activeObject);
+            DestroyRealizedActiveObject(player);
+            playerEx.realizedActiveObject = null;
+
+            player.SlugcatGrab(objectForHand.realizedObject, player.FreeHand());
         }
 
         private static List<PlayerEx> GetAllPlayerData(RainWorldGame game)
@@ -347,11 +384,12 @@ namespace TheSacrifice
             PlayerEx? playerEx;
             if (!PlayerData.TryGetValue(self, out playerEx)) goto ORIG;
 
+            playerEx.canSwallowOrRegurgitate = true;
 
             for (int i = 0; i < self.grasps.Length; i++)
             {
                 if (inventory.Count >= MAX_STORAGE_COUNT) continue;
-                    
+
                 if (self.grasps[i] == null) continue;
 
                 AbstractPhysicalObject heldObject = self.grasps[i].grabbed.abstractPhysicalObject;
@@ -363,18 +401,80 @@ namespace TheSacrifice
                 heldStorable = heldObject;
                 break;
             }
-             
-            playerEx.canSwallowOrRegurgitate = heldStorable == null;
 
             ORIG:
             orig(self, eu);
 
             if (playerEx == null || inventory == null) return;
 
-            if (heldStorable == null) return;
+            if (!IsStoreKeybindPressed(self))
+            {
+                playerEx.storeObjectCounter = 0;
+                return;
+            }
 
-            AddObjectToStorage(self, heldStorable);
-            ActivateObjectInStorage(self, inventory.Count - 1);
+            playerEx.canSwallowOrRegurgitate = false;
+
+            if (playerEx.storeObjectCounter < framesToStoreObject)
+            {
+                playerEx.storeObjectCounter++;
+                return;
+            }
+
+            playerEx.storeObjectCounter = 0;
+            
+            if (heldStorable != null)
+            {
+
+                AddObjectToStorage(self, heldStorable);
+                ActivateObjectInStorage(self, inventory.Count - 1);
+                return;
+            }
+
+            RemoveObjectFromStorage(self);
+        }
+
+        private static bool IsStoreKeybindPressed(Player player)
+        {
+            if (!Options.usesCustomStoreKeybind.Value && player.input[0].y == 1.0f && player.input[0].pckp) return true;
+
+            return player.playerState.playerNumber switch
+            {
+                0 => Input.GetKey(Options.storeKeybindPlayer1.Value) || Input.GetKey(Options.storeKeybindKeyboard.Value),
+                1 => Input.GetKey(Options.storeKeybindPlayer2.Value),
+                2 => Input.GetKey(Options.storeKeybindPlayer3.Value),
+                3 => Input.GetKey(Options.storeKeybindPlayer4.Value),
+
+                _ => false
+            };
+        }
+
+        private static bool IsDashKeybindPressed(Player player)
+        {
+            if (!Options.usesCustomDashKeybind.Value && player.input[0].jmp && player.input[0].pckp) return true;
+
+            return player.playerState.playerNumber switch
+            {
+                0 => Input.GetKey(Options.dashKeybindPlayer1.Value) || Input.GetKey(Options.dashKeybindKeyboard.Value),
+                1 => Input.GetKey(Options.dashKeybindPlayer2.Value),
+                2 => Input.GetKey(Options.dashKeybindPlayer3.Value),
+                3 => Input.GetKey(Options.dashKeybindPlayer4.Value),
+
+                _ => false
+            };
+        }
+
+        private static bool IsSwapKeybindPressed(Player player)
+        {
+            return player.playerState.playerNumber switch
+            {
+                0 => Input.GetKey(Options.swapKeybindPlayer1.Value) || Input.GetKey(Options.swapKeybindKeyboard.Value),
+                1 => Input.GetKey(Options.swapKeybindPlayer2.Value),
+                2 => Input.GetKey(Options.swapKeybindPlayer3.Value),
+                3 => Input.GetKey(Options.swapKeybindPlayer4.Value),
+
+                _ => false
+            };
         }
 
         private static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
@@ -401,6 +501,8 @@ namespace TheSacrifice
         private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
         {
             orig(self, sLeaser, rCam, timeStacker, camPos);
+
+            return;
 
             if (!IsCustomSlugcat(self.player)) return;
 

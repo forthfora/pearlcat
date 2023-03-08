@@ -13,23 +13,61 @@ namespace TheSacrifice
 
         #region Options
 
-        public static Configurable<bool> usesCustomKeybind = instance.config.Bind("usesCustomKeybind", false, new ConfigurableInfo(
+        public static Configurable<KeyCode> swapKeybindKeyboard = instance.config.Bind("swapKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
+            "Keybind for Keyboard.", null, "", "Keyboard"));
+
+        public static Configurable<KeyCode> swapKeybindPlayer1 = instance.config.Bind("swapKeybindPlayer1", KeyCode.Joystick1Button4, new ConfigurableInfo(
+            "Keybind for Player 1.", null, "", "Player 1"));
+
+        public static Configurable<KeyCode> swapKeybindPlayer2 = instance.config.Bind("swapKkeybindPlayer2", KeyCode.Joystick2Button4, new ConfigurableInfo(
+            "Keybind for Player 2.", null, "", "Player 2"));
+
+        public static Configurable<KeyCode> swapKeybindPlayer3 = instance.config.Bind("swapKkeybindPlayer3", KeyCode.Joystick3Button4, new ConfigurableInfo(
+            "Keybind for Player 3.", null, "", "Player 3"));
+
+        public static Configurable<KeyCode> swapKeybindPlayer4 = instance.config.Bind("swapKeybindPlayer4", KeyCode.Joystick4Button4, new ConfigurableInfo(
+            "Keybind for Player 4.", null, "", "Player 4"));
+
+
+
+        public static Configurable<bool> usesCustomDashKeybind = instance.config.Bind("usesCustomDashKeybind", false, new ConfigurableInfo(
             "Enables custom keybinds below, as opposed to the default.",
             null, "", "Custom Keybind?"));
 
-        public static Configurable<KeyCode> keybindKeyboard = instance.config.Bind("keybindKeyboard", KeyCode.LeftShift, new ConfigurableInfo(
+        public static Configurable<KeyCode> dashKeybindKeyboard = instance.config.Bind("dashKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
             "Keybind for Keyboard.", null, "", "Keyboard"));
 
-        public static Configurable<KeyCode> keybindPlayer1 = instance.config.Bind("keybindPlayer1", KeyCode.Joystick1Button4, new ConfigurableInfo(
+        public static Configurable<KeyCode> dashKeybindPlayer1 = instance.config.Bind("dashKeybindPlayer1", KeyCode.Joystick1Button4, new ConfigurableInfo(
             "Keybind for Player 1.", null, "", "Player 1"));
 
-        public static Configurable<KeyCode> keybindPlayer2 = instance.config.Bind("keybindPlayer2", KeyCode.Joystick2Button4, new ConfigurableInfo(
+        public static Configurable<KeyCode> dashKeybindPlayer2 = instance.config.Bind("dashKkeybindPlayer2", KeyCode.Joystick2Button4, new ConfigurableInfo(
             "Keybind for Player 2.", null, "", "Player 2"));
 
-        public static Configurable<KeyCode> keybindPlayer3 = instance.config.Bind("keybindPlayer3", KeyCode.Joystick3Button4, new ConfigurableInfo(
+        public static Configurable<KeyCode> dashKeybindPlayer3 = instance.config.Bind("dashKkeybindPlayer3", KeyCode.Joystick3Button4, new ConfigurableInfo(
             "Keybind for Player 3.", null, "", "Player 3"));
 
-        public static Configurable<KeyCode> keybindPlayer4 = instance.config.Bind("keybindPlayer4", KeyCode.Joystick4Button4, new ConfigurableInfo(
+        public static Configurable<KeyCode> dashKeybindPlayer4 = instance.config.Bind("dashKeybindPlayer4", KeyCode.Joystick4Button4, new ConfigurableInfo(
+            "Keybind for Player 4.", null, "", "Player 4"));
+
+
+
+        public static Configurable<bool> usesCustomStoreKeybind = instance.config.Bind("usesCustomStoreKeybind", false, new ConfigurableInfo(
+            "Enables custom keybinds below, as opposed to the default.",
+            null, "", "Custom Keybind?"));
+
+        public static Configurable<KeyCode> storeKeybindKeyboard = instance.config.Bind("storeKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
+            "Keybind for Keyboard.", null, "", "Keyboard"));
+
+        public static Configurable<KeyCode> storeKeybindPlayer1 = instance.config.Bind("storeKeybindPlayer1", KeyCode.Joystick1Button4, new ConfigurableInfo(
+            "Keybind for Player 1.", null, "", "Player 1"));
+
+        public static Configurable<KeyCode> storeKeybindPlayer2 = instance.config.Bind("storeKkeybindPlayer2", KeyCode.Joystick2Button4, new ConfigurableInfo(
+            "Keybind for Player 2.", null, "", "Player 2"));
+
+        public static Configurable<KeyCode> storeKeybindPlayer3 = instance.config.Bind("storeKkeybindPlayer3", KeyCode.Joystick3Button4, new ConfigurableInfo(
+            "Keybind for Player 3.", null, "", "Player 3"));
+
+        public static Configurable<KeyCode> storeKeybindPlayer4 = instance.config.Bind("storeKeybindPlayer4", KeyCode.Joystick4Button4, new ConfigurableInfo(
             "Keybind for Player 4.", null, "", "Player 4"));
 
         #endregion
@@ -64,7 +102,7 @@ namespace TheSacrifice
         private readonly List<OpLabel> textLabels = new();
         #endregion
 
-        private const int NUMBER_OF_TABS = 2;
+        private const int NUMBER_OF_TABS = 4;
 
         public override void Initialize()
         {
@@ -76,32 +114,82 @@ namespace TheSacrifice
 
             AddTab(ref tabIndex, "General");
 
-            AddNewLine(18);
+            AddNewLine(21);
             DrawBox(ref Tabs[tabIndex]);
 
 
+            #region Swap Input
+            AddTab(ref tabIndex, "Swap Input");
 
-            #region Input
-            AddTab(ref tabIndex, "Input");
+            AddNewLine(2);
 
-            AddCheckBox(usesCustomKeybind, (string)usesCustomKeybind.info.Tags[0]);
+            DrawKeybinders(swapKeybindKeyboard, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(swapKeybindPlayer1, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(swapKeybindPlayer2, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(swapKeybindPlayer3, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(swapKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(3);
+            DrawBox(ref Tabs[tabIndex]);
+            #endregion
+
+
+            #region Store Input
+            AddTab(ref tabIndex, "Store Input");
+
+            AddCheckBox(usesCustomStoreKeybind, (string)usesCustomStoreKeybind.info.Tags[0]);
             DrawCheckBoxes(ref Tabs[tabIndex]);
 
             AddNewLine(3);
 
-            DrawKeybinders(keybindKeyboard, ref Tabs[tabIndex]);
+            DrawKeybinders(storeKeybindKeyboard, ref Tabs[tabIndex]);
             AddNewLine(1);
 
-            DrawKeybinders(keybindPlayer1, ref Tabs[tabIndex]);
+            DrawKeybinders(storeKeybindPlayer1, ref Tabs[tabIndex]);
             AddNewLine(1);
 
-            DrawKeybinders(keybindPlayer2, ref Tabs[tabIndex]);
+            DrawKeybinders(storeKeybindPlayer2, ref Tabs[tabIndex]);
             AddNewLine(1);
 
-            DrawKeybinders(keybindPlayer3, ref Tabs[tabIndex]);
+            DrawKeybinders(storeKeybindPlayer3, ref Tabs[tabIndex]);
             AddNewLine(1);
 
-            DrawKeybinders(keybindPlayer4, ref Tabs[tabIndex]);
+            DrawKeybinders(storeKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(1);
+            DrawBox(ref Tabs[tabIndex]);
+            #endregion
+
+
+            #region Dash Input
+            AddTab(ref tabIndex, "Dash Input");
+
+            AddCheckBox(usesCustomDashKeybind, (string)usesCustomDashKeybind.info.Tags[0]);
+            DrawCheckBoxes(ref Tabs[tabIndex]);
+
+            AddNewLine(3);
+
+            DrawKeybinders(dashKeybindKeyboard, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(dashKeybindPlayer1, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(dashKeybindPlayer2, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(dashKeybindPlayer3, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(dashKeybindPlayer4, ref Tabs[tabIndex]);
 
             AddNewLine(1);
             DrawBox(ref Tabs[tabIndex]);
