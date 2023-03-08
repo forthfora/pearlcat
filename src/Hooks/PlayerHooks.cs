@@ -24,6 +24,8 @@ namespace TheSacrifice
 
             On.Player.GrabUpdate += Player_GrabUpdate;
             On.Player.ShortCutColor += Player_ShortCutColor;
+            On.Player.NewRoom += Player_NewRoom;
+            On.Player.Grabability += Player_Grabability;
 
             On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
             On.Creature.Grab += Creature_Grab;
@@ -38,20 +40,38 @@ namespace TheSacrifice
             }
         }
 
+        private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
+        {
+            if (IsRealizedActiveObject(obj.abstractPhysicalObject)) return Player.ObjectGrabability.CantGrab;
+
+            return orig(self, obj);
+        }
+
+        private static void Player_NewRoom(On.Player.orig_NewRoom orig, Player self, Room newRoom)
+        {
+            DestroyRealizedActiveObject(self); 
+            orig(self, newRoom);
+        }
+
         private static ConditionalWeakTable<Player, PlayerEx> PlayerData = new ConditionalWeakTable<Player, PlayerEx>();
         private static ConditionalWeakTable<RainWorldGame, List<AbstractPhysicalObject>> GameInventory = new ConditionalWeakTable<RainWorldGame, List<AbstractPhysicalObject>>();
 
-        // Data container, handles values that must be unique to each player
         private class PlayerEx
         {
-            public int? selectedIndex = null!;
             public bool canSwallowOrRegurgitate = true;
 
             public AbstractPhysicalObject? realizedActiveObject = null;
+            public int? selectedIndex = null;
+            public int? predictedIndex = null;
+
+            public List<Color> accentColors = new List<Color>();
+            public float shortcutColorStacker = 0.0f;
+            public int shortcutColorStackerDirection = 1;
         }
 
 
         private const int MAX_STORAGE_COUNT = 10;
+        private const float FRAME_SHORTCUT_COLOR_ADDITION = 0.006f;
         
         // Base offset of the object relative to the player's head
         private static readonly Vector2 ACTIVE_OBJECT_BASE_OFFSET = new Vector2(0.0f, 10.0f);
@@ -100,6 +120,7 @@ namespace TheSacrifice
             realizedActiveObject.pos = newWorldCoordinate;
 
             realizedActiveObject.RealizeInRoom();
+            playerEx.realizedActiveObject = realizedActiveObject;
 
             if (realizedActiveObject.realizedObject == null) return;
 
@@ -108,7 +129,8 @@ namespace TheSacrifice
 
             if (realizedActiveObject.realizedObject is Weapon weapon) weapon.rotationSpeed = 0.0f;
 
-            playerEx.realizedActiveObject = realizedActiveObject;
+            playerEx.accentColors = GetObjectAccentColors(realizedActiveObject);
+
         }
 
         private static void DestroyRealizedActiveObject(Player player)
@@ -138,7 +160,6 @@ namespace TheSacrifice
             return pos;
         }
 
-        // Attempts to add the supplied object to the inventory, returns true on success
         private static bool AddObjectToStorage(Player player, AbstractPhysicalObject abstractObject)
         {
             List<AbstractPhysicalObject> inventory;
@@ -150,23 +171,6 @@ namespace TheSacrifice
             abstractObject.realizedObject?.Destroy();
 
             return true;
-        }
-
-        private static bool IsObjectStorable(AbstractPhysicalObject abstractObject)
-        {
-            if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.DataPearl) return true;
-
-            if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.PebblesPearl) return true;
-
-            if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.Rock) return true;
-
-
-            // Downpour
-            if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.HalcyonPearl) return true;
-
-            if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl) return true;
-
-            return false;
         }
 
         private static List<PlayerEx> GetAllPlayerData(RainWorldGame game)
@@ -193,12 +197,78 @@ namespace TheSacrifice
 
         private static void SelectNextObject(Player player)
         {
-            
+            List<AbstractPhysicalObject> inventory;
+            if (!GameInventory.TryGetValue(player.room.game, out inventory)) return;
+
+            PlayerEx playerEx;
+            if (!PlayerData.TryGetValue(player, out playerEx)) return;
+
+            if (playerEx.predictedIndex == null) return;
+
+            int startIndex = (int)playerEx.predictedIndex;
+            List<int> selectedIndexes = new List<int>();
+
+            foreach (PlayerEx ex in GetAllPlayerData(player.room.game))
+            {
+                if (ex.selectedIndex == null) continue;
+                selectedIndexes.Add((int)ex.selectedIndex);
+            }
+
+            for (int i = startIndex + 1; i < inventory.Count; i++)
+            {
+                if (i == startIndex) break;
+
+                if (i > inventory.Count)
+                {
+                    i = -1;
+                    continue;
+                }
+
+                if (selectedIndexes.Contains(i)) continue;
+
+                playerEx.predictedIndex = i;
+                break;
+            }
+
+            Plugin.Logger.LogWarning($"selected next object ({playerEx.predictedIndex})");
         }
 
         private static void SelectPreviousObject(Player player)
         {
+            List<AbstractPhysicalObject> inventory;
+            if (!GameInventory.TryGetValue(player.room.game, out inventory)) return;
 
+            PlayerEx playerEx;
+            if (!PlayerData.TryGetValue(player, out playerEx)) return;
+
+            if (playerEx.predictedIndex == null) return;
+
+            int startIndex = (int)playerEx.predictedIndex;
+            List<int> selectedIndexes = new List<int>();
+
+            foreach (PlayerEx ex in GetAllPlayerData(player.room.game))
+            {
+                if (ex.selectedIndex == null) continue;
+                selectedIndexes.Add((int)ex.selectedIndex);
+            }
+
+            for (int i = startIndex - 1; i < inventory.Count; i--)
+            {
+                if (i == startIndex) break;
+
+                if (i < inventory.Count)
+                {
+                    i = inventory.Count;
+                    continue;
+                }
+
+                if (selectedIndexes.Contains(i)) continue;
+
+                playerEx.predictedIndex = i;
+                break;
+            }
+
+            Plugin.Logger.LogWarning($"selected prev object ({playerEx.predictedIndex})");
         }
 
         private static void ActivateObjectInStorage(Player player, int objectIndex)
@@ -376,14 +446,38 @@ namespace TheSacrifice
             }
         }
 
-        // lol
-        private static uint colorStacker = 0;
-        private const uint COLOR_STACKER_LIMIT = 400;
-
-        private static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, global::Player self)
+        private static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
         {
-            colorStacker = colorStacker >= COLOR_STACKER_LIMIT ? 0 : colorStacker + 1;
-            return Custom.HSL2RGB(colorStacker / (float)COLOR_STACKER_LIMIT, 1.0f, 0.5f);
+            PlayerEx playerEx;
+            if (!PlayerData.TryGetValue(self, out playerEx)) return orig(self);
+
+            List<Color> colors = playerEx.accentColors;
+
+            if (colors.Count == 0) return orig(self);
+
+            playerEx.shortcutColorStacker += FRAME_SHORTCUT_COLOR_ADDITION * playerEx.shortcutColorStackerDirection;
+
+            if (playerEx.shortcutColorStackerDirection == 1 && playerEx.shortcutColorStacker > 1.0f)
+            {
+                playerEx.shortcutColorStackerDirection = -1;
+                playerEx.shortcutColorStacker += FRAME_SHORTCUT_COLOR_ADDITION * playerEx.shortcutColorStackerDirection;
+
+            }
+            else if (playerEx.shortcutColorStackerDirection == -1 && playerEx.shortcutColorStacker < 0.0f)
+            {
+                playerEx.shortcutColorStackerDirection = 1;
+                playerEx.shortcutColorStacker += FRAME_SHORTCUT_COLOR_ADDITION * playerEx.shortcutColorStackerDirection;
+            }
+
+            // https://gamedev.stackexchange.com/questions/98740/how-to-color-lerp-between-multiple-colors
+            float scaledTime = playerEx.shortcutColorStacker * (colors.Count - 1);
+            Color oldColor = colors[(int)scaledTime];
+
+            int nextIndex = (int)(scaledTime + 1.0f);
+            Color newColor = nextIndex >= colors.Count ? oldColor : colors[nextIndex];
+
+            float newTime = scaledTime - Mathf.Floor(scaledTime);
+            return Color.Lerp(oldColor, newColor, newTime);
         }
 
         private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
@@ -395,12 +489,16 @@ namespace TheSacrifice
 
         private static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
         {
-            AbstractPhysicalObject? activeObject = null;
-            if (self is Player player) activeObject = GetRealizedActiveObject(player);
-
-            if (activeObject != null && obj == activeObject.realizedObject) return false;
+            if (self is Player && IsRealizedActiveObject(obj.abstractPhysicalObject)) return false;
 
             return orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
+        }
+
+        private static bool IsRealizedActiveObject(AbstractPhysicalObject targetObject)
+        {
+            List<PlayerEx> allPlayerData = GetAllPlayerData(targetObject.world.game);
+            if (allPlayerData.Any(playerEx => playerEx.realizedActiveObject == targetObject)) return true;
+            return false;
         }
     }
 }
