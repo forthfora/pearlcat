@@ -18,20 +18,7 @@ namespace TheSacrifice
             On.RainWorld.OnModsInit += RainWorld_OnModsInit;
             On.RainWorld.OnModsDisabled += RainWorld_OnModsDisabled;
 
-            On.SaveState.SaveToString += SaveState_SaveToString;
-            On.SaveState.LoadGame += SaveState_LoadGame;
-        }
-
-        private static void SaveState_LoadGame(On.SaveState.orig_LoadGame orig, SaveState self, string str, RainWorldGame game)
-        {
-            orig(self, str, game);
-
-            self.stor
-        }
-
-        private static string SaveState_SaveToString(On.SaveState.orig_SaveToString orig, SaveState self)
-        {
-            throw new NotImplementedException();
+            ApplyPlayerHooks();
         }
 
         private static bool isInit = false;

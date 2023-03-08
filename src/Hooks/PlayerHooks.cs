@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using SlugBase.Features;
 
 namespace TheSacrifice
 {
@@ -24,8 +23,10 @@ namespace TheSacrifice
             On.PlayerGraphics.PlayerObjectLooker.HowInterestingIsThisObject += PlayerObjectLooker_HowInterestingIsThisObject;
 
             On.Player.GrabUpdate += Player_GrabUpdate;
-            On.Player.NewRoom += Player_NewRoom;
             On.Player.ShortCutColor += Player_ShortCutColor;
+
+            On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
+            On.Creature.Grab += Creature_Grab;
 
             try
             {
@@ -45,6 +46,8 @@ namespace TheSacrifice
         {
             public int? selectedIndex = null!;
             public bool canSwallowOrRegurgitate = true;
+
+            public AbstractPhysicalObject? realizedActiveObject = null;
         }
 
 
@@ -53,13 +56,13 @@ namespace TheSacrifice
         // Base offset of the object relative to the player's head
         private static readonly Vector2 ACTIVE_OBJECT_BASE_OFFSET = new Vector2(0.0f, 10.0f);
 
-        private const float ACTIVE_OBJECT_LERP_SPEED = 0.99f;
-
 
         private static bool IsCustomSlugcat(Player player) => player.SlugCatClass.ToString() == Plugin.SLUGCAT_ID;
 
-        private static AbstractPhysicalObject? GetActiveObject(Player player)
+        private static AbstractPhysicalObject? GetStoredActiveObject(Player player)
         {
+            if (player.room == null) return null;
+
             List<AbstractPhysicalObject> inventory;
             if (!GameInventory.TryGetValue(player.room.game, out inventory)) return null;
            
@@ -71,55 +74,80 @@ namespace TheSacrifice
             return inventory[(int)playerEx.selectedIndex];
         }
 
-        private static void TryRealizeActiveObject(Player player)
+        private static AbstractPhysicalObject? GetRealizedActiveObject(Player player)
         {
-            if (player.inShortcut) return;
-
-            AbstractPhysicalObject? activeObject = GetActiveObject(player);
-            
-            if (activeObject == null) return;
-
-            WorldCoordinate newWorldCoordinate = player.room.ToWorldCoordinate(GetActiveObjectPos(player));
-            activeObject.ChangeRooms(newWorldCoordinate);
-            activeObject.pos = newWorldCoordinate;
-
-            activeObject.RealizeInRoom();
-            activeObject.realizedObject.CollideWithTerrain = false;
-            activeObject.realizedObject.gravity = 0.0f;
+            PlayerEx playerEx;
+            if (!PlayerData.TryGetValue(player, out playerEx)) return null;
+            return playerEx.realizedActiveObject;
         }
 
-        private static void DestroyActiveObject(Player player)
+        private static void TryRealizeActiveObject(Player player)
         {
-            AbstractPhysicalObject? activeObject = GetActiveObject(player);
+            PlayerEx playerEx;
+            if (!PlayerData.TryGetValue(player, out playerEx)) return;
 
-            activeObject?.Destroy();
-            activeObject?.realizedObject?.Destroy();
-            activeObject = null!;
+            if (player.inShortcut) return;
+
+            AbstractPhysicalObject? storedActiveObject = GetStoredActiveObject(player);
+
+            if (storedActiveObject == null) return;
+
+            if (playerEx.realizedActiveObject != null) return;
+
+            AbstractPhysicalObject realizedActiveObject = CloneObject(player.room.world, storedActiveObject);
+
+            WorldCoordinate newWorldCoordinate = player.room.ToWorldCoordinate(GetActiveObjectPos(player));
+            realizedActiveObject.pos = newWorldCoordinate;
+
+            realizedActiveObject.RealizeInRoom();
+
+            if (realizedActiveObject.realizedObject == null) return;
+
+            realizedActiveObject.realizedObject.CollideWithTerrain = false;
+            realizedActiveObject.realizedObject.gravity = 0.0f;
+
+            if (realizedActiveObject.realizedObject is Weapon weapon) weapon.rotationSpeed = 0.0f;
+
+            playerEx.realizedActiveObject = realizedActiveObject;
+        }
+
+        private static void DestroyRealizedActiveObject(Player player)
+        {
+            PlayerEx playerEx;
+            if (!PlayerData.TryGetValue(player, out playerEx)) return;
+
+            AbstractPhysicalObject? realizedActiveObject = playerEx.realizedActiveObject;
+            realizedActiveObject?.realizedObject?.Destroy();
+            realizedActiveObject?.realizedObject.Destroy();
+            playerEx.realizedActiveObject = null;
         }
 
         private static Vector2 GetActiveObjectPos(Player player)
         {
-            Vector2 pos = player.graphicsModule.bodyParts[6].pos + ACTIVE_OBJECT_BASE_OFFSET;
+            Vector2 pos;
 
-            if (player.gravity == 0.0f) 
-                pos = player.graphicsModule.bodyParts[6].pos + ACTIVE_OBJECT_BASE_OFFSET.magnitude * player.bodyChunks[0].Rotation;
+            if (player.gravity == 0.0f)
+            {
+                pos = player.graphicsModule.bodyParts[6].pos + (ACTIVE_OBJECT_BASE_OFFSET.magnitude * player.bodyChunks[0].Rotation);
+                return pos;    
+            }
+
+            pos = player.graphicsModule.bodyParts[6].pos + ACTIVE_OBJECT_BASE_OFFSET;
+            pos.x += player.mainBodyChunk.vel.x * 1.0f;
 
             return pos;
         }
 
         // Attempts to add the supplied object to the inventory, returns true on success
-        private static bool AddObjectToStorage(RainWorldGame game, AbstractPhysicalObject abstractObject)
+        private static bool AddObjectToStorage(Player player, AbstractPhysicalObject abstractObject)
         {
             List<AbstractPhysicalObject> inventory;
-            if (!GameInventory.TryGetValue(game, out inventory)) return false;
+            if (!GameInventory.TryGetValue(player.room.game, out inventory)) return false;
 
             if (inventory.Count >= MAX_STORAGE_COUNT) return false;
 
-            AbstractPhysicalObject objectToStore = CloneAbstractObject(game.world, abstractObject);
-            inventory.Add(objectToStore);
-
-            abstractObject.Destroy();
-            abstractObject.realizedObject.Destroy();
+            inventory.Add(abstractObject);
+            abstractObject.realizedObject?.Destroy();
 
             return true;
         }
@@ -139,12 +167,6 @@ namespace TheSacrifice
             if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl) return true;
 
             return false;
-        }
-
-        private static AbstractPhysicalObject CloneAbstractObject(World world, AbstractPhysicalObject originalObject)
-        {
-            string copyString = originalObject.ToString();
-            return SaveState.AbstractPhysicalObjectFromString(world, copyString);
         }
 
         private static List<PlayerEx> GetAllPlayerData(RainWorldGame game)
@@ -194,8 +216,8 @@ namespace TheSacrifice
             PlayerEx playerEx;
             if (!PlayerData.TryGetValue(player, out playerEx)) return;
 
+            DestroyRealizedActiveObject(player);
             playerEx.selectedIndex = objectIndex;
-            DestroyActiveObject(player);
         }
 
         private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
@@ -205,18 +227,15 @@ namespace TheSacrifice
             if (!IsCustomSlugcat(self)) return;
 
             PlayerEx playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx))
-            {
-                PlayerData.Add(self, playerEx = new PlayerEx());
-            }
+            if (!PlayerData.TryGetValue(self, out playerEx)) PlayerData.Add(self, new PlayerEx());
 
             TryRealizeActiveObject(self);
-            AbstractPhysicalObject? activeObject = GetActiveObject(self);
+            AbstractPhysicalObject? activeObject = GetRealizedActiveObject(self);
 
-            if (activeObject == null) return;
+            if (activeObject == null || activeObject.realizedObject == null) return;
 
             Vector2 targetPos = GetActiveObjectPos(self);
-            activeObject.realizedObject.firstChunk.pos = Vector2.Lerp(activeObject.realizedObject.firstChunk.pos, targetPos, ACTIVE_OBJECT_LERP_SPEED);
+            activeObject.realizedObject.firstChunk.pos = targetPos;
         }
 
         private static void Player_GrabUpdateIL(ILContext il)
@@ -246,15 +265,17 @@ namespace TheSacrifice
             c.Emit(OpCodes.Brfalse, dest);
         }
 
-        private static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, global::Player self, bool eu)
+        private static AbstractPhysicalObject CloneObject(World world, AbstractPhysicalObject originalObject) => SaveState.AbstractPhysicalObjectFromString(world, originalObject.ToString());
+
+        private static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
         {
             AbstractPhysicalObject? heldStorable = null;
-            
-            PlayerEx playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx)) goto ORIG;
 
             List<AbstractPhysicalObject> inventory;
-            if (!GameInventory.TryGetValue(self.room.game, out inventory)) goto ORIG;
+            if (!GameInventory.TryGetValue(self.room.game, out inventory)) GameInventory.Add(self.room.game, new List<AbstractPhysicalObject>());
+
+            PlayerEx? playerEx;
+            if (!PlayerData.TryGetValue(self, out playerEx)) goto ORIG;
 
 
             for (int i = 0; i < self.grasps.Length; i++)
@@ -265,6 +286,8 @@ namespace TheSacrifice
 
                 AbstractPhysicalObject heldObject = self.grasps[i].grabbed.abstractPhysicalObject;
 
+                if (heldObject.realizedObject == null) continue;
+
                 if (!IsObjectStorable(heldObject)) continue;
 
                 heldStorable = heldObject;
@@ -273,30 +296,20 @@ namespace TheSacrifice
              
             playerEx.canSwallowOrRegurgitate = heldStorable == null;
 
-
             ORIG:
             orig(self, eu);
 
-
-            if (playerEx == null) return;
+            if (playerEx == null || inventory == null) return;
 
             if (heldStorable == null) return;
-            
-            AddObjectToStorage(self.room.game, heldStorable);
-        }
 
-        private static void Player_NewRoom(On.Player.orig_NewRoom orig, global::Player self, Room newRoom)
-        {
-            orig(self, newRoom);
-
-            if (!IsCustomSlugcat(self)) return;
-
-            DestroyActiveObject(self);
+            AddObjectToStorage(self, heldStorable);
+            ActivateObjectInStorage(self, inventory.Count - 1);
         }
 
         private static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
         {
-            AbstractPhysicalObject? activeObject = GetActiveObject(self.owner.player);
+            AbstractPhysicalObject? activeObject = GetRealizedActiveObject(self.owner.player);
 
             if (obj != null && obj.abstractPhysicalObject == activeObject) return 0.0f;
 
@@ -371,6 +384,23 @@ namespace TheSacrifice
         {
             colorStacker = colorStacker >= COLOR_STACKER_LIMIT ? 0 : colorStacker + 1;
             return Custom.HSL2RGB(colorStacker / (float)COLOR_STACKER_LIMIT, 1.0f, 0.5f);
+        }
+
+        private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
+        {
+            if (self is Player player) DestroyRealizedActiveObject(player);
+
+            orig(self, entrancePos, carriedByOther);
+        }
+
+        private static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
+        {
+            AbstractPhysicalObject? activeObject = null;
+            if (self is Player player) activeObject = GetRealizedActiveObject(player);
+
+            if (activeObject != null && obj == activeObject.realizedObject) return false;
+
+            return orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
         }
     }
 }
