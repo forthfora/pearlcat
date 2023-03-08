@@ -5,10 +5,12 @@ using SlugBase.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
 
 namespace TheSacrifice
 {
@@ -26,6 +28,7 @@ namespace TheSacrifice
             On.Player.ShortCutColor += Player_ShortCutColor;
             On.Player.NewRoom += Player_NewRoom;
             On.Player.Grabability += Player_Grabability;
+            On.Player.GraphicsModuleUpdated += Player_GraphicsModuleUpdated;
 
             On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
             On.Creature.Grab += Creature_Grab;
@@ -38,6 +41,52 @@ namespace TheSacrifice
             {
                 Plugin.Logger.LogError(e);
             }
+        }
+
+        private static void Player_GraphicsModuleUpdated(On.Player.orig_GraphicsModuleUpdated orig, Player self, bool actuallyViewed, bool eu)
+        {
+            orig(self, actuallyViewed, eu);
+
+            PlayerEx? playerEx;
+            if (!PlayerData.TryGetValue(self, out playerEx)) return;
+
+            List<AbstractPhysicalObject> inventory;
+            if (!GameInventory.TryGetValue(self.room.game, out inventory)) return;
+
+            if (playerEx.transferObject == null)
+            {
+                playerEx.transferStacker = 0;
+                return;
+            }
+
+            playerEx.transferObjectInitialPos ??= playerEx.transferObject.realizedObject.firstChunk.pos;
+
+            playerEx.transferStacker++;
+            bool puttingInStorage = playerEx.transferObject != GetStoredActiveObject(self);
+
+            if (puttingInStorage)
+            {
+                playerEx.transferObject.realizedObject.firstChunk.MoveFromOutsideMyUpdate(eu, Vector2.Lerp((Vector2)playerEx.transferObjectInitialPos, GetActiveObjectPos(self), (float)playerEx.transferStacker / FramesToStoreObject));
+
+                if (playerEx.transferStacker < FramesToStoreObject) return;
+
+                StoreObject(self, playerEx.transferObject);
+                DestroyRealizedActiveObject(self);
+                ActivateObjectInStorage(self, inventory.Count - 1);
+
+                playerEx.transferObject = null;
+                playerEx.transferObjectInitialPos = null;
+                playerEx.transferStacker = 0;
+                return;
+            }
+
+            if (playerEx.transferStacker < FramesToRetrieveObject) return;
+
+            RetrieveObject(self);
+
+            playerEx.transferObject = null;
+            playerEx.transferObjectInitialPos = null;
+            playerEx.transferStacker = 0;
         }
 
         private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
@@ -58,9 +107,17 @@ namespace TheSacrifice
 
         private class PlayerEx
         {
-            public bool canSwallowOrRegurgitate = true;
+            public readonly LightSource activeObjectGlow;
 
-            public int storeObjectCounter = 0;
+            public PlayerEx(Player player)
+            {
+                activeObjectGlow = new LightSource(GetActiveObjectPos(player), false, Color.white, player);
+                activeObjectGlow.affectedByPaletteDarkness = 0.0f;
+                activeObjectGlow.stayAlive = true;
+                player.room.AddObject(activeObjectGlow);
+            }
+
+            public bool canSwallowOrRegurgitate = true;
 
             public AbstractPhysicalObject? realizedActiveObject = null;
             public int? selectedIndex = null;
@@ -69,16 +126,21 @@ namespace TheSacrifice
             public List<Color> accentColors = new List<Color>();
             public float shortcutColorStacker = 0.0f;
             public int shortcutColorStackerDirection = 1;
+
+            public int transferStacker = 0;
+            public Vector2? transferObjectInitialPos = null;
+            public AbstractPhysicalObject? transferObject = null;
+
         }
 
 
-        private const int MAX_STORAGE_COUNT = 10;
-        private const float FRAME_SHORTCUT_COLOR_ADDITION = 0.003f;
+        private const int MaxStorageCount = 10;
+        private const float FrameShortcutColorAddition = 0.003f;
 
-        private const int framesToStoreObject = 80;
+        private const int FramesToStoreObject = 80;
+        private const int FramesToRetrieveObject = 80;
 
-        // Base offset of the object relative to the player's head
-        private static readonly Vector2 ACTIVE_OBJECT_BASE_OFFSET = new Vector2(0.0f, 20.0f);
+        private static readonly Vector2 ActiveObjectBaseOffset = new Vector2(0.0f, 10.0f);
 
 
         private static bool IsCustomSlugcat(Player player) => player.SlugCatClass.ToString() == Plugin.SLUGCAT_ID;
@@ -158,28 +220,28 @@ namespace TheSacrifice
 
             if (player.gravity == 0.0f)
             {
-                pos = player.graphicsModule.bodyParts[6].pos + (ACTIVE_OBJECT_BASE_OFFSET.magnitude * player.bodyChunks[0].Rotation);
+                pos = player.graphicsModule.bodyParts[6].pos + (ActiveObjectBaseOffset.magnitude * player.bodyChunks[0].Rotation);
                 return pos;    
             }
 
-            pos = player.graphicsModule.bodyParts[6].pos + ACTIVE_OBJECT_BASE_OFFSET;
+            pos = player.graphicsModule.bodyParts[6].pos + ActiveObjectBaseOffset;
             pos.x += player.mainBodyChunk.vel.x * 1.0f;
 
             return pos;
         }
 
-        private static void AddObjectToStorage(Player player, AbstractPhysicalObject abstractObject)
+        private static void StoreObject(Player player, AbstractPhysicalObject abstractObject)
         {
             List<AbstractPhysicalObject> inventory;
             if (!GameInventory.TryGetValue(player.room.game, out inventory)) return;
 
-            if (inventory.Count >= MAX_STORAGE_COUNT) return;
+            if (inventory.Count >= MaxStorageCount) return;
 
             inventory.Add(abstractObject);
             abstractObject.realizedObject?.Destroy();
         }
 
-        private static void RemoveObjectFromStorage(Player player)
+        private static void RetrieveObject(Player player)
         {
             if (player.FreeHand() <= -1) return;
 
@@ -334,7 +396,7 @@ namespace TheSacrifice
             if (!IsCustomSlugcat(self)) return;
 
             PlayerEx playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx)) PlayerData.Add(self, new PlayerEx());
+            if (!PlayerData.TryGetValue(self, out playerEx)) PlayerData.Add(self, playerEx = new PlayerEx(self));
 
             TryRealizeActiveObject(self);
             AbstractPhysicalObject? activeObject = GetRealizedActiveObject(self);
@@ -343,6 +405,7 @@ namespace TheSacrifice
 
             Vector2 targetPos = GetActiveObjectPos(self);
             activeObject.realizedObject.firstChunk.pos = targetPos;
+            playerEx.activeObjectGlow.pos = targetPos;
         }
 
         private static void Player_GrabUpdateIL(ILContext il)
@@ -388,7 +451,7 @@ namespace TheSacrifice
 
             for (int i = 0; i < self.grasps.Length; i++)
             {
-                if (inventory.Count >= MAX_STORAGE_COUNT) continue;
+                if (inventory.Count >= MaxStorageCount) continue;
 
                 if (self.grasps[i] == null) continue;
 
@@ -409,29 +472,19 @@ namespace TheSacrifice
 
             if (!IsStoreKeybindPressed(self))
             {
-                playerEx.storeObjectCounter = 0;
+                playerEx.transferObject = null;
                 return;
             }
 
+            if (heldStorable == null)
+            {
+                playerEx.transferObject = GetStoredActiveObject(self);
+                return;
+            }
+
+            // Store keybind held
             playerEx.canSwallowOrRegurgitate = false;
-
-            if (playerEx.storeObjectCounter < framesToStoreObject)
-            {
-                playerEx.storeObjectCounter++;
-                return;
-            }
-
-            playerEx.storeObjectCounter = 0;
-            
-            if (heldStorable != null)
-            {
-
-                AddObjectToStorage(self, heldStorable);
-                ActivateObjectInStorage(self, inventory.Count - 1);
-                return;
-            }
-
-            RemoveObjectFromStorage(self);
+            playerEx.transferObject = heldStorable;
         }
 
         private static bool IsStoreKeybindPressed(Player player)
@@ -502,8 +555,6 @@ namespace TheSacrifice
         {
             orig(self, sLeaser, rCam, timeStacker, camPos);
 
-            return;
-
             if (!IsCustomSlugcat(self.player)) return;
 
             UpdateCustomPlayerSprite(sLeaser, 0, "Body", "body");
@@ -557,18 +608,18 @@ namespace TheSacrifice
 
             if (colors.Count == 0) return orig(self);
 
-            playerEx.shortcutColorStacker += FRAME_SHORTCUT_COLOR_ADDITION * playerEx.shortcutColorStackerDirection;
+            playerEx.shortcutColorStacker += FrameShortcutColorAddition * playerEx.shortcutColorStackerDirection;
 
             if (playerEx.shortcutColorStackerDirection == 1 && playerEx.shortcutColorStacker > 1.0f)
             {
                 playerEx.shortcutColorStackerDirection = -1;
-                playerEx.shortcutColorStacker += FRAME_SHORTCUT_COLOR_ADDITION * playerEx.shortcutColorStackerDirection;
+                playerEx.shortcutColorStacker += FrameShortcutColorAddition * playerEx.shortcutColorStackerDirection;
 
             }
             else if (playerEx.shortcutColorStackerDirection == -1 && playerEx.shortcutColorStacker < 0.0f)
             {
                 playerEx.shortcutColorStackerDirection = 1;
-                playerEx.shortcutColorStacker += FRAME_SHORTCUT_COLOR_ADDITION * playerEx.shortcutColorStackerDirection;
+                playerEx.shortcutColorStacker += FrameShortcutColorAddition * playerEx.shortcutColorStackerDirection;
             }
 
             // https://gamedev.stackexchange.com/questions/98740/how-to-color-lerp-between-multiple-colors
