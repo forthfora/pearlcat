@@ -1,4 +1,5 @@
-﻿using Mono.Cecil.Cil;
+﻿using IL.Menu.Remix.MixedUI;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RWCustom;
 using SlugBase.Features;
@@ -59,6 +60,8 @@ namespace TheSacrifice
                 return;
             }
 
+            PlayerGraphics playerGraphics = (PlayerGraphics)self.graphicsModule;
+
             playerEx.transferObjectInitialPos ??= playerEx.transferObject.realizedObject.firstChunk.pos;
 
             playerEx.transferStacker++;
@@ -66,7 +69,12 @@ namespace TheSacrifice
 
             if (puttingInStorage)
             {
-                playerEx.transferObject.realizedObject.firstChunk.MoveFromOutsideMyUpdate(eu, Vector2.Lerp((Vector2)playerEx.transferObjectInitialPos, GetActiveObjectPos(self), (float)playerEx.transferStacker / FramesToStoreObject));
+                int targetHand = self.FreeHand() == 0 ? 1 : 0;
+
+                // Pearl to head
+                playerEx.transferObject.realizedObject.firstChunk.pos = Vector2.Lerp(playerEx.transferObject.realizedObject.firstChunk.pos, GetActiveObjectPos(self), (float)playerEx.transferStacker / FramesToStoreObject);
+                playerGraphics.hands[targetHand].absoluteHuntPos = playerEx.transferObject.realizedObject.firstChunk.pos;
+                playerGraphics.hands[targetHand].reachingForObject = true;
 
                 if (playerEx.transferStacker < FramesToStoreObject) return;
 
@@ -74,20 +82,32 @@ namespace TheSacrifice
                 DestroyRealizedActiveObject(self);
                 ActivateObjectInStorage(self, inventory.Count - 1);
 
-                playerEx.transferObject = null;
-                playerEx.transferObjectInitialPos = null;
-                playerEx.transferStacker = 0;
+                DestroyTransferObject(playerEx);
                 return;
             }
+
+            // Hand to head
+
+            playerGraphics.hands[self.FreeHand()].absoluteHuntPos = GetActiveObjectPos(self);
+            playerGraphics.hands[self.FreeHand()].reachingForObject = true;
 
             if (playerEx.transferStacker < FramesToRetrieveObject) return;
 
             RetrieveObject(self);
 
+            DestroyTransferObject(playerEx);
+        }
+
+        private static void DestroyTransferObject(PlayerEx playerEx)
+        {
             playerEx.transferObject = null;
             playerEx.transferObjectInitialPos = null;
             playerEx.transferStacker = 0;
+
+            playerEx.transferObject?.Destroy();
+            playerEx.transferObject?.realizedObject?.Destroy();
         }
+
 
         private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
         {
@@ -107,14 +127,10 @@ namespace TheSacrifice
 
         private class PlayerEx
         {
-            public readonly LightSource activeObjectGlow;
+            public LightSource? activeObjectGlow;
 
             public PlayerEx(Player player)
             {
-                activeObjectGlow = new LightSource(GetActiveObjectPos(player), false, Color.white, player);
-                activeObjectGlow.affectedByPaletteDarkness = 0.0f;
-                activeObjectGlow.stayAlive = true;
-                player.room.AddObject(activeObjectGlow);
             }
 
             public bool canSwallowOrRegurgitate = true;
@@ -405,7 +421,24 @@ namespace TheSacrifice
 
             Vector2 targetPos = GetActiveObjectPos(self);
             activeObject.realizedObject.firstChunk.pos = targetPos;
-            playerEx.activeObjectGlow.pos = targetPos;
+
+            if (playerEx.activeObjectGlow != null)
+            {
+                playerEx.activeObjectGlow.stayAlive = true;
+                playerEx.activeObjectGlow.setPos = GetActiveObjectPos(self);
+                playerEx.activeObjectGlow.setRad = 75.0f;
+                playerEx.activeObjectGlow.setAlpha = 0.3f;
+
+                playerEx.activeObjectGlow.color = playerEx.accentColors[0];
+
+                if (playerEx.activeObjectGlow.slatedForDeletetion) playerEx.activeObjectGlow = null;
+            }
+            else
+            {
+                playerEx.activeObjectGlow = new LightSource(GetActiveObjectPos(self), false, Color.white, self);
+                playerEx.activeObjectGlow.requireUpKeep = true;
+                self.room.AddObject(playerEx.activeObjectGlow);
+            }
         }
 
         private static void Player_GrabUpdateIL(ILContext il)
@@ -556,6 +589,8 @@ namespace TheSacrifice
             orig(self, sLeaser, rCam, timeStacker, camPos);
 
             if (!IsCustomSlugcat(self.player)) return;
+
+            return;
 
             UpdateCustomPlayerSprite(sLeaser, 0, "Body", "body");
             UpdateCustomPlayerSprite(sLeaser, 1, "Hips", "hips");

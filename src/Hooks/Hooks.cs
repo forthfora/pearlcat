@@ -29,6 +29,8 @@ namespace TheSacrifice
         {
             orig(self);
 
+            return;
+
             Music.MusicPlayer musicPlayer = self.manager.musicPlayer;
 
             if (self.slugcatPages[self.slugcatPageIndex].slugcatNumber.ToString() == Plugin.SLUGCAT_ID)
