@@ -23,6 +23,7 @@ namespace TheSacrifice
             On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
             ApplyPlayerHooks();
+            ApplyPlayerGraphicsHooks();
         }
 
         private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, Menu.SlugcatSelectMenu self)
