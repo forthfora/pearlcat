@@ -16,10 +16,6 @@ namespace TheSacrifice
             if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.HalcyonPearl) return true;
             if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl) return true;
 
-
-
-            if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.Rock) return true;
-
             return false;
         }
 

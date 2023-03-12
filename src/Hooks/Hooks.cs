@@ -20,7 +20,7 @@ namespace TheSacrifice
             On.RainWorld.OnModsDisabled += RainWorld_OnModsDisabled;
 
             On.Menu.MenuScene.ctor += MenuScene_ctor;
-            On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update; ;
+            On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
             ApplyPlayerHooks();
         }
@@ -59,7 +59,6 @@ namespace TheSacrifice
 
                 if (introRollSong != null)
                 {
-                    introRollSong.fadeOutRain = true;
                     introRollSong.StartPlaying();
                     introRollSong.StartMusic();
                 }

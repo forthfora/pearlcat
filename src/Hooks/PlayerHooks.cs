@@ -51,6 +51,9 @@ namespace TheSacrifice
             PlayerEx? playerEx;
             if (!PlayerData.TryGetValue(self, out playerEx)) return;
 
+            playerEx.storingObjectSound.Update();
+            playerEx.retrievingObjectSound.Update();
+
             List<AbstractPhysicalObject> inventory;
             if (!GameInventory.TryGetValue(self.room.game, out inventory)) return;
 
@@ -69,32 +72,56 @@ namespace TheSacrifice
 
             if (puttingInStorage)
             {
-                int targetHand = self.FreeHand() == 0 ? 1 : 0;
+                int? targetHand = null;
+
+                if (self.grasps.Length == 0) return;
+
+                for (int i = 0; i < self.grasps.Length; i++)
+                {
+                    PhysicalObject graspedObject = self.grasps[i].grabbed;
+
+                    if (graspedObject == playerEx.transferObject.realizedObject)
+                    {
+                        targetHand = i;
+                        break;
+                    }
+                }
+
+                if (targetHand == null) return;
+
+                //playerEx.storingObjectSound.Volume = 1.0f;
 
                 // Pearl to head
                 playerEx.transferObject.realizedObject.firstChunk.pos = Vector2.Lerp(playerEx.transferObject.realizedObject.firstChunk.pos, GetActiveObjectPos(self), (float)playerEx.transferStacker / FramesToStoreObject);
-                playerGraphics.hands[targetHand].absoluteHuntPos = playerEx.transferObject.realizedObject.firstChunk.pos;
-                playerGraphics.hands[targetHand].reachingForObject = true;
+                playerGraphics.hands[(int)targetHand].absoluteHuntPos = playerEx.transferObject.realizedObject.firstChunk.pos;
+                playerGraphics.hands[(int)targetHand].reachingForObject = true;
 
                 if (playerEx.transferStacker < FramesToStoreObject) return;
 
+                //playerEx.storingObjectSound.Volume = 0.0f;
+                self.room.PlaySound(Enums.Sounds.ObjectStored, self.firstChunk);
+
                 StoreObject(self, playerEx.transferObject);
                 DestroyRealizedActiveObject(self);
-                ActivateObjectInStorage(self, inventory.Count - 1);
-
                 DestroyTransferObject(playerEx);
+
+                ActivateObjectInStorage(self, inventory.Count - 1);
                 return;
             }
 
             // Hand to head
+
+            //playerEx.retrievingObjectSound.Volume = 1.0f;
 
             playerGraphics.hands[self.FreeHand()].absoluteHuntPos = GetActiveObjectPos(self);
             playerGraphics.hands[self.FreeHand()].reachingForObject = true;
 
             if (playerEx.transferStacker < FramesToRetrieveObject) return;
 
-            RetrieveObject(self);
+            //playerEx.retrievingObjectSound.Volume = 0.0f;
+            self.room.PlaySound(Enums.Sounds.ObjectRetrieved, self.firstChunk);
 
+            RetrieveObject(self);
             DestroyTransferObject(playerEx);
         }
 
@@ -106,6 +133,7 @@ namespace TheSacrifice
 
             playerEx.transferObject?.Destroy();
             playerEx.transferObject?.realizedObject?.Destroy();
+            playerEx.canTransferObject = false;
         }
 
 
@@ -127,10 +155,20 @@ namespace TheSacrifice
 
         private class PlayerEx
         {
+            public ChunkDynamicSoundLoop storingObjectSound;
+            public ChunkDynamicSoundLoop retrievingObjectSound;
+
             public LightSource? activeObjectGlow;
 
             public PlayerEx(Player player)
             {
+                storingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
+                storingObjectSound.sound = Enums.Sounds.StoringObject;
+                storingObjectSound.Volume = 0.0f;
+
+                retrievingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
+                retrievingObjectSound.sound = Enums.Sounds.RetrievingObject;
+                retrievingObjectSound.Volume = 0.0f;
             }
 
             public bool canSwallowOrRegurgitate = true;
@@ -143,6 +181,7 @@ namespace TheSacrifice
             public float shortcutColorStacker = 0.0f;
             public int shortcutColorStackerDirection = 1;
 
+            public bool canTransferObject = true;
             public int transferStacker = 0;
             public Vector2? transferObjectInitialPos = null;
             public AbstractPhysicalObject? transferObject = null;
@@ -156,7 +195,7 @@ namespace TheSacrifice
         private const int FramesToStoreObject = 80;
         private const int FramesToRetrieveObject = 80;
 
-        private static readonly Vector2 ActiveObjectBaseOffset = new Vector2(0.0f, 10.0f);
+        private static readonly Vector2 ActiveObjectBaseOffset = new Vector2(0.0f, 20.0f);
 
 
         private static bool IsCustomSlugcat(Player player) => player.SlugCatClass.ToString() == Plugin.SLUGCAT_ID;
@@ -391,7 +430,7 @@ namespace TheSacrifice
             List<AbstractPhysicalObject> inventory;
             if (!GameInventory.TryGetValue(player.room.game, out inventory)) return;
 
-            if (objectIndex >= inventory.Count) return;
+            if (objectIndex >= inventory.Count || objectIndex < 0) return;
 
             foreach (PlayerEx ex in GetAllPlayerData(player.room.game))
             {
@@ -429,7 +468,7 @@ namespace TheSacrifice
                 playerEx.activeObjectGlow.setRad = 75.0f;
                 playerEx.activeObjectGlow.setAlpha = 0.3f;
 
-                playerEx.activeObjectGlow.color = playerEx.accentColors[0];
+                if (playerEx.accentColors.Count > 0) playerEx.activeObjectGlow.color = playerEx.accentColors[0];
 
                 if (playerEx.activeObjectGlow.slatedForDeletetion) playerEx.activeObjectGlow = null;
             }
@@ -506,8 +545,13 @@ namespace TheSacrifice
             if (!IsStoreKeybindPressed(self))
             {
                 playerEx.transferObject = null;
+                playerEx.canTransferObject = true;
                 return;
             }
+
+            if (!playerEx.canTransferObject) return;
+
+            if (self.FreeHand() == -1) return;
 
             if (heldStorable == null)
             {
