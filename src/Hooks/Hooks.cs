@@ -8,7 +8,6 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 using UnityEngine;
-using static SlugcatStats;
 
 namespace TheSacrifice
 {
@@ -24,6 +23,7 @@ namespace TheSacrifice
 
             ApplyPlayerHooks();
             ApplyPlayerGraphicsHooks();
+            ApplyOracleHooks();
         }
 
         private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, Menu.SlugcatSelectMenu self)

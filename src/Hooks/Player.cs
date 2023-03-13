@@ -87,6 +87,7 @@ namespace TheSacrifice
 
             playerEx.canSwallowOrRegurgitate = true;
 
+            // 
             for (int i = 0; i < self.grasps.Length; i++)
             {
                 if (inventory.Count >= MaxStorageCount) continue;
