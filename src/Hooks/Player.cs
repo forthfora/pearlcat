@@ -77,26 +77,23 @@ namespace TheSacrifice
 
         private static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
         {
-            AbstractPhysicalObject? heldStorable = null;
+            orig(self, eu);
 
             List<AbstractPhysicalObject> inventory;
             if (!GameInventory.TryGetValue(self.room.game, out inventory)) GameInventory.Add(self.room.game, new List<AbstractPhysicalObject>());
 
             PlayerEx? playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx)) goto ORIG;
+            if (!PlayerData.TryGetValue(self, out playerEx)) return;
 
-            playerEx.canSwallowOrRegurgitate = true;
 
-            // 
+            // Gather held storables
+            AbstractPhysicalObject? heldStorable = null;
+
             for (int i = 0; i < self.grasps.Length; i++)
             {
-                if (inventory.Count >= MaxStorageCount) continue;
-
                 if (self.grasps[i] == null) continue;
 
                 AbstractPhysicalObject heldObject = self.grasps[i].grabbed.abstractPhysicalObject;
-
-                if (heldObject.realizedObject == null) continue;
 
                 if (!IsObjectStorable(heldObject)) continue;
 
@@ -104,31 +101,33 @@ namespace TheSacrifice
                 break;
             }
 
-            ORIG:
-            orig(self, eu);
-
-            if (playerEx == null || inventory == null) return;
 
             if (!IsStoreKeybindPressed(self))
             {
                 playerEx.transferObject = null;
                 playerEx.canTransferObject = true;
+
+                // Reenable normal actions
+                playerEx.canSwallowOrRegurgitate = true;
+                self.spearOnBack.interactionLocked = false;
+                self.slugOnBack.interactionLocked = false;
                 return;
             }
 
+            // Prevent transfer immediately after one has taken place 
             if (!playerEx.canTransferObject) return;
 
-            if (self.FreeHand() == -1) return;
 
-            if (heldStorable == null)
-            {
-                playerEx.transferObject = GetStoredActiveObject(self);
-                return;
-            }
+            // Held items take priority
+            playerEx.transferObject = heldStorable ?? GetRealizedActiveObject(self);
 
-            // Store keybind held
+            // Disable normal actions
             playerEx.canSwallowOrRegurgitate = false;
-            playerEx.transferObject = heldStorable;
+            self.slugOnBack.interactionLocked = true;
+            self.spearOnBack.interactionLocked = true;
+
+            self.input[0].x = 0;
+            self.input[0].y = 0;
         }
         
         private static void Player_GrabUpdateIL(ILContext il)

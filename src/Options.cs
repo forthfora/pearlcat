@@ -34,19 +34,19 @@ namespace TheSacrifice
             "Enables custom keybinds below, as opposed to the default.",
             null, "", "Custom Keybind?"));
 
-        public static Configurable<KeyCode> dashKeybindKeyboard = instance.config.Bind("dashKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
+        public static Configurable<KeyCode> abilityKeybindKeyboard = instance.config.Bind("abilityKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
             "Keybind for Keyboard.", null, "", "Keyboard"));
 
-        public static Configurable<KeyCode> dashKeybindPlayer1 = instance.config.Bind("dashKeybindPlayer1", KeyCode.Joystick1Button4, new ConfigurableInfo(
+        public static Configurable<KeyCode> abilityKeybindPlayer1 = instance.config.Bind("abilityKeybindPlayer1", KeyCode.Joystick1Button4, new ConfigurableInfo(
             "Keybind for Player 1.", null, "", "Player 1"));
 
-        public static Configurable<KeyCode> dashKeybindPlayer2 = instance.config.Bind("dashKkeybindPlayer2", KeyCode.Joystick2Button4, new ConfigurableInfo(
+        public static Configurable<KeyCode> abilityKeybindPlayer2 = instance.config.Bind("abilityKkeybindPlayer2", KeyCode.Joystick2Button4, new ConfigurableInfo(
             "Keybind for Player 2.", null, "", "Player 2"));
 
-        public static Configurable<KeyCode> dashKeybindPlayer3 = instance.config.Bind("dashKkeybindPlayer3", KeyCode.Joystick3Button4, new ConfigurableInfo(
+        public static Configurable<KeyCode> abilityKeybindPlayer3 = instance.config.Bind("abilityKkeybindPlayer3", KeyCode.Joystick3Button4, new ConfigurableInfo(
             "Keybind for Player 3.", null, "", "Player 3"));
 
-        public static Configurable<KeyCode> dashKeybindPlayer4 = instance.config.Bind("dashKeybindPlayer4", KeyCode.Joystick4Button4, new ConfigurableInfo(
+        public static Configurable<KeyCode> abilityKeybindPlayer4 = instance.config.Bind("abilityKeybindPlayer4", KeyCode.Joystick4Button4, new ConfigurableInfo(
             "Keybind for Player 4.", null, "", "Player 4"));
 
 
@@ -117,6 +117,31 @@ namespace TheSacrifice
             AddNewLine(21);
             DrawBox(ref Tabs[tabIndex]);
 
+            #region Ability Input
+            AddTab(ref tabIndex, "Ability Input");
+
+            AddCheckBox(usesCustomDashKeybind, (string)usesCustomDashKeybind.info.Tags[0]);
+            DrawCheckBoxes(ref Tabs[tabIndex]);
+
+            AddNewLine(3);
+
+            DrawKeybinders(abilityKeybindKeyboard, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(abilityKeybindPlayer1, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(abilityKeybindPlayer2, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(abilityKeybindPlayer3, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(abilityKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(1);
+            DrawBox(ref Tabs[tabIndex]);
+            #endregion
 
             #region Swap Input
             AddTab(ref tabIndex, "Swap Input");
@@ -137,10 +162,9 @@ namespace TheSacrifice
 
             DrawKeybinders(swapKeybindPlayer4, ref Tabs[tabIndex]);
 
-            AddNewLine(3);
+            AddNewLine(4);
             DrawBox(ref Tabs[tabIndex]);
             #endregion
-
 
             #region Store Input
             AddTab(ref tabIndex, "Store Input");
@@ -169,31 +193,6 @@ namespace TheSacrifice
             #endregion
 
 
-            #region Dash Input
-            AddTab(ref tabIndex, "Dash Input");
-
-            AddCheckBox(usesCustomDashKeybind, (string)usesCustomDashKeybind.info.Tags[0]);
-            DrawCheckBoxes(ref Tabs[tabIndex]);
-
-            AddNewLine(3);
-
-            DrawKeybinders(dashKeybindKeyboard, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            DrawKeybinders(dashKeybindPlayer1, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            DrawKeybinders(dashKeybindPlayer2, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            DrawKeybinders(dashKeybindPlayer3, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            DrawKeybinders(dashKeybindPlayer4, ref Tabs[tabIndex]);
-
-            AddNewLine(1);
-            DrawBox(ref Tabs[tabIndex]);
-            #endregion
         }
 
         #region UI Elements

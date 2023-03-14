@@ -90,6 +90,6 @@ namespace TheSacrifice
             return allPlayerData;
         }
 
-        private static bool IsCustomSlugcat(Player player) => player.SlugCatClass.ToString() == Plugin.SLUGCAT_ID;
+        private static bool IsCustomSlugcat(Player player) => player.SlugCatClass == Enums.Slugcat.Sacrifice;
     }
 }

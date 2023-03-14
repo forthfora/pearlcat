@@ -261,13 +261,18 @@ namespace TheSacrifice
 
         private static void DestroyTransferObject(PlayerEx playerEx)
         {
-            playerEx.transferObject = null;
-            playerEx.transferObjectInitialPos = null;
-            playerEx.transferStacker = 0;
+            ResetTransferObject(playerEx);
 
             playerEx.transferObject?.Destroy();
             playerEx.transferObject?.realizedObject?.Destroy();
             playerEx.canTransferObject = false;
+        }
+
+        private static void ResetTransferObject(PlayerEx playerEx)
+        {
+            playerEx.transferObject = null;
+            playerEx.transferObjectInitialPos = null;
+            playerEx.transferStacker = 0;
         }
     }
 }

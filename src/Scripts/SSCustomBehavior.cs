@@ -12,17 +12,15 @@ namespace TheSacrifice
     {
         public enum SuperState
         {
-            Stop,
-            Run
+            Stopped,
+            Running
         }
 
-        public SuperState superState = SuperState.Run;
+        public SuperState superState = SuperState.Running;
 
         private SSOracleBehavior.Action prevAction = null!;
         private SSOracleBehavior.SubBehavior prevSubBehavior = null!;
         private SSOracleBehavior.MovementBehavior prevMovementBehavior = null!;
-
-        private int stateTimeStacker = 0;
 
         public void Update(SSOracleBehavior self)
         {
@@ -40,7 +38,7 @@ namespace TheSacrifice
             if (!isDialogAlive) EndDialog(self);
 
             // Save current actions, to be potentially restored later
-            if (superState != SuperState.Stop && prevState == SuperState.Stop)
+            if (superState != SuperState.Stopped && prevState == SuperState.Stopped)
             {
                 prevAction = self.action;
                 prevSubBehavior = self.currSubBehavior;
@@ -48,7 +46,7 @@ namespace TheSacrifice
             }
 
             // Restore previous actions
-            else if (superState == SuperState.Stop && superState != prevState)
+            else if (superState == SuperState.Stopped && superState != prevState)
             {
                 self.action = prevAction;
                 self.currSubBehavior = prevSubBehavior;
@@ -58,13 +56,15 @@ namespace TheSacrifice
 
 
             // Pause all normal actions
-            if (superState != SuperState.Stop)
+            if (superState != SuperState.Stopped)
             {
-                self.action = Enums.OracleEnums.TheSacrifice_General;
+                self.action = Enums.Oracles.TheSacrifice_General;
                 if (self.conversation != null) self.conversation.paused = true;
                 self.restartConversationAfterCurrentDialoge = false;
             }
         }
+
+        private int stateTimeStacker = 0;
 
         bool isDialogAlive = false;
         private List<List<string>>? dialogQueue;
@@ -81,7 +81,7 @@ namespace TheSacrifice
             if (dialogCounter < dialogQueue.Count)
             {
                 List<string> dialogOptions = dialog[dialogCounter];
-                self.dialogBox.Interrupt(dialogOptions[Random.Range(0, dialogOptions.Count)], 10);
+                self.dialogBox.Interrupt(self.Translate(dialogOptions[Random.Range(0, dialogOptions.Count)]), 10);
                 
                 dialogCounter++;
                 return false;
@@ -106,6 +106,7 @@ namespace TheSacrifice
         private enum SSState
         {
             None,
+            Enter_Room,
             Give_Mark,
             Dialog_Meet,
         }
@@ -115,20 +116,30 @@ namespace TheSacrifice
             switch (ssState)
             {
                 case SSState.None:
+                    ssState = SSState.Enter_Room;
+                    break;
+
+                case SSState.Enter_Room:
+                    self.SlugcatEnterRoomReaction();
+                    ssState = SSState.Dialog_Meet;
+                    break;
+
+                case SSState.Give_Mark:
                     ssState = SSState.Dialog_Meet;
                     break;
 
                 case SSState.Dialog_Meet:
-                    UpdateDialog(new List<List<string>>
+                    if (UpdateDialog(new List<List<string>>
                     {
-                        new List<string> { "hi how are ya" },
+                        new List<string> { "" },
                         new List<string> { 
-                            "rand 1",
-                            "rand 2",
-                            "rand 3"
+                            "",
+                            "",
+                            ""
                         },
-                        new List<string> { "guh" },
-                    }, self);
+                        new List<string> { "" },
+                    }, self)) 
+                        ssState = SSState.Dialog_Meet;
                     break;
             }
         }
@@ -140,27 +151,38 @@ namespace TheSacrifice
         private enum DMState
         {
             None,
-            Dialog_Meet,
+            Enter_Room,
+            Give_Mark,
+            Dialog_Meet
         }
 
         private void UpdateStateMachineDM(SSOracleBehavior self)
         {
-            switch (ssState)
+            switch (dmState)
             {
-                case SSState.None:
-                    ssState = SSState.Dialog_Meet;
+                case DMState.None:
+                    dmState = DMState.Enter_Room;
                     break;
 
-                case SSState.Dialog_Meet:
+                case DMState.Enter_Room:
+                    self.SlugcatEnterRoomReaction();
+                    dmState = DMState.Give_Mark;
+                    break;
+
+                case DMState.Give_Mark:
+                    dmState = DMState.Dialog_Meet;
+                    break;
+
+                case DMState.Dialog_Meet:
                     UpdateDialog(new List<List<string>>
                     {
-                        new List<string> { "owo what's dis?" },
+                        new List<string> { "" },
                         new List<string> {
-                            "x3",
-                            "rawr",
-                            ">w<"
+                            "",
+                            "",
+                            ""
                         },
-                        new List<string> { "send help please~" },
+                        new List<string> { "" },
                     }, self);
                     break;
             }

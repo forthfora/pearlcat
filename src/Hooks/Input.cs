@@ -19,7 +19,7 @@ namespace TheSacrifice
     {
         private static bool IsStoreKeybindPressed(Player player)
         {
-            if (!Options.usesCustomStoreKeybind.Value && player.input[0].y == 1.0f && player.input[0].pckp) return true;
+            if (!Options.usesCustomStoreKeybind.Value) return player.input[0].y == 1.0f && player.input[0].pckp;
 
             return player.playerState.playerNumber switch
             {
@@ -32,16 +32,16 @@ namespace TheSacrifice
             };
         }
 
-        private static bool IsDashKeybindPressed(Player player)
+        private static bool IsAbilityKeybindPressed(Player player)
         {
-            if (!Options.usesCustomDashKeybind.Value && player.input[0].jmp && player.input[0].pckp) return true;
+            if (!Options.usesCustomDashKeybind.Value) return player.input[0].jmp && player.input[0].pckp;
 
             return player.playerState.playerNumber switch
             {
-                0 => Input.GetKey(Options.dashKeybindPlayer1.Value) || Input.GetKey(Options.dashKeybindKeyboard.Value),
-                1 => Input.GetKey(Options.dashKeybindPlayer2.Value),
-                2 => Input.GetKey(Options.dashKeybindPlayer3.Value),
-                3 => Input.GetKey(Options.dashKeybindPlayer4.Value),
+                0 => Input.GetKey(Options.abilityKeybindPlayer1.Value) || Input.GetKey(Options.abilityKeybindKeyboard.Value),
+                1 => Input.GetKey(Options.abilityKeybindPlayer2.Value),
+                2 => Input.GetKey(Options.abilityKeybindPlayer3.Value),
+                3 => Input.GetKey(Options.abilityKeybindPlayer4.Value),
 
                 _ => false
             };

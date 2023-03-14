@@ -33,9 +33,9 @@ namespace TheSacrifice
 
             if ((self.player?.room?.roomSettings == null
                 || !self.player.room.roomSettings.name.Contains(SS_ORACLE_ROOM)
-                || self.player.room.roomSettings.name.Contains(DM_ORACLE_ROOM))
+                || !self.player.room.roomSettings.name.Contains(DM_ORACLE_ROOM))
                 && ssCustomBehavior != null
-                && ssCustomBehavior.superState == SSCustomBehavior.SuperState.Stop)
+                && ssCustomBehavior.superState == SSCustomBehavior.SuperState.Stopped)
             {
                 ssCustomBehavior = null;
             }

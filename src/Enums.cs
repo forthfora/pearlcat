@@ -6,12 +6,31 @@ namespace TheSacrifice
     {
         public static void RegisterEnums()
         {
+            Slugcat.RegisterValues();
             Sounds.RegisterValues();
+            Oracles.RegisterValues();
         }
 
         public static void UnregisterEnums()
         {
+            Slugcat.RegisterValues();
             Sounds.UnregisterValues();
+            Oracles.UnregisterValues();
+        }
+
+        public class Slugcat
+        {
+            public static SlugcatStats.Name? Sacrifice;
+
+            public static void RegisterValues()
+            {
+                Sacrifice = new SlugcatStats.Name("Sacrifice", false);
+            }
+
+            public static void UnregisterValues()
+            {
+                Sacrifice?.Unregister();
+            }
         }
 
         public class Sounds
@@ -41,7 +60,7 @@ namespace TheSacrifice
             }
         }
 
-        public class OracleEnums
+        public class Oracles
         {
             public static SSOracleBehavior.Action? TheSacrifice_General;
 

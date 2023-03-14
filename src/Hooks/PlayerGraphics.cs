@@ -41,7 +41,7 @@ namespace TheSacrifice
 
             if (playerEx.transferObject == null)
             {
-                playerEx.transferStacker = 0;
+                ResetTransferObject(playerEx);
                 return;
             }
 
