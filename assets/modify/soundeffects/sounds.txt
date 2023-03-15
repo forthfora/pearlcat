@@ -1,0 +1,6 @@
+[MERGE]
+StoringObject : storingobject/vol=0.5
+ObjectStored : objectstored/vol=0.5
+RetrievingObject : retrievingobject/vol=0.5
+ObjectRetrieved : objectretrieved/vol=0.5
+[ENDMERGE]

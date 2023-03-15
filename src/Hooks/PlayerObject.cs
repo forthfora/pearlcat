@@ -62,11 +62,11 @@ namespace TheSacrifice
 
             AbstractPhysicalObject realizedActiveObject = CloneObject(player.room.world, storedActiveObject);
 
-            //player.room.abstractRoom.AddEntity(realizedActiveObject);
 
             WorldCoordinate newWorldCoordinate = player.room.ToWorldCoordinate(GetActiveObjectPos(player));
             realizedActiveObject.pos = newWorldCoordinate;
 
+            //player.room.abstractRoom.AddEntity(realizedActiveObject);
             realizedActiveObject.RealizeInRoom();
             playerEx.realizedActiveObject = realizedActiveObject;
 

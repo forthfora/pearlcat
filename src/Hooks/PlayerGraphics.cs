@@ -19,12 +19,213 @@ namespace TheSacrifice
     {
         private static void ApplyPlayerGraphicsHooks()
         {
-            On.PlayerGraphics.DrawSprites += PlayerGraphics_DrawSprites;
             On.PlayerGraphics.ctor += PlayerGraphics_ctor;
+            On.PlayerGraphics.AddToContainer += PlayerGraphics_AddToContainer;
+
+            On.PlayerGraphics.InitiateSprites += PlayerGraphics_InitiateSprites;
+            On.PlayerGraphics.DrawSprites += PlayerGraphics_DrawSprites;
+            
+            
             On.PlayerGraphics.PlayerObjectLooker.HowInterestingIsThisObject += PlayerObjectLooker_HowInterestingIsThisObject;
+            
             On.Player.ShortCutColor += Player_ShortCutColor;
             On.Player.GraphicsModuleUpdated += Player_GraphicsModuleUpdated;
         }
+
+        private static void PlayerGraphics_InitiateSprites(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+        {
+            orig(self, sLeaser, rCam);
+
+            if (!IsCustomSlugcat(self.player)) return;
+
+            PlayerEx? playerEx;
+            if (!PlayerData.TryGetValue(self.player, out playerEx)) return;
+
+
+            playerEx.firstSprite = sLeaser.sprites.Length;
+            int spriteIndex = playerEx.firstSprite;
+
+            // Add new custom sprites
+            playerEx.leftEarSprite = spriteIndex++;
+            playerEx.rightEarSprite = spriteIndex++;
+
+
+            playerEx.lastSprite = spriteIndex;
+            Array.Resize(ref sLeaser.sprites, spriteIndex);
+
+            sLeaser.sprites[playerEx.leftEarSprite] = new FSprite(Plugin.MOD_ID + "EarL", true);
+            sLeaser.sprites[playerEx.rightEarSprite] = new FSprite(Plugin.MOD_ID + "EarR", true);
+
+            self.AddToContainer(sLeaser, rCam, null);
+        }
+
+        private static void PlayerGraphics_AddToContainer(On.PlayerGraphics.orig_AddToContainer orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
+        {
+            orig(self, sLeaser, rCam, newContatiner);
+
+            if (!IsCustomSlugcat(self.player)) return;
+
+            PlayerEx? playerEx;
+            if (!PlayerData.TryGetValue(self.player, out playerEx)) return;
+
+
+            if (playerEx.firstSprite <= 0 || sLeaser.sprites.Length < playerEx.lastSprite) return;
+
+
+            FContainer fgContainer = rCam.ReturnFContainer("Foreground");
+            FContainer mgContainer = rCam.ReturnFContainer("Midground");
+
+            fgContainer.RemoveChild(sLeaser.sprites[playerEx.leftEarSprite]);
+            mgContainer.AddChild(sLeaser.sprites[playerEx.leftEarSprite]);
+
+            fgContainer.RemoveChild(sLeaser.sprites[playerEx.rightEarSprite]);
+            mgContainer.AddChild(sLeaser.sprites[playerEx.rightEarSprite]);
+
+            // Ears go behind head
+            sLeaser.sprites[playerEx.leftEarSprite].MoveBehindOtherNode(sLeaser.sprites[3]);
+            sLeaser.sprites[playerEx.rightEarSprite].MoveBehindOtherNode(sLeaser.sprites[3]);
+        }
+
+        private static void PlayerGraphics_ctor(On.PlayerGraphics.orig_ctor orig, PlayerGraphics self, PhysicalObject ow)
+        {
+            orig(self, ow);
+
+            if (!IsCustomSlugcat(self.player)) return;
+
+            //self.tail[0] = new TailSegment(self, 8f, 2f, null, 0.85f, 1f, 1f, true);
+            //self.tail[1] = new TailSegment(self, 6f, 3.5f, self.tail[0], 0.85f, 1f, 0.5f, true);
+            //self.tail[2] = new TailSegment(self, 4f, 3.5f, self.tail[1], 0.85f, 1f, 0.5f, true);
+            //self.tail[3] = new TailSegment(self, 2f, 3.5f, self.tail[2], 0.85f, 1f, 0.5f, true);
+        }
+
+
+        static readonly PlayerFeature<Dictionary<string, Dictionary<string, float>>> EarTransforms = new("ear_transforms", json =>
+        {
+            var result = new Dictionary<string, Dictionary<string, float>>();
+
+
+            foreach (var spriteTransformPair in json.AsObject())
+            {
+                result[spriteTransformPair.Key] = new Dictionary<string, float>();
+
+                foreach (var transformValuePair in spriteTransformPair.Value.AsObject())
+                {
+                    result[spriteTransformPair.Key][transformValuePair.Key] = transformValuePair.Value.AsFloat();
+                }
+            }
+
+            return result;
+        });
+
+        private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+        {
+            orig(self, sLeaser, rCam, timeStacker, camPos);
+
+            if (!IsCustomSlugcat(self.player)) return;
+
+            PlayerEx? playerEx;
+            if (!PlayerData.TryGetValue(self.player, out playerEx)) return;
+
+            // Custom Sprite Loader
+            UpdateCustomPlayerSprite(sLeaser, 0, "Body", "body");
+            UpdateCustomPlayerSprite(sLeaser, 1, "Hips", "hips");
+            UpdateCustomPlayerSprite(sLeaser, 3, "Head", "head");
+            UpdateCustomPlayerSprite(sLeaser, 4, "Legs", "legs");
+            UpdateCustomPlayerSprite(sLeaser, 5, "Arm", "arm");
+            UpdateCustomPlayerSprite(sLeaser, 9, "Face", "face");
+
+            UpdateCustomPlayerSprite(sLeaser, playerEx.leftEarSprite, "Ear", "ears");
+            UpdateCustomPlayerSprite(sLeaser, playerEx.rightEarSprite, "Ear", "ears");
+
+            FSprite headSprite = sLeaser.sprites[3];
+            Vector2 headPos = new Vector2(headSprite.x, headSprite.y);
+            float headRot = headSprite.rotation;
+            string headSpriteName = headSprite.element.name.Replace(Plugin.MOD_ID, "");
+
+            Dictionary<string, Dictionary<string, float>> spriteTransformPair;
+            EarTransforms.TryGet(self.player, out spriteTransformPair);
+
+            Dictionary<string, float> transformValuePair;
+
+            if (spriteTransformPair.ContainsKey(headSpriteName)) transformValuePair = spriteTransformPair[headSpriteName];
+
+            else if (spriteTransformPair.ContainsKey("default")) transformValuePair = spriteTransformPair["default"];
+
+            else return;
+
+            Vector2 offset = Vector2.zero;
+            offset.x = FeatureOrDefault(transformValuePair, "offset_x", 0.0f);
+            offset.y = FeatureOrDefault(transformValuePair, "offset_y", 0.0f);
+
+            Vector2 correction = Vector2.zero;
+            correction.x = FeatureOrDefault(transformValuePair, "correction_x", 0.0f);
+            correction.y = FeatureOrDefault(transformValuePair, "correction_y", 0.0f);
+
+            float base_rotation = FeatureOrDefault(transformValuePair, "base_rotation", 0.0f);
+            float ear_rotation = FeatureOrDefault(transformValuePair, "offset_rotation", 0.0f);
+
+            Vector2 leftEarPos = headPos + (correction + offset).magnitude * self.player.bodyChunks[0].Rotation;
+            Vector2 rightEarPos = headPos + (correction - offset).magnitude * self.player.bodyChunks[0].Rotation;
+
+
+            sLeaser.sprites[playerEx.leftEarSprite].x = leftEarPos.x;
+            sLeaser.sprites[playerEx.leftEarSprite].y = leftEarPos.y;
+
+            sLeaser.sprites[playerEx.rightEarSprite].x =  rightEarPos.x;
+            sLeaser.sprites[playerEx.rightEarSprite].y = rightEarPos.y;
+
+
+            int flip = self.player.room != null && self.player.gravity == 0.0f ? 1 : (int)headSprite.scaleX;
+
+            sLeaser.sprites[playerEx.leftEarSprite].rotation = headRot + base_rotation * flip - ear_rotation;
+            sLeaser.sprites[playerEx.rightEarSprite].rotation = headRot + base_rotation * flip + ear_rotation;
+
+
+            #region Debug
+            //// Determine which sprites map to which indexes
+            //Plugin.Logger.LogWarning("sLeaser Sprites");
+            //foreach (var sprite in sLeaser.sprites)
+            //{
+            //    Plugin.Logger.LogWarning(sprite.element.name + " : " + sLeaser.sprites.IndexOf(sprite));
+            //}
+
+            //Plugin.Logger.LogWarning("Body Chunks");
+            //foreach (var bodyChunk in self.player.bodyChunks)
+            //{
+            //    Plugin.Logger.LogWarning(bodyChunk.pos + " : " + self.player.bodyChunks.IndexOf(bodyChunk));
+            //}
+
+            //Plugin.Logger.LogWarning("Body Parts");
+            //foreach (var bodyPart in self.bodyParts)
+            //{
+            //    Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
+            //}
+            #endregion
+        }
+
+        private static TValue FeatureOrDefault<TValue>(Dictionary<string, TValue> dictionary, string key, TValue defaultValue)
+        {
+            if (dictionary.ContainsKey(key)) return dictionary[key];
+            
+            return defaultValue;
+        }
+
+        private static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
+        {
+            FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
+
+            if (atlas != null)
+            {
+                string? name = sLeaser.sprites[spriteIndex]?.element?.name;
+
+                if (name != null && name.StartsWith(toReplace) && atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element))
+                {
+                    sLeaser.sprites[spriteIndex].element = element;
+                }
+            }
+        }
+
+
 
         private static void Player_GraphicsModuleUpdated(On.Player.orig_GraphicsModuleUpdated orig, Player self, bool actuallyViewed, bool eu)
         {
@@ -105,69 +306,6 @@ namespace TheSacrifice
 
             RetrieveObject(self);
             DestroyTransferObject(playerEx);
-        }
-
-        private static void PlayerGraphics_ctor(On.PlayerGraphics.orig_ctor orig, PlayerGraphics self, PhysicalObject ow)
-        {
-            orig(self, ow);
-
-            if (!IsCustomSlugcat(self.player)) return;
-
-            //self.tail[0] = new TailSegment(self, 8f, 2f, null, 0.85f, 1f, 1f, true);
-            //self.tail[1] = new TailSegment(self, 6f, 3.5f, self.tail[0], 0.85f, 1f, 0.5f, true);
-            //self.tail[2] = new TailSegment(self, 4f, 3.5f, self.tail[1], 0.85f, 1f, 0.5f, true);
-            //self.tail[3] = new TailSegment(self, 2f, 3.5f, self.tail[2], 0.85f, 1f, 0.5f, true);
-        }
-
-
-        private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-        {
-            orig(self, sLeaser, rCam, timeStacker, camPos);
-
-            if (!IsCustomSlugcat(self.player)) return;
-
-            return;
-
-            UpdateCustomPlayerSprite(sLeaser, 0, "Body", "body");
-            UpdateCustomPlayerSprite(sLeaser, 1, "Hips", "hips");
-            UpdateCustomPlayerSprite(sLeaser, 3, "Head", "head");
-            UpdateCustomPlayerSprite(sLeaser, 4, "Legs", "legs");
-            UpdateCustomPlayerSprite(sLeaser, 5, "Arm", "arm");
-            UpdateCustomPlayerSprite(sLeaser, 9, "Face", "face");
-
-            //// Determine which sprites map to which indexes
-            //Plugin.Logger.LogWarning("sLeaser Sprites");
-            //foreach (var sprite in sLeaser.sprites)
-            //{
-            //    Plugin.Logger.LogWarning(sprite.element.name + " : " + sLeaser.sprites.IndexOf(sprite));
-            //}
-
-            //Plugin.Logger.LogWarning("Body Chunks");
-            //foreach (var bodyChunk in self.player.bodyChunks)
-            //{
-            //    Plugin.Logger.LogWarning(bodyChunk.pos + " : " + self.player.bodyChunks.IndexOf(bodyChunk));
-            //}
-
-            //Plugin.Logger.LogWarning("Body Parts");
-            //foreach (var bodyPart in self.bodyParts)
-            //{
-            //    Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
-            //}
-        }
-
-        private static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
-        {
-            FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
-
-            if (atlas != null)
-            {
-                string? name = sLeaser.sprites[spriteIndex]?.element?.name;
-
-                if (name != null && name.StartsWith(toReplace) && atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element))
-                {
-                    sLeaser.sprites[spriteIndex].element = element;
-                }
-            }
         }
 
 

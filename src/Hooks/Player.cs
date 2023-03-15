@@ -19,6 +19,7 @@ namespace TheSacrifice
     {
         private static void ApplyPlayerHooks()
         {
+            On.Player.ctor += Player_ctor;
             On.Player.Update += Player_Update;
 
             On.Player.GrabUpdate += Player_GrabUpdate;
@@ -38,6 +39,15 @@ namespace TheSacrifice
             }
         }
 
+        private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
+        {
+            orig(self, abstractCreature, world);
+
+            if (!IsCustomSlugcat(self)) return;
+
+            PlayerData.Add(self, new PlayerEx(self));
+        }
+
         private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
         {
             orig(self, eu);
@@ -45,16 +55,20 @@ namespace TheSacrifice
             if (!IsCustomSlugcat(self)) return;
 
             PlayerEx playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx)) PlayerData.Add(self, playerEx = new PlayerEx(self));
+            if (!PlayerData.TryGetValue(self, out playerEx)) return;
+
 
             TryRealizeActiveObject(self);
             AbstractPhysicalObject? activeObject = GetRealizedActiveObject(self);
 
-            if (activeObject == null || activeObject.realizedObject == null) return;
+            if (activeObject == null) return;
+
 
             Vector2 targetPos = GetActiveObjectPos(self);
             activeObject.realizedObject.firstChunk.pos = targetPos;
 
+
+            // Object glows when active
             if (playerEx.activeObjectGlow != null)
             {
                 playerEx.activeObjectGlow.stayAlive = true;

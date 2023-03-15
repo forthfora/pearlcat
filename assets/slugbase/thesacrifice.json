@@ -3,7 +3,7 @@
     "name": "The Sacrifice",
     "description": "A cast-away experiment, unearthing unforseen potential, yet designed for a singular purpose.<LINE>Far from home and destiny, will you seek to return; or perhaps find a more desirable fate?",
     "features": {
-        "color": "ff0000",
+        "color": "000000",
         "world_state": "Spear",
         "start_room": "SS_S04",
         "auto_grab_batflies": false,
@@ -21,16 +21,48 @@
         "karma": 0,
         "karma_cap": 0,
         "guide_overseer": 5,
-        "has_dreams": true,
+        "has_dreams": false,
         "cycle_length_min": 6,
         "cycle_length_max": 13,
         "perma_unlock_gates": false,
         "diet": {
-            "base": "Red"
+            "base": "Gourmand",
+            "corpses": 0.25,
+            "meat": 1.0,
+            "plants": 1.0,
+            "overrides": {
+
+            }
         },
         "custom_colors": [
             { "name": "Body", "story": "b0a0a0" },
             { "name": "Eyes", "story": "ffffd6" }
-        ]
+        ],
+        "select_menu_scene": "Slugcat_Sacrifice",
+
+        "ear_transforms": {
+            "default": {
+                "offset_x": 3.0,
+                "offset_y": 0.0,
+                "correction_x": 0.3,
+                "correction_y": 2.3,
+                "base_rotation": 0.0,
+                "offset_rotation": 30.0
+            },
+            "HeadA5": {
+                "offset_x": 0.0,
+                "offset_y": 0.0,
+                "correction_x": 0.0,
+                "correction_y": 0.0,
+                "base_rotation": 30.0
+            },
+            "HeadA6": {
+                "offset_x": 3.0,
+                "offset_y": -3.0,
+                "correction_x": 0.0,
+                "correction_y": 0.0,
+                "base_rotation": -70.0
+            }
+        }
     }
 }

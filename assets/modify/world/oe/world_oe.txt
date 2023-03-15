@@ -1,0 +1,10 @@
+[MERGE]
+ROOMS
+OE_ASTransit : OE_ASTransitTrain_S2, OE_ASTransitTrain_S1
+OE_ASTransitTrain_S1 : OE_ASTransit
+OE_ASTransitTrain_S2 : OE_ASTransit
+END ROOMS
+
+CREATURES
+END CREATURES
+[ENDMERGE]

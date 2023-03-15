@@ -118,6 +118,7 @@ namespace TheSacrifice
             DrawBox(ref Tabs[tabIndex]);
 
             #region Ability Input
+
             AddTab(ref tabIndex, "Ability Input");
 
             AddCheckBox(usesCustomDashKeybind, (string)usesCustomDashKeybind.info.Tags[0]);
@@ -162,7 +163,7 @@ namespace TheSacrifice
 
             DrawKeybinders(swapKeybindPlayer4, ref Tabs[tabIndex]);
 
-            AddNewLine(4);
+            AddNewLine(5);
             DrawBox(ref Tabs[tabIndex]);
             #endregion
 

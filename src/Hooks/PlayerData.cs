@@ -22,21 +22,20 @@ namespace TheSacrifice
 
         private class PlayerEx
         {
-            public ChunkDynamicSoundLoop storingObjectSound;
-            public ChunkDynamicSoundLoop retrievingObjectSound;
+            public int firstSprite;
+            public int lastSprite;
+
+            public int leftEarSprite;
+            public int rightEarSprite;
 
             public LightSource? activeObjectGlow;
 
             public PlayerEx(Player player)
             {
-                storingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
-                storingObjectSound.sound = Enums.Sounds.StoringObject;
-                storingObjectSound.Volume = 0.0f;
 
-                retrievingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
-                retrievingObjectSound.sound = Enums.Sounds.RetrievingObject;
-                retrievingObjectSound.Volume = 0.0f;
+                InitSounds(player);
             }
+
 
             public bool canSwallowOrRegurgitate = true;
 
@@ -48,13 +47,27 @@ namespace TheSacrifice
             public float shortcutColorStacker = 0.0f;
             public int shortcutColorStackerDirection = 1;
 
+            public AbstractPhysicalObject? transferObject = null;
+            public Vector2? transferObjectInitialPos = null;
             public bool canTransferObject = true;
             public int transferStacker = 0;
-            public Vector2? transferObjectInitialPos = null;
-            public AbstractPhysicalObject? transferObject = null;
 
+
+
+            public DynamicSoundLoop storingObjectSound = null!;
+            public DynamicSoundLoop retrievingObjectSound = null!;
+
+            private void InitSounds(Player player)
+            {
+                storingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
+                storingObjectSound.sound = Enums.Sounds.StoringObject;
+                storingObjectSound.Volume = 0.0f;
+
+                retrievingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
+                retrievingObjectSound.sound = Enums.Sounds.RetrievingObject;
+                retrievingObjectSound.Volume = 0.0f;
+            }
         }
-
 
 
         // Constant Features
