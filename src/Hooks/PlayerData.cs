@@ -22,6 +22,10 @@ namespace TheSacrifice
 
         private class PlayerEx
         {
+            #pragma warning disable CS0109
+            new protected internal virtual bool IsMirosCat() => true;
+            #pragma warning restore CS0109
+
             public int firstSprite;
             public int lastSprite;
 
@@ -32,7 +36,6 @@ namespace TheSacrifice
 
             public PlayerEx(Player player)
             {
-
                 InitSounds(player);
             }
 

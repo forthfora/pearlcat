@@ -161,11 +161,13 @@ namespace TheSacrifice
             correction.x = FeatureOrDefault(transformValuePair, "correction_x", 0.0f);
             correction.y = FeatureOrDefault(transformValuePair, "correction_y", 0.0f);
 
-            float base_rotation = FeatureOrDefault(transformValuePair, "base_rotation", 0.0f);
+            float base_rotation = FeatureOrDefault(transformValuePair, "base_rotation", 0.0f); 
             float ear_rotation = FeatureOrDefault(transformValuePair, "offset_rotation", 0.0f);
 
-            Vector2 leftEarPos = headPos + (correction + offset).magnitude * self.player.bodyChunks[0].Rotation;
-            Vector2 rightEarPos = headPos + (correction - offset).magnitude * self.player.bodyChunks[0].Rotation;
+            // Thanks CrunchyDuck!
+            // (I still hate Vector math)   
+            Vector2 leftEarPos = headPos + Custom.RotateAroundOrigo(correction - offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
+            Vector2 rightEarPos = headPos + Custom.RotateAroundOrigo(correction + offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
 
 
             sLeaser.sprites[playerEx.leftEarSprite].x = leftEarPos.x;
