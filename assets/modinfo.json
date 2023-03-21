@@ -2,11 +2,10 @@
 	"id": "thesacrifice",
 	"name": "The Sacrifice",
 	"version": "1.0.0",
-	"target_game_version": "v1.9.06",
 	"authors": "forthbridge",
 	"description": "\"So then, what purpose do you serve, little creature?\"<LINE><LINE>\"For many, that’s a question that can take a lifetime to find an answer to.\"<LINE><LINE>Provides no world changes alone, only new abilities, and unique interactions.<LINE>Source: https://github.com/forthbridge/the-sacrifice",
-	"requirements": ["slime-cubed.slugbase"],
-	"requirements_names": ["SlugBase"],
+	"requirements": ["moreslugcats", "slime-cubed.slugbase"],
+	"requirements_names": ["More Slugcats Expansion", "SlugBase"],
 	"tags": ["Campaigns", "Gameplay Mechanics"],
 	"checksum_override_version": true
 }

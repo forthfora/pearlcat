@@ -134,6 +134,69 @@ namespace TheSacrifice
             UpdateCustomPlayerSprite(sLeaser, 5, "Arm", "arm");
             UpdateCustomPlayerSprite(sLeaser, 9, "Face", "face");
 
+            DrawEars(self, sLeaser, playerEx);
+            DrawTail(self, sLeaser, playerEx);
+
+
+            #region Debug
+            //// Determine which sprites map to which indexes
+            //Plugin.Logger.LogWarning("sLeaser Sprites");
+            //foreach (var sprite in sLeaser.sprites)
+            //{
+            //    Plugin.Logger.LogWarning(sprite.element.name + " : " + sLeaser.sprites.IndexOf(sprite));
+            //}
+
+            //Plugin.Logger.LogWarning("Body Chunks");
+            //foreach (var bodyChunk in self.player.bodyChunks)
+            //{
+            //    Plugin.Logger.LogWarning(bodyChunk.pos + " : " + self.player.bodyChunks.IndexOf(bodyChunk));
+            //}
+
+            //Plugin.Logger.LogWarning("Body Parts");
+            //foreach (var bodyPart in self.bodyParts)
+            //{
+            //    Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
+            //}
+            #endregion  
+        }
+
+        public static PlayerFeature<int> StickTimer = FeatureTypes.PlayerInt("glue/stick_timer");
+
+        private static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerEx playerEx)
+        {
+            FAtlas? tailAtlas = AssetLoader.GetAtlas("tail");
+            if (tailAtlas == null) return;
+
+            if (tailAtlas.elements.Count == 0) return;
+
+            if (sLeaser.sprites[2] is not TriangleMesh tail) return;
+
+            tail.element = tailAtlas.elements[0];
+
+            //for (int i = tail.verticeColors.Length - 1; i >= 0; i--)
+            //{
+            //    float perc = i / 2 / (float)(tail.verticeColors.Length / 2);
+
+            //    //tail.verticeColors[i] = Color.Lerp(fromColor, toColor, perc);
+            //    Vector2 uv;
+            //    if (i % 2 == 0)
+            //        uv = new Vector2(perc, 0f);
+            //    else if (i < tail.verticeColors.Length - 1)
+            //        uv = new Vector2(perc, 1f);
+            //    else
+            //        uv = new Vector2(1f, 0f);
+
+            //    // Map UV values to the element
+            //    uv.x = Mathf.Lerp(tail.element.uvBottomLeft.x, tail.element.uvTopRight.x, uv.x);
+            //    uv.y = Mathf.Lerp(tail.element.uvBottomLeft.y, tail.element.uvTopRight.y, uv.y);
+
+            //    tail.UVvertices[i] = uv;
+            //}
+        }
+
+        private static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerEx playerEx)
+        {
+
             UpdateCustomPlayerSprite(sLeaser, playerEx.leftEarSprite, "Ear", "ears");
             UpdateCustomPlayerSprite(sLeaser, playerEx.rightEarSprite, "Ear", "ears");
 
@@ -161,7 +224,7 @@ namespace TheSacrifice
             correction.x = FeatureOrDefault(transformValuePair, "correction_x", 0.0f);
             correction.y = FeatureOrDefault(transformValuePair, "correction_y", 0.0f);
 
-            float base_rotation = FeatureOrDefault(transformValuePair, "base_rotation", 0.0f); 
+            float base_rotation = FeatureOrDefault(transformValuePair, "base_rotation", 0.0f);
             float ear_rotation = FeatureOrDefault(transformValuePair, "offset_rotation", 0.0f);
 
             // Thanks CrunchyDuck!
@@ -173,7 +236,7 @@ namespace TheSacrifice
             sLeaser.sprites[playerEx.leftEarSprite].x = leftEarPos.x;
             sLeaser.sprites[playerEx.leftEarSprite].y = leftEarPos.y;
 
-            sLeaser.sprites[playerEx.rightEarSprite].x =  rightEarPos.x;
+            sLeaser.sprites[playerEx.rightEarSprite].x = rightEarPos.x;
             sLeaser.sprites[playerEx.rightEarSprite].y = rightEarPos.y;
 
 
@@ -181,28 +244,6 @@ namespace TheSacrifice
 
             sLeaser.sprites[playerEx.leftEarSprite].rotation = headRot + base_rotation * flip - ear_rotation;
             sLeaser.sprites[playerEx.rightEarSprite].rotation = headRot + base_rotation * flip + ear_rotation;
-
-
-            #region Debug
-            //// Determine which sprites map to which indexes
-            //Plugin.Logger.LogWarning("sLeaser Sprites");
-            //foreach (var sprite in sLeaser.sprites)
-            //{
-            //    Plugin.Logger.LogWarning(sprite.element.name + " : " + sLeaser.sprites.IndexOf(sprite));
-            //}
-
-            //Plugin.Logger.LogWarning("Body Chunks");
-            //foreach (var bodyChunk in self.player.bodyChunks)
-            //{
-            //    Plugin.Logger.LogWarning(bodyChunk.pos + " : " + self.player.bodyChunks.IndexOf(bodyChunk));
-            //}
-
-            //Plugin.Logger.LogWarning("Body Parts");
-            //foreach (var bodyPart in self.bodyParts)
-            //{
-            //    Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
-            //}
-            #endregion
         }
 
         private static TValue FeatureOrDefault<TValue>(Dictionary<string, TValue> dictionary, string key, TValue defaultValue)

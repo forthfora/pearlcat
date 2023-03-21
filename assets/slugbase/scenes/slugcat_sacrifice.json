@@ -2,10 +2,25 @@
   "id": "Slugcat_Sacrifice",
   "scene_folder": "slugbase/scenes/slugcat_sacrifice",
   "images": [
-    {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
-    {"name": "slugcat", "pos": [516, 185], "depth":  2.8, "shader": "Basic"},
-    {"name": "activepearl_glow", "pos": [595, 400], "depth":  2.0, "shader": "Basic"},
-    {"name": "activepearl", "pos": [595, 400], "depth":  2.0, "shader": "Basic"}
+    {"name": "flat", "pos": [290, 120], "depth": -1.0, "flatmode": true},
+
+  
+    {"name": "activepearl_glow", "pos": [690, 530], "depth":  3.0, "shader": "Basic"},
+    {"name": "activepearl", "pos": [690, 530], "depth":  3.0, "shader": "Basic"},
+    
+    {"name": "pearl1_glow", "pos": [770, 400], "depth":  4.0, "shader": "Basic"},
+    {"name": "pearl1", "pos": [770, 400], "depth":  4.0, "shader": "Basic"},
+    
+    {"name": "pearl3_glow", "pos": [600, 400], "depth":  3.5, "shader": "Basic"},
+    {"name": "pearl3", "pos": [600, 400], "depth":  3.5, "shader": "Basic"},
+
+    {"name": "slugcat", "pos": [560, 185], "depth":  2.8, "shader": "Basic"},
+
+    {"name": "pearl2_glow", "pos": [750, 300], "depth":  1.5, "shader": "Basic"},
+    {"name": "pearl2", "pos": [750, 300], "depth":  1.5, "shader": "Basic"},
+
+    {"name": "pearl4_glow", "pos": [550, 320], "depth":  2.2, "shader": "Basic"},
+    {"name": "pearl4", "pos": [550, 320], "depth":  2.2, "shader": "Basic"}
   ],
   "idle_depths": [2.3, 2.9],
   "glow_pos": [730, 335],

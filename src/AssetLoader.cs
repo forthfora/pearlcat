@@ -6,7 +6,7 @@ namespace TheSacrifice
 {
     internal static class AssetLoader
     {
-        public const string SPRITES_DIRPATH = Plugin.MOD_ID + "_sprites";
+        public const string TEXTURES_DIRPATH = Plugin.MOD_ID + "_textures";
         public const string ATLASES_DIRPATH = Plugin.MOD_ID + "_atlases";
 
         public static string GetUniqueName(string name) => Plugin.MOD_ID + "_" + name;
@@ -15,36 +15,31 @@ namespace TheSacrifice
         {
             string uniqueName = GetUniqueName(atlasName);
 
-            string spriteDirName = SPRITES_DIRPATH + Path.AltDirectorySeparatorChar + Plugin.MOD_ID + "_" + atlasName;
+            if (Futile.atlasManager.DoesContainAtlas(uniqueName)) return Futile.atlasManager.LoadAtlas(uniqueName);
 
-            if (!Futile.atlasManager.DoesContainAtlas(spriteDirName))
+            string atlasDirName = ATLASES_DIRPATH + Path.AltDirectorySeparatorChar + Plugin.MOD_ID + "_" + atlasName;
+
+            if (!Futile.atlasManager.DoesContainAtlas(atlasDirName))
             {
-                string atlasDirName = ATLASES_DIRPATH + Path.AltDirectorySeparatorChar + Plugin.MOD_ID + "_" + atlasName;
-
-                if (!Futile.atlasManager.DoesContainAtlas(atlasDirName))
-                {
-                    Plugin.Logger.LogError($"Atlas not found! ({uniqueName})");
-                    return null;
-                }
-
-                return Futile.atlasManager.LoadAtlas(atlasDirName);
+                Plugin.Logger.LogError($"Atlas not found! ({uniqueName})");
+                return null;
             }
 
-            return Futile.atlasManager.LoadAtlas(spriteDirName);
+            return Futile.atlasManager.LoadAtlas(atlasDirName);
         }
-
 
         public static void LoadAssets()
         {
-            LoadSprites();
+            LoadTextures();
             LoadAtlases();
         }
 
         // Loads individual PNG files into their own separate atlases
-        private static void LoadSprites()
+        private static void LoadTextures()
         {
-            foreach (string filePath in AssetManager.ListDirectory(SPRITES_DIRPATH))
+            foreach (string filePath in AssetManager.ListDirectory(TEXTURES_DIRPATH))
             {
+
                 // https://answers.unity.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
                 byte[] fileData = File.ReadAllBytes(filePath);
                 Texture2D texture = new Texture2D(2, 2, TextureFormat.ARGB32, false)

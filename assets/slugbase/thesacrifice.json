@@ -42,26 +42,28 @@
 
         "ear_transforms": {
             "default": {
-                "offset_x": 3.0,
+                "offset_x": 3.5,
                 "offset_y": 0.0,
-                "correction_x": 0.3,
-                "correction_y": 2.3,
+                "correction_x": 0.6,
+                "correction_y": 2.0,
                 "base_rotation": 0.0,
-                "offset_rotation": 30.0
-            },
-            "HeadA5": {
-                "offset_x": 0.0,
-                "offset_y": 0.0,
-                "correction_x": 0.0,
-                "correction_y": 0.0,
-                "base_rotation": 30.0
+                "offset_rotation": 25.0
             },
             "HeadA6": {
-                "offset_x": 3.0,
-                "offset_y": -3.0,
-                "correction_x": 0.0,
-                "correction_y": 0.0,
-                "base_rotation": -70.0
+                "offset_x": 2.5,
+                "offset_y": 0.0,
+                "correction_x": 0.8,
+                "correction_y": 1.5,
+                "base_rotation": -30.0,
+                "offset_rotation": 20.0
+            },
+            "HeadA7": {
+                "offset_x": 1.0,
+                "offset_y": -2.0,
+                "correction_x": 1.8,
+                "correction_y": 0.5,
+                "base_rotation": -35.0,
+                "offset_rotation": 15.0
             }
         }
     }
