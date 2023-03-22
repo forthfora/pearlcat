@@ -23,6 +23,8 @@ namespace TheSacrifice
 
             On.PlayerGraphics.InitiateSprites += PlayerGraphics_InitiateSprites;
             On.PlayerGraphics.DrawSprites += PlayerGraphics_DrawSprites;
+
+            On.PlayerGraphics.Update += PlayerGraphics_Update;
             
             
             On.PlayerGraphics.PlayerObjectLooker.HowInterestingIsThisObject += PlayerObjectLooker_HowInterestingIsThisObject;
@@ -142,7 +144,6 @@ namespace TheSacrifice
         {
             sLeaser.sprites[2].color = Color.white;
 
-            #region UV Mapping
             FAtlas? tailAtlas = playerModule.tailAtlas;
             if (tailAtlas == null) return;
 
@@ -202,25 +203,28 @@ namespace TheSacrifice
 
                 tailMesh.UVvertices[vertex] = uv;
             }
-            #endregion
+        }
+
+        private static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
+        {
+            orig(self);
 
             ApplyTailVelocityOffset(self);
         }
-
 
         private static readonly List<Player.BodyModeIndex> EXCLUDE_FROM_TAIL_OFFSET_BODYMODE = new List<Player.BodyModeIndex>()
         {
             Player.BodyModeIndex.ZeroG,
             Player.BodyModeIndex.Swimming,
-            Player.BodyModeIndex.Stunned,
+            Player.BodyModeIndex.ClimbingOnBeam,
             Player.BodyModeIndex.CorridorClimb,
+            Player.BodyModeIndex.Stunned,
             Player.BodyModeIndex.Dead,
         };
 
         private static readonly List<Player.AnimationIndex> EXCLUDE_FROM_TAIL_OFFSET_ANIMATION = new List<Player.AnimationIndex>()
         {
-            Player.AnimationIndex.HangFromBeam,
-            Player.AnimationIndex.Flip,
+            Player.AnimationIndex.Roll,
         };
 
         // Creates raised tail effect 
