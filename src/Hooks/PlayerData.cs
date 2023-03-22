@@ -47,10 +47,10 @@ namespace TheSacrifice
             {
                 Player = new WeakReference<Player>(player);
 
-                LoadTailTexture("tail");
-
                 InitSounds(player);
                 InitColors(player);
+
+                LoadTailTexture("tail");
             }
 
 
@@ -87,7 +87,9 @@ namespace TheSacrifice
 
                 if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
 
-                MapTextureColor(tailTexture, Color.red, new Color(218, 236, 226));
+                // Remap Colours
+                MapAlphaToColor(tailTexture, 1.0f, BodyColor);
+                MapAlphaToColor(tailTexture, 0.0f, Color.white);
 
                 tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + player.playerState.playerNumber, tailTexture, false);
             }
@@ -95,39 +97,68 @@ namespace TheSacrifice
 
             public void RegenerateTail()
             {
-                return;
-                
                 if (!Player.TryGetTarget(out var player)) return;
 
                 if (player.graphicsModule == null) return;
 
                 PlayerGraphics self = (PlayerGraphics)player.graphicsModule;
+                TailSegment[] newTail = new TailSegment[6];
 
-                TailSegment[] oldTail = self.tail;
+                newTail[0] = new TailSegment(self, 8.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+                newTail[1] = new TailSegment(self, 7.0f, 7.0f, newTail[0], 0.85f, 1.0f, 0.5f, true);
+                newTail[2] = new TailSegment(self, 6.0f, 7.0f, newTail[1], 0.85f, 1.0f, 0.5f, true);
+                newTail[3] = new TailSegment(self, 5.0f, 7.0f, newTail[2], 0.85f, 1.0f, 0.5f, true);
+                newTail[4] = new TailSegment(self, 2.5f, 7.0f, newTail[3], 0.85f, 1.0f, 0.5f, true);
+                newTail[5] = new TailSegment(self, 1.0f, 7.0f, newTail[4], 0.85f, 1.0f, 0.5f, true);
 
-                self.tail = new TailSegment[7];
-                self.tail[0] = new TailSegment(self, 11.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-                self.tail[1] = new TailSegment(self, 8.0f, 7.0f, self.tail[0], 0.85f, 1.0f, 0.5f, true);
-                self.tail[2] = new TailSegment(self, 9.0f, 7.0f, self.tail[1], 0.85f, 1.0f, 0.5f, true);
-                self.tail[3] = new TailSegment(self, 7.0f, 7.0f, self.tail[2], 0.85f, 1.0f, 0.5f, true);
-                self.tail[4] = new TailSegment(self, 6.0f, 4.0f, self.tail[3], 0.85f, 1.0f, 0.5f, true);
-                self.tail[5] = new TailSegment(self, 4.0f, 2.0f, self.tail[4], 0.85f, 1.0f, 0.5f, false);
-                self.tail[6] = new TailSegment(self, 1.0f, 1.0f, self.tail[5], 0.85f, 1.0f, 0.5f, false);
-
-                for (var i = 0; i < self.tail.Length && i < oldTail.Length; i++)
+                for (var i = 0; i < self.tail.Length && i < self.tail.Length; i++)
                 {
-                    self.tail[i].pos = oldTail[i].pos;
-                    self.tail[i].lastPos = oldTail[i].lastPos;
-                    self.tail[i].vel = oldTail[i].vel;
-                    self.tail[i].terrainContact = oldTail[i].terrainContact;
-                    self.tail[i].stretched = oldTail[i].stretched;
+                    newTail[i].pos = self.tail[i].pos;
+                    newTail[i].lastPos = self.tail[i].lastPos;
+                    newTail[i].vel = self.tail[i].vel;
+                    newTail[i].terrainContact = self.tail[i].terrainContact;
+                    newTail[i].stretched = self.tail[i].stretched;
                 }
 
-                List<BodyPart> oldBodyParts = self.bodyParts.ToList();
-                oldBodyParts.RemoveAll(x => x is TailSegment);
-                oldBodyParts.AddRange(self.tail);
+                self.tail = newTail;
 
-                self.bodyParts = oldBodyParts.ToArray();
+                // Generate the new body parts array, whilst attempting to preserve the existing indexes
+                // The flaw with this is that if the new tail is shorter than the default, this will crash
+                List<BodyPart> newBodyParts = self.bodyParts.ToList();
+                List<int> oldTailSegmentIndexes = new List<int>();
+
+                bool reachedOldTail = false;
+
+                // Get existing indexes
+                for (int i = 0; i <= newBodyParts.Count; i++)
+                {
+                    if (newBodyParts[i] is TailSegment)
+                    {
+                        reachedOldTail = true;
+                        oldTailSegmentIndexes.Add(i);
+                    }
+                    else if (reachedOldTail)
+                    {
+                        break;
+                    }
+                }
+
+                int tailSegmentIndex = 0;
+
+                // Where possible, substitute the existing indexes with the new tail
+                foreach (int i in oldTailSegmentIndexes)
+                {
+                    newBodyParts[i] = self.tail[tailSegmentIndex];
+                    tailSegmentIndex++;
+                }
+
+                // For any remaining tail segments, append them to the end
+                for (int i = tailSegmentIndex; i < self.tail.Length; i++)
+                {
+                    newBodyParts.Add(self.tail[tailSegmentIndex]);
+                }
+
+                self.bodyParts = newBodyParts.ToArray();
 
             }
 
@@ -153,7 +184,11 @@ namespace TheSacrifice
 
 
             // Colours
+            public Color BodyColor;
+            public Color EyesColor;
+
             public Color StaticEarHighlightColor;
+
 
             private void InitColors(Player player)
             {
@@ -162,6 +197,9 @@ namespace TheSacrifice
                 if (!character.Features.TryGet(PlayerFeatures.CustomColors, out var customColors)) return;
 
                 int playerNumber = !player.room.game.IsArenaSession && player.playerState.playerNumber == 0 ? -1 : player.playerState.playerNumber;
+
+                SetColor(customColors, playerNumber, ref BodyColor, "Body");
+                SetColor(customColors, playerNumber, ref EyesColor, "Eyes");
 
                 SetColor(customColors, playerNumber, ref StaticEarHighlightColor, "EarHighlight");
             }

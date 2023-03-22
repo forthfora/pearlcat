@@ -77,14 +77,26 @@ namespace TheSacrifice
             if (playerModule.firstSprite <= 0 || sLeaser.sprites.Length < playerModule.lastSprite) return;
 
 
+            // Move to correct container
             FContainer fgContainer = rCam.ReturnFContainer("Foreground");
             FContainer mgContainer = rCam.ReturnFContainer("Midground");
 
+            // Ears
             fgContainer.RemoveChild(sLeaser.sprites[playerModule.leftEar]);
             mgContainer.AddChild(sLeaser.sprites[playerModule.leftEar]);
-
             fgContainer.RemoveChild(sLeaser.sprites[playerModule.rightEar]);
             mgContainer.AddChild(sLeaser.sprites[playerModule.rightEar]);
+
+            // Ear Highlights
+            fgContainer.RemoveChild(sLeaser.sprites[playerModule.leftEarHighlight]);
+            mgContainer.AddChild(sLeaser.sprites[playerModule.leftEarHighlight]);
+            fgContainer.RemoveChild(sLeaser.sprites[playerModule.rightEarHighlight]);
+            mgContainer.AddChild(sLeaser.sprites[playerModule.rightEarHighlight]);
+
+
+
+
+            // Correct the order of the player's sprites
 
             // Ears go behind Head
             sLeaser.sprites[playerModule.leftEar].MoveBehindOtherNode(sLeaser.sprites[3]);
@@ -107,13 +119,20 @@ namespace TheSacrifice
         static readonly PlayerFeature<float> MinEffectiveOffset = FeatureTypes.PlayerFloat("min_tail_offset");
         static readonly PlayerFeature<float> MaxEffectiveOffset = FeatureTypes.PlayerFloat("max_tail_offset");
 
-        static readonly PlayerFeature<Dictionary<string, float>> TailVelY = new("tail_vel_y", json =>
+        static readonly PlayerFeature<Dictionary<int, Vector2>> TailSegmentVelocities = new("tail_segment_velocities", json =>
         {
-            var result = new Dictionary<string, float>();
+            var result = new Dictionary<int, Vector2>();
 
-            foreach (var spriteTransformPair in json.AsObject())
+            foreach (var segmentVelocityPair in json.AsObject())
             {
-                result[spriteTransformPair.Key] = spriteTransformPair.Value.AsFloat();
+                var velocities = segmentVelocityPair.Value.AsList();
+
+                if (velocities.Count < 2) continue;
+
+                Vector2 velocity = new Vector2(velocities[0].AsFloat(), velocities[1].AsFloat());
+                if (!int.TryParse(segmentVelocityPair.Key, out var segmentIndex)) continue;
+
+                result[segmentIndex] = velocity;
             }
 
             return result;
@@ -121,6 +140,8 @@ namespace TheSacrifice
 
         private static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
         {
+            sLeaser.sprites[2].color = Color.white;
+
             #region UV Mapping
             FAtlas? tailAtlas = playerModule.tailAtlas;
             if (tailAtlas == null) return;
@@ -183,16 +204,48 @@ namespace TheSacrifice
             }
             #endregion
 
-            if (!TailVelY.TryGet(self.player, out var tailVelY)) return;
+            ApplyTailVelocityOffset(self);
+        }
+
+
+        private static readonly List<Player.BodyModeIndex> EXCLUDE_FROM_TAIL_OFFSET_BODYMODE = new List<Player.BodyModeIndex>()
+        {
+            Player.BodyModeIndex.ZeroG,
+            Player.BodyModeIndex.Swimming,
+            Player.BodyModeIndex.Stunned,
+            Player.BodyModeIndex.CorridorClimb,
+            Player.BodyModeIndex.Dead,
+        };
+
+        private static readonly List<Player.AnimationIndex> EXCLUDE_FROM_TAIL_OFFSET_ANIMATION = new List<Player.AnimationIndex>()
+        {
+            Player.AnimationIndex.HangFromBeam,
+            Player.AnimationIndex.Flip,
+        };
+
+        // Creates raised tail effect 
+        private static void ApplyTailVelocityOffset(PlayerGraphics self)
+        {
+            if (EXCLUDE_FROM_TAIL_OFFSET_BODYMODE.Contains(self.player.bodyMode)) return;
+
+            if (EXCLUDE_FROM_TAIL_OFFSET_ANIMATION.Contains(self.player.animation)) return;
+
+            if (!TailSegmentVelocities.TryGet(self.player, out var tailSegmentVelocities)) return;
 
             for (int i = 0; i < self.tail.Length; i++)
             {
-                if (!tailVelY.ContainsKey(i.ToString())) continue;
+                if (!tailSegmentVelocities.ContainsKey(i)) continue;
 
-                float velY = tailVelY[i.ToString()];
-                self.tail[i].vel.y += velY;
+                Vector2 segmentVel = tailSegmentVelocities[i];
+                Vector2 facingDir = new Vector2(self.player.flipDirection, 1.0f);
+
+                if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
+                    segmentVel.y /= 2.0f;
+
+                self.tail[i].vel += segmentVel * facingDir;
             }
         }
+
 
         static readonly PlayerFeature<Dictionary<string, Dictionary<string, float>>> EarTransforms = new("ear_transforms", json =>
         {
@@ -318,8 +371,16 @@ namespace TheSacrifice
             rightEarHighlight.y = rightEarPos.y;
             rightEarHighlight.rotation = sLeaser.sprites[playerModule.rightEar].rotation;
 
-            leftEarHighlight.color = playerModule.StaticEarHighlightColor;
-            rightEarHighlight.color = playerModule.StaticEarHighlightColor;
+            Color highlightColor = playerModule.StaticEarHighlightColor;
+
+            if (playerModule.accentColors.Count > 0)
+            {
+                highlightColor = playerModule.accentColors[0];
+            }
+
+            leftEarHighlight.color = highlightColor;
+            rightEarHighlight.color = highlightColor;
+
         }
 
         private static TValue FeatureOrDefault<TValue>(Dictionary<string, TValue> dictionary, string key, TValue defaultValue)
@@ -467,15 +528,15 @@ namespace TheSacrifice
             return orig(self, obj);
         }
 
-        public static void MapTextureColor(Texture2D texture, Color from, Color to)
+        public static void MapAlphaToColor(Texture2D texture, float alphaFrom, Color colorTo)
         {
             for (var x = 0; x < texture.width; x++)
             {
                 for (var y = 0; y < texture.height; y++)
                 {
-                    if (texture.GetPixel(x, y) != from) continue;
+                    if (texture.GetPixel(x, y).a != alphaFrom) continue;
                     
-                    texture.SetPixel(x, y, to);
+                    texture.SetPixel(x, y, colorTo);
                 }
             }
 
