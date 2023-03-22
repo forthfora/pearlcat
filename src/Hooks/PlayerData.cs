@@ -2,6 +2,7 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RWCustom;
+using SlugBase;
 using SlugBase.Features;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,11 @@ namespace TheSacrifice
 {
     internal static partial class Hooks
     {
-        private static ConditionalWeakTable<Player, PlayerEx> PlayerData = new ConditionalWeakTable<Player, PlayerEx>();
-        private static ConditionalWeakTable<RainWorldGame, List<AbstractPhysicalObject>> GameInventory = new ConditionalWeakTable<RainWorldGame, List<AbstractPhysicalObject>>();
+        private static ConditionalWeakTable<Player, PlayerModule> PlayerData = new ConditionalWeakTable<Player, PlayerModule>();
 
-        private class PlayerEx
+        private class PlayerModule
         {
-            #pragma warning disable CS0109
-            new protected internal virtual bool IsMirosCat() => true;
-            #pragma warning restore CS0109
+            public WeakReference<Player> Player;
 
             public int firstSprite;
             public int lastSprite;
@@ -34,11 +32,17 @@ namespace TheSacrifice
 
             public LightSource? activeObjectGlow;
 
-            public PlayerEx(Player player)
+            public PlayerModule(Player player)
             {
+                Player = new WeakReference<Player>(player);
+
+                LoadTailTexture("tail");
+
                 InitSounds(player);
+                InitColors(player);
             }
 
+            public List<AbstractPhysicalObject> inventory = new List<AbstractPhysicalObject>();
 
             public bool canSwallowOrRegurgitate = true;
 
@@ -56,6 +60,21 @@ namespace TheSacrifice
             public int transferStacker = 0;
 
 
+            public FAtlas? tailAtlas;
+
+            public void LoadTailTexture(string textureName)
+            {
+                Texture2D? tailTexture = AssetLoader.GetTexture(textureName);
+                if (tailTexture == null) return;
+
+                if (!Player.TryGetTarget(out var player)) return;
+
+                if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
+
+                tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + player.playerState.playerNumber, tailTexture, false);
+            }
+
+
 
             public DynamicSoundLoop storingObjectSound = null!;
             public DynamicSoundLoop retrievingObjectSound = null!;
@@ -64,11 +83,24 @@ namespace TheSacrifice
             {
                 storingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
                 storingObjectSound.sound = Enums.Sounds.StoringObject;
+                storingObjectSound.destroyClipWhenDone = false;
                 storingObjectSound.Volume = 0.0f;
 
                 retrievingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
                 retrievingObjectSound.sound = Enums.Sounds.RetrievingObject;
+                retrievingObjectSound.destroyClipWhenDone = false;
                 retrievingObjectSound.Volume = 0.0f;
+            }
+
+
+
+            private void InitColors(Player player)
+            {
+                if (!SlugBaseCharacter.TryGet(Enums.Slugcat.Sacrifice, out var character)) return;
+
+                if (!character.Features.TryGet(PlayerFeatures.CustomColors, out var customColors)) return;
+
+                int playerNumber = !player.room.game.IsArenaSession && player.playerState.playerNumber == 0 ? -1 : player.playerState.playerNumber;
             }
         }
 
@@ -84,9 +116,9 @@ namespace TheSacrifice
 
 
 
-        private static List<PlayerEx> GetAllPlayerData(RainWorldGame game)
+        private static List<PlayerModule> GetAllPlayerData(RainWorldGame game)
         {
-            List<PlayerEx> allPlayerData = new List<PlayerEx>();
+            List<PlayerModule> allPlayerData = new List<PlayerModule>();
             List<AbstractCreature> players = game.Players;
 
             if (players == null) return allPlayerData;
@@ -97,10 +129,9 @@ namespace TheSacrifice
 
                 if (creature.realizedCreature is not Player player) continue;
 
-                PlayerEx playerEx;
-                if (!PlayerData.TryGetValue(player, out playerEx)) continue;
+                if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) continue;
 
-                allPlayerData.Add(playerEx);
+                allPlayerData.Add(playerModule);
             }
 
             return allPlayerData;

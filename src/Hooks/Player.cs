@@ -45,7 +45,7 @@ namespace TheSacrifice
 
             if (!IsCustomSlugcat(self)) return;
 
-            PlayerData.Add(self, new PlayerEx(self));
+            PlayerData.Add(self, new PlayerModule(self));
         }
 
         private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
@@ -54,8 +54,7 @@ namespace TheSacrifice
 
             if (!IsCustomSlugcat(self)) return;
 
-            PlayerEx playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx)) return;
+            if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
 
 
             TryRealizeActiveObject(self);
@@ -69,22 +68,22 @@ namespace TheSacrifice
 
 
             // Object glows when active
-            if (playerEx.activeObjectGlow != null)
+            if (playerModule.activeObjectGlow != null)
             {
-                playerEx.activeObjectGlow.stayAlive = true;
-                playerEx.activeObjectGlow.setPos = GetActiveObjectPos(self);
-                playerEx.activeObjectGlow.setRad = 75.0f;
-                playerEx.activeObjectGlow.setAlpha = 0.3f;
+                playerModule.activeObjectGlow.stayAlive = true;
+                playerModule.activeObjectGlow.setPos = GetActiveObjectPos(self);
+                playerModule.activeObjectGlow.setRad = 75.0f;
+                playerModule.activeObjectGlow.setAlpha = 0.3f;
 
-                if (playerEx.accentColors.Count > 0) playerEx.activeObjectGlow.color = playerEx.accentColors[0];
+                if (playerModule.accentColors.Count > 0) playerModule.activeObjectGlow.color = playerModule.accentColors[0];
 
-                if (playerEx.activeObjectGlow.slatedForDeletetion) playerEx.activeObjectGlow = null;
+                if (playerModule.activeObjectGlow.slatedForDeletetion) playerModule.activeObjectGlow = null;
             }
             else
             {
-                playerEx.activeObjectGlow = new LightSource(GetActiveObjectPos(self), false, Color.white, self);
-                playerEx.activeObjectGlow.requireUpKeep = true;
-                self.room.AddObject(playerEx.activeObjectGlow);
+                playerModule.activeObjectGlow = new LightSource(GetActiveObjectPos(self), false, Color.white, self);
+                playerModule.activeObjectGlow.requireUpKeep = true;
+                self.room.AddObject(playerModule.activeObjectGlow);
             }
         }
 
@@ -93,12 +92,7 @@ namespace TheSacrifice
         {
             orig(self, eu);
 
-            List<AbstractPhysicalObject> inventory;
-            if (!GameInventory.TryGetValue(self.room.game, out inventory)) GameInventory.Add(self.room.game, new List<AbstractPhysicalObject>());
-
-            PlayerEx? playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx)) return;
-
+            if (!PlayerData.TryGetValue(self, out var playerModule)) return;
 
             // Gather held storables
             AbstractPhysicalObject? heldStorable = null;
@@ -118,25 +112,25 @@ namespace TheSacrifice
 
             if (!IsStoreKeybindPressed(self))
             {
-                playerEx.transferObject = null;
-                playerEx.canTransferObject = true;
+                playerModule.transferObject = null;
+                playerModule.canTransferObject = true;
 
                 // Reenable normal actions
-                playerEx.canSwallowOrRegurgitate = true;
+                playerModule.canSwallowOrRegurgitate = true;
                 self.spearOnBack.interactionLocked = false;
                 self.slugOnBack.interactionLocked = false;
                 return;
             }
 
             // Prevent transfer immediately after one has taken place 
-            if (!playerEx.canTransferObject) return;
+            if (!playerModule.canTransferObject) return;
 
 
             // Held items take priority
-            playerEx.transferObject = heldStorable ?? GetRealizedActiveObject(self);
+            playerModule.transferObject = heldStorable ?? GetRealizedActiveObject(self);
 
             // Disable normal actions
-            playerEx.canSwallowOrRegurgitate = false;
+            playerModule.canSwallowOrRegurgitate = false;
             self.slugOnBack.interactionLocked = true;
             self.spearOnBack.interactionLocked = true;
 
@@ -162,10 +156,9 @@ namespace TheSacrifice
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<Func<Player, bool>>((player) =>
             {
-                PlayerEx playerEx;
-                if (!PlayerData.TryGetValue(player, out playerEx)) return true;
+                if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return true;
 
-                return playerEx.canSwallowOrRegurgitate;
+                return playerModule.canSwallowOrRegurgitate;
             });
 
             c.Emit(OpCodes.Brfalse, dest);

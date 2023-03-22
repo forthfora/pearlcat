@@ -38,23 +38,22 @@ namespace TheSacrifice
 
             if (!IsCustomSlugcat(self.player)) return;
 
-            PlayerEx? playerEx;
-            if (!PlayerData.TryGetValue(self.player, out playerEx)) return;
+            if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
 
 
-            playerEx.firstSprite = sLeaser.sprites.Length;
-            int spriteIndex = playerEx.firstSprite;
+            playerModule.firstSprite = sLeaser.sprites.Length;
+            int spriteIndex = playerModule.firstSprite;
 
             // Add new custom sprites
-            playerEx.leftEarSprite = spriteIndex++;
-            playerEx.rightEarSprite = spriteIndex++;
+            playerModule.leftEarSprite = spriteIndex++;
+            playerModule.rightEarSprite = spriteIndex++;
 
 
-            playerEx.lastSprite = spriteIndex;
+            playerModule.lastSprite = spriteIndex;
             Array.Resize(ref sLeaser.sprites, spriteIndex);
 
-            sLeaser.sprites[playerEx.leftEarSprite] = new FSprite(Plugin.MOD_ID + "EarL", true);
-            sLeaser.sprites[playerEx.rightEarSprite] = new FSprite(Plugin.MOD_ID + "EarR", true);
+            sLeaser.sprites[playerModule.leftEarSprite] = new FSprite(Plugin.MOD_ID + "EarL", true);
+            sLeaser.sprites[playerModule.rightEarSprite] = new FSprite(Plugin.MOD_ID + "EarR", true);
 
             self.AddToContainer(sLeaser, rCam, null);
         }
@@ -65,26 +64,64 @@ namespace TheSacrifice
 
             if (!IsCustomSlugcat(self.player)) return;
 
-            PlayerEx? playerEx;
-            if (!PlayerData.TryGetValue(self.player, out playerEx)) return;
+            if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
 
-
-            if (playerEx.firstSprite <= 0 || sLeaser.sprites.Length < playerEx.lastSprite) return;
+            if (playerModule.firstSprite <= 0 || sLeaser.sprites.Length < playerModule.lastSprite) return;
 
 
             FContainer fgContainer = rCam.ReturnFContainer("Foreground");
             FContainer mgContainer = rCam.ReturnFContainer("Midground");
 
-            fgContainer.RemoveChild(sLeaser.sprites[playerEx.leftEarSprite]);
-            mgContainer.AddChild(sLeaser.sprites[playerEx.leftEarSprite]);
+            fgContainer.RemoveChild(sLeaser.sprites[playerModule.leftEarSprite]);
+            mgContainer.AddChild(sLeaser.sprites[playerModule.leftEarSprite]);
 
-            fgContainer.RemoveChild(sLeaser.sprites[playerEx.rightEarSprite]);
-            mgContainer.AddChild(sLeaser.sprites[playerEx.rightEarSprite]);
+            fgContainer.RemoveChild(sLeaser.sprites[playerModule.rightEarSprite]);
+            mgContainer.AddChild(sLeaser.sprites[playerModule.rightEarSprite]);
 
-            // Ears go behind head
-            sLeaser.sprites[playerEx.leftEarSprite].MoveBehindOtherNode(sLeaser.sprites[3]);
-            sLeaser.sprites[playerEx.rightEarSprite].MoveBehindOtherNode(sLeaser.sprites[3]);
+            // Ears go behind Head
+            sLeaser.sprites[playerModule.leftEarSprite].MoveBehindOtherNode(sLeaser.sprites[3]);
+            sLeaser.sprites[playerModule.rightEarSprite].MoveBehindOtherNode(sLeaser.sprites[3]);
+
+            // Tail goes behind Hips
+            sLeaser.sprites[2].MoveBehindOtherNode(sLeaser.sprites[1]);
         }
+
+        private static void DrawTail(RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
+        {
+            FAtlas? tailAtlas = playerModule.tailAtlas;
+            if (tailAtlas == null) return;
+
+            if (tailAtlas.elements.Count == 0) return;
+
+            if (sLeaser.sprites[2] is not TriangleMesh tail) return;
+
+            tail.element = tailAtlas.elements[0];
+
+            if (tail.verticeColors == null || tail.verticeColors.Length != tail.vertices.Length)
+                tail.verticeColors = new Color[tail.vertices.Length];
+
+            for (int i = tail.verticeColors.Length - 1; i >= 0; i--)
+            {
+                float perc = i / 2 / (float)(tail.verticeColors.Length / 2);
+
+                Vector2 uv;
+                if (i % 2 == 0)
+                    uv = new Vector2(perc, 0f);
+
+                else if (i < tail.verticeColors.Length - 1)
+                    uv = new Vector2(perc, 1f);
+
+                else
+                    uv = new Vector2(1f, 0f);
+
+                // Map UV values to the element
+                uv.x = Mathf.Lerp(tail.element.uvBottomLeft.x, tail.element.uvTopRight.x, uv.x);
+                uv.y = Mathf.Lerp(tail.element.uvBottomLeft.y, tail.element.uvTopRight.y, uv.y);
+
+                tail.UVvertices[i] = uv;
+            }
+        }
+
 
         private static void PlayerGraphics_ctor(On.PlayerGraphics.orig_ctor orig, PlayerGraphics self, PhysicalObject ow)
         {
@@ -123,8 +160,7 @@ namespace TheSacrifice
 
             if (!IsCustomSlugcat(self.player)) return;
 
-            PlayerEx? playerEx;
-            if (!PlayerData.TryGetValue(self.player, out playerEx)) return;
+            if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
 
             // Custom Sprite Loader
             UpdateCustomPlayerSprite(sLeaser, 0, "Body", "body");
@@ -134,9 +170,8 @@ namespace TheSacrifice
             UpdateCustomPlayerSprite(sLeaser, 5, "Arm", "arm");
             UpdateCustomPlayerSprite(sLeaser, 9, "Face", "face");
 
-            DrawEars(self, sLeaser, playerEx);
-            DrawTail(self, sLeaser, playerEx);
-
+            DrawEars(self, sLeaser, playerModule);
+            DrawTail(sLeaser, playerModule);
 
             #region Debug
             //// Determine which sprites map to which indexes
@@ -160,53 +195,17 @@ namespace TheSacrifice
             #endregion  
         }
 
-        public static PlayerFeature<int> StickTimer = FeatureTypes.PlayerInt("glue/stick_timer");
-
-        private static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerEx playerEx)
+        private static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
         {
-            FAtlas? tailAtlas = AssetLoader.GetAtlas("tail");
-            if (tailAtlas == null) return;
-
-            if (tailAtlas.elements.Count == 0) return;
-
-            if (sLeaser.sprites[2] is not TriangleMesh tail) return;
-
-            tail.element = tailAtlas.elements[0];
-
-            //for (int i = tail.verticeColors.Length - 1; i >= 0; i--)
-            //{
-            //    float perc = i / 2 / (float)(tail.verticeColors.Length / 2);
-
-            //    //tail.verticeColors[i] = Color.Lerp(fromColor, toColor, perc);
-            //    Vector2 uv;
-            //    if (i % 2 == 0)
-            //        uv = new Vector2(perc, 0f);
-            //    else if (i < tail.verticeColors.Length - 1)
-            //        uv = new Vector2(perc, 1f);
-            //    else
-            //        uv = new Vector2(1f, 0f);
-
-            //    // Map UV values to the element
-            //    uv.x = Mathf.Lerp(tail.element.uvBottomLeft.x, tail.element.uvTopRight.x, uv.x);
-            //    uv.y = Mathf.Lerp(tail.element.uvBottomLeft.y, tail.element.uvTopRight.y, uv.y);
-
-            //    tail.UVvertices[i] = uv;
-            //}
-        }
-
-        private static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerEx playerEx)
-        {
-
-            UpdateCustomPlayerSprite(sLeaser, playerEx.leftEarSprite, "Ear", "ears");
-            UpdateCustomPlayerSprite(sLeaser, playerEx.rightEarSprite, "Ear", "ears");
+            UpdateCustomPlayerSprite(sLeaser, playerModule.leftEarSprite, "Ear", "ears");
+            UpdateCustomPlayerSprite(sLeaser, playerModule.rightEarSprite, "Ear", "ears");
 
             FSprite headSprite = sLeaser.sprites[3];
             Vector2 headPos = new Vector2(headSprite.x, headSprite.y);
             float headRot = headSprite.rotation;
             string headSpriteName = headSprite.element.name.Replace(Plugin.MOD_ID, "");
 
-            Dictionary<string, Dictionary<string, float>> spriteTransformPair;
-            EarTransforms.TryGet(self.player, out spriteTransformPair);
+            EarTransforms.TryGet(self.player, out Dictionary<string, Dictionary<string, float>> spriteTransformPair);
 
             Dictionary<string, float> transformValuePair;
 
@@ -227,23 +226,22 @@ namespace TheSacrifice
             float base_rotation = FeatureOrDefault(transformValuePair, "base_rotation", 0.0f);
             float ear_rotation = FeatureOrDefault(transformValuePair, "offset_rotation", 0.0f);
 
-            // Thanks CrunchyDuck!
-            // (I still hate Vector math)   
+            // Thanks CrunchyDuck! (but I still hate Vector math)   
             Vector2 leftEarPos = headPos + Custom.RotateAroundOrigo(correction - offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
             Vector2 rightEarPos = headPos + Custom.RotateAroundOrigo(correction + offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
 
 
-            sLeaser.sprites[playerEx.leftEarSprite].x = leftEarPos.x;
-            sLeaser.sprites[playerEx.leftEarSprite].y = leftEarPos.y;
+            sLeaser.sprites[playerModule.leftEarSprite].x = leftEarPos.x;
+            sLeaser.sprites[playerModule.leftEarSprite].y = leftEarPos.y;
 
-            sLeaser.sprites[playerEx.rightEarSprite].x = rightEarPos.x;
-            sLeaser.sprites[playerEx.rightEarSprite].y = rightEarPos.y;
+            sLeaser.sprites[playerModule.rightEarSprite].x = rightEarPos.x;
+            sLeaser.sprites[playerModule.rightEarSprite].y = rightEarPos.y;
 
 
             int flip = self.player.room != null && self.player.gravity == 0.0f ? 1 : (int)headSprite.scaleX;
 
-            sLeaser.sprites[playerEx.leftEarSprite].rotation = headRot + base_rotation * flip - ear_rotation;
-            sLeaser.sprites[playerEx.rightEarSprite].rotation = headRot + base_rotation * flip + ear_rotation;
+            sLeaser.sprites[playerModule.leftEarSprite].rotation = headRot + base_rotation * flip - ear_rotation;
+            sLeaser.sprites[playerModule.rightEarSprite].rotation = headRot + base_rotation * flip + ear_rotation;
         }
 
         private static TValue FeatureOrDefault<TValue>(Dictionary<string, TValue> dictionary, string key, TValue defaultValue)
@@ -274,27 +272,23 @@ namespace TheSacrifice
         {
             orig(self, actuallyViewed, eu);
 
-            PlayerEx? playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx)) return;
+            if (!PlayerData.TryGetValue(self, out PlayerModule? playerModule)) return;
 
-            playerEx.storingObjectSound.Update();
-            playerEx.retrievingObjectSound.Update();
+            playerModule.storingObjectSound.Update();
+            playerModule.retrievingObjectSound.Update();
 
-            List<AbstractPhysicalObject> inventory;
-            if (!GameInventory.TryGetValue(self.room.game, out inventory)) return;
-
-            if (playerEx.transferObject == null)
+            if (playerModule.transferObject == null)
             {
-                ResetTransferObject(playerEx);
+                ResetTransferObject(playerModule);
                 return;
             }
 
             PlayerGraphics playerGraphics = (PlayerGraphics)self.graphicsModule;
 
-            playerEx.transferObjectInitialPos ??= playerEx.transferObject.realizedObject.firstChunk.pos;
+            playerModule.transferObjectInitialPos ??= playerModule.transferObject.realizedObject.firstChunk.pos;
 
-            playerEx.transferStacker++;
-            bool puttingInStorage = playerEx.transferObject != GetStoredActiveObject(self);
+            playerModule.transferStacker++;
+            bool puttingInStorage = playerModule.transferObject != GetStoredActiveObject(self);
 
             if (puttingInStorage)
             {
@@ -306,7 +300,7 @@ namespace TheSacrifice
                 {
                     PhysicalObject graspedObject = self.grasps[i].grabbed;
 
-                    if (graspedObject == playerEx.transferObject.realizedObject)
+                    if (graspedObject == playerModule.transferObject.realizedObject)
                     {
                         targetHand = i;
                         break;
@@ -315,69 +309,68 @@ namespace TheSacrifice
 
                 if (targetHand == null) return;
 
-                //playerEx.storingObjectSound.Volume = 1.0f;
+                //playerModule.storingObjectSound.Volume = 1.0f;
 
                 // Pearl to head
-                playerEx.transferObject.realizedObject.firstChunk.pos = Vector2.Lerp(playerEx.transferObject.realizedObject.firstChunk.pos, GetActiveObjectPos(self), (float)playerEx.transferStacker / FramesToStoreObject);
-                playerGraphics.hands[(int)targetHand].absoluteHuntPos = playerEx.transferObject.realizedObject.firstChunk.pos;
+                playerModule.transferObject.realizedObject.firstChunk.pos = Vector2.Lerp(playerModule.transferObject.realizedObject.firstChunk.pos, GetActiveObjectPos(self), (float)playerModule.transferStacker / FramesToStoreObject);
+                playerGraphics.hands[(int)targetHand].absoluteHuntPos = playerModule.transferObject.realizedObject.firstChunk.pos;
                 playerGraphics.hands[(int)targetHand].reachingForObject = true;
 
-                if (playerEx.transferStacker < FramesToStoreObject) return;
+                if (playerModule.transferStacker < FramesToStoreObject) return;
 
-                //playerEx.storingObjectSound.Volume = 0.0f;
+                //playerModule.storingObjectSound.Volume = 0.0f;
                 self.room.PlaySound(Enums.Sounds.ObjectStored, self.firstChunk);
 
-                StoreObject(self, playerEx.transferObject);
+                StoreObject(self, playerModule.transferObject);
                 DestroyRealizedActiveObject(self);
-                DestroyTransferObject(playerEx);
+                DestroyTransferObject(playerModule);
 
-                ActivateObjectInStorage(self, inventory.Count - 1);
+                ActivateObjectInStorage(self, playerModule.inventory.Count - 1);
                 return;
             }
 
             // Hand to head
 
-            //playerEx.retrievingObjectSound.Volume = 1.0f;
+            //playerModule.retrievingObjectSound.Volume = 1.0f;
 
             playerGraphics.hands[self.FreeHand()].absoluteHuntPos = GetActiveObjectPos(self);
             playerGraphics.hands[self.FreeHand()].reachingForObject = true;
 
-            if (playerEx.transferStacker < FramesToRetrieveObject) return;
+            if (playerModule.transferStacker < FramesToRetrieveObject) return;
 
-            //playerEx.retrievingObjectSound.Volume = 0.0f;
+            //playerModule.retrievingObjectSound.Volume = 0.0f;
             self.room.PlaySound(Enums.Sounds.ObjectRetrieved, self.firstChunk);
 
             RetrieveObject(self);
-            DestroyTransferObject(playerEx);
+            DestroyTransferObject(playerModule);
         }
 
 
 
         private static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
         {
-            PlayerEx playerEx;
-            if (!PlayerData.TryGetValue(self, out playerEx)) return orig(self);
+            if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return orig(self);
 
-            List<Color> colors = playerEx.accentColors;
+            List<Color> colors = playerModule.accentColors;
 
             if (colors.Count == 0) return orig(self);
 
-            playerEx.shortcutColorStacker += FrameShortcutColorAddition * playerEx.shortcutColorStackerDirection;
+            playerModule.shortcutColorStacker += FrameShortcutColorAddition * playerModule.shortcutColorStackerDirection;
 
-            if (playerEx.shortcutColorStackerDirection == 1 && playerEx.shortcutColorStacker > 1.0f)
+            if (playerModule.shortcutColorStackerDirection == 1 && playerModule.shortcutColorStacker > 1.0f)
             {
-                playerEx.shortcutColorStackerDirection = -1;
-                playerEx.shortcutColorStacker += FrameShortcutColorAddition * playerEx.shortcutColorStackerDirection;
+                playerModule.shortcutColorStackerDirection = -1;
+                playerModule.shortcutColorStacker += FrameShortcutColorAddition * playerModule.shortcutColorStackerDirection;
 
             }
-            else if (playerEx.shortcutColorStackerDirection == -1 && playerEx.shortcutColorStacker < 0.0f)
+            else if (playerModule.shortcutColorStackerDirection == -1 && playerModule.shortcutColorStacker < 0.0f)
             {
-                playerEx.shortcutColorStackerDirection = 1;
-                playerEx.shortcutColorStacker += FrameShortcutColorAddition * playerEx.shortcutColorStackerDirection;
+                playerModule.shortcutColorStackerDirection = 1;
+                playerModule.shortcutColorStacker += FrameShortcutColorAddition * playerModule.shortcutColorStackerDirection;
             }
 
             // https://gamedev.stackexchange.com/questions/98740/how-to-color-lerp-between-multiple-colors
-            float scaledTime = playerEx.shortcutColorStacker * (colors.Count - 1);
+            float scaledTime = playerModule.shortcutColorStacker * (colors.Count - 1);
             Color oldColor = colors[(int)scaledTime];
 
             int nextIndex = (int)(scaledTime + 1.0f);
@@ -394,6 +387,21 @@ namespace TheSacrifice
             if (obj != null && obj.abstractPhysicalObject == activeObject) return 0.0f;
 
             return orig(self, obj);
+        }
+
+        public static void MapTextureColor(Texture2D texture, Color from, Color to)
+        {
+            for (var x = 0; x < texture.width; x++)
+            {
+                for (var y = 0; y < texture.height; y++)
+                {
+                    if (texture.GetPixel(x, y) != from) continue;
+                    
+                    texture.SetPixel(x, y, to);
+                }
+            }
+
+            texture.Apply(false);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RWCustom;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -6,8 +7,11 @@ namespace TheSacrifice
 {
     internal static class AssetLoader
     {
-        public const string TEXTURES_DIRPATH = Plugin.MOD_ID + "_textures";
         public const string ATLASES_DIRPATH = Plugin.MOD_ID + "_atlases";
+        public const string SPRITES_DIRPATH = Plugin.MOD_ID + "_sprites";
+        public const string TEXTURES_DIRPATH = Plugin.MOD_ID + "_textures";
+
+        private static readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
         public static string GetUniqueName(string name) => Plugin.MOD_ID + "_" + name;
 
@@ -28,29 +32,23 @@ namespace TheSacrifice
             return Futile.atlasManager.LoadAtlas(atlasDirName);
         }
 
-        public static void LoadAssets()
+        public static Texture2D? GetTexture(string textureName)
         {
-            LoadTextures();
-            LoadAtlases();
+            if (!textures.ContainsKey(textureName)) return null;
+
+            Texture2D originalTexture = textures[textureName];
+            Texture2D? copiedTexture = new Texture2D(originalTexture.width, originalTexture.height, TextureFormat.ARGB32, false);
+            Graphics.CopyTexture(originalTexture, copiedTexture);
+
+            return copiedTexture;
         }
 
-        // Loads individual PNG files into their own separate atlases
-        private static void LoadTextures()
+        public static void LoadAssets()
         {
-            foreach (string filePath in AssetManager.ListDirectory(TEXTURES_DIRPATH))
-            {
+            LoadAtlases();
+            LoadSprites();
 
-                // https://answers.unity.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
-                byte[] fileData = File.ReadAllBytes(filePath);
-                Texture2D texture = new Texture2D(2, 2, TextureFormat.ARGB32, false)
-                {
-                    anisoLevel = 1,
-                    filterMode = FilterMode.Point
-                };
-                texture.LoadImage(fileData);
-
-                Futile.atlasManager.LoadAtlasFromTexture(GetUniqueName(Path.GetFileNameWithoutExtension(filePath)), texture, false);
-            }
+            LoadTextures();
         }
         
         // Loads complete atlases 
@@ -65,5 +63,52 @@ namespace TheSacrifice
             }
         }
 
+        // Loads individual PNG files into their own separate atlases
+        private static void LoadSprites()
+        {
+            foreach (string filePath in AssetManager.ListDirectory(SPRITES_DIRPATH))
+            {
+                if (Path.GetExtension(filePath).ToLower() != ".png") continue;
+
+                string atlasName = Path.GetFileNameWithoutExtension(filePath);
+
+                Texture2D? texture = FileToTexture2D(filePath);
+                if (texture == null) continue;
+
+                Futile.atlasManager.LoadAtlasFromTexture(atlasName, texture, false);
+            }
+        }
+
+        // Load individual PNG files into a dictionary of Texture2Ds
+        public static void LoadTextures()
+        {
+            foreach (string filePath in AssetManager.ListDirectory(TEXTURES_DIRPATH))
+            {
+                if (Path.GetExtension(filePath).ToLower() != ".png") continue;
+
+                string textureName = Path.GetFileNameWithoutExtension(filePath);
+
+                Texture2D? texture = FileToTexture2D(filePath);
+                if (texture == null) continue;
+
+                textures.Add(textureName, texture);
+            }
+        }
+
+        // https://answers.unity.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
+        private static Texture2D? FileToTexture2D(string filePath)
+        {
+            byte[] fileData = File.ReadAllBytes(filePath);
+
+            Texture2D texture = new Texture2D(2, 2, TextureFormat.ARGB32, false)
+            {
+                anisoLevel = 1,
+                filterMode = FilterMode.Point
+            };
+
+            if (!texture.LoadImage(fileData)) return null;
+
+            return texture;
+        }
     }
 }
