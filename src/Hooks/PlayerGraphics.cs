@@ -19,7 +19,6 @@ namespace TheSacrifice
     {
         private static void ApplyPlayerGraphicsHooks()
         {
-            On.PlayerGraphics.ctor += PlayerGraphics_ctor;
             On.PlayerGraphics.AddToContainer += PlayerGraphics_AddToContainer;
 
             On.PlayerGraphics.InitiateSprites += PlayerGraphics_InitiateSprites;
@@ -40,20 +39,29 @@ namespace TheSacrifice
 
             if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
 
-
             playerModule.firstSprite = sLeaser.sprites.Length;
             int spriteIndex = playerModule.firstSprite;
 
             // Add new custom sprites
-            playerModule.leftEarSprite = spriteIndex++;
-            playerModule.rightEarSprite = spriteIndex++;
+            playerModule.leftEar = spriteIndex++;
+            playerModule.rightEar = spriteIndex++;
+
+            playerModule.leftEarHighlight = spriteIndex++;
+            playerModule.rightEarHighlight = spriteIndex++;
 
 
             playerModule.lastSprite = spriteIndex;
             Array.Resize(ref sLeaser.sprites, spriteIndex);
 
-            sLeaser.sprites[playerModule.leftEarSprite] = new FSprite(Plugin.MOD_ID + "EarL", true);
-            sLeaser.sprites[playerModule.rightEarSprite] = new FSprite(Plugin.MOD_ID + "EarR", true);
+            // Ears
+            sLeaser.sprites[playerModule.leftEar] = new FSprite(Plugin.MOD_ID + "EarL", true);
+            sLeaser.sprites[playerModule.rightEar] = new FSprite(Plugin.MOD_ID + "EarR", true);
+
+            sLeaser.sprites[playerModule.leftEarHighlight] = new FSprite(Plugin.MOD_ID + "EarLHighlight", true);
+            sLeaser.sprites[playerModule.rightEarHighlight] = new FSprite(Plugin.MOD_ID + "EarRHighlight", true);
+
+            // Tail
+            playerModule.RegenerateTail();
 
             self.AddToContainer(sLeaser, rCam, null);
         }
@@ -72,85 +80,119 @@ namespace TheSacrifice
             FContainer fgContainer = rCam.ReturnFContainer("Foreground");
             FContainer mgContainer = rCam.ReturnFContainer("Midground");
 
-            fgContainer.RemoveChild(sLeaser.sprites[playerModule.leftEarSprite]);
-            mgContainer.AddChild(sLeaser.sprites[playerModule.leftEarSprite]);
+            fgContainer.RemoveChild(sLeaser.sprites[playerModule.leftEar]);
+            mgContainer.AddChild(sLeaser.sprites[playerModule.leftEar]);
 
-            fgContainer.RemoveChild(sLeaser.sprites[playerModule.rightEarSprite]);
-            mgContainer.AddChild(sLeaser.sprites[playerModule.rightEarSprite]);
+            fgContainer.RemoveChild(sLeaser.sprites[playerModule.rightEar]);
+            mgContainer.AddChild(sLeaser.sprites[playerModule.rightEar]);
 
             // Ears go behind Head
-            sLeaser.sprites[playerModule.leftEarSprite].MoveBehindOtherNode(sLeaser.sprites[3]);
-            sLeaser.sprites[playerModule.rightEarSprite].MoveBehindOtherNode(sLeaser.sprites[3]);
+            sLeaser.sprites[playerModule.leftEar].MoveBehindOtherNode(sLeaser.sprites[3]);
+            sLeaser.sprites[playerModule.rightEar].MoveBehindOtherNode(sLeaser.sprites[3]);
+            sLeaser.sprites[playerModule.leftEarHighlight].MoveBehindOtherNode(sLeaser.sprites[3]);
+            sLeaser.sprites[playerModule.rightEarHighlight].MoveBehindOtherNode(sLeaser.sprites[3]);
+
+            // Ear Highlights go infront of main Ear sprites
+            sLeaser.sprites[playerModule.leftEarHighlight].MoveInFrontOfOtherNode(sLeaser.sprites[playerModule.leftEar]);
+            sLeaser.sprites[playerModule.rightEarHighlight].MoveInFrontOfOtherNode(sLeaser.sprites[playerModule.rightEar]);
 
             // Tail goes behind Hips
             sLeaser.sprites[2].MoveBehindOtherNode(sLeaser.sprites[1]);
         }
 
-        private static void DrawTail(RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
+
+        static readonly PlayerFeature<int> TargetBodyPart = FeatureTypes.PlayerInt("target_body_part");
+        static readonly PlayerFeature<int> TargetTailSegment = FeatureTypes.PlayerInt("target_tail_segment");
+
+        static readonly PlayerFeature<float> MinEffectiveOffset = FeatureTypes.PlayerFloat("min_tail_offset");
+        static readonly PlayerFeature<float> MaxEffectiveOffset = FeatureTypes.PlayerFloat("max_tail_offset");
+
+        static readonly PlayerFeature<Dictionary<string, float>> TailVelY = new("tail_vel_y", json =>
         {
+            var result = new Dictionary<string, float>();
+
+            foreach (var spriteTransformPair in json.AsObject())
+            {
+                result[spriteTransformPair.Key] = spriteTransformPair.Value.AsFloat();
+            }
+
+            return result;
+        });
+
+        private static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
+        {
+            #region UV Mapping
             FAtlas? tailAtlas = playerModule.tailAtlas;
             if (tailAtlas == null) return;
 
             if (tailAtlas.elements.Count == 0) return;
 
-            if (sLeaser.sprites[2] is not TriangleMesh tail) return;
+            if (sLeaser.sprites[2] is not TriangleMesh tailMesh) return;
 
-            tail.element = tailAtlas.elements[0];
+            tailMesh.element = tailAtlas.elements[0];
 
-            if (tail.verticeColors == null || tail.verticeColors.Length != tail.vertices.Length)
-                tail.verticeColors = new Color[tail.vertices.Length];
-
-            const int TARGET_TAIL_VERTEX = 2;
-            if (tail.vertices.Length <= TARGET_TAIL_VERTEX + 1) return;
+            if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
+                tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
 
 
-            FSprite hips = sLeaser.sprites[1];
-            Vector2 tailPos = (tail.vertices[TARGET_TAIL_VERTEX] + tail.vertices[TARGET_TAIL_VERTEX + 1]) / 2.0f;
+            // Get body and tail positions
+            if (!TargetBodyPart.TryGet(self.player, out var targetBodyPart)) return;
+            if (self.bodyParts.Length <= targetBodyPart) return;
 
-            float difference = hips.x - tailPos.x;
+            Vector2 bodyPos = self.bodyParts[targetBodyPart].pos;
 
-            const float MIN_EFFECTIVE_OFFSET = -4.0f;
-            const float MAX_EFFECTIVE_OFFSET = 4.0f;
-            float leftRightRatio = Mathf.InverseLerp(MIN_EFFECTIVE_OFFSET, MAX_EFFECTIVE_OFFSET, difference);
+            if (!TargetTailSegment.TryGet(self.player, out var targetTailSegment)) return;
+            if (self.tail.Length <= targetTailSegment) return;
 
-            const float TRUE_SIZE_MULT = 4.0f;
-            float uvYOffset = Mathf.Lerp(0.0f, tail.element.uvTopRight.y - (tail.element.uvTopRight.y / TRUE_SIZE_MULT), leftRightRatio);
+            Vector2 tailPos = self.tail[targetTailSegment].pos;
 
-            for (int vertex = tail.verticeColors.Length - 1; vertex >= 0; vertex--)
+
+            // Find the difference between the x positions and convert it into a 0.0 - 1.0 ratio between the two
+            float difference = bodyPos.x - tailPos.x;
+
+            if (!MinEffectiveOffset.TryGet(self.player, out var minEffectiveOffset)) return;
+            if (!MaxEffectiveOffset.TryGet(self.player, out var maxEffectiveOffset)) return;
+            float leftRightRatio = Mathf.InverseLerp(minEffectiveOffset, maxEffectiveOffset, difference);
+
+
+            // Multiplier determines how many times larger the texture is vertically relative to the displayed portion
+            const float TRUE_SIZE_MULT = 3.0f;
+            float uvYOffset = Mathf.Lerp(0.0f, tailMesh.element.uvTopRight.y - (tailMesh.element.uvTopRight.y / TRUE_SIZE_MULT), leftRightRatio);
+
+            for (int vertex = tailMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
             {
-                float interpolation = (vertex / 2.0f) / (tail.verticeColors.Length / 2.0f);
-                Vector2 uv;
+                float interpolation = (vertex / 2.0f) / (tailMesh.verticeColors.Length / 2.0f);
+                Vector2 uvInterpolation;
 
                 // Even vertexes
                 if (vertex % 2 == 0)
-                    uv = new Vector2(interpolation, 0.0f);
+                    uvInterpolation = new Vector2(interpolation, 0.0f);
 
                 // Last vertex
-                else if (vertex == tail.verticeColors.Length - 1)
-                    uv = new Vector2(1.0f, 0.0f);
+                else if (vertex == tailMesh.verticeColors.Length - 1)
+                    uvInterpolation = new Vector2(1.0f, 0.0f);
 
                 else
-                    uv = new Vector2(interpolation, 1.0f);
+                    uvInterpolation = new Vector2(interpolation, 1.0f);
 
-                uv.x = Mathf.Lerp(tail.element.uvBottomLeft.x, tail.element.uvTopRight.x, uv.x);
-                uv.y = Mathf.Lerp(tail.element.uvBottomLeft.y + uvYOffset, (tail.element.uvTopRight.y / TRUE_SIZE_MULT) + uvYOffset, uv.y);
-                tail.UVvertices[vertex] = uv;
+                Vector2 uv;
+                uv.x = Mathf.Lerp(tailMesh.element.uvBottomLeft.x, tailMesh.element.uvTopRight.x, uvInterpolation.x);
+                uv.y = Mathf.Lerp(tailMesh.element.uvBottomLeft.y + uvYOffset, (tailMesh.element.uvTopRight.y / TRUE_SIZE_MULT) + uvYOffset, uvInterpolation.y);
+
+                tailMesh.UVvertices[vertex] = uv;
+            }
+            #endregion
+
+            if (!TailVelY.TryGet(self.player, out var tailVelY)) return;
+
+            for (int i = 0; i < self.tail.Length; i++)
+            {
+                if (!tailVelY.ContainsKey(i.ToString())) continue;
+
+                float velY = tailVelY[i.ToString()];
+                self.tail[i].vel.y += velY;
             }
         }
-
-
-        private static void PlayerGraphics_ctor(On.PlayerGraphics.orig_ctor orig, PlayerGraphics self, PhysicalObject ow)
-        {
-            orig(self, ow);
-
-            if (!IsCustomSlugcat(self.player)) return;
-
-            //self.tail[0] = new TailSegment(self, 8f, 2f, null, 0.85f, 1f, 1f, true);
-            //self.tail[1] = new TailSegment(self, 6f, 3.5f, self.tail[0], 0.85f, 1f, 0.5f, true);
-            //self.tail[2] = new TailSegment(self, 4f, 3.5f, self.tail[1], 0.85f, 1f, 0.5f, true);
-            //self.tail[3] = new TailSegment(self, 2f, 3.5f, self.tail[2], 0.85f, 1f, 0.5f, true);
-        }
-
 
         static readonly PlayerFeature<Dictionary<string, Dictionary<string, float>>> EarTransforms = new("ear_transforms", json =>
         {
@@ -188,9 +230,9 @@ namespace TheSacrifice
             UpdateCustomPlayerSprite(sLeaser, 9, "Face", "face");
 
             DrawEars(self, sLeaser, playerModule);
-            DrawTail(sLeaser, playerModule);
-
-            #region Debug
+            DrawTail(self, sLeaser, playerModule);
+            
+            // Debug
             /*
             // Determine which sprites map to which indexes
             Plugin.Logger.LogWarning("sLeaser Sprites");
@@ -211,13 +253,12 @@ namespace TheSacrifice
                 Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
             }
             */
-            #endregion  
         }
 
         private static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
         {
-            UpdateCustomPlayerSprite(sLeaser, playerModule.leftEarSprite, "Ear", "ears");
-            UpdateCustomPlayerSprite(sLeaser, playerModule.rightEarSprite, "Ear", "ears");
+            UpdateCustomPlayerSprite(sLeaser, playerModule.leftEar, "Ear", "ears");
+            UpdateCustomPlayerSprite(sLeaser, playerModule.rightEar, "Ear", "ears");
 
             FSprite headSprite = sLeaser.sprites[3];
             Vector2 headPos = new Vector2(headSprite.x, headSprite.y);
@@ -249,18 +290,36 @@ namespace TheSacrifice
             Vector2 leftEarPos = headPos + Custom.RotateAroundOrigo(correction - offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
             Vector2 rightEarPos = headPos + Custom.RotateAroundOrigo(correction + offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
 
+            FSprite leftEar = sLeaser.sprites[playerModule.leftEar];
+            FSprite rightEar = sLeaser.sprites[playerModule.rightEar];
 
-            sLeaser.sprites[playerModule.leftEarSprite].x = leftEarPos.x;
-            sLeaser.sprites[playerModule.leftEarSprite].y = leftEarPos.y;
+            leftEar.x = leftEarPos.x;
+            leftEar.y = leftEarPos.y;
 
-            sLeaser.sprites[playerModule.rightEarSprite].x = rightEarPos.x;
-            sLeaser.sprites[playerModule.rightEarSprite].y = rightEarPos.y;
+            rightEar.x = rightEarPos.x;
+            rightEar.y = rightEarPos.y;
 
 
             int flip = self.player.room != null && self.player.gravity == 0.0f ? 1 : (int)headSprite.scaleX;
 
-            sLeaser.sprites[playerModule.leftEarSprite].rotation = headRot + base_rotation * flip - ear_rotation;
-            sLeaser.sprites[playerModule.rightEarSprite].rotation = headRot + base_rotation * flip + ear_rotation;
+            leftEar.rotation = headRot + base_rotation * flip - ear_rotation;
+            rightEar.rotation = headRot + base_rotation * flip + ear_rotation;
+
+
+            // Ear Highlights
+            FSprite leftEarHighlight = sLeaser.sprites[playerModule.leftEarHighlight];
+            FSprite rightEarHighlight = sLeaser.sprites[playerModule.rightEarHighlight];
+
+            leftEarHighlight.x = leftEarPos.x;
+            leftEarHighlight.y = leftEarPos.y;
+            leftEarHighlight.rotation = sLeaser.sprites[playerModule.leftEar].rotation;
+
+            rightEarHighlight.x = rightEarPos.x;
+            rightEarHighlight.y = rightEarPos.y;
+            rightEarHighlight.rotation = sLeaser.sprites[playerModule.rightEar].rotation;
+
+            leftEarHighlight.color = playerModule.StaticEarHighlightColor;
+            rightEarHighlight.color = playerModule.StaticEarHighlightColor;
         }
 
         private static TValue FeatureOrDefault<TValue>(Dictionary<string, TValue> dictionary, string key, TValue defaultValue)
@@ -281,9 +340,6 @@ namespace TheSacrifice
                 if (name != null && name.StartsWith(toReplace) && atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element))
                 {
                     sLeaser.sprites[spriteIndex].element = element;
-
-                    if (spriteIndex == 5 || spriteIndex == 6)
-                        sLeaser.sprites[spriteIndex].alpha = 0.0f;
                 }
             }
         }
