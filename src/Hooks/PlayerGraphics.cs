@@ -100,25 +100,41 @@ namespace TheSacrifice
             if (tail.verticeColors == null || tail.verticeColors.Length != tail.vertices.Length)
                 tail.verticeColors = new Color[tail.vertices.Length];
 
-            for (int i = tail.verticeColors.Length - 1; i >= 0; i--)
+            const int TARGET_TAIL_VERTEX = 2;
+            if (tail.vertices.Length <= TARGET_TAIL_VERTEX + 1) return;
+
+
+            FSprite hips = sLeaser.sprites[1];
+            Vector2 tailPos = (tail.vertices[TARGET_TAIL_VERTEX] + tail.vertices[TARGET_TAIL_VERTEX + 1]) / 2.0f;
+
+            float difference = hips.x - tailPos.x;
+
+            const float MIN_EFFECTIVE_OFFSET = -4.0f;
+            const float MAX_EFFECTIVE_OFFSET = 4.0f;
+            float leftRightRatio = Mathf.InverseLerp(MIN_EFFECTIVE_OFFSET, MAX_EFFECTIVE_OFFSET, difference);
+
+            const float TRUE_SIZE_MULT = 4.0f;
+            float uvYOffset = Mathf.Lerp(0.0f, tail.element.uvTopRight.y - (tail.element.uvTopRight.y / TRUE_SIZE_MULT), leftRightRatio);
+
+            for (int vertex = tail.verticeColors.Length - 1; vertex >= 0; vertex--)
             {
-                float perc = i / 2 / (float)(tail.verticeColors.Length / 2);
-
+                float interpolation = (vertex / 2.0f) / (tail.verticeColors.Length / 2.0f);
                 Vector2 uv;
-                if (i % 2 == 0)
-                    uv = new Vector2(perc, 0f);
 
-                else if (i < tail.verticeColors.Length - 1)
-                    uv = new Vector2(perc, 1f);
+                // Even vertexes
+                if (vertex % 2 == 0)
+                    uv = new Vector2(interpolation, 0.0f);
+
+                // Last vertex
+                else if (vertex == tail.verticeColors.Length - 1)
+                    uv = new Vector2(1.0f, 0.0f);
 
                 else
-                    uv = new Vector2(1f, 0f);
+                    uv = new Vector2(interpolation, 1.0f);
 
-                // Map UV values to the element
                 uv.x = Mathf.Lerp(tail.element.uvBottomLeft.x, tail.element.uvTopRight.x, uv.x);
-                uv.y = Mathf.Lerp(tail.element.uvBottomLeft.y, tail.element.uvTopRight.y, uv.y);
-
-                tail.UVvertices[i] = uv;
+                uv.y = Mathf.Lerp(tail.element.uvBottomLeft.y + uvYOffset, (tail.element.uvTopRight.y / TRUE_SIZE_MULT) + uvYOffset, uv.y);
+                tail.UVvertices[vertex] = uv;
             }
         }
 
@@ -167,31 +183,34 @@ namespace TheSacrifice
             UpdateCustomPlayerSprite(sLeaser, 1, "Hips", "hips");
             UpdateCustomPlayerSprite(sLeaser, 3, "Head", "head");
             UpdateCustomPlayerSprite(sLeaser, 4, "Legs", "legs");
-            UpdateCustomPlayerSprite(sLeaser, 5, "Arm", "arm");
+            UpdateCustomPlayerSprite(sLeaser, 5, "PlayerArm", "arm");
+            UpdateCustomPlayerSprite(sLeaser, 6, "PlayerArm", "arm");
             UpdateCustomPlayerSprite(sLeaser, 9, "Face", "face");
 
             DrawEars(self, sLeaser, playerModule);
             DrawTail(sLeaser, playerModule);
 
             #region Debug
-            //// Determine which sprites map to which indexes
-            //Plugin.Logger.LogWarning("sLeaser Sprites");
-            //foreach (var sprite in sLeaser.sprites)
-            //{
-            //    Plugin.Logger.LogWarning(sprite.element.name + " : " + sLeaser.sprites.IndexOf(sprite));
-            //}
+            /*
+            // Determine which sprites map to which indexes
+            Plugin.Logger.LogWarning("sLeaser Sprites");
+            foreach (var sprite in sLeaser.sprites)
+            {
+                Plugin.Logger.LogWarning(sprite.element.name + " : " + sLeaser.sprites.IndexOf(sprite));
+            }
 
-            //Plugin.Logger.LogWarning("Body Chunks");
-            //foreach (var bodyChunk in self.player.bodyChunks)
-            //{
-            //    Plugin.Logger.LogWarning(bodyChunk.pos + " : " + self.player.bodyChunks.IndexOf(bodyChunk));
-            //}
+            Plugin.Logger.LogWarning("Body Chunks");
+            foreach (var bodyChunk in self.player.bodyChunks)
+            {
+                Plugin.Logger.LogWarning(bodyChunk.pos + " : " + self.player.bodyChunks.IndexOf(bodyChunk));
+            }
 
-            //Plugin.Logger.LogWarning("Body Parts");
-            //foreach (var bodyPart in self.bodyParts)
-            //{
-            //    Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
-            //}
+            Plugin.Logger.LogWarning("Body Parts");
+            foreach (var bodyPart in self.bodyParts)
+            {
+                Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
+            }
+            */
             #endregion  
         }
 
@@ -262,6 +281,9 @@ namespace TheSacrifice
                 if (name != null && name.StartsWith(toReplace) && atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element))
                 {
                     sLeaser.sprites[spriteIndex].element = element;
+
+                    if (spriteIndex == 5 || spriteIndex == 6)
+                        sLeaser.sprites[spriteIndex].alpha = 0.0f;
                 }
             }
         }

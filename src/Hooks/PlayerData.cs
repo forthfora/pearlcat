@@ -71,6 +71,8 @@ namespace TheSacrifice
 
                 if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
 
+                MapTextureColor(tailTexture, Color.blue, Color.white);
+
                 tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + player.playerState.playerNumber, tailTexture, false);
             }
 
