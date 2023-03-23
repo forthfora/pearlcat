@@ -114,6 +114,147 @@ namespace TheSacrifice
             sLeaser.sprites[2].MoveBehindOtherNode(sLeaser.sprites[1]);
         }
 
+      
+        
+        private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+        {
+            orig(self, sLeaser, rCam, timeStacker, camPos);
+
+            if (!IsCustomSlugcat(self.player)) return;
+
+            if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+
+            // Custom Sprite Loader
+            UpdateCustomPlayerSprite(sLeaser, 0, "Body", "body");
+            UpdateCustomPlayerSprite(sLeaser, 1, "Hips", "hips");
+            UpdateCustomPlayerSprite(sLeaser, 3, "Head", "head");
+            UpdateCustomPlayerSprite(sLeaser, 4, "Legs", "legs");
+            UpdateCustomPlayerSprite(sLeaser, 5, "PlayerArm", "arm");
+            UpdateCustomPlayerSprite(sLeaser, 6, "PlayerArm", "arm");
+            UpdateCustomPlayerSprite(sLeaser, 9, "Face", "face");
+
+            DrawEars(self, sLeaser, playerModule);
+            DrawTail(self, sLeaser, playerModule);
+            
+            // Debug
+            /*
+            // Determine which sprites map to which indexes
+            Plugin.Logger.LogWarning("sLeaser Sprites");
+            foreach (var sprite in sLeaser.sprites)
+            {
+                Plugin.Logger.LogWarning(sprite.element.name + " : " + sLeaser.sprites.IndexOf(sprite));
+            }
+
+            Plugin.Logger.LogWarning("Body Chunks");
+            foreach (var bodyChunk in self.player.bodyChunks)
+            {
+                Plugin.Logger.LogWarning(bodyChunk.pos + " : " + self.player.bodyChunks.IndexOf(bodyChunk));
+            }
+
+            Plugin.Logger.LogWarning("Body Parts");
+            foreach (var bodyPart in self.bodyParts)
+            {
+                Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
+            }
+            */
+        }
+
+        
+        
+        
+        static readonly PlayerFeature<Dictionary<string, Dictionary<string, float>>> EarTransforms = new("ear_transforms", json =>
+        {
+            var result = new Dictionary<string, Dictionary<string, float>>();
+
+
+            foreach (var spriteTransformPair in json.AsObject())
+            {
+                result[spriteTransformPair.Key] = new Dictionary<string, float>();
+
+                foreach (var transformValuePair in spriteTransformPair.Value.AsObject())
+                {
+                    result[spriteTransformPair.Key][transformValuePair.Key] = transformValuePair.Value.AsFloat();
+                }
+            }
+
+            return result;
+        });
+        private static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
+        {
+            UpdateCustomPlayerSprite(sLeaser, playerModule.leftEar, "Ear", "ears");
+            UpdateCustomPlayerSprite(sLeaser, playerModule.rightEar, "Ear", "ears");
+
+            FSprite headSprite = sLeaser.sprites[3];
+            Vector2 headPos = new Vector2(headSprite.x, headSprite.y);
+            float headRot = headSprite.rotation;
+            string headSpriteName = headSprite.element.name.Replace(Plugin.MOD_ID, "");
+
+            EarTransforms.TryGet(self.player, out Dictionary<string, Dictionary<string, float>> spriteTransformPair);
+
+            Dictionary<string, float> transformValuePair;
+
+            if (spriteTransformPair.ContainsKey(headSpriteName)) transformValuePair = spriteTransformPair[headSpriteName];
+
+            else if (spriteTransformPair.ContainsKey("default")) transformValuePair = spriteTransformPair["default"];
+
+            else return;
+
+            Vector2 offset = Vector2.zero;
+            offset.x = FeatureOrDefault(transformValuePair, "offset_x", 0.0f);
+            offset.y = FeatureOrDefault(transformValuePair, "offset_y", 0.0f);
+
+            Vector2 correction = Vector2.zero;
+            correction.x = FeatureOrDefault(transformValuePair, "correction_x", 0.0f);
+            correction.y = FeatureOrDefault(transformValuePair, "correction_y", 0.0f);
+
+            float base_rotation = FeatureOrDefault(transformValuePair, "base_rotation", 0.0f);
+            float ear_rotation = FeatureOrDefault(transformValuePair, "offset_rotation", 0.0f);
+
+            // Thanks CrunchyDuck! (but I still hate Vector math)   
+            Vector2 leftEarPos = headPos + Custom.RotateAroundOrigo(correction - offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
+            Vector2 rightEarPos = headPos + Custom.RotateAroundOrigo(correction + offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
+
+            FSprite leftEar = sLeaser.sprites[playerModule.leftEar];
+            FSprite rightEar = sLeaser.sprites[playerModule.rightEar];
+
+            leftEar.x = leftEarPos.x;
+            leftEar.y = leftEarPos.y;
+
+            rightEar.x = rightEarPos.x;
+            rightEar.y = rightEarPos.y;
+
+
+            int flip = self.player.room != null && self.player.gravity == 0.0f ? 1 : (int)headSprite.scaleX;
+
+            leftEar.rotation = headRot + base_rotation * flip - ear_rotation;
+            rightEar.rotation = headRot + base_rotation * flip + ear_rotation;
+
+
+            // Ear Highlights
+            FSprite leftEarHighlight = sLeaser.sprites[playerModule.leftEarHighlight];
+            FSprite rightEarHighlight = sLeaser.sprites[playerModule.rightEarHighlight];
+
+            leftEarHighlight.x = leftEarPos.x;
+            leftEarHighlight.y = leftEarPos.y;
+            leftEarHighlight.rotation = sLeaser.sprites[playerModule.leftEar].rotation;
+
+            rightEarHighlight.x = rightEarPos.x;
+            rightEarHighlight.y = rightEarPos.y;
+            rightEarHighlight.rotation = sLeaser.sprites[playerModule.rightEar].rotation;
+
+            Color highlightColor = playerModule.StaticEarHighlightColor;
+
+            if (playerModule.accentColors.Count > 0)
+            {
+                highlightColor = playerModule.accentColors[0];
+            }
+
+            leftEarHighlight.color = highlightColor;
+            rightEarHighlight.color = highlightColor;
+
+        }
+
+
 
         static readonly PlayerFeature<int> TargetBodyPart = FeatureTypes.PlayerInt("target_body_part");
         static readonly PlayerFeature<int> TargetTailSegment = FeatureTypes.PlayerInt("target_tail_segment");
@@ -205,6 +346,9 @@ namespace TheSacrifice
             }
         }
 
+
+
+
         private static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
         {
             orig(self);
@@ -251,141 +395,6 @@ namespace TheSacrifice
         }
 
 
-        static readonly PlayerFeature<Dictionary<string, Dictionary<string, float>>> EarTransforms = new("ear_transforms", json =>
-        {
-            var result = new Dictionary<string, Dictionary<string, float>>();
-
-
-            foreach (var spriteTransformPair in json.AsObject())
-            {
-                result[spriteTransformPair.Key] = new Dictionary<string, float>();
-
-                foreach (var transformValuePair in spriteTransformPair.Value.AsObject())
-                {
-                    result[spriteTransformPair.Key][transformValuePair.Key] = transformValuePair.Value.AsFloat();
-                }
-            }
-
-            return result;
-        });
-
-        private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-        {
-            orig(self, sLeaser, rCam, timeStacker, camPos);
-
-            if (!IsCustomSlugcat(self.player)) return;
-
-            if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
-
-            // Custom Sprite Loader
-            UpdateCustomPlayerSprite(sLeaser, 0, "Body", "body");
-            UpdateCustomPlayerSprite(sLeaser, 1, "Hips", "hips");
-            UpdateCustomPlayerSprite(sLeaser, 3, "Head", "head");
-            UpdateCustomPlayerSprite(sLeaser, 4, "Legs", "legs");
-            UpdateCustomPlayerSprite(sLeaser, 5, "PlayerArm", "arm");
-            UpdateCustomPlayerSprite(sLeaser, 6, "PlayerArm", "arm");
-            UpdateCustomPlayerSprite(sLeaser, 9, "Face", "face");
-
-            DrawEars(self, sLeaser, playerModule);
-            DrawTail(self, sLeaser, playerModule);
-            
-            // Debug
-            /*
-            // Determine which sprites map to which indexes
-            Plugin.Logger.LogWarning("sLeaser Sprites");
-            foreach (var sprite in sLeaser.sprites)
-            {
-                Plugin.Logger.LogWarning(sprite.element.name + " : " + sLeaser.sprites.IndexOf(sprite));
-            }
-
-            Plugin.Logger.LogWarning("Body Chunks");
-            foreach (var bodyChunk in self.player.bodyChunks)
-            {
-                Plugin.Logger.LogWarning(bodyChunk.pos + " : " + self.player.bodyChunks.IndexOf(bodyChunk));
-            }
-
-            Plugin.Logger.LogWarning("Body Parts");
-            foreach (var bodyPart in self.bodyParts)
-            {
-                Plugin.Logger.LogWarning(bodyPart.pos + " : " + self.bodyParts.IndexOf(bodyPart));
-            }
-            */
-        }
-
-        private static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
-        {
-            UpdateCustomPlayerSprite(sLeaser, playerModule.leftEar, "Ear", "ears");
-            UpdateCustomPlayerSprite(sLeaser, playerModule.rightEar, "Ear", "ears");
-
-            FSprite headSprite = sLeaser.sprites[3];
-            Vector2 headPos = new Vector2(headSprite.x, headSprite.y);
-            float headRot = headSprite.rotation;
-            string headSpriteName = headSprite.element.name.Replace(Plugin.MOD_ID, "");
-
-            EarTransforms.TryGet(self.player, out Dictionary<string, Dictionary<string, float>> spriteTransformPair);
-
-            Dictionary<string, float> transformValuePair;
-
-            if (spriteTransformPair.ContainsKey(headSpriteName)) transformValuePair = spriteTransformPair[headSpriteName];
-
-            else if (spriteTransformPair.ContainsKey("default")) transformValuePair = spriteTransformPair["default"];
-
-            else return;
-
-            Vector2 offset = Vector2.zero;
-            offset.x = FeatureOrDefault(transformValuePair, "offset_x", 0.0f);
-            offset.y = FeatureOrDefault(transformValuePair, "offset_y", 0.0f);
-
-            Vector2 correction = Vector2.zero;
-            correction.x = FeatureOrDefault(transformValuePair, "correction_x", 0.0f);
-            correction.y = FeatureOrDefault(transformValuePair, "correction_y", 0.0f);
-
-            float base_rotation = FeatureOrDefault(transformValuePair, "base_rotation", 0.0f);
-            float ear_rotation = FeatureOrDefault(transformValuePair, "offset_rotation", 0.0f);
-
-            // Thanks CrunchyDuck! (but I still hate Vector math)   
-            Vector2 leftEarPos = headPos + Custom.RotateAroundOrigo(correction - offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
-            Vector2 rightEarPos = headPos + Custom.RotateAroundOrigo(correction + offset, Custom.VecToDeg(self.player.firstChunk.Rotation));
-
-            FSprite leftEar = sLeaser.sprites[playerModule.leftEar];
-            FSprite rightEar = sLeaser.sprites[playerModule.rightEar];
-
-            leftEar.x = leftEarPos.x;
-            leftEar.y = leftEarPos.y;
-
-            rightEar.x = rightEarPos.x;
-            rightEar.y = rightEarPos.y;
-
-
-            int flip = self.player.room != null && self.player.gravity == 0.0f ? 1 : (int)headSprite.scaleX;
-
-            leftEar.rotation = headRot + base_rotation * flip - ear_rotation;
-            rightEar.rotation = headRot + base_rotation * flip + ear_rotation;
-
-
-            // Ear Highlights
-            FSprite leftEarHighlight = sLeaser.sprites[playerModule.leftEarHighlight];
-            FSprite rightEarHighlight = sLeaser.sprites[playerModule.rightEarHighlight];
-
-            leftEarHighlight.x = leftEarPos.x;
-            leftEarHighlight.y = leftEarPos.y;
-            leftEarHighlight.rotation = sLeaser.sprites[playerModule.leftEar].rotation;
-
-            rightEarHighlight.x = rightEarPos.x;
-            rightEarHighlight.y = rightEarPos.y;
-            rightEarHighlight.rotation = sLeaser.sprites[playerModule.rightEar].rotation;
-
-            Color highlightColor = playerModule.StaticEarHighlightColor;
-
-            if (playerModule.accentColors.Count > 0)
-            {
-                highlightColor = playerModule.accentColors[0];
-            }
-
-            leftEarHighlight.color = highlightColor;
-            rightEarHighlight.color = highlightColor;
-
-        }
 
         private static TValue FeatureOrDefault<TValue>(Dictionary<string, TValue> dictionary, string key, TValue defaultValue)
         {
