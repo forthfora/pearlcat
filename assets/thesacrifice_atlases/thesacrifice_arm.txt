@@ -1,6 +1,6 @@
 {"frames": {
 
-"thesacrificeArm0.png":
+"thesacrificePlayerArm0.png":
 {
 	"frame": {"x":2,"y":2,"w":244,"h":64},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm1.png":
+"thesacrificePlayerArm1.png":
 {
 	"frame": {"x":2,"y":68,"w":244,"h":64},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm2.png":
+"thesacrificePlayerArm2.png":
 {
 	"frame": {"x":2,"y":134,"w":244,"h":64},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm3.png":
+"thesacrificePlayerArm3.png":
 {
 	"frame": {"x":2,"y":200,"w":244,"h":64},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm4.png":
+"thesacrificePlayerArm4.png":
 {
 	"frame": {"x":2,"y":266,"w":244,"h":64},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm5.png":
+"thesacrificePlayerArm5.png":
 {
 	"frame": {"x":2,"y":332,"w":244,"h":64},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm6.png":
+"thesacrificePlayerArm6.png":
 {
 	"frame": {"x":2,"y":398,"w":244,"h":64},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm7.png":
+"thesacrificePlayerArm7.png":
 {
 	"frame": {"x":2,"y":464,"w":244,"h":64},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm8.png":
+"thesacrificePlayerArm8.png":
 {
 	"frame": {"x":2,"y":530,"w":244,"h":64},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm9.png":
+"thesacrificePlayerArm9.png":
 {
 	"frame": {"x":2,"y":596,"w":244,"h":64},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm10.png":
+"thesacrificePlayerArm10.png":
 {
 	"frame": {"x":2,"y":662,"w":244,"h":64},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm11.png":
+"thesacrificePlayerArm11.png":
 {
 	"frame": {"x":2,"y":728,"w":244,"h":64},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":64},
 	"sourceSize": {"w":244,"h":64}
 },
-"thesacrificeArm12.png":
+"thesacrificePlayerArm12.png":
 {
 	"frame": {"x":2,"y":794,"w":244,"h":64},
 	"rotated": false,
@@ -107,7 +107,7 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "thesacrifice_arm.png",
+	"image": "thesacrifice_PlayerArm.png",
 	"format": "RGBA8888",
 	"size": {"w":248,"h":860},
 	"scale": "1",

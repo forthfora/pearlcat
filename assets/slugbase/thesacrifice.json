@@ -3,12 +3,14 @@
     "name": "The Sacrifice",
     "description": "A cast-away experiment, unearthing unforseen potential, yet designed for a singular purpose.<LINE>Far from home and destiny, will you seek to return; or perhaps find a more desirable fate?",
     "features": {
-        "color": "000000",
+        "color": "193633",
         "world_state": "Spear",
         "start_room": "SS_S04",
         "auto_grab_batflies": false,
+
         "food_min": 3,
         "food_max": 7,
+
         "weight": [1.0, 0.9],
         "lung_capacity": [1.0, 1.0],
         "throw_skill": 1,
@@ -18,13 +20,18 @@
         "tunnel_speed": [1.2, 1.0],
         "crouch_stealth": [0.5, 0.5],
         "loudness": [0.5, 0.5],
+        
         "karma": 0,
         "karma_cap": 0,
+        
         "guide_overseer": 5,
         "has_dreams": false,
         "cycle_length_min": 6,
         "cycle_length_max": 13,
         "perma_unlock_gates": false,
+
+        "select_menu_scene": "Slugcat_Sacrifice",
+        
         "diet": {
             "base": "Gourmand",
             "corpses": 0.25,
@@ -34,37 +41,42 @@
 
             }
         },
-        "custom_colors": [
-            { "name": "Body", "story": "b0a0a0" },
-            { "name": "Eyes", "story": "ffffd6" }
-        ],
-        "select_menu_scene": "Slugcat_Sacrifice",
 
-        "ear_transforms": {
-            "default": {
-                "offset_x": 3.5,
-                "offset_y": 0.0,
-                "correction_x": 0.6,
-                "correction_y": 2.0,
-                "base_rotation": 0.0,
-                "offset_rotation": 25.0
+        "custom_colors": [
+            { 
+                "name": "Body",
+                "story": "193633"
             },
-            "HeadA6": {
-                "offset_x": 2.5,
-                "offset_y": 0.0,
-                "correction_x": 0.8,
-                "correction_y": 1.5,
-                "base_rotation": -30.0,
-                "offset_rotation": 20.0
+            { 
+                "name": "Eyes",
+                "story": "ffffff"
             },
-            "HeadA7": {
-                "offset_x": 1.0,
-                "offset_y": -2.0,
-                "correction_x": 1.8,
-                "correction_y": 0.5,
-                "base_rotation": -35.0,
-                "offset_rotation": 15.0
+            { 
+                "name": "Accent",
+                "story": "ffffff"
+            },
+            { 
+                "name": "Cloak",
+                "story": "ff0000"
             }
-        }
+        ],
+        
+        
+        "target_body_part": 1,
+        "target_tail_segment": 0,
+        "min_tail_offset": -15.0,
+        "max_tail_offset": 15.0,
+        
+        "tail_segment_velocities": {
+            "0": [0.0, -1.5],
+            "1": [0.0, -0.6],
+            "2": [-0.3, 0.0],
+            "3": [-0.3, 0.0],
+            "4": [-0.3, 0.0],
+            "5": [-0.3, 2.5]
+        },
+
+        "ear_l_offset": [-4.5, 1.5],
+        "ear_r_offset": [4.5, 1.5],
     }
 }

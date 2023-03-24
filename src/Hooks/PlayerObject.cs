@@ -30,9 +30,9 @@ namespace TheSacrifice
 
             if (playerModule.selectedIndex == null) return null;
 
-            if (playerModule.selectedIndex >= playerModule.inventory.Count) return null;
+            if (playerModule.selectedIndex >= playerModule.abstractInventory.Count) return null;
 
-            return playerModule.inventory[(int)playerModule.selectedIndex];
+            return playerModule.abstractInventory[(int)playerModule.selectedIndex];
         }
 
         private static AbstractPhysicalObject? GetRealizedActiveObject(Player player)
@@ -71,7 +71,7 @@ namespace TheSacrifice
 
             if (realizedActiveObject.realizedObject is Weapon weapon) weapon.rotationSpeed = 0.0f;
 
-            playerModule.accentColors = GetObjectAccentColors(realizedActiveObject);
+            playerModule.DynamicColors = GetObjectAccentColors(realizedActiveObject);
 
         }
 
@@ -115,9 +115,9 @@ namespace TheSacrifice
         {
             if (!PlayerData.TryGetValue(player, out var playerModule)) return;
 
-            if (playerModule.inventory.Count >= MaxStorageCount) return;
+            if (playerModule.abstractInventory.Count >= MaxStorageCount) return;
 
-            playerModule.inventory.Add(abstractObject);
+            playerModule.abstractInventory.Add(abstractObject);
             abstractObject.realizedObject?.Destroy();
         }
 
@@ -127,8 +127,8 @@ namespace TheSacrifice
 
             if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return;
 
-            foreach (var a in playerModule.inventory)
-                Plugin.Logger.LogWarning(playerModule.inventory.IndexOf(a) + " - " + a.type);
+            foreach (var a in playerModule.abstractInventory)
+                Plugin.Logger.LogWarning(playerModule.abstractInventory.IndexOf(a) + " - " + a.type);
 
             AbstractPhysicalObject? activeObject = GetStoredActiveObject(player);
 
@@ -141,7 +141,7 @@ namespace TheSacrifice
 
             objectForHand.RealizeInRoom();
 
-            playerModule.inventory.Remove(activeObject);
+            playerModule.abstractInventory.Remove(activeObject);
             DestroyRealizedActiveObject(player);
             playerModule.realizedActiveObject = null;
 
@@ -165,11 +165,11 @@ namespace TheSacrifice
                 selectedIndexes.Add((int)ex.selectedIndex);
             }
 
-            for (int i = startIndex + 1; i < playerModule.inventory.Count; i++)
+            for (int i = startIndex + 1; i < playerModule.abstractInventory.Count; i++)
             {
                 if (i == startIndex) break;
 
-                if (i > playerModule.inventory.Count)
+                if (i > playerModule.abstractInventory.Count)
                 {
                     i = -1;
                     continue;
@@ -199,13 +199,13 @@ namespace TheSacrifice
                 selectedIndexes.Add((int)ex.selectedIndex);
             }
 
-            for (int i = startIndex - 1; i < playerModule.inventory.Count; i--)
+            for (int i = startIndex - 1; i < playerModule.abstractInventory.Count; i--)
             {
                 if (i == startIndex) break;
 
-                if (i < playerModule.inventory.Count)
+                if (i < playerModule.abstractInventory.Count)
                 {
-                    i = playerModule.inventory.Count;
+                    i = playerModule.abstractInventory.Count;
                     continue;
                 }
 
@@ -224,7 +224,7 @@ namespace TheSacrifice
         {
             if (!PlayerData.TryGetValue(player, out var playerModule)) return;
 
-            if (objectIndex >= playerModule.inventory.Count || objectIndex < 0) return;
+            if (objectIndex >= playerModule.abstractInventory.Count || objectIndex < 0) return;
 
             foreach (PlayerModule ex in GetAllPlayerData(player.room.game))
             {

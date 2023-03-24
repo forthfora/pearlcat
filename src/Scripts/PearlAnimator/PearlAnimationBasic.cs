@@ -10,7 +10,7 @@ using Color = UnityEngine.Color;
 
 namespace TheSacrifice
 {
-    internal abstract class PearlAnimator
+    internal class PearlAnimationBasic : PearlAnimation
     {
         
     }

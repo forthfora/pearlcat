@@ -1,6 +1,6 @@
 {"frames": {
 
-"thesacrificeHips.png":
+"thesacrificeHipsA.png":
 {
 	"frame": {"x":2,"y":2,"w":14,"h":20},
 	"rotated": false,

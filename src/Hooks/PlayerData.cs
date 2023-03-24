@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Color = UnityEngine.Color;
+using Object = UnityEngine.Object;
 using Vector2 = UnityEngine.Vector2;
 
 namespace TheSacrifice
@@ -32,14 +33,8 @@ namespace TheSacrifice
             public int firstSprite;
             public int lastSprite;
 
-            public int leftEar;
-            public int rightEar;
 
-            public int leftEarHighlight;
-            public int rightEarHighlight;
-
-
-            // Attached Objects
+            // Objects
             public LightSource? activeObjectGlow;
 
 
@@ -51,22 +46,24 @@ namespace TheSacrifice
                 InitColors(player);
 
                 LoadTailTexture("tail");
+
+                LoadEarLTexture("ear_l", AccentColor);
+                LoadEarRTexture("ear_r", AccentColor);
             }
 
-
-
-            // Fields
-            public List<AbstractPhysicalObject> inventory = new List<AbstractPhysicalObject>();
-
             public bool canSwallowOrRegurgitate = true;
+            public Vector2 prevHeadRotation = Vector2.zero;
+
+
+
+            public List<AbstractPhysicalObject> abstractInventory = new List<AbstractPhysicalObject>();
+            public List<PhysicalObject> realizedObjects = new List<PhysicalObject>();
 
             public AbstractPhysicalObject? realizedActiveObject = null;
+
             public int? selectedIndex = null;
             public int? predictedIndex = null;
 
-            public List<Color> accentColors = new List<Color>();
-            public float shortcutColorStacker = 0.0f;
-            public int shortcutColorStackerDirection = 1;
 
             public AbstractPhysicalObject? transferObject = null;
             public Vector2? transferObjectInitialPos = null;
@@ -74,24 +71,141 @@ namespace TheSacrifice
             public int transferStacker = 0;
 
 
+            public float shortcutColorStacker = 0.0f;
+            public int shortcutColorStackerDirection = 1;
 
-            // Tail
+
+            #region Ears
+
+            public TailSegment[]? earL;
+            public TailSegment[]? earR;
+
+            public int earLSprite;
+            public int earRSprite;
+
+            public Texture2D? earLTexture;
+            public Texture2D? earRTexture;
+
+            public FAtlas? earLAtlas;
+            public FAtlas? earRAtlas;
+
+            public Vector2 earLAttachPos;
+            public Vector2 earRAttachPos;
+
+            public int earLFlipDirection;
+            public int earRFlipDirection;
+
+            public void LoadEarLTexture(string textureName, Color color)
+            {
+                if (color == EarLColor) return;
+
+
+                if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
+                if (earLTexture != null) Object.DestroyImmediate(earLTexture);
+
+                earLTexture = AssetLoader.GetTexture(textureName);
+                if (earLTexture == null) return;
+
+                // Apply Colors
+                MapAlphaToColor(earLTexture, 1.0f, BodyColor);
+                MapAlphaToColor(earLTexture, 0.0f, color);
+                EarLColor = color;
+
+                earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + TextureID, earLTexture, false);
+            }
+
+            public void LoadEarRTexture(string textureName, Color color)
+            {
+                if (color == EarRColor) return;
+                
+
+                if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
+                if (earRTexture != null) Object.DestroyImmediate(earRTexture);
+
+                earRTexture = AssetLoader.GetTexture(textureName);
+                if (earRTexture == null) return;
+
+                // Apply Colors
+                MapAlphaToColor(earRTexture, 1.0f, BodyColor);
+                MapAlphaToColor(earRTexture, 0.0f, color);
+                EarRColor = color;
+
+                earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + TextureID, earRTexture, false);
+            }
+
+            public void RegenerateEars()
+            {
+                if (!Player.TryGetTarget(out var player)) return;
+
+                if (player.graphicsModule == null) return;
+
+                PlayerGraphics self = (PlayerGraphics)player.graphicsModule;
+
+                TailSegment[] newEarL = new TailSegment[2];
+                newEarL[0] = new TailSegment(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+                newEarL[1] = new TailSegment(self, 1.5f, 7.0f, newEarL[0], 0.85f, 1.0f, 0.5f, true);
+
+                if (earL != null)
+                {
+                    for (var i = 0; i < newEarL.Length && i < earL.Length; i++)
+                    {
+                        newEarL[i].pos = earL[i].pos;
+                        newEarL[i].lastPos = earL[i].lastPos;
+                        newEarL[i].vel = earL[i].vel;
+                        newEarL[i].terrainContact = earL[i].terrainContact;
+                        newEarL[i].stretched = earL[i].stretched;
+                    }
+                }
+
+
+                TailSegment[] newEarR = new TailSegment[2];
+                newEarR[0] = new TailSegment(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+                newEarR[1] = new TailSegment(self, 1.5f, 7.0f, newEarR[0], 0.85f, 1.0f, 0.5f, true);
+
+                if (earR != null)
+                {
+                    for (var i = 0; i < newEarR.Length && i < earR.Length; i++)
+                    {
+                        newEarR[i].pos = earR[i].pos;
+                        newEarR[i].lastPos = earR[i].lastPos;
+                        newEarR[i].vel = earR[i].vel;
+                        newEarR[i].terrainContact = earR[i].terrainContact;
+                        newEarR[i].stretched = earR[i].stretched;
+                    }
+                }
+
+                earL = newEarL;
+                earR = newEarR;
+
+                List<BodyPart> newBodyParts = self.bodyParts.ToList();
+
+                newBodyParts.AddRange(earL);
+                newBodyParts.AddRange(earR);
+
+                self.bodyParts = newBodyParts.ToArray();
+            }
+
+            #endregion
+
+            #region Tail
+
+            public Texture2D? tailTexture;
             public FAtlas? tailAtlas;
 
             public void LoadTailTexture(string textureName)
             {
-                Texture2D? tailTexture = AssetLoader.GetTexture(textureName);
+                if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
+                if (tailTexture != null) Object.DestroyImmediate(tailTexture);
+
+                tailTexture = AssetLoader.GetTexture(textureName);
                 if (tailTexture == null) return;
 
-                if (!Player.TryGetTarget(out var player)) return;
 
-                if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
-
-                // Remap Colours
+                // Apply Colors
                 MapAlphaToColor(tailTexture, 1.0f, BodyColor);
-                MapAlphaToColor(tailTexture, 0.0f, Color.white);
+                MapAlphaToColor(tailTexture, 0.0f, AccentColor);
 
-                tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + player.playerState.playerNumber, tailTexture, false);
+                tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + TextureID, tailTexture, false);
             }
 
 
@@ -102,8 +216,8 @@ namespace TheSacrifice
                 if (player.graphicsModule == null) return;
 
                 PlayerGraphics self = (PlayerGraphics)player.graphicsModule;
-                TailSegment[] newTail = new TailSegment[6];
 
+                TailSegment[] newTail = new TailSegment[6];
                 newTail[0] = new TailSegment(self, 8.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
                 newTail[1] = new TailSegment(self, 7.0f, 7.0f, newTail[0], 0.85f, 1.0f, 0.5f, true);
                 newTail[2] = new TailSegment(self, 6.0f, 7.0f, newTail[1], 0.85f, 1.0f, 0.5f, true);
@@ -111,7 +225,7 @@ namespace TheSacrifice
                 newTail[4] = new TailSegment(self, 2.5f, 7.0f, newTail[3], 0.85f, 1.0f, 0.5f, true);
                 newTail[5] = new TailSegment(self, 1.0f, 7.0f, newTail[4], 0.85f, 1.0f, 0.5f, true);
 
-                for (var i = 0; i < self.tail.Length && i < self.tail.Length; i++)
+                for (int i = 0; i < newTail.Length && i < self.tail.Length; i++)
                 {
                     newTail[i].pos = self.tail[i].pos;
                     newTail[i].lastPos = self.tail[i].lastPos;
@@ -159,12 +273,11 @@ namespace TheSacrifice
                 }
 
                 self.bodyParts = newBodyParts.ToArray();
-
             }
 
+            #endregion
 
-
-            // Sounds
+            #region Sounds
             public DynamicSoundLoop storingObjectSound = null!;
             public DynamicSoundLoop retrievingObjectSound = null!;
 
@@ -181,13 +294,22 @@ namespace TheSacrifice
                 retrievingObjectSound.Volume = 0.0f;
             }
 
+            #endregion
 
+            #region Colours
 
-            // Colours
             public Color BodyColor;
             public Color EyesColor;
 
-            public Color StaticEarHighlightColor;
+            public Color AccentColor;
+            public Color CloakColor;
+
+
+            // Non Customizable
+            public List<Color> DynamicColors = new List<Color>();
+
+            public Color EarLColor;
+            public Color EarRColor;
 
 
             private void InitColors(Player player)
@@ -198,24 +320,38 @@ namespace TheSacrifice
 
                 int playerNumber = !player.room.game.IsArenaSession && player.playerState.playerNumber == 0 ? -1 : player.playerState.playerNumber;
 
+                // Default Colours
                 SetColor(customColors, playerNumber, ref BodyColor, "Body");
                 SetColor(customColors, playerNumber, ref EyesColor, "Eyes");
 
-                SetColor(customColors, playerNumber, ref StaticEarHighlightColor, "EarHighlight");
+                SetColor(customColors, playerNumber, ref AccentColor, "Accent");
+                SetColor(customColors, playerNumber, ref CloakColor, "Cloak");
+
+
+                // Custom Colours
+                if (PlayerGraphics.customColors == null || player.IsJollyPlayer) return;
+
+                BodyColor = PlayerGraphics.CustomColorSafety(0);
+                EyesColor = PlayerGraphics.CustomColorSafety(1);
+                
+                AccentColor = PlayerGraphics.CustomColorSafety(2);
+                CloakColor = PlayerGraphics.CustomColorSafety(3);
             }
 
             private void SetColor(ColorSlot[] customColors, int playerNumber, ref Color color, string name)
             {
-                var customColor = customColors.Where(customColor => customColor.Name == name).FirstOrDefault();
+                ColorSlot customColor = customColors.Where(customColor => customColor.Name == name).FirstOrDefault();
                 if (customColor == null) return;
 
                 color = customColor.GetColor(playerNumber);
             }
+
+            #endregion
         }
 
+        private static int MaxStorageCount => 10;
 
         // Constant Features
-        private const int MaxStorageCount = 10;
         private const float FrameShortcutColorAddition = 0.003f;
 
         private const int FramesToStoreObject = 80;
@@ -224,6 +360,13 @@ namespace TheSacrifice
         private static readonly Vector2 ActiveObjectBaseOffset = new Vector2(0.0f, 20.0f);
 
 
+
+        // Generates a unique texture ID so that the atlases don't overlap
+        private static int _textureID = 0;
+        public static int TextureID => _textureID++;
+
+
+        private static bool IsCustomSlugcat(Player player) => player.SlugCatClass == Enums.Slugcat.Sacrifice;
 
         private static List<PlayerModule> GetAllPlayerData(RainWorldGame game)
         {
@@ -246,6 +389,13 @@ namespace TheSacrifice
             return allPlayerData;
         }
 
-        private static bool IsCustomSlugcat(Player player) => player.SlugCatClass == Enums.Slugcat.Sacrifice;
+
+
+        // SlugBase Features
+        private static Vector2 Vector2Feature(JsonAny json)
+        {
+            JsonList jsonList = json.AsList();
+            return new Vector2(jsonList[0].AsFloat(), jsonList[1].AsFloat());
+        }
     }
 }

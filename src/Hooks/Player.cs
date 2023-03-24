@@ -75,7 +75,7 @@ namespace TheSacrifice
                 playerModule.activeObjectGlow.setRad = 75.0f;
                 playerModule.activeObjectGlow.setAlpha = 0.3f;
 
-                if (playerModule.accentColors.Count > 0) playerModule.activeObjectGlow.color = playerModule.accentColors[0];
+                if (playerModule.DynamicColors.Count > 0) playerModule.activeObjectGlow.color = playerModule.DynamicColors[0];
 
                 if (playerModule.activeObjectGlow.slatedForDeletetion) playerModule.activeObjectGlow = null;
             }
@@ -92,6 +92,13 @@ namespace TheSacrifice
         {
             orig(self, eu);
 
+            StoreObjectUpdate(self);
+
+            TransferObjectUpdate(self);
+        }
+
+        private static void StoreObjectUpdate(Player self)
+        {
             if (!PlayerData.TryGetValue(self, out var playerModule)) return;
 
             // Gather held storables
@@ -137,7 +144,84 @@ namespace TheSacrifice
             self.input[0].x = 0;
             self.input[0].y = 0;
         }
+
+        private static void TransferObjectUpdate(Player self)
+        {
+            if (!PlayerData.TryGetValue(self, out PlayerModule? playerModule)) return;
+
+            playerModule.storingObjectSound.Update();
+            playerModule.retrievingObjectSound.Update();
+
+            if (playerModule.transferObject == null)
+            {
+                ResetTransferObject(playerModule);
+                return;
+            }
+
+            PlayerGraphics playerGraphics = (PlayerGraphics)self.graphicsModule;
+
+            playerModule.transferObjectInitialPos ??= playerModule.transferObject.realizedObject.firstChunk.pos;
+
+            playerModule.transferStacker++;
+            bool puttingInStorage = playerModule.transferObject != GetStoredActiveObject(self);
+
+            if (puttingInStorage)
+            {
+                int? targetHand = null;
+
+                if (self.grasps.Length == 0) return;
+
+                for (int i = 0; i < self.grasps.Length; i++)
+                {
+                    PhysicalObject graspedObject = self.grasps[i].grabbed;
+
+                    if (graspedObject == playerModule.transferObject.realizedObject)
+                    {
+                        targetHand = i;
+                        break;
+                    }
+                }
+
+                if (targetHand == null) return;
+
+                //playerModule.storingObjectSound.Volume = 1.0f;
+
+                // Pearl to head
+                playerModule.transferObject.realizedObject.firstChunk.pos = Vector2.Lerp(playerModule.transferObject.realizedObject.firstChunk.pos, GetActiveObjectPos(self), (float)playerModule.transferStacker / FramesToStoreObject);
+                playerGraphics.hands[(int)targetHand].absoluteHuntPos = playerModule.transferObject.realizedObject.firstChunk.pos;
+                playerGraphics.hands[(int)targetHand].reachingForObject = true;
+
+                if (playerModule.transferStacker < FramesToStoreObject) return;
+
+                //playerModule.storingObjectSound.Volume = 0.0f;
+                self.room.PlaySound(Enums.Sounds.ObjectStored, self.firstChunk);
+
+                StoreObject(self, playerModule.transferObject);
+                DestroyRealizedActiveObject(self);
+                DestroyTransferObject(playerModule);
+
+                ActivateObjectInStorage(self, playerModule.abstractInventory.Count - 1);
+                return;
+            }
+
+            // Hand to head
+
+            //playerModule.retrievingObjectSound.Volume = 1.0f;
+
+            playerGraphics.hands[self.FreeHand()].absoluteHuntPos = GetActiveObjectPos(self);
+            playerGraphics.hands[self.FreeHand()].reachingForObject = true;
+
+            if (playerModule.transferStacker < FramesToRetrieveObject) return;
+
+            //playerModule.retrievingObjectSound.Volume = 0.0f;
+            self.room.PlaySound(Enums.Sounds.ObjectRetrieved, self.firstChunk);
+
+            RetrieveObject(self);
+            DestroyTransferObject(playerModule);
+        }
+
         
+
         private static void Player_GrabUpdateIL(ILContext il)
         {
             ILCursor c = new ILCursor(il);

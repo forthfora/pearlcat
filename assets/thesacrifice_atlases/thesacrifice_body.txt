@@ -1,6 +1,6 @@
 {"frames": {
 
-"thesacrificeBody.png":
+"thesacrificeBodyA.png":
 {
 	"frame": {"x":2,"y":2,"w":14,"h":19},
 	"rotated": false,
