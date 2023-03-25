@@ -21,6 +21,8 @@ namespace TheSacrifice
             On.Menu.MenuScene.ctor += MenuScene_ctor;
             On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
+            ApplySaveLoadHooks();
+
             ApplyPlayerHooks();
             ApplyPlayerGraphicsHooks();
             

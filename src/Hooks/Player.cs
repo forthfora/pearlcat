@@ -48,6 +48,7 @@ namespace TheSacrifice
             PlayerData.Add(self, new PlayerModule(self));
         }
 
+
         private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
         {
             orig(self, eu);
@@ -56,34 +57,15 @@ namespace TheSacrifice
 
             if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
 
-
-            TryRealizeActiveObject(self);
-            AbstractPhysicalObject? activeObject = GetRealizedActiveObject(self);
-
-            if (activeObject == null) return;
-
-
-            Vector2 targetPos = GetActiveObjectPos(self);
-            activeObject.realizedObject.firstChunk.pos = targetPos;
-
-
-            // Object glows when active
-            if (playerModule.activeObjectGlow != null)
+            TryRealizeInventory(self);
+        
+            if (playerModule.abstractInventory.Count == 0)
             {
-                playerModule.activeObjectGlow.stayAlive = true;
-                playerModule.activeObjectGlow.setPos = GetActiveObjectPos(self);
-                playerModule.activeObjectGlow.setRad = 75.0f;
-                playerModule.activeObjectGlow.setAlpha = 0.3f;
-
-                if (playerModule.DynamicColors.Count > 0) playerModule.activeObjectGlow.color = playerModule.DynamicColors[0];
-
-                if (playerModule.activeObjectGlow.slatedForDeletetion) playerModule.activeObjectGlow = null;
-            }
-            else
-            {
-                playerModule.activeObjectGlow = new LightSource(GetActiveObjectPos(self), false, Color.white, self);
-                playerModule.activeObjectGlow.requireUpKeep = true;
-                self.room.AddObject(playerModule.activeObjectGlow);
+                for (int i = 0; i < 5; i++)
+                {
+                    AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, DataPearl.AbstractDataPearl.DataPearlType.CC);
+                    StoreObject(self, pearl);
+                }
             }
         }
 
@@ -92,11 +74,12 @@ namespace TheSacrifice
         {
             orig(self, eu);
 
-            StoreObjectUpdate(self);
+            //StoreObjectUpdate(self);
 
-            TransferObjectUpdate(self);
+            //TransferObjectUpdate(self);
         }
 
+        /*
         private static void StoreObjectUpdate(Player self)
         {
             if (!PlayerData.TryGetValue(self, out var playerModule)) return;
@@ -197,7 +180,7 @@ namespace TheSacrifice
                 self.room.PlaySound(Enums.Sounds.ObjectStored, self.firstChunk);
 
                 StoreObject(self, playerModule.transferObject);
-                DestroyRealizedActiveObject(self);
+                AbstractizeInventory(self);
                 DestroyTransferObject(playerModule);
 
                 ActivateObjectInStorage(self, playerModule.abstractInventory.Count - 1);
@@ -219,7 +202,7 @@ namespace TheSacrifice
             RetrieveObject(self);
             DestroyTransferObject(playerModule);
         }
-
+        */
         
 
         private static void Player_GrabUpdateIL(ILContext il)
@@ -250,7 +233,7 @@ namespace TheSacrifice
         
         private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
         {
-            if (IsRealizedActiveObject(obj.abstractPhysicalObject)) return Player.ObjectGrabability.CantGrab;
+            if (IsPlayerObject(obj)) return Player.ObjectGrabability.CantGrab;
 
             return orig(self, obj);
         }
@@ -258,7 +241,7 @@ namespace TheSacrifice
 
         private static void Player_NewRoom(On.Player.orig_NewRoom orig, Player self, Room newRoom)
         {
-            DestroyRealizedActiveObject(self); 
+            AbstractizeInventory(self); 
             orig(self, newRoom);
         }
 
@@ -266,14 +249,14 @@ namespace TheSacrifice
 
         private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
         {
-            if (self is Player player) DestroyRealizedActiveObject(player);
+            if (self is Player player) AbstractizeInventory(player);
 
             orig(self, entrancePos, carriedByOther);
         }
 
         private static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
         {
-            if (self is Player && IsRealizedActiveObject(obj.abstractPhysicalObject)) return false;
+            if (self is Player && IsPlayerObject(obj)) return false;
 
             return orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
         }

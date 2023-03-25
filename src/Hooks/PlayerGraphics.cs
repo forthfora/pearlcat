@@ -388,7 +388,6 @@ namespace TheSacrifice
 
         #endregion
 
-
         #region Graphics Update
 
         private static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
@@ -466,23 +465,24 @@ namespace TheSacrifice
                 playerModule.earLFlipDirection = self.player.flipDirection;
                 playerModule.earRFlipDirection = -self.player.flipDirection;
 
-                if (self.player.flipDirection == 1)
-                {
-                    earL[0].vel.x += 0.45f * negFlipDir;
-                    earL[1].vel.x += 0.45f * negFlipDir;
+                //if (self.player.flipDirection == 1)
+                //{
+                //    earL[0].vel.x += 0.45f * negFlipDir;
+                //    earL[1].vel.x += 0.45f * negFlipDir;
 
-                    earR[0].vel.x += 0.35f * negFlipDir;
-                    earR[1].vel.x += 0.35f * negFlipDir;
+                //    earR[0].vel.x += 0.35f * negFlipDir;
+                //    earR[1].vel.x += 0.35f * negFlipDir;
                 
-                    return;
-                }
+                //}
+                //else
+                //{
+                //    earL[0].vel.x += 0.35f * negFlipDir;
+                //    earL[1].vel.x += 0.35f * negFlipDir;
 
-
-                earL[0].vel.x += 0.35f * negFlipDir;
-                earL[1].vel.x += 0.35f * negFlipDir;
-
-                earR[0].vel.x += 0.45f * negFlipDir;
-                earR[1].vel.x += 0.45f * negFlipDir;
+                //    earR[0].vel.x += 0.45f * negFlipDir;
+                //    earR[1].vel.x += 0.45f * negFlipDir;
+                
+                //}
 
                 return;
             }
@@ -490,8 +490,8 @@ namespace TheSacrifice
             playerModule.earLFlipDirection = 1;
             playerModule.earRFlipDirection = 1;
 
-            earL[1].vel.x -= 0.5f;
-            earR[1].vel.x += 0.5f;
+            //earL[1].vel.x -= 0.5f;
+            //earR[1].vel.x += 0.5f;
         }
 
 
@@ -550,27 +550,10 @@ namespace TheSacrifice
         // Stop player looking at their balls (lmao)
         private static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
         {
-            AbstractPhysicalObject? activeObject = GetRealizedActiveObject(self.owner.player);
-
-            if (obj != null && obj.abstractPhysicalObject == activeObject) return 0.0f;
+            if (obj != null && IsPlayerObject(obj))
+                return 0.0f;
 
             return orig(self, obj);
-        }
-
-        // Maps the supplied alpha values of a texture to the supplied color
-        public static void MapAlphaToColor(Texture2D texture, float alphaFrom, Color colorTo)
-        {
-            for (var x = 0; x < texture.width; x++)
-            {
-                for (var y = 0; y < texture.height; y++)
-                {
-                    if (texture.GetPixel(x, y).a != alphaFrom) continue;
-                    
-                    texture.SetPixel(x, y, colorTo);
-                }
-            }
-
-            texture.Apply(false);
         }
     }
 }

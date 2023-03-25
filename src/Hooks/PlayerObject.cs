@@ -19,150 +19,120 @@ namespace TheSacrifice
     {
         private static AbstractPhysicalObject CloneObject(World world, AbstractPhysicalObject originalObject) => SaveState.AbstractPhysicalObjectFromString(world, originalObject.ToString());
 
-
-        #region Active Object
-
-        private static AbstractPhysicalObject? GetStoredActiveObject(Player player)
+        private static void TryRealizeInventory(Player self)
         {
-            if (player.room == null) return null;
-           
-            if (!PlayerData.TryGetValue(player, out var playerModule)) return null;
+            if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
 
-            if (playerModule.selectedIndex == null) return null;
-
-            if (playerModule.selectedIndex >= playerModule.abstractInventory.Count) return null;
-
-            return playerModule.abstractInventory[(int)playerModule.selectedIndex];
-        }
-
-        private static AbstractPhysicalObject? GetRealizedActiveObject(Player player)
-        {
-            if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return null;
-            return playerModule.realizedActiveObject;
-        }
+            if (self.inShortcut) return;
 
 
-        private static void TryRealizeActiveObject(Player player)
-        {
-            if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return;
-
-            if (player.inShortcut) return;
-
-            AbstractPhysicalObject? storedActiveObject = GetStoredActiveObject(player);
-
-            if (storedActiveObject == null) return;
-
-            if (playerModule.realizedActiveObject != null) return;
-
-            AbstractPhysicalObject realizedActiveObject = CloneObject(player.room.world, storedActiveObject);
-
-
-            WorldCoordinate newWorldCoordinate = player.room.ToWorldCoordinate(GetActiveObjectPos(player));
-            realizedActiveObject.pos = newWorldCoordinate;
-
-            //player.room.abstractRoom.AddEntity(realizedActiveObject);
-            realizedActiveObject.RealizeInRoom();
-            playerModule.realizedActiveObject = realizedActiveObject;
-
-            if (realizedActiveObject.realizedObject == null) return;
-
-            realizedActiveObject.realizedObject.CollideWithTerrain = false;
-            realizedActiveObject.realizedObject.gravity = 0.0f;
-
-            if (realizedActiveObject.realizedObject is Weapon weapon) weapon.rotationSpeed = 0.0f;
-
-            playerModule.DynamicColors = GetObjectAccentColors(realizedActiveObject);
-
-        }
-
-        private static void DestroyRealizedActiveObject(Player player)
-        {
-            if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return;
-
-            AbstractPhysicalObject? realizedActiveObject = playerModule.realizedActiveObject;
-            realizedActiveObject?.realizedObject?.Destroy();
-            realizedActiveObject?.Destroy();
-            playerModule.realizedActiveObject = null;
-        }
-        
-        private static Vector2 GetActiveObjectPos(Player player)
-        {
-            Vector2 pos;
-
-            if (player.gravity == 0.0f)
+            foreach (var abstractObject in playerModule.abstractInventory)
             {
-                pos = player.graphicsModule.bodyParts[6].pos + (ActiveObjectBaseOffset.magnitude * player.bodyChunks[0].Rotation);
-                return pos;    
+                if (abstractObject.realizedObject != null) continue;
+
+                abstractObject.pos = self.abstractCreature.pos;
+
+                self.room.abstractRoom.AddEntity(abstractObject);
+                abstractObject.RealizeInRoom();
+
+                if (abstractObject.realizedObject == null) continue;
+
+                abstractObject.realizedObject.CollideWithTerrain = false;
+                abstractObject.realizedObject.gravity = 0.0f;
+
+                if (abstractObject.realizedObject is Weapon weapon)
+                    weapon.rotationSpeed = 0.0f;
             }
-
-            pos = player.graphicsModule.bodyParts[6].pos + ActiveObjectBaseOffset;
-            pos.x += player.mainBodyChunk.vel.x * 1.0f;
-
-            return pos;
         }
-        
-        private static bool IsRealizedActiveObject(AbstractPhysicalObject targetObject)
+
+        private static void AbstractizeInventory(Player self)
         {
-            List<PlayerModule> allPlayerData = GetAllPlayerData(targetObject.world.game);
-            if (allPlayerData.Any(playerModule => playerModule.realizedActiveObject == targetObject)) return true;
+            if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
+
+            foreach (var abstractObject in playerModule.abstractInventory)
+            {
+                abstractObject.Abstractize(abstractObject.pos);
+            }
+        }
+
+        private static bool IsPlayerObject(PhysicalObject targetObject)
+        {
+            List<PlayerModule> playerData = GetAllPlayerData(targetObject.abstractPhysicalObject.world.game);
+
+            foreach (PlayerModule playerModule in playerData)
+                if (playerModule.abstractInventory.Any(abstractObject => abstractObject.realizedObject == targetObject))
+                    return true;
+
             return false;
         }
 
-        #endregion
 
 
-        private static void StoreObject(Player player, AbstractPhysicalObject abstractObject)
+        private static void StoreObject(Player self, AbstractPhysicalObject abstractObject)
         {
-            if (!PlayerData.TryGetValue(player, out var playerModule)) return;
+            if (!PlayerData.TryGetValue(self, out var playerModule)) return;
 
-            if (playerModule.abstractInventory.Count >= MaxStorageCount) return;
+            if (!DeathPersistentData.TryGetValue(self.room.game.GetStorySession.saveState.deathPersistentSaveData, out var saveData)) return;
 
-            playerModule.abstractInventory.Add(abstractObject);
-            abstractObject.realizedObject?.Destroy();
+            if (playerModule.abstractInventory.Count >= saveData.MaxStorageCount) return;
+
+            AddToInventory(self, abstractObject);
         }
 
-        private static void RetrieveObject(Player player)
+        private static void RetrieveObject(Player self)
         {
-            if (player.FreeHand() <= -1) return;
+            if (self.FreeHand() <= -1) return;
 
-            if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return;
+            if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
 
-            foreach (var a in playerModule.abstractInventory)
-                Plugin.Logger.LogWarning(playerModule.abstractInventory.IndexOf(a) + " - " + a.type);
 
-            AbstractPhysicalObject? activeObject = GetStoredActiveObject(player);
-
+            AbstractPhysicalObject? activeObject = playerModule.ActiveObject;
             if (activeObject == null) return;
 
-            AbstractPhysicalObject objectForHand = CloneObject(player.room.world, activeObject);
+            activeObject.realizedObject.CollideWithTerrain = true;
+            activeObject.realizedObject.gravity = 1.0f;
 
-            objectForHand.pos = player.abstractCreature.pos;
-            player.room.abstractRoom.AddEntity(objectForHand);
+            self.SlugcatGrab(activeObject.realizedObject, self.FreeHand());
+        }
 
-            objectForHand.RealizeInRoom();
 
-            playerModule.abstractInventory.Remove(activeObject);
-            DestroyRealizedActiveObject(player);
-            playerModule.realizedActiveObject = null;
 
-            player.SlugcatGrab(objectForHand.realizedObject, player.FreeHand());
+        private static void AddToInventory(Player self, AbstractPhysicalObject abstractObject)
+        {
+            if (!PlayerData.TryGetValue(self, out var playerModule)) return;
+
+            playerModule.abstractInventory.Add(abstractObject);
+        }
+
+        private static void RemoveFromInventory(Player self, AbstractPhysicalObject abstractObject)
+        {
+            if (!PlayerData.TryGetValue(self, out var playerModule)) return;
+
+            playerModule.abstractInventory.Remove(abstractObject);
+
+
+            if (abstractObject.realizedObject == null) return;
+
+            abstractObject.realizedObject.CollideWithTerrain = true;
+            abstractObject.realizedObject.gravity = 1.0f;
         }
 
         
+
 
         private static void SelectNextObject(Player player)
         {
             if (!PlayerData.TryGetValue(player, out var playerModule)) return;
 
-            if (playerModule.predictedIndex == null) return;
+            if (playerModule.selectedObjectIndex == null) return;
 
-            int startIndex = (int)playerModule.predictedIndex;
+            int startIndex = (int)playerModule.selectedObjectIndex;
             List<int> selectedIndexes = new List<int>();
 
             foreach (PlayerModule ex in GetAllPlayerData(player.room.game))
             {
-                if (ex.selectedIndex == null) continue;
-                selectedIndexes.Add((int)ex.selectedIndex);
+                if (ex.activeObjectIndex == null) continue;
+                selectedIndexes.Add((int)ex.activeObjectIndex);
             }
 
             for (int i = startIndex + 1; i < playerModule.abstractInventory.Count; i++)
@@ -177,26 +147,26 @@ namespace TheSacrifice
 
                 if (selectedIndexes.Contains(i)) continue;
 
-                playerModule.predictedIndex = i;
+                playerModule.selectedObjectIndex = i;
                 break;
             }
 
-            Plugin.Logger.LogWarning($"selected next object ({playerModule.predictedIndex})");
+            Plugin.Logger.LogWarning($"selected next object ({playerModule.selectedObjectIndex})");
         }
 
         private static void SelectPreviousObject(Player player)
         {
             if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return;
 
-            if (playerModule.predictedIndex == null) return;
+            if (playerModule.selectedObjectIndex == null) return;
 
-            int startIndex = (int)playerModule.predictedIndex;
+            int startIndex = (int)playerModule.selectedObjectIndex;
             List<int> selectedIndexes = new List<int>();
 
             foreach (PlayerModule ex in GetAllPlayerData(player.room.game))
             {
-                if (ex.selectedIndex == null) continue;
-                selectedIndexes.Add((int)ex.selectedIndex);
+                if (ex.activeObjectIndex == null) continue;
+                selectedIndexes.Add((int)ex.activeObjectIndex);
             }
 
             for (int i = startIndex - 1; i < playerModule.abstractInventory.Count; i--)
@@ -211,11 +181,11 @@ namespace TheSacrifice
 
                 if (selectedIndexes.Contains(i)) continue;
 
-                playerModule.predictedIndex = i;
+                playerModule.selectedObjectIndex = i;
                 break;
             }
 
-            Plugin.Logger.LogWarning($"selected prev object ({playerModule.predictedIndex})");
+            Plugin.Logger.LogWarning($"selected prev object ({playerModule.selectedObjectIndex})");
         }
 
 
@@ -228,12 +198,12 @@ namespace TheSacrifice
 
             foreach (PlayerModule ex in GetAllPlayerData(player.room.game))
             {
-                if (ex.selectedIndex == objectIndex) return;
+                if (ex.activeObjectIndex == objectIndex) return;
             }
 
 
-            DestroyRealizedActiveObject(player);
-            playerModule.selectedIndex = objectIndex;
+            AbstractizeInventory(player);
+            playerModule.activeObjectIndex = objectIndex;
         }
 
         private static void DestroyTransferObject(PlayerModule playerModule)

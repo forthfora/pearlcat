@@ -30,16 +30,14 @@ namespace TheSacrifice
             if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
             {
                 if (dataPearl.dataPearlType == MoreSlugcats.MoreSlugcatsEnums.DataPearlType.DM)
-                {
                     colors.Add(((DataPearl)dataPearl.realizedObject).color);
-                }
+
                 else
-                {
                     colors.Add(ItemSymbol.ColorForItem(dataPearl.type, 0));
-                }
             }
 
-            if (colors.Count > 0) colors.Add(colors[0] * HIGHLIGHT_COLOR_MULTIPLIER);
+            if (colors.Count > 0)
+                colors.Add(colors[0] * HIGHLIGHT_COLOR_MULTIPLIER);
 
             return colors;
         }
