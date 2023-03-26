@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace TheSacrifice
 {
     internal class BasicObjectAnimation : ObjectAnimation
     {
+        public BasicObjectAnimation(Player self) : base(self) { }
+
+
+
         public override void Update(Player self)
         {
             base.Update(self);
@@ -16,12 +21,27 @@ namespace TheSacrifice
 
             UpdateHaloEffects(self);
 
+
+
+            int nonActiveIndex = 0;
+
             for (int i = 0; i < playerModule.abstractInventory.Count; i++)
             {
                 AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
 
                 if (i == playerModule.activeObjectIndex)
                     MoveToTargetPos(abstractObject, GetActiveObjectPos(self));
+
+                float radius = 20.0f;
+
+                float angle = nonActiveIndex * Mathf.PI * 2.0f / playerModule.abstractInventory.Count - 1;
+                Vector2 origin = GetActiveObjectPos(self);
+
+                Vector2 pos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
+
+                MoveToTargetPos(abstractObject, pos);
+
+                nonActiveIndex++;
             }
         }
     }

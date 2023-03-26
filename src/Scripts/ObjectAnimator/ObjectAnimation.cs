@@ -14,6 +14,18 @@ namespace TheSacrifice
 {
     internal abstract class ObjectAnimation
     {
+        public ObjectAnimation(Player self) => InitAnimation(self);
+
+        public virtual void InitAnimation(Player self)
+        {
+            if (!Hooks.PlayerData.TryGetValue(self, out var playerModule)) return;
+
+            HaloEffectStackers.Clear();
+            for (int i = 0; i < playerModule.abstractInventory.Count; i++)
+                HaloEffectStackers.Add((1.0f / playerModule.abstractInventory.Count) * i);
+        }
+
+
         public virtual void Update(Player self)
         {
             if (!Hooks.PlayerData.TryGetValue(self, out var playerModule)) return;
@@ -22,14 +34,16 @@ namespace TheSacrifice
             {
                 AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
 
-                if (!ObjectAddon.ObjectsWithAddons.TryGetValue(abstractObject.realizedObject, out _))
+                if (abstractObject.realizedObject == null) continue;
+
+                if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out _))
                     new ObjectAddon(abstractObject);
             }
         }
 
 
 
-        protected const float MaxLockDistance = 3.0f;
+        protected const float MaxLockDistance = 0.1f;
 
         protected virtual void MoveToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos)
         {
@@ -46,7 +60,7 @@ namespace TheSacrifice
             if (!Hooks.ActiveObjectOffset.TryGet(self, out var activeObjectOffset))
                 activeObjectOffset = Vector2.zero;
 
-            if (self.gravity == 0.0f)
+            if (self.bodyMode == Player.BodyModeIndex.ZeroG)
                 return self.graphicsModule.bodyParts[6].pos + (activeObjectOffset.magnitude * self.bodyChunks[0].Rotation);
 
 
@@ -56,6 +70,12 @@ namespace TheSacrifice
             return pos;
         }
 
+
+
+        private List<float> HaloEffectStackers = new List<float>();
+        private float HaloEffectFrameAddition = 0.02f;
+        private float HaloEffectDir = 1;
+
         protected virtual void UpdateHaloEffects(Player self)
         {
             if (!Hooks.PlayerData.TryGetValue(self, out var playerModule)) return;
@@ -64,17 +84,36 @@ namespace TheSacrifice
             {
                 AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
 
-                if (!ObjectAddon.ObjectsWithAddons.TryGetValue(abstractObject.realizedObject, out var effect)) continue;
+                if (abstractObject.realizedObject == null) continue;
 
+                if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var effect)) continue;
 
+                
                 effect.drawHalo = true;
-                effect.haloColor = Hooks.GetObjectFirstColor(abstractObject);
+                float haloEffectStacker = HaloEffectStackers[i];
 
                 if (i == playerModule.activeObjectIndex)
                 {
-                    effect.haloScale = 0.85f;
+                    effect.haloColor = Hooks.GetObjectFirstColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
+                    effect.haloScale = 0.4f + 0.45f * haloEffectStacker;
                     effect.haloAlpha = 0.6f;
                 }
+                else
+                {
+                    effect.haloColor = Hooks.GetObjectFirstColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
+                    effect.haloScale = 0.3f + 0.45f * haloEffectStacker;
+                    effect.haloAlpha = 0.6f;
+                }
+
+
+
+                if (haloEffectStacker < 0.0f)
+                    HaloEffectDir = 1;
+
+                else if (haloEffectStacker > 1.0f)
+                    HaloEffectDir = -1;
+
+                HaloEffectStackers[i] += HaloEffectDir * HaloEffectFrameAddition;
             }
         }
     }

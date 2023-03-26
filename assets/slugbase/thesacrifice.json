@@ -78,5 +78,7 @@
 
         "ear_l_offset": [-4.5, 1.5],
         "ear_r_offset": [4.5, 1.5],
+
+        "active_object_offset": [0.0, 0.0]
     }
 }

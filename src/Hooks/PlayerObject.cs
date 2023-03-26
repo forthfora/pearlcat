@@ -18,8 +18,6 @@ namespace TheSacrifice
 {
     internal static partial class Hooks
     {
-        private static AbstractPhysicalObject CloneObject(World world, AbstractPhysicalObject originalObject) => SaveState.AbstractPhysicalObjectFromString(world, originalObject.ToString());
-
         private static void TryRealizeInventory(Player self)
         {
             if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
@@ -32,15 +30,15 @@ namespace TheSacrifice
                 if (abstractObject.realizedObject != null)
                 {
                     SetPlayerObjectAttributes(abstractObject.realizedObject);
-                    return;
+                    continue;
                 }
 
                 abstractObject.pos = self.abstractCreature.pos;
-
+                
                 self.room.abstractRoom.AddEntity(abstractObject);
                 abstractObject.RealizeInRoom();
 
-                if (abstractObject.realizedObject == null) return;
+                if (abstractObject.realizedObject == null) continue;
 
                 SetPlayerObjectAttributes(abstractObject.realizedObject);
                 PlayerObjectRealizedEffect(abstractObject.realizedObject);
@@ -49,11 +47,11 @@ namespace TheSacrifice
 
         private static void SetPlayerObjectAttributes(PhysicalObject realizedObject)
         {
-            realizedObject.CollideWithTerrain = false;
-            realizedObject.CollideWithSlopes = false;
-            realizedObject.CollideWithObjects = false;
-
+            DisabledCollision.GetOrCreateValue(realizedObject);
             realizedObject.gravity = 0.0f;
+
+            if (realizedObject is DataPearl pearl)
+                pearl.glimmerWait = int.MaxValue / 2;
 
             if (realizedObject is Weapon weapon)
                 weapon.rotationSpeed = 0.0f;
@@ -61,10 +59,7 @@ namespace TheSacrifice
 
         private static void RestoreNormalObjectAttributes(PhysicalObject realizedObject)
         {
-            realizedObject.CollideWithTerrain = true;
-            realizedObject.CollideWithSlopes = true;
-            realizedObject.CollideWithObjects = true;
-
+            DisabledCollision.Remove(realizedObject);
             realizedObject.gravity = 1.0f;
         }
 
@@ -72,18 +67,24 @@ namespace TheSacrifice
 
         private static void PlayerObjectRealizedEffect(PhysicalObject realizedObject)
         {
+            if (realizedObject == null) return;
+
             realizedObject.room.AddObject(new Explosion.ExplosionLight(realizedObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectFirstColor(realizedObject.abstractPhysicalObject)));
             realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 25.0f, 0.07f, 10, false));
         }
 
         private static void PlayerObjectAbstractedEffect(PhysicalObject realizedObject)
         {
+            if (realizedObject == null) return;
+
             realizedObject.room.AddObject(new Explosion.ExplosionLight(realizedObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectFirstColor(realizedObject.abstractPhysicalObject)));
             realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 50.0f, 0.07f, 10, false));
         }
 
         private static void PlayerObjectDeathEffect(PhysicalObject realizedObject)
         {
+            if (realizedObject == null) return;
+
             realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 250.0f, 0.07f, 6, false));
         }
 
@@ -95,6 +96,8 @@ namespace TheSacrifice
 
             foreach (var abstractObject in playerModule.abstractInventory)
             {
+                if (abstractObject.realizedObject == null) continue;
+
                 PlayerObjectAbstractedEffect(abstractObject.realizedObject);
                 abstractObject.Abstractize(abstractObject.pos);
             }
@@ -146,17 +149,22 @@ namespace TheSacrifice
             if (!PlayerData.TryGetValue(self, out var playerModule)) return;
 
             playerModule.abstractInventory.Add(abstractObject);
+            playerModule.currentAnimation.InitAnimation(self);
         }
 
         private static void RemoveFromInventory(Player self, AbstractPhysicalObject abstractObject)
         {
             if (!PlayerData.TryGetValue(self, out var playerModule)) return;
 
+
             playerModule.abstractInventory.Remove(abstractObject);
 
+            if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var addon))
+                addon.Destroy();
+    
 
             if (abstractObject.realizedObject == null) return;
-
+            
             RestoreNormalObjectAttributes(abstractObject.realizedObject);
         }
 

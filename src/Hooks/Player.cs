@@ -40,6 +40,8 @@ namespace TheSacrifice
             }
         }
 
+
+
         private static void Player_Die(On.Player.orig_Die orig, Player self)
         {
             orig(self);
@@ -65,6 +67,8 @@ namespace TheSacrifice
         }
 
 
+        private static int debugStacker = 0;
+
         private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
         {
             orig(self, eu);
@@ -74,24 +78,26 @@ namespace TheSacrifice
             if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
 
             // HACK
-            if (playerModule.abstractInventory.Count == 0 && !self.dead)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    DataPearl.AbstractDataPearl.DataPearlType type = i switch
-                    {
-                        0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
-                        1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
-                        2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
-                        3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
-                        _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
-                    };
+            //if (!self.dead)
+            //{
+            //    debugStacker++;
 
-                    AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
-                    StoreObject(self, pearl);
-                }
-            }
+            //    int i = debugStacker / 100;
 
+            //    if (debugStacker % 100 == 0)
+            //    {
+            //        DataPearl.AbstractDataPearl.DataPearlType type = i switch
+            //        {
+            //            0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
+            //            1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
+            //            2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
+            //            3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
+            //            _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
+            //        };
+            //        AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
+            //        StoreObject(self, pearl);
+            //    }
+            //}
 
             TryRealizeInventory(self);
 
@@ -267,6 +273,7 @@ namespace TheSacrifice
 
             return orig(self, obj);
         }
+
 
 
         private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)

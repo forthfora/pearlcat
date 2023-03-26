@@ -23,7 +23,8 @@ namespace TheSacrifice
 
             ApplyPlayerHooks();
             ApplyPlayerGraphicsHooks();
-            
+
+            ApplyMusicHooks();
             ApplyMenuHooks();
             ApplyOracleHooks();
         }

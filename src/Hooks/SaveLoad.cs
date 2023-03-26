@@ -31,7 +31,7 @@ namespace TheSacrifice
 
             public Dictionary<int, int> ActiveObjectIndex = new Dictionary<int, int>();
 
-            public int MaxStorageCount = 5; 
+            public int MaxStorageCount = 10; 
 
             public bool MetPebbles = false;
             public bool MetMoon = false;

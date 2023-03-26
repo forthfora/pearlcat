@@ -66,11 +66,11 @@ namespace TheSacrifice
 
         public ObjectAnimation currentAnimation;
 
-        public virtual ObjectAnimation GetObjectAnimation(Player self)
+        public ObjectAnimation GetObjectAnimation(Player self)
         {
             List<ObjectAnimation> animationPool = new List<ObjectAnimation>
             {
-                new BasicObjectAnimation(),
+                new BasicObjectAnimation(self),
             };
 
             return animationPool[Random.Range(0, animationPool.Count)];

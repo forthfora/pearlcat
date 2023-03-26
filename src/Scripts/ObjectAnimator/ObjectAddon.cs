@@ -11,7 +11,7 @@ namespace TheSacrifice
 {
     internal class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
-        public static ConditionalWeakTable<PhysicalObject, ObjectAddon> ObjectsWithAddons = new ConditionalWeakTable<PhysicalObject, ObjectAddon>();
+        public static ConditionalWeakTable<PhysicalObject, ObjectAddon> ObjectsWithAddon = new ConditionalWeakTable<PhysicalObject, ObjectAddon>();
 
         public readonly WeakReference<AbstractPhysicalObject> AbstractObject;
 
@@ -19,9 +19,11 @@ namespace TheSacrifice
         {
             AbstractObject = new WeakReference<AbstractPhysicalObject>(abstractObject);
 
-            ObjectsWithAddons.Add(abstractObject.realizedObject, this);
+            ObjectsWithAddon.Add(abstractObject.realizedObject, this);
             abstractObject.realizedObject.room.AddObject(this);
         }
+
+
 
         public override void Update(bool eu)
         {
@@ -66,8 +68,8 @@ namespace TheSacrifice
         public bool drawHalo = false;
         public int haloSprite;
 
-        public float haloScale = 0.6f;
-        public float haloAlpha = 0.3f;
+        public float haloScale = 0.75f;
+        public float haloAlpha = 0.5f;
         public Color haloColor = Color.white;
 
 
