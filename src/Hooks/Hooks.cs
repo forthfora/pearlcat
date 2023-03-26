@@ -18,10 +18,8 @@ namespace TheSacrifice
             On.RainWorld.OnModsInit += RainWorld_OnModsInit;
             On.RainWorld.OnModsDisabled += RainWorld_OnModsDisabled;
 
-            On.Menu.MenuScene.ctor += MenuScene_ctor;
-            On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
-
             ApplySaveLoadHooks();
+            ApplyObjectDataHooks();
 
             ApplyPlayerHooks();
             ApplyPlayerGraphicsHooks();

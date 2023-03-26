@@ -280,7 +280,7 @@ namespace TheSacrifice
                     ReadData(entry);
                 }
 
-                Plugin.Logger.LogWarning("LOADED:" + s);
+                Plugin.Logger.LogWarning("LOADED:\n" + s);
             }
 
             public string DataToString()
@@ -292,7 +292,7 @@ namespace TheSacrifice
                 s += SEPARATOR_CHAR;
                 s += SaveDataEnd;
 
-                Plugin.Logger.LogWarning("SAVED" + s);
+                Plugin.Logger.LogWarning("SAVED:\n" + s);
 
                 return s;
             }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace TheSacrifice
 {
@@ -24,41 +25,56 @@ namespace TheSacrifice
         public LightSource? activeObjectGlow;
 
 
-        public PlayerModule(Player player)
+        public PlayerModule(Player self)
         {
-            Player = new WeakReference<Player>(player);
+            Player = new WeakReference<Player>(self);
 
-            InitSounds(player);
-            InitColors(player);
+            InitSounds(self);
+            InitColors(self);
 
             LoadTailTexture("tail");
 
             LoadEarLTexture("ear_l", AccentColor);
             LoadEarRTexture("ear_r", AccentColor);
+
+            currentAnimation = GetObjectAnimation(self);
         }
 
         public bool canSwallowOrRegurgitate = true;
         public Vector2 prevHeadRotation = Vector2.zero;
 
 
-
+        public AbstractPhysicalObject? ActiveObject => activeObjectIndex != null ? abstractInventory[(int)activeObjectIndex] : null;
         public List<AbstractPhysicalObject> abstractInventory = new List<AbstractPhysicalObject>();
 
-        public AbstractPhysicalObject? ActiveObject => activeObjectIndex != null ? abstractInventory[(int)activeObjectIndex] : null;
-
-        public int? activeObjectIndex = null;
+        public int? activeObjectIndex = 0;
         public int? selectedObjectIndex = null;
 
 
         public AbstractPhysicalObject? transferObject = null;
+        public bool canTransferObject = true;
 
         public Vector2? transferObjectInitialPos = null;
-        public bool canTransferObject = true;
         public int transferStacker = 0;
+
 
 
         public float shortcutColorStacker = 0.0f;
         public int shortcutColorStackerDirection = 1;
+
+
+
+        public ObjectAnimation currentAnimation;
+
+        public virtual ObjectAnimation GetObjectAnimation(Player self)
+        {
+            List<ObjectAnimation> animationPool = new List<ObjectAnimation>
+            {
+                new BasicObjectAnimation(),
+            };
+
+            return animationPool[Random.Range(0, animationPool.Count)];
+        }
 
 
         #region Ears

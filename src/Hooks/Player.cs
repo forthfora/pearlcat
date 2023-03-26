@@ -23,8 +23,9 @@ namespace TheSacrifice
             On.Player.Update += Player_Update;
 
             On.Player.GrabUpdate += Player_GrabUpdate;
-            On.Player.NewRoom += Player_NewRoom;
             On.Player.Grabability += Player_Grabability;
+
+            On.Player.Die += Player_Die;
 
             On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
             On.Creature.Grab += Creature_Grab;
@@ -36,6 +37,21 @@ namespace TheSacrifice
             catch (Exception e)
             {
                 Plugin.Logger.LogError(e);
+            }
+        }
+
+        private static void Player_Die(On.Player.orig_Die orig, Player self)
+        {
+            orig(self);
+
+            if (!PlayerData.TryGetValue(self, out var playerModule)) return;
+
+            for (int i = playerModule.abstractInventory.Count - 1; i >= 0; i--)
+            {
+                AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
+
+                PlayerObjectDeathEffect(abstractObject.realizedObject);
+                RemoveFromInventory(self, abstractObject);
             }
         }
 
@@ -57,16 +73,30 @@ namespace TheSacrifice
 
             if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
 
-            TryRealizeInventory(self);
-        
-            if (playerModule.abstractInventory.Count == 0)
+            // HACK
+            if (playerModule.abstractInventory.Count == 0 && !self.dead)
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, DataPearl.AbstractDataPearl.DataPearlType.CC);
+                    DataPearl.AbstractDataPearl.DataPearlType type = i switch
+                    {
+                        0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
+                        1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
+                        2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
+                        3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
+                        _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
+                    };
+
+                    AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
                     StoreObject(self, pearl);
                 }
             }
+
+
+            TryRealizeInventory(self);
+
+            if (self.room != null)
+                playerModule.currentAnimation.Update(self);
         }
 
 
@@ -239,17 +269,10 @@ namespace TheSacrifice
         }
 
 
-        private static void Player_NewRoom(On.Player.orig_NewRoom orig, Player self, Room newRoom)
-        {
-            AbstractizeInventory(self); 
-            orig(self, newRoom);
-        }
-
-
-
         private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
         {
-            if (self is Player player) AbstractizeInventory(player);
+            if (self is Player player)
+                AbstractizeInventory(player);
 
             orig(self, entrancePos, carriedByOther);
         }

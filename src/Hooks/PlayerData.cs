@@ -23,7 +23,7 @@ namespace TheSacrifice
 {
     internal static partial class Hooks
     {
-        public static ConditionalWeakTable<Player, PlayerModule> PlayerData = new ConditionalWeakTable<Player, PlayerModule>();
+        public static readonly ConditionalWeakTable<Player, PlayerModule> PlayerData = new ConditionalWeakTable<Player, PlayerModule>();
 
 
         // Constant Features
@@ -65,6 +65,10 @@ namespace TheSacrifice
 
 
         // SlugBase Features
+        public static readonly PlayerFeature<Vector2> ActiveObjectOffset = new("active_object_offset", Hooks.Vector2Feature);
+
+
+        // Feature Factories
         public static Vector2 Vector2Feature(JsonAny json)
         {
             JsonList jsonList = json.AsList();

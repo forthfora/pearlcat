@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 
 namespace TheSacrifice
@@ -28,22 +29,65 @@ namespace TheSacrifice
 
             foreach (var abstractObject in playerModule.abstractInventory)
             {
-                if (abstractObject.realizedObject != null) continue;
+                if (abstractObject.realizedObject != null)
+                {
+                    SetPlayerObjectAttributes(abstractObject.realizedObject);
+                    return;
+                }
 
                 abstractObject.pos = self.abstractCreature.pos;
 
                 self.room.abstractRoom.AddEntity(abstractObject);
                 abstractObject.RealizeInRoom();
 
-                if (abstractObject.realizedObject == null) continue;
+                if (abstractObject.realizedObject == null) return;
 
-                abstractObject.realizedObject.CollideWithTerrain = false;
-                abstractObject.realizedObject.gravity = 0.0f;
-
-                if (abstractObject.realizedObject is Weapon weapon)
-                    weapon.rotationSpeed = 0.0f;
+                SetPlayerObjectAttributes(abstractObject.realizedObject);
+                PlayerObjectRealizedEffect(abstractObject.realizedObject);
             }
         }
+
+        private static void SetPlayerObjectAttributes(PhysicalObject realizedObject)
+        {
+            realizedObject.CollideWithTerrain = false;
+            realizedObject.CollideWithSlopes = false;
+            realizedObject.CollideWithObjects = false;
+
+            realizedObject.gravity = 0.0f;
+
+            if (realizedObject is Weapon weapon)
+                weapon.rotationSpeed = 0.0f;
+        }
+
+        private static void RestoreNormalObjectAttributes(PhysicalObject realizedObject)
+        {
+            realizedObject.CollideWithTerrain = true;
+            realizedObject.CollideWithSlopes = true;
+            realizedObject.CollideWithObjects = true;
+
+            realizedObject.gravity = 1.0f;
+        }
+
+
+
+        private static void PlayerObjectRealizedEffect(PhysicalObject realizedObject)
+        {
+            realizedObject.room.AddObject(new Explosion.ExplosionLight(realizedObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectFirstColor(realizedObject.abstractPhysicalObject)));
+            realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 25.0f, 0.07f, 10, false));
+        }
+
+        private static void PlayerObjectAbstractedEffect(PhysicalObject realizedObject)
+        {
+            realizedObject.room.AddObject(new Explosion.ExplosionLight(realizedObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectFirstColor(realizedObject.abstractPhysicalObject)));
+            realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 50.0f, 0.07f, 10, false));
+        }
+
+        private static void PlayerObjectDeathEffect(PhysicalObject realizedObject)
+        {
+            realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 250.0f, 0.07f, 6, false));
+        }
+
+
 
         private static void AbstractizeInventory(Player self)
         {
@@ -51,9 +95,11 @@ namespace TheSacrifice
 
             foreach (var abstractObject in playerModule.abstractInventory)
             {
+                PlayerObjectAbstractedEffect(abstractObject.realizedObject);
                 abstractObject.Abstractize(abstractObject.pos);
             }
         }
+
 
         private static bool IsPlayerObject(PhysicalObject targetObject)
         {
@@ -85,12 +131,10 @@ namespace TheSacrifice
 
             if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
 
-
             AbstractPhysicalObject? activeObject = playerModule.ActiveObject;
             if (activeObject == null) return;
 
-            activeObject.realizedObject.CollideWithTerrain = true;
-            activeObject.realizedObject.gravity = 1.0f;
+            RemoveFromInventory(self, activeObject);
 
             self.SlugcatGrab(activeObject.realizedObject, self.FreeHand());
         }
@@ -113,12 +157,10 @@ namespace TheSacrifice
 
             if (abstractObject.realizedObject == null) return;
 
-            abstractObject.realizedObject.CollideWithTerrain = true;
-            abstractObject.realizedObject.gravity = 1.0f;
+            RestoreNormalObjectAttributes(abstractObject.realizedObject);
         }
 
         
-
 
         private static void SelectNextObject(Player player)
         {
