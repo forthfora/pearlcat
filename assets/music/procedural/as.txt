@@ -7,9 +7,7 @@ TH_AS - MELODY : NEUTRAL
 TH_AS - PULSE : NEUTRAL
 
 Layer : TH_AS - ENGINE
-Layer : TH_AS - PULSE
-Layer : TH_AS - ARPS
+Layer : TH_AS - PULSE, TH_AS - ARPS
 Layer : TH_AS - BASS
-Layer : TH_AS - HARMONY
-Layer : TH_AS - MELODY
+Layer : TH_AS - MELODY, TH_AS - HARMONY
 Layer : TH_AS - BONUS
