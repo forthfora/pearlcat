@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using UnityEngine;
 
 namespace TheSacrifice
 {
-    internal class ObjectAddon : UpdatableAndDeletable, IDrawable
+    public class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
-        public static ConditionalWeakTable<PhysicalObject, ObjectAddon> ObjectsWithAddon = new ConditionalWeakTable<PhysicalObject, ObjectAddon>();
+        public static ConditionalWeakTable<PhysicalObject, ObjectAddon> ObjectsWithAddon = new();
 
         public readonly WeakReference<AbstractPhysicalObject> AbstractObject;
 

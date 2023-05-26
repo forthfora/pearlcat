@@ -1,87 +1,84 @@
-﻿using MoreSlugcats;
+﻿namespace TheSacrifice;
 
-namespace TheSacrifice
+public class Enums
 {
-    internal class Enums
+    public static void RegisterEnums()
     {
-        public static void RegisterEnums()
+        Slugcat.RegisterValues();
+        Sounds.RegisterValues();
+        Oracles.RegisterValues();
+    }
+
+    public static void UnregisterEnums()
+    {
+        Slugcat.RegisterValues();
+        Sounds.UnregisterValues();
+        Oracles.UnregisterValues();
+    }
+
+    public class Slugcat
+    {
+        public static SlugcatStats.Name? Sacrifice;
+
+        public static void RegisterValues()
         {
-            Slugcat.RegisterValues();
-            Sounds.RegisterValues();
-            Oracles.RegisterValues();
+            Sacrifice = new SlugcatStats.Name("Sacrifice", false);
         }
 
-        public static void UnregisterEnums()
+        public static void UnregisterValues()
         {
-            Slugcat.RegisterValues();
-            Sounds.UnregisterValues();
-            Oracles.UnregisterValues();
+            Sacrifice?.Unregister();
+        }
+    }
+
+    public class Sounds
+    {
+        public static SoundID? StoringObject;
+        public static SoundID? ObjectStored;
+
+        public static SoundID? RetrievingObject;
+        public static SoundID? ObjectRetrieved;
+
+        public static void RegisterValues()
+        {
+            StoringObject = new SoundID("StoringObject", true);
+            ObjectStored = new SoundID("ObjectStored", true);
+
+            RetrievingObject = new SoundID("RetrievingObject", true);
+            ObjectRetrieved = new SoundID("ObjectRetrieved", true);
         }
 
-        public class Slugcat
+        public static void UnregisterValues()
         {
-            public static SlugcatStats.Name? Sacrifice;
+            StoringObject?.Unregister();
+            ObjectStored?.Unregister();
 
-            public static void RegisterValues()
-            {
-                Sacrifice = new SlugcatStats.Name("Sacrifice", false);
-            }
+            RetrievingObject?.Unregister();
+            ObjectRetrieved?.Unregister();
+        }
+    }
 
-            public static void UnregisterValues()
-            {
-                Sacrifice?.Unregister();
-            }
+    public class Oracles
+    {
+        public static SSOracleBehavior.Action? TheSacrifice_General;
+
+        public static SSOracleBehavior.MovementBehavior? TheSacrifice_SSMovement;
+        public static SLOracleBehavior.MovementBehavior? TheSacrifice_SLMovement;
+
+        public static void RegisterValues()
+        {
+            TheSacrifice_General = new SSOracleBehavior.Action("TheSacrifice_General", true);
+
+            TheSacrifice_SSMovement = new SSOracleBehavior.MovementBehavior("TheSacrifice_SSMovement", true);
+            TheSacrifice_SLMovement = new SLOracleBehavior.MovementBehavior("TheSacrifice_SLMovement", true);
         }
 
-        public class Sounds
+        public static void UnregisterValues()
         {
-            public static SoundID? StoringObject;
-            public static SoundID? ObjectStored;
+            TheSacrifice_General?.Unregister();
 
-            public static SoundID? RetrievingObject;
-            public static SoundID? ObjectRetrieved;
-
-            public static void RegisterValues()
-            {
-                StoringObject = new SoundID("StoringObject", true);
-                ObjectStored = new SoundID("ObjectStored", true);
-
-                RetrievingObject = new SoundID("RetrievingObject", true);
-                ObjectRetrieved = new SoundID("ObjectRetrieved", true);
-            }
-
-            public static void UnregisterValues()
-            {
-                StoringObject?.Unregister();
-                ObjectStored?.Unregister();
-
-                RetrievingObject?.Unregister();
-                ObjectRetrieved?.Unregister();
-            }
-        }
-
-        public class Oracles
-        {
-            public static SSOracleBehavior.Action? TheSacrifice_General;
-
-            public static SSOracleBehavior.MovementBehavior? TheSacrifice_SSMovement;
-            public static SLOracleBehavior.MovementBehavior? TheSacrifice_SLMovement;
-
-            public static void RegisterValues()
-            {
-                TheSacrifice_General = new SSOracleBehavior.Action("TheSacrifice_General", true);
-
-                TheSacrifice_SSMovement = new SSOracleBehavior.MovementBehavior("TheSacrifice_SSMovement", true);
-                TheSacrifice_SLMovement = new SLOracleBehavior.MovementBehavior("TheSacrifice_SLMovement", true);
-            }
-
-            public static void UnregisterValues()
-            {
-                TheSacrifice_General?.Unregister();
-
-                TheSacrifice_SSMovement?.Unregister();
-                TheSacrifice_SLMovement?.Unregister();
-            }
+            TheSacrifice_SSMovement?.Unregister();
+            TheSacrifice_SLMovement?.Unregister();
         }
     }
 }

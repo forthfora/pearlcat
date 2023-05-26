@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using HUD;
-using UnityEngine;
+﻿using HUD;
 
-namespace TheSacrifice
+namespace TheSacrifice;
+
+public class InventoryHUD : HudPart
 {
-    public class InventoryHUD : HudPart
+    public InventoryHUD(HUD.HUD hud) : base(hud)
     {
-        public InventoryHUD(HUD.HUD hud) : base(hud)
-        {
 
-        }
+    }
 
-        public override void ClearSprites()
-        {
-        }
+    public override void ClearSprites()
+    {
+    }
 
-        public override void Draw(float timeStacker)
-        {
-        }
+    public override void Draw(float timeStacker)
+    {
+    }
 
-        public override void Update()
-        {
-        }
+    public override void Update()
+    {
     }
 }

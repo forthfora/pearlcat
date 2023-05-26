@@ -1,18 +1,11 @@
 ﻿using RWCustom;
-using SlugBase.Features;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
 namespace TheSacrifice
 {
-    internal abstract class ObjectAnimation
+    public abstract class ObjectAnimation
     {
         public ObjectAnimation(Player self) => InitAnimation(self);
 
@@ -50,7 +43,10 @@ namespace TheSacrifice
             if (abstractObject.realizedObject == null) return;
 
             if (Custom.Dist(abstractObject.realizedObject.firstChunk.pos, targetPos) <= MaxLockDistance)
+            {
                 abstractObject.realizedObject.firstChunk.pos = targetPos;
+                return;
+            }
 
             abstractObject.realizedObject.firstChunk.pos = Vector2.Lerp(abstractObject.realizedObject.firstChunk.pos, targetPos, 0.5f);
         }
@@ -72,7 +68,7 @@ namespace TheSacrifice
 
 
 
-        private List<float> HaloEffectStackers = new List<float>();
+        private List<float> HaloEffectStackers = new();
         private float HaloEffectFrameAddition = 0.02f;
         private float HaloEffectDir = 1;
 

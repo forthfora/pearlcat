@@ -1,40 +1,31 @@
-﻿using BepInEx.Logging;
-using MonoMod.Cil;
-using On.Music;
-using RWCustom;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Resources;
-using System.Text;
-using UnityEngine;
+﻿using System;
 
-namespace TheSacrifice
+namespace TheSacrifice;
+
+public static partial class Hooks
 {
-    internal static partial class Hooks
+    public static void ApplyHooks()
     {
-        public static void ApplyHooks()
+        On.RainWorld.OnModsInit += RainWorld_OnModsInit;
+        On.RainWorld.OnModsDisabled += RainWorld_OnModsDisabled;
+
+        ApplySaveLoadHooks();
+        ApplyObjectDataHooks();
+
+        ApplyPlayerHooks();
+        ApplyPlayerGraphicsHooks();
+
+        ApplyMusicHooks();
+        ApplyMenuHooks();
+        ApplyOracleHooks();
+    }
+
+    private static bool isInit = false;
+
+    private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
+    {
+        try
         {
-            On.RainWorld.OnModsInit += RainWorld_OnModsInit;
-            On.RainWorld.OnModsDisabled += RainWorld_OnModsDisabled;
-
-            ApplySaveLoadHooks();
-            ApplyObjectDataHooks();
-
-            ApplyPlayerHooks();
-            ApplyPlayerGraphicsHooks();
-
-            ApplyMusicHooks();
-            ApplyMenuHooks();
-            ApplyOracleHooks();
-        }
-
-        private static bool isInit = false;
-
-        private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
-        {
-            orig(self);
-
             if (isInit) return;
             isInit = true;
 
@@ -43,12 +34,29 @@ namespace TheSacrifice
             Enums.RegisterEnums();
             AssetLoader.LoadAssets();
         }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("OnModsInit: " + e.Message);
+        }
+        finally
+        {
+            orig(self);
+        }
+    }
 
-        private static void RainWorld_OnModsDisabled(On.RainWorld.orig_OnModsDisabled orig, RainWorld self, ModManager.Mod[] newlyDisabledMods)
+    private static void RainWorld_OnModsDisabled(On.RainWorld.orig_OnModsDisabled orig, RainWorld self, ModManager.Mod[] newlyDisabledMods)
+    {
+        try
+        {
+            Enums.UnregisterEnums();
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("OnModsDisabled: " + e.Message);
+        }
+        finally
         {
             orig(self, newlyDisabledMods);
-
-            Enums.UnregisterEnums();
         }
     }
 }

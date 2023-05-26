@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TheSacrifice
 {
-    internal class BasicObjectAnimation : ObjectAnimation
+    public class BasicObjectAnimation : ObjectAnimation
     {
         public BasicObjectAnimation(Player self) : base(self) { }
 
@@ -37,7 +32,7 @@ namespace TheSacrifice
                 float angle = nonActiveIndex * Mathf.PI * 2.0f / playerModule.abstractInventory.Count - 1;
                 Vector2 origin = GetActiveObjectPos(self);
 
-                Vector2 pos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
+                Vector2 pos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
                 MoveToTargetPos(abstractObject, pos);
 
