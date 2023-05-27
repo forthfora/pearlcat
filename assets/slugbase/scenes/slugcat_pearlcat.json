@@ -1,6 +1,6 @@
 {
-  "id": "Slugcat_Sacrifice",
-  "scene_folder": "slugbase/scenes/slugcat_sacrifice",
+  "id": "Slugcat_Pearlcat",
+  "scene_folder": "slugbase/scenes/slugcat_pearlcat",
   "images": [
     {"name": "flat", "pos": [290, 120], "depth": -1.0, "flatmode": true},
 

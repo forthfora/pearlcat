@@ -1,6 +1,6 @@
 ﻿using Music;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public partial class Hooks
 {

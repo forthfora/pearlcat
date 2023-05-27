@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public static class AssetLoader
 {

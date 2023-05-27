@@ -7,5 +7,5 @@
 	"requirements": ["moreslugcats", "slime-cubed.slugbase"],
 	"requirements_names": ["More Slugcats Expansion", "SlugBase"],
 	"tags": ["Campaigns", "Gameplay Mechanics"],
-	"checksum_override_version": false
+	"checksum_override_version": true
 }

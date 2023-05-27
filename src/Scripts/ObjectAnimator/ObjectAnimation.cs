@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
-namespace TheSacrifice
+namespace Pearlcat
 {
     public abstract class ObjectAnimation
     {

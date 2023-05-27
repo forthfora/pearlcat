@@ -3,11 +3,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public class SacrificeSaveStateSaveData : SaveData
+    public class PearlcatSaveStateSaveData : SaveData
     {
         protected override void ReadData(string e)
         {
@@ -21,7 +21,7 @@ public static partial class Hooks
     }
 
 
-    public class SacrificeDeathPersistentSaveData : SaveData
+    public class PearlcatDeathPersistentSaveData : SaveData
     {
         public Dictionary<int, List<string>> RawInventoryData = new();
 
@@ -57,7 +57,7 @@ public static partial class Hooks
     }
 
 
-    public class SacrificeMiscProgressionSaveData : SaveData
+    public class PearlcatMiscProgressionSaveData : SaveData
     {
         protected override void ReadData(string e)
         {
@@ -72,11 +72,11 @@ public static partial class Hooks
 
 
 
-    public static ConditionalWeakTable<SaveState, SacrificeSaveStateSaveData> SaveStateData = new();
+    public static ConditionalWeakTable<SaveState, PearlcatSaveStateSaveData> SaveStateData = new();
 
-    public static ConditionalWeakTable<DeathPersistentSaveData, SacrificeDeathPersistentSaveData> DeathPersistentData = new();
+    public static ConditionalWeakTable<DeathPersistentSaveData, PearlcatDeathPersistentSaveData> DeathPersistentData = new();
 
-    public static ConditionalWeakTable<PlayerProgression.MiscProgressionData, SacrificeMiscProgressionSaveData> MiscProgressionData = new();
+    public static ConditionalWeakTable<PlayerProgression.MiscProgressionData, PearlcatMiscProgressionSaveData> MiscProgressionData = new();
 
 
     private static void ApplySaveLoadHooks()
@@ -101,7 +101,7 @@ public static partial class Hooks
         orig(self, saveStateNumber, progression);
 
         if (!SaveStateData.TryGetValue(self, out _))
-            SaveStateData.Add(self, new SacrificeSaveStateSaveData());
+            SaveStateData.Add(self, new PearlcatSaveStateSaveData());
     }
 
     private static string SaveState_SaveToString(On.SaveState.orig_SaveToString orig, SaveState self)
@@ -152,7 +152,7 @@ public static partial class Hooks
         orig(self, slugcat);
 
         if (!DeathPersistentData.TryGetValue(self, out _))
-            DeathPersistentData.Add(self, new SacrificeDeathPersistentSaveData());
+            DeathPersistentData.Add(self, new PearlcatDeathPersistentSaveData());
     }
     
     private static string DeathPersistentSaveData_SaveToString(On.DeathPersistentSaveData.orig_SaveToString orig, DeathPersistentSaveData self, bool saveAsIfPlayerDied, bool saveAsIfPlayerQuit)
@@ -203,7 +203,7 @@ public static partial class Hooks
         orig(self, owner);
 
         if (!MiscProgressionData.TryGetValue(self, out _))
-            MiscProgressionData.Add(self, new SacrificeMiscProgressionSaveData());
+            MiscProgressionData.Add(self, new PearlcatMiscProgressionSaveData());
     }
 
     private static string MiscProgressionData_ToString(On.PlayerProgression.MiscProgressionData.orig_ToString orig, PlayerProgression.MiscProgressionData self)

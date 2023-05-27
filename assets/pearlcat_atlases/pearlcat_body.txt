@@ -1,6 +1,6 @@
 {"frames": {
 
-"thesacrificeBodyA.png":
+"pearlcatBodyA.png":
 {
 	"frame": {"x":2,"y":2,"w":14,"h":19},
 	"rotated": false,
@@ -11,7 +11,7 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "thesacrifice_body.png",
+	"image": "pearlcat_body.png",
 	"format": "RGBA8888",
 	"size": {"w":18,"h":23},
 	"scale": "1",

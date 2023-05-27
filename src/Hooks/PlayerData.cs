@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Vector2 = UnityEngine.Vector2;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public static partial class Hooks
 {
@@ -24,7 +24,7 @@ public static partial class Hooks
 
 
 
-    private static bool IsCustomSlugcat(Player player) => player.SlugCatClass == Enums.Slugcat.Sacrifice;
+    private static bool IsCustomSlugcat(Player player) => player.SlugCatClass == Enums.Slugcat.Pearlcat;
 
     private static List<PlayerModule> GetAllPlayerData(RainWorldGame game)
     {

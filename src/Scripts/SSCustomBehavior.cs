@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 // TODO: Consider completely replacing this
 public class SSCustomBehavior
@@ -54,7 +54,7 @@ public class SSCustomBehavior
         // Pause all normal actions
         if (superState != SuperState.Stopped)
         {
-            self.action = Enums.Oracles.TheSacrifice_General;
+            self.action = Enums.Oracles.Pearlcat_General;
             if (self.conversation != null) self.conversation.paused = true;
             self.restartConversationAfterCurrentDialoge = false;
         }

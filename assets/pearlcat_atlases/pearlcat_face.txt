@@ -1,6 +1,6 @@
 {"frames": {
 
-"thesacrificeFaceA0.png":
+"pearlcatFaceA0.png":
 {
 	"frame": {"x":2,"y":2,"w":46,"h":48},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceA1.png":
+"pearlcatFaceA1.png":
 {
 	"frame": {"x":50,"y":2,"w":46,"h":48},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceA2.png":
+"pearlcatFaceA2.png":
 {
 	"frame": {"x":98,"y":2,"w":46,"h":48},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceA3.png":
+"pearlcatFaceA3.png":
 {
 	"frame": {"x":146,"y":2,"w":46,"h":48},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceA4.png":
+"pearlcatFaceA4.png":
 {
 	"frame": {"x":194,"y":2,"w":46,"h":48},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceA5.png":
+"pearlcatFaceA5.png":
 {
 	"frame": {"x":2,"y":52,"w":46,"h":48},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceA6.png":
+"pearlcatFaceA6.png":
 {
 	"frame": {"x":50,"y":52,"w":46,"h":48},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceA7.png":
+"pearlcatFaceA7.png":
 {
 	"frame": {"x":98,"y":52,"w":46,"h":48},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceA8.png":
+"pearlcatFaceA8.png":
 {
 	"frame": {"x":146,"y":52,"w":46,"h":48},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB0.png":
+"pearlcatFaceB0.png":
 {
 	"frame": {"x":194,"y":52,"w":46,"h":48},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB1.png":
+"pearlcatFaceB1.png":
 {
 	"frame": {"x":2,"y":102,"w":46,"h":48},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB2.png":
+"pearlcatFaceB2.png":
 {
 	"frame": {"x":50,"y":102,"w":46,"h":48},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB3.png":
+"pearlcatFaceB3.png":
 {
 	"frame": {"x":98,"y":102,"w":46,"h":48},
 	"rotated": false,
@@ -104,7 +104,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB4.png":
+"pearlcatFaceB4.png":
 {
 	"frame": {"x":146,"y":102,"w":46,"h":48},
 	"rotated": false,
@@ -112,7 +112,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB5.png":
+"pearlcatFaceB5.png":
 {
 	"frame": {"x":194,"y":102,"w":46,"h":48},
 	"rotated": false,
@@ -120,7 +120,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB6.png":
+"pearlcatFaceB6.png":
 {
 	"frame": {"x":2,"y":152,"w":46,"h":48},
 	"rotated": false,
@@ -128,7 +128,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB7.png":
+"pearlcatFaceB7.png":
 {
 	"frame": {"x":50,"y":152,"w":46,"h":48},
 	"rotated": false,
@@ -136,7 +136,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceB8.png":
+"pearlcatFaceB8.png":
 {
 	"frame": {"x":98,"y":152,"w":46,"h":48},
 	"rotated": false,
@@ -144,7 +144,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceDead.png":
+"pearlcatFaceDead.png":
 {
 	"frame": {"x":146,"y":152,"w":46,"h":48},
 	"rotated": false,
@@ -152,7 +152,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":48},
 	"sourceSize": {"w":46,"h":48}
 },
-"thesacrificeFaceStunned.png":
+"pearlcatFaceStunned.png":
 {
 	"frame": {"x":194,"y":152,"w":46,"h":48},
 	"rotated": false,
@@ -163,7 +163,7 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "thesacrifice_face.png",
+	"image": "pearlcat_face.png",
 	"format": "RGBA8888",
 	"size": {"w":242,"h":202},
 	"scale": "1",

@@ -5,7 +5,7 @@ using UnityEngine;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public static partial class Hooks
 {
@@ -34,8 +34,7 @@ public static partial class Hooks
     {
         orig(self, menu, owner, sceneID);
 
-        if (sceneID.value != "Slugcat_Sacrifice"
-            ) return;
+        if (sceneID.value != "Slugcat_Pearlcat") return;
 
         foreach (var illustration in self.depthIllustrations)
         {

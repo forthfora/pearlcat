@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public static partial class Hooks
 {

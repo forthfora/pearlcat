@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TheSacrifice
+namespace Pearlcat
 {
     public class BasicObjectAnimation : ObjectAnimation
     {

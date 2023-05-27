@@ -3,7 +3,7 @@ using MonoMod.Cil;
 using RWCustom;
 using System;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public static partial class Hooks
 {

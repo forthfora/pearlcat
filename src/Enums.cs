@@ -1,4 +1,4 @@
-﻿namespace TheSacrifice;
+﻿namespace Pearlcat;
 
 public class Enums
 {
@@ -18,34 +18,34 @@ public class Enums
 
     public class Slugcat
     {
-        public static SlugcatStats.Name? Sacrifice;
+        public static SlugcatStats.Name Pearlcat = null!;
 
         public static void RegisterValues()
         {
-            Sacrifice = new SlugcatStats.Name("Sacrifice", false);
+            Pearlcat = new SlugcatStats.Name(nameof(Pearlcat), false);
         }
 
         public static void UnregisterValues()
         {
-            Sacrifice?.Unregister();
+            Pearlcat?.Unregister();
         }
     }
 
     public class Sounds
     {
-        public static SoundID? StoringObject;
-        public static SoundID? ObjectStored;
+        public static SoundID StoringObject = null!;
+        public static SoundID ObjectStored = null!;
 
-        public static SoundID? RetrievingObject;
-        public static SoundID? ObjectRetrieved;
+        public static SoundID RetrievingObject = null!;
+        public static SoundID ObjectRetrieved = null!;
 
         public static void RegisterValues()
         {
-            StoringObject = new SoundID("StoringObject", true);
-            ObjectStored = new SoundID("ObjectStored", true);
+            StoringObject = new SoundID(nameof(StoringObject), true);
+            ObjectStored = new SoundID(nameof(ObjectStored), true);
 
-            RetrievingObject = new SoundID("RetrievingObject", true);
-            ObjectRetrieved = new SoundID("ObjectRetrieved", true);
+            RetrievingObject = new SoundID(nameof(RetrievingObject), true);
+            ObjectRetrieved = new SoundID(nameof(ObjectRetrieved), true);
         }
 
         public static void UnregisterValues()
@@ -60,25 +60,16 @@ public class Enums
 
     public class Oracles
     {
-        public static SSOracleBehavior.Action? TheSacrifice_General;
-
-        public static SSOracleBehavior.MovementBehavior? TheSacrifice_SSMovement;
-        public static SLOracleBehavior.MovementBehavior? TheSacrifice_SLMovement;
+        public static SSOracleBehavior.Action Pearlcat_General = null!;
 
         public static void RegisterValues()
         {
-            TheSacrifice_General = new SSOracleBehavior.Action("TheSacrifice_General", true);
-
-            TheSacrifice_SSMovement = new SSOracleBehavior.MovementBehavior("TheSacrifice_SSMovement", true);
-            TheSacrifice_SLMovement = new SLOracleBehavior.MovementBehavior("TheSacrifice_SLMovement", true);
+            Pearlcat_General = new SSOracleBehavior.Action(nameof(Pearlcat_General), true);
         }
 
         public static void UnregisterValues()
         {
-            TheSacrifice_General?.Unregister();
-
-            TheSacrifice_SSMovement?.Unregister();
-            TheSacrifice_SLMovement?.Unregister();
+            Pearlcat_General?.Unregister();
         }
     }
 }

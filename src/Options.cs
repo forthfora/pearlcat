@@ -2,7 +2,7 @@
 using Menu.Remix.MixedUI;
 using UnityEngine;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 // Based on the options script from SBCameraScroll by SchuhBaum
 // https://github.com/SchuhBaum/SBCameraScroll/blob/Rain-World-v1.9/SourceCode/MainModOptions.cs

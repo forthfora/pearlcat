@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public static partial class Hooks
 {

@@ -8,7 +8,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 public class PlayerModule
 {
@@ -314,7 +314,7 @@ public class PlayerModule
 
     private void InitColors(Player player)
     {
-        if (!SlugBaseCharacter.TryGet(Enums.Slugcat.Sacrifice, out var character)) return;
+        if (!SlugBaseCharacter.TryGet(Enums.Slugcat.Pearlcat, out var character)) return;
 
         if (!character.Features.TryGet(PlayerFeatures.CustomColors, out var customColors)) return;
 

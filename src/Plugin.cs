@@ -11,17 +11,17 @@ using System.Security;
 #pragma warning restore CS0618 // Type or member is obsolete
 
 
-namespace TheSacrifice;
+namespace Pearlcat;
 
 [BepInPlugin(AUTHOR + "." + MOD_ID, MOD_NAME, VERSION)]
 public class Plugin : BaseUnityPlugin
 {
     public const string VERSION = "0.0.0";
-    public const string MOD_ID = "thesacrifice";
+    public const string MOD_ID = "pearlcat";
     public const string AUTHOR = "forthbridge";
-    public const string MOD_NAME = "The Sacrifice";
+    public const string MOD_NAME = "Pearlcat";
 
-    public const string SLUGCAT_ID = "Sacrifice";
+    public const string SLUGCAT_ID = "Pearlcat";
 
     public static new ManualLogSource Logger { get; private set; } = null!;
 

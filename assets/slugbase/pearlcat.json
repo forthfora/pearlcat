@@ -1,6 +1,6 @@
 {
-    "id": "Sacrifice",
-    "name": "The Sacrifice",
+    "id": "Pearlcat",
+    "name": "The Pearlcat",
     "description": "A cast-away experiment, unearthing unforseen potential, yet designed for a singular purpose.<LINE>Far from home and destiny, will you seek to return; or perhaps find a more desirable fate?",
     "features": {
         "color": "193633",
@@ -30,7 +30,7 @@
         "cycle_length_max": 13,
         "perma_unlock_gates": false,
 
-        "select_menu_scene": "Slugcat_Sacrifice",
+        "select_menu_scene": "Slugcat_Pearlcat",
         
         "diet": {
             "base": "Gourmand",
