@@ -36,7 +36,8 @@ public static class AssetLoader
 
     public static Texture2D? GetTexture(string textureName)
     {
-        if (!textures.ContainsKey(textureName)) return null;
+        if (!textures.ContainsKey(textureName))
+            return null;
 
         Texture2D originalTexture = textures[textureName];
         Texture2D? copiedTexture = new(originalTexture.width, originalTexture.height, TextureFormat.ARGB32, false);
@@ -113,7 +114,8 @@ public static class AssetLoader
             filterMode = FilterMode.Point
         };
 
-        if (!texture.LoadImage(fileData)) return null;
+        if (!texture.LoadImage(fileData))
+            return null;
 
         return texture;
     }

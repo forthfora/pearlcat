@@ -12,21 +12,21 @@ public static partial class Hooks
 {
     private static void ApplyPlayerGraphicsHooks()
     {
-        On.PlayerGraphics.AddToContainer += PlayerGraphics_AddToContainer;
-
         On.PlayerGraphics.InitiateSprites += PlayerGraphics_InitiateSprites;
+        On.PlayerGraphics.AddToContainer += PlayerGraphics_AddToContainer;
+        On.PlayerGraphics.ApplyPalette += PlayerGraphics_ApplyPalette;
+        
         On.PlayerGraphics.DrawSprites += PlayerGraphics_DrawSprites;
 
         On.PlayerGraphics.Update += PlayerGraphics_Update;
-
         On.PlayerGraphics.Reset += PlayerGraphics_Reset;
-        
+
 
         On.PlayerGraphics.PlayerObjectLooker.HowInterestingIsThisObject += PlayerObjectLooker_HowInterestingIsThisObject;
         On.Player.ShortCutColor += Player_ShortCutColor;
     }
 
- 
+
     const int BODY_SPRITE = 0;
     const int HIPS_SPRITE = 1;
     const int TAIL_SPRITE = 2;
@@ -53,6 +53,8 @@ public static partial class Hooks
         playerModule.earLSprite = spriteIndex++;
         playerModule.earRSprite = spriteIndex++;
 
+        playerModule.cloakSprite = spriteIndex++;
+
 
         playerModule.lastSprite = spriteIndex;
         Array.Resize(ref sLeaser.sprites, spriteIndex);
@@ -60,8 +62,10 @@ public static partial class Hooks
 
         // Create the sprites themselves
         playerModule.RegenerateTail();
-
         playerModule.RegenerateEars();
+
+        playerModule.cloak = new PlayerModule.Cloak(self, playerModule);
+        playerModule.cloak.InitiateSprite(playerModule.cloakSprite, sLeaser, rCam);
 
         GenerateEarMesh(sLeaser, playerModule.earL, playerModule.earLSprite);
         GenerateEarMesh(sLeaser, playerModule.earR, playerModule.earRSprite);
@@ -109,10 +113,12 @@ public static partial class Hooks
         FSprite earLSprite = sLeaser.sprites[playerModule.earLSprite];
         FSprite earRSprite = sLeaser.sprites[playerModule.earRSprite];
 
+        FSprite cloakSprite = sLeaser.sprites[playerModule.cloakSprite];
+
         // Move to correct container
-        FContainer fgContainer = rCam.ReturnFContainer("Foreground");
         FContainer mgContainer = rCam.ReturnFContainer("Midground");
-        
+        FContainer fgContainer = rCam.ReturnFContainer("Foreground");
+
 
 
         mgContainer.AddChild(earLSprite);
@@ -133,9 +139,27 @@ public static partial class Hooks
 
         // Legs go behind hips
         legsSprite.MoveBehindOtherNode(hipsSprite);
+
+        // Cloak goes behind head, infront of body
+        cloakSprite.MoveInFrontOfOtherNode(bodySprite);
+        cloakSprite.MoveBehindOtherNode(headSprite);
+    }
+    
+    private static void PlayerGraphics_ApplyPalette(On.PlayerGraphics.orig_ApplyPalette orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
+    {
+        orig(self, sLeaser, rCam, palette);
+
+        if (!IsCustomSlugcat(self.player)) return;
+
+        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+
+
+        playerModule.cloak.ApplyPalette(self.gownIndex, sLeaser, rCam, palette);
     }
 
     #endregion
+
+
 
     #region Draw Sprites
 
@@ -148,17 +172,21 @@ public static partial class Hooks
         if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
 
 
-        // Custom Sprite Loader
         UpdateCustomPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
         UpdateCustomPlayerSprite(sLeaser, HIPS_SPRITE, "Hips", "hips");
         UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "head");
+        
         UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
+        
         UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
         UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
+        
         UpdateCustomPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
+
 
         DrawEars(self, sLeaser, timeStacker, camPos, playerModule);
         DrawTail(self, sLeaser, playerModule);
+        playerModule.cloak.DrawSprite(playerModule.cloakSprite, sLeaser, rCam, timeStacker, camPos);
 
 
         OrderSprites(self, sLeaser, playerModule);
@@ -168,15 +196,12 @@ public static partial class Hooks
     {
         FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
 
-        if (atlas != null)
-        {
-            string? name = sLeaser.sprites[spriteIndex]?.element?.name;
+        if (atlas == null) return;
 
-            if (name != null && name.StartsWith(toReplace) && atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element))
-            {
-                sLeaser.sprites[spriteIndex].element = element;
-            }
-        }
+        string? name = sLeaser.sprites[spriteIndex]?.element?.name;
+
+        if (name != null && name.StartsWith(toReplace) && atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element))
+            sLeaser.sprites[spriteIndex].element = element;
     }
 
     private static void OrderSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
@@ -199,10 +224,12 @@ public static partial class Hooks
     private static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
     {
         if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
+
         playerModule.earLAttachPos = GetEarAttachPos(self, timestacker, playerModule, earLOffset);
         DrawEar(sLeaser, timestacker, camPos, playerModule.earL, playerModule.earLSprite, playerModule.earLAtlas, playerModule.earLAttachPos, playerModule.earLFlipDirection);
 
         if (!EarROffset.TryGet(self.player, out var earROffset)) return;
+
         playerModule.earRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
         DrawEar(sLeaser, timestacker, camPos, playerModule.earR, playerModule.earRSprite, playerModule.earRAtlas, playerModule.earRAttachPos, playerModule.earRFlipDirection);
 
@@ -239,7 +266,7 @@ public static partial class Hooks
             float distance = Vector2.Distance(earPos, attachPos) / 5.0f;
 
             if (segment == 0) distance = 0.0f;
-            
+
             earMesh.MoveVertice(segment * 4, attachPos - earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
             earMesh.MoveVertice(segment * 4 + 1, attachPos + earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
 
@@ -383,8 +410,31 @@ public static partial class Hooks
             tailMesh.UVvertices[vertex] = uv;
         }
     }
+    
+    
+    
+    private static void PlayerGraphics_Reset(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
+    {
+        orig(self);
+
+        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+
+        if (playerModule.earL == null || playerModule.earR == null) return;
+
+        if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
+        if (!EarROffset.TryGet(self.player, out var earROffset)) return;
+
+
+        for (int segment = 0; segment < playerModule.earL.Length; segment++)
+            playerModule.earL[segment].Reset(GetEarAttachPos(self, 1.0f, playerModule, earLOffset));
+
+        for (int segment = 0; segment < playerModule.earR.Length; segment++)
+            playerModule.earR[segment].Reset(GetEarAttachPos(self, 1.0f, playerModule, earROffset));
+    }
 
     #endregion
+
+
 
     #region Graphics Update
 
@@ -397,8 +447,10 @@ public static partial class Hooks
         ApplyTailMovement(self);
         ApplyEarMovement(self);
 
+        playerModule.cloak.Update();
         playerModule.prevHeadRotation = self.head.connection.Rotation;
     }
+
 
 
     private static readonly List<Player.BodyModeIndex> EXCLUDE_FROM_TAIL_OFFSET_BODYMODE = new()
@@ -439,7 +491,6 @@ public static partial class Hooks
         }
     }
 
-    
     private static void ApplyEarMovement(PlayerGraphics self)
     {
         if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
@@ -470,7 +521,7 @@ public static partial class Hooks
 
             //    earR[0].vel.x += 0.35f * negFlipDir;
             //    earR[1].vel.x += 0.35f * negFlipDir;
-            
+
             //}
             //else
             //{
@@ -479,7 +530,7 @@ public static partial class Hooks
 
             //    earR[0].vel.x += 0.45f * negFlipDir;
             //    earR[1].vel.x += 0.45f * negFlipDir;
-            
+
             //}
 
             return;
@@ -492,13 +543,12 @@ public static partial class Hooks
         //earR[1].vel.x += 0.5f;
     }
 
-
     private static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)
     {
         if (ear == null) return;
 
         ear[0].connectedPoint = earAttachPos;
-        
+
         for (int segment = 0; segment < ear.Length; segment++)
             ear[segment].Update();
 
@@ -511,25 +561,6 @@ public static partial class Hooks
 
     #endregion
 
-
-    private static void PlayerGraphics_Reset(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
-    {
-        orig(self);
-
-        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
-
-        if (playerModule.earL == null || playerModule.earR == null) return; 
-
-        if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
-        if (!EarROffset.TryGet(self.player, out var earROffset)) return;
-
-
-        for (int segment = 0; segment < playerModule.earL.Length; segment++)
-            playerModule.earL[segment].Reset(GetEarAttachPos(self, 1.0f, playerModule, earLOffset));
-
-        for (int segment = 0; segment < playerModule.earR.Length; segment++)
-            playerModule.earR[segment].Reset(GetEarAttachPos(self, 1.0f, playerModule, earROffset));
-    }
 
 
     private static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)

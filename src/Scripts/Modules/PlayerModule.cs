@@ -7,25 +7,24 @@ using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+using RWCustom;
 
 namespace Pearlcat;
 
 public class PlayerModule
 {
-    public WeakReference<Player> Player;
+    public WeakReference<Player> PlayerRef;
 
-    // Sprites
     public int firstSprite;
     public int lastSprite;
 
 
-    // Objects
     public LightSource? activeObjectGlow;
 
 
     public PlayerModule(Player self)
     {
-        Player = new WeakReference<Player>(self);
+        PlayerRef = new WeakReference<Player>(self);
 
         InitSounds(self);
         InitColors(self);
@@ -75,6 +74,7 @@ public class PlayerModule
     }
 
 
+
     #region Ears
 
     public TailSegment[]? earL;
@@ -100,8 +100,11 @@ public class PlayerModule
         if (color == EarLColor) return;
 
 
-        if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
-        if (earLTexture != null) Object.DestroyImmediate(earLTexture);
+        if (Futile.atlasManager.DoesContainElementWithName(textureName))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
+        
+        if (earLTexture != null)
+            Object.DestroyImmediate(earLTexture);
 
         earLTexture = AssetLoader.GetTexture(textureName);
         if (earLTexture == null) return;
@@ -135,7 +138,7 @@ public class PlayerModule
 
     public void RegenerateEars()
     {
-        if (!Player.TryGetTarget(out var player)) return;
+        if (!PlayerRef.TryGetTarget(out var player)) return;
 
         if (player.graphicsModule == null) return;
 
@@ -187,6 +190,7 @@ public class PlayerModule
 
     #endregion
 
+
     #region Tail
 
     public Texture2D? tailTexture;
@@ -194,8 +198,11 @@ public class PlayerModule
 
     public void LoadTailTexture(string textureName)
     {
-        if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
-        if (tailTexture != null) Object.DestroyImmediate(tailTexture);
+        if (Futile.atlasManager.DoesContainElementWithName(textureName))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
+        
+        if (tailTexture != null)
+            Object.DestroyImmediate(tailTexture);
 
         tailTexture = AssetLoader.GetTexture(textureName);
         if (tailTexture == null) return;
@@ -211,7 +218,7 @@ public class PlayerModule
 
     public void RegenerateTail()
     {
-        if (!Player.TryGetTarget(out var player)) return;
+        if (!PlayerRef.TryGetTarget(out var player)) return;
 
         if (player.graphicsModule == null) return;
 
@@ -276,6 +283,185 @@ public class PlayerModule
     }
 
     #endregion
+
+
+    public Texture2D? cloakTexture;
+    public FAtlas? cloakAtlas;
+
+    public int cloakSprite;
+    public Cloak cloak = null!;
+
+    public void LoadCloakTexture(string textureName)
+    {
+        if (Futile.atlasManager.DoesContainElementWithName(textureName))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
+
+        if (cloakTexture != null)
+            Object.DestroyImmediate(cloakTexture);
+
+        cloakTexture = AssetLoader.GetTexture(textureName);
+        if (cloakTexture == null) return;
+
+        // Apply Colors
+        MapAlphaToColor(cloakTexture, 1.0f, Color.red);
+
+        cloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + Hooks.TextureID, cloakTexture, false);
+    }
+
+    public class Cloak
+    {
+        private readonly int divs = 11;
+
+        private readonly PlayerGraphics owner;
+        private readonly PlayerModule playerModule;
+
+        public Vector2[,,] clothPoints;
+        public bool visible;
+        public bool needsReset;
+
+        public Cloak(PlayerGraphics owner, PlayerModule playerModule)
+        {
+            this.owner = owner;
+            this.playerModule = playerModule;
+            
+            clothPoints = new Vector2[divs, divs, 3];
+            visible = true;
+            needsReset = true;
+        }
+
+        public void Update()
+        {
+            if (!visible || owner.player.room == null)
+            {
+                needsReset = true;
+                return;
+            }
+
+            if (needsReset)
+            {
+                for (int i = 0; i < divs; i++)
+                {
+                    for (int j = 0; j < divs; j++)
+                    {
+                        clothPoints[i, j, 1] = owner.player.bodyChunks[1].pos;
+                        clothPoints[i, j, 0] = owner.player.bodyChunks[1].pos;
+                        clothPoints[i, j, 2] *= 0f;
+                    }
+                }
+                needsReset = false;
+            }
+
+            Vector2 vector = Vector2.Lerp(owner.head.pos, owner.player.bodyChunks[1].pos, 0.75f);
+
+            if (owner.player.bodyMode == Player.BodyModeIndex.Crawl)
+                vector += new Vector2(0f, 4f);
+
+            Vector2 a = default;
+
+            if (owner.player.bodyMode == Player.BodyModeIndex.Stand)
+            {
+                vector += new Vector2(0f, Mathf.Sin(owner.player.animationFrame / 6f * 2f * Mathf.PI) * 2f);
+                a = new Vector2(0f, -11f + Mathf.Sin(owner.player.animationFrame / 6f * 2f * Mathf.PI) * -2.5f);
+            }
+
+            Vector2 bodyPos = vector;
+            Vector2 vector2 = Custom.DirVec(owner.player.bodyChunks[1].pos, owner.player.bodyChunks[0].pos + Custom.DirVec(default, owner.player.bodyChunks[0].vel) * 5f) * 1.6f;
+            Vector2 perp = Custom.PerpendicularVector(vector2);
+
+            for (int k = 0; k < divs; k++)
+            {
+                for (int l = 0; l < divs; l++)
+                {
+                    Mathf.InverseLerp(0f, divs - 1, k);
+                    float num = Mathf.InverseLerp(0f, divs - 1, l);
+
+                    clothPoints[k, l, 1] = clothPoints[k, l, 0];
+                    clothPoints[k, l, 0] += clothPoints[k, l, 2];
+                    clothPoints[k, l, 2] *= 0.999f;
+                    clothPoints[k, l, 2].y -= 1.1f * owner.player.EffectiveRoomGravity;
+
+                    Vector2 idealPos = IdealPosForPoint(k, l, bodyPos, vector2, perp) + a * (-1f * num);
+                    Vector3 rot = Vector3.Slerp(-vector2, Custom.DirVec(vector, idealPos), num) * (0.01f + 0.9f * num);
+
+                    clothPoints[k, l, 2] += new Vector2(rot.x, rot.y);
+
+                    float num2 = Vector2.Distance(clothPoints[k, l, 0], idealPos);
+                    float num3 = Mathf.Lerp(0f, 9f, num);
+
+                    Vector2 a2 = Custom.DirVec(clothPoints[k, l, 0], idealPos);
+
+                    if (num2 > num3)
+                    {
+                        clothPoints[k, l, 0] -= (num3 - num2) * a2 * (1f - num / 1.4f);
+                        clothPoints[k, l, 2] -= (num3 - num2) * a2 * (1f - num / 1.4f);
+                    }
+
+                    for (int m = 0; m < 4; m++)
+                    {
+                        IntVector2 intVector = new IntVector2(k, l) + Custom.fourDirections[m];
+                        if (intVector.x >= 0 && intVector.y >= 0 && intVector.x < divs && intVector.y < divs)
+                        {
+                            num2 = Vector2.Distance(clothPoints[k, l, 0], clothPoints[intVector.x, intVector.y, 0]);
+                            a2 = Custom.DirVec(clothPoints[k, l, 0], clothPoints[intVector.x, intVector.y, 0]);
+                            float num4 = Vector2.Distance(idealPos, IdealPosForPoint(intVector.x, intVector.y, bodyPos, vector2, perp));
+                            clothPoints[k, l, 2] -= (num4 - num2) * a2 * 0.05f;
+                            clothPoints[intVector.x, intVector.y, 2] += (num4 - num2) * a2 * 0.05f;
+                        }
+                    }
+                }
+            }
+        }
+
+        private Vector2 IdealPosForPoint(int x, int y, Vector2 bodyPos, Vector2 dir, Vector2 perp)
+        {
+            float num = Mathf.InverseLerp(0f, divs - 1, x);
+            float t = Mathf.InverseLerp(0f, divs - 1, y);
+
+            return bodyPos + Mathf.Lerp(-1f, 1f, num) * perp * Mathf.Lerp(9f, 11f, t) + dir * Mathf.Lerp(8f, -9f, t) * (1f + Mathf.Sin(3.1415927f * num) * 0.35f * Mathf.Lerp(-1f, 1f, t));
+        }
+
+        public Color CloakColorAtPos(float f) => Color.white;
+
+
+        public void InitiateSprite(int sprite, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+        {
+            playerModule.LoadCloakTexture("cloak");
+
+            if (playerModule.cloakAtlas == null) return;
+
+            sLeaser.sprites[sprite] = TriangleMesh.MakeGridMesh(playerModule.cloakAtlas.name, divs - 1);
+            sLeaser.sprites[sprite].color = Color.white;
+
+            for (int i = 0; i < divs; i++)
+            {
+                for (int j = 0; j < divs; j++)
+                {
+                    clothPoints[i, j, 0] = owner.player.firstChunk.pos;
+                    clothPoints[i, j, 1] = owner.player.firstChunk.pos;
+                    clothPoints[i, j, 2] = new Vector2(0f, 0f);
+                }
+            }
+        }
+
+        public void ApplyPalette(int sprite, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
+        {
+            for (int i = 0; i < divs; i++)
+                for (int j = 0; j < divs; j++)
+                    ((TriangleMesh)sLeaser.sprites[sprite]).verticeColors[j * divs + i] = CloakColorAtPos(i / (float)(divs - 1));
+        }
+
+        public void DrawSprite(int sprite, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+        {
+            sLeaser.sprites[sprite].isVisible = (visible && owner.player.room != null);
+            if (!sLeaser.sprites[sprite].isVisible) return;
+
+            for (int i = 0; i < divs; i++)
+                for (int j = 0; j < divs; j++)
+                    ((TriangleMesh)sLeaser.sprites[sprite]).MoveVertice(i * divs + j, Vector2.Lerp(clothPoints[i, j, 1], clothPoints[i, j, 0], timeStacker) - camPos);
+        }
+    }
+
+
 
     #region Sounds
     public DynamicSoundLoop storingObjectSound = null!;
