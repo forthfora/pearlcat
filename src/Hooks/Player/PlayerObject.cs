@@ -5,9 +5,9 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    private static void TryRealizeInventory(Player self)
+    private static void TryRealizeInventory(this Player self)
     {
-        if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
+        if (!PearlcatData.TryGetValue(self, out PlayerModule playerModule)) return;
 
         if (self.inShortcut) return;
 
@@ -27,12 +27,12 @@ public static partial class Hooks
 
             if (abstractObject.realizedObject == null) continue;
 
-            SetPlayerObjectAttributes(abstractObject.realizedObject);
-            PlayerObjectRealizedEffect(abstractObject.realizedObject);
+            abstractObject.realizedObject.SetPlayerObjectAttributes();
+            abstractObject.realizedObject.PlayerObjectRealizedEffect();
         }
     }
 
-    private static void SetPlayerObjectAttributes(PhysicalObject realizedObject)
+    private static void SetPlayerObjectAttributes(this PhysicalObject realizedObject)
     {
         DisabledCollision.GetOrCreateValue(realizedObject);
         realizedObject.gravity = 0.0f;
@@ -44,7 +44,7 @@ public static partial class Hooks
             weapon.rotationSpeed = 0.0f;
     }
 
-    private static void RestoreNormalObjectAttributes(PhysicalObject realizedObject)
+    private static void RestoreNormalObjectAttributes(this PhysicalObject realizedObject)
     {
         DisabledCollision.Remove(realizedObject);
         realizedObject.gravity = 1.0f;
@@ -52,7 +52,7 @@ public static partial class Hooks
 
 
 
-    private static void PlayerObjectRealizedEffect(PhysicalObject realizedObject)
+    private static void PlayerObjectRealizedEffect(this PhysicalObject realizedObject)
     {
         if (realizedObject == null) return;
 
@@ -60,7 +60,7 @@ public static partial class Hooks
         realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 25.0f, 0.07f, 10, false));
     }
 
-    private static void PlayerObjectAbstractedEffect(PhysicalObject realizedObject)
+    private static void PlayerObjectAbstractedEffect(this PhysicalObject realizedObject)
     {
         if (realizedObject == null) return;
 
@@ -68,7 +68,7 @@ public static partial class Hooks
         realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 50.0f, 0.07f, 10, false));
     }
 
-    private static void PlayerObjectDeathEffect(PhysicalObject realizedObject)
+    private static void PlayerObjectDeathEffect(this PhysicalObject realizedObject)
     {
         if (realizedObject == null) return;
 
@@ -77,9 +77,9 @@ public static partial class Hooks
 
 
 
-    private static void AbstractizeInventory(Player self)
+    private static void AbstractizeInventory(this Player self)
     {
-        if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
+        if (!PearlcatData.TryGetValue(self, out PlayerModule playerModule)) return;
 
         foreach (var abstractObject in playerModule.abstractInventory)
         {
@@ -91,7 +91,7 @@ public static partial class Hooks
     }
 
 
-    private static bool IsPlayerObject(PhysicalObject targetObject)
+    private static bool IsPlayerObject(this PhysicalObject targetObject)
     {
         List<PlayerModule> playerData = GetAllPlayerData(targetObject.abstractPhysicalObject.world.game);
 
@@ -104,22 +104,22 @@ public static partial class Hooks
 
 
 
-    private static void StoreObject(Player self, AbstractPhysicalObject abstractObject)
+    private static void StoreObject(this Player self, AbstractPhysicalObject abstractObject)
     {
-        if (!PlayerData.TryGetValue(self, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self, out var playerModule)) return;
 
         if (!DeathPersistentData.TryGetValue(self.room.game.GetStorySession.saveState.deathPersistentSaveData, out var saveData)) return;
 
         if (playerModule.abstractInventory.Count >= saveData.MaxStorageCount) return;
 
-        AddToInventory(self, abstractObject);
+        self.AddToInventory(abstractObject);
     }
 
-    private static void RetrieveObject(Player self)
+    private static void RetrieveObject(this Player self)
     {
         if (self.FreeHand() <= -1) return;
 
-        if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
+        if (!PearlcatData.TryGetValue(self, out PlayerModule playerModule)) return;
 
         AbstractPhysicalObject? activeObject = playerModule.ActiveObject;
         if (activeObject == null) return;
@@ -131,17 +131,17 @@ public static partial class Hooks
 
 
 
-    private static void AddToInventory(Player self, AbstractPhysicalObject abstractObject)
+    private static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
-        if (!PlayerData.TryGetValue(self, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self, out var playerModule)) return;
 
         playerModule.abstractInventory.Add(abstractObject);
         playerModule.currentAnimation.InitAnimation(self);
     }
 
-    private static void RemoveFromInventory(Player self, AbstractPhysicalObject abstractObject)
+    private static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
-        if (!PlayerData.TryGetValue(self, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self, out var playerModule)) return;
 
 
         playerModule.abstractInventory.Remove(abstractObject);
@@ -157,9 +157,9 @@ public static partial class Hooks
 
     
 
-    private static void SelectNextObject(Player player)
+    private static void SelectNextObject(this Player player)
     {
-        if (!PlayerData.TryGetValue(player, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(player, out var playerModule)) return;
 
         if (playerModule.selectedObjectIndex == null) return;
 
@@ -191,9 +191,9 @@ public static partial class Hooks
         Plugin.Logger.LogWarning($"selected next object ({playerModule.selectedObjectIndex})");
     }
 
-    private static void SelectPreviousObject(Player player)
+    private static void SelectPreviousObject(this Player player)
     {
-        if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return;
+        if (!PearlcatData.TryGetValue(player, out PlayerModule playerModule)) return;
 
         if (playerModule.selectedObjectIndex == null) return;
 
@@ -227,9 +227,9 @@ public static partial class Hooks
 
 
 
-    private static void ActivateObjectInStorage(Player player, int objectIndex)
+    private static void ActivateObjectInStorage(this Player player, int objectIndex)
     {
-        if (!PlayerData.TryGetValue(player, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(player, out var playerModule)) return;
 
         if (objectIndex >= playerModule.abstractInventory.Count || objectIndex < 0) return;
 
@@ -243,7 +243,7 @@ public static partial class Hooks
         playerModule.activeObjectIndex = objectIndex;
     }
 
-    private static void DestroyTransferObject(PlayerModule playerModule)
+    private static void DestroyTransferObject(this PlayerModule playerModule)
     {
         ResetTransferObject(playerModule);
 
@@ -252,7 +252,7 @@ public static partial class Hooks
         playerModule.canTransferObject = false;
     }
 
-    private static void ResetTransferObject(PlayerModule playerModule)
+    private static void ResetTransferObject(this PlayerModule playerModule)
     {
         playerModule.transferObject = null;
         playerModule.transferObjectInitialPos = null;

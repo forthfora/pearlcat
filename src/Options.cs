@@ -195,8 +195,6 @@ public class Options : OptionInterface
         AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
         #endregion
-
-
     }
 
 

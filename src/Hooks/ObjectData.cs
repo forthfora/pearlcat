@@ -34,12 +34,14 @@ public static partial class Hooks
     private static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
+
         IDrawable_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
     }
 
     private static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         if (!ObjectAddon.ObjectsWithAddon.TryGetValue(self, out var addon)) return;
+
         addon.ParentGraphics_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
     }
 
@@ -48,8 +50,11 @@ public static partial class Hooks
     private static bool IsObjectStorable(AbstractPhysicalObject abstractObject)
     {
         if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.DataPearl) return true;
+
         if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.PebblesPearl) return true;
+        
         if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.HalcyonPearl) return true;
+        
         if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl) return true;
 
         return false;
@@ -57,7 +62,8 @@ public static partial class Hooks
 
 
 
-    public static Color GetObjectFirstColor(AbstractPhysicalObject abstractObject) => GetObjectAccentColors(abstractObject).Count == 0 ? Color.white : GetObjectAccentColors(abstractObject).First();
+    public static Color GetObjectFirstColor(AbstractPhysicalObject abstractObject)
+        => GetObjectAccentColors(abstractObject).Count == 0 ? Color.white : GetObjectAccentColors(abstractObject).First();
 
     public static List<Color> GetObjectAccentColors(AbstractPhysicalObject abstractObject)
     {
@@ -65,7 +71,8 @@ public static partial class Hooks
 
         IconSymbol.IconSymbolData? symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
 
-        if (symbolData == null) return colors;
+        if (symbolData == null)
+            return colors;
 
 
         colors.Add(ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData));

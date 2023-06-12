@@ -1,4 +1,5 @@
-﻿using Mono.Cecil.Cil;
+﻿using IL.Menu;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RWCustom;
 using System;
@@ -36,7 +37,7 @@ public static partial class Hooks
     {
         orig(self);
 
-        if (!PlayerData.TryGetValue(self, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self, out var playerModule)) return;
 
         for (int i = playerModule.abstractInventory.Count - 1; i >= 0; i--)
         {
@@ -49,11 +50,10 @@ public static partial class Hooks
 
     private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
+        if (self.IsPearlcat())
+            PearlcatData.Add(self, new PlayerModule(self));
+        
         orig(self, abstractCreature, world);
-
-        if (!IsCustomSlugcat(self)) return;
-
-        PlayerData.Add(self, new PlayerModule(self));
     }
 
 
@@ -63,37 +63,36 @@ public static partial class Hooks
     {
         orig(self, eu);
 
-        if (!IsCustomSlugcat(self)) return;
-
-        if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return;
+        if (!PearlcatData.TryGetValue(self, out PlayerModule playerModule)) return;
 
 
         // HACK
-        //if (!self.dead)
-        //{
-        //    debugStacker++;
+        /*
+        if (!self.dead)
+        {
+            debugStacker++;
 
-        //    int i = debugStacker / 100;
+            int i = debugStacker / 100;
 
-        //    if (debugStacker % 100 == 0)
-        //    {
-        //        DataPearl.AbstractDataPearl.DataPearlType type = i switch
-        //        {
-        //            0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
-        //            1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
-        //            2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
-        //            3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
-        //            _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
-        //        };
-        //        AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
-        //        StoreObject(self, pearl);
-        //    }
-        //}
+            if (debugStacker % 100 == 0)
+            {
+                DataPearl.AbstractDataPearl.DataPearlType type = i switch
+                {
+                    0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
+                    1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
+                    2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
+                    3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
+                    _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
+                };
+                AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
+                StoreObject(self, pearl);
+            }
+        }
+        */
 
-        TryRealizeInventory(self);
-
-        if (self.room != null)
-            playerModule.currentAnimation.Update(self);
+        self.TryRealizeInventory();
+        
+        playerModule.currentAnimation.Update(self);
     }
 
 
@@ -230,7 +229,7 @@ public static partial class Hooks
         DestroyTransferObject(playerModule);
     }
     */
-    
+
 
     private static void Player_GrabUpdateIL(ILContext il)
     {
@@ -243,14 +242,15 @@ public static partial class Hooks
             x => x.MatchBltUn(out _),
             x => x.MatchLdcI4(0),
             x => x.MatchStloc(1),
-            x => x.MatchLdloc(1),   
+            x => x.MatchLdloc(1),
             x => x.MatchBrfalse(out dest)
             );
 
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Func<Player, bool>>((player) =>
         {
-            if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) return true;
+            if (!PearlcatData.TryGetValue(player, out PlayerModule playerModule))
+                return true;
 
             return playerModule.canSwallowOrRegurgitate;
         });
@@ -260,7 +260,8 @@ public static partial class Hooks
     
     private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
-        if (IsPlayerObject(obj)) return Player.ObjectGrabability.CantGrab;
+        if (IsPlayerObject(obj))
+            return Player.ObjectGrabability.CantGrab;
 
         return orig(self, obj);
     }
@@ -277,7 +278,8 @@ public static partial class Hooks
 
     private static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
     {
-        if (self is Player && IsPlayerObject(obj)) return false;
+        if (self is Player && IsPlayerObject(obj))
+            return false;
 
         return orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
     }

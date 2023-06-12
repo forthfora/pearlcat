@@ -11,7 +11,7 @@ namespace Pearlcat
 
         public virtual void InitAnimation(Player self)
         {
-            if (!Hooks.PlayerData.TryGetValue(self, out var playerModule)) return;
+            if (!Hooks.PearlcatData.TryGetValue(self, out var playerModule)) return;
 
             HaloEffectStackers.Clear();
             for (int i = 0; i < playerModule.abstractInventory.Count; i++)
@@ -21,7 +21,7 @@ namespace Pearlcat
 
         public virtual void Update(Player self)
         {
-            if (!Hooks.PlayerData.TryGetValue(self, out var playerModule)) return;
+            if (!Hooks.PearlcatData.TryGetValue(self, out var playerModule)) return;
 
             for (int i = 0; i < playerModule.abstractInventory.Count; i++)
             {
@@ -74,7 +74,7 @@ namespace Pearlcat
 
         protected virtual void UpdateHaloEffects(Player self)
         {
-            if (!Hooks.PlayerData.TryGetValue(self, out var playerModule)) return;
+            if (!Hooks.PearlcatData.TryGetValue(self, out var playerModule)) return;
 
             for (int i = 0; i < playerModule.abstractInventory.Count; i++)
             {

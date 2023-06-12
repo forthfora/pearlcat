@@ -12,7 +12,7 @@ namespace Pearlcat
         {
             base.Update(self);
 
-            if (!Hooks.PlayerData.TryGetValue(self, out var playerModule)) return;
+            if (!Hooks.PearlcatData.TryGetValue(self, out var playerModule)) return;
 
             UpdateHaloEffects(self);
 

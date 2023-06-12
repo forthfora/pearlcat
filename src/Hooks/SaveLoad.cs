@@ -250,6 +250,7 @@ public static partial class Hooks
 
 
     #region Data Parsing
+
     public static string SaveDataStart => Plugin.MOD_ID + "DataStart";
     public static string SaveDataEnd => Plugin.MOD_ID + "DataEnd";
 

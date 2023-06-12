@@ -3,7 +3,7 @@
 	"name": "Pearlcat",
 	"version": "0.0.0",
 	"authors": "THE PEARLCAT TEAM<LINE><LINE>forthbridge - Project Lead, Original Concept, Lead Programmer<LINE><LINE>Geahgeah - Lead Artist, Illustrations, Spritework<LINE><LINE>Sidera - Sample Soundtrack<LINE><LINE><LINE>SPECIAL THANKS<LINE>To these modders and their mods, whose guidance made this possible:<LINE><LINE>Vigaro - Beecat, Dress My Slugcat<LINE><LINE>Noir - NoirCatto<LINE><LINE>Slime_Cubed - SlugBase, CustomTail<LINE><LINE><LINE>PLAYTESTERS<LINE><LINE>someone",
-	"description": "\"So then, what purpose do you serve, little creature?\"<LINE><LINE>\"For many, that’s a question that can take a lifetime to find an answer to.\"<LINE><LINE>Provides no world changes alone, only new abilities, and unique interactions.<LINE>Source: https://github.com/forthbridge/the-sacrifice",
+	"description": "\"ack?\"<LINE><LINE>\"ick\"<LINE><LINE>Provides no world changes alone, only new abilities, and unique interactions.<LINE>Source: https://github.com/forthbridge/the-sacrifice",
 	"requirements": ["moreslugcats", "slime-cubed.slugbase"],
 	"requirements_names": ["More Slugcats Expansion", "SlugBase"],
 	"tags": ["Campaigns", "Gameplay Mechanics"],

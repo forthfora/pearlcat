@@ -100,12 +100,6 @@ public class PlayerModule
         if (color == EarLColor) return;
 
 
-        if (Futile.atlasManager.DoesContainElementWithName(textureName))
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
-        
-        if (earLTexture != null)
-            Object.DestroyImmediate(earLTexture);
-
         earLTexture = AssetLoader.GetTexture(textureName);
         if (earLTexture == null) return;
 
@@ -114,16 +108,13 @@ public class PlayerModule
         MapAlphaToColor(earLTexture, 0.0f, color);
         EarLColor = color;
 
-        earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + Hooks.TextureID, earLTexture, false);
+        earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, earLTexture, false);
     }
 
     public void LoadEarRTexture(string textureName, Color color)
     {
         if (color == EarRColor) return;
 
-
-        if (Futile.atlasManager.DoesContainElementWithName(textureName)) Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
-        if (earRTexture != null) Object.DestroyImmediate(earRTexture);
 
         earRTexture = AssetLoader.GetTexture(textureName);
         if (earRTexture == null) return;
@@ -133,7 +124,7 @@ public class PlayerModule
         MapAlphaToColor(earRTexture, 0.0f, color);
         EarRColor = color;
 
-        earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + Hooks.TextureID, earRTexture, false);
+        earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, earRTexture, false);
     }
 
     public void RegenerateEars()
@@ -198,12 +189,6 @@ public class PlayerModule
 
     public void LoadTailTexture(string textureName)
     {
-        if (Futile.atlasManager.DoesContainElementWithName(textureName))
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
-        
-        if (tailTexture != null)
-            Object.DestroyImmediate(tailTexture);
-
         tailTexture = AssetLoader.GetTexture(textureName);
         if (tailTexture == null) return;
 
@@ -212,7 +197,7 @@ public class PlayerModule
         MapAlphaToColor(tailTexture, 1.0f, BodyColor);
         MapAlphaToColor(tailTexture, 0.0f, AccentColor);
 
-        tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + Hooks.TextureID, tailTexture, false);
+        tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, tailTexture, false);
     }
 
 
@@ -293,19 +278,13 @@ public class PlayerModule
 
     public void LoadCloakTexture(string textureName)
     {
-        if (Futile.atlasManager.DoesContainElementWithName(textureName))
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(textureName);
-
-        if (cloakTexture != null)
-            Object.DestroyImmediate(cloakTexture);
-
         cloakTexture = AssetLoader.GetTexture(textureName);
         if (cloakTexture == null) return;
 
         // Apply Colors
         MapAlphaToColor(cloakTexture, 1.0f, Color.red);
 
-        cloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName + Hooks.TextureID, cloakTexture, false);
+        cloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, cloakTexture, false);
     }
 
     public class Cloak
@@ -469,15 +448,19 @@ public class PlayerModule
 
     private void InitSounds(Player player)
     {
-        storingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
-        storingObjectSound.sound = Enums.Sounds.StoringObject;
-        storingObjectSound.destroyClipWhenDone = false;
-        storingObjectSound.Volume = 0.0f;
+        storingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0])
+        {
+            sound = Enums.Sounds.StoringObject,
+            destroyClipWhenDone = false,
+            Volume = 0.0f
+        };
 
-        retrievingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0]);
-        retrievingObjectSound.sound = Enums.Sounds.RetrievingObject;
-        retrievingObjectSound.destroyClipWhenDone = false;
-        retrievingObjectSound.Volume = 0.0f;
+        retrievingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0])
+        {
+            sound = Enums.Sounds.RetrievingObject,
+            destroyClipWhenDone = false,
+            Volume = 0.0f
+        };
     }
 
     #endregion

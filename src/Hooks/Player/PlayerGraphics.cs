@@ -42,9 +42,8 @@ public static partial class Hooks
     {
         orig(self, sLeaser, rCam);
 
-        if (!IsCustomSlugcat(self.player)) return;
+        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
 
-        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
 
         playerModule.firstSprite = sLeaser.sprites.Length;
         int spriteIndex = playerModule.firstSprite;
@@ -69,6 +68,7 @@ public static partial class Hooks
 
         GenerateEarMesh(sLeaser, playerModule.earL, playerModule.earLSprite);
         GenerateEarMesh(sLeaser, playerModule.earR, playerModule.earRSprite);
+
 
         self.AddToContainer(sLeaser, rCam, null);
     }
@@ -97,9 +97,9 @@ public static partial class Hooks
     {
         orig(self, sLeaser, rCam, newContatiner);
 
-        if (!IsCustomSlugcat(self.player)) return;
+        if (!IsPearlcat(self.player)) return;
 
-        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
 
         if (playerModule.firstSprite <= 0 || sLeaser.sprites.Length < playerModule.lastSprite) return;
 
@@ -149,9 +149,7 @@ public static partial class Hooks
     {
         orig(self, sLeaser, rCam, palette);
 
-        if (!IsCustomSlugcat(self.player)) return;
-
-        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
 
 
         playerModule.cloak.ApplyPalette(self.gownIndex, sLeaser, rCam, palette);
@@ -167,9 +165,7 @@ public static partial class Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!IsCustomSlugcat(self.player)) return;
-
-        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
 
 
         UpdateCustomPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
@@ -271,8 +267,9 @@ public static partial class Hooks
             earMesh.MoveVertice(segment * 4 + 1, attachPos + earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
 
             if (segment >= ear.Length - 1)
+            {
                 earMesh.MoveVertice(segment * 4 + 2, earPos - camPos);
-
+            }
             else
             {
                 earMesh.MoveVertice(segment * 4 + 2, earPos - earFlipDirection * perpendicularNormalized * ear[segment].StretchedRad - normalized * distance - camPos);
@@ -380,6 +377,7 @@ public static partial class Hooks
 
         if (!MinEffectiveOffset.TryGet(self.player, out var minEffectiveOffset)) return;
         if (!MaxEffectiveOffset.TryGet(self.player, out var maxEffectiveOffset)) return;
+
         float leftRightRatio = Mathf.InverseLerp(minEffectiveOffset, maxEffectiveOffset, difference);
 
 
@@ -417,7 +415,7 @@ public static partial class Hooks
     {
         orig(self);
 
-        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
 
         if (playerModule.earL == null || playerModule.earR == null) return;
 
@@ -442,7 +440,7 @@ public static partial class Hooks
     {
         orig(self);
 
-        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
 
         ApplyTailMovement(self);
         ApplyEarMovement(self);
@@ -493,7 +491,7 @@ public static partial class Hooks
 
     private static void ApplyEarMovement(PlayerGraphics self)
     {
-        if (!PlayerData.TryGetValue(self.player, out var playerModule)) return;
+        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
 
         TailSegment[]? earL = playerModule.earL;
         TailSegment[]? earR = playerModule.earR;
@@ -565,7 +563,7 @@ public static partial class Hooks
 
     private static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
     {
-        if (!PlayerData.TryGetValue(self, out PlayerModule playerModule)) return orig(self);
+        if (!PearlcatData.TryGetValue(self, out PlayerModule playerModule)) return orig(self);
 
         List<Color> colors = playerModule.DynamicColors;
 

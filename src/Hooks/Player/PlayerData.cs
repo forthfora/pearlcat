@@ -8,30 +8,23 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static readonly ConditionalWeakTable<Player, PlayerModule> PlayerData = new();
+    public static readonly ConditionalWeakTable<Player, PlayerModule> PearlcatData = new();
 
 
-    // Constant Features
     private const float FrameShortcutColorAddition = 0.003f;
 
-    private const int FramesToStoreObject = 80;
-    private const int FramesToRetrieveObject = 80;
+    public static readonly PlayerFeature<Vector2> ActiveObjectOffset = new("active_object_offset", Vector2Feature);
 
 
-    // Generates a unique texture ID so that the atlases don't overlap
-    private static int _textureID = 0;
-    public static int TextureID => _textureID++;
+    private static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.Slugcat.Pearlcat;
 
-
-
-    private static bool IsCustomSlugcat(Player player) => player.SlugCatClass == Enums.Slugcat.Pearlcat;
-
-    private static List<PlayerModule> GetAllPlayerData(RainWorldGame game)
+    private static List<PlayerModule> GetAllPlayerData(this RainWorldGame game)
     {
         List<PlayerModule> allPlayerData = new();
         List<AbstractCreature> players = game.Players;
 
-        if (players == null) return allPlayerData;
+        if (players == null)
+            return allPlayerData;
 
         foreach (AbstractCreature creature in players)
         {
@@ -39,18 +32,13 @@ public static partial class Hooks
 
             if (creature.realizedCreature is not Player player) continue;
 
-            if (!PlayerData.TryGetValue(player, out PlayerModule playerModule)) continue;
+            if (!PearlcatData.TryGetValue(player, out PlayerModule playerModule)) continue;
 
             allPlayerData.Add(playerModule);
         }
 
         return allPlayerData;
     }
-
-
-
-    // SlugBase Features
-    public static readonly PlayerFeature<Vector2> ActiveObjectOffset = new("active_object_offset", Hooks.Vector2Feature);
 
 
     // Feature Factories

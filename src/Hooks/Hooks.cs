@@ -36,7 +36,7 @@ public static partial class Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("OnModsInit: " + e.Message);
+            Plugin.Logger.LogError("OnModsInit:\n" + e.Message);
         }
         finally
         {
@@ -52,7 +52,7 @@ public static partial class Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("OnModsDisabled: " + e.Message);
+            Plugin.Logger.LogError("OnModsDisabled:\n" + e.Message);
         }
         finally
         {
