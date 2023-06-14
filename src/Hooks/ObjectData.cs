@@ -7,7 +7,7 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    private static void ApplyObjectDataHooks()
+    public static void ApplyObjectDataHooks()
     {
         On.DataPearl.DrawSprites += DataPearl_DrawSprites;
         On.BodyChunk.Update += BodyChunk_Update;
@@ -15,9 +15,9 @@ public static partial class Hooks
 
 
 
-    private static readonly ConditionalWeakTable<PhysicalObject, StrongBox<bool>> DisabledCollision = new();
+    public static readonly ConditionalWeakTable<PhysicalObject, StrongBox<bool>> DisabledCollision = new();
     
-    private static void BodyChunk_Update(On.BodyChunk.orig_Update orig, BodyChunk self)
+    public static void BodyChunk_Update(On.BodyChunk.orig_Update orig, BodyChunk self)
     {
         if (DisabledCollision.TryGetValue(self.owner, out _))
         {
@@ -31,14 +31,14 @@ public static partial class Hooks
 
 
 
-    private static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    public static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
         IDrawable_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
     }
 
-    private static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    public static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         if (!ObjectAddon.ObjectsWithAddon.TryGetValue(self, out var addon)) return;
 
@@ -47,7 +47,7 @@ public static partial class Hooks
 
 
 
-    private static bool IsObjectStorable(AbstractPhysicalObject abstractObject)
+    public static bool IsObjectStorable(AbstractPhysicalObject abstractObject)
     {
         if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.DataPearl) return true;
 

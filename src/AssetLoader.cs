@@ -10,7 +10,7 @@ public static class AssetLoader
     public const string SPRITES_DIRPATH = Plugin.MOD_ID + "_sprites";
     public const string TEXTURES_DIRPATH = Plugin.MOD_ID + "_textures";
 
-    private static readonly Dictionary<string, Texture2D> textures = new();
+    public static readonly Dictionary<string, Texture2D> textures = new();
 
 
 
@@ -58,7 +58,7 @@ public static class AssetLoader
     
 
     // Loads complete atlases 
-    private static void LoadAtlases()
+    public static void LoadAtlases()
     {
         foreach (string filePath in AssetManager.ListDirectory(ATLASES_DIRPATH))
         {
@@ -70,7 +70,7 @@ public static class AssetLoader
     }
 
     // Loads individual PNG files into their own separate atlases
-    private static void LoadSprites()
+    public static void LoadSprites()
     {
         foreach (string filePath in AssetManager.ListDirectory(SPRITES_DIRPATH))
         {
@@ -104,7 +104,7 @@ public static class AssetLoader
 
 
     // https://answers.unity.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
-    private static Texture2D? FileToTexture2D(string filePath)
+    public static Texture2D? FileToTexture2D(string filePath)
     {
         byte[] fileData = File.ReadAllBytes(filePath);
 

@@ -9,12 +9,12 @@ public static partial class Hooks
 {
     public class PearlcatSaveStateSaveData : SaveData
     {
-        protected override void ReadData(string e)
+        public override void ReadData(string e)
         {
 
         }
 
-        protected override void WriteData(ref string s)
+        public override void WriteData(ref string s)
         {
 
         }
@@ -33,7 +33,7 @@ public static partial class Hooks
         public bool MetMoon = false;
 
 
-        protected override void ReadData(string e)
+        public override void ReadData(string e)
         {
             ReadIntListString(e, ref RawInventoryData, nameof(RawInventoryData));
             ReadIntInt(e, ref ActiveObjectIndex, nameof(ActiveObjectIndex));
@@ -44,7 +44,7 @@ public static partial class Hooks
             ReadBool(e, ref MetMoon, nameof(MetMoon));
         }
 
-        protected override void WriteData(ref string s)
+        public override void WriteData(ref string s)
         {
             WriteIntListString(ref s, ref RawInventoryData, nameof(RawInventoryData));
             WriteDict(ref s, ref ActiveObjectIndex, nameof(ActiveObjectIndex));
@@ -59,12 +59,12 @@ public static partial class Hooks
 
     public class PearlcatMiscProgressionSaveData : SaveData
     {
-        protected override void ReadData(string e)
+        public override void ReadData(string e)
         {
 
         }
 
-        protected override void WriteData(ref string s)
+        public override void WriteData(ref string s)
         {
 
         }
@@ -79,7 +79,7 @@ public static partial class Hooks
     public static ConditionalWeakTable<PlayerProgression.MiscProgressionData, PearlcatMiscProgressionSaveData> MiscProgressionData = new();
 
 
-    private static void ApplySaveLoadHooks()
+    public static void ApplySaveLoadHooks()
     {
         On.SaveState.ctor += SaveState_ctor;
         On.SaveState.SaveToString += SaveState_SaveToString;
@@ -96,7 +96,7 @@ public static partial class Hooks
 
 
 
-    private static void SaveState_ctor(On.SaveState.orig_ctor orig, SaveState self, SlugcatStats.Name saveStateNumber, PlayerProgression progression)
+    public static void SaveState_ctor(On.SaveState.orig_ctor orig, SaveState self, SlugcatStats.Name saveStateNumber, PlayerProgression progression)
     {
         orig(self, saveStateNumber, progression);
 
@@ -104,7 +104,7 @@ public static partial class Hooks
             SaveStateData.Add(self, new PearlcatSaveStateSaveData());
     }
 
-    private static string SaveState_SaveToString(On.SaveState.orig_SaveToString orig, SaveState self)
+    public static string SaveState_SaveToString(On.SaveState.orig_SaveToString orig, SaveState self)
     {
         if (SaveStateData.TryGetValue(self, out var saveData))
         {
@@ -126,7 +126,7 @@ public static partial class Hooks
         return orig(self);
     }
 
-    private static void SaveState_LoadGame(On.SaveState.orig_LoadGame orig, SaveState self, string str, RainWorldGame game)
+    public static void SaveState_LoadGame(On.SaveState.orig_LoadGame orig, SaveState self, string str, RainWorldGame game)
     {
         orig(self, str, game);
 
@@ -147,7 +147,7 @@ public static partial class Hooks
 
 
 
-    private static void DeathPersistentSaveData_ctor(On.DeathPersistentSaveData.orig_ctor orig, DeathPersistentSaveData self, SlugcatStats.Name slugcat)
+    public static void DeathPersistentSaveData_ctor(On.DeathPersistentSaveData.orig_ctor orig, DeathPersistentSaveData self, SlugcatStats.Name slugcat)
     {
         orig(self, slugcat);
 
@@ -155,7 +155,7 @@ public static partial class Hooks
             DeathPersistentData.Add(self, new PearlcatDeathPersistentSaveData());
     }
     
-    private static string DeathPersistentSaveData_SaveToString(On.DeathPersistentSaveData.orig_SaveToString orig, DeathPersistentSaveData self, bool saveAsIfPlayerDied, bool saveAsIfPlayerQuit)
+    public static string DeathPersistentSaveData_SaveToString(On.DeathPersistentSaveData.orig_SaveToString orig, DeathPersistentSaveData self, bool saveAsIfPlayerDied, bool saveAsIfPlayerQuit)
     {
         if (DeathPersistentData.TryGetValue(self, out var saveData))
         {
@@ -177,7 +177,7 @@ public static partial class Hooks
         return orig(self, saveAsIfPlayerDied, saveAsIfPlayerQuit);
     }
     
-    private static void DeathPersistentSaveData_FromString(On.DeathPersistentSaveData.orig_FromString orig, DeathPersistentSaveData self, string s)
+    public static void DeathPersistentSaveData_FromString(On.DeathPersistentSaveData.orig_FromString orig, DeathPersistentSaveData self, string s)
     {
         orig(self, s);
 
@@ -198,7 +198,7 @@ public static partial class Hooks
 
 
 
-    private static void MiscProgressionData_ctor(On.PlayerProgression.MiscProgressionData.orig_ctor orig, PlayerProgression.MiscProgressionData self, PlayerProgression owner)
+    public static void MiscProgressionData_ctor(On.PlayerProgression.MiscProgressionData.orig_ctor orig, PlayerProgression.MiscProgressionData self, PlayerProgression owner)
     {
         orig(self, owner);
 
@@ -206,7 +206,7 @@ public static partial class Hooks
             MiscProgressionData.Add(self, new PearlcatMiscProgressionSaveData());
     }
 
-    private static string MiscProgressionData_ToString(On.PlayerProgression.MiscProgressionData.orig_ToString orig, PlayerProgression.MiscProgressionData self)
+    public static string MiscProgressionData_ToString(On.PlayerProgression.MiscProgressionData.orig_ToString orig, PlayerProgression.MiscProgressionData self)
     {
         if (MiscProgressionData.TryGetValue(self, out var saveData))
         {
@@ -228,7 +228,7 @@ public static partial class Hooks
         return orig(self);
     }
 
-    private static void MiscProgressionData_FromString(On.PlayerProgression.MiscProgressionData.orig_FromString orig, PlayerProgression.MiscProgressionData self, string s)
+    public static void MiscProgressionData_FromString(On.PlayerProgression.MiscProgressionData.orig_FromString orig, PlayerProgression.MiscProgressionData self, string s)
     {
         orig(self, s);
 
@@ -294,15 +294,15 @@ public static partial class Hooks
             return s;
         }
 
-        protected abstract void ReadData(string e);
+        public abstract void ReadData(string e);
 
-        protected abstract void WriteData(ref string s);
+        public abstract void WriteData(ref string s);
     }
 
 
 
     // Primitives
-    private static void WriteValue<TValue>(ref string s, ref TValue target, string targetName)
+    public static void WriteValue<TValue>(ref string s, ref TValue target, string targetName)
     {
         if (target == null) return;
 
@@ -314,7 +314,7 @@ public static partial class Hooks
     }
 
 
-    private static void ReadBool(string e, ref bool target, string targetName)
+    public static void ReadBool(string e, ref bool target, string targetName)
     {
         string[] keyValue = e.Split(EQUALITY_CHAR);
 
@@ -327,7 +327,7 @@ public static partial class Hooks
         target = result;
     }
 
-    private static void ReadInt(string e, ref int target, string targetName)
+    public static void ReadInt(string e, ref int target, string targetName)
     {
         string[] keyValue = e.Split(EQUALITY_CHAR);
 
@@ -340,7 +340,7 @@ public static partial class Hooks
         target = result;
     }
 
-    private static void ReadFloat(string e, ref float target, string targetName)
+    public static void ReadFloat(string e, ref float target, string targetName)
     {
         string[] keyValue = e.Split(EQUALITY_CHAR);
 
@@ -353,7 +353,7 @@ public static partial class Hooks
         target = result;
     }
 
-    private static void ReadString(string e, ref string target, string targetName)
+    public static void ReadString(string e, ref string target, string targetName)
     {
         string[] keyValue = e.Split(EQUALITY_CHAR);
 
@@ -367,7 +367,7 @@ public static partial class Hooks
 
 
     // Dictionaries
-    private static void WriteDict<TKey, TValue>(ref string s, ref Dictionary<TKey, TValue> target, string targetName)
+    public static void WriteDict<TKey, TValue>(ref string s, ref Dictionary<TKey, TValue> target, string targetName)
     {
         s += SEPARATOR_CHAR;
 
@@ -387,7 +387,7 @@ public static partial class Hooks
     }
 
 
-    private static void ReadIntInt(string e, ref Dictionary<int, int> target, string targetName)
+    public static void ReadIntInt(string e, ref Dictionary<int, int> target, string targetName)
     {
         string[] keyValue = e.Split(EQUALITY_CHAR);
 
@@ -415,7 +415,7 @@ public static partial class Hooks
 
 
     // Complex
-    private static void ReadIntListString(string e, ref Dictionary<int, List<string>> target, string targetName)
+    public static void ReadIntListString(string e, ref Dictionary<int, List<string>> target, string targetName)
     {
         string[] keyValue = e.Split(EQUALITY_CHAR);
 
@@ -439,7 +439,7 @@ public static partial class Hooks
         }
     }
 
-    private static void WriteIntListString(ref string s, ref Dictionary<int, List<string>> target, string targetName)
+    public static void WriteIntListString(ref string s, ref Dictionary<int, List<string>> target, string targetName)
     {
         s += SEPARATOR_CHAR;
 

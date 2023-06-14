@@ -4,7 +4,7 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    private static bool IsStoreKeybindPressed(Player player)
+    public static bool IsStoreKeybindPressed(Player player)
     {
         if (!Options.usesCustomStoreKeybind.Value)
             return player.input[0].y == 1.0f && player.input[0].pckp;
@@ -20,7 +20,7 @@ public static partial class Hooks
         };
     }
 
-    private static bool IsAbilityKeybindPressed(Player player)
+    public static bool IsAbilityKeybindPressed(Player player)
     {
         if (!Options.usesCustomDashKeybind.Value)
             return player.input[0].jmp && player.input[0].pckp;
@@ -36,7 +36,7 @@ public static partial class Hooks
         };
     }
 
-    private static bool IsSwapKeybindPressed(Player player)
+    public static bool IsSwapKeybindPressed(Player player)
     {
         return player.playerState.playerNumber switch
         {

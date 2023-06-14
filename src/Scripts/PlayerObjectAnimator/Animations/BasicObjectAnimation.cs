@@ -4,18 +4,18 @@ namespace Pearlcat
 {
     public class BasicObjectAnimation : ObjectAnimation
     {
-        public BasicObjectAnimation(Player self) : base(self) { }
+        public BasicObjectAnimation(Player player) : base(player) { }
 
 
 
-        public override void Update(Player self)
+        public override void Update(Player player)
         {
-            base.Update(self);
+            base.Update(player);
 
-            if (!Hooks.PearlcatData.TryGetValue(self, out var playerModule)) return;
+            if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-            UpdateHaloEffects(self);
 
+            UpdateHaloEffects(player);
 
 
             int nonActiveIndex = 0;
@@ -25,12 +25,12 @@ namespace Pearlcat
                 AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
 
                 if (i == playerModule.activeObjectIndex)
-                    MoveToTargetPos(abstractObject, GetActiveObjectPos(self));
+                    MoveToTargetPos(abstractObject, GetActiveObjectPos(player));
 
                 float radius = 20.0f;
 
                 float angle = nonActiveIndex * Mathf.PI * 2.0f / playerModule.abstractInventory.Count - 1;
-                Vector2 origin = GetActiveObjectPos(self);
+                Vector2 origin = GetActiveObjectPos(player);
 
                 Vector2 pos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 

@@ -10,7 +10,7 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    private static void ApplyPlayerGraphicsHooks()
+    public static void ApplyPlayerGraphicsHooks()
     {
         On.PlayerGraphics.InitiateSprites += PlayerGraphics_InitiateSprites;
         On.PlayerGraphics.AddToContainer += PlayerGraphics_AddToContainer;
@@ -38,11 +38,11 @@ public static partial class Hooks
 
     #region Graphics Init
 
-    private static void PlayerGraphics_InitiateSprites(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    public static void PlayerGraphics_InitiateSprites(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         orig(self, sLeaser, rCam);
 
-        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
 
         playerModule.firstSprite = sLeaser.sprites.Length;
@@ -63,7 +63,7 @@ public static partial class Hooks
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
 
-        playerModule.cloak = new PlayerModule.Cloak(self, playerModule);
+        playerModule.cloak = new PearlcatModule.Cloak(self, playerModule);
         playerModule.cloak.InitiateSprite(playerModule.cloakSprite, sLeaser, rCam);
 
         GenerateEarMesh(sLeaser, playerModule.earL, playerModule.earLSprite);
@@ -73,7 +73,7 @@ public static partial class Hooks
         self.AddToContainer(sLeaser, rCam, null);
     }
 
-    private static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite)
+    public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite)
     {
         if (ear == null) return;
 
@@ -93,13 +93,12 @@ public static partial class Hooks
     }
 
 
-    private static void PlayerGraphics_AddToContainer(On.PlayerGraphics.orig_AddToContainer orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
+    public static void PlayerGraphics_AddToContainer(On.PlayerGraphics.orig_AddToContainer orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
     {
         orig(self, sLeaser, rCam, newContatiner);
 
-        if (!IsPearlcat(self.player)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
 
         if (playerModule.firstSprite <= 0 || sLeaser.sprites.Length < playerModule.lastSprite) return;
 
@@ -145,11 +144,11 @@ public static partial class Hooks
         cloakSprite.MoveBehindOtherNode(headSprite);
     }
     
-    private static void PlayerGraphics_ApplyPalette(On.PlayerGraphics.orig_ApplyPalette orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
+    public static void PlayerGraphics_ApplyPalette(On.PlayerGraphics.orig_ApplyPalette orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
     {
         orig(self, sLeaser, rCam, palette);
 
-        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
 
         playerModule.cloak.ApplyPalette(self.gownIndex, sLeaser, rCam, palette);
@@ -161,11 +160,11 @@ public static partial class Hooks
 
     #region Draw Sprites
 
-    private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    public static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
 
         UpdateCustomPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
@@ -188,7 +187,7 @@ public static partial class Hooks
         OrderSprites(self, sLeaser, playerModule);
     }
 
-    private static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
+    public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
     {
         FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
 
@@ -200,7 +199,7 @@ public static partial class Hooks
             sLeaser.sprites[spriteIndex].element = element;
     }
 
-    private static void OrderSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
+    public static void OrderSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlcatModule playerModule)
     {
         if (self.player.flipDirection == 1)
         {
@@ -217,7 +216,7 @@ public static partial class Hooks
 
 
     // Ears adapted from NoirCatto (thanks Noir!) https://github.com/NoirCatto/NoirCatto
-    private static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
+    public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PearlcatModule playerModule)
     {
         if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
 
@@ -236,13 +235,13 @@ public static partial class Hooks
         playerModule.LoadEarRTexture("ear_r", highlightColor);
     }
 
-    private static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PlayerModule playerModule, Vector2 offset) =>
+    public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PearlcatModule playerModule, Vector2 offset) =>
         Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.prevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
 
     static readonly PlayerFeature<Vector2> EarLOffset = new("ear_l_offset", Vector2Feature);
     static readonly PlayerFeature<Vector2> EarROffset = new("ear_r_offset", Vector2Feature);
 
-    private static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, FAtlas? earAtlas, Vector2 attachPos, int earFlipDirection)
+    public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, FAtlas? earAtlas, Vector2 attachPos, int earFlipDirection)
     {
         if (ear == null || ear.Length == 0) return;
 
@@ -344,7 +343,7 @@ public static partial class Hooks
         return result;
     });
 
-    private static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
+    public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlcatModule playerModule)
     {
         FAtlas? tailAtlas = playerModule.tailAtlas;
         if (tailAtlas == null) return;
@@ -411,11 +410,12 @@ public static partial class Hooks
     
     
     
-    private static void PlayerGraphics_Reset(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
+    public static void PlayerGraphics_Reset(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
     {
         orig(self);
 
-        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+
 
         if (playerModule.earL == null || playerModule.earR == null) return;
 
@@ -436,11 +436,12 @@ public static partial class Hooks
 
     #region Graphics Update
 
-    private static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
+    public static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
     {
         orig(self);
 
-        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+
 
         ApplyTailMovement(self);
         ApplyEarMovement(self);
@@ -451,7 +452,7 @@ public static partial class Hooks
 
 
 
-    private static readonly List<Player.BodyModeIndex> EXCLUDE_FROM_TAIL_OFFSET_BODYMODE = new()
+    public static readonly List<Player.BodyModeIndex> EXCLUDE_FROM_TAIL_OFFSET_BODYMODE = new()
     {
         Player.BodyModeIndex.ZeroG,
         Player.BodyModeIndex.Swimming,
@@ -461,13 +462,13 @@ public static partial class Hooks
         Player.BodyModeIndex.Dead,
     };
 
-    private static readonly List<Player.AnimationIndex> EXCLUDE_FROM_TAIL_OFFSET_ANIMATION = new()
+    public static readonly List<Player.AnimationIndex> EXCLUDE_FROM_TAIL_OFFSET_ANIMATION = new()
     {
         Player.AnimationIndex.Roll,
     };
 
     // Creates raised tail effect
-    private static void ApplyTailMovement(PlayerGraphics self)
+    public static void ApplyTailMovement(PlayerGraphics self)
     {
         if (EXCLUDE_FROM_TAIL_OFFSET_BODYMODE.Contains(self.player.bodyMode)) return;
 
@@ -489,9 +490,9 @@ public static partial class Hooks
         }
     }
 
-    private static void ApplyEarMovement(PlayerGraphics self)
+    public static void ApplyEarMovement(PlayerGraphics self)
     {
-        if (!PearlcatData.TryGetValue(self.player, out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
         TailSegment[]? earL = playerModule.earL;
         TailSegment[]? earR = playerModule.earR;
@@ -541,7 +542,7 @@ public static partial class Hooks
         //earR[1].vel.x += 0.5f;
     }
 
-    private static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)
+    public static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)
     {
         if (ear == null) return;
 
@@ -561,26 +562,31 @@ public static partial class Hooks
 
 
 
-    private static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
+    public static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
     {
-        if (!PearlcatData.TryGetValue(self, out PlayerModule playerModule)) return orig(self);
+        var result = orig(self);
+
+        if (!self.TryGetPearlcatModule(out var playerModule))
+            return result;
+
 
         List<Color> colors = playerModule.DynamicColors;
 
-        if (colors.Count == 0) return orig(self);
+        if (colors.Count == 0)
+            return result;
 
-        playerModule.shortcutColorStacker += FrameShortcutColorAddition * playerModule.shortcutColorStackerDirection;
+        playerModule.shortcutColorStacker += ShortcutColorIncrement * playerModule.shortcutColorStackerDirection;
 
         if (playerModule.shortcutColorStackerDirection == 1 && playerModule.shortcutColorStacker > 1.0f)
         {
             playerModule.shortcutColorStackerDirection = -1;
-            playerModule.shortcutColorStacker += FrameShortcutColorAddition * playerModule.shortcutColorStackerDirection;
+            playerModule.shortcutColorStacker += ShortcutColorIncrement * playerModule.shortcutColorStackerDirection;
 
         }
         else if (playerModule.shortcutColorStackerDirection == -1 && playerModule.shortcutColorStacker < 0.0f)
         {
             playerModule.shortcutColorStackerDirection = 1;
-            playerModule.shortcutColorStacker += FrameShortcutColorAddition * playerModule.shortcutColorStackerDirection;
+            playerModule.shortcutColorStacker += ShortcutColorIncrement * playerModule.shortcutColorStackerDirection;
         }
 
         // https://gamedev.stackexchange.com/questions/98740/how-to-color-lerp-between-multiple-colors
@@ -595,7 +601,7 @@ public static partial class Hooks
     }
 
     // Stop player looking at their balls (lmao)
-    private static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
+    public static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
     {
         if (obj != null && IsPlayerObject(obj))
             return 0.0f;

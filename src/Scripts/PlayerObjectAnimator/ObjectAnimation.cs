@@ -7,21 +7,24 @@ namespace Pearlcat
 {
     public abstract class ObjectAnimation
     {
-        public ObjectAnimation(Player self) => InitAnimation(self);
+        public ObjectAnimation(Player player) => InitAnimation(player);
 
         public virtual void InitAnimation(Player self)
         {
-            if (!Hooks.PearlcatData.TryGetValue(self, out var playerModule)) return;
+            if (!self.TryGetPearlcatModule(out var playerModule, createIfMissing: false)) return;
+
 
             HaloEffectStackers.Clear();
+
             for (int i = 0; i < playerModule.abstractInventory.Count; i++)
                 HaloEffectStackers.Add((1.0f / playerModule.abstractInventory.Count) * i);
         }
 
 
-        public virtual void Update(Player self)
+        public virtual void Update(Player player)
         {
-            if (!Hooks.PearlcatData.TryGetValue(self, out var playerModule)) return;
+            if (!player.TryGetPearlcatModule(out var playerModule)) return;
+
 
             for (int i = 0; i < playerModule.abstractInventory.Count; i++)
             {
@@ -36,9 +39,9 @@ namespace Pearlcat
 
 
 
-        protected const float MaxLockDistance = 0.1f;
+        public const float MaxLockDistance = 0.1f;
 
-        protected virtual void MoveToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos)
+        public virtual void MoveToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos)
         {
             if (abstractObject.realizedObject == null) return;
 
@@ -51,30 +54,35 @@ namespace Pearlcat
             abstractObject.realizedObject.firstChunk.pos = Vector2.Lerp(abstractObject.realizedObject.firstChunk.pos, targetPos, 0.5f);
         }
 
-        protected virtual Vector2 GetActiveObjectPos(Player self)
+        public virtual Vector2 GetActiveObjectPos(Player player)
         {
-            if (!Hooks.ActiveObjectOffset.TryGet(self, out var activeObjectOffset))
+            if (!Hooks.ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
                 activeObjectOffset = Vector2.zero;
 
-            if (self.bodyMode == Player.BodyModeIndex.ZeroG)
-                return self.graphicsModule.bodyParts[6].pos + (activeObjectOffset.magnitude * self.bodyChunks[0].Rotation);
+            if (player.bodyMode == Player.BodyModeIndex.ZeroG)
+                return player.graphicsModule.bodyParts[6].pos + (activeObjectOffset.magnitude * player.bodyChunks[0].Rotation);
 
 
-            Vector2 pos = self.graphicsModule.bodyParts[6].pos + activeObjectOffset;
-            pos.x += self.mainBodyChunk.vel.x * 1.0f;
+            Vector2 pos = player.graphicsModule.bodyParts[6].pos + activeObjectOffset;
+            pos.x += player.mainBodyChunk.vel.x * 1.0f;
 
             return pos;
         }
 
 
 
-        private List<float> HaloEffectStackers = new();
-        private float HaloEffectFrameAddition = 0.02f;
-        private float HaloEffectDir = 1;
+        public List<float> HaloEffectStackers = new();
 
-        protected virtual void UpdateHaloEffects(Player self)
+        public float HaloEffectFrameAddition { get; set; } = 0.02f;
+        
+        public float HaloEffectDir { get; set; } = 1;
+
+
+
+        public virtual void UpdateHaloEffects(Player player)
         {
-            if (!Hooks.PearlcatData.TryGetValue(self, out var playerModule)) return;
+            if (!player.TryGetPearlcatModule(out var playerModule)) return;
+
 
             for (int i = 0; i < playerModule.abstractInventory.Count; i++)
             {

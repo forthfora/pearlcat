@@ -17,9 +17,9 @@ public static partial class Hooks
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
     }
 
-    private static ConditionalWeakTable<Menu.MenuDepthIllustration, MenuIllustrationEx> MenuIllustrationData = new();
+    public static ConditionalWeakTable<Menu.MenuDepthIllustration, MenuIllustrationEx> MenuIllustrationData = new();
 
-    private static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, Menu.MenuScene self)
+    public static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, Menu.MenuScene self)
     {
         orig(self);
 
@@ -30,7 +30,7 @@ public static partial class Hooks
         }
     }
 
-    private static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, Menu.MenuScene self, Menu.Menu menu, Menu.MenuObject owner, Menu.MenuScene.SceneID sceneID)
+    public static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, Menu.MenuScene self, Menu.Menu menu, Menu.MenuObject owner, Menu.MenuScene.SceneID sceneID)
     {
         orig(self, menu, owner, sceneID);
 
@@ -46,7 +46,7 @@ public static partial class Hooks
         }
     }
 
-    private class MenuIllustrationEx
+    public class MenuIllustrationEx
     {
         public bool isMenuIllustrationInit = false;
         public readonly string name;
@@ -71,7 +71,7 @@ public static partial class Hooks
         public int animationStacker = 0;
 
         public AnimationCurve curve = AnimationCurve.EaseInOut(0.0f, 0.0f, 1.0f, 1.0f);
-        private const int framesToCycle = 150;
+        public const int framesToCycle = 150;
 
         public Vector2 maxPos;
         public Vector2 minPos;
@@ -91,7 +91,7 @@ public static partial class Hooks
             isMenuIllustrationInit = true;
         }
 
-        private void UpdatePearl(Menu.MenuDepthIllustration illustration, Menu.MenuDepthIllustration glow)
+        public void UpdatePearl(Menu.MenuDepthIllustration illustration, Menu.MenuDepthIllustration glow)
         {
             if (glow == null) return;
 
@@ -114,7 +114,7 @@ public static partial class Hooks
             UpdateLinearMovement(illustration, glow);
         }
 
-        private void UpdateLinearMovement(Menu.MenuDepthIllustration illustration, Menu.MenuDepthIllustration glow)
+        public void UpdateLinearMovement(Menu.MenuDepthIllustration illustration, Menu.MenuDepthIllustration glow)
         {
             Vector2 targetPos = Vector2.Lerp(minPos, maxPos, curve.Evaluate((float)animationStacker / framesToCycle));
 
@@ -126,7 +126,7 @@ public static partial class Hooks
         }
     }
 
-    private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, Menu.SlugcatSelectMenu self)
+    public static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, Menu.SlugcatSelectMenu self)
     {
         orig(self);
 

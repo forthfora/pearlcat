@@ -8,9 +8,8 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    private static void ApplyPlayerHooks()
+    public static void ApplyPlayerHooks()
     {
-        On.Player.ctor += Player_ctor;
         On.Player.Update += Player_Update;
 
         On.Player.GrabUpdate += Player_GrabUpdate;
@@ -33,11 +32,12 @@ public static partial class Hooks
 
 
 
-    private static void Player_Die(On.Player.orig_Die orig, Player self)
+    public static void Player_Die(On.Player.orig_Die orig, Player self)
     {
         orig(self);
 
-        if (!PearlcatData.TryGetValue(self, out var playerModule)) return;
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        
 
         for (int i = playerModule.abstractInventory.Count - 1; i >= 0; i--)
         {
@@ -48,55 +48,51 @@ public static partial class Hooks
         }
     }
 
-    private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
-    {
-        if (self.IsPearlcat())
-            PearlcatData.Add(self, new PlayerModule(self));
-        
-        orig(self, abstractCreature, world);
-    }
 
+    public static int debugStacker = 0;
 
-    private static int debugStacker = 0;
-
-    private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
+    public static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
         orig(self, eu);
 
-        if (!PearlcatData.TryGetValue(self, out PlayerModule playerModule)) return;
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+
+        self.TryRealizeInventory();
+
+        playerModule.currentObjectAnimation?.Update(self);
+
 
 
         // HACK
-        /*
-        if (!self.dead)
-        {
-            debugStacker++;
-
-            int i = debugStacker / 100;
-
-            if (debugStacker % 100 == 0)
-            {
-                DataPearl.AbstractDataPearl.DataPearlType type = i switch
-                {
-                    0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
-                    1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
-                    2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
-                    3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
-                    _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
-                };
-                AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
-                StoreObject(self, pearl);
-            }
-        }
-        */
-
-        self.TryRealizeInventory();
+        if (playerModule.currentObjectAnimation == null)
+            playerModule.PickObjectAnimation(self);
         
-        playerModule.currentAnimation.Update(self);
+        // HACK
+        //if (!self.dead)
+        //{
+        //    debugStacker++;
+
+        //    int i = debugStacker / 100;
+
+        //    if (debugStacker % 100 == 0)
+        //    {
+        //        DataPearl.AbstractDataPearl.DataPearlType type = i switch
+        //        {
+        //            0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
+        //            1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
+        //            2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
+        //            3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
+        //            _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
+        //        };
+        //        AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
+        //        StoreObject(self, pearl);
+        //    }
+        //}
     }
 
 
-    private static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
+    public static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
     {
         orig(self, eu);
 
@@ -106,9 +102,9 @@ public static partial class Hooks
     }
 
     /*
-    private static void StoreObjectUpdate(Player self)
+    public static void StoreObjectUpdate(Player self)
     {
-        if (!PlayerData.TryGetValue(self, out var playerModule)) return;
+        var playerModule = self.GetModule();
 
         // Gather held storables
         AbstractPhysicalObject? heldStorable = null;
@@ -154,7 +150,7 @@ public static partial class Hooks
         self.input[0].y = 0;
     }
 
-    private static void TransferObjectUpdate(Player self)
+    public static void TransferObjectUpdate(Player self)
     {
         if (!PlayerData.TryGetValue(self, out PlayerModule? playerModule)) return;
 
@@ -231,7 +227,7 @@ public static partial class Hooks
     */
 
 
-    private static void Player_GrabUpdateIL(ILContext il)
+    public static void Player_GrabUpdateIL(ILContext il)
     {
         ILCursor c = new(il);
         ILLabel dest = null!;
@@ -247,9 +243,9 @@ public static partial class Hooks
             );
 
         c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Func<Player, bool>>((player) =>
+        c.EmitDelegate<Func<Player, bool>>((self) =>
         {
-            if (!PearlcatData.TryGetValue(player, out PlayerModule playerModule))
+            if (!self.TryGetPearlcatModule(out var playerModule))
                 return true;
 
             return playerModule.canSwallowOrRegurgitate;
@@ -258,7 +254,7 @@ public static partial class Hooks
         c.Emit(OpCodes.Brfalse, dest);
     }
     
-    private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
+    public static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
         if (IsPlayerObject(obj))
             return Player.ObjectGrabability.CantGrab;
@@ -268,7 +264,7 @@ public static partial class Hooks
 
 
 
-    private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
+    public static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
     {
         if (self is Player player)
             AbstractizeInventory(player);
@@ -276,7 +272,7 @@ public static partial class Hooks
         orig(self, entrancePos, carriedByOther);
     }
 
-    private static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
+    public static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
     {
         if (self is Player && IsPlayerObject(obj))
             return false;

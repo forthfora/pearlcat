@@ -8,19 +8,38 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static readonly ConditionalWeakTable<Player, PlayerModule> PearlcatData = new();
+    public static readonly ConditionalWeakTable<Player, PearlcatModule> PearlcatData = new();
 
 
-    private const float FrameShortcutColorAddition = 0.003f;
+    public const float ShortcutColorIncrement = 0.003f;
 
     public static readonly PlayerFeature<Vector2> ActiveObjectOffset = new("active_object_offset", Vector2Feature);
 
 
-    private static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.Slugcat.Pearlcat;
 
-    private static List<PlayerModule> GetAllPlayerData(this RainWorldGame game)
+    public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.Slugcat.Pearlcat;
+
+    // Only pearlcats get this module
+    public static bool TryGetPearlcatModule(this Player player, out PearlcatModule pearlcatModule)
     {
-        List<PlayerModule> allPlayerData = new();
+        if (!player.IsPearlcat())
+        {
+            pearlcatModule = null!;
+            return false;
+        }
+
+        if (!PearlcatData.TryGetValue(player, out pearlcatModule))
+        {
+            pearlcatModule = new PearlcatModule(player);
+            PearlcatData.Add(player, pearlcatModule);
+        }
+
+        return true;
+    }
+
+    public static List<PearlcatModule> GetAllPlayerData(this RainWorldGame game)
+    {
+        List<PearlcatModule> allPlayerData = new();
         List<AbstractCreature> players = game.Players;
 
         if (players == null)
@@ -32,7 +51,7 @@ public static partial class Hooks
 
             if (creature.realizedCreature is not Player player) continue;
 
-            if (!PearlcatData.TryGetValue(player, out PlayerModule playerModule)) continue;
+            if (!PearlcatData.TryGetValue(player, out PearlcatModule playerModule)) continue;
 
             allPlayerData.Add(playerModule);
         }

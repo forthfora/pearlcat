@@ -16,111 +16,111 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Rain World Modded\RainWorld_Data\StreamingAssets\mods\pearlcat\plugins&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\pearlcat\plugins&quot;" />
   </Target>
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\utils\PUBLIC-Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\core\BepInEx.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="HOOKS-Assembly-CSharp">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\plugins\HOOKS-Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="MonoMod">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\core\MonoMod.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="MonoMod.RuntimeDetour">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\MonoMod.RuntimeDetour.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="MonoMod.Utils">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\MonoMod.Utils.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="SlugBase">
       <HintPath>..\..\Backups\Rain World\Rain World References\SlugBase.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.Core">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.Data">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.Drawing">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.IO.Compression.FileSystem">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.Numerics">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.Runtime.Serialization">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.Xml">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.Xml.Linq">
-      <Private>False</Private>
+      <public>False</public>
     </Reference>
   </ItemGroup>
 </Project>

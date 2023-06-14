@@ -5,13 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using RWCustom;
 
 namespace Pearlcat;
 
-public class PlayerModule
+public class PearlcatModule
 {
     public WeakReference<Player> PlayerRef;
 
@@ -22,7 +21,7 @@ public class PlayerModule
     public LightSource? activeObjectGlow;
 
 
-    public PlayerModule(Player self)
+    public PearlcatModule(Player self)
     {
         PlayerRef = new WeakReference<Player>(self);
 
@@ -33,8 +32,6 @@ public class PlayerModule
 
         LoadEarLTexture("ear_l", AccentColor);
         LoadEarRTexture("ear_r", AccentColor);
-
-        currentAnimation = GetObjectAnimation(self);
     }
 
     public bool canSwallowOrRegurgitate = true;
@@ -61,13 +58,16 @@ public class PlayerModule
 
 
 
-    public ObjectAnimation currentAnimation;
+    public ObjectAnimation? currentObjectAnimation;
 
-    public ObjectAnimation GetObjectAnimation(Player self)
+    public void PickObjectAnimation(Player player) => currentObjectAnimation = GetObjectAnimation(player);
+
+    public ObjectAnimation GetObjectAnimation(Player player)
     {
+
         List<ObjectAnimation> animationPool = new()
         {
-            new BasicObjectAnimation(self),
+            new BasicObjectAnimation(player),
         };
 
         return animationPool[Random.Range(0, animationPool.Count)];
@@ -289,16 +289,16 @@ public class PlayerModule
 
     public class Cloak
     {
-        private readonly int divs = 11;
+        public readonly int divs = 11;
 
-        private readonly PlayerGraphics owner;
-        private readonly PlayerModule playerModule;
+        public readonly PlayerGraphics owner;
+        public readonly PearlcatModule playerModule;
 
         public Vector2[,,] clothPoints;
         public bool visible;
         public bool needsReset;
 
-        public Cloak(PlayerGraphics owner, PlayerModule playerModule)
+        public Cloak(PlayerGraphics owner, PearlcatModule playerModule)
         {
             this.owner = owner;
             this.playerModule = playerModule;
@@ -391,7 +391,7 @@ public class PlayerModule
             }
         }
 
-        private Vector2 IdealPosForPoint(int x, int y, Vector2 bodyPos, Vector2 dir, Vector2 perp)
+        public Vector2 IdealPosForPoint(int x, int y, Vector2 bodyPos, Vector2 dir, Vector2 perp)
         {
             float num = Mathf.InverseLerp(0f, divs - 1, x);
             float t = Mathf.InverseLerp(0f, divs - 1, y);
@@ -446,7 +446,7 @@ public class PlayerModule
     public DynamicSoundLoop storingObjectSound = null!;
     public DynamicSoundLoop retrievingObjectSound = null!;
 
-    private void InitSounds(Player player)
+    public void InitSounds(Player player)
     {
         storingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0])
         {
@@ -481,7 +481,7 @@ public class PlayerModule
     public Color EarRColor;
 
 
-    private void InitColors(Player player)
+    public void InitColors(Player player)
     {
         if (!SlugBaseCharacter.TryGet(Enums.Slugcat.Pearlcat, out var character)) return;
 
@@ -507,7 +507,7 @@ public class PlayerModule
         CloakColor = PlayerGraphics.CustomColorSafety(3);
     }
 
-    private void SetColor(ColorSlot[] customColors, int playerNumber, ref Color color, string name)
+    public void SetColor(ColorSlot[] customColors, int playerNumber, ref Color color, string name)
     {
         ColorSlot customColor = customColors.Where(customColor => customColor.Name == name).FirstOrDefault();
         if (customColor == null) return;

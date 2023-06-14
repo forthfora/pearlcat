@@ -9,7 +9,7 @@ namespace Pearlcat;
 public class Options : OptionInterface
 {
     public static Options instance = new();
-    private const string AUTHORS_NAME = "forthbridge";
+    public const string AUTHORS_NAME = "forthbridge";
 
     #region Options
 
@@ -74,38 +74,38 @@ public class Options : OptionInterface
 
     #region Parameters
 
-    private readonly float spacing = 20f;
-    private readonly float fontHeight = 20f;
-    private readonly int numberOfCheckboxes = 2;
-    private readonly float checkBoxSize = 60.0f;
+    public readonly float spacing = 20f;
+    public readonly float fontHeight = 20f;
+    public readonly int numberOfCheckboxes = 2;
+    public readonly float checkBoxSize = 60.0f;
     
-    private float CheckBoxWithSpacing => checkBoxSize + 0.25f * spacing;
+    public float CheckBoxWithSpacing => checkBoxSize + 0.25f * spacing;
     
     
-    private Vector2 marginX = new();
-    private Vector2 pos = new();
+    public Vector2 marginX = new();
+    public Vector2 pos = new();
 
-    private readonly List<float> boxEndPositions = new();
+    public readonly List<float> boxEndPositions = new();
 
-    private readonly List<Configurable<bool>> checkBoxConfigurables = new();
-    private readonly List<OpLabel> checkBoxesTextLabels = new();
+    public readonly List<Configurable<bool>> checkBoxConfigurables = new();
+    public readonly List<OpLabel> checkBoxesTextLabels = new();
 
-    private readonly List<Configurable<string>> comboBoxConfigurables = new();
-    private readonly List<List<ListItem>> comboBoxLists = new();
-    private readonly List<bool> comboBoxAllowEmpty = new();
-    private readonly List<OpLabel> comboBoxesTextLabels = new();
+    public readonly List<Configurable<string>> comboBoxConfigurables = new();
+    public readonly List<List<ListItem>> comboBoxLists = new();
+    public readonly List<bool> comboBoxAllowEmpty = new();
+    public readonly List<OpLabel> comboBoxesTextLabels = new();
 
-    private readonly List<Configurable<int>> sliderConfigurables = new();
-    private readonly List<string> sliderMainTextLabels = new();
-    private readonly List<OpLabel> sliderTextLabelsLeft = new();
-    private readonly List<OpLabel> sliderTextLabelsRight = new();
+    public readonly List<Configurable<int>> sliderConfigurables = new();
+    public readonly List<string> sliderMainTextLabels = new();
+    public readonly List<OpLabel> sliderTextLabelsLeft = new();
+    public readonly List<OpLabel> sliderTextLabelsRight = new();
 
-    private readonly List<OpLabel> textLabels = new();
+    public readonly List<OpLabel> textLabels = new();
     
     #endregion
 
 
-    private const int NUMBER_OF_TABS = 4;
+    public const int NUMBER_OF_TABS = 4;
 
     public override void Initialize()
     {
@@ -200,7 +200,7 @@ public class Options : OptionInterface
 
     #region UI Elements
 
-    private void AddTab(ref int tabIndex, string tabName)
+    public void AddTab(ref int tabIndex, string tabName)
     {
         tabIndex++;
         Tabs[tabIndex] = new OpTab(this, tabName);
@@ -219,26 +219,26 @@ public class Options : OptionInterface
         AddBox();
     }
 
-    private void InitializeMarginAndPos()
+    public void InitializeMarginAndPos()
     {
         marginX = new Vector2(50f, 550f);
         pos = new Vector2(50f, 600f);
     }
 
-    private void AddNewLine(float spacingModifier = 1f)
+    public void AddNewLine(float spacingModifier = 1f)
     {
         pos.x = marginX.x; // left margin
         pos.y -= spacingModifier * spacing;
     }
 
-    private void AddBox()
+    public void AddBox()
     {
         marginX += new Vector2(spacing, -spacing);
         boxEndPositions.Add(pos.y); // end position > start position
         AddNewLine();
     }
 
-    private void DrawBox(ref OpTab tab)
+    public void DrawBox(ref OpTab tab)
     {
         marginX += new Vector2(-spacing, spacing);
         AddNewLine();
@@ -250,7 +250,7 @@ public class Options : OptionInterface
         boxEndPositions.RemoveAt(lastIndex);
     }
 
-    private void DrawKeybinders(Configurable<KeyCode> configurable, ref OpTab tab)
+    public void DrawKeybinders(Configurable<KeyCode> configurable, ref OpTab tab)
     {
         string name = (string)configurable.info.Tags[0];
 
@@ -267,13 +267,13 @@ public class Options : OptionInterface
         AddNewLine(2);
     }
 
-    private void AddCheckBox(Configurable<bool> configurable, string text)
+    public void AddCheckBox(Configurable<bool> configurable, string text)
     {
         checkBoxConfigurables.Add(configurable);
         checkBoxesTextLabels.Add(new OpLabel(new Vector2(), new Vector2(), text, FLabelAlignment.Left));
     }
 
-    private void DrawCheckBoxes(ref OpTab tab) // changes pos.y but not pos.x
+    public void DrawCheckBoxes(ref OpTab tab) // changes pos.y but not pos.x
     {
         if (checkBoxConfigurables.Count != checkBoxesTextLabels.Count) return;
 
@@ -316,7 +316,7 @@ public class Options : OptionInterface
         checkBoxesTextLabels.Clear();
     }
 
-    private void AddComboBox(Configurable<string> configurable, List<ListItem> list, string text, bool allowEmpty = false)
+    public void AddComboBox(Configurable<string> configurable, List<ListItem> list, string text, bool allowEmpty = false)
     {
         OpLabel opLabel = new(new Vector2(), new Vector2(0.0f, fontHeight), text, FLabelAlignment.Center, false);
         comboBoxesTextLabels.Add(opLabel);
@@ -325,7 +325,7 @@ public class Options : OptionInterface
         comboBoxAllowEmpty.Add(allowEmpty);
     }
 
-    private void DrawComboBoxes(ref OpTab tab)
+    public void DrawComboBoxes(ref OpTab tab)
     {
         if (comboBoxConfigurables.Count != comboBoxesTextLabels.Count) return;
         if (comboBoxConfigurables.Count != comboBoxLists.Count) return;
@@ -366,7 +366,7 @@ public class Options : OptionInterface
         comboBoxAllowEmpty.Clear();
     }
 
-    private void AddSlider(Configurable<int> configurable, string text, string sliderTextLeft = "", string sliderTextRight = "")
+    public void AddSlider(Configurable<int> configurable, string text, string sliderTextLeft = "", string sliderTextRight = "")
     {
         sliderConfigurables.Add(configurable);
         sliderMainTextLabels.Add(text);
@@ -374,7 +374,7 @@ public class Options : OptionInterface
         sliderTextLabelsRight.Add(new OpLabel(new Vector2(), new Vector2(), sliderTextRight, alignment: FLabelAlignment.Left));
     }
 
-    private void DrawSliders(ref OpTab tab)
+    public void DrawSliders(ref OpTab tab)
     {
         if (sliderConfigurables.Count != sliderMainTextLabels.Count) return;
         if (sliderConfigurables.Count != sliderTextLabelsLeft.Count) return;
@@ -422,7 +422,7 @@ public class Options : OptionInterface
         sliderTextLabelsRight.Clear();
     }
 
-    private void AddTextLabel(string text, FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false)
+    public void AddTextLabel(string text, FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false)
     {
         float textHeight = (bigText ? 2f : 1f) * fontHeight;
         if (textLabels.Count == 0)
@@ -437,7 +437,7 @@ public class Options : OptionInterface
         textLabels.Add(textLabel);
     }
 
-    private void DrawTextLabels(ref OpTab tab)
+    public void DrawTextLabels(ref OpTab tab)
     {
         if (textLabels.Count == 0) return;
 

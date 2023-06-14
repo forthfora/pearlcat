@@ -20,9 +20,9 @@ public static partial class Hooks
         ApplyOracleHooks();
     }
 
-    private static bool isInit = false;
+    public static bool isInit = false;
 
-    private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
+    public static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
     {
         try
         {
@@ -44,7 +44,7 @@ public static partial class Hooks
         }
     }
 
-    private static void RainWorld_OnModsDisabled(On.RainWorld.orig_OnModsDisabled orig, RainWorld self, ModManager.Mod[] newlyDisabledMods)
+    public static void RainWorld_OnModsDisabled(On.RainWorld.orig_OnModsDisabled orig, RainWorld self, ModManager.Mod[] newlyDisabledMods)
     {
         try
         {
