@@ -7,7 +7,7 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static void ApplyObjectDataHooks()
+    public static void ApplyPlayerObjectDataHooks()
     {
         On.DataPearl.DrawSprites += DataPearl_DrawSprites;
         On.BodyChunk.Update += BodyChunk_Update;

@@ -9,14 +9,17 @@ public static partial class Hooks
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         On.RainWorld.OnModsDisabled += RainWorld_OnModsDisabled;
 
+        // Core
         ApplySaveLoadHooks();
-        ApplyObjectDataHooks();
+        ApplyMenuHooks();
 
+        // Player
         ApplyPlayerHooks();
         ApplyPlayerGraphicsHooks();
+        ApplyPlayerObjectDataHooks();
 
+        // World
         ApplyMusicHooks();
-        ApplyMenuHooks();
         ApplyOracleHooks();
     }
 
