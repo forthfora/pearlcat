@@ -3,7 +3,7 @@
     "name": "The Pearlcat",
     "description": "A cast-away experiment, unearthing unforseen potential, yet designed for a singular purpose.<LINE>Far from home and destiny, will you seek to return; or perhaps find a more desirable fate?",
     "features": {
-        "color": "193633",
+        "color": "122626",
         "world_state": "Spear",
         "start_room": "SS_S04",
         "auto_grab_batflies": false,
@@ -45,7 +45,7 @@
         "custom_colors": [
             { 
                 "name": "Body",
-                "story": "193633"
+                "story": "122626"
             },
             { 
                 "name": "Eyes",
@@ -57,7 +57,7 @@
             },
             { 
                 "name": "Cloak",
-                "story": "ff0000"
+                "story": "ad2424"
             }
         ],
         

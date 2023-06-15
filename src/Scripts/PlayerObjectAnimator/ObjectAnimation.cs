@@ -11,7 +11,7 @@ namespace Pearlcat
 
         public virtual void InitAnimation(Player self)
         {
-            if (!self.TryGetPearlcatModule(out var playerModule, createIfMissing: false)) return;
+            if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
             HaloEffectStackers.Clear();

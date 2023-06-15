@@ -140,7 +140,7 @@ public static partial class Hooks
 
 
         playerModule.abstractInventory.Add(abstractObject);
-        playerModule.currentObjectAnimation.InitAnimation(self);
+        playerModule.currentObjectAnimation?.InitAnimation(self);
     }
 
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)

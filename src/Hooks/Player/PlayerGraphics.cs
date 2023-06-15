@@ -14,7 +14,6 @@ public static partial class Hooks
     {
         On.PlayerGraphics.InitiateSprites += PlayerGraphics_InitiateSprites;
         On.PlayerGraphics.AddToContainer += PlayerGraphics_AddToContainer;
-        On.PlayerGraphics.ApplyPalette += PlayerGraphics_ApplyPalette;
         
         On.PlayerGraphics.DrawSprites += PlayerGraphics_DrawSprites;
 
@@ -48,7 +47,11 @@ public static partial class Hooks
         playerModule.firstSprite = sLeaser.sprites.Length;
         int spriteIndex = playerModule.firstSprite;
 
-        // Add new custom sprite indexes
+        playerModule.sleeveLSprite = spriteIndex++;
+        playerModule.sleeveRSprite = spriteIndex++;
+
+        playerModule.feetSprite = spriteIndex++;
+
         playerModule.earLSprite = spriteIndex++;
         playerModule.earRSprite = spriteIndex++;
 
@@ -59,12 +62,16 @@ public static partial class Hooks
         Array.Resize(ref sLeaser.sprites, spriteIndex);
 
 
-        // Create the sprites themselves
+        sLeaser.sprites[playerModule.sleeveLSprite] = new FSprite("pearlcatSleeve0");
+        sLeaser.sprites[playerModule.sleeveRSprite] = new FSprite("pearlcatSleeve0");
+
+        sLeaser.sprites[playerModule.feetSprite] = new FSprite("pearlcatFeetA0");
+
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
 
         playerModule.cloak = new PearlcatModule.Cloak(self, playerModule);
-        playerModule.cloak.InitiateSprite(playerModule.cloakSprite, sLeaser, rCam);
+        playerModule.cloak.InitiateSprite(sLeaser, rCam);
 
         GenerateEarMesh(sLeaser, playerModule.earL, playerModule.earLSprite);
         GenerateEarMesh(sLeaser, playerModule.earR, playerModule.earRSprite);
@@ -104,55 +111,57 @@ public static partial class Hooks
 
         // Gather Sprites
         FSprite bodySprite = sLeaser.sprites[BODY_SPRITE];
+        FSprite armLSprite = sLeaser.sprites[ARM_L_SPRITE];
+        FSprite armRSprite = sLeaser.sprites[ARM_R_SPRITE];
         FSprite hipsSprite = sLeaser.sprites[HIPS_SPRITE];
         FSprite tailSprite = sLeaser.sprites[TAIL_SPRITE];
         FSprite headSprite = sLeaser.sprites[HEAD_SPRITE];
         FSprite legsSprite = sLeaser.sprites[LEGS_SPRITE];
 
+        FSprite sleeveLSprite = sLeaser.sprites[playerModule.sleeveLSprite];
+        FSprite sleeveRSprite = sLeaser.sprites[playerModule.sleeveRSprite];
+
+        FSprite feetSprite = sLeaser.sprites[playerModule.feetSprite];
+        
         FSprite earLSprite = sLeaser.sprites[playerModule.earLSprite];
         FSprite earRSprite = sLeaser.sprites[playerModule.earRSprite];
 
         FSprite cloakSprite = sLeaser.sprites[playerModule.cloakSprite];
 
-        // Move to correct container
+
         FContainer mgContainer = rCam.ReturnFContainer("Midground");
         FContainer fgContainer = rCam.ReturnFContainer("Foreground");
 
 
+        mgContainer.AddChild(sleeveLSprite);
+        mgContainer.AddChild(sleeveRSprite);
+
+        mgContainer.AddChild(feetSprite);
 
         mgContainer.AddChild(earLSprite);
         mgContainer.AddChild(earRSprite);
 
-        // Correct the order of the player's sprites
+        mgContainer.AddChild(cloakSprite);
 
-        // Ears go behind head and body
+
+        sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
+        sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
+
+        feetSprite.MoveBehindOtherNode(cloakSprite);
+        feetSprite.MoveInFrontOfOtherNode(legsSprite);
+
         earLSprite.MoveBehindOtherNode(headSprite);
         earRSprite.MoveBehindOtherNode(headSprite);
-        earLSprite.MoveBehindOtherNode(headSprite);
-        earRSprite.MoveBehindOtherNode(headSprite);
+        earLSprite.MoveBehindOtherNode(bodySprite);
+        earRSprite.MoveBehindOtherNode(bodySprite);
 
-
-
-        // Tail goes behind Hips
         tailSprite.MoveBehindOtherNode(hipsSprite);
-
-        // Legs go behind hips
         legsSprite.MoveBehindOtherNode(hipsSprite);
 
-        // Cloak goes behind head, infront of body
-        cloakSprite.MoveInFrontOfOtherNode(bodySprite);
         cloakSprite.MoveBehindOtherNode(headSprite);
+        cloakSprite.MoveInFrontOfOtherNode(feetSprite);
     }
-    
-    public static void PlayerGraphics_ApplyPalette(On.PlayerGraphics.orig_ApplyPalette orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
-    {
-        orig(self, sLeaser, rCam, palette);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
-
-
-        playerModule.cloak.ApplyPalette(self.gownIndex, sLeaser, rCam, palette);
-    }
 
     #endregion
 
@@ -167,50 +176,122 @@ public static partial class Hooks
         if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        UpdateCustomPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
-        UpdateCustomPlayerSprite(sLeaser, HIPS_SPRITE, "Hips", "hips");
-        UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "head");
+        UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.sleeveLSprite);
+        UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.sleeveRSprite);
+
+        UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", playerModule.feetSprite);
+
+
+        UpdateReplacementPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
+        sLeaser.sprites[BODY_SPRITE].alpha = 0.0f;
+
+        UpdateReplacementPlayerSprite(sLeaser, HIPS_SPRITE, "Hips", "hips");
+        UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "head");
         
-        UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
+        UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
         
-        UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
-        UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
+        UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
+        UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
         
-        UpdateCustomPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
+        UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
 
 
         DrawEars(self, sLeaser, timeStacker, camPos, playerModule);
         DrawTail(self, sLeaser, playerModule);
-        playerModule.cloak.DrawSprite(playerModule.cloakSprite, sLeaser, rCam, timeStacker, camPos);
+
+        playerModule.cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
 
 
+        ColorSprites(self, sLeaser, playerModule);
         OrderSprites(self, sLeaser, playerModule);
     }
 
-    public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
+    public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndexToCopy, string toCopy, string atlasName, string customName, int spriteIndex)
+    {
+        sLeaser.sprites[spriteIndex].isVisible = false;
+
+        FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
+        if (atlas == null) return;
+
+        string? name = sLeaser.sprites[spriteIndexToCopy]?.element?.name;
+        if (name == null) return;
+
+        name = name.Replace(toCopy, customName);
+
+        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element)) return;
+
+        sLeaser.sprites[spriteIndex].element = element;
+
+
+        FSprite spriteToCopy = sLeaser.sprites[spriteIndexToCopy];
+
+        sLeaser.sprites[spriteIndex].isVisible = spriteToCopy.isVisible;
+
+        sLeaser.sprites[spriteIndex].SetPosition(spriteToCopy.GetPosition());
+        sLeaser.sprites[spriteIndex].SetAnchor(spriteToCopy.GetAnchor());
+
+        sLeaser.sprites[spriteIndex].scaleX = spriteToCopy.scaleX;
+        sLeaser.sprites[spriteIndex].scaleY = spriteToCopy.scaleY;
+        sLeaser.sprites[spriteIndex].rotation = spriteToCopy.rotation;
+    }
+
+    public static void UpdateReplacementPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
     {
         FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
-
         if (atlas == null) return;
 
         string? name = sLeaser.sprites[spriteIndex]?.element?.name;
+        if (name == null) return;
 
-        if (name != null && name.StartsWith(toReplace) && atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element))
-            sLeaser.sprites[spriteIndex].element = element;
+
+        if (!name.StartsWith(toReplace)) return;
+
+        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element)) return;
+        
+        sLeaser.sprites[spriteIndex].element = element;
+    }
+
+    public static void ColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlcatModule playerModule)
+    {
+        sLeaser.sprites[BODY_SPRITE].color = playerModule.BodyColor;
+        sLeaser.sprites[HIPS_SPRITE].color = playerModule.BodyColor;
+        sLeaser.sprites[HEAD_SPRITE].color = playerModule.BodyColor;
+        sLeaser.sprites[LEGS_SPRITE].color = playerModule.BodyColor;
+
+
+        sLeaser.sprites[playerModule.feetSprite].color = playerModule.AccentColor;
+        sLeaser.sprites[ARM_L_SPRITE].color = playerModule.AccentColor;
+        sLeaser.sprites[ARM_R_SPRITE].color = playerModule.AccentColor;
+
+        sLeaser.sprites[playerModule.sleeveLSprite].color = playerModule.CloakColor;
+        sLeaser.sprites[playerModule.sleeveRSprite].color = playerModule.CloakColor;
+
+        sLeaser.sprites[TAIL_SPRITE].color = Color.white;
+        sLeaser.sprites[playerModule.earLSprite].color = Color.white;
+        sLeaser.sprites[playerModule.earRSprite].color = Color.white;
+
+        sLeaser.sprites[playerModule.cloakSprite].color = Color.white;
+        playerModule.cloak.UpdateColor(sLeaser);
     }
 
     public static void OrderSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlcatModule playerModule)
     {
         if (self.player.flipDirection == 1)
         {
-            sLeaser.sprites[ARM_L_SPRITE].MoveBehindOtherNode(sLeaser.sprites[HEAD_SPRITE]);
+            sLeaser.sprites[ARM_L_SPRITE].MoveInFrontOfOtherNode(sLeaser.sprites[HEAD_SPRITE]);
             sLeaser.sprites[ARM_R_SPRITE].MoveBehindOtherNode(sLeaser.sprites[BODY_SPRITE]);
         }
         else
         {
+            sLeaser.sprites[ARM_R_SPRITE].MoveInFrontOfOtherNode(sLeaser.sprites[HEAD_SPRITE]);
             sLeaser.sprites[ARM_L_SPRITE].MoveBehindOtherNode(sLeaser.sprites[BODY_SPRITE]);
-            sLeaser.sprites[ARM_R_SPRITE].MoveBehindOtherNode(sLeaser.sprites[HEAD_SPRITE]);
         }
+
+
+        sLeaser.sprites[playerModule.sleeveLSprite].MoveToBack();
+        sLeaser.sprites[playerModule.sleeveRSprite].MoveToBack();
+        sLeaser.sprites[playerModule.sleeveLSprite].MoveInFrontOfOtherNode(sLeaser.sprites[ARM_L_SPRITE]);
+        sLeaser.sprites[playerModule.sleeveRSprite].MoveInFrontOfOtherNode(sLeaser.sprites[ARM_R_SPRITE]);
     }
 
 
