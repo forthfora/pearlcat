@@ -33,6 +33,8 @@ public static partial class Hooks
     const int LEGS_SPRITE = 4;
     const int ARM_L_SPRITE = 5;
     const int ARM_R_SPRITE = 6;
+    const int HAND_L_SPRITE = 7;
+    const int HAND_R_SPRITE = 8;
     const int FACE_SPRITE = 9;
 
     #region Graphics Init
@@ -262,6 +264,9 @@ public static partial class Hooks
         sLeaser.sprites[playerModule.feetSprite].color = playerModule.AccentColor;
         sLeaser.sprites[ARM_L_SPRITE].color = playerModule.AccentColor;
         sLeaser.sprites[ARM_R_SPRITE].color = playerModule.AccentColor;
+
+        sLeaser.sprites[HAND_L_SPRITE].color = playerModule.AccentColor;
+        sLeaser.sprites[HAND_R_SPRITE].color = playerModule.AccentColor;
 
         sLeaser.sprites[playerModule.sleeveLSprite].color = playerModule.CloakColor;
         sLeaser.sprites[playerModule.sleeveRSprite].color = playerModule.CloakColor;
