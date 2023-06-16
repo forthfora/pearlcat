@@ -36,6 +36,8 @@ public static partial class Hooks
     const int HAND_L_SPRITE = 7;
     const int HAND_R_SPRITE = 8;
     const int FACE_SPRITE = 9;
+    const int GLOW_SPRITE = 10;
+    const int MARK_SPRITE = 11;
 
     #region Graphics Init
 
@@ -68,7 +70,7 @@ public static partial class Hooks
         sLeaser.sprites[playerModule.sleeveRSprite] = new FSprite("pearlcatSleeve0");
 
         sLeaser.sprites[playerModule.feetSprite] = new FSprite("pearlcatFeetA0");
-
+        
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
 
@@ -77,7 +79,6 @@ public static partial class Hooks
 
         GenerateEarMesh(sLeaser, playerModule.earL, playerModule.earLSprite);
         GenerateEarMesh(sLeaser, playerModule.earR, playerModule.earRSprite);
-
 
         self.AddToContainer(sLeaser, rCam, null);
     }
@@ -242,6 +243,11 @@ public static partial class Hooks
             mgContainer.AddChild(earRSprite);
 
             mgContainer.AddChild(cloakSprite);
+
+            // Color meshes
+            playerModule.LoadTailTexture("tail");
+            playerModule.LoadEarLTexture("ear_l");
+            playerModule.LoadEarRTexture("ear_r");
         }
 
 
@@ -338,12 +344,6 @@ public static partial class Hooks
 
         playerModule.earRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
         DrawEar(sLeaser, timestacker, camPos, playerModule.earR, playerModule.earRSprite, playerModule.earRAtlas, playerModule.earRAttachPos, playerModule.earRFlipDirection);
-
-
-        Color highlightColor = playerModule.DynamicColors.Count > 0 ? playerModule.DynamicColors[0] : playerModule.AccentColor;
-
-        playerModule.LoadEarLTexture("ear_l", highlightColor);
-        playerModule.LoadEarRTexture("ear_r", highlightColor);
     }
 
     public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PearlcatModule playerModule, Vector2 offset) =>
@@ -429,9 +429,6 @@ public static partial class Hooks
 
 
 
-    static readonly PlayerFeature<int> TargetBodyPart = FeatureTypes.PlayerInt("target_body_part");
-    static readonly PlayerFeature<int> TargetTailSegment = FeatureTypes.PlayerInt("target_tail_segment");
-
     static readonly PlayerFeature<float> MinEffectiveOffset = FeatureTypes.PlayerFloat("min_tail_offset");
     static readonly PlayerFeature<float> MaxEffectiveOffset = FeatureTypes.PlayerFloat("max_tail_offset");
 
@@ -463,27 +460,17 @@ public static partial class Hooks
 
         if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh) return;
 
-        sLeaser.sprites[TAIL_SPRITE].color = Color.white;
         tailMesh.element = tailAtlas.elements[0];
 
         if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
             tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
 
 
-        // Get body and tail positions
-        if (!TargetBodyPart.TryGet(self.player, out var targetBodyPart)) return;
-        if (self.bodyParts.Length <= targetBodyPart) return;
-
-        Vector2 bodyPos = self.bodyParts[targetBodyPart].pos;
-
-        if (!TargetTailSegment.TryGet(self.player, out var targetTailSegment)) return;
-        if (self.tail.Length <= targetTailSegment) return;
-
-        Vector2 tailPos = self.tail[targetTailSegment].pos;
-
+        Vector2 legsPos = self.legs.pos;
+        Vector2 tailPos = self.tail[0].pos;
 
         // Find the difference between the x positions and convert it into a 0.0 - 1.0 ratio between the two
-        float difference = bodyPos.x - tailPos.x;
+        float difference = tailPos.x - legsPos.x;
 
         if (!MinEffectiveOffset.TryGet(self.player, out var minEffectiveOffset)) return;
         if (!MaxEffectiveOffset.TryGet(self.player, out var maxEffectiveOffset)) return;
@@ -620,6 +607,7 @@ public static partial class Hooks
 
         int negFlipDir = -self.player.flipDirection;
 
+        // If the player is moving in any way, simulate 'air resistance'
         if ((self.player.animation == Player.AnimationIndex.None && self.player.input[0].x != 0)
             || (self.player.animation == Player.AnimationIndex.StandOnBeam && self.player.input[0].x != 0)
             || self.player.bodyMode == Player.BodyModeIndex.Crawl
@@ -628,26 +616,25 @@ public static partial class Hooks
         {
             if (self.player.flipDirection == 1)
             {
-                earL[0].vel.x += 0.45f * negFlipDir;
-                earL[1].vel.x += 0.45f * negFlipDir;
+                earL[0].vel.x += 0.15f * negFlipDir;
+                earL[1].vel.x += 0.15f * negFlipDir;
+                earL[2].vel.x += 0.15f * negFlipDir;
 
-                earR[0].vel.x += 0.35f * negFlipDir;
-                earR[1].vel.x += 0.35f * negFlipDir;
+                earR[0].vel.x += 0.15f * negFlipDir;
+                earR[1].vel.x += 0.15f * negFlipDir;
+                earR[2].vel.x += 0.15f * negFlipDir;
             }
             else
             {
-                earL[0].vel.x += 0.35f * negFlipDir;
-                earL[1].vel.x += 0.35f * negFlipDir;
+                earL[0].vel.x += 0.15f * negFlipDir;
+                earL[1].vel.x += 0.15f * negFlipDir;
+                earL[2].vel.x += 0.15f * negFlipDir;
 
-                earR[0].vel.x += 0.45f * negFlipDir;
-                earR[1].vel.x += 0.45f * negFlipDir;
+                earR[0].vel.x += 0.15f * negFlipDir;
+                earR[1].vel.x += 0.15f * negFlipDir;
+                earR[2].vel.x += 0.15f * negFlipDir;
             }
-
-            return;
         }
-
-        //earL[1].vel.x -= 0.5f;
-        //earR[1].vel.x += 0.5f;
     }
 
     public static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)

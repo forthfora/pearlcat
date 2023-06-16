@@ -30,11 +30,6 @@ public class PearlcatModule
 
         InitSounds(self);
         InitColors(self);
-
-        LoadTailTexture("tail");
-
-        LoadEarLTexture("ear_l", AccentColor);
-        LoadEarRTexture("ear_r", AccentColor);
     }
 
     public bool canSwallowOrRegurgitate = true;
@@ -98,36 +93,46 @@ public class PearlcatModule
     public int earLFlipDirection = 1;
     public int earRFlipDirection = 1;
 
-    public void LoadEarLTexture(string textureName, Color color)
+    public string prevEarL = "";
+    public string prevEarR = "";
+    public bool earLAlt = false;
+    public bool earRAlt = false;
+
+
+    public void LoadEarLTexture(string textureName)
     {
-        if (color == EarLColor) return;
-
-
         earLTexture = AssetLoader.GetTexture(textureName);
         if (earLTexture == null) return;
 
+        if (Futile.atlasManager.DoesContainAtlas(prevEarL))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevEarL);
+
         // Apply Colors
         MapAlphaToColor(earLTexture, 1.0f, BodyColor);
-        MapAlphaToColor(earLTexture, 0.0f, color);
-        EarLColor = color;
+        MapAlphaToColor(earLTexture, 0.0f, AccentColor);
 
-        earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, earLTexture, false);
+        prevEarL = Plugin.MOD_ID + textureName + earLAlt;
+        earLAlt = !earLAlt;
+
+        earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevEarL, earLTexture, false);
     }
 
-    public void LoadEarRTexture(string textureName, Color color)
+    public void LoadEarRTexture(string textureName)
     {
-        if (color == EarRColor) return;
-
-
         earRTexture = AssetLoader.GetTexture(textureName);
         if (earRTexture == null) return;
 
+        if (Futile.atlasManager.DoesContainAtlas(prevEarR))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevEarR);
+
         // Apply Colors
         MapAlphaToColor(earRTexture, 1.0f, BodyColor);
-        MapAlphaToColor(earRTexture, 0.0f, color);
-        EarRColor = color;
+        MapAlphaToColor(earRTexture, 0.0f, AccentColor);
 
-        earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, earRTexture, false);
+        prevEarR = Plugin.MOD_ID + textureName + earRAlt;
+        earRAlt = !earRAlt;
+
+        earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevEarR, earRTexture, false);
     }
 
     public void RegenerateEars()
@@ -193,17 +198,25 @@ public class PearlcatModule
     public Texture2D? tailTexture;
     public FAtlas? tailAtlas;
 
+    public string prevTail = "";
+    public bool tailAlt = false;
+
     public void LoadTailTexture(string textureName)
     {
         tailTexture = AssetLoader.GetTexture(textureName);
         if (tailTexture == null) return;
 
+        if (Futile.atlasManager.DoesContainAtlas(prevTail))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevTail);
 
         // Apply Colors
         MapAlphaToColor(tailTexture, 1.0f, BodyColor);
         MapAlphaToColor(tailTexture, 0.0f, AccentColor);
 
-        tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, tailTexture, false);
+        prevTail = Plugin.MOD_ID + textureName + tailAlt;
+        tailAlt = !tailAlt;
+
+        tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevTail, tailTexture, false);
     }
 
 
@@ -232,43 +245,12 @@ public class PearlcatModule
             newTail[i].stretched = self.tail[i].stretched;
         }
 
+        if (self.tail == newTail) return;
         self.tail = newTail;
 
-        // Generate the new body parts array, whilst attempting to preserve the existing indexes
-        // The flaw with this is that if the new tail is shorter than the default, this will crash
-        List<BodyPart> newBodyParts = self.bodyParts.ToList();
-        List<int> oldTailSegmentIndexes = new();
-
-        bool reachedOldTail = false;
-
-        // Get existing indexes
-        for (int i = 0; i <= newBodyParts.Count; i++)
-        {
-            if (newBodyParts[i] is TailSegment)
-            {
-                reachedOldTail = true;
-                oldTailSegmentIndexes.Add(i);
-            }
-            else if (reachedOldTail)
-            {
-                break;
-            }
-        }
-
-        int tailSegmentIndex = 0;
-
-        // Where possible, substitute the existing indexes with the new tail
-        foreach (int i in oldTailSegmentIndexes)
-        {
-            newBodyParts[i] = self.tail[tailSegmentIndex];
-            tailSegmentIndex++;
-        }
-
-        // For any remaining tail segments, append them to the end
-        for (int i = tailSegmentIndex; i < self.tail.Length; i++)
-        {
-            newBodyParts.Add(self.tail[tailSegmentIndex]);
-        }
+        var newBodyParts = self.bodyParts.ToList();
+        newBodyParts.RemoveAll(x => x is TailSegment);
+        newBodyParts.AddRange(self.tail);
 
         self.bodyParts = newBodyParts.ToArray();
     }
@@ -290,6 +272,7 @@ public class PearlcatModule
         cloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, cloakTexture, false);
     }
 
+    // CTRL + C CTRL + V is my speciality
     public class Cloak
     {
         public readonly int sprite;

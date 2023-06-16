@@ -62,8 +62,6 @@
         ],
         
         
-        "target_body_part": 1,
-        "target_tail_segment": 0,
         "min_tail_offset": -15.0,
         "max_tail_offset": 15.0,
         
