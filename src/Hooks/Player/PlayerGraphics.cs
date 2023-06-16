@@ -534,11 +534,16 @@ public static partial class Hooks
         if (!EarROffset.TryGet(self.player, out var earROffset)) return;
 
 
+        playerModule.earLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
+
         for (int segment = 0; segment < playerModule.earL.Length; segment++)
-            playerModule.earL[segment].Reset(GetEarAttachPos(self, 1.0f, playerModule, earLOffset));
+            playerModule.earL[segment].Reset(playerModule.earLAttachPos);
+
+
+        playerModule.earRAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
 
         for (int segment = 0; segment < playerModule.earR.Length; segment++)
-            playerModule.earR[segment].Reset(GetEarAttachPos(self, 1.0f, playerModule, earROffset));
+            playerModule.earR[segment].Reset(playerModule.earRAttachPos);
     }
 
     #endregion
