@@ -59,11 +59,13 @@ namespace Pearlcat
             if (!Hooks.ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
                 activeObjectOffset = Vector2.zero;
 
+            PlayerGraphics playerGraphics = (PlayerGraphics)player.graphicsModule;
+
             if (player.bodyMode == Player.BodyModeIndex.ZeroG)
-                return player.graphicsModule.bodyParts[6].pos + (activeObjectOffset.magnitude * player.bodyChunks[0].Rotation);
+                return playerGraphics.head.pos + (activeObjectOffset.magnitude * player.firstChunk.Rotation);
 
 
-            Vector2 pos = player.graphicsModule.bodyParts[6].pos + activeObjectOffset;
+            Vector2 pos = playerGraphics.head.pos + activeObjectOffset;
             pos.x += player.mainBodyChunk.vel.x * 1.0f;
 
             return pos;

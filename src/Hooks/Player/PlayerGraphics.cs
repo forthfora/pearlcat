@@ -253,6 +253,7 @@ public static partial class Hooks
 
 
         // Order
+        // Generally, move behind body, move infront of head
         sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
         sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
 
@@ -262,38 +263,52 @@ public static partial class Hooks
         earRSprite.MoveBehindOtherNode(headSprite);
         earRSprite.MoveBehindOtherNode(bodySprite);
 
-        tailSprite.MoveBehindOtherNode(hipsSprite);
+        tailSprite.MoveBehindOtherNode(bodySprite);
         legsSprite.MoveBehindOtherNode(hipsSprite);
 
         cloakSprite.MoveBehindOtherNode(headSprite);
 
         feetSprite.MoveBehindOtherNode(cloakSprite);
         feetSprite.MoveInFrontOfOtherNode(legsSprite);
+        earLSprite.MoveBehindOtherNode(headSprite);
+        earRSprite.MoveBehindOtherNode(headSprite);
 
 
-        // this is confusing because the left and rights of arms and ears are different, it's not intuitive lol
-        // Right
-        if (self.player.flipDirection == 1)
+        if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
         {
-            armLSprite.MoveInFrontOfOtherNode(bodySprite);
-            armRSprite.MoveBehindOtherNode(headSprite);
-
-            if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
-            {
-                earLSprite.MoveInFrontOfOtherNode(headSprite);
-                earRSprite.MoveBehindOtherNode(headSprite);
-            }
+            earLSprite.MoveInFrontOfOtherNode(cloakSprite);
+            earRSprite.MoveInFrontOfOtherNode(cloakSprite);
         }
-        // Left
         else
         {
-            armRSprite.MoveInFrontOfOtherNode(headSprite);
-            armLSprite.MoveBehindOtherNode(bodySprite);
+            earLSprite.MoveBehindOtherNode(cloakSprite);
+            earRSprite.MoveBehindOtherNode(cloakSprite);
+        }
 
-            if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
+
+        if (self.player.firstChunk.vel.x <= 0.3f)
+        {
+            armLSprite.MoveBehindOtherNode(bodySprite);
+            armRSprite.MoveBehindOtherNode(bodySprite);
+        }
+        else
+        {
+            // this is confusing because the left and rights of arms and ears are different, it's not intuitive lol
+            // Right
+            if (self.player.flipDirection == 1)
             {
-                earRSprite.MoveInFrontOfOtherNode(headSprite);
-                earLSprite.MoveBehindOtherNode(headSprite);
+                armLSprite.MoveInFrontOfOtherNode(headSprite);
+                armRSprite.MoveBehindOtherNode(bodySprite);
+
+                earLSprite.MoveInFrontOfOtherNode(earRSprite);
+            }
+            // Left
+            else
+            {
+                armRSprite.MoveInFrontOfOtherNode(headSprite);
+                armLSprite.MoveBehindOtherNode(bodySprite);
+
+                earRSprite.MoveInFrontOfOtherNode(earLSprite);
             }
         }
 
@@ -589,6 +604,9 @@ public static partial class Hooks
             if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
                 segmentVel.y /= 2.0f;
 
+            if (self.player.superLaunchJump >= 20)
+                segmentVel.y += i == self.tail.Length - 1 ? 0.8f : 0.15f;
+
             self.tail[i].vel += segmentVel * facingDir;
         }
     }
@@ -604,37 +622,6 @@ public static partial class Hooks
 
         UpdateEarSegments(self, earL, playerModule.earLAttachPos);
         UpdateEarSegments(self, earR, playerModule.earRAttachPos);
-
-        int negFlipDir = -self.player.flipDirection;
-
-        // If the player is moving in any way, simulate 'air resistance'
-        if ((self.player.animation == Player.AnimationIndex.None && self.player.input[0].x != 0)
-            || (self.player.animation == Player.AnimationIndex.StandOnBeam && self.player.input[0].x != 0)
-            || self.player.bodyMode == Player.BodyModeIndex.Crawl
-            || self.player.animation != Player.AnimationIndex.None
-            && self.player.animation != Player.AnimationIndex.Flip)
-        {
-            if (self.player.flipDirection == 1)
-            {
-                earL[0].vel.x += 0.15f * negFlipDir;
-                earL[1].vel.x += 0.15f * negFlipDir;
-                earL[2].vel.x += 0.15f * negFlipDir;
-
-                earR[0].vel.x += 0.15f * negFlipDir;
-                earR[1].vel.x += 0.15f * negFlipDir;
-                earR[2].vel.x += 0.15f * negFlipDir;
-            }
-            else
-            {
-                earL[0].vel.x += 0.15f * negFlipDir;
-                earL[1].vel.x += 0.15f * negFlipDir;
-                earL[2].vel.x += 0.15f * negFlipDir;
-
-                earR[0].vel.x += 0.15f * negFlipDir;
-                earR[1].vel.x += 0.15f * negFlipDir;
-                earR[2].vel.x += 0.15f * negFlipDir;
-            }
-        }
     }
 
     public static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)
@@ -645,15 +632,52 @@ public static partial class Hooks
 
         for (int segment = 0; segment < ear.Length; segment++)
             ear[segment].Update();
+        
+        int negFlipDir = -self.player.flipDirection;
+        
+        // Dead or Alive
 
-        ear[0].vel.x *= 0.5f;
-        ear[0].vel.y += self.player.EffectiveRoomGravity * 0.5f;
+        // Simulate friction
+        ear[0].vel.x *= 0.9f;
+        ear[2].vel.x *= 0.7f;
+        ear[1].vel.x *= 0.7f;
 
-        ear[1].vel.x *= 0.3f;
-        ear[1].vel.y += self.player.EffectiveRoomGravity * 0.3f;
 
-        ear[2].vel.x *= 0.3f;
-        ear[2].vel.y += self.player.EffectiveRoomGravity * 0.3f;
+        if (self.player.dead) return;
+        
+        // Alive
+
+        if (self.player.bodyMode == Player.BodyModeIndex.ZeroG)
+        {
+            var playerRot = self.player.firstChunk.Rotation;
+
+            ear[0].vel += 5.0f * playerRot;
+            ear[1].vel += 5.0f * playerRot;
+            ear[2].vel += 5.0f * playerRot;
+        }
+        else
+        {
+            ear[0].vel.y += self.player.EffectiveRoomGravity * 0.5f;
+            ear[1].vel.y += self.player.EffectiveRoomGravity * 0.3f;
+            ear[2].vel.y += self.player.EffectiveRoomGravity * 0.3f;
+
+            if (self.player.bodyMode == Player.BodyModeIndex.Crawl && self.player.input[0].x == 0)
+            {
+                // Ears go back when pouncing
+                if (self.player.superLaunchJump >= 20)
+                {
+                    ear[0].vel.x += 0.65f * negFlipDir;
+                    ear[1].vel.x += 0.65f * negFlipDir;
+                    ear[2].vel.x += 0.65f * negFlipDir;
+                }
+                else
+                {
+                    ear[0].vel.x += 0.25f * negFlipDir;
+                    ear[1].vel.x += 0.25f * negFlipDir;
+                    ear[2].vel.x += 0.25f * negFlipDir;
+                }
+            }
+        }
     }
 
     #endregion
