@@ -111,57 +111,7 @@ public static partial class Hooks
 
         if (playerModule.firstSprite <= 0 || sLeaser.sprites.Length < playerModule.lastSprite) return;
 
-        // Gather Sprites
-        FSprite bodySprite = sLeaser.sprites[BODY_SPRITE];
-        FSprite armLSprite = sLeaser.sprites[ARM_L_SPRITE];
-        FSprite armRSprite = sLeaser.sprites[ARM_R_SPRITE];
-        FSprite hipsSprite = sLeaser.sprites[HIPS_SPRITE];
-        FSprite tailSprite = sLeaser.sprites[TAIL_SPRITE];
-        FSprite headSprite = sLeaser.sprites[HEAD_SPRITE];
-        FSprite legsSprite = sLeaser.sprites[LEGS_SPRITE];
-
-        FSprite sleeveLSprite = sLeaser.sprites[playerModule.sleeveLSprite];
-        FSprite sleeveRSprite = sLeaser.sprites[playerModule.sleeveRSprite];
-
-        FSprite feetSprite = sLeaser.sprites[playerModule.feetSprite];
-        
-        FSprite earLSprite = sLeaser.sprites[playerModule.earLSprite];
-        FSprite earRSprite = sLeaser.sprites[playerModule.earRSprite];
-
-        FSprite cloakSprite = sLeaser.sprites[playerModule.cloakSprite];
-
-
-        FContainer mgContainer = rCam.ReturnFContainer("Midground");
-        FContainer fgContainer = rCam.ReturnFContainer("Foreground");
-
-
-        mgContainer.AddChild(sleeveLSprite);
-        mgContainer.AddChild(sleeveRSprite);
-
-        mgContainer.AddChild(feetSprite);
-
-        mgContainer.AddChild(earLSprite);
-        mgContainer.AddChild(earRSprite);
-
-        mgContainer.AddChild(cloakSprite);
-
-
-        sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
-        sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
-
-        feetSprite.MoveBehindOtherNode(cloakSprite);
-        feetSprite.MoveInFrontOfOtherNode(legsSprite);
-
-        earLSprite.MoveBehindOtherNode(headSprite);
-        earRSprite.MoveBehindOtherNode(headSprite);
-        earLSprite.MoveBehindOtherNode(bodySprite);
-        earRSprite.MoveBehindOtherNode(bodySprite);
-
-        tailSprite.MoveBehindOtherNode(hipsSprite);
-        legsSprite.MoveBehindOtherNode(hipsSprite);
-
-        cloakSprite.MoveBehindOtherNode(headSprite);
-        cloakSprite.MoveInFrontOfOtherNode(feetSprite);
+        OrderAndColorSprites(self, sLeaser, rCam, playerModule, true);
     }
 
 
@@ -204,8 +154,7 @@ public static partial class Hooks
         playerModule.cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
 
 
-        ColorSprites(self, sLeaser, playerModule);
-        OrderSprites(self, sLeaser, playerModule);
+        OrderAndColorSprites(self, sLeaser, rCam, playerModule);
     }
 
     public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndexToCopy, string toCopy, string atlasName, string customName, int spriteIndex)
@@ -253,50 +202,126 @@ public static partial class Hooks
         sLeaser.sprites[spriteIndex].element = element;
     }
 
-    public static void ColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlcatModule playerModule)
+
+    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PearlcatModule playerModule, bool isSetup = false)
     {
-        sLeaser.sprites[BODY_SPRITE].color = playerModule.BodyColor;
-        sLeaser.sprites[HIPS_SPRITE].color = playerModule.BodyColor;
-        sLeaser.sprites[HEAD_SPRITE].color = playerModule.BodyColor;
-        sLeaser.sprites[LEGS_SPRITE].color = playerModule.BodyColor;
+        FSprite bodySprite = sLeaser.sprites[BODY_SPRITE];
+        FSprite armLSprite = sLeaser.sprites[ARM_L_SPRITE];
+        FSprite armRSprite = sLeaser.sprites[ARM_R_SPRITE];
+        FSprite hipsSprite = sLeaser.sprites[HIPS_SPRITE];
+        FSprite tailSprite = sLeaser.sprites[TAIL_SPRITE];
+        FSprite headSprite = sLeaser.sprites[HEAD_SPRITE];
+        FSprite handLSprite = sLeaser.sprites[HAND_L_SPRITE];
+        FSprite handRSprite = sLeaser.sprites[HAND_R_SPRITE];
+        FSprite legsSprite = sLeaser.sprites[LEGS_SPRITE];
+
+        FSprite sleeveLSprite = sLeaser.sprites[playerModule.sleeveLSprite];
+        FSprite sleeveRSprite = sLeaser.sprites[playerModule.sleeveRSprite];
+
+        FSprite feetSprite = sLeaser.sprites[playerModule.feetSprite];
+
+        FSprite earLSprite = sLeaser.sprites[playerModule.earLSprite];
+        FSprite earRSprite = sLeaser.sprites[playerModule.earRSprite];
+
+        FSprite cloakSprite = sLeaser.sprites[playerModule.cloakSprite];
+
+        FContainer mgContainer = rCam.ReturnFContainer("Midground");
+        FContainer fgContainer = rCam.ReturnFContainer("Foreground");
 
 
-        sLeaser.sprites[playerModule.feetSprite].color = playerModule.AccentColor;
-        sLeaser.sprites[ARM_L_SPRITE].color = playerModule.AccentColor;
-        sLeaser.sprites[ARM_R_SPRITE].color = playerModule.AccentColor;
 
-        sLeaser.sprites[HAND_L_SPRITE].color = playerModule.AccentColor;
-        sLeaser.sprites[HAND_R_SPRITE].color = playerModule.AccentColor;
+        // Container
+        if (isSetup)
+        {
+            mgContainer.AddChild(sleeveLSprite);
+            mgContainer.AddChild(sleeveRSprite);
 
-        sLeaser.sprites[playerModule.sleeveLSprite].color = playerModule.CloakColor;
-        sLeaser.sprites[playerModule.sleeveRSprite].color = playerModule.CloakColor;
+            mgContainer.AddChild(feetSprite);
 
-        sLeaser.sprites[TAIL_SPRITE].color = Color.white;
-        sLeaser.sprites[playerModule.earLSprite].color = Color.white;
-        sLeaser.sprites[playerModule.earRSprite].color = Color.white;
+            mgContainer.AddChild(earLSprite);
+            mgContainer.AddChild(earRSprite);
 
-        sLeaser.sprites[playerModule.cloakSprite].color = Color.white;
-        playerModule.cloak.UpdateColor(sLeaser);
-    }
+            mgContainer.AddChild(cloakSprite);
+        }
 
-    public static void OrderSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlcatModule playerModule)
-    {
+
+
+        // Order
+        sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
+        sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
+
+        earLSprite.MoveBehindOtherNode(headSprite);
+        earLSprite.MoveBehindOtherNode(bodySprite);
+
+        earRSprite.MoveBehindOtherNode(headSprite);
+        earRSprite.MoveBehindOtherNode(bodySprite);
+
+        tailSprite.MoveBehindOtherNode(hipsSprite);
+        legsSprite.MoveBehindOtherNode(hipsSprite);
+
+        cloakSprite.MoveBehindOtherNode(headSprite);
+
+        feetSprite.MoveBehindOtherNode(cloakSprite);
+        feetSprite.MoveInFrontOfOtherNode(legsSprite);
+
+
+        // this is confusing because the left and rights of arms and ears are different, it's not intuitive lol
+        // Right
         if (self.player.flipDirection == 1)
         {
-            sLeaser.sprites[ARM_L_SPRITE].MoveInFrontOfOtherNode(sLeaser.sprites[HEAD_SPRITE]);
-            sLeaser.sprites[ARM_R_SPRITE].MoveBehindOtherNode(sLeaser.sprites[BODY_SPRITE]);
+            armLSprite.MoveInFrontOfOtherNode(bodySprite);
+            armRSprite.MoveBehindOtherNode(headSprite);
+
+            if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
+            {
+                earLSprite.MoveInFrontOfOtherNode(headSprite);
+                earRSprite.MoveBehindOtherNode(headSprite);
+            }
         }
+        // Left
         else
         {
-            sLeaser.sprites[ARM_R_SPRITE].MoveInFrontOfOtherNode(sLeaser.sprites[HEAD_SPRITE]);
-            sLeaser.sprites[ARM_L_SPRITE].MoveBehindOtherNode(sLeaser.sprites[BODY_SPRITE]);
+            armRSprite.MoveInFrontOfOtherNode(headSprite);
+            armLSprite.MoveBehindOtherNode(bodySprite);
+
+            if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
+            {
+                earRSprite.MoveInFrontOfOtherNode(headSprite);
+                earLSprite.MoveBehindOtherNode(headSprite);
+            }
         }
 
+        sleeveLSprite.MoveToBack();
+        sleeveRSprite.MoveToBack();
+        sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
+        sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
 
-        sLeaser.sprites[playerModule.sleeveLSprite].MoveToBack();
-        sLeaser.sprites[playerModule.sleeveRSprite].MoveToBack();
-        sLeaser.sprites[playerModule.sleeveLSprite].MoveInFrontOfOtherNode(sLeaser.sprites[ARM_L_SPRITE]);
-        sLeaser.sprites[playerModule.sleeveRSprite].MoveInFrontOfOtherNode(sLeaser.sprites[ARM_R_SPRITE]);
+
+
+        // Color
+        bodySprite.color = playerModule.BodyColor;
+        hipsSprite.color = playerModule.BodyColor;
+        headSprite.color = playerModule.BodyColor;
+        legsSprite.color = playerModule.BodyColor;
+
+
+        feetSprite.color = playerModule.AccentColor;
+        armLSprite.color = playerModule.AccentColor;
+        armRSprite.color = playerModule.AccentColor;
+        cloakSprite.color = playerModule.AccentColor;
+
+        handLSprite.color = playerModule.AccentColor;
+        handRSprite.color = playerModule.AccentColor;
+
+        sleeveLSprite.color = playerModule.CloakColor;
+        sleeveRSprite.color = playerModule.CloakColor;
+
+        tailSprite.color = Color.white;
+        earLSprite.color = Color.white;
+        earRSprite.color = Color.white;
+
+        cloakSprite.color = Color.white;
+        playerModule.cloak.UpdateColor(sLeaser);
     }
 
 
@@ -596,33 +621,25 @@ public static partial class Hooks
             || self.player.animation != Player.AnimationIndex.None
             && self.player.animation != Player.AnimationIndex.Flip)
         {
-            playerModule.earLFlipDirection = self.player.flipDirection;
-            playerModule.earRFlipDirection = -self.player.flipDirection;
+            if (self.player.flipDirection == 1)
+            {
+                earL[0].vel.x += 0.45f * negFlipDir;
+                earL[1].vel.x += 0.45f * negFlipDir;
 
-            //if (self.player.flipDirection == 1)
-            //{
-            //    earL[0].vel.x += 0.45f * negFlipDir;
-            //    earL[1].vel.x += 0.45f * negFlipDir;
+                earR[0].vel.x += 0.35f * negFlipDir;
+                earR[1].vel.x += 0.35f * negFlipDir;
+            }
+            else
+            {
+                earL[0].vel.x += 0.35f * negFlipDir;
+                earL[1].vel.x += 0.35f * negFlipDir;
 
-            //    earR[0].vel.x += 0.35f * negFlipDir;
-            //    earR[1].vel.x += 0.35f * negFlipDir;
-
-            //}
-            //else
-            //{
-            //    earL[0].vel.x += 0.35f * negFlipDir;
-            //    earL[1].vel.x += 0.35f * negFlipDir;
-
-            //    earR[0].vel.x += 0.45f * negFlipDir;
-            //    earR[1].vel.x += 0.45f * negFlipDir;
-
-            //}
+                earR[0].vel.x += 0.45f * negFlipDir;
+                earR[1].vel.x += 0.45f * negFlipDir;
+            }
 
             return;
         }
-
-        playerModule.earLFlipDirection = 1;
-        playerModule.earRFlipDirection = 1;
 
         //earL[1].vel.x -= 0.5f;
         //earR[1].vel.x += 0.5f;
@@ -642,6 +659,9 @@ public static partial class Hooks
 
         ear[1].vel.x *= 0.3f;
         ear[1].vel.y += self.player.EffectiveRoomGravity * 0.3f;
+
+        ear[2].vel.x *= 0.3f;
+        ear[2].vel.y += self.player.EffectiveRoomGravity * 0.3f;
     }
 
     #endregion

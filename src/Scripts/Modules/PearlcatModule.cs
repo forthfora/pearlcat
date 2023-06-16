@@ -95,8 +95,8 @@ public class PearlcatModule
     public Vector2 earLAttachPos;
     public Vector2 earRAttachPos;
 
-    public int earLFlipDirection;
-    public int earRFlipDirection;
+    public int earLFlipDirection = 1;
+    public int earRFlipDirection = 1;
 
     public void LoadEarLTexture(string textureName, Color color)
     {
@@ -138,9 +138,11 @@ public class PearlcatModule
 
         PlayerGraphics self = (PlayerGraphics)player.graphicsModule;
 
-        TailSegment[] newEarL = new TailSegment[2];
+        TailSegment[] newEarL = new TailSegment[3];
         newEarL[0] = new TailSegment(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-        newEarL[1] = new TailSegment(self, 1.5f, 7.0f, newEarL[0], 0.85f, 1.0f, 0.5f, true);
+        newEarL[1] = new TailSegment(self, 3.0f, 6.0f, newEarL[0], 0.85f, 1.0f, 0.5f, true);
+        newEarL[2] = new TailSegment(self, 1.0f, 4.0f, newEarL[1], 0.85f, 1.0f, 0.5f, true);
+
 
         if (earL != null)
         {
@@ -155,9 +157,10 @@ public class PearlcatModule
         }
 
 
-        TailSegment[] newEarR = new TailSegment[2];
+        TailSegment[] newEarR = new TailSegment[3];
         newEarR[0] = new TailSegment(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-        newEarR[1] = new TailSegment(self, 1.5f, 7.0f, newEarR[0], 0.85f, 1.0f, 0.5f, true);
+        newEarR[1] = new TailSegment(self, 3.0f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.5f, true);
+        newEarR[2] = new TailSegment(self, 1.0f, 4.0f, newEarR[1], 0.85f, 1.0f, 0.5f, true);
 
         if (earR != null)
         {
