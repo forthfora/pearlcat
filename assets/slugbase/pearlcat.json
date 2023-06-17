@@ -1,7 +1,7 @@
 {
     "id": "Pearlcat",
-    "name": "The Pearlcat",
-    "description": "A cast-away experiment, unearthing unforseen potential, yet designed for a singular purpose.<LINE>Far from home and destiny, will you seek to return; or perhaps find a more desirable fate?",
+    "name": "Pearlcat",
+    "description": "A scholar of obscure origin, in possession of an even more enigmatic energy.<LINE>Perhaps, given just the right catalyst, this defiant potential may be fully realised?",
     "features": {
         "color": "122626",
         "world_state": "Spear",
@@ -77,6 +77,6 @@
         "ear_l_offset": [-4.5, 1.5],
         "ear_r_offset": [4.5, 1.5],
 
-        "active_object_offset": [0.0, 0.0]
+        "active_object_offset": [0.0, 50.0]
     }
 }

@@ -2,6 +2,7 @@
 using SlugBase.Features;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -26,18 +27,19 @@ public static partial class Hooks
     }
 
 
-    const int BODY_SPRITE = 0;
-    const int HIPS_SPRITE = 1;
-    const int TAIL_SPRITE = 2;
-    const int HEAD_SPRITE = 3;
-    const int LEGS_SPRITE = 4;
-    const int ARM_L_SPRITE = 5;
-    const int ARM_R_SPRITE = 6;
-    const int HAND_L_SPRITE = 7;
-    const int HAND_R_SPRITE = 8;
-    const int FACE_SPRITE = 9;
-    const int GLOW_SPRITE = 10;
-    const int MARK_SPRITE = 11;
+    public const int BODY_SPRITE = 0;
+    public const int HIPS_SPRITE = 1;
+    public const int TAIL_SPRITE = 2;
+    public const int HEAD_SPRITE = 3;
+    public const int LEGS_SPRITE = 4;
+    public const int ARM_L_SPRITE = 5;
+    public const int ARM_R_SPRITE = 6;
+    public const int HAND_L_SPRITE = 7;
+    public const int HAND_R_SPRITE = 8;
+    public const int FACE_SPRITE = 9;
+    public const int GLOW_SPRITE = 10;
+    public const int MARK_SPRITE = 11;
+
 
     #region Graphics Init
 

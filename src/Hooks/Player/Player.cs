@@ -2,6 +2,7 @@
 using MonoMod.Cil;
 using RWCustom;
 using System;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -42,13 +43,12 @@ public static partial class Hooks
         {
             AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
 
-            PlayerObjectDeathEffect(abstractObject.realizedObject);
+            DeathEffect(abstractObject.realizedObject);
             RemoveFromInventory(self, abstractObject);
         }
     }
 
 
-    public static int debugStacker = 0;
 
     public static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
@@ -59,36 +59,69 @@ public static partial class Hooks
 
         self.TryRealizeInventory();
 
+        UpdatePlayerOA(self, playerModule);
+    }
+
+    public static void UpdatePlayerOA(Player self, PearlcatModule playerModule)
+    {
+        if (playerModule.currentObjectAnimation is FreeFallOA)
+        {
+            if (self.bodyMode != Player.BodyModeIndex.Stunned && self.bodyMode != Player.BodyModeIndex.Dead)
+            {
+                playerModule.PickObjectAnimation(self);
+            }
+        }
+        else if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
+        {
+            playerModule.currentObjectAnimation = new FreeFallOA(self);
+        }
+
         playerModule.currentObjectAnimation?.Update(self);
 
 
-
         // HACK
-        if (playerModule.currentObjectAnimation == null)
-            playerModule.PickObjectAnimation(self);
-        
-        // HACK
-        //if (!self.dead)
-        //{
-        //    debugStacker++;
+        if (!self.dead && !hasSpawned)
+        {
+            hasSpawned = true;
 
-        //    int i = debugStacker / 100;
+            for (int i = 0; i < 10; i++)
+            {
+                DataPearl.AbstractDataPearl.DataPearlType type = i switch
+                {
+                    0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
+                    1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
+                    2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
+                    3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
+                    4 => DataPearl.AbstractDataPearl.DataPearlType.SB_ravine,
+                    5 => DataPearl.AbstractDataPearl.DataPearlType.UW,
+                    6 => DataPearl.AbstractDataPearl.DataPearlType.HI,
+                    7 => MoreSlugcats.MoreSlugcatsEnums.DataPearlType.OE,
+                    8 => DataPearl.AbstractDataPearl.DataPearlType.Red_stomach,
+                    _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
+                };
 
-        //    if (debugStacker % 100 == 0)
-        //    {
-        //        DataPearl.AbstractDataPearl.DataPearlType type = i switch
-        //        {
-        //            0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
-        //            1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
-        //            2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
-        //            3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
-        //            _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
-        //        };
-        //        AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
-        //        StoreObject(self, pearl);
-        //    }
-        //}
+                AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
+                self.StoreObject(pearl);
+            }
+        }
+
+        var inputLeft = Input.GetKey("[");
+        var inputRight = Input.GetKey("]");
+
+        if (inputLeft && !wasPressedLeft)
+            self.SelectPreviousObject();
+
+        else if (inputRight && !wasPressedRight)
+            self.SelectNextObject();
+
+        wasPressedLeft = inputLeft;
+        wasPressedRight = inputRight;
     }
+
+    // HACK
+    public static bool hasSpawned = false;
+    public static bool wasPressedLeft = false;
+    public static bool wasPressedRight = false;
 
 
     public static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)

@@ -31,7 +31,7 @@ public class Options : OptionInterface
 
 
     public static Configurable<bool> usesCustomDashKeybind = instance.config.Bind("usesCustomDashKeybind", false, new ConfigurableInfo(
-        "Enables custom keybinds below, as opposed to the default.",
+        "Enables custom keybinds below, as opposed to the default (JUMP + PICKUP).",
         null, "", "Custom Keybind?"));
 
     public static Configurable<KeyCode> abilityKeybindKeyboard = instance.config.Bind("abilityKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
@@ -52,7 +52,7 @@ public class Options : OptionInterface
 
 
     public static Configurable<bool> usesCustomStoreKeybind = instance.config.Bind("usesCustomStoreKeybind", false, new ConfigurableInfo(
-        "Enables custom keybinds below, as opposed to the default.",
+        "Enables custom keybinds below, as opposed to the default (UP + PICKUP).",
         null, "", "Custom Keybind?"));
 
     public static Configurable<KeyCode> storeKeybindKeyboard = instance.config.Bind("storeKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(

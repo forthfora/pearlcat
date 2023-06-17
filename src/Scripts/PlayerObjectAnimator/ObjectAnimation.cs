@@ -21,6 +21,8 @@ namespace Pearlcat
         }
 
 
+        public int animStacker = 0;
+
         public virtual void Update(Player player)
         {
             if (!player.TryGetPearlcatModule(out var playerModule)) return;
@@ -35,23 +37,25 @@ namespace Pearlcat
                 if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out _))
                     new ObjectAddon(abstractObject);
             }
+
+            animStacker++;
         }
 
 
 
-        public const float MaxLockDistance = 0.1f;
+        public const float MinLockDist = 5.0f;
 
+        // TODO: the pain
         public virtual void MoveToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos)
         {
             if (abstractObject.realizedObject == null) return;
 
-            if (Custom.Dist(abstractObject.realizedObject.firstChunk.pos, targetPos) <= MaxLockDistance)
-            {
-                abstractObject.realizedObject.firstChunk.pos = targetPos;
-                return;
-            }
+            var firstChunk = abstractObject.realizedObject.firstChunk;
 
-            abstractObject.realizedObject.firstChunk.pos = Vector2.Lerp(abstractObject.realizedObject.firstChunk.pos, targetPos, 0.5f);
+            firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, 1f, 6f, 0.999f, 0.9f);
+            firstChunk.vel += Vector2.ClampMagnitude(targetPos - firstChunk.pos, 100f) / 100f * 0.4f;
+
+            //firstChunk.pos = targetPos;
         }
 
         public virtual Vector2 GetActiveObjectPos(Player player)
@@ -60,10 +64,6 @@ namespace Pearlcat
                 activeObjectOffset = Vector2.zero;
 
             PlayerGraphics playerGraphics = (PlayerGraphics)player.graphicsModule;
-
-            if (player.bodyMode == Player.BodyModeIndex.ZeroG)
-                return playerGraphics.head.pos + (activeObjectOffset.magnitude * player.firstChunk.Rotation);
-
 
             Vector2 pos = playerGraphics.head.pos + activeObjectOffset;
             pos.x += player.mainBodyChunk.vel.x * 1.0f;
@@ -101,8 +101,8 @@ namespace Pearlcat
                 if (i == playerModule.activeObjectIndex)
                 {
                     effect.haloColor = Hooks.GetObjectFirstColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
-                    effect.haloScale = 0.4f + 0.45f * haloEffectStacker;
-                    effect.haloAlpha = 0.6f;
+                    effect.haloScale = 1.0f + 0.45f * haloEffectStacker;
+                    effect.haloAlpha = 0.8f;
                 }
                 else
                 {

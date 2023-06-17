@@ -65,7 +65,7 @@ public class PearlcatModule
 
         List<ObjectAnimation> animationPool = new()
         {
-            new BasicObjectAnimation(player),
+            new BasicOrbitOA(player),
         };
 
         return animationPool[Random.Range(0, animationPool.Count)];

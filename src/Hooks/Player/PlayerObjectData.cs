@@ -10,23 +10,72 @@ public static partial class Hooks
     public static void ApplyPlayerObjectDataHooks()
     {
         On.DataPearl.DrawSprites += DataPearl_DrawSprites;
-        On.BodyChunk.Update += BodyChunk_Update;
+        On.PhysicalObject.Update += PhysicalObject_Update;
     }
 
+    public static readonly ConditionalWeakTable<PhysicalObject, PlayerObjectModule> PlayerObjectData = new();
 
-
-    public static readonly ConditionalWeakTable<PhysicalObject, StrongBox<bool>> DisabledCollision = new();
-    
-    public static void BodyChunk_Update(On.BodyChunk.orig_Update orig, BodyChunk self)
+    public static void MarkAsPlayerObject(this PhysicalObject physicalObject)
     {
-        if (DisabledCollision.TryGetValue(self.owner, out _))
-        {
-            self.collideWithObjects = false;
-            self.collideWithSlopes = false;
-            self.collideWithTerrain = false;
-        }
+        if (PlayerObjectData.TryGetValue(physicalObject, out _)) return;
 
-        orig(self);
+        var playerObjectModule = new PlayerObjectModule()
+        {
+            gravity = physicalObject.gravity,
+
+            collideWithObjects = physicalObject.CollideWithObjects,
+            collideWithSlopes = physicalObject.CollideWithSlopes,
+            collideWithTerrain = physicalObject.CollideWithTerrain,
+        };
+
+        if (physicalObject is DataPearl pearl)
+            playerObjectModule.pearlGlimmerWait = pearl.glimmerWait;
+
+        if (physicalObject is Weapon weapon)
+            playerObjectModule.weaponRotationSpeed = weapon.rotationSpeed;
+
+
+        PlayerObjectData.Add(physicalObject, playerObjectModule);
+    }
+
+    public static void ClearAsPlayerObject(this PhysicalObject physicalObject)
+    {
+        if (!PlayerObjectData.TryGetValue(physicalObject, out var playerObjectModule)) return;
+
+        physicalObject.gravity = playerObjectModule.gravity;
+
+        physicalObject.CollideWithObjects = playerObjectModule.collideWithObjects;
+        physicalObject.CollideWithSlopes = playerObjectModule.collideWithSlopes;
+        physicalObject.CollideWithTerrain = playerObjectModule.collideWithTerrain;
+
+        if (physicalObject is DataPearl pearl)
+            pearl.glimmerWait = playerObjectModule.pearlGlimmerWait;
+
+        if (physicalObject is Weapon weapon)
+            weapon.rotationSpeed = playerObjectModule.weaponRotationSpeed;
+
+
+        PlayerObjectData.Remove(physicalObject);
+    }
+
+    public static void PhysicalObject_Update(On.PhysicalObject.orig_Update orig, PhysicalObject self, bool eu)
+    {
+        if (PlayerObjectData.TryGetValue(self, out _))
+        {
+            self.gravity = 0.0f;
+
+            self.CollideWithObjects = false;
+            self.CollideWithSlopes = false;
+            self.CollideWithTerrain = false;
+
+            if (self is DataPearl pearl)
+                pearl.glimmerWait = 40;
+
+            if (self is Weapon weapon)
+                weapon.rotationSpeed = 0.0f;
+        }
+        
+        orig(self, eu);
     }
 
 

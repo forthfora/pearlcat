@@ -2,10 +2,10 @@
 	"id": "pearlcat",
 	"name": "Pearlcat",
 	"version": "0.0.0",
-	"authors": "THE PEARLCAT TEAM<LINE><LINE>forthbridge - Project Lead, Original Concept, Lead Programmer<LINE><LINE>Geahgeah - Lead Artist, Illustrations, Spritework<LINE><LINE>Sidera - Sample Soundtrack<LINE><LINE><LINE>SPECIAL THANKS<LINE>To these modders and their mods, whose guidance made this possible:<LINE><LINE>Vigaro - Beecat, Dress My Slugcat<LINE><LINE>Noir - NoirCatto<LINE><LINE>Slime_Cubed - SlugBase, CustomTail<LINE><LINE><LINE>PLAYTESTERS<LINE><LINE>someone",
-	"description": "\"ack?\"<LINE><LINE>\"ick\"<LINE><LINE>Provides no world changes alone, only new abilities, and unique interactions.<LINE>Source: https://github.com/forthbridge/the-sacrifice",
+	"authors": "PEARLCAT<LINE>by forthbridge<LINE><LINE>Geahgeah - Illustrations, Spritework<LINE><LINE>Sidera - Pearl Music<LINE><LINE><LINE>Special thanks to these modders, whose guidance made this possible!<LINE><LINE>Vigaro - Beecat, Dress My Slugcat<LINE><LINE>NoirCatto - NoirCatto<LINE><LINE>Slime_Cubed - SlugBase, CustomTail<LINE><LINE><LINE>PLAYTESTERS<LINE><LINE>idk",
+	"description": "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Each pearl grants some effect, though it is stronger when selected & active!<LINE><LINE>Provides no significant world changes alone, only new abilities, and unique interactions.<LINE>Source: https://github.com/forthbridge/pearlcat",
 	"requirements": ["moreslugcats", "slime-cubed.slugbase", "crs"],
 	"requirements_names": ["More Slugcats Expansion", "SlugBase", "Custom Regions Support"],
-	"tags": ["Campaigns", "Gameplay Mechanics"],
+	"tags": ["Custom Slugcat", "Gameplay Mechanics", "Campaigns"],
 	"checksum_override_version": true
 }

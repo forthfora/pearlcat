@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -16,7 +17,7 @@ public static partial class Hooks
         {
             if (abstractObject.realizedObject != null)
             {
-                SetPlayerObjectAttributes(abstractObject.realizedObject);
+                abstractObject.realizedObject.MarkAsPlayerObject();
                 continue;
             }
 
@@ -27,52 +28,55 @@ public static partial class Hooks
 
             if (abstractObject.realizedObject == null) continue;
 
-            abstractObject.realizedObject.SetPlayerObjectAttributes();
-            abstractObject.realizedObject.PlayerObjectRealizedEffect();
+            abstractObject.realizedObject.MarkAsPlayerObject();
+            abstractObject.realizedObject.RealizedEffect();
         }
     }
 
-    public static void SetPlayerObjectAttributes(this PhysicalObject realizedObject)
+
+
+    public static void RealizedEffect(this PhysicalObject? physicalObject)
     {
-        DisabledCollision.GetOrCreateValue(realizedObject);
-        realizedObject.gravity = 0.0f;
+        if (physicalObject == null) return;
 
-        if (realizedObject is DataPearl pearl)
-            pearl.glimmerWait = int.MaxValue / 2;
-
-        if (realizedObject is Weapon weapon)
-            weapon.rotationSpeed = 0.0f;
+        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectFirstColor(physicalObject.abstractPhysicalObject)));
+        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 15.0f, 0.07f, 10, false));
     }
 
-    public static void RestoreNormalObjectAttributes(this PhysicalObject realizedObject)
+    public static void AbstractedEffect(this PhysicalObject? physicalObject)
     {
-        DisabledCollision.Remove(realizedObject);
-        realizedObject.gravity = 1.0f;
+        if (physicalObject == null) return;
+
+        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectFirstColor(physicalObject.abstractPhysicalObject)));
+        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 25.0f, 0.07f, 10, false));
     }
 
-
-
-    public static void PlayerObjectRealizedEffect(this PhysicalObject realizedObject)
+    public static void DeathEffect(this PhysicalObject? physicalObject)
     {
-        if (realizedObject == null) return;
+        if (physicalObject == null) return;
 
-        realizedObject.room.AddObject(new Explosion.ExplosionLight(realizedObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectFirstColor(realizedObject.abstractPhysicalObject)));
-        realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 25.0f, 0.07f, 10, false));
+        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 250.0f, 0.07f, 6, false));
     }
 
-    public static void PlayerObjectAbstractedEffect(this PhysicalObject realizedObject)
+    public static void SwapEffect(this PhysicalObject? physicalObject, PhysicalObject? newObject)
     {
-        if (realizedObject == null) return;
+        if (physicalObject == null || newObject == null) return;
 
-        realizedObject.room.AddObject(new Explosion.ExplosionLight(realizedObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectFirstColor(realizedObject.abstractPhysicalObject)));
-        realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 50.0f, 0.07f, 10, false));
-    }
+        var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, newObject.firstChunk.pos, 0, Mathf.Lerp(0.8f, 1.0f, Random.value))
+        {
+            intensity = 0.35f,
+            lifeTime = 7.0f,
+            color = GetObjectFirstColor(physicalObject.abstractPhysicalObject),
+        };
+        physicalObject.room.AddObject(lightningBoltOld);
 
-    public static void PlayerObjectDeathEffect(this PhysicalObject realizedObject)
-    {
-        if (realizedObject == null) return;
-
-        realizedObject.room.AddObject(new ShockWave(realizedObject.firstChunk.pos, 250.0f, 0.07f, 6, false));
+        var lightningBoltNew = new MoreSlugcats.LightningBolt(newObject.firstChunk.pos, physicalObject.firstChunk.pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
+        {
+            intensity = 0.75f,
+            lifeTime = 12.0f,
+            color = GetObjectFirstColor(newObject.abstractPhysicalObject),
+        };
+        physicalObject.room.AddObject(lightningBoltNew);
     }
 
 
@@ -86,7 +90,7 @@ public static partial class Hooks
         {
             if (abstractObject.realizedObject == null) continue;
 
-            PlayerObjectAbstractedEffect(abstractObject.realizedObject);
+            AbstractedEffect(abstractObject.realizedObject);
             abstractObject.Abstractize(abstractObject.pos);
         }
     }
@@ -156,7 +160,7 @@ public static partial class Hooks
 
         if (abstractObject.realizedObject == null) return;
         
-        RestoreNormalObjectAttributes(abstractObject.realizedObject);
+        abstractObject.realizedObject.ClearAsPlayerObject();
     }
 
     
@@ -166,34 +170,17 @@ public static partial class Hooks
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        if (playerModule.selectedObjectIndex == null) return;
+        if (playerModule.activeObjectIndex == null) return;
 
-        int startIndex = (int)playerModule.selectedObjectIndex;
-        List<int> selectedIndexes = new();
+        if (playerModule.abstractInventory.Count <= 1) return;
 
-        foreach (PearlcatModule otherPlayerModule in GetAllPlayerData(player.room.game))
-        {
-            if (otherPlayerModule.activeObjectIndex == null) continue;
-            selectedIndexes.Add((int)otherPlayerModule.activeObjectIndex);
-        }
 
-        for (int i = startIndex + 1; i < playerModule.abstractInventory.Count; i++)
-        {
-            if (i == startIndex) break;
+        int targetIndex = (int)playerModule.activeObjectIndex + 1;
 
-            if (i > playerModule.abstractInventory.Count)
-            {
-                i = -1;
-                continue;
-            }
+        if (targetIndex >= playerModule.abstractInventory.Count)
+            targetIndex = 0;
 
-            if (selectedIndexes.Contains(i)) continue;
-
-            playerModule.selectedObjectIndex = i;
-            break;
-        }
-
-        Plugin.Logger.LogWarning($"selected next object ({playerModule.selectedObjectIndex})");
+        player.ActivateObjectInStorage(targetIndex);
     }
 
     public static void SelectPreviousObject(this Player player)
@@ -201,37 +188,18 @@ public static partial class Hooks
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        if (playerModule.selectedObjectIndex == null) return;
+        if (playerModule.activeObjectIndex == null) return;
 
-        int startIndex = (int)playerModule.selectedObjectIndex;
-        List<int> selectedIndexes = new();
+        if (playerModule.abstractInventory.Count <= 1) return;
 
-        foreach (PearlcatModule ex in GetAllPlayerData(player.room.game))
-        {
-            if (ex.activeObjectIndex == null) continue;
-            selectedIndexes.Add((int)ex.activeObjectIndex);
-        }
 
-        for (int i = startIndex - 1; i < playerModule.abstractInventory.Count; i--)
-        {
-            if (i == startIndex) break;
+        int targetIndex = (int)playerModule.activeObjectIndex - 1;
 
-            if (i < playerModule.abstractInventory.Count)
-            {
-                i = playerModule.abstractInventory.Count;
-                continue;
-            }
+        if (targetIndex < 0)
+            targetIndex = playerModule.abstractInventory.Count - 1;
 
-            if (selectedIndexes.Contains(i)) continue;
-
-            playerModule.selectedObjectIndex = i;
-            break;
-        }
-
-        Plugin.Logger.LogWarning($"selected prev object ({playerModule.selectedObjectIndex})");
+        player.ActivateObjectInStorage(targetIndex);
     }
-
-
 
     public static void ActivateObjectInStorage(this Player player, int objectIndex)
     {
@@ -240,15 +208,14 @@ public static partial class Hooks
 
         if (objectIndex >= playerModule.abstractInventory.Count || objectIndex < 0) return;
 
-        foreach (PearlcatModule ex in GetAllPlayerData(player.room.game))
-        {
-            if (ex.activeObjectIndex == objectIndex) return;
-        }
-
-
-        AbstractizeInventory(player);
+        var oldObject = playerModule.ActiveObject?.realizedObject;
         playerModule.activeObjectIndex = objectIndex;
+        var newObject = playerModule.ActiveObject?.realizedObject;
+
+        oldObject.SwapEffect(newObject);
     }
+
+
 
     public static void DestroyTransferObject(this PearlcatModule playerModule)
     {

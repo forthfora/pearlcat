@@ -32,6 +32,8 @@ public static partial class Hooks
         {
             pearlcatModule = new PearlcatModule(player);
             PearlcatData.Add(player, pearlcatModule);
+
+            pearlcatModule.PickObjectAnimation(player);
         }
 
         return true;
