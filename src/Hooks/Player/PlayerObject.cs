@@ -98,9 +98,9 @@ public static partial class Hooks
 
     public static bool IsPlayerObject(this PhysicalObject targetObject)
     {
-        List<PearlcatModule> playerData = GetAllPlayerData(targetObject.abstractPhysicalObject.world.game);
+        var playerData = GetAllPlayerData(targetObject.abstractPhysicalObject.world.game);
 
-        foreach (PearlcatModule playerModule in playerData)
+        foreach (var playerModule in playerData)
             if (playerModule.abstractInventory.Any(abstractObject => abstractObject.realizedObject == targetObject))
                 return true;
 

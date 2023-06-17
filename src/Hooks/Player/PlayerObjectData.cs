@@ -10,7 +10,9 @@ public static partial class Hooks
     public static void ApplyPlayerObjectDataHooks()
     {
         On.DataPearl.DrawSprites += DataPearl_DrawSprites;
-     
+
+        On.Creature.Grab += Creature_Grab;
+
         On.PhysicalObject.Update += PhysicalObject_Update;
         On.DataPearl.Update += DataPearl_Update;
     }
@@ -61,6 +63,15 @@ public static partial class Hooks
         PlayerObjectData.Remove(physicalObject);
     }
 
+
+    public static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
+    {
+        if (IsPlayerObject(obj))
+            return false;
+
+        return orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
+    }
+
     public static void PhysicalObject_Update(On.PhysicalObject.orig_Update orig, PhysicalObject self, bool eu)
     {        
         orig(self, eu);
@@ -89,6 +100,7 @@ public static partial class Hooks
 
         self.glimmerWait = 40;
     }
+
 
 
     public static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)

@@ -15,6 +15,17 @@ public static partial class Hooks
         On.Menu.MenuScene.Update += MenuScene_Update;
 
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
+
+        On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
+    }
+
+
+
+    private static void HUD_InitSinglePlayerHud(On.HUD.HUD.orig_InitSinglePlayerHud orig, HUD.HUD self, RoomCamera cam)
+    {
+        orig(self, cam);
+
+        self.AddPart(new InventoryHUD(self, self.fContainers[1]));
     }
 
     public static ConditionalWeakTable<Menu.MenuDepthIllustration, MenuIllustrationEx> MenuIllustrationData = new();

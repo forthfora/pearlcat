@@ -2,6 +2,7 @@
 using MonoMod.Cil;
 using RWCustom;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -18,7 +19,6 @@ public static partial class Hooks
         On.Player.Die += Player_Die;
 
         On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
-        On.Creature.Grab += Creature_Grab;
 
         try
         {
@@ -62,16 +62,17 @@ public static partial class Hooks
         UpdatePlayerOA(self, playerModule);
     }
 
+
     public static void UpdatePlayerOA(Player self, PearlcatModule playerModule)
     {
         if (playerModule.currentObjectAnimation is FreeFallOA)
         {
-            if (self.bodyMode != Player.BodyModeIndex.Stunned && self.bodyMode != Player.BodyModeIndex.Dead)
+            if (self.bodyMode != Player.BodyModeIndex.Stunned && self.bodyMode != Player.BodyModeIndex.Dead && !self.Sleeping)
             {
                 playerModule.PickObjectAnimation(self);
             }
         }
-        else if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
+        else if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead || self.Sleeping)
         {
             playerModule.currentObjectAnimation = new FreeFallOA(self);
         }
@@ -302,13 +303,5 @@ public static partial class Hooks
             AbstractizeInventory(player);
 
         orig(self, entrancePos, carriedByOther);
-    }
-
-    public static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
-    {
-        if (self is Player && IsPlayerObject(obj))
-            return false;
-
-        return orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
     }
 }
