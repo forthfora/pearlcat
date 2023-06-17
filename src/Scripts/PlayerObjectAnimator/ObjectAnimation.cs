@@ -1,4 +1,5 @@
 ﻿using RWCustom;
+using SlugBase.Features;
 using System.Collections.Generic;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -42,20 +43,32 @@ namespace Pearlcat
         }
 
 
-
-        public const float MinLockDist = 5.0f;
-
         // TODO: the pain
         public virtual void MoveToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos)
         {
             if (abstractObject.realizedObject == null) return;
 
+            if (!Hooks.MinFricSpeed.TryGet(abstractObject.world.game, out var minFricSpeed)) return;
+            if (!Hooks.MaxFricSpeed.TryGet(abstractObject.world.game, out var maxFricSpeed)) return;
+            if (!Hooks.MinFric.TryGet(abstractObject.world.game, out var minFric)) return;
+            if (!Hooks.MaxFric.TryGet(abstractObject.world.game, out var maxFric)) return;
+
+            if (!Hooks.CutoffDist.TryGet(abstractObject.world.game, out var cutoffDist)) return;
+            if (!Hooks.CutoffMinSpeed.TryGet(abstractObject.world.game, out var cutoffMinSpeed)) return;
+            if (!Hooks.CutoffMaxSpeed.TryGet(abstractObject.world.game, out var cutoffMaxSpeed)) return;
+
+            if (!Hooks.MaxDist.TryGet(abstractObject.world.game, out var maxDist)) return;
+            if (!Hooks.MinSpeed.TryGet(abstractObject.world.game, out var minSpeed)) return;
+            if (!Hooks.MaxSpeed.TryGet(abstractObject.world.game, out var maxSpeed)) return;
+
             var firstChunk = abstractObject.realizedObject.firstChunk;
+            var dir = (targetPos - firstChunk.pos).normalized;
+            var dist = Custom.Dist(firstChunk.pos, targetPos);
 
-            firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, 1f, 6f, 0.999f, 0.9f);
-            firstChunk.vel += Vector2.ClampMagnitude(targetPos - firstChunk.pos, 100f) / 100f * 0.4f;
+            float speed = dist < cutoffDist ? Custom.LerpMap(dist, 0.0f, cutoffDist, cutoffMinSpeed, cutoffMaxSpeed) : Custom.LerpMap(dist, cutoffDist, maxDist, minSpeed, maxSpeed);
 
-            //firstChunk.pos = targetPos;
+            firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, minFricSpeed, maxFricSpeed, minFric, maxFric);
+            firstChunk.vel += dir * speed;
         }
 
         public virtual Vector2 GetActiveObjectPos(Player player)

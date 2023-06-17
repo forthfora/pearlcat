@@ -77,6 +77,19 @@
         "ear_l_offset": [-4.5, 1.5],
         "ear_r_offset": [4.5, 1.5],
 
-        "active_object_offset": [0.0, 50.0]
+        "active_object_offset": [0.0, 50.0],
+
+        "oa_min_fric_speed": 100.0,
+        "oa_max_fric_speed": 70.0,        
+        "oa_min_fric_mult": 0.999,
+        "oa_max_fric_mult": 0.5,
+
+        "oa_cutoff_dist": 50.0, 
+        "oa_cutoff_min_speed": 0.1,
+        "oa_cutoff_max_speed": 12.0,
+        
+        "oa_max_dist": 1000.0, 
+        "oa_min_speed": 8.0, 
+        "oa_max_speed": 20.0
     }
 }

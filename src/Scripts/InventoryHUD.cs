@@ -15,6 +15,7 @@ public class InventoryHUD : HudPart
 
     public override void Draw(float timeStacker)
     {
+        
     }
 
     public override void Update()

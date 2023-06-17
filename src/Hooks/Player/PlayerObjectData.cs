@@ -10,8 +10,11 @@ public static partial class Hooks
     public static void ApplyPlayerObjectDataHooks()
     {
         On.DataPearl.DrawSprites += DataPearl_DrawSprites;
+     
         On.PhysicalObject.Update += PhysicalObject_Update;
+        On.DataPearl.Update += DataPearl_Update;
     }
+
 
     public static readonly ConditionalWeakTable<PhysicalObject, PlayerObjectModule> PlayerObjectData = new();
 
@@ -59,25 +62,33 @@ public static partial class Hooks
     }
 
     public static void PhysicalObject_Update(On.PhysicalObject.orig_Update orig, PhysicalObject self, bool eu)
-    {
-        if (PlayerObjectData.TryGetValue(self, out _))
-        {
-            self.gravity = 0.0f;
-
-            self.CollideWithObjects = false;
-            self.CollideWithSlopes = false;
-            self.CollideWithTerrain = false;
-
-            if (self is DataPearl pearl)
-                pearl.glimmerWait = 40;
-
-            if (self is Weapon weapon)
-                weapon.rotationSpeed = 0.0f;
-        }
-        
+    {        
         orig(self, eu);
+
+        if (!PlayerObjectData.TryGetValue(self, out _)) return;
+
+        self.gravity = 0.0f;
+
+        self.CollideWithObjects = false;
+        self.CollideWithSlopes = false;
+        self.CollideWithTerrain = false;
+
+        if (self is Weapon weapon)
+            weapon.rotationSpeed = 0.0f;
     }
 
+    public static void DataPearl_Update(On.DataPearl.orig_Update orig, DataPearl self, bool eu)
+    {
+        orig(self, eu);
+
+        if (!PlayerObjectData.TryGetValue(self, out _)) return;
+
+        self.CollideWithObjects = false;
+        self.CollideWithSlopes = false;
+        self.CollideWithTerrain = false;
+
+        self.glimmerWait = 40;
+    }
 
 
     public static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
