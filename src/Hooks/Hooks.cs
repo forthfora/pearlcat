@@ -21,6 +21,7 @@ public static partial class Hooks
         // World
         ApplySoundHooks();
         ApplyOracleHooks();
+        ApplyGameDataHooks();
     }
 
     public static bool isInit = false;

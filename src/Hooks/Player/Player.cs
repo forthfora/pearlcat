@@ -3,6 +3,7 @@ using MonoMod.Cil;
 using RWCustom;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -32,7 +33,7 @@ public static partial class Hooks
 
 
 
-    public static void Player_Die(On.Player.orig_Die orig, Player self)
+    public static void Player_Die(On.Player.orig_Die orig, Player self) 
     {
         orig(self);
 
@@ -65,11 +66,15 @@ public static partial class Hooks
         UpdatePlayerDaze(self, playerModule);
 
         UpdatePostDeathInventory(self, playerModule);
+        UpdatePearlEffects(self, playerModule);
+    }
 
+    public static void UpdatePearlEffects(Player self, PearlcatModule playerModule)
+    {
+        foreach (var pearl in playerModule.abstractInventory)
+        {
 
-        // HACK
-        if (Input.GetKey("/") && self.dead)
-            self.Revive();
+        }
     }
 
     public static void UpdatePostDeathInventory(Player self, PearlcatModule playerModule)
@@ -129,9 +134,9 @@ public static partial class Hooks
 
         
         // HACK
-        if (!self.dead && !playerModule.hasSpawned)
+        if (!self.dead && !hasSpawned)
         {
-            playerModule.hasSpawned = true;
+            hasSpawned = true;
 
             for (int i = 0; i < 10; i++)
             {
@@ -167,6 +172,7 @@ public static partial class Hooks
         wasPressedRight = inputRight;
     }
 
+    public static bool hasSpawned = false;
     public static bool wasPressedLeft = false;
     public static bool wasPressedRight = false;
 

@@ -20,20 +20,21 @@ public static partial class Hooks
     public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.Slugcat.Pearlcat;
 
     // Only pearlcats get this module
-    public static bool TryGetPearlcatModule(this Player player, out PearlcatModule pearlcatModule)
+    public static bool TryGetPearlcatModule(this Player player, out PearlcatModule playerModule)
     {
         if (!player.IsPearlcat())
         {
-            pearlcatModule = null!;
+            playerModule = null!;
             return false;
         }
 
-        if (!PearlcatData.TryGetValue(player, out pearlcatModule))
+        if (!PearlcatData.TryGetValue(player, out playerModule))
         {
-            pearlcatModule = new PearlcatModule(player);
-            PearlcatData.Add(player, pearlcatModule);
+            playerModule = new PearlcatModule(player);
+            PearlcatData.Add(player, playerModule);
 
-            pearlcatModule.PickObjectAnimation(player);
+            playerModule.LoadSaveData(player);
+            playerModule.PickObjectAnimation(player);
         }
 
         return true;

@@ -24,7 +24,6 @@ public static partial class Hooks
     public class PearlcatDeathPersistentSaveData : SaveData
     {
         public Dictionary<int, List<string>> RawInventoryData = new();
-
         public Dictionary<int, int> ActiveObjectIndex = new();
 
         public int MaxStorageCount = 10; 
@@ -73,25 +72,30 @@ public static partial class Hooks
 
 
     public static ConditionalWeakTable<SaveState, PearlcatSaveStateSaveData> SaveStateData = new();
-
     public static ConditionalWeakTable<DeathPersistentSaveData, PearlcatDeathPersistentSaveData> DeathPersistentData = new();
-
     public static ConditionalWeakTable<PlayerProgression.MiscProgressionData, PearlcatMiscProgressionSaveData> MiscProgressionData = new();
+
+    public static bool GetSaveState(this RainWorldGame game, out PearlcatSaveStateSaveData saveState)
+        => SaveStateData.TryGetValue(game.GetStorySession.saveState, out saveState);
+
+    public static bool GetDeathPersistentData(this RainWorldGame game, out PearlcatDeathPersistentSaveData deathPersistentData)
+        => DeathPersistentData.TryGetValue(game.GetStorySession.saveState.deathPersistentSaveData, out deathPersistentData);
+
 
 
     public static void ApplySaveLoadHooks()
     {
-        On.SaveState.ctor += SaveState_ctor;
-        On.SaveState.SaveToString += SaveState_SaveToString;
-        On.SaveState.LoadGame += SaveState_LoadGame;
+        //On.SaveState.ctor += SaveState_ctor;
+        //On.SaveState.SaveToString += SaveState_SaveToString;
+        //On.SaveState.LoadGame += SaveState_LoadGame;
 
         On.DeathPersistentSaveData.ctor += DeathPersistentSaveData_ctor;
         On.DeathPersistentSaveData.SaveToString += DeathPersistentSaveData_SaveToString;
         On.DeathPersistentSaveData.FromString += DeathPersistentSaveData_FromString;
 
-        On.PlayerProgression.MiscProgressionData.ctor += MiscProgressionData_ctor;
-        On.PlayerProgression.MiscProgressionData.ToString += MiscProgressionData_ToString;
-        On.PlayerProgression.MiscProgressionData.FromString += MiscProgressionData_FromString;
+        //On.PlayerProgression.MiscProgressionData.ctor += MiscProgressionData_ctor;
+        //On.PlayerProgression.MiscProgressionData.ToString += MiscProgressionData_ToString;
+        //On.PlayerProgression.MiscProgressionData.FromString += MiscProgressionData_FromString;
     }
 
 
@@ -254,12 +258,12 @@ public static partial class Hooks
     public static string SaveDataStart => Plugin.MOD_ID + "DataStart";
     public static string SaveDataEnd => Plugin.MOD_ID + "DataEnd";
 
-    const char SEPARATOR_CHAR = '/';
-    const char SEPARATOR_CHAR_2 = ',';
-    const char SEPARATOR_CHAR_3 = '.';
+    const char SEPARATOR_CHAR = '˥';
+    const char SEPARATOR_CHAR_2 = '˦';
+    const char SEPARATOR_CHAR_3 = '˧';
 
-    const char EQUALITY_CHAR = '=';
-    const char EQUALITY_CHAR_2 = ':';
+    const char EQUALITY_CHAR = '˨';
+    const char EQUALITY_CHAR_2 = '˩';
 
 
     public abstract class SaveData
@@ -434,8 +438,12 @@ public static partial class Hooks
 
             if (!int.TryParse(kvp[0], out var key)) continue;
 
-            string[] listString = kvp[1].Split(SEPARATOR_CHAR_3);
-            target[key] = listString.ToList();
+            string[] arrString = kvp[1].Split(SEPARATOR_CHAR_3);
+
+            List<string> listString = arrString.ToList();
+            listString.RemoveAll(string.IsNullOrWhiteSpace);
+
+            target[key] = listString;
         }
     }
 

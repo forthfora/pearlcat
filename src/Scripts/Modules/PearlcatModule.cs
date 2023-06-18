@@ -12,9 +12,6 @@ namespace Pearlcat;
 
 public class PearlcatModule
 {
-    // HACK
-    public bool hasSpawned = false;
-
     public WeakReference<Player> PlayerRef;
 
     public PearlcatModule(Player self)
@@ -79,6 +76,23 @@ public class PearlcatModule
     public bool IsDazed => dazeStacker > 0;
 
     public int dazeStacker = 0;
+
+
+    public void LoadSaveData(Player self)
+    {
+        if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
+
+        var playerNumber = self.playerState.playerNumber;
+        var world = self.room.world;
+        
+        if (deathPersistentData.RawInventoryData.TryGetValue(playerNumber, out var inventoryData))
+            foreach (var item in inventoryData)
+                self.StoreObject(SaveState.AbstractPhysicalObjectFromString(world, item));
+ 
+        if (deathPersistentData.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndexData))
+            activeObjectIndex = activeObjectIndexData;
+    }
+
 
 
     #region Ears
@@ -534,4 +548,5 @@ public class PearlcatModule
     }
 
     #endregion
+
 }

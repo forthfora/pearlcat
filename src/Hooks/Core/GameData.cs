@@ -4,6 +4,23 @@ namespace Pearlcat;
 
 public partial class Hooks
 {
+    public static void ApplyGameDataHooks()
+    {
+        On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
+    }
+
+    // Prevent Player Pearls being saved in the shelter
+    public static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
+    {
+        var abstractRoom = world.GetAbstractRoom(room);
+
+        if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
+            if (abstractObject.realizedObject != null && abstractObject.realizedObject.IsPlayerObject())
+                return null;
+
+        return orig(world, room, index);
+    }
+
     // OA MoveToTargetPos
     // Slow Down
     public static readonly GameFeature<float> MinFricSpeed = FeatureTypes.GameFloat("oa_min_fric_speed");

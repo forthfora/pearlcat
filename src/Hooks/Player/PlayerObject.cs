@@ -127,9 +127,9 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        if (!DeathPersistentData.TryGetValue(self.room.game.GetStorySession.saveState.deathPersistentSaveData, out var saveData)) return;
+        if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
 
-        if (playerModule.abstractInventory.Count >= saveData.MaxStorageCount) return;
+        if (playerModule.abstractInventory.Count >= deathPersistentData.MaxStorageCount) return;
 
         self.AddToInventory(abstractObject);
     }
@@ -156,6 +156,8 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         playerModule.abstractInventory.Add(abstractObject);
+        self.UpdateInventorySaveData(playerModule);
+
         playerModule.currentObjectAnimation?.InitAnimation(self);
     }
 
@@ -165,14 +167,24 @@ public static partial class Hooks
 
 
         playerModule.abstractInventory.Remove(abstractObject);
+        self.UpdateInventorySaveData(playerModule);
 
         if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var addon))
             addon.Destroy();
 
+        abstractObject.realizedObject?.ClearAsPlayerObject();
+    }
 
-        if (abstractObject.realizedObject == null) return;
+    public static void UpdateInventorySaveData(this Player self, PearlcatModule playerModule)
+    {
+        if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
+
+        List<string> inventoryData = new();
+
+        foreach (var item in playerModule.abstractInventory)
+            inventoryData.Add(item.ToString());
         
-        abstractObject.realizedObject.ClearAsPlayerObject();
+        deathPersistentData.RawInventoryData[self.playerState.playerNumber] = inventoryData;
     }
 
     
@@ -225,6 +237,13 @@ public static partial class Hooks
         var newObject = playerModule.ActiveObject?.realizedObject;
 
         oldObject.SwapEffect(newObject);
+
+        player.showKarmaFoodRainTime = 80;
+
+
+        if (!player.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
+
+        deathPersistentData.ActiveObjectIndex[player.playerState.playerNumber] = (int)playerModule.activeObjectIndex;
     }
 
 
