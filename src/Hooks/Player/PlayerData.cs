@@ -14,7 +14,7 @@ public static partial class Hooks
     public const float ShortcutColorIncrement = 0.003f;
 
     public static readonly PlayerFeature<Vector2> ActiveObjectOffset = new("active_object_offset", Vector2Feature);
-
+    public static readonly PlayerFeature<int> DazeDuration = FeatureTypes.PlayerInt("daze_duration");
 
 
     public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.Slugcat.Pearlcat;

@@ -28,7 +28,7 @@ public class BasicOrbitOA : ObjectAnimation
 
             if (i == playerModule.activeObjectIndex)
             {
-                MoveToTargetPos(abstractObject, GetActiveObjectPos(player));
+                MoveToTargetPos(player, abstractObject, GetActiveObjectPos(player));
                 continue;
             }
 
@@ -36,7 +36,7 @@ public class BasicOrbitOA : ObjectAnimation
             Vector2 origin = ((PlayerGraphics)player.graphicsModule).head.pos;
 
             Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
-            MoveToTargetPos(abstractObject, targetPos);
+            MoveToTargetPos(player, abstractObject, targetPos);
 
             nonActiveIndex++;
         }

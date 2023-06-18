@@ -15,6 +15,7 @@ public partial class Hooks
     public static readonly GameFeature<float> CutoffDist = FeatureTypes.GameFloat("oa_cutoff_dist");
     public static readonly GameFeature<float> CutoffMinSpeed = FeatureTypes.GameFloat("oa_cutoff_min_speed");
     public static readonly GameFeature<float> CutoffMaxSpeed = FeatureTypes.GameFloat("oa_cutoff_max_speed");
+    public static readonly GameFeature<float> DazeMaxSpeed = FeatureTypes.GameFloat("oa_daze_max_speed");
 
     public static readonly GameFeature<float> MaxDist = FeatureTypes.GameFloat("oa_max_dist");
     public static readonly GameFeature<float> MinSpeed = FeatureTypes.GameFloat("oa_min_speed");

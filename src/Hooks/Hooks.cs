@@ -19,7 +19,7 @@ public static partial class Hooks
         ApplyPlayerObjectDataHooks();
 
         // World
-        ApplyMusicHooks();
+        ApplySoundHooks();
         ApplyOracleHooks();
     }
 

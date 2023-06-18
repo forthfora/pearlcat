@@ -16,8 +16,16 @@ public class FreeFallOA : ObjectAnimation
         {
             AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
 
-            abstractObject.realizedObject.gravity = 1.0f;
-            abstractObject.realizedObject.CollideWithTerrain = true;
+            if (abstractObject.realizedObject == null) continue;
+            var realizedObject = abstractObject.realizedObject;
+
+            if (!Hooks.PlayerObjectData.TryGetValue(realizedObject, out var playerObjectModule)) continue;
+
+
+            realizedObject.gravity = 1.0f;
+            realizedObject.CollideWithTerrain = true;
+
+            playerObjectModule.playCollisionSound = true;
         }
     }
 }

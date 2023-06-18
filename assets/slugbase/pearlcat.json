@@ -87,9 +87,12 @@
         "oa_cutoff_dist": 50.0, 
         "oa_cutoff_min_speed": 0.1,
         "oa_cutoff_max_speed": 12.0,
-        
+        "oa_daze_max_speed": 2.0,
+
         "oa_max_dist": 1000.0, 
         "oa_min_speed": 8.0, 
-        "oa_max_speed": 20.0
+        "oa_max_speed": 20.0,
+
+        "daze_duration" : 40
     }
 }

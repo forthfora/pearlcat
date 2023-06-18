@@ -60,8 +60,19 @@ public static partial class Hooks
         self.TryRealizeInventory();
 
         UpdatePlayerOA(self, playerModule);
+        UpdatePlayerDaze(self, playerModule);
     }
 
+    public static void UpdatePlayerDaze(Player self, PearlcatModule playerModule)
+    {
+        if (!DazeDuration.TryGet(self, out var dazeDuration)) return;
+
+        if (self.dead || self.bodyMode == Player.BodyModeIndex.Stunned || self.Sleeping)
+            playerModule.dazeStacker = dazeDuration;
+
+        if (playerModule.dazeStacker > 0)
+            playerModule.dazeStacker--;
+    }
 
     public static void UpdatePlayerOA(Player self, PearlcatModule playerModule)
     {

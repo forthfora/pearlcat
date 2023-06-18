@@ -14,16 +14,6 @@ public class PearlcatModule
 {
     public WeakReference<Player> PlayerRef;
 
-    public int firstSprite;
-    public int lastSprite;
-
-    public int sleeveLSprite;
-    public int sleeveRSprite;
-    public int feetSprite;
-
-    public LightSource? activeObjectGlow;
-
-
     public PearlcatModule(Player self)
     {
         PlayerRef = new WeakReference<Player>(self);
@@ -32,15 +22,27 @@ public class PearlcatModule
         InitColors(self);
     }
 
+
+    public int firstSprite;
+    public int lastSprite;
+
+    public int sleeveLSprite;
+    public int sleeveRSprite;
+    public int feetSprite;
+
     public bool canSwallowOrRegurgitate = true;
     public Vector2 prevHeadRotation = Vector2.zero;
 
+    public LightSource? activeObjectGlow;
 
-    public AbstractPhysicalObject? ActiveObject => activeObjectIndex != null ? abstractInventory[(int)activeObjectIndex] : null;
+
     public List<AbstractPhysicalObject> abstractInventory = new();
 
+    public AbstractPhysicalObject? ActiveObject => activeObjectIndex != null ? abstractInventory[(int)activeObjectIndex] : null;
+    
     public int? activeObjectIndex = 0;
     public int? selectedObjectIndex = null;
+
 
 
     public AbstractPhysicalObject? transferObject = null;
@@ -48,8 +50,6 @@ public class PearlcatModule
 
     public Vector2? transferObjectInitialPos = null;
     public int transferStacker = 0;
-
-
 
     public float shortcutColorStacker = 0.0f;
     public int shortcutColorStackerDirection = 1;
@@ -71,6 +71,10 @@ public class PearlcatModule
         return animationPool[Random.Range(0, animationPool.Count)];
     }
 
+
+    public bool IsDazed => dazeStacker > 0;
+
+    public int dazeStacker = 0;
 
 
     #region Ears
@@ -192,7 +196,6 @@ public class PearlcatModule
 
     #endregion
 
-
     #region Tail
 
     public Texture2D? tailTexture;
@@ -257,6 +260,7 @@ public class PearlcatModule
 
     #endregion
 
+    #region Cloak
 
     public Texture2D? cloakTexture;
     public FAtlas? cloakAtlas;
@@ -272,7 +276,7 @@ public class PearlcatModule
         cloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, cloakTexture, false);
     }
 
-    // CTRL + C CTRL + V is my speciality
+    // CTRL + C CTRL + V
     public class Cloak
     {
         public readonly int sprite;
@@ -430,9 +434,12 @@ public class PearlcatModule
         }
     }
 
+    #endregion
+
 
 
     #region Sounds
+
     public DynamicSoundLoop storingObjectSound = null!;
     public DynamicSoundLoop retrievingObjectSound = null!;
 

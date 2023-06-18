@@ -33,9 +33,15 @@ public abstract class ObjectAnimation
             AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
 
             if (abstractObject.realizedObject == null) continue;
+            var realizedObject = abstractObject.realizedObject;
 
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out _))
+            if (!Hooks.PlayerObjectData.TryGetValue(realizedObject, out var playerObjectModule)) continue;
+
+
+            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(realizedObject, out _))
                 new ObjectAddon(abstractObject);
+
+            playerObjectModule.playCollisionSound = false;
         }
 
         animStacker++;
@@ -43,8 +49,10 @@ public abstract class ObjectAnimation
 
 
     // TODO: the pain
-    public virtual void MoveToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos)
+    public virtual void MoveToTargetPos(Player player, AbstractPhysicalObject abstractObject, Vector2 targetPos)
     {
+        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+
         if (abstractObject.realizedObject == null) return;
 
         if (!Hooks.MinFricSpeed.TryGet(abstractObject.world.game, out var minFricSpeed)) return;
@@ -55,6 +63,7 @@ public abstract class ObjectAnimation
         if (!Hooks.CutoffDist.TryGet(abstractObject.world.game, out var cutoffDist)) return;
         if (!Hooks.CutoffMinSpeed.TryGet(abstractObject.world.game, out var cutoffMinSpeed)) return;
         if (!Hooks.CutoffMaxSpeed.TryGet(abstractObject.world.game, out var cutoffMaxSpeed)) return;
+        if (!Hooks.DazeMaxSpeed.TryGet(abstractObject.world.game, out var dazeMaxSpeed)) return;
 
         if (!Hooks.MaxDist.TryGet(abstractObject.world.game, out var maxDist)) return;
         if (!Hooks.MinSpeed.TryGet(abstractObject.world.game, out var minSpeed)) return;
@@ -64,7 +73,7 @@ public abstract class ObjectAnimation
         var dir = (targetPos - firstChunk.pos).normalized;
         var dist = Custom.Dist(firstChunk.pos, targetPos);
 
-        float speed = dist < cutoffDist ? Custom.LerpMap(dist, 0.0f, cutoffDist, cutoffMinSpeed, cutoffMaxSpeed) : Custom.LerpMap(dist, cutoffDist, maxDist, minSpeed, maxSpeed);
+        float speed = dist < cutoffDist ? Custom.LerpMap(dist, 0.0f, cutoffDist, cutoffMinSpeed, playerModule.IsDazed ? dazeMaxSpeed : cutoffMaxSpeed) : Custom.LerpMap(dist, cutoffDist, maxDist, minSpeed, maxSpeed);
 
         firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, minFricSpeed, maxFricSpeed, minFric, maxFric);
         firstChunk.vel += dir * speed;
