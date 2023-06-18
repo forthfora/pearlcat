@@ -16,7 +16,7 @@ public class InventoryHUD : HudPart
     public FContainer HUDfContainer;
     
     public int animationUpdateCounterMax = 150;
-    public float fade = 1.0f;
+    public float fade = 0.0f;
 
     public InventoryHUD(HUD.HUD hud, FContainer fContainer) : base(hud)
     {
@@ -33,7 +33,11 @@ public class InventoryHUD : HudPart
 
         foreach (var playerModule in game.GetAllPlayerData())
         {
-            foreach (var abstractObject in playerModule.abstractInventory)
+            if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
+
+            var inventory = player.dead ? playerModule.postDeathInventory : playerModule.abstractInventory;
+
+            foreach (var abstractObject in inventory)
             {
                 if (Symbols.TryGetValue(abstractObject, out var symbol))
                     symbol.Draw(timeStacker, playerModule);
@@ -65,6 +69,15 @@ public class InventoryHUD : HudPart
                 symbol.Update();
             }
         }
+
+        if (hud.foodMeter != null)
+        {
+            pos.x = hud.foodMeter.pos.x;
+            pos.y = hud.foodMeter.pos.y + 25f;
+            fade = Mathf.Lerp(fade, hud.foodMeter.fade, (fade < hud.foodMeter.fade) ? 0.15f : 0.25f);
+        }
+
+        lastPos = pos;
     }
 }
 
@@ -136,12 +149,7 @@ public class PlayerObjectSymbol
 
         if (TargetObject == null || !TargetObject.TryGetTarget(out var targetObject)) return;
 
-
         bool isActiveObject = targetObject == playerModule.ActiveObject;
-
-        itemSymbol.symbolSprite.scale = isActiveObject ? 1.5f : 0.8f;
-        itemSymbol.shadowSprite1.scale = isActiveObject ? 1.5f : 1.0f;
-        itemSymbol.shadowSprite1.scale = isActiveObject ? 1.5f : 1.0f;
 
 
         float grey = Mathf.Sin(greyPulse) / 7f;
@@ -160,5 +168,9 @@ public class PlayerObjectSymbol
         itemSymbol.shadowSprite1.alpha = itemSymbol.symbolSprite.alpha * 0.5f;
         itemSymbol.shadowSprite2.alpha = itemSymbol.symbolSprite.alpha * 0.5f;
 
+
+        itemSymbol.symbolSprite.scale = isActiveObject ? 1.5f : 0.8f;
+        itemSymbol.shadowSprite1.scale = isActiveObject ? 1.5f : 1.0f;
+        itemSymbol.shadowSprite1.scale = isActiveObject ? 1.5f : 1.0f;
     }
 }

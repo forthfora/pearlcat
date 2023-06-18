@@ -2,7 +2,7 @@
   "id": "Slugcat_Pearlcat",
   "scene_folder": "slugbase/scenes/slugcat_pearlcat",
   "images": [
-    {"name": "flat", "pos": [290, 120], "depth": -1.0, "flatmode": true},
+    {"name": "flat", "pos": [560, 160], "depth": -1.0, "flatmode": true},
 
   
     {"name": "activepearl_glow", "pos": [690, 530], "depth":  3.0, "shader": "Basic"},
@@ -14,7 +14,7 @@
     {"name": "pearl3_glow", "pos": [600, 400], "depth":  3.5, "shader": "Basic"},
     {"name": "pearl3", "pos": [600, 400], "depth":  3.5, "shader": "Basic"},
 
-    {"name": "slugcat", "pos": [560, 185], "depth":  2.8, "shader": "Basic"},
+    {"name": "slugcat", "pos": [560, 160], "depth":  2.8, "shader": "Basic"},
 
     {"name": "pearl2_glow", "pos": [750, 300], "depth":  1.5, "shader": "Basic"},
     {"name": "pearl2", "pos": [750, 300], "depth":  1.5, "shader": "Basic"},

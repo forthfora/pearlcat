@@ -12,6 +12,9 @@ namespace Pearlcat;
 
 public class PearlcatModule
 {
+    // HACK
+    public bool hasSpawned = false;
+
     public WeakReference<Player> PlayerRef;
 
     public PearlcatModule(Player self)
@@ -37,8 +40,9 @@ public class PearlcatModule
 
 
     public List<AbstractPhysicalObject> abstractInventory = new();
+    public List<AbstractPhysicalObject> postDeathInventory = new();
 
-    public AbstractPhysicalObject? ActiveObject => activeObjectIndex != null ? abstractInventory[(int)activeObjectIndex] : null;
+    public AbstractPhysicalObject? ActiveObject => activeObjectIndex != null && activeObjectIndex < abstractInventory.Count ? abstractInventory[(int)activeObjectIndex] : null;
     
     public int? activeObjectIndex = 0;
     public int? selectedObjectIndex = null;

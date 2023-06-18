@@ -45,6 +45,8 @@ public static partial class Hooks
 
             DeathEffect(abstractObject.realizedObject);
             RemoveFromInventory(self, abstractObject);
+
+            playerModule.postDeathInventory.Add(abstractObject);
         }
     }
 
@@ -61,6 +63,34 @@ public static partial class Hooks
 
         UpdatePlayerOA(self, playerModule);
         UpdatePlayerDaze(self, playerModule);
+
+        UpdatePostDeathInventory(self, playerModule);
+
+        if (Input.GetKey("-") && self.dead)
+        {
+            self.Revive();
+            Plugin.Logger.LogWarning("REVIVED");
+        }
+    }
+
+    public static void UpdatePostDeathInventory(Player self, PearlcatModule playerModule)
+    {
+        if (!self.dead && playerModule.postDeathInventory.Count > 0)
+        {
+            for (int i = playerModule.postDeathInventory.Count - 1; i >= 0; i--)
+            {
+                AbstractPhysicalObject? item = playerModule.postDeathInventory[i];
+                playerModule.postDeathInventory.RemoveAt(i);
+
+                if (item.realizedObject == null) continue;
+
+                if (item.realizedObject.room != self.room) continue;
+
+                if (item.realizedObject.grabbedBy.Count > 0) continue;
+
+                self.AddToInventory(item);
+            }
+        }
     }
 
     public static void UpdatePlayerDaze(Player self, PearlcatModule playerModule)
@@ -92,9 +122,9 @@ public static partial class Hooks
 
 
         // HACK
-        if (!self.dead && !hasSpawned)
+        if (!self.dead && !playerModule.hasSpawned)
         {
-            hasSpawned = true;
+            playerModule.hasSpawned = true;
 
             for (int i = 0; i < 10; i++)
             {
@@ -130,8 +160,6 @@ public static partial class Hooks
         wasPressedRight = inputRight;
     }
 
-    // HACK
-    public static bool hasSpawned = false;
     public static bool wasPressedLeft = false;
     public static bool wasPressedRight = false;
 
@@ -314,5 +342,22 @@ public static partial class Hooks
             AbstractizeInventory(player);
 
         orig(self, entrancePos, carriedByOther);
+    }
+
+    // Revivify moment
+    // https://github.com/Dual-Iron/revivify/blob/master/src/Plugin.cs
+    private static void Revive(this Player self)
+    {
+        self.stun = 20;
+        self.airInLungs = 0.1f;
+        self.exhausted = true;
+        self.aerobicLevel = 1;
+         
+        self.playerState.alive = true;
+        self.playerState.permaDead = false;
+        self.dead = false;
+        self.killTag = null;
+        self.killTagCounter = 0;
+        self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
     }
 }
