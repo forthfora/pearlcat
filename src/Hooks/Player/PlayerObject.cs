@@ -79,6 +79,19 @@ public static partial class Hooks
         physicalObject.room.AddObject(lightningBoltNew);
     }
 
+    public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos)
+    {
+        if (physicalObject == null) return;
+
+        var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
+        {
+            intensity = 0.75f,
+            lifeTime = 12.0f,
+            color = GetObjectFirstColor(physicalObject.abstractPhysicalObject),
+        };
+        physicalObject.room.AddObject(lightningBoltOld);
+    }
+
 
 
     public static void AbstractizeInventory(this Player self)
@@ -141,7 +154,6 @@ public static partial class Hooks
     public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
 
         playerModule.abstractInventory.Add(abstractObject);
         playerModule.currentObjectAnimation?.InitAnimation(self);

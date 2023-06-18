@@ -17,9 +17,7 @@ public partial class Hooks
         if (chunk.owner != null && IsPlayerObject(chunk.owner))
         {
             if (soundId == SoundID.SS_AI_Marble_Hit_Floor && PlayerObjectData.TryGetValue(chunk.owner, out var playerObjectModule) && !playerObjectModule.playCollisionSound)
-            {
                 vol = 0.0f;
-            }
         }
 
         return orig(self, soundId, chunk, loop, vol, pitch, randomStartPosition);

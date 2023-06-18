@@ -25,14 +25,14 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
         base.Update(eu);
 
+        if (!AbstractObject.TryGetTarget(out var abstractObject)
+            || abstractObject.slatedForDeletion
+            || abstractObject.realizedObject == null
+            || abstractObject.realizedObject.slatedForDeletetion)
+            Destroy();
+
         if (slatedForDeletetion)
             RemoveFromRoom();
-
-        if (!AbstractObject.TryGetTarget(out var abstractObject) || abstractObject.slatedForDeletion
-            || abstractObject.realizedObject == null || abstractObject.realizedObject.slatedForDeletetion)
-        {
-            Destroy();
-        }
     }
 
 

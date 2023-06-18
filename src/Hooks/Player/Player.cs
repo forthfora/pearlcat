@@ -66,11 +66,10 @@ public static partial class Hooks
 
         UpdatePostDeathInventory(self, playerModule);
 
-        if (Input.GetKey("-") && self.dead)
-        {
+
+        // HACK
+        if (Input.GetKey("/") && self.dead)
             self.Revive();
-            Plugin.Logger.LogWarning("REVIVED");
-        }
     }
 
     public static void UpdatePostDeathInventory(Player self, PearlcatModule playerModule)
@@ -88,7 +87,11 @@ public static partial class Hooks
 
                 if (item.realizedObject.grabbedBy.Count > 0) continue;
 
-                self.AddToInventory(item);
+
+                if (ObjectAddon.ObjectsWithAddon.TryGetValue(item.realizedObject, out var objectAddon))
+                    ObjectAddon.ObjectsWithAddon.Remove(item.realizedObject);
+
+                self.StoreObject(item);
             }
         }
     }
@@ -110,6 +113,9 @@ public static partial class Hooks
         {
             if (self.bodyMode != Player.BodyModeIndex.Stunned && self.bodyMode != Player.BodyModeIndex.Dead && !self.Sleeping)
             {
+                foreach (var abstractObject in playerModule.abstractInventory)
+                    abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
+
                 playerModule.PickObjectAnimation(self);
             }
         }
@@ -121,6 +127,7 @@ public static partial class Hooks
         playerModule.currentObjectAnimation?.Update(self);
 
 
+        
         // HACK
         if (!self.dead && !playerModule.hasSpawned)
         {
@@ -359,5 +366,9 @@ public static partial class Hooks
         self.killTag = null;
         self.killTagCounter = 0;
         self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
+
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        playerModule.PickObjectAnimation(self);
     }
 }
