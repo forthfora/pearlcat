@@ -38,6 +38,5 @@ public struct POEffect
     public float visualStealthInSneakMode;
 
 
-
-    public bool ASThreatMusic = false;
+    public string? threatMusic;
 }

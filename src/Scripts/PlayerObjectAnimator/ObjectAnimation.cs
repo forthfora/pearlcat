@@ -121,13 +121,13 @@ public abstract class ObjectAnimation
 
             if (i == playerModule.activeObjectIndex)
             {
-                effect.haloColor = Hooks.GetObjectFirstColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
+                effect.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
                 effect.haloScale = 1.0f + 0.45f * haloEffectStacker;
                 effect.haloAlpha = 0.8f;
             }
             else
             {
-                effect.haloColor = Hooks.GetObjectFirstColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
+                effect.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
                 effect.haloScale = 0.3f + 0.45f * haloEffectStacker;
                 effect.haloAlpha = 0.6f;
             }

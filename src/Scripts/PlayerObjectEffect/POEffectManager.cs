@@ -122,7 +122,7 @@ public static class POEffectManager
 
 
         AS_Pearl_ThreatMusic = None;
-        AS_Pearl_ThreatMusic.ASThreatMusic = true;
+        AS_Pearl_ThreatMusic.threatMusic = "AS";
     }
     
     public static void RegisterEffects()

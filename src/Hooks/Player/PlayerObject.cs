@@ -39,7 +39,7 @@ public static partial class Hooks
     {
         if (physicalObject == null) return;
 
-        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectFirstColor(physicalObject.abstractPhysicalObject)));
+        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectColor(physicalObject.abstractPhysicalObject)));
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 15.0f, 0.07f, 10, false));
     }
 
@@ -47,7 +47,7 @@ public static partial class Hooks
     {
         if (physicalObject == null) return;
 
-        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectFirstColor(physicalObject.abstractPhysicalObject)));
+        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectColor(physicalObject.abstractPhysicalObject)));
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 25.0f, 0.07f, 10, false));
     }
 
@@ -66,7 +66,7 @@ public static partial class Hooks
         {
             intensity = 0.35f,
             lifeTime = 7.0f,
-            color = GetObjectFirstColor(physicalObject.abstractPhysicalObject),
+            color = GetObjectColor(physicalObject.abstractPhysicalObject),
         };
         physicalObject.room.AddObject(lightningBoltOld);
 
@@ -74,7 +74,7 @@ public static partial class Hooks
         {
             intensity = 0.75f,
             lifeTime = 12.0f,
-            color = GetObjectFirstColor(newObject.abstractPhysicalObject),
+            color = GetObjectColor(newObject.abstractPhysicalObject),
         };
         physicalObject.room.AddObject(lightningBoltNew);
     }
@@ -87,7 +87,7 @@ public static partial class Hooks
         {
             intensity = 0.75f,
             lifeTime = 12.0f,
-            color = GetObjectFirstColor(physicalObject.abstractPhysicalObject),
+            color = GetObjectColor(physicalObject.abstractPhysicalObject),
         };
         physicalObject.room.AddObject(lightningBoltOld);
     }

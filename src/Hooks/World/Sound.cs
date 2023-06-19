@@ -1,4 +1,5 @@
 ﻿using Music;
+using System.Runtime.CompilerServices;
 
 namespace Pearlcat;
 
@@ -7,7 +8,6 @@ public partial class Hooks
     public static void ApplySoundHooks()
     {
         On.Music.MusicPlayer.Update += MusicPlayer_Update;
-
         On.Room.PlaySound_SoundID_BodyChunk_bool_float_float_bool += Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool;
     }
 
@@ -25,35 +25,37 @@ public partial class Hooks
 
     private static void MusicPlayer_Update(On.Music.MusicPlayer.orig_Update orig, MusicPlayer self)
     {
-        orig(self);
-
-        if (self.manager.currentMainLoop is not RainWorldGame game) return;
-
-        bool customThreatTheme = false;
-
-        foreach (var abstractCreature in game.Players)
+        if (self.manager.currentMainLoop is RainWorldGame game)
         {
-            if (abstractCreature?.realizedCreature is not Player player) continue;
+            bool hasThreatMusicPearl = false;
 
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
-
-            if (playerModule.ActiveObject == null) continue;
-
-            if (self.proceduralMusic == null) continue;
-
-
-            if (playerModule.ActiveObject.GetPOEffect().ASThreatMusic && self.proceduralMusic.instruction.name != "AS")
+            foreach (var abstractCreature in game.Players)
             {
-                self.NewRegion("AS");
-                customThreatTheme = true;
-                break;
+                if (abstractCreature?.realizedCreature is not Player player) continue;
+
+                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+
+                if (playerModule.ActiveObject == null) continue;
+
+                var effect = playerModule.ActiveObject.GetPOEffect();
+
+                if (effect.threatMusic != null && (Options.pearlThreatMusic.Value || effect.threatMusic == "AS"))
+                {
+                    if (self.proceduralMusic == null || self.proceduralMusic.name != effect.threatMusic)
+                       self.NewRegion(effect.threatMusic);
+                     
+                    hasThreatMusicPearl = true;
+                    break;
+                }
             }
+
+            // Stop New Threat Music
+            var region = self.threatTracker?.region;
+
+            if (!hasThreatMusicPearl && region != null && (self.proceduralMusic == null || self.proceduralMusic.name != region))
+                self.NewRegion(region);
         }
 
-        if (self.proceduralMusic != null && self.proceduralMusic.instruction.name == "AS" && !customThreatTheme)
-            self.threatTracker.region = "";
-
-        Plugin.Logger.LogWarning(customThreatTheme);
-        Plugin.Logger.LogWarning(self.threatTracker.region);
+        orig(self);
     }
 }

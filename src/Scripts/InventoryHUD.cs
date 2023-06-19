@@ -116,7 +116,7 @@ public class PlayerObjectSymbol
 
         itemSymbol?.RemoveSprites();
         itemSymbol = new ItemSymbol(iconData, Owner.HUDfContainer);
-        storedColor = Hooks.GetObjectFirstColor(abstractObject);
+        storedColor = Hooks.GetObjectColor(abstractObject);
 
         itemSymbol.myColor = storedColor;
         itemSymbol.Show(true);

@@ -217,6 +217,7 @@ public static partial class Hooks
         FSprite handLSprite = sLeaser.sprites[HAND_L_SPRITE];
         FSprite handRSprite = sLeaser.sprites[HAND_R_SPRITE];
         FSprite legsSprite = sLeaser.sprites[LEGS_SPRITE];
+        FSprite markSprite = sLeaser.sprites[MARK_SPRITE];
 
         FSprite sleeveLSprite = sLeaser.sprites[playerModule.sleeveLSprite];
         FSprite sleeveRSprite = sLeaser.sprites[playerModule.sleeveRSprite];
@@ -345,6 +346,9 @@ public static partial class Hooks
 
         cloakSprite.color = Color.white;
         playerModule.cloak.UpdateColor(sLeaser);
+
+        markSprite.color = playerModule.AccentColor;
+        markSprite.y += 10.0f;
     }
 
 
@@ -694,7 +698,12 @@ public static partial class Hooks
             return result;
 
 
-        List<Color> colors = playerModule.DynamicColors;
+        List<Color> colors = new()
+        {
+            playerModule.ActiveColor * Custom.HSL2RGB(1.0f, 1.0f, 1.25f),
+            playerModule.ActiveColor
+        };
+
 
         if (colors.Count == 0)
             return result;

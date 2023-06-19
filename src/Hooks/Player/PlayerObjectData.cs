@@ -135,21 +135,13 @@ public static partial class Hooks
 
 
 
-    public static Color GetObjectFirstColor(AbstractPhysicalObject abstractObject)
-        => GetObjectAccentColors(abstractObject).Count == 0 ? Color.white : GetObjectAccentColors(abstractObject).First();
-
-    public static List<Color> GetObjectAccentColors(AbstractPhysicalObject abstractObject)
+    public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {
-        List<Color> colors = new();
-
         IconSymbol.IconSymbolData? symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
 
         if (symbolData == null)
-            return colors;
+            return Color.white;
 
-
-        colors.Add(ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData));
-        
-        return colors;
+        return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
     }
 }

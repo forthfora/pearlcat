@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
@@ -188,10 +189,14 @@ public static partial class Hooks
 
             for (int i = 0; i < 6; i++)
             {
-                DataPearl.AbstractDataPearl.DataPearlType type = i switch
+                DataPearlType type = i switch
                 {
                     0 => Enums.Pearls.AS_Pearl_ThreatMusic,
-                    _ => DataPearl.AbstractDataPearl.DataPearlType.Misc,
+                    1 => DataPearlType.CC,
+                    2 => DataPearlType.LF_bottom,
+                    3 => DataPearlType.Red_stomach,
+                    4 => DataPearlType.DS,
+                    _ => DataPearlType.Misc,
                 };
 
                 AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
@@ -399,7 +404,7 @@ public static partial class Hooks
     }
 
     // Revivify moment
-    private static void Revive(this Player self)
+    public static void Revive(this Player self)
     {
         self.stun = 20;
         self.airInLungs = 0.1f;
@@ -416,5 +421,20 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         playerModule.PickObjectAnimation(self);
+    }
+
+    public static int GraspsHasType(this Player self, AbstractPhysicalObject.AbstractObjectType type)
+    {
+        for (int i = 0; i < self.grasps.Length; i++)
+        {
+            Creature.Grasp? grasp = self.grasps[i];
+            
+            if (grasp == null) continue;
+
+            if (grasp.grabbed.abstractPhysicalObject.type == type)
+                return i;
+        }
+
+        return -1;
     }
 }

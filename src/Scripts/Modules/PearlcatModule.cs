@@ -492,13 +492,7 @@ public class PearlcatModule
     public Color AccentColor;
     public Color CloakColor;
 
-
-    // Non Customizable
-    public List<Color> DynamicColors = new();
-
-    public Color EarLColor;
-    public Color EarRColor;
-
+    public Color ActiveColor => ActiveObject == null ? BodyColor : ActiveObject.GetObjectColor();
 
     public void InitColors(Player player)
     {
@@ -515,15 +509,15 @@ public class PearlcatModule
         SetColor(customColors, playerNumber, ref AccentColor, "Accent");
         SetColor(customColors, playerNumber, ref CloakColor, "Cloak");
 
-
         // Custom Colours
-        if (PlayerGraphics.customColors == null || player.IsJollyPlayer) return;
+        if (PlayerGraphics.customColors != null && !player.IsJollyPlayer)
+        {
+            BodyColor = PlayerGraphics.CustomColorSafety(0);
+            EyesColor = PlayerGraphics.CustomColorSafety(1);
 
-        BodyColor = PlayerGraphics.CustomColorSafety(0);
-        EyesColor = PlayerGraphics.CustomColorSafety(1);
-
-        AccentColor = PlayerGraphics.CustomColorSafety(2);
-        CloakColor = PlayerGraphics.CustomColorSafety(3);
+            AccentColor = PlayerGraphics.CustomColorSafety(2);
+            CloakColor = PlayerGraphics.CustomColorSafety(3);
+        }
     }
 
     public void SetColor(ColorSlot[] customColors, int playerNumber, ref Color color, string name)

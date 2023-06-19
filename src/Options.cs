@@ -13,6 +13,14 @@ public class Options : OptionInterface
 
     #region Options
 
+    public static Configurable<bool> pearlThreatMusic = instance.config.Bind("pearlThreatMusic", false, new ConfigurableInfo(
+        "When checked, most pearls (when active) will change the threat theme for all regions to the theme of the region they are from.", null, "",
+        "Pearl Threat Music"));
+
+    #endregion
+
+    #region Keybind Options
+
     public static Configurable<KeyCode> swapKeybindKeyboard = instance.config.Bind("swapKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
@@ -114,10 +122,12 @@ public class Options : OptionInterface
         int tabIndex = -1;
 
 
-
         AddTab(ref tabIndex, "General");
 
-        AddNewLine(21);
+        AddCheckBox(pearlThreatMusic, (string)pearlThreatMusic.info.Tags[0]);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddNewLine(18);
         DrawBox(ref Tabs[tabIndex]);
 
         #region Ability Input
