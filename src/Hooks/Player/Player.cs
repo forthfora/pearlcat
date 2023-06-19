@@ -32,7 +32,6 @@ public static partial class Hooks
     }
 
 
-
     public static void Player_Die(On.Player.orig_Die orig, Player self) 
     {
         orig(self);
@@ -59,23 +58,72 @@ public static partial class Hooks
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
+        playerModule.baseStats = self.Malnourished ? playerModule.malnourishedStats : playerModule.normalStats;
+
+        if (self.room != null && JustWarpedData.TryGetValue(self.room.game, out var justWarped) && justWarped.Value)
+        {
+            self.AbstractizeInventory();
+            justWarped.Value = false;
+        }
 
         self.TryRealizeInventory();
 
         UpdatePlayerOA(self, playerModule);
         UpdatePlayerDaze(self, playerModule);
-
         UpdatePostDeathInventory(self, playerModule);
-        UpdatePearlEffects(self, playerModule);
+
+        UpdateCombinedPOEffect(self, playerModule);
+        ApplyCombinedPOEffect(self, playerModule);
     }
 
-    public static void UpdatePearlEffects(Player self, PearlcatModule playerModule)
+
+    public static void UpdateCombinedPOEffect(Player self, PearlcatModule playerModule)
     {
-        foreach (var pearl in playerModule.abstractInventory)
-        {
+        POEffect combinedEffect = new();
 
+        foreach (var playerObject in playerModule.abstractInventory)
+        {
+            var effect = playerObject.GetPOEffect();
+            var mult = playerObject == playerModule.ActiveObject ? effect.activeMultiplier : 1.0f;
+
+            if (self.Malnourished)
+                mult *= 0.75f;
+
+            combinedEffect.runSpeedFac += effect.runSpeedFac * mult;
+            combinedEffect.corridorClimbSpeedFac += effect.corridorClimbSpeedFac * mult;
+            combinedEffect.poleClimbSpeedFac += effect.poleClimbSpeedFac * mult;
+            
+            combinedEffect.throwingSkill += effect.throwingSkill * mult;
+            combinedEffect.lungsFac += effect.lungsFac * mult;
+            combinedEffect.bodyWeightFac += effect.bodyWeightFac * mult;
+
+            combinedEffect.loudnessFac += effect.loudnessFac * mult;
+            combinedEffect.generalVisibilityBonus += effect.generalVisibilityBonus * mult;
+            combinedEffect.visualStealthInSneakMode += effect.visualStealthInSneakMode * mult;
         }
+
+        playerModule.currentPOEffect = combinedEffect;
     }
+
+    public static void ApplyCombinedPOEffect(Player self, PearlcatModule playerModule)
+    {
+        var effect = playerModule.currentPOEffect;
+        var stats = self.slugcatStats;
+        var baseStats = playerModule.baseStats;
+
+        stats.lungsFac = baseStats.lungsFac + effect.lungsFac;
+        stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.throwingSkill, 0, 2);
+        stats.runspeedFac = baseStats.runspeedFac + effect.runSpeedFac;
+
+        stats.corridorClimbSpeedFac = baseStats.corridorClimbSpeedFac + effect.corridorClimbSpeedFac;
+        stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.poleClimbSpeedFac;
+        stats.bodyWeightFac = baseStats.bodyWeightFac + effect.bodyWeightFac;
+
+        stats.loudnessFac = baseStats.loudnessFac + effect.loudnessFac;
+        stats.generalVisibilityBonus = baseStats.generalVisibilityBonus + effect.generalVisibilityBonus;
+        stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.visualStealthInSneakMode;
+    }
+
 
     public static void UpdatePostDeathInventory(Player self, PearlcatModule playerModule)
     {
@@ -138,20 +186,12 @@ public static partial class Hooks
         {
             hasSpawned = true;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 6; i++)
             {
                 DataPearl.AbstractDataPearl.DataPearlType type = i switch
                 {
-                    0 => DataPearl.AbstractDataPearl.DataPearlType.CC,
-                    1 => DataPearl.AbstractDataPearl.DataPearlType.SL_chimney,
-                    2 => DataPearl.AbstractDataPearl.DataPearlType.SL_bridge,
-                    3 => DataPearl.AbstractDataPearl.DataPearlType.SI_top,
-                    4 => DataPearl.AbstractDataPearl.DataPearlType.SB_ravine,
-                    5 => DataPearl.AbstractDataPearl.DataPearlType.UW,
-                    6 => DataPearl.AbstractDataPearl.DataPearlType.HI,
-                    7 => MoreSlugcats.MoreSlugcatsEnums.DataPearlType.OE,
-                    8 => DataPearl.AbstractDataPearl.DataPearlType.Red_stomach,
-                    _ => DataPearl.AbstractDataPearl.DataPearlType.LF_west,
+                    0 => Enums.Pearls.AS_Pearl_ThreatMusic,
+                    _ => DataPearl.AbstractDataPearl.DataPearlType.Misc,
                 };
 
                 AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
@@ -172,6 +212,7 @@ public static partial class Hooks
         wasPressedRight = inputRight;
     }
 
+    // HACK
     public static bool hasSpawned = false;
     public static bool wasPressedLeft = false;
     public static bool wasPressedRight = false;
@@ -185,7 +226,35 @@ public static partial class Hooks
 
         //TransferObjectUpdate(self);
     }
+    public static void Player_GrabUpdateIL(ILContext il)
+    {
+        ILCursor c = new(il);
+        ILLabel dest = null!;
 
+        // Allow disabling of ordinary swallowing mechanic
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdcR4(0.5f),
+            x => x.MatchBltUn(out _),
+            x => x.MatchLdcI4(0),
+            x => x.MatchStloc(1),
+            x => x.MatchLdloc(1),
+            x => x.MatchBrfalse(out dest)
+            );
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Func<Player, bool>>((self) =>
+        {
+            if (!self.TryGetPearlcatModule(out var playerModule))
+                return true;
+
+            return playerModule.canSwallowOrRegurgitate;
+        });
+
+        c.Emit(OpCodes.Brfalse, dest);
+    }
+
+
+    // rewrite this someday 
     /*
     public static void StoreObjectUpdate(Player self)
     {
@@ -311,33 +380,6 @@ public static partial class Hooks
     }
     */
 
-
-    public static void Player_GrabUpdateIL(ILContext il)
-    {
-        ILCursor c = new(il);
-        ILLabel dest = null!;
-
-        // Allow disabling of ordinary swallowing mechanic
-        c.GotoNext(MoveType.After,
-            x => x.MatchLdcR4(0.5f),
-            x => x.MatchBltUn(out _),
-            x => x.MatchLdcI4(0),
-            x => x.MatchStloc(1),
-            x => x.MatchLdloc(1),
-            x => x.MatchBrfalse(out dest)
-            );
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Func<Player, bool>>((self) =>
-        {
-            if (!self.TryGetPearlcatModule(out var playerModule))
-                return true;
-
-            return playerModule.canSwallowOrRegurgitate;
-        });
-
-        c.Emit(OpCodes.Brfalse, dest);
-    }
     
     public static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
@@ -346,7 +388,6 @@ public static partial class Hooks
 
         return orig(self, obj);
     }
-
 
 
     public static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
@@ -358,7 +399,6 @@ public static partial class Hooks
     }
 
     // Revivify moment
-    // https://github.com/Dual-Iron/revivify/blob/master/src/Plugin.cs
     private static void Revive(this Player self)
     {
         self.stun = 20;

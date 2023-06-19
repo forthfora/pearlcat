@@ -17,7 +17,7 @@ public static partial class Hooks
     public static readonly PlayerFeature<int> DazeDuration = FeatureTypes.PlayerInt("daze_duration");
 
 
-    public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.Slugcat.Pearlcat;
+    public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.General.Pearlcat;
 
     // Only pearlcats get this module
     public static bool TryGetPearlcatModule(this Player player, out PearlcatModule playerModule)

@@ -4,30 +4,46 @@ public class Enums
 {
     public static void RegisterEnums()
     {
-        Slugcat.RegisterValues();
+        General.RegisterValues();
+        Pearls.RegisterValues();
         Sounds.RegisterValues();
         Oracles.RegisterValues();
     }
 
     public static void UnregisterEnums()
     {
-        Slugcat.RegisterValues();
+        General.RegisterValues();
+        Pearls.RegisterValues();
         Sounds.UnregisterValues();
         Oracles.UnregisterValues();
     }
 
-    public class Slugcat
+    public class General
     {
         public static SlugcatStats.Name Pearlcat = null!;
-
         public static void RegisterValues()
         {
-            Pearlcat = new SlugcatStats.Name(nameof(Pearlcat), false);
+            Pearlcat = new(nameof(Pearlcat), false);
         }
 
         public static void UnregisterValues()
         {
             Pearlcat?.Unregister();
+        }
+    }
+
+    public class Pearls
+    {
+        public static DataPearl.AbstractDataPearl.DataPearlType AS_Pearl_ThreatMusic = null!;
+
+        public static void RegisterValues()
+        {
+            AS_Pearl_ThreatMusic = new(nameof(AS_Pearl_ThreatMusic), false);
+        }
+
+        public static void UnregisterValues()
+        {
+            AS_Pearl_ThreatMusic?.Unregister();
         }
     }
 
@@ -41,11 +57,11 @@ public class Enums
 
         public static void RegisterValues()
         {
-            StoringObject = new SoundID(nameof(StoringObject), true);
-            ObjectStored = new SoundID(nameof(ObjectStored), true);
+            StoringObject = new(nameof(StoringObject), true);
+            ObjectStored = new(nameof(ObjectStored), true);
 
-            RetrievingObject = new SoundID(nameof(RetrievingObject), true);
-            ObjectRetrieved = new SoundID(nameof(ObjectRetrieved), true);
+            RetrievingObject = new(nameof(RetrievingObject), true);
+            ObjectRetrieved = new(nameof(ObjectRetrieved), true);
         }
 
         public static void UnregisterValues()
@@ -64,7 +80,7 @@ public class Enums
 
         public static void RegisterValues()
         {
-            Pearlcat_General = new SSOracleBehavior.Action(nameof(Pearlcat_General), true);
+            Pearlcat_General = new(nameof(Pearlcat_General), true);
         }
 
         public static void UnregisterValues()

@@ -18,10 +18,15 @@ public class PearlcatModule
     {
         PlayerRef = new WeakReference<Player>(self);
 
+        baseStats = normalStats;
+
         InitSounds(self);
         InitColors(self);
     }
 
+    public SlugcatStats baseStats;
+    public readonly SlugcatStats normalStats = new(Enums.General.Pearlcat, false);
+    public readonly SlugcatStats malnourishedStats = new(Enums.General.Pearlcat, true);
 
     public int firstSprite;
     public int lastSprite;
@@ -44,7 +49,7 @@ public class PearlcatModule
     public int? activeObjectIndex = 0;
     public int? selectedObjectIndex = null;
 
-
+    public POEffect currentPOEffect = POEffectManager.None;
 
     public AbstractPhysicalObject? transferObject = null;
     public bool canTransferObject = true;
@@ -74,7 +79,6 @@ public class PearlcatModule
 
 
     public bool IsDazed => dazeStacker > 0;
-
     public int dazeStacker = 0;
 
 
@@ -498,7 +502,7 @@ public class PearlcatModule
 
     public void InitColors(Player player)
     {
-        if (!SlugBaseCharacter.TryGet(Enums.Slugcat.Pearlcat, out var character)) return;
+        if (!SlugBaseCharacter.TryGet(Enums.General.Pearlcat, out var character)) return;
 
         if (!character.Features.TryGet(PlayerFeatures.CustomColors, out var customColors)) return;
 

@@ -1,7 +1,7 @@
 {
     "id": "Pearlcat",
     "name": "Pearlcat",
-    "description": "A scholar of obscure origin, in possession of an even more enigmatic energy.<LINE>Perhaps, given just the right catalyst, this defiant potential may be fully realised?",
+    "description": "A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you uncover in your odyssey?",
     "features": {
         "color": "122626",
         "world_state": "Spear",
@@ -9,17 +9,17 @@
         "auto_grab_batflies": false,
 
         "food_min": 3,
-        "food_max": 7,
+        "food_max": 5,
 
         "weight": [1.0, 0.9],
         "lung_capacity": [1.0, 1.0],
-        "throw_skill": 1,
+        "throw_skill": 0,
         "back_spear": true,
-        "walk_speed": [1.2, 1.0],
-        "climb_speed": [1.25, 1.0],
-        "tunnel_speed": [1.2, 1.0],
-        "crouch_stealth": [0.5, 0.5],
-        "loudness": [0.5, 0.5],
+        "walk_speed": [1.1, 0.875],
+        "climb_speed": [1.1, 0.8],
+        "tunnel_speed": [1.1, 0.86],
+        "crouch_stealth": [0.3, 0.5],
+        "loudness": [1.35, 1.0],
         
         "karma": 0,
         "karma_cap": 0,
@@ -33,12 +33,15 @@
         "select_menu_scene": "Slugcat_Pearlcat",
         
         "diet": {
-            "base": "Gourmand",
+            "base": "White",
             "corpses": 0.25,
-            "meat": 1.0,
-            "plants": 1.0,
+            "meat": 0.5,
+            "plants": 0.5,
             "overrides": {
-
+                "Centipede": 1.0,
+                "SmallCentipede": 1.0,
+                "RedCentipede": 1.0,
+                "Centiwing": 1.0
             }
         },
 

@@ -9,7 +9,7 @@ public partial class Hooks
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
     }
 
-    // Prevent Player Pearls being saved in the shelter
+    // Prevent Player Pearls being saved in the shelter 
     public static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
     {
         var abstractRoom = world.GetAbstractRoom(room);

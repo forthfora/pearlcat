@@ -14,6 +14,7 @@ using System.Security;
 namespace Pearlcat;
 
 [BepInPlugin(AUTHOR + "." + MOD_ID, MOD_NAME, VERSION)]
+
 public class Plugin : BaseUnityPlugin
 {
     public const string VERSION = "0.0.0";

@@ -26,7 +26,7 @@ public static partial class Hooks
         public Dictionary<int, List<string>> RawInventoryData = new();
         public Dictionary<int, int> ActiveObjectIndex = new();
 
-        public int MaxStorageCount = 10; 
+        public int MaxStorageCount = 12; 
 
         public bool MetPebbles = false;
         public bool MetMoon = false;
@@ -85,71 +85,10 @@ public static partial class Hooks
 
     public static void ApplySaveLoadHooks()
     {
-        //On.SaveState.ctor += SaveState_ctor;
-        //On.SaveState.SaveToString += SaveState_SaveToString;
-        //On.SaveState.LoadGame += SaveState_LoadGame;
-
         On.DeathPersistentSaveData.ctor += DeathPersistentSaveData_ctor;
         On.DeathPersistentSaveData.SaveToString += DeathPersistentSaveData_SaveToString;
         On.DeathPersistentSaveData.FromString += DeathPersistentSaveData_FromString;
-
-        //On.PlayerProgression.MiscProgressionData.ctor += MiscProgressionData_ctor;
-        //On.PlayerProgression.MiscProgressionData.ToString += MiscProgressionData_ToString;
-        //On.PlayerProgression.MiscProgressionData.FromString += MiscProgressionData_FromString;
     }
-
-
-
-    public static void SaveState_ctor(On.SaveState.orig_ctor orig, SaveState self, SlugcatStats.Name saveStateNumber, PlayerProgression progression)
-    {
-        orig(self, saveStateNumber, progression);
-
-        if (!SaveStateData.TryGetValue(self, out _))
-            SaveStateData.Add(self, new PearlcatSaveStateSaveData());
-    }
-
-    public static string SaveState_SaveToString(On.SaveState.orig_SaveToString orig, SaveState self)
-    {
-        if (SaveStateData.TryGetValue(self, out var saveData))
-        {
-            int? saveDataPos = null;
-
-            for (int i = 0; i < self.unrecognizedSaveStrings.Count; i++)
-            {
-                if (self.unrecognizedSaveStrings[i].StartsWith(SaveDataStart))
-                    saveDataPos = i;
-            }
-
-            if (saveDataPos == null)
-                self.unrecognizedSaveStrings.Add(saveData.DataToString());
-
-            else
-                self.unrecognizedSaveStrings[(int)saveDataPos] = saveData.DataToString();
-        }
-
-        return orig(self);
-    }
-
-    public static void SaveState_LoadGame(On.SaveState.orig_LoadGame orig, SaveState self, string str, RainWorldGame game)
-    {
-        orig(self, str, game);
-
-        if (!SaveStateData.TryGetValue(self, out var saveData)) return;
-
-        int? saveDataPos = null;
-
-        for (int i = 0; i < self.unrecognizedSaveStrings.Count; i++)
-        {
-            if (self.unrecognizedSaveStrings[i].StartsWith(SaveDataStart))
-                saveDataPos = i;
-        }
-
-        if (saveDataPos == null) return;
-
-        saveData.DataFromString(self.unrecognizedSaveStrings[(int)saveDataPos]);
-    }
-
-
 
     public static void DeathPersistentSaveData_ctor(On.DeathPersistentSaveData.orig_ctor orig, DeathPersistentSaveData self, SlugcatStats.Name slugcat)
     {
@@ -186,57 +125,6 @@ public static partial class Hooks
         orig(self, s);
 
         if (!DeathPersistentData.TryGetValue(self, out var saveData)) return;
-
-        int? saveDataPos = null;
-
-        for (int i = 0; i < self.unrecognizedSaveStrings.Count; i++)
-        {
-            if (self.unrecognizedSaveStrings[i].StartsWith(SaveDataStart))
-                saveDataPos = i;
-        }
-
-        if (saveDataPos == null) return;
-
-        saveData.DataFromString(self.unrecognizedSaveStrings[(int)saveDataPos]);
-    }
-
-
-
-    public static void MiscProgressionData_ctor(On.PlayerProgression.MiscProgressionData.orig_ctor orig, PlayerProgression.MiscProgressionData self, PlayerProgression owner)
-    {
-        orig(self, owner);
-
-        if (!MiscProgressionData.TryGetValue(self, out _))
-            MiscProgressionData.Add(self, new PearlcatMiscProgressionSaveData());
-    }
-
-    public static string MiscProgressionData_ToString(On.PlayerProgression.MiscProgressionData.orig_ToString orig, PlayerProgression.MiscProgressionData self)
-    {
-        if (MiscProgressionData.TryGetValue(self, out var saveData))
-        {
-            int? saveDataPos = null;
-
-            for (int i = 0; i < self.unrecognizedSaveStrings.Count; i++)
-            {
-                if (self.unrecognizedSaveStrings[i].StartsWith(SaveDataStart))
-                    saveDataPos = i;
-            }
-
-            if (saveDataPos == null)
-                self.unrecognizedSaveStrings.Add(saveData.DataToString());
-
-            else
-                self.unrecognizedSaveStrings[(int)saveDataPos] = saveData.DataToString();
-        }
-
-        return orig(self);
-    }
-
-    public static void MiscProgressionData_FromString(On.PlayerProgression.MiscProgressionData.orig_FromString orig, PlayerProgression.MiscProgressionData self, string s)
-    {
-        orig(self, s);
-
-        if (!MiscProgressionData.TryGetValue(self, out var saveData)) return;
 
         int? saveDataPos = null;
 

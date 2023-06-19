@@ -2,29 +2,52 @@
   "id": "Slugcat_Pearlcat",
   "scene_folder": "slugbase/scenes/slugcat_pearlcat",
   "images": [
-    {"name": "flat", "pos": [560, 160], "depth": -1.0, "flatmode": true},
+    {"name": "flat", "pos": [570, 160], "depth": -1.0, "flatmode": true},
 
-  
-    {"name": "activepearl_glow", "pos": [690, 530], "depth":  3.0, "shader": "Basic"},
-    {"name": "activepearl", "pos": [690, 530], "depth":  3.0, "shader": "Basic"},
+    {"name": "background", "pos": [570, 160], "depth":  5.0, "shader": "Basic"},
     
-    {"name": "pearl1_glow", "pos": [770, 400], "depth":  4.0, "shader": "Basic"},
-    {"name": "pearl1", "pos": [770, 400], "depth":  4.0, "shader": "Basic"},
+    {"name": "toppole", "pos": [570, 160], "depth":  3.7, "shader": "Basic"},
+    {"name": "toppoles", "pos": [570, 160], "depth":  3.5, "shader": "Basic"},
+    {"name": "frontbottompole", "pos": [570, 160], "depth":  3.2, "shader": "Basic"},
     
-    {"name": "pearl3_glow", "pos": [600, 400], "depth":  3.5, "shader": "Basic"},
-    {"name": "pearl3", "pos": [600, 400], "depth":  3.5, "shader": "Basic"},
+    {"name": "pearl1", "pos": [610, 180], "depth":  1.7, "shader": "Basic"},
+    {"name": "pearl2", "pos": [510, 230], "depth":  1.1, "shader": "Basic"},
+    
+    {"name": "midpole", "pos": [570, 160], "depth":  2.5, "shader": "Basic"},
 
-    {"name": "slugcat", "pos": [560, 160], "depth":  2.8, "shader": "Basic"},
+    
+    {"name": "backarm", "pos": [572, 160], "depth":  2.5, "shader": "Basic"},
+    {"name": "backcloak", "pos": [572, 160], "depth":  2.4, "shader": "Basic"},
+    {"name": "backleg", "pos": [570, 160], "depth":  2.7, "shader": "Basic"},
+    
+    {"name": "tail", "pos": [570, 160], "depth":  2.3, "shader": "Basic"},
+    {"name": "tailcloak", "pos": [570, 160], "depth":  2.3, "shader": "Basic"},
+    
+    {"name": "activepearl", "pos": [570, 160], "depth":  1.8, "shader": "Basic"},
+    {"name": "activepearl_glow", "pos": [570, 160], "depth":  1.8, "shader": "Basic"},
+    
+    {"name": "backear", "pos": [570, 160], "depth":  2.4, "shader": "Basic"},
+    {"name": "head", "pos": [570, 160], "depth":  2.2, "shader": "Basic"},
 
-    {"name": "pearl2_glow", "pos": [750, 300], "depth":  1.5, "shader": "Basic"},
-    {"name": "pearl2", "pos": [750, 300], "depth":  1.5, "shader": "Basic"},
+    {"name": "topcloak", "pos": [570, 160], "depth":  2.1, "shader": "Basic"},
+    
+    {"name": "frontleg", "pos": [570, 160], "depth":  2.2, "shader": "Basic"},
+    {"name": "bottomcloak", "pos": [570, 160], "depth":  2.1, "shader": "Basic"},
+    {"name": "frontarm", "pos": [570, 160], "depth":  2.0, "shader": "Basic"},
 
-    {"name": "pearl4_glow", "pos": [550, 320], "depth":  2.2, "shader": "Basic"},
-    {"name": "pearl4", "pos": [550, 320], "depth":  2.2, "shader": "Basic"}
+    
+    
+    {"name": "pearl3", "pos": [570, 160], "depth":  1.5, "shader": "Basic"},
+    {"name": "pearl4", "pos": [570, 160], "depth":  1.2, "shader": "Basic"},
+    
+
+    {"name": "grass", "pos": [570, 150], "depth":  1.5, "shader": "Basic"}
   ],
+  
   "idle_depths": [2.3, 2.9],
   "glow_pos": [730, 335],
   "mark_pos": [740, 575],
+  
   "select_menu_pos": [-10, 100],
-  "slugcat_depth": 2.8
+  "slugcat_depth": 2.6
 }

@@ -8,9 +8,11 @@ public static partial class Hooks
     {
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         On.RainWorld.OnModsDisabled += RainWorld_OnModsDisabled;
+        On.RainWorld.PostModsInit += RainWorld_PostModsInit;
 
         // Core
         ApplySaveLoadHooks();
+        ApplyGameDataHooks();
         ApplyMenuHooks();
 
         // Player
@@ -19,10 +21,11 @@ public static partial class Hooks
         ApplyPlayerObjectDataHooks();
 
         // World
-        ApplySoundHooks();
         ApplyOracleHooks();
-        ApplyGameDataHooks();
+        ApplySoundHooks();
+        ApplyWarpHooks();
     }
+
 
     public static bool isInit = false;
 
@@ -41,6 +44,27 @@ public static partial class Hooks
         catch (Exception e)
         {
             Plugin.Logger.LogError("OnModsInit:\n" + e.Message);
+        }
+        finally
+        {
+            orig(self);
+        }
+    }
+
+    public static bool isPostInit = false;
+
+    public static void RainWorld_PostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self)
+    {
+        try
+        {
+            if (isPostInit) return;
+            isPostInit = true;
+
+            POEffectManager.RegisterEffects();
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("PostModsInit:\n" + e.Message);
         }
         finally
         {
