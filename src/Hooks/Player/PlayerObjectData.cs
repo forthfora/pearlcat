@@ -137,7 +137,7 @@ public static partial class Hooks
 
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {
-        IconSymbol.IconSymbolData? symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
+        var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
 
         if (symbolData == null)
             return Color.white;

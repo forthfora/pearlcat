@@ -34,16 +34,16 @@ public class Enums
 
     public class Pearls
     {
-        public static DataPearl.AbstractDataPearl.DataPearlType AS_Pearl_ThreatMusic = null!;
+        public static DataPearl.AbstractDataPearl.DataPearlType AS_Pearl = null!;
 
         public static void RegisterValues()
         {
-            AS_Pearl_ThreatMusic = new(nameof(AS_Pearl_ThreatMusic), false);
+            AS_Pearl = new(nameof(AS_Pearl), false);
         }
 
         public static void UnregisterValues()
         {
-            AS_Pearl_ThreatMusic?.Unregister();
+            AS_Pearl?.Unregister();
         }
     }
 

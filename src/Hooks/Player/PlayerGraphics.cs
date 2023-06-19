@@ -347,8 +347,10 @@ public static partial class Hooks
         cloakSprite.color = Color.white;
         playerModule.cloak.UpdateColor(sLeaser);
 
-        markSprite.color = playerModule.AccentColor;
-        markSprite.y += 10.0f;
+        markSprite.color = playerModule.ActiveColor;
+
+        if (playerModule.ActiveObject != null)
+            markSprite.y += 10.0f;
     }
 
 

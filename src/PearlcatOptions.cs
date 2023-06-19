@@ -6,9 +6,9 @@ namespace Pearlcat;
 
 // Based on the options script from SBCameraScroll by SchuhBaum
 // https://github.com/SchuhBaum/SBCameraScroll/blob/Rain-World-v1.9/SourceCode/MainModOptions.cs
-public class Options : OptionInterface
+public class PearlcatOptions : OptionInterface
 {
-    public static Options instance = new();
+    public static PearlcatOptions instance = new();
     public const string AUTHORS_NAME = "forthbridge";
 
     #region Options

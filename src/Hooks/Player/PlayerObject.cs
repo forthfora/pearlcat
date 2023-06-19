@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RWCustom;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -66,7 +67,7 @@ public static partial class Hooks
         {
             intensity = 0.35f,
             lifeTime = 7.0f,
-            color = GetObjectColor(physicalObject.abstractPhysicalObject),
+            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
         };
         physicalObject.room.AddObject(lightningBoltOld);
 
@@ -74,7 +75,7 @@ public static partial class Hooks
         {
             intensity = 0.75f,
             lifeTime = 12.0f,
-            color = GetObjectColor(newObject.abstractPhysicalObject),
+            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
         };
         physicalObject.room.AddObject(lightningBoltNew);
     }
@@ -87,7 +88,7 @@ public static partial class Hooks
         {
             intensity = 0.75f,
             lifeTime = 12.0f,
-            color = GetObjectColor(physicalObject.abstractPhysicalObject),
+            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
         };
         physicalObject.room.AddObject(lightningBoltOld);
     }
@@ -229,8 +230,7 @@ public static partial class Hooks
     {
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-
-        if (objectIndex >= playerModule.abstractInventory.Count || objectIndex < 0) return;
+        if (objectIndex < 0 ||  objectIndex >= playerModule.abstractInventory.Count) return;
 
         var oldObject = playerModule.ActiveObject?.realizedObject;
         playerModule.activeObjectIndex = objectIndex;

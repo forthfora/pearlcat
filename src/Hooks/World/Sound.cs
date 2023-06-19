@@ -7,7 +7,7 @@ public partial class Hooks
 {
     public static void ApplySoundHooks()
     {
-        On.Music.MusicPlayer.Update += MusicPlayer_Update;
+        //On.Music.MusicPlayer.Update += MusicPlayer_Update;
         On.Room.PlaySound_SoundID_BodyChunk_bool_float_float_bool += Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool;
     }
 
@@ -39,7 +39,7 @@ public partial class Hooks
 
                 var effect = playerModule.ActiveObject.GetPOEffect();
 
-                if (effect.threatMusic != null && (Options.pearlThreatMusic.Value || effect.threatMusic == "AS"))
+                if (effect.threatMusic != null && (PearlcatOptions.pearlThreatMusic.Value || effect.threatMusic == "AS"))
                 {
                     if (self.proceduralMusic == null || self.proceduralMusic.name != effect.threatMusic)
                        self.NewRegion(effect.threatMusic);

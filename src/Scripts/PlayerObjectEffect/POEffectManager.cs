@@ -56,73 +56,125 @@ public static class POEffectManager
         
         SL_moon = None;
         SL_moon.majorEffect = MajorEffect.SHIELD;
+        SL_moon.threatMusic = "SL";
 
         SL_chimney = None;
+        SL_chimney.majorEffect = MajorEffect.RAGE;
+        SL_chimney.threatMusic = "SL";
 
         SL_bridge = None;
+        SL_bridge.majorEffect = MajorEffect.RAGE;
+        SL_bridge.threatMusic = "SL";
 
         SB_filtration = None;
+        SB_filtration.majorEffect = MajorEffect.AGILITY;
+        SB_filtration.threatMusic = "SB";
 
         SB_ravine = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SB_ravine.threatMusic = "SB";
 
         SU = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SU.threatMusic = "SU";
 
         HI = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        HI.threatMusic = "HI";
 
         GW = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        GW.threatMusic = "GW";
 
         DS = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        DS.threatMusic = "DS";
 
         SH = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SH.threatMusic = "SH";
 
         CC = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        CC.threatMusic = "CC";
 
         UW = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        UW.threatMusic = "UW";
 
         LF_bottom = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        LF_bottom.threatMusic = "LF";
 
         LF_west = None;
-
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        LF_west.threatMusic = "LF";
 
         SI_bridge = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SI_bridge.threatMusic = "SI";
 
         SI_top  = None;
-
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SI_bridge.threatMusic = "SI";
 
         VS = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        VS.threatMusic = "VS";
 
         SU_filt = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SU_filt.threatMusic = "SU";
 
         OE = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        OE.threatMusic = "OE";
 
         LC = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        LC.threatMusic = "LC";
 
         LC_second = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        LC_second.threatMusic = "LC";
 
         MS = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        MS.threatMusic = "MS";
 
         DM = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
+        DM.threatMusic = "DM";
 
         Red_stomach = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
 
         Rivulet_stomach = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
 
         Spearmasterpearl = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
 
         RM = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
 
 
         IteratorWhite = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
 
         IteratorBlack = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
 
         IteratorOrange = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
 
         IteratorBlue = None;
+        SB_ravine.majorEffect = MajorEffect.RAGE;
 
 
-        AS_Pearl_ThreatMusic = None;
-        AS_Pearl_ThreatMusic.threatMusic = "AS";
+        AS_Pearl = None;
+        AS_Pearl.majorEffect = MajorEffect.RAGE;
+        AS_Pearl.threatMusic = "AS";
     }
     
     public static void RegisterEffects()
@@ -162,7 +214,7 @@ public static class POEffectManager
         PearlEffects.Add(DataPearlTypeMSC.Spearmasterpearl, Spearmasterpearl);
         PearlEffects.Add(DataPearlTypeMSC.RM, RM);
 
-        PearlEffects.Add(Enums.Pearls.AS_Pearl_ThreatMusic, AS_Pearl_ThreatMusic);
+        PearlEffects.Add(Enums.Pearls.AS_Pearl, AS_Pearl);
     }
 
 
@@ -207,5 +259,5 @@ public static class POEffectManager
     public static POEffect IteratorBlue;
 
 
-    public static POEffect AS_Pearl_ThreatMusic;
+    public static POEffect AS_Pearl;
 }

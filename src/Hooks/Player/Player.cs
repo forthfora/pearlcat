@@ -75,6 +75,16 @@ public static partial class Hooks
 
         UpdateCombinedPOEffect(self, playerModule);
         ApplyCombinedPOEffect(self, playerModule);
+
+        CheckInput(self, playerModule);
+    }
+
+    public static void CheckInput(Player self, PearlcatModule playerModule)
+    {
+        var numPressed = self.GetNumberPressed();
+
+        if (numPressed >= 0)
+            self.ActivateObjectInStorage(numPressed - 1);
     }
 
 
@@ -191,7 +201,7 @@ public static partial class Hooks
             {
                 DataPearlType type = i switch
                 {
-                    0 => Enums.Pearls.AS_Pearl_ThreatMusic,
+                    0 => Enums.Pearls.AS_Pearl,
                     1 => DataPearlType.CC,
                     2 => DataPearlType.LF_bottom,
                     3 => DataPearlType.Red_stomach,
@@ -199,7 +209,7 @@ public static partial class Hooks
                     _ => DataPearlType.Misc,
                 };
 
-                AbstractPhysicalObject pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
+                var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
                 self.StoreObject(pearl);
             }
         }

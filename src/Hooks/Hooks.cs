@@ -36,7 +36,7 @@ public static partial class Hooks
             if (isInit) return;
             isInit = true;
 
-            MachineConnector.SetRegisteredOI(Plugin.MOD_ID, Options.instance);
+            MachineConnector.SetRegisteredOI(Plugin.MOD_ID, PearlcatOptions.instance);
 
             Enums.RegisterEnums();
             AssetLoader.LoadAssets();
