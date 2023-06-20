@@ -7,7 +7,7 @@ public partial class Hooks
 {
     public static void ApplySoundHooks()
     {
-        //On.Music.MusicPlayer.Update += MusicPlayer_Update;
+        On.Music.MusicPlayer.Update += MusicPlayer_Update;
         On.Room.PlaySound_SoundID_BodyChunk_bool_float_float_bool += Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool;
     }
 
@@ -23,6 +23,7 @@ public partial class Hooks
         return orig(self, soundId, chunk, loop, vol, pitch, randomStartPosition);
     }
 
+    // Fix this or the game runs out of memory and explodes
     private static void MusicPlayer_Update(On.Music.MusicPlayer.orig_Update orig, MusicPlayer self)
     {
         if (self.manager.currentMainLoop is RainWorldGame game)
@@ -41,7 +42,7 @@ public partial class Hooks
 
                 if (effect.threatMusic != null && (PearlcatOptions.pearlThreatMusic.Value || effect.threatMusic == "AS"))
                 {
-                    if (self.proceduralMusic == null || self.proceduralMusic.name != effect.threatMusic)
+                    if (self.proceduralMusic == null || (self.nextProcedural != effect.threatMusic && self.proceduralMusic.instruction.name != effect.threatMusic))
                        self.NewRegion(effect.threatMusic);
                      
                     hasThreatMusicPearl = true;
@@ -52,7 +53,7 @@ public partial class Hooks
             // Stop New Threat Music
             var region = self.threatTracker?.region;
 
-            if (!hasThreatMusicPearl && region != null && (self.proceduralMusic == null || self.proceduralMusic.name != region))
+            if (!hasThreatMusicPearl && region != null && (self.proceduralMusic == null || self.proceduralMusic.instruction.name != region))
                 self.NewRegion(region);
         }
 

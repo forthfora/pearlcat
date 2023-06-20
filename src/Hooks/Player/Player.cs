@@ -33,25 +33,6 @@ public static partial class Hooks
     }
 
 
-    public static void Player_Die(On.Player.orig_Die orig, Player self) 
-    {
-        orig(self);
-
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-        
-
-        for (int i = playerModule.abstractInventory.Count - 1; i >= 0; i--)
-        {
-            AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
-
-            DeathEffect(abstractObject.realizedObject);
-            RemoveFromInventory(self, abstractObject);
-
-            playerModule.postDeathInventory.Add(abstractObject);
-        }
-    }
-
-
 
     public static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
@@ -79,60 +60,13 @@ public static partial class Hooks
         CheckInput(self, playerModule);
     }
 
+
     public static void CheckInput(Player self, PearlcatModule playerModule)
     {
         var numPressed = self.GetNumberPressed();
 
         if (numPressed >= 0)
             self.ActivateObjectInStorage(numPressed - 1);
-    }
-
-
-    public static void UpdateCombinedPOEffect(Player self, PearlcatModule playerModule)
-    {
-        POEffect combinedEffect = new();
-
-        foreach (var playerObject in playerModule.abstractInventory)
-        {
-            var effect = playerObject.GetPOEffect();
-            var mult = playerObject == playerModule.ActiveObject ? effect.activeMultiplier : 1.0f;
-
-            if (self.Malnourished)
-                mult *= 0.75f;
-
-            combinedEffect.runSpeedFac += effect.runSpeedFac * mult;
-            combinedEffect.corridorClimbSpeedFac += effect.corridorClimbSpeedFac * mult;
-            combinedEffect.poleClimbSpeedFac += effect.poleClimbSpeedFac * mult;
-            
-            combinedEffect.throwingSkill += effect.throwingSkill * mult;
-            combinedEffect.lungsFac += effect.lungsFac * mult;
-            combinedEffect.bodyWeightFac += effect.bodyWeightFac * mult;
-
-            combinedEffect.loudnessFac += effect.loudnessFac * mult;
-            combinedEffect.generalVisibilityBonus += effect.generalVisibilityBonus * mult;
-            combinedEffect.visualStealthInSneakMode += effect.visualStealthInSneakMode * mult;
-        }
-
-        playerModule.currentPOEffect = combinedEffect;
-    }
-
-    public static void ApplyCombinedPOEffect(Player self, PearlcatModule playerModule)
-    {
-        var effect = playerModule.currentPOEffect;
-        var stats = self.slugcatStats;
-        var baseStats = playerModule.baseStats;
-
-        stats.lungsFac = baseStats.lungsFac + effect.lungsFac;
-        stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.throwingSkill, 0, 2);
-        stats.runspeedFac = baseStats.runspeedFac + effect.runSpeedFac;
-
-        stats.corridorClimbSpeedFac = baseStats.corridorClimbSpeedFac + effect.corridorClimbSpeedFac;
-        stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.poleClimbSpeedFac;
-        stats.bodyWeightFac = baseStats.bodyWeightFac + effect.bodyWeightFac;
-
-        stats.loudnessFac = baseStats.loudnessFac + effect.loudnessFac;
-        stats.generalVisibilityBonus = baseStats.generalVisibilityBonus + effect.generalVisibilityBonus;
-        stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.visualStealthInSneakMode;
     }
 
 
@@ -171,6 +105,7 @@ public static partial class Hooks
             playerModule.dazeStacker--;
     }
 
+
     public static void UpdatePlayerOA(Player self, PearlcatModule playerModule)
     {
         if (playerModule.currentObjectAnimation is FreeFallOA)
@@ -203,9 +138,9 @@ public static partial class Hooks
                 {
                     0 => Enums.Pearls.AS_Pearl,
                     1 => DataPearlType.CC,
-                    2 => DataPearlType.LF_bottom,
-                    3 => DataPearlType.Red_stomach,
-                    4 => DataPearlType.DS,
+                    2 => DataPearlType.HI,
+                    3 => DataPearlType.DS,
+                    4 => DataPearlType.SH,
                     _ => DataPearlType.Misc,
                 };
 
@@ -233,6 +168,26 @@ public static partial class Hooks
     public static bool wasPressedRight = false;
 
 
+
+    public static void Player_Die(On.Player.orig_Die orig, Player self)
+    {
+        orig(self);
+
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+
+        for (int i = playerModule.abstractInventory.Count - 1; i >= 0; i--)
+        {
+            AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
+
+            DeathEffect(abstractObject.realizedObject);
+            RemoveFromInventory(self, abstractObject);
+
+            playerModule.postDeathInventory.Add(abstractObject);
+        }
+    }
+
+
     public static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
     {
         orig(self, eu);
@@ -241,6 +196,7 @@ public static partial class Hooks
 
         //TransferObjectUpdate(self);
     }
+    
     public static void Player_GrabUpdateIL(ILContext il)
     {
         ILCursor c = new(il);
@@ -268,134 +224,6 @@ public static partial class Hooks
         c.Emit(OpCodes.Brfalse, dest);
     }
 
-
-    // rewrite this someday 
-    /*
-    public static void StoreObjectUpdate(Player self)
-    {
-        var playerModule = self.GetModule();
-
-        // Gather held storables
-        AbstractPhysicalObject? heldStorable = null;
-
-        for (int i = 0; i < self.grasps.Length; i++)
-        {
-            if (self.grasps[i] == null) continue;
-
-            AbstractPhysicalObject heldObject = self.grasps[i].grabbed.abstractPhysicalObject;
-
-            if (!IsObjectStorable(heldObject)) continue;
-
-            heldStorable = heldObject;
-            break;
-        }
-
-
-        if (!IsStoreKeybindPressed(self))
-        {
-            playerModule.transferObject = null;
-            playerModule.canTransferObject = true;
-
-            // Reenable normal actions
-            playerModule.canSwallowOrRegurgitate = true;
-            self.spearOnBack.interactionLocked = false;
-            self.slugOnBack.interactionLocked = false;
-            return;
-        }
-
-        // Prevent transfer immediately after one has taken place 
-        if (!playerModule.canTransferObject) return;
-
-
-        // Held items take priority
-        playerModule.transferObject = heldStorable ?? GetRealizedActiveObject(self);
-
-        // Disable normal actions
-        playerModule.canSwallowOrRegurgitate = false;
-        self.slugOnBack.interactionLocked = true;
-        self.spearOnBack.interactionLocked = true;
-
-        self.input[0].x = 0;
-        self.input[0].y = 0;
-    }
-
-    public static void TransferObjectUpdate(Player self)
-    {
-        if (!PlayerData.TryGetValue(self, out PlayerModule? playerModule)) return;
-
-        playerModule.storingObjectSound.Update();
-        playerModule.retrievingObjectSound.Update();
-
-        if (playerModule.transferObject == null)
-        {
-            ResetTransferObject(playerModule);
-            return;
-        }
-
-        PlayerGraphics playerGraphics = (PlayerGraphics)self.graphicsModule;
-
-        playerModule.transferObjectInitialPos ??= playerModule.transferObject.realizedObject.firstChunk.pos;
-
-        playerModule.transferStacker++;
-        bool puttingInStorage = playerModule.transferObject != GetStoredActiveObject(self);
-
-        if (puttingInStorage)
-        {
-            int? targetHand = null;
-
-            if (self.grasps.Length == 0) return;
-
-            for (int i = 0; i < self.grasps.Length; i++)
-            {
-                PhysicalObject graspedObject = self.grasps[i].grabbed;
-
-                if (graspedObject == playerModule.transferObject.realizedObject)
-                {
-                    targetHand = i;
-                    break;
-                }
-            }
-
-            if (targetHand == null) return;
-
-            //playerModule.storingObjectSound.Volume = 1.0f;
-
-            // Pearl to head
-            playerModule.transferObject.realizedObject.firstChunk.pos = Vector2.Lerp(playerModule.transferObject.realizedObject.firstChunk.pos, GetActiveObjectPos(self), (float)playerModule.transferStacker / FramesToStoreObject);
-            playerGraphics.hands[(int)targetHand].absoluteHuntPos = playerModule.transferObject.realizedObject.firstChunk.pos;
-            playerGraphics.hands[(int)targetHand].reachingForObject = true;
-
-            if (playerModule.transferStacker < FramesToStoreObject) return;
-
-            //playerModule.storingObjectSound.Volume = 0.0f;
-            self.room.PlaySound(Enums.Sounds.ObjectStored, self.firstChunk);
-
-            StoreObject(self, playerModule.transferObject);
-            AbstractizeInventory(self);
-            DestroyTransferObject(playerModule);
-
-            ActivateObjectInStorage(self, playerModule.abstractInventory.Count - 1);
-            return;
-        }
-
-        // Hand to head
-
-        //playerModule.retrievingObjectSound.Volume = 1.0f;
-
-        playerGraphics.hands[self.FreeHand()].absoluteHuntPos = GetActiveObjectPos(self);
-        playerGraphics.hands[self.FreeHand()].reachingForObject = true;
-
-        if (playerModule.transferStacker < FramesToRetrieveObject) return;
-
-        //playerModule.retrievingObjectSound.Volume = 0.0f;
-        self.room.PlaySound(Enums.Sounds.ObjectRetrieved, self.firstChunk);
-
-        RetrieveObject(self);
-        DestroyTransferObject(playerModule);
-    }
-    */
-
-    
     public static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
         if (IsPlayerObject(obj))
@@ -404,7 +232,6 @@ public static partial class Hooks
         return orig(self, obj);
     }
 
-
     public static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
     {
         if (self is Player player)
@@ -412,6 +239,8 @@ public static partial class Hooks
 
         orig(self, entrancePos, carriedByOther);
     }
+
+
 
     // Revivify moment
     public static void Revive(this Player self)

@@ -16,10 +16,6 @@ public class BasicOrbitOA : ObjectAnimation
 
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-
-        UpdateHaloEffects(player);
-
-
         int nonActiveIndex = 0;
 
         for (int i = 0; i < playerModule.abstractInventory.Count; i++)

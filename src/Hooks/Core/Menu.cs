@@ -15,13 +15,13 @@ public static partial class Hooks
     }
 
 
-
     private static void HUD_InitSinglePlayerHud(On.HUD.HUD.orig_InitSinglePlayerHud orig, HUD.HUD self, RoomCamera cam)
     {
         orig(self, cam);
 
         self.AddPart(new InventoryHUD(self, self.fContainers[1]));
     }
+
 
 
     public static ConditionalWeakTable<Menu.MenuDepthIllustration, MenuIllustrationModule> MenuIllustrationData = new();

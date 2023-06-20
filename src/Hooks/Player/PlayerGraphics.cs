@@ -121,7 +121,6 @@ public static partial class Hooks
     #endregion
 
 
-
     #region Draw Sprites
 
     public static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -557,7 +556,6 @@ public static partial class Hooks
     }
 
     #endregion
-
 
 
     #region Graphics Update

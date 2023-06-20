@@ -49,132 +49,214 @@ public static class POEffectManager
 
         Misc = None;
         Misc.majorEffect = MajorEffect.SPEAR_CREATION;
-        Misc.runSpeedFac = 0.05f;
         Misc.lungsFac = 0.05f;
+        Misc.runSpeedFac = 0.05f;
         Misc.poleClimbSpeedFac = 0.05f;
         Misc.corridorClimbSpeedFac = 0.05f;
-        
+        Misc.rollSpeedFac = 0.05f;
+        Misc.slideSpeedFac = 0.05f;
+        Misc.survivalFac = 0.05f;
+
         SL_moon = None;
         SL_moon.majorEffect = MajorEffect.SHIELD;
         SL_moon.threatMusic = "SL";
+        SL_moon.bodyWeightFac = -0.1f;
+        SL_moon.lungsFac = 0.75f;
 
         SL_chimney = None;
         SL_chimney.majorEffect = MajorEffect.RAGE;
         SL_chimney.threatMusic = "SL";
+        SL_chimney.throwingSkill = 1.0f;
+        SL_chimney.bodyWeightFac = 0.1f;
 
         SL_bridge = None;
         SL_bridge.majorEffect = MajorEffect.RAGE;
         SL_bridge.threatMusic = "SL";
+        SL_bridge.throwingSkill = 0.5f;
+        SL_bridge.spearPullFac = 1.0f;
+        SL_bridge.bodyWeightFac = 0.1f;
+        SL_bridge.maulFac = 0.5f;
 
         SB_filtration = None;
         SB_filtration.majorEffect = MajorEffect.AGILITY;
         SB_filtration.threatMusic = "SB";
+        SB_filtration.runSpeedFac = 0.2f;
+        SB_filtration.poleClimbSpeedFac = 0.2f;
+        SB_filtration.corridorClimbSpeedFac = 0.2f;
+        SB_filtration.lungsFac = 0.5f;
 
         SB_ravine = None;
         SB_ravine.majorEffect = MajorEffect.RAGE;
         SB_ravine.threatMusic = "SB";
+        SB_ravine.throwingSkill = 1.0f;
+        SB_ravine.spearPullFac = 0.5f;
+        SB_ravine.bodyWeightFac = 0.1f;
+        SB_ravine.maulFac = 0.5f;
 
         SU = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SU.majorEffect = MajorEffect.AGILITY;
         SU.threatMusic = "SU";
+        SU.runSpeedFac = 0.35f;
+        SU.poleClimbSpeedFac = 0.2f;
+        SU.corridorClimbSpeedFac = 0.2f;
 
         HI = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        HI.majorEffect = MajorEffect.AGILITY;
         HI.threatMusic = "HI";
+        HI.runSpeedFac = 0.2f;
+        HI.poleClimbSpeedFac = 0.35f;
+        HI.corridorClimbSpeedFac = 0.35f;
 
         GW = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        GW.majorEffect = MajorEffect.AGILITY;
         GW.threatMusic = "GW";
+        GW.runSpeedFac = 0.15f;
+        GW.poleClimbSpeedFac = 0.05f;
+        GW.corridorClimbSpeedFac = 0.05f;
+        GW.lungsFac = 0.5f;
 
         DS = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        DS.majorEffect = MajorEffect.REVIVE;
         DS.threatMusic = "DS";
+        DS.survivalFac = 0.3f;
+        DS.lungsFac = 0.5f;
 
         SH = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SH.majorEffect = MajorEffect.RAGE;
         SH.threatMusic = "SH";
+        SH.throwingSkill = 0.5f;
+        SH.bodyWeightFac = 0.1f;
 
         CC = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        CC.majorEffect = MajorEffect.SHIELD;
         CC.threatMusic = "CC";
+        CC.bodyWeightFac = -0.1f;
 
         UW = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        UW.majorEffect = MajorEffect.REVIVE;
         UW.threatMusic = "UW";
+        UW.bodyWeightFac = -0.05f;
+        UW.runSpeedFac = 0.15f;
+        UW.loudnessFac = -0.1f;
 
         LF_bottom = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        LF_bottom.majorEffect = MajorEffect.RAGE;
         LF_bottom.threatMusic = "LF";
+        LF_bottom.throwingSkill = 1.0f;
+        LF_bottom.bodyWeightFac = 0.1f;
 
         LF_west = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        LF_west.majorEffect = MajorEffect.RAGE;
         LF_west.threatMusic = "LF";
+        LF_west.throwingSkill = 0.5f;
+        LF_west.bodyWeightFac = 0.05f;
 
         SI_bridge = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SI_bridge.majorEffect = MajorEffect.AGILITY;
         SI_bridge.threatMusic = "SI";
 
         SI_top  = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
-        SI_bridge.threatMusic = "SI";
+        SI_top.majorEffect = MajorEffect.RAGE;
+        SI_top.threatMusic = "SI";
+
 
         VS = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        VS.majorEffect = MajorEffect.SPEAR_CREATION;
         VS.threatMusic = "VS";
+        VS.generalVisibilityBonus = -0.1f;
+        VS.visualStealthInSneakMode = 0.1f;
+        VS.loudnessFac = -0.1f;
 
         SU_filt = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        SU_filt.majorEffect = MajorEffect.SPEAR_CREATION;
         SU_filt.threatMusic = "SU";
+        SU_filt.lungsFac = 0.5f;
+        SU_filt.runSpeedFac = 0.1f;
 
         OE = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        OE.majorEffect = MajorEffect.RAGE;
         OE.threatMusic = "OE";
+        OE.runSpeedFac = 0.15f;
+        OE.poleClimbSpeedFac = 0.05f;
+        OE.corridorClimbSpeedFac = 0.05f;
 
         LC = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        LC.majorEffect = MajorEffect.REVIVE;
         LC.threatMusic = "LC";
+        LC.bodyWeightFac = -0.1f;
 
         LC_second = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        LC_second.majorEffect = MajorEffect.SHIELD;
         LC_second.threatMusic = "LC";
+        LC_second.bodyWeightFac = -0.1f;
 
         MS = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        MS.majorEffect = MajorEffect.SHIELD;
         MS.threatMusic = "MS";
+        MS.bodyWeightFac = -0.1f;
 
         DM = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        DM.majorEffect = MajorEffect.SHIELD;
         DM.threatMusic = "DM";
+        DM.bodyWeightFac = -0.1f;
 
         Red_stomach = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        Red_stomach.majorEffect = MajorEffect.RAGE;
+        Red_stomach.throwingSkill = 1.0f;
+        Red_stomach.bodyWeightFac = 0.05f;
 
         Rivulet_stomach = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        Rivulet_stomach.majorEffect = MajorEffect.AGILITY;
+        Rivulet_stomach.runSpeedFac = 0.35f;
+        Rivulet_stomach.poleClimbSpeedFac = 0.25f;
+        Rivulet_stomach.corridorClimbSpeedFac = 0.25f;
 
         Spearmasterpearl = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        Spearmasterpearl.majorEffect = MajorEffect.RAGE;
+        Spearmasterpearl.throwingSkill = 2.0f;
+        Spearmasterpearl.bodyWeightFac = 0.05f;
 
         RM = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        RM.majorEffect = MajorEffect.REVIVE;
 
 
         IteratorWhite = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
-
+        IteratorWhite.majorEffect = MajorEffect.SPEAR_CREATION;
+        IteratorWhite.lungsFac = 0.075f;
+        IteratorWhite.runSpeedFac = 0.075f;
+        IteratorWhite.poleClimbSpeedFac = 0.075f;
+        IteratorWhite.corridorClimbSpeedFac = 0.075f;
+        IteratorWhite.rollSpeedFac = 0.075f;
+        IteratorWhite.slideSpeedFac = 0.075f;
+        IteratorWhite.survivalFac = 0.075f;
+     
         IteratorBlack = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        IteratorBlack.majorEffect = MajorEffect.CAMOFLAGUE;
+        IteratorBlack.generalVisibilityBonus = -0.15f;
+        IteratorBlack.visualStealthInSneakMode = 0.15f;
+        IteratorBlack.loudnessFac = -0.15f;
 
         IteratorOrange = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        IteratorOrange.majorEffect = MajorEffect.SHIELD;
+        IteratorOrange.bodyWeightFac = -0.1f;
 
         IteratorBlue = None;
-        SB_ravine.majorEffect = MajorEffect.RAGE;
+        IteratorBlue.majorEffect = MajorEffect.AGILITY;
+        IteratorBlue.runSpeedFac = 0.25f;
+        IteratorBlue.poleClimbSpeedFac = 0.25f;
+        IteratorBlue.corridorClimbSpeedFac = 0.25f;
+        IteratorBlue.rollSpeedFac = 0.25f;
+        IteratorBlue.slideSpeedFac = 0.25f;
 
 
         AS_Pearl = None;
-        AS_Pearl.majorEffect = MajorEffect.RAGE;
+        AS_Pearl.majorEffect = MajorEffect.AGILITY;
         AS_Pearl.threatMusic = "AS";
+        AS_Pearl.runSpeedFac = 0.25f;
+        AS_Pearl.poleClimbSpeedFac = 0.25f;
+        AS_Pearl.corridorClimbSpeedFac = 0.25f;
+        AS_Pearl.rollSpeedFac = 0.25f;
+        AS_Pearl.slideSpeedFac = 0.25f;
     }
     
     public static void RegisterEffects()

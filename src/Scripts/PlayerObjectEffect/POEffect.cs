@@ -22,8 +22,6 @@ public struct POEffect
     public float activeMultiplier = 2.0f;
 
 
-    // Added percentages
-
     // Slugcat Stats
     public float lungsFac;
     public float throwingSkill;
@@ -37,6 +35,16 @@ public struct POEffect
     public float generalVisibilityBonus;
     public float visualStealthInSneakMode;
 
+    // Non Standard
+    public float jumpHeightFac;
+    public float slideSpeedFac; // Includes pounce distance
+    public float rollSpeedFac;
+
+    public float survivalFac;
+
+    public float maulFac;
+    public float spearPullFac;
+    public float backSpearFac;
 
     public string? threatMusic;
 }

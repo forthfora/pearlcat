@@ -120,7 +120,7 @@ public static partial class Hooks
 
 
 
-    public static bool IsObjectStorable(AbstractPhysicalObject abstractObject)
+    public static bool IsStorable(this AbstractPhysicalObject abstractObject)
     {
         if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.DataPearl) return true;
 
@@ -132,8 +132,6 @@ public static partial class Hooks
 
         return false;
     }
-
-
 
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {

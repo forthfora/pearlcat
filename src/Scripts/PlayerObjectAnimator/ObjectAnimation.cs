@@ -45,6 +45,9 @@ public abstract class ObjectAnimation
         }
 
         animStacker++;
+
+        UpdateHaloEffects(player);
+        UpdateSymbolEffects(player);
     }
 
 
@@ -113,25 +116,23 @@ public abstract class ObjectAnimation
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var effect)) continue;
-
+            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var addon)) continue;
             
-            effect.drawHalo = true;
+            addon.drawHalo = true;
             float haloEffectStacker = HaloEffectStackers[i];
 
             if (i == playerModule.activeObjectIndex)
             {
-                effect.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
-                effect.haloScale = 1.0f + 0.45f * haloEffectStacker;
-                effect.haloAlpha = 0.8f;
+                addon.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
+                addon.haloScale = 1.0f + 0.45f * haloEffectStacker;
+                addon.haloAlpha = 0.8f;
             }
             else
             {
-                effect.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
-                effect.haloScale = 0.3f + 0.45f * haloEffectStacker;
-                effect.haloAlpha = 0.6f;
+                addon.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
+                addon.haloScale = 0.3f + 0.45f * haloEffectStacker;
+                addon.haloAlpha = 0.6f;
             }
-
 
 
             if (haloEffectStacker < 0.0f)
@@ -141,6 +142,33 @@ public abstract class ObjectAnimation
                 HaloEffectDir = -1;
 
             HaloEffectStackers[i] += HaloEffectDir * HaloEffectFrameAddition;
+        }
+    }
+
+    public virtual void UpdateSymbolEffects(Player player)
+    {
+        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+
+        for (int i = 0; i < playerModule.abstractInventory.Count; i++)
+        {
+            AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
+            if (abstractObject.realizedObject == null) continue;
+
+            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var addon)) continue;
+
+            var effect = abstractObject.GetPOEffect();
+            var majorEffect = effect.majorEffect;
+
+            if (i != playerModule.activeObjectIndex)
+                majorEffect = POEffect.MajorEffect.NONE;
+
+            addon.drawSymbolSpear = majorEffect == POEffect.MajorEffect.SPEAR_CREATION;
+            addon.drawSymbolRage = majorEffect == POEffect.MajorEffect.RAGE;
+            addon.drawSymbolRevive = majorEffect == POEffect.MajorEffect.REVIVE;
+            addon.drawSymbolShield = majorEffect == POEffect.MajorEffect.SHIELD;
+            addon.drawSymbolAgility = majorEffect == POEffect.MajorEffect.AGILITY;
+
+            addon.symbolColor = Hooks.GetObjectColor(abstractObject);
         }
     }
 }
