@@ -50,38 +50,6 @@ public abstract class ObjectAnimation
         UpdateSymbolEffects(player);
     }
 
-
-    // TODO: the pain
-    public virtual void MoveToTargetPos(Player player, AbstractPhysicalObject abstractObject, Vector2 targetPos)
-    {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
-
-        if (abstractObject.realizedObject == null) return;
-
-        if (!Hooks.MinFricSpeed.TryGet(abstractObject.world.game, out var minFricSpeed)) return;
-        if (!Hooks.MaxFricSpeed.TryGet(abstractObject.world.game, out var maxFricSpeed)) return;
-        if (!Hooks.MinFric.TryGet(abstractObject.world.game, out var minFric)) return;
-        if (!Hooks.MaxFric.TryGet(abstractObject.world.game, out var maxFric)) return;
-
-        if (!Hooks.CutoffDist.TryGet(abstractObject.world.game, out var cutoffDist)) return;
-        if (!Hooks.CutoffMinSpeed.TryGet(abstractObject.world.game, out var cutoffMinSpeed)) return;
-        if (!Hooks.CutoffMaxSpeed.TryGet(abstractObject.world.game, out var cutoffMaxSpeed)) return;
-        if (!Hooks.DazeMaxSpeed.TryGet(abstractObject.world.game, out var dazeMaxSpeed)) return;
-
-        if (!Hooks.MaxDist.TryGet(abstractObject.world.game, out var maxDist)) return;
-        if (!Hooks.MinSpeed.TryGet(abstractObject.world.game, out var minSpeed)) return;
-        if (!Hooks.MaxSpeed.TryGet(abstractObject.world.game, out var maxSpeed)) return;
-
-        var firstChunk = abstractObject.realizedObject.firstChunk;
-        var dir = (targetPos - firstChunk.pos).normalized;
-        var dist = Custom.Dist(firstChunk.pos, targetPos);
-
-        float speed = dist < cutoffDist ? Custom.LerpMap(dist, 0.0f, cutoffDist, cutoffMinSpeed, playerModule.IsDazed ? dazeMaxSpeed : cutoffMaxSpeed) : Custom.LerpMap(dist, cutoffDist, maxDist, minSpeed, maxSpeed);
-
-        firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, minFricSpeed, maxFricSpeed, minFric, maxFric);
-        firstChunk.vel += dir * speed;
-    }
-
     public virtual Vector2 GetActiveObjectPos(Player player)
     {
         if (!Hooks.ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
@@ -169,6 +137,19 @@ public abstract class ObjectAnimation
             addon.drawSymbolAgility = majorEffect == POEffect.MajorEffect.AGILITY;
 
             addon.symbolColor = Hooks.GetObjectColor(abstractObject);
+        }
+    }
+
+    public void AnimateOrbit(Player player, Vector2 origin, float radius, float angleFrameAddition, List<AbstractPhysicalObject> abstractObjects)
+    {
+        for (int i = 0; i < abstractObjects.Count; i++)
+        {
+            AbstractPhysicalObject? abstractObject = abstractObjects[i];
+
+            float angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * animStacker;
+
+            Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
+            abstractObject.MoveToTargetPos(player, targetPos);
         }
     }
 }

@@ -124,7 +124,11 @@ public static partial class Hooks
             playerModule.currentObjectAnimation = new FreeFallOA(self);
         }
 
+        if (playerModule.objectAnimationStacker > playerModule.objectAnimationDuration)
+            playerModule.PickObjectAnimation(self);
+
         playerModule.currentObjectAnimation?.Update(self);
+        playerModule.objectAnimationStacker++;
 
 
         
@@ -133,15 +137,21 @@ public static partial class Hooks
         {
             hasSpawned = true;
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 11; i++)
             {
                 DataPearlType type = i switch
                 {
-                    0 => Enums.Pearls.AS_Pearl,
+                    0 => DataPearlType.GW,
                     1 => DataPearlType.CC,
                     2 => DataPearlType.HI,
                     3 => DataPearlType.DS,
                     4 => DataPearlType.SH,
+                    5 => DataPearlType.UW,
+                    6 => DataPearlType.LF_bottom,
+                    7 => DataPearlType.SL_bridge,
+                    8 => DataPearlType.SL_moon,
+                    9 => DataPearlType.Red_stomach,
+                    10 => DataPearlType.SB_filtration,
                     _ => DataPearlType.Misc,
                 };
 
@@ -149,25 +159,10 @@ public static partial class Hooks
                 self.StoreObject(pearl);
             }
         }
-
-        var inputLeft = Input.GetKey("[");
-        var inputRight = Input.GetKey("]");
-
-        if (inputLeft && !wasPressedLeft)
-            self.SelectPreviousObject();
-
-        else if (inputRight && !wasPressedRight)
-            self.SelectNextObject();
-
-        wasPressedLeft = inputLeft;
-        wasPressedRight = inputRight;
     }
 
     // HACK
     public static bool hasSpawned = false;
-    public static bool wasPressedLeft = false;
-    public static bool wasPressedRight = false;
-
 
 
     public static void Player_Die(On.Player.orig_Die orig, Player self)

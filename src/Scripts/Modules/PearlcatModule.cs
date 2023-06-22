@@ -62,19 +62,36 @@ public class PearlcatModule
     public float shortcutColorStacker = 0.0f;
     public int shortcutColorStackerDirection = 1;
 
+    public int objectAnimationStacker = 0;
+    public int objectAnimationDuration = 0;
 
 
     public ObjectAnimation? currentObjectAnimation = null;
 
-    public void PickObjectAnimation(Player player) => currentObjectAnimation = GetObjectAnimation(player);
+    public void PickObjectAnimation(Player player)
+    {
+        if (!Hooks.MinOATime.TryGet(player, out var minTime)) return;
+        if (!Hooks.MaxOATime.TryGet(player, out var maxTime)) return;
+        if (!Hooks.DazeDuration.TryGet(player, out var dazeDuration)) return;
+
+        currentObjectAnimation = GetObjectAnimation(player);
+        objectAnimationStacker = 0;
+        objectAnimationDuration = Random.Range(minTime, maxTime);
+
+        dazeStacker = dazeDuration;
+    }
 
     public ObjectAnimation GetObjectAnimation(Player player)
     {
 
         List<ObjectAnimation> animationPool = new()
         {
-            new BasicOrbitOA(player),
+            //new BasicOrbitOA(player),
+            new MultiOrbitOA(player),
         };
+
+        if (currentObjectAnimation != null && animationPool.Count > 1)
+            animationPool.RemoveAll(x => x.GetType() == currentObjectAnimation.GetType());
 
         return animationPool[Random.Range(0, animationPool.Count)];
     }

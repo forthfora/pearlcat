@@ -42,7 +42,6 @@ public partial class Hooks
         c.Emit(OpCodes.Ldarg_0);
         c.Emit(OpCodes.Ldfld, typeof(ProceduralMusic).GetField(nameof(ProceduralMusic.musicPlayer)));
         c.Emit(OpCodes.Ldarg_0);
-        
         c.EmitDelegate<Func<int, int, MusicPlayer, ProceduralMusic, bool>>((j, k, musicPlayer, self) =>
         {
             var track = self.instruction.layers[j].tracks[k];
@@ -52,8 +51,6 @@ public partial class Hooks
         });
 
         c.Emit(OpCodes.Or);
-
-        Plugin.Logger.LogWarning(c.Context);
     }
 
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool(On.Room.orig_PlaySound_SoundID_BodyChunk_bool_float_float_bool orig,

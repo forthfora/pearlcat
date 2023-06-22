@@ -26,7 +26,7 @@ public static partial class Hooks
         public Dictionary<int, List<string>> RawInventoryData = new();
         public Dictionary<int, int> ActiveObjectIndex = new();
 
-        public int MaxStorageCount = 12; 
+        public int MaxStorageCount = 11; 
 
         public bool MetPebbles = false;
         public bool MetMoon = false;

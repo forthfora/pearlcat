@@ -95,6 +95,9 @@
         "oa_min_speed": 8.0, 
         "oa_max_speed": 20.0,
 
-        "daze_duration" : 40
+        "daze_duration" : 40,
+
+        "oa_min_time": 480,
+        "oa_max_time": 1600
     }
 }

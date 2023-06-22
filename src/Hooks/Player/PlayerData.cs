@@ -16,6 +16,28 @@ public static partial class Hooks
     public static readonly PlayerFeature<Vector2> ActiveObjectOffset = new("active_object_offset", Vector2Feature);
     public static readonly PlayerFeature<int> DazeDuration = FeatureTypes.PlayerInt("daze_duration");
 
+    public static readonly PlayerFeature<int> MinOATime = FeatureTypes.PlayerInt("oa_min_time");
+    public static readonly PlayerFeature<int> MaxOATime = FeatureTypes.PlayerInt("oa_max_time");
+
+
+    // OA MoveToTargetPos
+    // Slow Down
+    public static readonly PlayerFeature<float> MinFricSpeed = FeatureTypes.PlayerFloat("oa_min_fric_speed");
+    public static readonly PlayerFeature<float> MaxFricSpeed = FeatureTypes.PlayerFloat("oa_max_fric_speed");
+    public static readonly PlayerFeature<float> MinFric = FeatureTypes.PlayerFloat("oa_min_fric_mult");
+    public static readonly PlayerFeature<float> MaxFric = FeatureTypes.PlayerFloat("oa_max_fric_mult");
+
+    // Move to Target
+    public static readonly PlayerFeature<float> CutoffDist = FeatureTypes.PlayerFloat("oa_cutoff_dist");
+    public static readonly PlayerFeature<float> CutoffMinSpeed = FeatureTypes.PlayerFloat("oa_cutoff_min_speed");
+    public static readonly PlayerFeature<float> CutoffMaxSpeed = FeatureTypes.PlayerFloat("oa_cutoff_max_speed");
+    public static readonly PlayerFeature<float> DazeMaxSpeed = FeatureTypes.PlayerFloat("oa_daze_max_speed");
+
+    public static readonly PlayerFeature<float> MaxDist = FeatureTypes.PlayerFloat("oa_max_dist");
+    public static readonly PlayerFeature<float> MinSpeed = FeatureTypes.PlayerFloat("oa_min_speed");
+    public static readonly PlayerFeature<float> MaxSpeed = FeatureTypes.PlayerFloat("oa_max_speed");
+
+
 
     public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.General.Pearlcat;
 
