@@ -21,7 +21,6 @@ public class PearlcatModule
         baseStats = normalStats;
 
         InitSounds(self);
-        InitColors(self);
     }
 
     public SlugcatStats baseStats;
@@ -135,40 +134,14 @@ public class PearlcatModule
 
     public Color ActiveColor => ActiveObject == null ? BodyColor : ActiveObject.GetObjectColor();
 
-    public void InitColors(Player player)
+    public void InitColors(PlayerGraphics graphicsModule)
     {
-        if (!SlugBaseCharacter.TryGet(Enums.General.Pearlcat, out var character)) return;
+        BodyColor = PlayerColor.Body.GetColor(graphicsModule) ?? Color.black;
+        EyesColor = PlayerColor.Eyes.GetColor(graphicsModule) ?? Color.white;
 
-        if (!character.Features.TryGet(PlayerFeatures.CustomColors, out var customColors)) return;
-
-        int playerNumber = !player.room.game.IsArenaSession && player.playerState.playerNumber == 0 ? -1 : player.playerState.playerNumber;
-
-        // Default Colours
-        SetColor(customColors, playerNumber, ref BodyColor, "Body");
-        SetColor(customColors, playerNumber, ref EyesColor, "Eyes");
-
-        SetColor(customColors, playerNumber, ref AccentColor, "Accent");
-        SetColor(customColors, playerNumber, ref CloakColor, "Cloak");
-
-        // Custom Colours
-        if (PlayerGraphics.customColors != null && !player.IsJollyPlayer)
-        {
-            BodyColor = PlayerGraphics.CustomColorSafety(0);
-            EyesColor = PlayerGraphics.CustomColorSafety(1);
-
-            AccentColor = PlayerGraphics.CustomColorSafety(2);
-            CloakColor = PlayerGraphics.CustomColorSafety(3);
-        }
+        AccentColor = new PlayerColor("Accent").GetColor(graphicsModule) ?? Color.white;
+        CloakColor = new PlayerColor("Cloak").GetColor(graphicsModule) ?? Color.red;
     }
-
-    public void SetColor(ColorSlot[] customColors, int playerNumber, ref Color color, string name)
-    {
-        ColorSlot customColor = customColors.Where(customColor => customColor.Name == name).FirstOrDefault();
-        if (customColor == null) return;
-
-        color = customColor.GetColor(playerNumber);
-    }
-
 
 
     public static void MapAlphaToColor(Texture2D texture, float alphaFrom, Color colorTo)

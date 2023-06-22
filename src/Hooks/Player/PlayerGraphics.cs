@@ -1,4 +1,5 @@
 ﻿using RWCustom;
+using SlugBase.DataTypes;
 using SlugBase.Features;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,8 @@ public static partial class Hooks
         orig(self, sLeaser, rCam);
 
         if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+
+        playerModule.InitColors(self);
 
 
         playerModule.firstSprite = sLeaser.sprites.Length;
