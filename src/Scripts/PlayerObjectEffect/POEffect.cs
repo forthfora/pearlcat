@@ -23,28 +23,28 @@ public struct POEffect
 
 
     // Slugcat Stats
-    public float lungsFac;
-    public float throwingSkill;
-    public float runSpeedFac;
+    public float lungsFac = 0.0f;
+    public float throwingSkill = 0.0f;
+    public float runSpeedFac = 0.0f;
 
-    public float corridorClimbSpeedFac;
-    public float poleClimbSpeedFac;
-    public float bodyWeightFac;
+    public float corridorClimbSpeedFac = 0.0f;
+    public float poleClimbSpeedFac = 0.0f;
+    public float bodyWeightFac = 0.0f;
 
-    public float loudnessFac;
-    public float generalVisibilityBonus;
-    public float visualStealthInSneakMode;
+    public float loudnessFac = 0.0f;
+    public float generalVisibilityBonus = 0.0f;
+    public float visualStealthInSneakMode = 0.0f;
 
     // Non Standard
-    public float jumpHeightFac;
-    public float slideSpeedFac; // Includes pounce distance
-    public float rollSpeedFac;
+    public float jumpHeightFac = 0.0f;
+    public float slideSpeedFac = 0.0f; // Includes pounce distance
+    public float rollSpeedFac = 0.0f;
 
-    public float survivalFac;
+    public float survivalFac = 0.0f;
 
-    public float maulFac;
-    public float spearPullFac;
-    public float backSpearFac;
+    public float maulFac = 0.0f;
+    public float spearPullFac = 0.0f;
+    public float backSpearFac = 0.0f;
 
     public string? threatMusic;
 }

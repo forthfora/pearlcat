@@ -33,6 +33,10 @@ public static partial class Hooks
             combinedEffect.loudnessFac += effect.loudnessFac * mult;
             combinedEffect.generalVisibilityBonus += effect.generalVisibilityBonus * mult;
             combinedEffect.visualStealthInSneakMode += effect.visualStealthInSneakMode * mult;
+
+            combinedEffect.maulFac += effect.maulFac * mult;
+            combinedEffect.spearPullFac += effect.spearPullFac * mult;
+            combinedEffect.backSpearFac += effect.backSpearFac * mult;
         }
 
         playerModule.currentPOEffect = combinedEffect;
@@ -55,6 +59,8 @@ public static partial class Hooks
         stats.loudnessFac = baseStats.loudnessFac + effect.loudnessFac;
         stats.generalVisibilityBonus = baseStats.generalVisibilityBonus + effect.generalVisibilityBonus;
         stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.visualStealthInSneakMode;
+
+        playerModule.canMaul = effect.maulFac >= 1.0;
     }
 
 }

@@ -28,18 +28,21 @@ public class PearlcatModule
     public readonly SlugcatStats normalStats = new(Enums.General.Pearlcat, false);
     public readonly SlugcatStats malnourishedStats = new(Enums.General.Pearlcat, true);
 
-    public int firstSprite;
-    public int lastSprite;
+    public int firstSprite = 0;
+    public int lastSprite = 0;
 
-    public int sleeveLSprite;
-    public int sleeveRSprite;
-    public int feetSprite;
+    public int sleeveLSprite = 0;
+    public int sleeveRSprite = 0;
+    public int feetSprite = 0;
 
     public bool canSwallowOrRegurgitate = true;
     public Vector2 prevHeadRotation = Vector2.zero;
 
-    public LightSource? activeObjectGlow;
+    public LightSource? activeObjectGlow = null;
 
+    public bool canMaul = false;
+    public bool canSpearPull = false;
+    public bool canBackSpear = false;
 
     public List<AbstractPhysicalObject> abstractInventory = new();
     public List<AbstractPhysicalObject> postDeathInventory = new();
@@ -62,7 +65,7 @@ public class PearlcatModule
 
 
 
-    public ObjectAnimation? currentObjectAnimation;
+    public ObjectAnimation? currentObjectAnimation = null;
 
     public void PickObjectAnimation(Player player) => currentObjectAnimation = GetObjectAnimation(player);
 
