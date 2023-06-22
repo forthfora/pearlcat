@@ -158,8 +158,20 @@ public static partial class Hooks
 
         playerModule.cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
 
-
         OrderAndColorSprites(self, sLeaser, rCam, playerModule);
+
+        UpdateLightSource(self, playerModule);
+    }
+
+    public static void UpdateLightSource(PlayerGraphics self, PearlcatModule playerModule)
+    {
+        if (self.lightSource == null) return;
+
+        if (self.player.room == null) return;
+
+        self.lightSource.setAlpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, 1.0f);
+        self.lightSource.color = playerModule.ActiveColor * Custom.HSL2RGB(1.0f, 0.2f, 3.0f);
+        self.lightSource.colorAlpha = 0.7f;
     }
 
     public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndexToCopy, string toCopy, string atlasName, string customName, int spriteIndex)
@@ -262,10 +274,7 @@ public static partial class Hooks
         sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
         sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
 
-        earLSprite.MoveBehindOtherNode(headSprite);
         earLSprite.MoveBehindOtherNode(bodySprite);
-
-        earRSprite.MoveBehindOtherNode(headSprite);
         earRSprite.MoveBehindOtherNode(bodySprite);
 
         tailSprite.MoveBehindOtherNode(bodySprite);
@@ -275,11 +284,22 @@ public static partial class Hooks
 
         feetSprite.MoveBehindOtherNode(cloakSprite);
         feetSprite.MoveInFrontOfOtherNode(legsSprite);
-        earLSprite.MoveBehindOtherNode(headSprite);
-        earRSprite.MoveBehindOtherNode(headSprite);
 
 
-        if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
+        var upsideDown = self.head.pos.y < self.legs.pos.y || self.player.bodyMode == Player.BodyModeIndex.ZeroG;
+        
+        if (upsideDown)
+        {
+            earLSprite.MoveInFrontOfOtherNode(headSprite);
+            earRSprite.MoveInFrontOfOtherNode(headSprite);
+        }
+        else
+        {
+            earLSprite.MoveBehindOtherNode(headSprite);
+            earRSprite.MoveBehindOtherNode(headSprite);
+        }
+
+        if (self.player.bodyMode == Player.BodyModeIndex.Crawl || upsideDown)
         {
             earLSprite.MoveInFrontOfOtherNode(cloakSprite);
             earRSprite.MoveInFrontOfOtherNode(cloakSprite);

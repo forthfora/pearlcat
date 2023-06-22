@@ -28,7 +28,7 @@ public static partial class Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError(e);
+            Plugin.Logger.LogError("Player Hooks Error:\n" + e);
         }
     }
 
@@ -42,6 +42,7 @@ public static partial class Hooks
 
         playerModule.baseStats = self.Malnourished ? playerModule.malnourishedStats : playerModule.normalStats;
 
+        // Warp Fix
         if (self.room != null && JustWarpedData.TryGetValue(self.room.game, out var justWarped) && justWarped.Value)
         {
             self.AbstractizeInventory();

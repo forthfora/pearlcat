@@ -1,5 +1,11 @@
-﻿using Music;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using Music;
+using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -8,7 +14,45 @@ public partial class Hooks
     public static void ApplySoundHooks()
     {
         On.Music.MusicPlayer.Update += MusicPlayer_Update;
+        On.Music.MusicPlayer.NewRegion += MusicPlayer_NewRegion;
+
         On.Room.PlaySound_SoundID_BodyChunk_bool_float_float_bool += Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool;
+
+        try
+        {
+            IL.Music.ProceduralMusic.Reset += ProceduralMusic_Reset;
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("Sound Hooks Error:\n" + e);
+        }
+    }
+
+    private static void ProceduralMusic_Reset(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchCallOrCallvirt<ProceduralMusic.ProceduralMusicInstruction.Track>(nameof(ProceduralMusic.ProceduralMusicInstruction.Track.AllowedInSubRegion))
+        );
+
+
+        c.Emit(OpCodes.Ldloc_2);
+        c.Emit(OpCodes.Ldloc, 4);
+        c.Emit(OpCodes.Ldarg_0);
+        c.Emit(OpCodes.Ldfld, typeof(ProceduralMusic).GetField(nameof(ProceduralMusic.musicPlayer)));
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Func<int, int, MusicPlayer, ProceduralMusic, bool>>((j, k, musicPlayer, self) =>
+        {
+            var track = self.instruction.layers[j].tracks[k];
+            var module = musicPlayer.GetModule();
+
+            return module.subregion != null && track.subRegions != null && track.subRegions.Contains(module.subregion);
+        });
+
+        c.Emit(OpCodes.Or);
+
+        Plugin.Logger.LogWarning(c.Context);
     }
 
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool(On.Room.orig_PlaySound_SoundID_BodyChunk_bool_float_float_bool orig,
@@ -23,9 +67,46 @@ public partial class Hooks
         return orig(self, soundId, chunk, loop, vol, pitch, randomStartPosition);
     }
 
-    // Fix this or the game runs out of memory and explodes
+
+    public static readonly ConditionalWeakTable<MusicPlayer, MusicPlayerModule> MusicPlayerData = new();
+
+    public static MusicPlayerModule GetModule(this MusicPlayer self)
+    {
+        if (!MusicPlayerData.TryGetValue(self, out MusicPlayerModule module))
+        {
+            module = new();
+            MusicPlayerData.Add(self, module);
+        }
+
+        return module;
+    }
+
+
+    // Fix subregion specific tracks
+    private static void MusicPlayer_NewRegion(On.Music.MusicPlayer.orig_NewRegion orig, MusicPlayer self, string newRegion)
+    {
+        var module = self.GetModule();
+
+        module.subregion = null;
+
+        if (module.isPearlPlaying)
+        {
+            module.subregion = newRegion switch
+            {
+                "CC" => Random.value > 0.5f ? "Chimney Canopy" : "The Gutter",
+                _ => null,
+            };
+        }
+
+        module.isPearlPlaying = false;
+
+        orig(self, newRegion);
+    }
+
     private static void MusicPlayer_Update(On.Music.MusicPlayer.orig_Update orig, MusicPlayer self)
     {
+        var module = self.GetModule();
+
         if (self.manager.currentMainLoop is RainWorldGame game)
         {
             bool hasThreatMusicPearl = false;
@@ -43,8 +124,11 @@ public partial class Hooks
                 if (effect.threatMusic != null && (PearlcatOptions.pearlThreatMusic.Value || effect.threatMusic == "AS"))
                 {
                     if (self.proceduralMusic == null || (self.nextProcedural != effect.threatMusic && self.proceduralMusic.instruction.name != effect.threatMusic))
-                       self.NewRegion(effect.threatMusic);
-                     
+                    {
+                        module.isPearlPlaying = true;
+                        self.NewRegion(effect.threatMusic);
+                    }
+
                     hasThreatMusicPearl = true;
                     break;
                 }
