@@ -227,7 +227,7 @@ public static partial class Hooks
 
     public static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
-        if (IsPlayerObject(obj))
+        if (obj.abstractPhysicalObject.IsPlayerObject())
             return Player.ObjectGrabability.CantGrab;
 
         return orig(self, obj);

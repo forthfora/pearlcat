@@ -14,7 +14,7 @@ public class PearlcatOptions : OptionInterface
     #region Options
 
     public static Configurable<bool> pearlThreatMusic = instance.config.Bind("pearlThreatMusic", false, new ConfigurableInfo(
-        "When checked, most pearls (when active) will change the threat theme for all regions to the theme of the region they are from.", null, "",
+        "When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.", null, "",
         "Pearl Threat Music"));
 
     #endregion

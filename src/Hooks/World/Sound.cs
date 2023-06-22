@@ -42,6 +42,7 @@ public partial class Hooks
         c.Emit(OpCodes.Ldarg_0);
         c.Emit(OpCodes.Ldfld, typeof(ProceduralMusic).GetField(nameof(ProceduralMusic.musicPlayer)));
         c.Emit(OpCodes.Ldarg_0);
+        
         c.EmitDelegate<Func<int, int, MusicPlayer, ProceduralMusic, bool>>((j, k, musicPlayer, self) =>
         {
             var track = self.instruction.layers[j].tracks[k];
@@ -58,7 +59,7 @@ public partial class Hooks
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool(On.Room.orig_PlaySound_SoundID_BodyChunk_bool_float_float_bool orig,
         Room self, SoundID soundId, BodyChunk chunk, bool loop, float vol, float pitch, bool randomStartPosition)
     {
-        if (chunk.owner != null && IsPlayerObject(chunk.owner))
+        if (chunk.owner != null && chunk.owner.abstractPhysicalObject.IsPlayerObject())
         {
             if (soundId == SoundID.SS_AI_Marble_Hit_Floor && PlayerObjectData.TryGetValue(chunk.owner, out var playerObjectModule) && !playerObjectModule.playCollisionSound)
                 vol = 0.0f;
@@ -118,6 +119,7 @@ public partial class Hooks
                 if (!player.TryGetPearlcatModule(out var playerModule)) continue;
 
                 if (playerModule.ActiveObject == null) continue;
+
 
                 var effect = playerModule.ActiveObject.GetPOEffect();
 

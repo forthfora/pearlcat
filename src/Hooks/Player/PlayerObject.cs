@@ -110,12 +110,12 @@ public static partial class Hooks
     }
 
 
-    public static bool IsPlayerObject(this PhysicalObject targetObject)
+    public static bool IsPlayerObject(this AbstractPhysicalObject targetObject)
     {
-        var playerData = GetAllPlayerData(targetObject.abstractPhysicalObject.world.game);
+        var playerData = GetAllPlayerData(targetObject.world.game);
 
         foreach (var playerModule in playerData)
-            if (playerModule.abstractInventory.Any(abstractObject => abstractObject.realizedObject == targetObject))
+            if (playerModule.abstractInventory.Any(abstractObject => abstractObject == targetObject))
                 return true;
 
         return false;

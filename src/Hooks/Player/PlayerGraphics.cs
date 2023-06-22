@@ -170,8 +170,8 @@ public static partial class Hooks
         if (self.player.room == null) return;
 
         self.lightSource.setAlpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, 1.0f);
-        self.lightSource.color = playerModule.ActiveColor * Custom.HSL2RGB(1.0f, 0.2f, 3.0f);
-        self.lightSource.colorAlpha = 0.7f;
+        self.lightSource.color = playerModule.ActiveColor * Custom.HSL2RGB(1.0f, 0.1f, 5.0f);
+        self.lightSource.colorAlpha = 0.1f;
     }
 
     public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndexToCopy, string toCopy, string atlasName, string customName, int spriteIndex)
@@ -759,7 +759,7 @@ public static partial class Hooks
     // Stop player looking at their balls (lmao)
     public static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
     {
-        if (obj != null && IsPlayerObject(obj))
+        if (obj != null && obj.abstractPhysicalObject.IsPlayerObject())
             return 0.0f;
 
         return orig(self, obj);
