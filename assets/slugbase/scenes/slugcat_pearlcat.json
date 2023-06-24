@@ -2,46 +2,11 @@
   "id": "Slugcat_Pearlcat",
   "scene_folder": "slugbase/scenes/slugcat_pearlcat",
   "images": [
-    {"name": "flat", "pos": [570, 160], "depth": -1.0, "flatmode": true},
-
-    {"name": "background", "pos": [570, 160], "depth":  5.0, "shader": "Basic"},
-    
-    {"name": "toppole", "pos": [570, 160], "depth":  3.7, "shader": "Basic"},
-    {"name": "toppoles", "pos": [570, 160], "depth":  3.5, "shader": "Basic"},
-    {"name": "frontbottompole", "pos": [570, 160], "depth":  3.2, "shader": "Basic"},
-    
-    {"name": "pearl1", "pos": [610, 180], "depth":  1.7, "shader": "Basic"},
-    {"name": "pearl2", "pos": [510, 230], "depth":  1.1, "shader": "Basic"},
-    
-    {"name": "midpole", "pos": [570, 160], "depth":  2.5, "shader": "Basic"},
-
-    
-    {"name": "backarm", "pos": [572, 160], "depth":  2.5, "shader": "Basic"},
-    {"name": "backcloak", "pos": [572, 160], "depth":  2.4, "shader": "Basic"},
-    {"name": "backleg", "pos": [570, 160], "depth":  2.7, "shader": "Basic"},
-    
-    {"name": "tail", "pos": [570, 160], "depth":  2.3, "shader": "Basic"},
-    {"name": "tailcloak", "pos": [570, 160], "depth":  2.3, "shader": "Basic"},
-    
-    {"name": "activepearl", "pos": [570, 160], "depth":  1.8, "shader": "Basic"},
-    {"name": "activepearl_glow", "pos": [570, 160], "depth":  1.8, "shader": "Basic"},
-    
-    {"name": "backear", "pos": [570, 160], "depth":  2.4, "shader": "Basic"},
-    {"name": "head", "pos": [570, 160], "depth":  2.2, "shader": "Basic"},
-
-    {"name": "topcloak", "pos": [570, 160], "depth":  2.1, "shader": "Basic"},
-    
-    {"name": "frontleg", "pos": [570, 160], "depth":  2.2, "shader": "Basic"},
-    {"name": "bottomcloak", "pos": [570, 160], "depth":  2.1, "shader": "Basic"},
-    {"name": "frontarm", "pos": [570, 160], "depth":  2.0, "shader": "Basic"},
-
-    
-    
-    {"name": "pearl3", "pos": [570, 160], "depth":  1.5, "shader": "Basic"},
-    {"name": "pearl4", "pos": [570, 160], "depth":  1.2, "shader": "Basic"},
-    
-
-    {"name": "grass", "pos": [570, 150], "depth":  1.5, "shader": "Basic"}
+    {"name": "flat", "pos": [430, 130], "depth": -1.0, "flatmode": true},
+    {"name": "pearl1", "pos": [600, 300], "depth": -1.0, "flatmode": true},
+    {"name": "pearl2", "pos": [800, 400], "depth": -1.0, "flatmode": true},
+    {"name": "pearl3", "pos": [500, 600], "depth": -1.0, "flatmode": true},
+    {"name": "pearl4", "pos": [650, 350], "depth": -1.0, "flatmode": true}
   ],
   
   "idle_depths": [2.3, 2.9],

@@ -66,10 +66,17 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
     public void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
     {
-        foreach (FSprite sprite in sLeaser.sprites)
+        sLeaser.RemoveAllSpritesFromContainer();
+
+        for (int i = 0; i < sLeaser.sprites.Length; i++)
         {
-            sprite.RemoveFromContainer();
-            rCam.ReturnFContainer("Midground").AddChild(sprite);
+            FSprite sprite = sLeaser.sprites[i];
+            
+            if (i == symbolSpriteSpear || i == symbolSpriteRage || i == symbolSpriteRevive || i == symbolSpriteShield || i == symbolSpriteAgility)
+                rCam.ReturnFContainer("Midground").AddChild(sprite);
+
+            else
+                rCam.ReturnFContainer("Background").AddChild(sprite);
         }
     }
 

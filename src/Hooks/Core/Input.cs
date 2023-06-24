@@ -22,7 +22,7 @@ public static partial class Hooks
 
     public static bool IsAbilityKeybindPressed(this Player player)
     {
-        if (!PearlcatOptions.usesCustomDashKeybind.Value)
+        if (!PearlcatOptions.usesCustomAbilityKeybind.Value)
             return player.input[0].jmp && player.input[0].pckp;
 
         return player.playerState.playerNumber switch

@@ -110,6 +110,16 @@ public static partial class Hooks
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
         IDrawable_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
+
+        // TODO: SWAP CONTAINERS
+        //if (!PlayerObjectData.TryGetValue(self, out var _))
+        //{
+        //    self.AddToContainer(sLeaser, rCam, null);
+        //}
+        //else
+        //{
+        //    self.AddToContainer(sLeaser, rCam, rCam.ReturnFContainer("Background"));
+        //}
     }
 
     public static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)

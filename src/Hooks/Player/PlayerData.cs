@@ -41,6 +41,9 @@ public static partial class Hooks
 
     public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.General.Pearlcat;
 
+    public static bool IsFirstPearlcat(this Player player) => player.playerState.playerNumber == GetFirstPearlcatIndex(player.room?.game);
+
+
     // Only pearlcats get this module
     public static bool TryGetPearlcatModule(this Player player, out PearlcatModule playerModule)
     {
@@ -83,6 +86,24 @@ public static partial class Hooks
 
         return allPlayerData;
     }
+
+    public static int GetFirstPearlcatIndex(this RainWorldGame? game)
+    {
+        if (game == null)
+            return -1;
+
+        for (int i = 0; i < game.Players.Count; i++)
+        {
+            AbstractCreature? abstractCreature = game.Players[i];
+            if (abstractCreature.realizedCreature is not Player player) continue;
+
+            if (player.IsPearlcat())
+                return i; 
+        }
+
+        return -1;
+    }
+
 
 
     // Feature Factories

@@ -21,7 +21,15 @@ public class PearlcatOptions : OptionInterface
 
     #region Keybind Options
 
-    public static Configurable<KeyCode> swapKeybindKeyboard = instance.config.Bind("swapKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
+    public static Configurable<KeyCode> swapLeftKeybind = instance.config.Bind("swapLeftKeybind", KeyCode.A, new ConfigurableInfo(
+        "Keybind to swap to the stored pearl to the left. Limited to Player 1.", null, "", "Swap Left"));
+
+    public static Configurable<KeyCode> swapRightKeybind = instance.config.Bind("swapRightKeybind", KeyCode.D, new ConfigurableInfo(
+        "Keybind to swap to the stored pearl to the right. Limited to Player 1.", null, "", "Swap Right"));
+
+
+
+    public static Configurable<KeyCode> swapKeybindKeyboard = instance.config.Bind("swapKeybindKeyboard", KeyCode.S, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
     public static Configurable<KeyCode> swapKeybindPlayer1 = instance.config.Bind("swapKeybindPlayer1", KeyCode.Joystick1Button4, new ConfigurableInfo(
@@ -38,7 +46,7 @@ public class PearlcatOptions : OptionInterface
 
 
 
-    public static Configurable<bool> usesCustomDashKeybind = instance.config.Bind("usesCustomDashKeybind", false, new ConfigurableInfo(
+    public static Configurable<bool> usesCustomAbilityKeybind = instance.config.Bind("usesCustomAbilityKeybind", false, new ConfigurableInfo(
         "Enables custom keybinds below, as opposed to the default (JUMP + PICKUP).",
         null, "", "Custom Keybind?"));
 
@@ -63,7 +71,7 @@ public class PearlcatOptions : OptionInterface
         "Enables custom keybinds below, as opposed to the default (UP + PICKUP).",
         null, "", "Custom Keybind?"));
 
-    public static Configurable<KeyCode> storeKeybindKeyboard = instance.config.Bind("storeKeybindKeyboard", KeyCode.LeftAlt, new ConfigurableInfo(
+    public static Configurable<KeyCode> storeKeybindKeyboard = instance.config.Bind("storeKeybindKeyboard", KeyCode.LeftControl, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
     public static Configurable<KeyCode> storeKeybindPlayer1 = instance.config.Bind("storeKeybindPlayer1", KeyCode.Joystick1Button4, new ConfigurableInfo(
@@ -134,7 +142,7 @@ public class PearlcatOptions : OptionInterface
 
         AddTab(ref tabIndex, "Ability Input");
 
-        AddCheckBox(usesCustomDashKeybind, (string)usesCustomDashKeybind.info.Tags[0]);
+        AddCheckBox(usesCustomAbilityKeybind, (string)usesCustomAbilityKeybind.info.Tags[0]);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddNewLine(3);
@@ -160,23 +168,16 @@ public class PearlcatOptions : OptionInterface
         #region Swap Input
         AddTab(ref tabIndex, "Swap Input");
 
-        AddNewLine(2);
+        DrawKeybinders(swapLeftKeybind, ref Tabs[tabIndex]);
+        DrawKeybinders(swapRightKeybind, ref Tabs[tabIndex]);
 
-        DrawKeybinders(swapKeybindKeyboard, ref Tabs[tabIndex]);
         AddNewLine(1);
 
         DrawKeybinders(swapKeybindPlayer1, ref Tabs[tabIndex]);
-        AddNewLine(1);
-
         DrawKeybinders(swapKeybindPlayer2, ref Tabs[tabIndex]);
-        AddNewLine(1);
-
         DrawKeybinders(swapKeybindPlayer3, ref Tabs[tabIndex]);
-        AddNewLine(1);
-
         DrawKeybinders(swapKeybindPlayer4, ref Tabs[tabIndex]);
 
-        AddNewLine(5);
         DrawBox(ref Tabs[tabIndex]);
         #endregion
 

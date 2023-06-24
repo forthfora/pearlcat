@@ -169,9 +169,21 @@ public static partial class Hooks
 
         if (self.player.room == null) return;
 
-        self.lightSource.setAlpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, 1.0f);
-        self.lightSource.color = playerModule.ActiveColor * Custom.HSL2RGB(1.0f, 0.1f, 5.0f);
-        self.lightSource.colorAlpha = 0.1f;
+        var maxAlpha = 1.0f;
+
+        if (playerModule.ActiveObject == null)
+        {
+            self.lightSource.colorAlpha = 0.05f;
+            maxAlpha = 0.6f;
+        }
+        else
+        {
+            self.lightSource.pos = playerModule.ActiveObject.realizedObject.firstChunk.pos;
+            self.lightSource.colorAlpha = 0.05f;
+        }
+
+        self.lightSource.color = playerModule.ActiveColor * 1.5f;
+        self.lightSource.alpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, maxAlpha);
     }
 
     public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndexToCopy, string toCopy, string atlasName, string customName, int spriteIndex)

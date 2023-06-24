@@ -43,6 +43,15 @@ public class PearlcatModule
     public bool canSpearPull = false;
     public bool canBackSpear = false;
 
+    public bool wasSwapLeftInput = false;
+    public bool wasSwapRightInput = false;
+    public bool wasSwapped = false;
+    public bool wasStoreInput = false;
+    public bool wasAbilityInput = false;
+
+    public Player.InputPackage unblockedInput;
+    public bool blockInput = false;
+
     public List<AbstractPhysicalObject> abstractInventory = new();
     public List<AbstractPhysicalObject> postDeathInventory = new();
 
@@ -65,7 +74,6 @@ public class PearlcatModule
     public int objectAnimationStacker = 0;
     public int objectAnimationDuration = 0;
 
-
     public ObjectAnimation? currentObjectAnimation = null;
 
     public void PickObjectAnimation(Player player)
@@ -86,7 +94,7 @@ public class PearlcatModule
 
         List<ObjectAnimation> animationPool = new()
         {
-            //new BasicOrbitOA(player),
+            new BasicOrbitOA(player),
             new MultiOrbitOA(player),
         };
 
@@ -149,14 +157,14 @@ public class PearlcatModule
     public Color AccentColor;
     public Color CloakColor;
 
-    public Color ActiveColor => ActiveObject == null ? BodyColor : ActiveObject.GetObjectColor();
+    public Color ActiveColor => ActiveObject == null ? Color.white : ActiveObject.GetObjectColor();
 
     public void InitColors(PlayerGraphics graphicsModule)
     {
-        BodyColor = PlayerColor.Body.GetColor(graphicsModule) ?? Color.black;
-        EyesColor = PlayerColor.Eyes.GetColor(graphicsModule) ?? Color.white;
+        BodyColor = PlayerColor.Body.GetColor(graphicsModule) ?? Color.white;
+        EyesColor = PlayerColor.Eyes.GetColor(graphicsModule) ?? Color.magenta;
 
-        AccentColor = new PlayerColor("Accent").GetColor(graphicsModule) ?? Color.white;
+        AccentColor = new PlayerColor("Accent").GetColor(graphicsModule) ?? Color.magenta;
         CloakColor = new PlayerColor("Cloak").GetColor(graphicsModule) ?? Color.red;
     }
 

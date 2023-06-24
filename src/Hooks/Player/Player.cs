@@ -14,6 +14,7 @@ public static partial class Hooks
     public static void ApplyPlayerHooks()
     {
         On.Player.Update += Player_Update;
+        On.Player.checkInput += Player_checkInput;
 
         On.Player.GrabUpdate += Player_GrabUpdate;
         On.Player.Grabability += Player_Grabability;
@@ -32,13 +33,13 @@ public static partial class Hooks
         }
     }
 
-
-
     public static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
         orig(self, eu);
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        CheckInput(self, playerModule);
 
         playerModule.baseStats = self.Malnourished ? playerModule.malnourishedStats : playerModule.normalStats;
 
@@ -58,16 +59,86 @@ public static partial class Hooks
         UpdateCombinedPOEffect(self, playerModule);
         ApplyCombinedPOEffect(self, playerModule);
 
-        CheckInput(self, playerModule);
     }
 
 
     public static void CheckInput(Player self, PearlcatModule playerModule)
     {
-        var numPressed = self.GetNumberPressed();
+        var input = self.input[0];
+        var unblockedInput = playerModule.unblockedInput;
+
+        bool swapLeftInput = Input.GetKey(PearlcatOptions.swapLeftKeybind.Value) && self.IsFirstPearlcat();
+        bool swapRightInput = Input.GetKey(PearlcatOptions.swapRightKeybind.Value) && self.IsFirstPearlcat();
+
+        bool swapInput = self.IsSwapKeybindPressed();
+        bool storeInput = self.IsStoreKeybindPressed();
+        bool abilityInput = self.IsAbilityKeybindPressed();
+        
+        int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
+
+
+        playerModule.blockInput = false;
+
+        if (Mathf.Abs(unblockedInput.x) <= 0.5f)
+            playerModule.wasSwapped = false;
+
+        if (swapInput)
+            playerModule.blockInput = true;
 
         if (numPressed >= 0)
             self.ActivateObjectInStorage(numPressed - 1);
+
+
+        if (swapLeftInput && !playerModule.wasSwapLeftInput)
+        {
+            self.SelectPreviousObject();
+        }
+        else if (swapRightInput && !playerModule.wasSwapRightInput)
+        {
+            self.SelectNextObject();
+        }
+        else if (swapInput && !playerModule.wasSwapped)
+        {
+            if (unblockedInput.x < -0.5f)
+            {
+                self.SelectPreviousObject();
+                playerModule.wasSwapped = true;
+            }
+            else if (unblockedInput.x > 0.5f)
+            {
+                self.SelectNextObject();
+                playerModule.wasSwapped = true;
+            }
+        }
+
+
+        playerModule.wasSwapLeftInput = swapLeftInput;
+        playerModule.wasSwapRightInput = swapRightInput;
+        playerModule.wasStoreInput = storeInput;
+        playerModule.wasAbilityInput = abilityInput;
+    }
+
+    private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
+    {
+        orig(self);
+        
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        
+        var input = self.input[0];
+        playerModule.unblockedInput = input;
+
+        if (playerModule.blockInput)
+        {
+            input.x = 0;
+            input.y = 0;
+            input.analogueDir *= 0f;
+
+            input.jmp = false;
+            input.thrw = false;
+            input.pckp = false;
+        }
+
+        self.input[0] = input;
     }
 
 
