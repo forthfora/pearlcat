@@ -98,6 +98,10 @@
         "daze_duration" : 40,
 
         "oa_min_time": 480,
-        "oa_max_time": 1600
+        "oa_max_time": 1600,
+
+        "inventory_ui_offset": [0, 90],
+
+        "swap_repeat_interval": 5
     }
 }

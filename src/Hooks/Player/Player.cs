@@ -59,16 +59,33 @@ public static partial class Hooks
         UpdateCombinedPOEffect(self, playerModule);
         ApplyCombinedPOEffect(self, playerModule);
 
+        UpdateHUD(self, playerModule);
+
+        if (Input.GetKeyDown(KeyCode.G))
+            self.RetrieveActiveObject();
     }
 
+    private static void UpdateHUD(Player self, PearlcatModule playerModule)
+    {
+        if (playerModule.hudFadeStacker > 0)
+        {
+            playerModule.hudFadeStacker--;
+            playerModule.hudFade = Mathf.Lerp(playerModule.hudFade, 1.0f, 0.1f);
+        }
+        else
+        {
+            playerModule.hudFadeStacker = 0;
+            playerModule.hudFade = Mathf.Lerp(playerModule.hudFade, 0.0f, 0.05f);
+        }
+    }
 
     public static void CheckInput(Player self, PearlcatModule playerModule)
     {
         var input = self.input[0];
         var unblockedInput = playerModule.unblockedInput;
 
-        bool swapLeftInput = Input.GetKey(PearlcatOptions.swapLeftKeybind.Value) && self.IsFirstPearlcat();
-        bool swapRightInput = Input.GetKey(PearlcatOptions.swapRightKeybind.Value) && self.IsFirstPearlcat();
+        bool swapLeftInput = (Input.GetKey(PearlcatOptions.swapLeftKeybind.Value) || Input.GetAxis("DschockHorizontalRight") < -0.5f) && self.IsFirstPearlcat();
+        bool swapRightInput = (Input.GetKey(PearlcatOptions.swapRightKeybind.Value) || Input.GetAxis("DschockHorizontalRight") > 0.5f) && self.IsFirstPearlcat();
 
         bool swapInput = self.IsSwapKeybindPressed();
         bool storeInput = self.IsStoreKeybindPressed();
@@ -79,15 +96,32 @@ public static partial class Hooks
 
         playerModule.blockInput = false;
 
-        if (Mathf.Abs(unblockedInput.x) <= 0.5f)
-            playerModule.wasSwapped = false;
-
-        if (swapInput)
-            playerModule.blockInput = true;
 
         if (numPressed >= 0)
             self.ActivateObjectInStorage(numPressed - 1);
 
+        // Should probably clean this up sometime
+        if (SwapRepeatInterval.TryGet(self, out var swapInterval))
+        {
+            // || playerModule.swapIntervalStacker > swapInterval
+            if (Mathf.Abs(unblockedInput.x) <= 0.5f)
+            {
+                playerModule.wasSwapped = false;
+                playerModule.swapIntervalStacker = 0;
+            }
+
+            if (swapInput)
+            {
+                playerModule.blockInput = true;
+
+                if (playerModule.swapIntervalStacker <= swapInterval)
+                    playerModule.swapIntervalStacker++;
+            }
+            else
+            {
+                playerModule.swapIntervalStacker = 0;
+            }
+        }
 
         if (swapLeftInput && !playerModule.wasSwapLeftInput)
         {
@@ -158,7 +192,7 @@ public static partial class Hooks
                 if (item.realizedObject.grabbedBy.Count > 0) continue;
 
 
-                if (ObjectAddon.ObjectsWithAddon.TryGetValue(item.realizedObject, out var objectAddon))
+                if (ObjectAddon.ObjectsWithAddon.TryGetValue(item.realizedObject, out var _))
                     ObjectAddon.ObjectsWithAddon.Remove(item.realizedObject);
 
                 self.StoreObject(item);

@@ -135,7 +135,7 @@ public static partial class Hooks
         self.AddToInventory(abstractObject);
     }
 
-    public static void RetrieveObject(this Player self)
+    public static void RetrieveActiveObject(this Player self)
     {
         if (self.FreeHand() <= -1) return;
 
@@ -238,8 +238,7 @@ public static partial class Hooks
 
         oldObject.SwapEffect(newObject);
 
-        player.showKarmaFoodRainTime = 80;
-
+        playerModule.ShowHUD(80);
 
         if (!player.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
 

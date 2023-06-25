@@ -37,6 +37,8 @@ public static partial class Hooks
     public static readonly PlayerFeature<float> MinSpeed = FeatureTypes.PlayerFloat("oa_min_speed");
     public static readonly PlayerFeature<float> MaxSpeed = FeatureTypes.PlayerFloat("oa_max_speed");
 
+    public static readonly PlayerFeature<Vector2> InventoryUIOffset = new("inventory_ui_offset", Vector2Feature);
+    public static readonly PlayerFeature<float> SwapRepeatInterval = FeatureTypes.PlayerFloat("swap_repeat_interval");
 
 
     public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.General.Pearlcat;

@@ -1,6 +1,9 @@
 ﻿using HUD;
 using Pearlcat;
+using RWCustom;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
@@ -10,17 +13,18 @@ namespace Pearlcat;
 public class InventoryHUD : HudPart
 {
     public readonly ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectSymbol> Symbols = new();
+    public readonly List<PlayerObjectSymbol> AllSymbols = new();
 
     public Vector2 pos;
     public Vector2 lastPos;
+
     public FContainer HUDfContainer;
     
     public int animationUpdateCounterMax = 150;
-    public float fade = 0.0f;
 
     public InventoryHUD(HUD.HUD hud, FContainer fContainer) : base(hud)
     {
-        pos = new Vector2(100.0f, 80.0f);
+        pos = Vector2.zero;
         lastPos = pos;
         HUDfContainer = fContainer;
         animationUpdateCounterMax = 150;
@@ -35,13 +39,48 @@ public class InventoryHUD : HudPart
         {
             if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
 
-            var inventory = player.dead ? playerModule.postDeathInventory : playerModule.abstractInventory;
+            if (playerModule.activeObjectIndex == null) continue;
 
-            foreach (var abstractObject in inventory)
+            var activeIndex = (int)playerModule.activeObjectIndex;
+
+
+            for (int i = 0; i < playerModule.abstractInventory.Count; i++)
             {
-                if (Symbols.TryGetValue(abstractObject, out var symbol))
-                    symbol.Draw(timeStacker, playerModule);
+                var abstractObject = playerModule.abstractInventory[i];
+                var diff = i - activeIndex;
+                var absDiff = Mathf.Abs(diff);
+
+                if (!Symbols.TryGetValue(abstractObject, out var symbol)) continue;
+
+                symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.abstractInventory.Count - 2) / 2, 1.0f, 0.2f);
+
+                const float GAP = 17.5f;
+                float spacing = GAP * i;
+
+                var playerChunkPos = Vector2.Lerp(player.firstChunk.lastPos, player.firstChunk.pos, timeStacker);
+
+                var playerPos = player.abstractCreature.world.RoomToWorldPos(playerChunkPos, player.abstractCreature.Room.index);
+                var roomPos = player.abstractCreature.world.RoomToWorldPos(player.abstractCreature.world.game.cameras[0].pos, player.abstractCreature.world.game.cameras[0].room.abstractRoom.index);
+
+                if (!Hooks.InventoryUIOffset.TryGet(player, out var offset)) continue;
+
+                pos = playerPos - roomPos + offset;
+                
+                pos.x += spacing;
+                pos.x -= activeIndex * GAP;
+
+                symbol.Pos = Vector2.Lerp(symbol.Pos, pos, 0.1f);
             }
+
+        }
+
+        for (int i = AllSymbols.Count - 1; i >= 0; i--)
+        {
+            var symbol = AllSymbols[i];
+            symbol.Draw(timeStacker);
+            
+            if (symbol.slatedForDeletion)
+                AllSymbols.RemoveAt(i);
         }
     }
 
@@ -61,20 +100,17 @@ public class InventoryHUD : HudPart
                 
                 if (!Symbols.TryGetValue(abstractObject, out var symbol))
                 {
-                    symbol = new PlayerObjectSymbol(this, new Vector2(pos.x + 23.0f * i, pos.y + 23.0f * pIndex), new Vector2(pos.x + 23.0f * i, pos.y + 23.0f * pIndex));
+                    symbol = new PlayerObjectSymbol(this, Vector2.zero, playerModule);
                     Symbols.Add(abstractObject, symbol);
+                    AllSymbols.Add(symbol);
                 }
 
-                symbol.SetIcon(abstractObject);
+                symbol.UpdateIcon(abstractObject);
                 symbol.Update();
-            }
-        }
 
-        if (hud.foodMeter != null)
-        {
-            pos.x = hud.foodMeter.pos.x;
-            pos.y = hud.foodMeter.pos.y + 25f;
-            fade = Mathf.Lerp(fade, hud.foodMeter.fade, (fade < hud.foodMeter.fade) ? 0.15f : 0.25f);
+                symbol.Fade = playerModule.PlayerRef.TryGetTarget(out var player) && player.room == null ? 0.0f : playerModule.hudFade;
+            }
+
         }
 
         lastPos = pos;
@@ -84,41 +120,37 @@ public class InventoryHUD : HudPart
 public class PlayerObjectSymbol
 {
     public ItemSymbol? itemSymbol;
-    public WeakReference<AbstractPhysicalObject>? TargetObject;
+    public WeakReference<PearlcatModule> PlayerModuleRef;
+    public WeakReference<AbstractPhysicalObject>? TargetObjectRef;
 
     public readonly InventoryHUD Owner;
-
     public Vector2 Pos;
-    public Vector2 GoalPos;
 
-    public float FirstFade;
-    public float Greyout = 1f;
+    public float Fade = 1.0f;
+    public float DistFade = 1.0f;
+    
+    public bool slatedForDeletion = false;
 
-    public Color storedColor;
-    public float greyPulse;
-
-    public PlayerObjectSymbol(InventoryHUD owner, Vector2 InitialPos, Vector2 InitialGoal)
+    public PlayerObjectSymbol(InventoryHUD owner, Vector2 pos, PearlcatModule playerModule)
     {
-        Pos = InitialPos;
-        GoalPos = InitialGoal;
-        FirstFade = 0f;
-        Greyout = 0f;
+        PlayerModuleRef ??= new(playerModule);
+        Pos = pos;
         Owner = owner;
     }
 
-    public void SetIcon(AbstractPhysicalObject abstractObject)
+    public void UpdateIcon(AbstractPhysicalObject abstractObject)
     {
-        if (TargetObject != null && TargetObject.TryGetTarget(out var targetObject) && targetObject == abstractObject) return;
-        TargetObject = new WeakReference<AbstractPhysicalObject>(abstractObject);
-
+        if (TargetObjectRef != null && TargetObjectRef.TryGetTarget(out var targetObject) && targetObject == abstractObject) return;
+        TargetObjectRef = new(abstractObject);
 
         var iconData = new IconSymbol.IconSymbolData(CreatureTemplate.Type.StandardGroundCreature, abstractObject.type, 0);
 
         itemSymbol?.RemoveSprites();
-        itemSymbol = new ItemSymbol(iconData, Owner.HUDfContainer);
-        storedColor = Hooks.GetObjectColor(abstractObject);
+        itemSymbol = new(iconData, Owner.HUDfContainer)
+        {
+            myColor = Hooks.GetObjectColor(abstractObject)
+        };
 
-        itemSymbol.myColor = storedColor;
         itemSymbol.Show(true);
         itemSymbol.shadowSprite1.alpha = 0f;
         itemSymbol.shadowSprite2.alpha = 0f;
@@ -126,43 +158,27 @@ public class PlayerObjectSymbol
 
     public void RemoveSprites() => itemSymbol?.RemoveSprites();
 
-    public void Update()
+    public void Update() => itemSymbol?.Update();
+
+    public void Draw(float timeStacker)
     {
-        greyPulse += 0.06f;
-        itemSymbol?.Update();
+        if (PlayerModuleRef?.TryGetTarget(out var playerModule) != true) return;
 
-        if (Greyout < 1f)
-            Greyout = Mathf.Lerp(Greyout, 0f, 0.1f);
+        if (TargetObjectRef?.TryGetTarget(out var targetObject) != true) return;
 
-        if (FirstFade < 0.995f)
-            FirstFade = Mathf.Lerp(FirstFade, 1f, 0.05f);
+        if (!targetObject.IsPlayerObject())
+        {
+            slatedForDeletion = true;
+            RemoveSprites();
+            return;
+        }
 
-        else
-            FirstFade = 1f;
-
-        Pos = Vector2.Lerp(Pos, GoalPos, 0.1f);
-    }
-
-    public void Draw(float timeStacker, PearlcatModule playerModule)
-    {
         if (itemSymbol == null) return;
-
-        if (TargetObject == null || !TargetObject.TryGetTarget(out var targetObject)) return;
 
         bool isActiveObject = targetObject == playerModule.ActiveObject;
 
-
-        float grey = Mathf.Sin(greyPulse) / 7f;
-
-        itemSymbol.myColor = Color.Lerp(storedColor, new Color(0.22f + grey, 0.22f + grey, 0.22f + grey), Mathf.Clamp(Greyout, 0f, 0.87f));
         itemSymbol.Draw(timeStacker, Pos);
-        itemSymbol.symbolSprite.alpha = FirstFade * Owner.fade;
-
-        if (FirstFade < 1f)
-        {
-            itemSymbol.showFlash = Mathf.Lerp(itemSymbol.showFlash, 0.5f, 0.1f);
-            return;
-        }
+        itemSymbol.symbolSprite.alpha = Fade * DistFade;
 
         itemSymbol.showFlash = Mathf.Lerp(itemSymbol.showFlash, 0f, 0.1f);
         itemSymbol.shadowSprite1.alpha = itemSymbol.symbolSprite.alpha * 0.5f;

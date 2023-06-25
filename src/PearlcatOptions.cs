@@ -173,6 +173,7 @@ public class PearlcatOptions : OptionInterface
 
         AddNewLine(1);
 
+        DrawKeybinders(swapKeybindKeyboard, ref Tabs[tabIndex]);
         DrawKeybinders(swapKeybindPlayer1, ref Tabs[tabIndex]);
         DrawKeybinders(swapKeybindPlayer2, ref Tabs[tabIndex]);
         DrawKeybinders(swapKeybindPlayer3, ref Tabs[tabIndex]);

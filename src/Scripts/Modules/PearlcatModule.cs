@@ -52,6 +52,8 @@ public class PearlcatModule
     public Player.InputPackage unblockedInput;
     public bool blockInput = false;
 
+    public int swapIntervalStacker = 0;
+
     public List<AbstractPhysicalObject> abstractInventory = new();
     public List<AbstractPhysicalObject> postDeathInventory = new();
 
@@ -71,6 +73,11 @@ public class PearlcatModule
     public float shortcutColorStacker = 0.0f;
     public int shortcutColorStackerDirection = 1;
 
+    public void ShowHUD(int duration) => hudFadeStacker = duration;
+
+    public float hudFade = 0.0f;
+    public float hudFadeStacker = 0;
+
     public int objectAnimationStacker = 0;
     public int objectAnimationDuration = 0;
 
@@ -84,6 +91,8 @@ public class PearlcatModule
 
         currentObjectAnimation = GetObjectAnimation(player);
         objectAnimationStacker = 0;
+
+        Random.InitState((int)DateTime.Now.Ticks);
         objectAnimationDuration = Random.Range(minTime, maxTime);
 
         dazeStacker = dazeDuration;
