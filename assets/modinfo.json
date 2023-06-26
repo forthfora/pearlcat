@@ -2,7 +2,7 @@
 	"id": "pearlcat",
 	"name": "Pearlcat",
 	"version": "0.0.0",
-	"authors": "PEARLCAT<LINE>by forthbridge<LINE><LINE>Geahgeah - Illustrations, Spritework<LINE><LINE>Sidera - Pearl Music<LINE><LINE><LINE>Special thanks to these modders, whose guidance made this possible!<LINE><LINE>Vigaro - Beecat, Dress My Slugcat<LINE><LINE>NoirCatto - NoirCatto<LINE><LINE>Slime_Cubed - SlugBase, CustomTail<LINE><LINE><LINE>PLAYTESTERS<LINE><LINE>idk",
+	"authors": "forthbridge - Programming<LINE><LINE>Geahgeah - Illustrations, Spritework<LINE><LINE>Sidera - SFX, Music<LINE><LINE><LINE>Special thanks, with help & code:<LINE><LINE>Vigaro - Beecat, Dress My Slugcat<LINE><LINE>Noir - NoirCatto",
 	"description": "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Each pearl grants some effect, though it is stronger when selected & active!<LINE><LINE>Provides no significant world changes alone, only new abilities, and unique interactions.<LINE>Source: https://github.com/forthbridge/pearlcat",
 	"requirements": ["moreslugcats", "slime-cubed.slugbase", "crs"],
 	"requirements_names": ["More Slugcats Expansion", "SlugBase", "Custom Regions Support"],

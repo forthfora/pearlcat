@@ -3,16 +3,41 @@
   "scene_folder": "slugbase/scenes/slugcat_pearlcat",
   "images": [
     {"name": "flat", "pos": [430, 130], "depth": -1.0, "flatmode": true},
-    {"name": "pearl1", "pos": [600, 300], "depth": -1.0, "flatmode": true},
-    {"name": "pearl2", "pos": [800, 400], "depth": -1.0, "flatmode": true},
-    {"name": "pearl3", "pos": [500, 600], "depth": -1.0, "flatmode": true},
-    {"name": "pearl4", "pos": [650, 350], "depth": -1.0, "flatmode": true}
+
+    
+    {"name": "background", "pos": [430, 130], "depth": 4.0,  "shader": "Normal"},
+    {"name": "clouds", "pos": [430, 130], "depth": 3.5, "shader": "Normal"},
+
+    {"name": "tail", "pos": [430, 130], "depth": 2.9, "shader": "Normal"},
+    
+    {"name": "pearl0", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl2", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl4", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl5", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl6", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl7", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl8", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearl9", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+
+    
+    {"name": "legs", "pos": [430, 130], "depth": 2.8, "shader": "Basic"},
+    {"name": "body", "pos": [430, 130], "depth": 2.6, "shader": "Basic"},
+    {"name": "shade", "pos": [430, 130], "depth": 2.5, "shader": "Normal"},
+    
+    
+    {"name": "popcorn", "pos": [430, 130], "depth": 2.2, "shader": "Normal"},
+    {"name": "topgrass", "pos": [430, 130], "depth": 1.7, "shader": "Normal"},
+    {"name": "bottomgrass", "pos": [430, 130], "depth": 1.7,  "shader": "Normal"},
+
+    {"name": "pearlactive", "pos": [690, 380], "depth": 2.3, "shader": "Basic"}  
   ],
   
-  "idle_depths": [2.3, 2.9],
-  "glow_pos": [730, 335],
-  "mark_pos": [740, 575],
+  "idle_depths": [2.4],
+  "glow_pos": [430, 130],
+  "mark_pos": [20, 50],
   
-  "select_menu_pos": [-10, 100],
+  "select_menu_pos": [0, 100],
   "slugcat_depth": 2.6
 }
