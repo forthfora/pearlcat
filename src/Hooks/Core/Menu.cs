@@ -47,6 +47,7 @@ public static partial class Hooks
     {
         orig(self);
 
+        // HACK: remove this once migrated to the new save system
         List<Color> pearlColors = new();
         Color? activePearlColor = ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, DataPearlType.HI.index);
 
@@ -91,6 +92,8 @@ public static partial class Hooks
                 var pos = illustration.pos;
                 var spritePos = illustration.sprite.GetPosition();
                 var mousePos = self.menu.mousePosition;
+                var mouseVel = (self.menu.mousePosition - self.menu.lastMousePos).magnitude;
+                // Custom.LerpMap(mouseVel, 0.0f, 100.0f, 1.0f, 6.0f);
 
                 if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, pearlModule.initialPos) < 120.0f)
                     pearlModule.vel += (spritePos - mousePos).normalized * 2.0f;

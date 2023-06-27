@@ -10,11 +10,11 @@ using RWCustom;
 
 namespace Pearlcat;
 
-public class PearlcatModule
+public class PlayerModule
 {
     public WeakReference<Player> PlayerRef;
 
-    public PearlcatModule(Player self)
+    public PlayerModule(Player self)
     {
         PlayerRef = new WeakReference<Player>(self);
 
@@ -404,13 +404,13 @@ public class PearlcatModule
         public readonly int divs = 11;
 
         public readonly PlayerGraphics owner;
-        public readonly PearlcatModule playerModule;
+        public readonly PlayerModule playerModule;
 
         public Vector2[,,] clothPoints;
         public bool visible;
         public bool needsReset;
 
-        public Cloak(PlayerGraphics owner, PearlcatModule playerModule)
+        public Cloak(PlayerGraphics owner, PlayerModule playerModule)
         {
             this.owner = owner;
             this.playerModule = playerModule;

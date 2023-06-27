@@ -7,10 +7,9 @@ public static partial class Hooks
 {
     public static void ApplyPlayerEffectsHooks()
     {
-        
     }
 
-    public static void UpdateCombinedPOEffect(Player self, PearlcatModule playerModule)
+    public static void UpdateCombinedPOEffect(Player self, PlayerModule playerModule)
     {
         POEffect combinedEffect = new();
 
@@ -42,7 +41,7 @@ public static partial class Hooks
         playerModule.currentPOEffect = combinedEffect;
     }
 
-    public static void ApplyCombinedPOEffect(Player self, PearlcatModule playerModule)
+    public static void ApplyCombinedPOEffect(Player self, PlayerModule playerModule)
     {
         var effect = playerModule.currentPOEffect;
         var stats = self.slugcatStats;
@@ -61,6 +60,46 @@ public static partial class Hooks
         stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.visualStealthInSneakMode;
 
         playerModule.canMaul = effect.maulFac >= 1.0;
+
+
+        switch (effect.majorEffect)
+        {
+            case POEffect.MajorEffect.SPEAR_CREATION:
+                UpdateSpearCreation(self, playerModule);
+                break;
+            
+            case POEffect.MajorEffect.AGILITY:
+                UpdateAgility(self, playerModule);
+                break;
+            
+            case POEffect.MajorEffect.REVIVE:
+                UpdateRevive(self, playerModule);
+                break;
+            
+            case POEffect.MajorEffect.SHIELD:
+                UpdateShield(self, playerModule);
+                break;
+            
+            case POEffect.MajorEffect.RAGE:
+                UpdateRage(self, playerModule);
+                break;
+            
+            case POEffect.MajorEffect.CAMOFLAGUE:
+                UpdateCamoflague(self, playerModule);
+                break;
+        }
     }
 
+
+    public static void UpdateSpearCreation(Player self, PlayerModule playerModule) { }
+    
+    public static void UpdateAgility(Player self, PlayerModule playerModule) { }
+    
+    public static void UpdateRevive(Player self, PlayerModule playerModule) { }
+    
+    public static void UpdateShield(Player self, PlayerModule playerModule) { }
+    
+    public static void UpdateRage(Player self, PlayerModule playerModule) { }
+
+    public static void UpdateCamoflague(Player self, PlayerModule playerModule) { }
 }

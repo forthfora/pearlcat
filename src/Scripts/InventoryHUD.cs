@@ -120,7 +120,7 @@ public class InventoryHUD : HudPart
 public class PlayerObjectSymbol
 {
     public ItemSymbol? itemSymbol;
-    public WeakReference<PearlcatModule> PlayerModuleRef;
+    public WeakReference<PlayerModule> PlayerModuleRef;
     public WeakReference<AbstractPhysicalObject>? TargetObjectRef;
 
     public readonly InventoryHUD Owner;
@@ -131,7 +131,7 @@ public class PlayerObjectSymbol
     
     public bool slatedForDeletion = false;
 
-    public PlayerObjectSymbol(InventoryHUD owner, Vector2 pos, PearlcatModule playerModule)
+    public PlayerObjectSymbol(InventoryHUD owner, Vector2 pos, PlayerModule playerModule)
     {
         PlayerModuleRef ??= new(playerModule);
         Pos = pos;

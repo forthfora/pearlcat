@@ -65,7 +65,7 @@ public static partial class Hooks
             self.RetrieveActiveObject();
     }
 
-    private static void UpdateHUD(Player self, PearlcatModule playerModule)
+    private static void UpdateHUD(Player self, PlayerModule playerModule)
     {
         if (playerModule.hudFadeStacker > 0)
         {
@@ -79,7 +79,7 @@ public static partial class Hooks
         }
     }
 
-    public static void CheckInput(Player self, PearlcatModule playerModule)
+    public static void CheckInput(Player self, PlayerModule playerModule)
     {
         var input = self.input[0];
         var unblockedInput = playerModule.unblockedInput;
@@ -176,7 +176,7 @@ public static partial class Hooks
     }
 
 
-    public static void UpdatePostDeathInventory(Player self, PearlcatModule playerModule)
+    public static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
         if (!self.dead && playerModule.postDeathInventory.Count > 0)
         {
@@ -200,7 +200,7 @@ public static partial class Hooks
         }
     }
 
-    public static void UpdatePlayerDaze(Player self, PearlcatModule playerModule)
+    public static void UpdatePlayerDaze(Player self, PlayerModule playerModule)
     {
         if (!DazeDuration.TryGet(self, out var dazeDuration)) return;
 
@@ -212,7 +212,7 @@ public static partial class Hooks
     }
 
 
-    public static void UpdatePlayerOA(Player self, PearlcatModule playerModule)
+    public static void UpdatePlayerOA(Player self, PlayerModule playerModule)
     {
         if (playerModule.currentObjectAnimation is FreeFallOA)
         {

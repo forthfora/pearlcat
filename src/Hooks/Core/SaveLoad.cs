@@ -7,6 +7,7 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
+    // TODO: rewrite this whole load of garbage
     public class PearlcatSaveStateSaveData : SaveData
     {
         public override void ReadData(string e)

@@ -67,7 +67,7 @@ public class MultiOrbitOA : ObjectAnimation
         prevActiveObject = playerModule.ActiveObject;
     }
 
-    public void ReplaceActive(PearlcatModule playerModule)
+    public void ReplaceActive(PlayerModule playerModule)
     {
         if (ReplaceActiveForOrbit(OrbitPearls_5, playerModule.ActiveObject, prevActiveObject)) return;
 

@@ -176,7 +176,7 @@ public static partial class Hooks
         abstractObject.realizedObject?.ClearAsPlayerObject();
     }
 
-    public static void UpdateInventorySaveData(this Player self, PearlcatModule playerModule)
+    public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
     {
         if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
 
@@ -247,7 +247,7 @@ public static partial class Hooks
 
 
 
-    public static void DestroyTransferObject(this PearlcatModule playerModule)
+    public static void DestroyTransferObject(this PlayerModule playerModule)
     {
         ResetTransferObject(playerModule);
 
@@ -256,7 +256,7 @@ public static partial class Hooks
         playerModule.canTransferObject = false;
     }
 
-    public static void ResetTransferObject(this PearlcatModule playerModule)
+    public static void ResetTransferObject(this PlayerModule playerModule)
     {
         playerModule.transferObject = null;
         playerModule.transferObjectInitialPos = null;

@@ -79,7 +79,7 @@ public static partial class Hooks
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
 
-        playerModule.cloak = new PearlcatModule.Cloak(self, playerModule);
+        playerModule.cloak = new PlayerModule.Cloak(self, playerModule);
         playerModule.cloak.InitiateSprite(sLeaser, rCam);
 
         GenerateEarMesh(sLeaser, playerModule.earL, playerModule.earLSprite);
@@ -163,7 +163,7 @@ public static partial class Hooks
         UpdateLightSource(self, playerModule);
     }
 
-    public static void UpdateLightSource(PlayerGraphics self, PearlcatModule playerModule)
+    public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)
     {
         if (self.lightSource == null) return;
 
@@ -232,7 +232,7 @@ public static partial class Hooks
     }
 
 
-    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PearlcatModule playerModule, bool isSetup = false)
+    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, bool isSetup = false)
     {
         FSprite bodySprite = sLeaser.sprites[BODY_SPRITE];
         FSprite armLSprite = sLeaser.sprites[ARM_L_SPRITE];
@@ -331,6 +331,7 @@ public static partial class Hooks
         else
         {
             // this is confusing because the left and rights of arms and ears are different, it's not intuitive lol
+
             // Right
             if (self.player.flipDirection == 1)
             {
@@ -390,7 +391,7 @@ public static partial class Hooks
 
 
     // Ears adapted from NoirCatto (thanks Noir!) https://github.com/NoirCatto/NoirCatto
-    public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PearlcatModule playerModule)
+    public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
     {
         if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
 
@@ -403,7 +404,7 @@ public static partial class Hooks
         DrawEar(sLeaser, timestacker, camPos, playerModule.earR, playerModule.earRSprite, playerModule.earRAtlas, playerModule.earRAttachPos, playerModule.earRFlipDirection);
     }
 
-    public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PearlcatModule playerModule, Vector2 offset) =>
+    public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PlayerModule playerModule, Vector2 offset) =>
         Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.prevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
 
     static readonly PlayerFeature<Vector2> EarLOffset = new("ear_l_offset", Vector2Feature);
@@ -508,7 +509,7 @@ public static partial class Hooks
         return result;
     });
 
-    public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlcatModule playerModule)
+    public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
     {
         FAtlas? tailAtlas = playerModule.tailAtlas;
         if (tailAtlas == null) return;
