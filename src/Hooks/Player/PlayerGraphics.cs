@@ -388,6 +388,8 @@ public static partial class Hooks
 
         if (playerModule.ActiveObject != null)
             markSprite.y += 10.0f;
+
+        cloakSprite.isVisible = false;
     }
 
 

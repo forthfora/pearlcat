@@ -18,8 +18,11 @@ public class PlayerModule
     {
         PlayerRef = new WeakReference<Player>(self);
 
+        playerNumber = self.playerState.playerNumber;
         baseStats = normalStats;
     }
+
+    public readonly int playerNumber;
 
     public SlugcatStats baseStats;
     public readonly SlugcatStats normalStats = new(Enums.General.Pearlcat, false);
@@ -241,7 +244,7 @@ public class PlayerModule
         MapAlphaToColor(earLTexture, 1.0f, BodyColor);
         MapAlphaToColor(earLTexture, 0.0f, AccentColor);
 
-        prevEarL = Plugin.MOD_ID + textureName + earLAlt;
+        prevEarL = Plugin.MOD_ID + textureName + playerNumber + earLAlt;
         earLAlt = !earLAlt;
 
         earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevEarL, earLTexture, false);
@@ -259,7 +262,7 @@ public class PlayerModule
         MapAlphaToColor(earRTexture, 1.0f, BodyColor);
         MapAlphaToColor(earRTexture, 0.0f, AccentColor);
 
-        prevEarR = Plugin.MOD_ID + textureName + earRAlt;
+        prevEarR = Plugin.MOD_ID + textureName + playerNumber + earRAlt;
         earRAlt = !earRAlt;
 
         earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevEarR, earRTexture, false);
@@ -342,7 +345,7 @@ public class PlayerModule
         MapAlphaToColor(tailTexture, 1.0f, BodyColor);
         MapAlphaToColor(tailTexture, 0.0f, AccentColor);
 
-        prevTail = Plugin.MOD_ID + textureName + tailAlt;
+        prevTail = Plugin.MOD_ID + textureName + playerNumber + tailAlt;
         tailAlt = !tailAlt;
 
         tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevTail, tailTexture, false);
@@ -402,7 +405,7 @@ public class PlayerModule
         cloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, cloakTexture, false);
     }
 
-    // CTRL + C CTRL + V
+    // CTRL + C CTRL + V (carbonara detected)
     public class Cloak
     {
         public readonly int sprite;
@@ -450,7 +453,7 @@ public class PlayerModule
                 needsReset = false;
             }
 
-            Vector2 cloakAttachPos = Vector2.Lerp(owner.head.pos, owner.player.bodyChunks[1].pos, 0.6f);
+            var cloakAttachPos = Vector2.Lerp(owner.head.pos, owner.player.bodyChunks[1].pos, 0.6f);
 
             if (owner.player.bodyMode == Player.BodyModeIndex.Crawl)
                 cloakAttachPos += new Vector2(0f, 4f);
@@ -460,32 +463,32 @@ public class PlayerModule
             if (owner.player.bodyMode == Player.BodyModeIndex.Stand)
             {
                 cloakAttachPos += new Vector2(0f, Mathf.Sin(owner.player.animationFrame / 6f * 2f * Mathf.PI) * 2f);
-                a = new Vector2(0f, -11f + Mathf.Sin(owner.player.animationFrame / 6f * 2f * Mathf.PI) * -2.5f);
+                a = new(0f, -11f + Mathf.Sin(owner.player.animationFrame / 6f * 2f * Mathf.PI) * -2.5f);
             }
 
-            Vector2 bodyPos = cloakAttachPos;
-            Vector2 bodyAngle = Custom.DirVec(owner.player.bodyChunks[1].pos, owner.player.bodyChunks[0].pos + Custom.DirVec(default, owner.player.bodyChunks[0].vel) * 5f) * 1.6f;
-            Vector2 perp = Custom.PerpendicularVector(bodyAngle);
+            var bodyPos = cloakAttachPos;
+            var bodyAngle = Custom.DirVec(owner.player.bodyChunks[1].pos, owner.player.bodyChunks[0].pos + Custom.DirVec(default, owner.player.bodyChunks[0].vel) * 5f) * 1.6f;
+            var perp = Custom.PerpendicularVector(bodyAngle);
 
             for (int k = 0; k < divs; k++)
             {
                 for (int l = 0; l < divs; l++)
                 {
                     Mathf.InverseLerp(0f, divs - 1, k);
-                    float num = Mathf.InverseLerp(0f, divs - 1, l);
+                    var num = Mathf.InverseLerp(0f, divs - 1, l);
 
                     clothPoints[k, l, 1] = clothPoints[k, l, 0];
                     clothPoints[k, l, 0] += clothPoints[k, l, 2];
                     clothPoints[k, l, 2] *= 0.999f;
                     clothPoints[k, l, 2].y -= 1.1f * owner.player.EffectiveRoomGravity;
 
-                    Vector2 idealPos = IdealPosForPoint(k, l, bodyPos, bodyAngle, perp) + a * (-1f * num);
-                    Vector3 rot = Vector3.Slerp(-bodyAngle, Custom.DirVec(cloakAttachPos, idealPos), num) * (0.01f + 0.9f * num);
+                    var idealPos = IdealPosForPoint(k, l, bodyPos, bodyAngle, perp) + a * (-1f * num);
+                    var rot = Vector3.Slerp(-bodyAngle, Custom.DirVec(cloakAttachPos, idealPos), num) * (0.01f + 0.9f * num);
 
                     clothPoints[k, l, 2] += new Vector2(rot.x, rot.y);
 
-                    float num2 = Vector2.Distance(clothPoints[k, l, 0], idealPos);
-                    float num3 = Mathf.Lerp(0f, 9f, num);
+                    var num2 = Vector2.Distance(clothPoints[k, l, 0], idealPos);
+                    var num3 = Mathf.Lerp(0f, 9f, num);
 
                     Vector2 idealAngle = Custom.DirVec(clothPoints[k, l, 0], idealPos);
 
@@ -497,12 +500,12 @@ public class PlayerModule
 
                     for (int m = 0; m < 4; m++)
                     {
-                        IntVector2 intVector = new IntVector2(k, l) + Custom.fourDirections[m];
+                        var intVector = new IntVector2(k, l) + Custom.fourDirections[m];
                         if (intVector.x >= 0 && intVector.y >= 0 && intVector.x < divs && intVector.y < divs)
                         {
                             num2 = Vector2.Distance(clothPoints[k, l, 0], clothPoints[intVector.x, intVector.y, 0]);
                             idealAngle = Custom.DirVec(clothPoints[k, l, 0], clothPoints[intVector.x, intVector.y, 0]);
-                            float num4 = Vector2.Distance(idealPos, IdealPosForPoint(intVector.x, intVector.y, bodyPos, bodyAngle, perp));
+                            var num4 = Vector2.Distance(idealPos, IdealPosForPoint(intVector.x, intVector.y, bodyPos, bodyAngle, perp));
                             clothPoints[k, l, 2] -= (num4 - num2) * idealAngle * 0.05f;
                             clothPoints[intVector.x, intVector.y, 2] += (num4 - num2) * idealAngle * 0.05f;
                         }

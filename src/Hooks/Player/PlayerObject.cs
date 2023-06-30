@@ -269,7 +269,7 @@ public static partial class Hooks
 
         if (player.graphicsModule is not PlayerGraphics pGraphics || newObject == null) return;
 
-        player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
+        //player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
         pGraphics.LookAtPoint(newObject.firstChunk.pos, 1.0f);
     }
 

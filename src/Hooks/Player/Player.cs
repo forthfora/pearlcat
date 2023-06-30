@@ -62,6 +62,7 @@ public static partial class Hooks
         UpdateHUD(self, playerModule);
         UpdateSFX(self, playerModule);
 
+        // HACK
         if (Input.GetKeyDown(KeyCode.G))
             self.RetrieveActiveObject();
     }
@@ -249,7 +250,7 @@ public static partial class Hooks
         {
             hasSpawned = true;
 
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 6; i++)
             {
                 DataPearlType type = i switch
                 {
