@@ -25,7 +25,7 @@ public static partial class Hooks
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
         
-        playerModule.baseStats = self.Malnourished ? playerModule.malnourishedStats : playerModule.normalStats;
+        playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
 
         if (self.onBack != null)
@@ -70,7 +70,7 @@ public static partial class Hooks
         if (!isStoring && self.FreeHand() == -1) return;
 
 
-        if (playerModule.storeObjectStacker > storeObjectDelay)
+        if (playerModule.StoreObjectStacker > storeObjectDelay)
         {
             if (isStoring)
             {
@@ -82,41 +82,41 @@ public static partial class Hooks
                 self.RetrieveActiveObject();
             }
 
-            playerModule.storeObjectStacker = -int.MaxValue;
+            playerModule.StoreObjectStacker = -int.MaxValue;
         }
         
 
         if (storeInput)
-            playerModule.storeObjectStacker++;
+            playerModule.StoreObjectStacker++;
         
         else
-            playerModule.storeObjectStacker = 0;
+            playerModule.StoreObjectStacker = 0;
     }
 
     private static void UpdateSFX(Player self, PlayerModule playerModule)
     {
         playerModule.MenuCrackleLoop.Update();
-        playerModule.MenuCrackleLoop.Volume = playerModule.hudFade;
+        playerModule.MenuCrackleLoop.Volume = playerModule.HudFade;
     }
 
     private static void UpdateHUD(Player self, PlayerModule playerModule)
     {
-        if (playerModule.hudFadeStacker > 0)
+        if (playerModule.HudFadeStacker > 0)
         {
-            playerModule.hudFadeStacker--;
-            playerModule.hudFade = Mathf.Lerp(playerModule.hudFade, 1.0f, 0.1f);
+            playerModule.HudFadeStacker--;
+            playerModule.HudFade = Mathf.Lerp(playerModule.HudFade, 1.0f, 0.1f);
         }
         else
         {
-            playerModule.hudFadeStacker = 0;
-            playerModule.hudFade = Mathf.Lerp(playerModule.hudFade, 0.0f, 0.05f);
+            playerModule.HudFadeStacker = 0;
+            playerModule.HudFade = Mathf.Lerp(playerModule.HudFade, 0.0f, 0.05f);
         }
     }
 
     public static void CheckInput(Player self, PlayerModule playerModule)
     {
         var input = self.input[0];
-        var unblockedInput = playerModule.unblockedInput;
+        var unblockedInput = playerModule.UnblockedInput;
 
         bool swapLeftInput = (Input.GetKey(PearlcatOptions.swapLeftKeybind.Value) || Input.GetAxis("DschockHorizontalRight") < -0.5f) && self.IsFirstPearlcat();
         bool swapRightInput = (Input.GetKey(PearlcatOptions.swapRightKeybind.Value) || Input.GetAxis("DschockHorizontalRight") > 0.5f) && self.IsFirstPearlcat();
@@ -128,7 +128,7 @@ public static partial class Hooks
         int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
 
 
-        playerModule.blockInput = false;
+        playerModule.BlockInput = false;
 
 
         if (numPressed >= 0)
@@ -140,50 +140,50 @@ public static partial class Hooks
             // || playerModule.swapIntervalStacker > swapInterval
             if (Mathf.Abs(unblockedInput.x) <= 0.5f)
             {
-                playerModule.wasSwapped = false;
-                playerModule.swapIntervalStacker = 0;
+                playerModule.WasSwapped = false;
+                playerModule.SwapIntervalStacker = 0;
             }
 
             if (swapInput)
             {
-                playerModule.blockInput = true;
+                playerModule.BlockInput = true;
 
-                if (playerModule.swapIntervalStacker <= swapInterval)
-                    playerModule.swapIntervalStacker++;
+                if (playerModule.SwapIntervalStacker <= swapInterval)
+                    playerModule.SwapIntervalStacker++;
             }
             else
             {
-                playerModule.swapIntervalStacker = 0;
+                playerModule.SwapIntervalStacker = 0;
             }
         }
 
-        if (swapLeftInput && !playerModule.wasSwapLeftInput)
+        if (swapLeftInput && !playerModule.WasSwapLeftInput)
         {
             self.SelectPreviousObject();
         }
-        else if (swapRightInput && !playerModule.wasSwapRightInput)
+        else if (swapRightInput && !playerModule.WasSwapRightInput)
         {
             self.SelectNextObject();
         }
-        else if (swapInput && !playerModule.wasSwapped)
+        else if (swapInput && !playerModule.WasSwapped)
         {
             if (unblockedInput.x < -0.5f)
             {
                 self.SelectPreviousObject();
-                playerModule.wasSwapped = true;
+                playerModule.WasSwapped = true;
             }
             else if (unblockedInput.x > 0.5f)
             {
                 self.SelectNextObject();
-                playerModule.wasSwapped = true;
+                playerModule.WasSwapped = true;
             }
         }
 
 
-        playerModule.wasSwapLeftInput = swapLeftInput;
-        playerModule.wasSwapRightInput = swapRightInput;
-        playerModule.wasStoreInput = storeInput;
-        playerModule.wasAbilityInput = abilityInput;
+        playerModule.WasSwapLeftInput = swapLeftInput;
+        playerModule.WasSwapRightInput = swapRightInput;
+        playerModule.WasStoreInput = storeInput;
+        playerModule.WasAbilityInput = abilityInput;
     }
 
     private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
@@ -193,9 +193,9 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
         
         var input = self.input[0];
-        playerModule.unblockedInput = input;
+        playerModule.UnblockedInput = input;
 
-        if (playerModule.blockInput)
+        if (playerModule.BlockInput)
         {
             input.x = 0;
             input.y = 0;
@@ -212,12 +212,12 @@ public static partial class Hooks
 
     public static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
-        if (!self.dead && playerModule.postDeathInventory.Count > 0)
+        if (!self.dead && playerModule.PostDeathInventory.Count > 0)
         {
-            for (int i = playerModule.postDeathInventory.Count - 1; i >= 0; i--)
+            for (int i = playerModule.PostDeathInventory.Count - 1; i >= 0; i--)
             {
-                AbstractPhysicalObject? item = playerModule.postDeathInventory[i];
-                playerModule.postDeathInventory.RemoveAt(i);
+                AbstractPhysicalObject? item = playerModule.PostDeathInventory[i];
+                playerModule.PostDeathInventory.RemoveAt(i);
 
                 if (item.realizedObject == null) continue;
 
@@ -239,20 +239,20 @@ public static partial class Hooks
         if (!DazeDuration.TryGet(self, out var dazeDuration)) return;
 
         if (self.dead || self.bodyMode == Player.BodyModeIndex.Stunned || self.Sleeping)
-            playerModule.dazeStacker = dazeDuration;
+            playerModule.DazeStacker = dazeDuration;
 
-        if (playerModule.dazeStacker > 0)
-            playerModule.dazeStacker--;
+        if (playerModule.DazeStacker > 0)
+            playerModule.DazeStacker--;
     }
 
 
     public static void UpdatePlayerOA(Player self, PlayerModule playerModule)
     {
-        if (playerModule.currentObjectAnimation is FreeFallOA)
+        if (playerModule.CurrentObjectAnimation is FreeFallOA)
         {
             if (self.bodyMode != Player.BodyModeIndex.Stunned && self.bodyMode != Player.BodyModeIndex.Dead && !self.Sleeping)
             {
-                foreach (var abstractObject in playerModule.abstractInventory)
+                foreach (var abstractObject in playerModule.AbstractInventory)
                     abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
 
                 playerModule.PickObjectAnimation(self);
@@ -260,14 +260,14 @@ public static partial class Hooks
         }
         else if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead || self.Sleeping)
         {
-            playerModule.currentObjectAnimation = new FreeFallOA(self);
+            playerModule.CurrentObjectAnimation = new FreeFallOA(self);
         }
 
-        if (playerModule.objectAnimationStacker > playerModule.objectAnimationDuration)
+        if (playerModule.ObjectAnimationStacker > playerModule.ObjectAnimationDuration)
             playerModule.PickObjectAnimation(self);
 
-        playerModule.currentObjectAnimation?.Update(self);
-        playerModule.objectAnimationStacker++;
+        playerModule.CurrentObjectAnimation?.Update(self);
+        playerModule.ObjectAnimationStacker++;
 
 
         
@@ -310,14 +310,14 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        for (int i = playerModule.abstractInventory.Count - 1; i >= 0; i--)
+        for (int i = playerModule.AbstractInventory.Count - 1; i >= 0; i--)
         {
-            AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
+            AbstractPhysicalObject abstractObject = playerModule.AbstractInventory[i];
 
             DeathEffect(abstractObject.realizedObject);
             RemoveFromInventory(self, abstractObject);
 
-            playerModule.postDeathInventory.Add(abstractObject);
+            playerModule.PostDeathInventory.Add(abstractObject);
         }
     }
 

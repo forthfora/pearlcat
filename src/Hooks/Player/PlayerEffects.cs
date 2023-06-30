@@ -12,53 +12,53 @@ public static partial class Hooks
     {
         POEffect combinedEffect = new();
 
-        foreach (var playerObject in playerModule.abstractInventory)
+        foreach (var playerObject in playerModule.AbstractInventory)
         {
             var effect = playerObject.GetPOEffect();
-            var mult = playerObject == playerModule.ActiveObject ? effect.activeMultiplier : 1.0f;
+            var mult = playerObject == playerModule.ActiveObject ? effect.ActiveMultiplier : 1.0f;
 
             if (self.Malnourished)
                 mult *= 0.75f;
 
-            combinedEffect.runSpeedFac += effect.runSpeedFac * mult;
-            combinedEffect.corridorClimbSpeedFac += effect.corridorClimbSpeedFac * mult;
-            combinedEffect.poleClimbSpeedFac += effect.poleClimbSpeedFac * mult;
+            combinedEffect.RunSpeedFac += effect.RunSpeedFac * mult;
+            combinedEffect.CorridorClimbSpeedFac += effect.CorridorClimbSpeedFac * mult;
+            combinedEffect.PoleClimbSpeedFac += effect.PoleClimbSpeedFac * mult;
 
-            combinedEffect.throwingSkill += effect.throwingSkill * mult;
-            combinedEffect.lungsFac += effect.lungsFac * mult;
-            combinedEffect.bodyWeightFac += effect.bodyWeightFac * mult;
+            combinedEffect.ThrowingSkill += effect.ThrowingSkill * mult;
+            combinedEffect.LungsFac += effect.LungsFac * mult;
+            combinedEffect.BodyWeightFac += effect.BodyWeightFac * mult;
 
-            combinedEffect.loudnessFac += effect.loudnessFac * mult;
-            combinedEffect.generalVisibilityBonus += effect.generalVisibilityBonus * mult;
-            combinedEffect.visualStealthInSneakMode += effect.visualStealthInSneakMode * mult;
+            combinedEffect.LoudnessFac += effect.LoudnessFac * mult;
+            combinedEffect.GeneralVisibilityBonus += effect.GeneralVisibilityBonus * mult;
+            combinedEffect.VisualStealthInSneakMode += effect.VisualStealthInSneakMode * mult;
 
-            combinedEffect.maulFac += effect.maulFac * mult;
-            combinedEffect.spearPullFac += effect.spearPullFac * mult;
-            combinedEffect.backSpearFac += effect.backSpearFac * mult;
+            combinedEffect.MaulFac += effect.MaulFac * mult;
+            combinedEffect.SpearPullFac += effect.SpearPullFac * mult;
+            combinedEffect.BackSpearFac += effect.BackSpearFac * mult;
         }
 
-        playerModule.currentPOEffect = combinedEffect;
+        playerModule.CurrentPOEffect = combinedEffect;
     }
 
     public static void ApplyCombinedPOEffect(Player self, PlayerModule playerModule)
     {
-        var effect = playerModule.currentPOEffect;
+        var effect = playerModule.CurrentPOEffect;
         var stats = self.slugcatStats;
-        var baseStats = playerModule.baseStats;
+        var baseStats = playerModule.BaseStats;
 
-        stats.lungsFac = baseStats.lungsFac + effect.lungsFac;
-        stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.throwingSkill, 0, 2);
-        stats.runspeedFac = baseStats.runspeedFac + effect.runSpeedFac;
+        stats.lungsFac = baseStats.lungsFac + effect.LungsFac;
+        stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, 0, 2);
+        stats.runspeedFac = baseStats.runspeedFac + effect.RunSpeedFac;
 
-        stats.corridorClimbSpeedFac = baseStats.corridorClimbSpeedFac + effect.corridorClimbSpeedFac;
-        stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.poleClimbSpeedFac;
-        stats.bodyWeightFac = baseStats.bodyWeightFac + effect.bodyWeightFac;
+        stats.corridorClimbSpeedFac = baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac;
+        stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac;
+        stats.bodyWeightFac = baseStats.bodyWeightFac + effect.BodyWeightFac;
 
-        stats.loudnessFac = baseStats.loudnessFac + effect.loudnessFac;
-        stats.generalVisibilityBonus = baseStats.generalVisibilityBonus + effect.generalVisibilityBonus;
-        stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.visualStealthInSneakMode;
+        stats.loudnessFac = baseStats.loudnessFac + effect.LoudnessFac;
+        stats.generalVisibilityBonus = baseStats.generalVisibilityBonus + effect.GeneralVisibilityBonus;
+        stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.VisualStealthInSneakMode;
 
-        playerModule.canMaul = effect.maulFac >= 1.0;
+        playerModule.CanMaul = effect.MaulFac >= 1.0;
 
 
 
@@ -94,7 +94,7 @@ public static partial class Hooks
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule)
     {
         var abilityInput = self.IsAbilityKeybindPressed();
-        var wasAbilityInput = playerModule.wasAbilityInput;
+        var wasAbilityInput = playerModule.WasAbilityInput;
     }
 
     public static void UpdateAgility(Player self, PlayerModule playerModule) { }

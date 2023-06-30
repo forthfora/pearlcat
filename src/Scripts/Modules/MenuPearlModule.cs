@@ -6,17 +6,16 @@ namespace Pearlcat;
 
 public class MenuPearlModule
 {
-    public readonly int index;
-    public readonly WeakReference<MenuDepthIllustration> IllustrationRef;
+    public WeakReference<MenuDepthIllustration> IllustrationRef { get; set; }
+    public int Index { get; private set; }
+    public Vector2 InitialPos { get; private set; }
 
-    public Vector2 initialPos = Vector2.zero;
-    public Vector2 vel = Vector2.zero;
+    public Vector2 Vel { get; set; }
 
     public MenuPearlModule(MenuDepthIllustration illustration, int index)
     {
-        this.index = index;
         IllustrationRef = new(illustration);
-
-        initialPos = illustration.pos;
+        Index = index;
+        InitialPos = illustration.pos;
     }
 }

@@ -25,18 +25,18 @@ public static partial class Hooks
 
         var playerObjectModule = new PlayerObjectModule()
         {
-            gravity = physicalObject.gravity,
+            Gravity = physicalObject.gravity,
 
-            collideWithObjects = physicalObject.CollideWithObjects,
-            collideWithSlopes = physicalObject.CollideWithSlopes,
-            collideWithTerrain = physicalObject.CollideWithTerrain,
+            CollideWithObjects = physicalObject.CollideWithObjects,
+            CollideWithSlopes = physicalObject.CollideWithSlopes,
+            CollideWithTerrain = physicalObject.CollideWithTerrain,
         };
 
         if (physicalObject is DataPearl pearl)
-            playerObjectModule.pearlGlimmerWait = pearl.glimmerWait;
+            playerObjectModule.PearlGlimmerWait = pearl.glimmerWait;
 
         if (physicalObject is Weapon weapon)
-            playerObjectModule.weaponRotationSpeed = weapon.rotationSpeed;
+            playerObjectModule.WeaponRotationSpeed = weapon.rotationSpeed;
 
 
         PlayerObjectData.Add(physicalObject, playerObjectModule);
@@ -46,17 +46,17 @@ public static partial class Hooks
     {
         if (!PlayerObjectData.TryGetValue(physicalObject, out var playerObjectModule)) return;
 
-        physicalObject.gravity = playerObjectModule.gravity;
+        physicalObject.gravity = playerObjectModule.Gravity;
 
-        physicalObject.CollideWithObjects = playerObjectModule.collideWithObjects;
-        physicalObject.CollideWithSlopes = playerObjectModule.collideWithSlopes;
-        physicalObject.CollideWithTerrain = playerObjectModule.collideWithTerrain;
+        physicalObject.CollideWithObjects = playerObjectModule.CollideWithObjects;
+        physicalObject.CollideWithSlopes = playerObjectModule.CollideWithSlopes;
+        physicalObject.CollideWithTerrain = playerObjectModule.CollideWithTerrain;
 
         if (physicalObject is DataPearl pearl)
-            pearl.glimmerWait = playerObjectModule.pearlGlimmerWait;
+            pearl.glimmerWait = playerObjectModule.PearlGlimmerWait;
 
         if (physicalObject is Weapon weapon)
-            weapon.rotationSpeed = playerObjectModule.weaponRotationSpeed;
+            weapon.rotationSpeed = playerObjectModule.WeaponRotationSpeed;
 
 
         PlayerObjectData.Remove(physicalObject);

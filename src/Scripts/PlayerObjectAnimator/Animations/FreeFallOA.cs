@@ -12,9 +12,9 @@ public class FreeFallOA : ObjectAnimation
 
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-        for (int i = 0; i < playerModule.abstractInventory.Count; i++)
+        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
+            AbstractPhysicalObject abstractObject = playerModule.AbstractInventory[i];
 
             if (abstractObject.realizedObject == null) continue;
             var realizedObject = abstractObject.realizedObject;
@@ -25,7 +25,7 @@ public class FreeFallOA : ObjectAnimation
             realizedObject.gravity = 1.0f;
             realizedObject.CollideWithTerrain = true;
 
-            playerObjectModule.playCollisionSound = true;
+            playerObjectModule.PlayCollisionSound = true;
         }
     }
 }

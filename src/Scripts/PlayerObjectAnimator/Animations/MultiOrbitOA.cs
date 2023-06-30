@@ -25,15 +25,15 @@ public class MultiOrbitOA : ObjectAnimation
     public const float F_ADDITION_3 = -0.08f;
     public const float F_ADDITION_2 = 0.16f;
 
-    public AbstractPhysicalObject? prevActiveObject;
+    private AbstractPhysicalObject? prevActiveObject;
 
     public MultiOrbitOA(Player player) : base(player)
     {
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-        foreach (int randIndex in Enumerable.Range(0, playerModule.abstractInventory.Count).OrderBy(x => Random.value))
+        foreach (int randIndex in Enumerable.Range(0, playerModule.AbstractInventory.Count).OrderBy(x => Random.value))
         {
-            var item = playerModule.abstractInventory[randIndex];
+            var item = playerModule.AbstractInventory[randIndex];
             if (item == playerModule.ActiveObject) continue;
 
             if (OrbitPearls_2.Count < 2)

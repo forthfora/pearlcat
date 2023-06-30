@@ -14,7 +14,7 @@ public static partial class Hooks
         if (self.room == null || self.onBack != null) return;
 
 
-        foreach (var abstractObject in playerModule.abstractInventory)
+        foreach (var abstractObject in playerModule.AbstractInventory)
         {
             if (abstractObject.realizedObject != null)
             {
@@ -121,7 +121,7 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        foreach (var abstractObject in playerModule.abstractInventory)
+        foreach (var abstractObject in playerModule.AbstractInventory)
         {
             if (abstractObject.realizedObject == null) continue;
 
@@ -136,7 +136,7 @@ public static partial class Hooks
         var playerData = GetAllPlayerData(targetObject.world.game);
 
         foreach (var playerModule in playerData)
-            if (playerModule.abstractInventory.Any(abstractObject => abstractObject == targetObject))
+            if (playerModule.AbstractInventory.Any(abstractObject => abstractObject == targetObject))
                 return true;
 
         return false;
@@ -150,7 +150,7 @@ public static partial class Hooks
 
         if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
 
-        if (playerModule.abstractInventory.Count >= deathPersistentData.MaxStorageCount) return;
+        if (playerModule.AbstractInventory.Count >= deathPersistentData.MaxStorageCount) return;
 
         self.AddToInventory(abstractObject);
     }
@@ -175,11 +175,11 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (playerModule.ActiveObject != null && playerModule.activeObjectIndex != null)
-            playerModule.abstractInventory.Insert((int)playerModule.activeObjectIndex + 1, abstractObject);
+        if (playerModule.ActiveObject != null && playerModule.ActiveObjectIndex != null)
+            playerModule.AbstractInventory.Insert((int)playerModule.ActiveObjectIndex + 1, abstractObject);
 
         else
-            playerModule.abstractInventory.Add(abstractObject);
+            playerModule.AbstractInventory.Add(abstractObject);
 
 
         abstractObject.realizedObject?.MarkAsPlayerObject();
@@ -192,7 +192,7 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        playerModule.abstractInventory.Remove(abstractObject);
+        playerModule.AbstractInventory.Remove(abstractObject);
         self.UpdateInventorySaveData(playerModule);
 
         if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon))
@@ -202,7 +202,7 @@ public static partial class Hooks
 
         abstractObject.realizedObject?.ClearAsPlayerObject();
         
-        if (playerModule.ActiveObject == null && playerModule.abstractInventory.Count > 0)
+        if (playerModule.ActiveObject == null && playerModule.AbstractInventory.Count > 0)
             self.ActivateObjectInStorage(0);
 
         playerModule.PickObjectAnimation(self);
@@ -214,7 +214,7 @@ public static partial class Hooks
 
         List<string> inventoryData = new();
 
-        foreach (var item in playerModule.abstractInventory)
+        foreach (var item in playerModule.AbstractInventory)
             inventoryData.Add(item.ToString());
         
         deathPersistentData.RawInventoryData[self.playerState.playerNumber] = inventoryData;
@@ -227,14 +227,14 @@ public static partial class Hooks
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        if (playerModule.activeObjectIndex == null) return;
+        if (playerModule.ActiveObjectIndex == null) return;
 
-        if (playerModule.abstractInventory.Count <= 1) return;
+        if (playerModule.AbstractInventory.Count <= 1) return;
 
 
-        int targetIndex = (int)playerModule.activeObjectIndex + 1;
+        int targetIndex = (int)playerModule.ActiveObjectIndex + 1;
 
-        if (targetIndex >= playerModule.abstractInventory.Count)
+        if (targetIndex >= playerModule.AbstractInventory.Count)
             targetIndex = 0;
 
         player.ActivateObjectInStorage(targetIndex);
@@ -245,15 +245,15 @@ public static partial class Hooks
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        if (playerModule.activeObjectIndex == null) return;
+        if (playerModule.ActiveObjectIndex == null) return;
 
-        if (playerModule.abstractInventory.Count <= 1) return;
+        if (playerModule.AbstractInventory.Count <= 1) return;
 
 
-        int targetIndex = (int)playerModule.activeObjectIndex - 1;
+        int targetIndex = (int)playerModule.ActiveObjectIndex - 1;
 
         if (targetIndex < 0)
-            targetIndex = playerModule.abstractInventory.Count - 1;
+            targetIndex = playerModule.AbstractInventory.Count - 1;
 
         player.ActivateObjectInStorage(targetIndex);
     }
@@ -262,10 +262,10 @@ public static partial class Hooks
     {
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (objectIndex < 0 ||  objectIndex >= playerModule.abstractInventory.Count) return;
+        if (objectIndex < 0 ||  objectIndex >= playerModule.AbstractInventory.Count) return;
 
         var oldObject = playerModule.ActiveObject?.realizedObject;
-        playerModule.activeObjectIndex = objectIndex;
+        playerModule.ActiveObjectIndex = objectIndex;
         var newObject = playerModule.ActiveObject?.realizedObject;
 
         oldObject.SwapEffect(newObject);
@@ -275,7 +275,7 @@ public static partial class Hooks
         
         if (!player.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
 
-        deathPersistentData.ActiveObjectIndex[player.playerState.playerNumber] = (int)playerModule.activeObjectIndex;
+        deathPersistentData.ActiveObjectIndex[player.playerState.playerNumber] = (int)playerModule.ActiveObjectIndex;
 
 
         if (player.graphicsModule is not PlayerGraphics pGraphics || newObject == null) return;

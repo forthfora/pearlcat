@@ -14,8 +14,8 @@ public abstract class ObjectAnimation
 
         HaloEffectStackers.Clear();
 
-        for (int i = 0; i < playerModule.abstractInventory.Count; i++)
-            HaloEffectStackers.Add((1.0f / playerModule.abstractInventory.Count) * i);
+        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
+            HaloEffectStackers.Add((1.0f / playerModule.AbstractInventory.Count) * i);
     }
 
 
@@ -26,9 +26,9 @@ public abstract class ObjectAnimation
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        for (int i = 0; i < playerModule.abstractInventory.Count; i++)
+        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
         {
-            var abstractObject = playerModule.abstractInventory[i];
+            var abstractObject = playerModule.AbstractInventory[i];
 
             if (abstractObject.realizedObject == null) continue;
             var realizedObject = abstractObject.realizedObject;
@@ -38,7 +38,7 @@ public abstract class ObjectAnimation
             if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out _))
                 new ObjectAddon(abstractObject);
 
-            playerObjectModule.playCollisionSound = false;
+            playerObjectModule.PlayCollisionSound = false;
         }
 
         animStacker++;
@@ -61,23 +61,18 @@ public abstract class ObjectAnimation
     }
 
 
-
-    public List<float> HaloEffectStackers = new();
-
+    public List<float> HaloEffectStackers { get; set; } = new();
     public float HaloEffectFrameAddition { get; set; } = 0.02f;
-    
     public float HaloEffectDir { get; set; } = 1;
-
-
 
     public virtual void UpdateHaloEffects(Player player)
     {
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        for (int i = 0; i < playerModule.abstractInventory.Count; i++)
+        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
+            AbstractPhysicalObject abstractObject = playerModule.AbstractInventory[i];
 
             if (abstractObject.realizedObject == null) continue;
 
@@ -86,7 +81,7 @@ public abstract class ObjectAnimation
             addon.drawHalo = true;
             float haloEffectStacker = HaloEffectStackers[i];
 
-            if (i == playerModule.activeObjectIndex)
+            if (i == playerModule.ActiveObjectIndex)
             {
                 addon.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
                 addon.haloScale = 1.0f + 0.45f * haloEffectStacker;
@@ -114,9 +109,9 @@ public abstract class ObjectAnimation
     {
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-        for (int i = 0; i < playerModule.abstractInventory.Count; i++)
+        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
+            AbstractPhysicalObject abstractObject = playerModule.AbstractInventory[i];
             if (abstractObject.realizedObject == null) continue;
 
             if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
@@ -124,7 +119,7 @@ public abstract class ObjectAnimation
             var effect = abstractObject.GetPOEffect();
             var majorEffect = effect.majorEffect;
 
-            if (i != playerModule.activeObjectIndex)
+            if (i != playerModule.ActiveObjectIndex)
                 majorEffect = POEffect.MajorEffect.NONE;
 
             addon.drawSymbolSpear = majorEffect == POEffect.MajorEffect.SPEAR_CREATION;

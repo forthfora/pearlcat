@@ -38,7 +38,7 @@ public partial class Hooks
 
         if (!player.TryGetPearlcatModule(out var playerModule)) return result;
 
-        result.AddRange(playerModule.abstractInventory);
+        result.AddRange(playerModule.AbstractInventory);
         return result;
     }
 }

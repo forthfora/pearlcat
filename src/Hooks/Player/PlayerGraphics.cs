@@ -51,13 +51,13 @@ public static partial class Hooks
         playerModule.InitColors(self);
 
 
-        playerModule.firstSprite = sLeaser.sprites.Length;
-        int spriteIndex = playerModule.firstSprite;
+        playerModule.FirstSprite = sLeaser.sprites.Length;
+        int spriteIndex = playerModule.FirstSprite;
 
-        playerModule.sleeveLSprite = spriteIndex++;
-        playerModule.sleeveRSprite = spriteIndex++;
+        playerModule.SleeveLSprite = spriteIndex++;
+        playerModule.SleeveRSprite = spriteIndex++;
 
-        playerModule.feetSprite = spriteIndex++;
+        playerModule.FeetSprite = spriteIndex++;
 
         playerModule.earLSprite = spriteIndex++;
         playerModule.earRSprite = spriteIndex++;
@@ -65,14 +65,14 @@ public static partial class Hooks
         playerModule.cloakSprite = spriteIndex++;
 
 
-        playerModule.lastSprite = spriteIndex;
+        playerModule.LastSprite = spriteIndex;
         Array.Resize(ref sLeaser.sprites, spriteIndex);
 
 
-        sLeaser.sprites[playerModule.sleeveLSprite] = new FSprite("pearlcatSleeve0");
-        sLeaser.sprites[playerModule.sleeveRSprite] = new FSprite("pearlcatSleeve0");
+        sLeaser.sprites[playerModule.SleeveLSprite] = new FSprite("pearlcatSleeve0");
+        sLeaser.sprites[playerModule.SleeveRSprite] = new FSprite("pearlcatSleeve0");
 
-        sLeaser.sprites[playerModule.feetSprite] = new FSprite("pearlcatFeetA0");
+        sLeaser.sprites[playerModule.FeetSprite] = new FSprite("pearlcatFeetA0");
         
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
@@ -119,7 +119,7 @@ public static partial class Hooks
 
         if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (playerModule.firstSprite <= 0 || sLeaser.sprites.Length < playerModule.lastSprite) return;
+        if (playerModule.FirstSprite <= 0 || sLeaser.sprites.Length < playerModule.LastSprite) return;
 
         newContatiner ??= rCam.ReturnFContainer("Midground");
         OrderAndColorSprites(self, sLeaser, rCam, playerModule, newContatiner);
@@ -138,10 +138,10 @@ public static partial class Hooks
         if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.sleeveLSprite);
-        UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.sleeveRSprite);
+        UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveLSprite);
+        UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveRSprite);
 
-        UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", playerModule.feetSprite);
+        UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", playerModule.FeetSprite);
 
 
         UpdateReplacementPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
@@ -250,10 +250,10 @@ public static partial class Hooks
         var legsSprite = sLeaser.sprites[LEGS_SPRITE];
         var markSprite = sLeaser.sprites[MARK_SPRITE];
 
-        var sleeveLSprite = sLeaser.sprites[playerModule.sleeveLSprite];
-        var sleeveRSprite = sLeaser.sprites[playerModule.sleeveRSprite];
+        var sleeveLSprite = sLeaser.sprites[playerModule.SleeveLSprite];
+        var sleeveRSprite = sLeaser.sprites[playerModule.SleeveRSprite];
 
-        var feetSprite = sLeaser.sprites[playerModule.feetSprite];
+        var feetSprite = sLeaser.sprites[playerModule.FeetSprite];
 
         var earLSprite = sLeaser.sprites[playerModule.earLSprite];
         var earRSprite = sLeaser.sprites[playerModule.earRSprite];
@@ -400,7 +400,7 @@ public static partial class Hooks
     }
 
     public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PlayerModule playerModule, Vector2 offset) =>
-        Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.prevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
+        Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
 
     static readonly PlayerFeature<Vector2> EarLOffset = new("ear_l_offset", Vector2Feature);
     static readonly PlayerFeature<Vector2> EarROffset = new("ear_r_offset", Vector2Feature);
@@ -602,7 +602,7 @@ public static partial class Hooks
         ApplyEarMovement(self);
 
         playerModule.cloak.Update();
-        playerModule.prevHeadRotation = self.head.connection.Rotation;
+        playerModule.PrevHeadRotation = self.head.connection.Rotation;
     }
 
 
@@ -741,22 +741,22 @@ public static partial class Hooks
         if (colors.Count == 0)
             return result;
 
-        playerModule.shortcutColorStacker += ShortcutColorIncrement * playerModule.shortcutColorStackerDirection;
+        playerModule.ShortcutColorStacker += ShortcutColorIncrement * playerModule.ShortcutColorStackerDirection;
 
-        if (playerModule.shortcutColorStackerDirection == 1 && playerModule.shortcutColorStacker > 1.0f)
+        if (playerModule.ShortcutColorStackerDirection == 1 && playerModule.ShortcutColorStacker > 1.0f)
         {
-            playerModule.shortcutColorStackerDirection = -1;
-            playerModule.shortcutColorStacker += ShortcutColorIncrement * playerModule.shortcutColorStackerDirection;
+            playerModule.ShortcutColorStackerDirection = -1;
+            playerModule.ShortcutColorStacker += ShortcutColorIncrement * playerModule.ShortcutColorStackerDirection;
 
         }
-        else if (playerModule.shortcutColorStackerDirection == -1 && playerModule.shortcutColorStacker < 0.0f)
+        else if (playerModule.ShortcutColorStackerDirection == -1 && playerModule.ShortcutColorStacker < 0.0f)
         {
-            playerModule.shortcutColorStackerDirection = 1;
-            playerModule.shortcutColorStacker += ShortcutColorIncrement * playerModule.shortcutColorStackerDirection;
+            playerModule.ShortcutColorStackerDirection = 1;
+            playerModule.ShortcutColorStacker += ShortcutColorIncrement * playerModule.ShortcutColorStackerDirection;
         }
 
         // https://gamedev.stackexchange.com/questions/98740/how-to-color-lerp-between-multiple-colors
-        float scaledTime = playerModule.shortcutColorStacker * (colors.Count - 1);
+        float scaledTime = playerModule.ShortcutColorStacker * (colors.Count - 1);
         Color oldColor = colors[(int)scaledTime];
 
         int nextIndex = (int)(scaledTime + 1.0f);

@@ -46,7 +46,7 @@ public partial class Hooks
             var track = self.instruction.layers[j].tracks[k];
             var module = musicPlayer.GetModule();
 
-            return module.subregion != null && track.subRegions != null && track.subRegions.Contains(module.subregion);
+            return module.Subregion != null && track.subRegions != null && track.subRegions.Contains(module.Subregion);
         });
 
         c.Emit(OpCodes.Or);
@@ -57,7 +57,7 @@ public partial class Hooks
     {
         if (chunk.owner != null && chunk.owner.abstractPhysicalObject.IsPlayerObject())
         {
-            if (soundId == SoundID.SS_AI_Marble_Hit_Floor && PlayerObjectData.TryGetValue(chunk.owner, out var playerObjectModule) && !playerObjectModule.playCollisionSound)
+            if (soundId == SoundID.SS_AI_Marble_Hit_Floor && PlayerObjectData.TryGetValue(chunk.owner, out var playerObjectModule) && !playerObjectModule.PlayCollisionSound)
                 vol = 0.0f;
         }
 
@@ -84,18 +84,18 @@ public partial class Hooks
     {
         var module = self.GetModule();
 
-        module.subregion = null;
+        module.Subregion = null;
 
-        if (module.isPearlPlaying)
+        if (module.IsPearlPlaying)
         {
-            module.subregion = newRegion switch
+            module.Subregion = newRegion switch
             {
                 "CC" => Random.value > 0.5f ? "Chimney Canopy" : "The Gutter",
                 _ => null,
             };
         }
 
-        module.isPearlPlaying = false;
+        module.IsPearlPlaying = false;
 
         orig(self, newRegion);
     }
@@ -119,12 +119,12 @@ public partial class Hooks
 
                 var effect = playerModule.ActiveObject.GetPOEffect();
 
-                if (effect.threatMusic != null && (PearlcatOptions.pearlThreatMusic.Value || effect.threatMusic == "AS"))
+                if (effect.ThreatMusic != null && (PearlcatOptions.pearlThreatMusic.Value || effect.ThreatMusic == "AS"))
                 {
-                    if (self.proceduralMusic == null || (self.nextProcedural != effect.threatMusic && self.proceduralMusic.instruction.name != effect.threatMusic))
+                    if (self.proceduralMusic == null || (self.nextProcedural != effect.ThreatMusic && self.proceduralMusic.instruction.name != effect.ThreatMusic))
                     {
-                        module.isPearlPlaying = true;
-                        self.NewRegion(effect.threatMusic);
+                        module.IsPearlPlaying = true;
+                        self.NewRegion(effect.ThreatMusic);
                     }
 
                     hasThreatMusicPearl = true;

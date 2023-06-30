@@ -3,6 +3,6 @@ namespace Pearlcat;
 
 public class MusicPlayerModule
 {
-    public bool isPearlPlaying = false;
-    public string? subregion = null;
+    public bool IsPearlPlaying { get; set; }
+    public string? Subregion { get; set; }
 }

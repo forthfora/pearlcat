@@ -4,14 +4,14 @@ namespace Pearlcat;
 public class PlayerObjectModule
 {
     // Attributes to restore
-    public float gravity = 1.0f;
+    public float Gravity { get; set; } = 1.0f;
 
-    public bool collideWithObjects = true;
-    public bool collideWithSlopes = true;
-    public bool collideWithTerrain = true;
+    public bool CollideWithObjects { get; set; } = true;
+    public bool CollideWithSlopes { get; set; } = true;
+    public bool CollideWithTerrain { get; set; } = true;
 
-    public int pearlGlimmerWait = 0;
-    public float weaponRotationSpeed = 0.0f;
+    public int PearlGlimmerWait { get; set; }
+    public float WeaponRotationSpeed { get; set; }
 
-    public bool playCollisionSound = true;
+    public bool PlayCollisionSound { get; set; } = true;
 }

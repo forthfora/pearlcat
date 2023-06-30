@@ -10,68 +10,68 @@ namespace Pearlcat;
 
 public class PlayerModule
 {
-    public WeakReference<Player> PlayerRef;
+    public WeakReference<Player> PlayerRef { get; set; }
 
     public PlayerModule(Player self)
     {
         PlayerRef = new WeakReference<Player>(self);
 
-        playerNumber = self.playerState.playerNumber;
-        baseStats = normalStats;
+        PlayerNumber = self.playerState.playerNumber;
+        BaseStats = NormalStats;
     }
 
-    public readonly int playerNumber;
+    public int PlayerNumber { get; private set; }
 
-    public SlugcatStats baseStats;
-    public readonly SlugcatStats normalStats = new(Enums.General.Pearlcat, false);
-    public readonly SlugcatStats malnourishedStats = new(Enums.General.Pearlcat, true);
+    public SlugcatStats BaseStats { get; set; }
+    public SlugcatStats NormalStats { get; private set; } = new(Enums.General.Pearlcat, false);
+    public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.General.Pearlcat, true);
 
-    public int firstSprite = 0;
-    public int lastSprite = 0;
+    public int FirstSprite { get; set; }
+    public int LastSprite { get; set; }
 
-    public int sleeveLSprite = 0;
-    public int sleeveRSprite = 0;
-    public int feetSprite = 0;
+    public int SleeveLSprite { get; set; }
+    public int SleeveRSprite { get; set; }
+    public int FeetSprite { get; set; }
 
-    public Vector2 prevHeadRotation = Vector2.zero;
+    public Vector2 PrevHeadRotation { get; set; }
 
-    public bool canMaul = false;
-    public bool canSpearPull = false;
-    public bool canBackSpear = false;
+    public bool CanMaul { get; set; }
+    public bool CanSpearPull { get; set; }
+    public bool CanBackSpear { get; set; }
 
-    public bool wasSwapLeftInput = false;
-    public bool wasSwapRightInput = false;
-    public bool wasSwapped = false;
-    public bool wasStoreInput = false;
-    public bool wasAbilityInput = false;
+    public bool WasSwapLeftInput { get; set; }
+    public bool WasSwapRightInput { get; set; }
+    public bool WasSwapped { get; set; }
+    public bool WasStoreInput { get; set; }
+    public bool WasAbilityInput { get; set; }
 
-    public Player.InputPackage unblockedInput;
-    public bool blockInput = false;
+    public Player.InputPackage UnblockedInput { get; set; }
+    public bool BlockInput { get; set; }
 
-    public int swapIntervalStacker = 0;
-    public int storeObjectStacker = 0;
+    public int SwapIntervalStacker { get; set; }
+    public int StoreObjectStacker { get; set; }
 
-    public List<AbstractPhysicalObject> abstractInventory = new();
-    public List<AbstractPhysicalObject> postDeathInventory = new();
+    public List<AbstractPhysicalObject> AbstractInventory { get; set; } = new();
+    public List<AbstractPhysicalObject> PostDeathInventory { get; set; } = new();
 
-    public AbstractPhysicalObject? ActiveObject => activeObjectIndex != null && activeObjectIndex < abstractInventory.Count ? abstractInventory[(int)activeObjectIndex] : null;
-    public int? activeObjectIndex = 0;
+    public AbstractPhysicalObject? ActiveObject => ActiveObjectIndex != null && ActiveObjectIndex < AbstractInventory.Count ? AbstractInventory[(int)ActiveObjectIndex] : null;
+    public int? ActiveObjectIndex { get; set; }
 
-    public POEffect currentPOEffect = POEffectManager.None;
+    public POEffect CurrentPOEffect { get; set; } = POEffectManager.None;
 
-    public float shortcutColorStacker = 0.0f;
-    public int shortcutColorStackerDirection = 1;
+    public float ShortcutColorStacker { get; set; }
+    public int ShortcutColorStackerDirection { get; set; } = 1;
 
-    public void ShowHUD(int duration) => hudFadeStacker = duration;
+    public void ShowHUD(int duration) => HudFadeStacker = duration;
 
-    public float hudFade = 0.0f;
-    public float hudFadeStacker = 0;
+    public float HudFade { get; set; }
+    public float HudFadeStacker { get; set; }
 
 
-    public int objectAnimationStacker = 0;
-    public int objectAnimationDuration = 0;
+    public int ObjectAnimationStacker { get; set; }
+    public int ObjectAnimationDuration { get; set; }
 
-    public ObjectAnimation? currentObjectAnimation = null;
+    public ObjectAnimation? CurrentObjectAnimation { get; set; }
 
     public void PickObjectAnimation(Player player)
     {
@@ -79,15 +79,15 @@ public class PlayerModule
         if (!Hooks.MaxOATime.TryGet(player, out var maxTime)) return;
         if (!Hooks.DazeDuration.TryGet(player, out var dazeDuration)) return;
 
-        currentObjectAnimation = GetObjectAnimation(player);
-        objectAnimationStacker = 0;
+        CurrentObjectAnimation = GetObjectAnimation(player);
+        ObjectAnimationStacker = 0;
 
         var randState = Random.state;
         Random.InitState((int)DateTime.Now.Ticks);
-        objectAnimationDuration = Random.Range(minTime, maxTime);
+        ObjectAnimationDuration = Random.Range(minTime, maxTime);
         Random.state = randState;
 
-        foreach (var abstractObject in abstractInventory)
+        foreach (var abstractObject in AbstractInventory)
             abstractObject.realizedObject?.SwapEffect(player.firstChunk.pos);
 
         //dazeStacker = dazeDuration;
@@ -105,8 +105,8 @@ public class PlayerModule
             new SineWaveInterOA(player),
         };
 
-        if (currentObjectAnimation != null && animationPool.Count > 1)
-            animationPool.RemoveAll(x => x.GetType() == currentObjectAnimation.GetType());
+        if (CurrentObjectAnimation != null && animationPool.Count > 1)
+            animationPool.RemoveAll(x => x.GetType() == CurrentObjectAnimation.GetType());
 
         //if (animationI >= animationPool.Count)
         //    animationI = 0;
@@ -119,8 +119,8 @@ public class PlayerModule
     //public static int animationI = 0;
 
 
-    public bool IsDazed => dazeStacker > 0;
-    public int dazeStacker = 0;
+    public bool IsDazed => DazeStacker > 0;
+    public int DazeStacker { get; set; }
 
 
     public void LoadSaveData(Player self)
@@ -135,13 +135,13 @@ public class PlayerModule
                 self.StoreObject(SaveState.AbstractPhysicalObjectFromString(world, item));
  
         if (deathPersistentData.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndexData))
-            activeObjectIndex = activeObjectIndexData;
+            ActiveObjectIndex = activeObjectIndexData;
     }
 
 
     #region Sounds
 
-    public DynamicSoundLoop MenuCrackleLoop = null!;
+    public DynamicSoundLoop MenuCrackleLoop { get; set; } = null!;
 
     public void InitSounds(Player player)
     {
@@ -212,13 +212,13 @@ public class PlayerModule
     public Vector2 earLAttachPos;
     public Vector2 earRAttachPos;
 
-    public int earLFlipDirection = 1;
-    public int earRFlipDirection = 1;
+    public int earLFlipDirection { get; set; } = 1;
+    public int earRFlipDirection { get; set; } = 1;
 
-    public string prevEarL = "";
-    public string prevEarR = "";
-    public bool earLAlt = false;
-    public bool earRAlt = false;
+    public string prevEarL { get; set; } = "";
+    public string prevEarR { get; set; } = "";
+    public bool earLAlt { get; set; } = false;
+    public bool earRAlt { get; set; } = false;
 
 
     public void LoadEarLTexture(string textureName)
@@ -233,7 +233,7 @@ public class PlayerModule
         MapAlphaToColor(earLTexture, 1.0f, BodyColor);
         MapAlphaToColor(earLTexture, 0.0f, AccentColor);
 
-        prevEarL = Plugin.MOD_ID + textureName + playerNumber + earLAlt;
+        prevEarL = Plugin.MOD_ID + textureName + PlayerNumber + earLAlt;
         earLAlt = !earLAlt;
 
         earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevEarL, earLTexture, false);
@@ -251,7 +251,7 @@ public class PlayerModule
         MapAlphaToColor(earRTexture, 1.0f, BodyColor);
         MapAlphaToColor(earRTexture, 0.0f, AccentColor);
 
-        prevEarR = Plugin.MOD_ID + textureName + playerNumber + earRAlt;
+        prevEarR = Plugin.MOD_ID + textureName + PlayerNumber + earRAlt;
         earRAlt = !earRAlt;
 
         earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevEarR, earRTexture, false);
@@ -319,8 +319,8 @@ public class PlayerModule
     public Texture2D? tailTexture;
     public FAtlas? tailAtlas;
 
-    public string prevTail = "";
-    public bool tailAlt = false;
+    public string prevTail { get; set; } = "";
+    public bool tailAlt { get; set; } = false;
 
     public void LoadTailTexture(string textureName)
     {
@@ -334,7 +334,7 @@ public class PlayerModule
         MapAlphaToColor(tailTexture, 1.0f, BodyColor);
         MapAlphaToColor(tailTexture, 0.0f, AccentColor);
 
-        prevTail = Plugin.MOD_ID + textureName + playerNumber + tailAlt;
+        prevTail = Plugin.MOD_ID + textureName + PlayerNumber + tailAlt;
         tailAlt = !tailAlt;
 
         tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevTail, tailTexture, false);
@@ -384,7 +384,7 @@ public class PlayerModule
     public FAtlas? cloakAtlas;
 
     public int cloakSprite;
-    public Cloak cloak = null!;
+    public Cloak cloak { get; set; } = null!;
 
     public void LoadCloakTexture(string textureName)
     {

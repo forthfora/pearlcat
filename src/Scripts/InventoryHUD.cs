@@ -35,20 +35,20 @@ public class InventoryHUD : HudPart
         {
             if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
 
-            if (playerModule.activeObjectIndex == null) continue;
+            if (playerModule.ActiveObjectIndex == null) continue;
 
-            var activeIndex = (int)playerModule.activeObjectIndex;
+            var activeIndex = (int)playerModule.ActiveObjectIndex;
 
 
-            for (int i = 0; i < playerModule.abstractInventory.Count; i++)
+            for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
             {
-                var abstractObject = playerModule.abstractInventory[i];
+                var abstractObject = playerModule.AbstractInventory[i];
                 var diff = i - activeIndex;
                 var absDiff = Mathf.Abs(diff);
 
                 if (!Symbols.TryGetValue(abstractObject, out var symbol)) continue;
 
-                symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.abstractInventory.Count - 2) / 2, 1.0f, 0.2f);
+                symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.AbstractInventory.Count - 2) / 2, 1.0f, 0.2f);
 
                 const float GAP = 17.5f;
                 float spacing = GAP * i;
@@ -91,9 +91,9 @@ public class InventoryHUD : HudPart
         {
             var playerModule = PlayerData[pIndex];
 
-            for (int i = 0; i < playerModule.abstractInventory.Count; i++)
+            for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
             {
-                var abstractObject = playerModule.abstractInventory[i];
+                var abstractObject = playerModule.AbstractInventory[i];
                 
                 if (!Symbols.TryGetValue(abstractObject, out var symbol))
                 {
@@ -105,7 +105,7 @@ public class InventoryHUD : HudPart
                 symbol.UpdateIcon(abstractObject);
                 symbol.Update();
 
-                symbol.Fade = playerModule.PlayerRef.TryGetTarget(out var player) && player.room == null ? 0.0f : playerModule.hudFade;
+                symbol.Fade = playerModule.PlayerRef.TryGetTarget(out var player) && player.room == null ? 0.0f : playerModule.HudFade;
             }
 
         }

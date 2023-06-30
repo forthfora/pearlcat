@@ -70,7 +70,7 @@ public static partial class Hooks
         {
             if (!MenuIllustrationData.TryGetValue(illustration, out var pearlModule)) continue;
 
-            if (pearlModule.index == -1)
+            if (pearlModule.Index == -1)
             {
                 if (activePearlColor == null)
                 {
@@ -89,23 +89,23 @@ public static partial class Hooks
                 var mouseVel = (self.menu.mousePosition - self.menu.lastMousePos).magnitude;
                 // Custom.LerpMap(mouseVel, 0.0f, 100.0f, 1.0f, 6.0f);
 
-                if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, pearlModule.initialPos) < 120.0f)
-                    pearlModule.vel += (spritePos - mousePos).normalized * 2.0f;
+                if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, pearlModule.InitialPos) < 120.0f)
+                    pearlModule.Vel += (spritePos - mousePos).normalized * 2.0f;
 
 
-                var dir = (pearlModule.initialPos - pos).normalized;
-                var dist = Custom.Dist(pearlModule.initialPos, pos);
+                var dir = (pearlModule.InitialPos - pos).normalized;
+                var dist = Custom.Dist(pearlModule.InitialPos, pos);
                 var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
 
-                pearlModule.vel *= Custom.LerpMap(pearlModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-                pearlModule.vel += dir * speed;
+                pearlModule.Vel *= Custom.LerpMap(pearlModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+                pearlModule.Vel += dir * speed;
 
-                illustration.pos += pearlModule.vel;
+                illustration.pos += pearlModule.Vel;
                 continue;
             }
 
             var count = pearlColors.Count;
-            var i = pearlModule.index;
+            var i = pearlModule.Index;
 
             if (i >= pearlColors.Count)
             {
