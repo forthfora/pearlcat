@@ -1,6 +1,4 @@
-﻿using SlugBase.Features;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public partial class Hooks
 {

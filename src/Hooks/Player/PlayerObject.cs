@@ -148,7 +148,6 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-
         if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
 
         if (playerModule.abstractInventory.Count >= deathPersistentData.MaxStorageCount) return;
@@ -162,8 +161,7 @@ public static partial class Hooks
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-
-        AbstractPhysicalObject? activeObject = playerModule.ActiveObject;
+        var activeObject = playerModule.ActiveObject;
         if (activeObject == null) return;
 
         RemoveFromInventory(self, activeObject);
@@ -177,24 +175,37 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        playerModule.abstractInventory.Add(abstractObject);
+        if (playerModule.ActiveObject != null && playerModule.activeObjectIndex != null)
+            playerModule.abstractInventory.Insert((int)playerModule.activeObjectIndex + 1, abstractObject);
+
+        else
+            playerModule.abstractInventory.Add(abstractObject);
+
+
+        abstractObject.realizedObject?.MarkAsPlayerObject();
         self.UpdateInventorySaveData(playerModule);
 
-        playerModule.currentObjectAnimation?.InitAnimation(self);
+        playerModule.PickObjectAnimation(self);
     }
 
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-
         playerModule.abstractInventory.Remove(abstractObject);
         self.UpdateInventorySaveData(playerModule);
 
-        if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var addon))
+        if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon))
             addon.Destroy();
 
+        InventoryHUD.Symbols.Remove(abstractObject);
+
         abstractObject.realizedObject?.ClearAsPlayerObject();
+        
+        if (playerModule.ActiveObject == null && playerModule.abstractInventory.Count > 0)
+            self.ActivateObjectInStorage(0);
+
+        playerModule.PickObjectAnimation(self);
     }
 
     public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
@@ -271,23 +282,5 @@ public static partial class Hooks
 
         //player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
         pGraphics.LookAtPoint(newObject.firstChunk.pos, 1.0f);
-    }
-
-
-
-    public static void DestroyTransferObject(this PlayerModule playerModule)
-    {
-        ResetTransferObject(playerModule);
-
-        playerModule.transferObject?.Destroy();
-        playerModule.transferObject?.realizedObject?.Destroy();
-        playerModule.canTransferObject = false;
-    }
-
-    public static void ResetTransferObject(this PlayerModule playerModule)
-    {
-        playerModule.transferObject = null;
-        playerModule.transferObjectInitialPos = null;
-        playerModule.transferStacker = 0;
     }
 }

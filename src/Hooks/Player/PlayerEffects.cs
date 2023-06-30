@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Pearlcat;
 
@@ -62,37 +61,42 @@ public static partial class Hooks
         playerModule.canMaul = effect.maulFac >= 1.0;
 
 
+
         switch (effect.majorEffect)
         {
             case POEffect.MajorEffect.SPEAR_CREATION:
                 UpdateSpearCreation(self, playerModule);
                 break;
-            
+
             case POEffect.MajorEffect.AGILITY:
                 UpdateAgility(self, playerModule);
                 break;
-            
+
             case POEffect.MajorEffect.REVIVE:
                 UpdateRevive(self, playerModule);
                 break;
-            
+
             case POEffect.MajorEffect.SHIELD:
                 UpdateShield(self, playerModule);
                 break;
-            
+
             case POEffect.MajorEffect.RAGE:
                 UpdateRage(self, playerModule);
                 break;
-            
+
             case POEffect.MajorEffect.CAMOFLAGUE:
                 UpdateCamoflague(self, playerModule);
                 break;
-        }
+        } 
     }
 
 
-    public static void UpdateSpearCreation(Player self, PlayerModule playerModule) { }
-    
+    public static void UpdateSpearCreation(Player self, PlayerModule playerModule)
+    {
+        var abilityInput = self.IsAbilityKeybindPressed();
+        var wasAbilityInput = playerModule.wasAbilityInput;
+    }
+
     public static void UpdateAgility(Player self, PlayerModule playerModule) { }
     
     public static void UpdateRevive(Player self, PlayerModule playerModule) { }

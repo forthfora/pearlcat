@@ -1,9 +1,7 @@
 ﻿using HUD;
-using Pearlcat;
 using RWCustom;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
@@ -12,7 +10,7 @@ namespace Pearlcat;
 
 public class InventoryHUD : HudPart
 {
-    public readonly ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectSymbol> Symbols = new();
+    public static readonly ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectSymbol> Symbols = new();
     public readonly List<PlayerObjectSymbol> AllSymbols = new();
 
     public Vector2 pos;

@@ -1,9 +1,7 @@
 ﻿using RWCustom;
-using SlugBase.DataTypes;
 using SlugBase.Features;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;

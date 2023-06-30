@@ -7,32 +7,36 @@ namespace Pearlcat;
 
 public class ObjectAddon : UpdatableAndDeletable, IDrawable
 {
-    public static ConditionalWeakTable<PhysicalObject, ObjectAddon> ObjectsWithAddon = new();
-
-    public readonly WeakReference<AbstractPhysicalObject> AbstractObject;
+    public readonly static ConditionalWeakTable<AbstractPhysicalObject, ObjectAddon> ObjectsWithAddon = new();
+    public readonly WeakReference<AbstractPhysicalObject> ObjectRef;
 
     public ObjectAddon(AbstractPhysicalObject abstractObject)
     {
-        AbstractObject = new WeakReference<AbstractPhysicalObject>(abstractObject);
-
-        ObjectsWithAddon.Add(abstractObject.realizedObject, this);
+        ObjectRef = new(abstractObject);
         abstractObject.realizedObject.room.AddObject(this);
+        ObjectsWithAddon.Add(abstractObject, this);
     }
-
 
 
     public override void Update(bool eu)
     {
         base.Update(eu);
 
-        if (!AbstractObject.TryGetTarget(out var abstractObject)
+        if (!ObjectRef.TryGetTarget(out var abstractObject)
             || abstractObject.slatedForDeletion
             || abstractObject.realizedObject == null
             || abstractObject.realizedObject.slatedForDeletetion)
             Destroy();
+    }
 
-        if (slatedForDeletetion)
-            RemoveFromRoom();
+    public override void Destroy()
+    {
+        base.Destroy();
+
+        if (ObjectRef.TryGetTarget(out var abstractObject))
+            ObjectsWithAddon.Remove(abstractObject);
+
+        RemoveFromRoom();
     }
 
 

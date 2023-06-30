@@ -38,7 +38,9 @@ public static partial class Hooks
     public static readonly PlayerFeature<float> MaxSpeed = FeatureTypes.PlayerFloat("oa_max_speed");
 
     public static readonly PlayerFeature<Vector2> InventoryUIOffset = new("inventory_ui_offset", Vector2Feature);
-    public static readonly PlayerFeature<float> SwapRepeatInterval = FeatureTypes.PlayerFloat("swap_repeat_interval");
+    public static readonly PlayerFeature<int> SwapRepeatInterval = FeatureTypes.PlayerInt("swap_repeat_interval");
+
+    public static readonly PlayerFeature<int> StoreObjectDelay = FeatureTypes.PlayerInt("store_object_delay");
 
 
     public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.General.Pearlcat;
@@ -107,11 +109,9 @@ public static partial class Hooks
     }
 
 
-
-    // Feature Factories
     public static Vector2 Vector2Feature(JsonAny json)
     {
-        JsonList jsonList = json.AsList();
-        return new Vector2(jsonList[0].AsFloat(), jsonList[1].AsFloat());
+        var jsonList = json.AsList();
+        return new(jsonList[0].AsFloat(), jsonList[1].AsFloat());
     }
 }

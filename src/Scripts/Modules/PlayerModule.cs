@@ -1,6 +1,4 @@
 ﻿using SlugBase.DataTypes;
-using SlugBase.Features;
-using SlugBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +33,7 @@ public class PlayerModule
     public int sleeveRSprite = 0;
     public int feetSprite = 0;
 
-    public bool canSwallowOrRegurgitate = true;
     public Vector2 prevHeadRotation = Vector2.zero;
-
-    public LightSource? activeObjectGlow = null;
 
     public bool canMaul = false;
     public bool canSpearPull = false;
@@ -54,22 +49,15 @@ public class PlayerModule
     public bool blockInput = false;
 
     public int swapIntervalStacker = 0;
+    public int storeObjectStacker = 0;
 
     public List<AbstractPhysicalObject> abstractInventory = new();
     public List<AbstractPhysicalObject> postDeathInventory = new();
 
     public AbstractPhysicalObject? ActiveObject => activeObjectIndex != null && activeObjectIndex < abstractInventory.Count ? abstractInventory[(int)activeObjectIndex] : null;
-    
     public int? activeObjectIndex = 0;
-    public int? selectedObjectIndex = null;
 
     public POEffect currentPOEffect = POEffectManager.None;
-
-    public AbstractPhysicalObject? transferObject = null;
-    public bool canTransferObject = true;
-
-    public Vector2? transferObjectInitialPos = null;
-    public int transferStacker = 0;
 
     public float shortcutColorStacker = 0.0f;
     public int shortcutColorStackerDirection = 1;
@@ -78,6 +66,7 @@ public class PlayerModule
 
     public float hudFade = 0.0f;
     public float hudFadeStacker = 0;
+
 
     public int objectAnimationStacker = 0;
     public int objectAnimationDuration = 0;

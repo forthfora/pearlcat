@@ -1,6 +1,5 @@
 ﻿using Menu;
 using RWCustom;
-using SlugBase.DataTypes;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;

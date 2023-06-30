@@ -1,5 +1,4 @@
-﻿using RWCustom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
@@ -12,7 +11,6 @@ public abstract class ObjectAnimation
     public virtual void InitAnimation(Player self)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
 
         HaloEffectStackers.Clear();
 
@@ -30,15 +28,14 @@ public abstract class ObjectAnimation
 
         for (int i = 0; i < playerModule.abstractInventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
+            var abstractObject = playerModule.abstractInventory[i];
 
             if (abstractObject.realizedObject == null) continue;
             var realizedObject = abstractObject.realizedObject;
 
             if (!Hooks.PlayerObjectData.TryGetValue(realizedObject, out var playerObjectModule)) continue;
 
-
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(realizedObject, out _))
+            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out _))
                 new ObjectAddon(abstractObject);
 
             playerObjectModule.playCollisionSound = false;
@@ -84,7 +81,7 @@ public abstract class ObjectAnimation
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var addon)) continue;
+            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
             
             addon.drawHalo = true;
             float haloEffectStacker = HaloEffectStackers[i];
@@ -122,7 +119,7 @@ public abstract class ObjectAnimation
             AbstractPhysicalObject abstractObject = playerModule.abstractInventory[i];
             if (abstractObject.realizedObject == null) continue;
 
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject.realizedObject, out var addon)) continue;
+            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
 
             var effect = abstractObject.GetPOEffect();
             var majorEffect = effect.majorEffect;

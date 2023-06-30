@@ -1,10 +1,6 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using RWCustom;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using RWCustom;
 using UnityEngine;
+using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
@@ -21,15 +17,6 @@ public static partial class Hooks
 
         On.Player.Die += Player_Die;
         On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
-
-        try
-        {
-            IL.Player.GrabUpdate += Player_GrabUpdateIL;
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError("Player Hooks Error:\n" + e);
-        }
     }
 
     public static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
@@ -66,10 +53,44 @@ public static partial class Hooks
         UpdateHUD(self, playerModule);
         //UpdateSFX(self, playerModule);
 
+        UpdateStoreRetrieveObject(self, playerModule);
+    }
 
-        // HACK
-        if (Input.GetKeyDown(KeyCode.G))
-            self.RetrieveActiveObject();
+    private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
+    {
+
+        if (!StoreObjectDelay.TryGet(self, out var storeObjectDelay)) return;
+
+        var storeInput = self.IsStoreKeybindPressed();
+        var isStoring = self.GraspsHasType(AbstractObjectType.DataPearl) == 0;
+        var toStore = self.grasps[0]?.grabbed;
+
+        if (isStoring && toStore == null) return;
+
+        if (!isStoring && self.FreeHand() == -1) return;
+
+
+        if (playerModule.storeObjectStacker > storeObjectDelay)
+        {
+            if (isStoring)
+            {
+                self.ReleaseGrasp(0);
+                self.StoreObject(toStore!.abstractPhysicalObject);
+            }
+            else
+            {
+                self.RetrieveActiveObject();
+            }
+
+            playerModule.storeObjectStacker = -int.MaxValue;
+        }
+        
+
+        if (storeInput)
+            playerModule.storeObjectStacker++;
+        
+        else
+            playerModule.storeObjectStacker = 0;
     }
 
     private static void UpdateSFX(Player self, PlayerModule playerModule)
@@ -205,8 +226,8 @@ public static partial class Hooks
                 if (item.realizedObject.grabbedBy.Count > 0) continue;
 
 
-                if (ObjectAddon.ObjectsWithAddon.TryGetValue(item.realizedObject, out var _))
-                    ObjectAddon.ObjectsWithAddon.Remove(item.realizedObject);
+                if (ObjectAddon.ObjectsWithAddon.TryGetValue(item, out var _))
+                    ObjectAddon.ObjectsWithAddon.Remove(item);
 
                 self.StoreObject(item);
             }
@@ -308,33 +329,6 @@ public static partial class Hooks
         //StoreObjectUpdate(self);
 
         //TransferObjectUpdate(self);
-    }
-    
-    public static void Player_GrabUpdateIL(ILContext il)
-    {
-        ILCursor c = new(il);
-        ILLabel dest = null!;
-
-        // Allow disabling of ordinary swallowing mechanic
-        c.GotoNext(MoveType.After,
-            x => x.MatchLdcR4(0.5f),
-            x => x.MatchBltUn(out _),
-            x => x.MatchLdcI4(0),
-            x => x.MatchStloc(1),
-            x => x.MatchLdloc(1),
-            x => x.MatchBrfalse(out dest)
-            );
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Func<Player, bool>>((self) =>
-        {
-            if (!self.TryGetPearlcatModule(out var playerModule))
-                return true;
-
-            return playerModule.canSwallowOrRegurgitate;
-        });
-
-        c.Emit(OpCodes.Brfalse, dest);
     }
 
     public static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)

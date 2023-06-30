@@ -18,8 +18,8 @@
         "walk_speed": [1.0, 0.875],
         "climb_speed": [1.0, 0.8],
         "tunnel_speed": [1.0, 0.86],
-        "crouch_stealth": [0.3, 0.5],
-        "loudness": [1.35, 1.0],
+        "crouch_stealth": [0.15, 0.5],
+        "loudness": [1.5, 1.0],
         
         "karma": 0,
         "karma_cap": 4,
@@ -102,6 +102,8 @@
 
         "inventory_ui_offset": [0, 90],
 
-        "swap_repeat_interval": 5
+        "swap_repeat_interval": 5,
+
+        "store_object_delay": 30
     }
 }

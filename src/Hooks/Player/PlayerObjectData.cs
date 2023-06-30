@@ -1,6 +1,4 @@
 ﻿using RWCustom;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -124,7 +122,7 @@ public static partial class Hooks
 
     public static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        if (!ObjectAddon.ObjectsWithAddon.TryGetValue(self, out var addon)) return;
+        if (!ObjectAddon.ObjectsWithAddon.TryGetValue(self.abstractPhysicalObject, out var addon)) return;
 
         addon.ParentGraphics_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
     }
