@@ -90,19 +90,24 @@ public class PlayerModule
         currentObjectAnimation = GetObjectAnimation(player);
         objectAnimationStacker = 0;
 
+        var randState = Random.state;
         Random.InitState((int)DateTime.Now.Ticks);
         objectAnimationDuration = Random.Range(minTime, maxTime);
+        Random.state = randState;
 
-        dazeStacker = dazeDuration;
+        foreach (var abstractObject in abstractInventory)
+            abstractObject.realizedObject?.SwapEffect(player.firstChunk.pos);
+
+        //dazeStacker = dazeDuration;
     }
 
     public ObjectAnimation GetObjectAnimation(Player player)
     {
 
         List<ObjectAnimation> animationPool = new()
-            {
-                new BasicOrbitOA(player),
-                new MultiOrbitOA(player),
+        {
+            new BasicOrbitOA(player),
+            new MultiOrbitOA(player),
             new LayerOrbitOA(player),
             new SineWaveOA(player),
             new SineWaveInterOA(player),
@@ -111,8 +116,15 @@ public class PlayerModule
         if (currentObjectAnimation != null && animationPool.Count > 1)
             animationPool.RemoveAll(x => x.GetType() == currentObjectAnimation.GetType());
 
+        //if (animationI >= animationPool.Count)
+        //    animationI = 0;
+
+        //return animationPool[animationI++];
+
         return animationPool[Random.Range(0, animationPool.Count)];
     }
+
+    //public static int animationI = 0;
 
 
     public bool IsDazed => dazeStacker > 0;

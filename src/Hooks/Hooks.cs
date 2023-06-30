@@ -7,7 +7,6 @@ public static partial class Hooks
     public static void ApplyHooks()
     {
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
-        On.RainWorld.OnModsDisabled += RainWorld_OnModsDisabled;
         On.RainWorld.PostModsInit += RainWorld_PostModsInit;
 
         // Core
@@ -36,9 +35,12 @@ public static partial class Hooks
             if (isInit) return;
             isInit = true;
 
-            MachineConnector.SetRegisteredOI(Plugin.MOD_ID, PearlcatOptions.instance);
+            // Init Enums
+            _ = Enums.General.Pearlcat;
+            _ = Enums.Pearls.AS_PearlBlue;
+            _ = Enums.Sounds.Pearlcat_PearlEquip;
 
-            Enums.RegisterEnums();
+            MachineConnector.SetRegisteredOI(Plugin.MOD_ID, PearlcatOptions.instance);
             AssetLoader.LoadAssets();
         }
         catch (Exception e)
@@ -69,22 +71,6 @@ public static partial class Hooks
         finally
         {
             orig(self);
-        }
-    }
-
-    public static void RainWorld_OnModsDisabled(On.RainWorld.orig_OnModsDisabled orig, RainWorld self, ModManager.Mod[] newlyDisabledMods)
-    {
-        try
-        {
-            Enums.UnregisterEnums();
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError("OnModsDisabled:\n" + e.Message);
-        }
-        finally
-        {
-            orig(self, newlyDisabledMods);
         }
     }
 }

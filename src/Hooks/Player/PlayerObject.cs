@@ -80,6 +80,27 @@ public static partial class Hooks
         physicalObject.room.AddObject(lightningBoltNew);
     }
 
+    public static void SwapEffect(this PhysicalObject? physicalObject, Vector2 nextPos)
+    {
+        if (physicalObject == null) return;
+
+        var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, nextPos, 0, Mathf.Lerp(0.8f, 1.0f, Random.value))
+        {
+            intensity = 0.35f,
+            lifeTime = 7.0f,
+            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
+        };
+        physicalObject.room.AddObject(lightningBoltOld);
+
+        var lightningBoltNew = new MoreSlugcats.LightningBolt(nextPos, physicalObject.firstChunk.pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
+        {
+            intensity = 0.75f,
+            lifeTime = 12.0f,
+            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
+        };
+        physicalObject.room.AddObject(lightningBoltNew);
+    }
+
     public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos)
     {
         if (physicalObject == null) return;
