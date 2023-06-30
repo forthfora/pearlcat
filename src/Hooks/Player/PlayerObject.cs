@@ -11,7 +11,7 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (self.inShortcut) return;
+        if (self.room == null || self.onBack != null) return;
 
 
         foreach (var abstractObject in playerModule.abstractInventory)

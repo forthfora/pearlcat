@@ -88,6 +88,11 @@ public static partial class Hooks
         self.AddToContainer(sLeaser, rCam, null);
 
         playerModule.InitSounds(self.player);
+
+        // Color meshes
+        playerModule.LoadTailTexture("tail");
+        playerModule.LoadEarLTexture("ear_l");
+        playerModule.LoadEarRTexture("ear_r");
     }
 
     public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite)
@@ -116,10 +121,10 @@ public static partial class Hooks
 
         if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
-
         if (playerModule.firstSprite <= 0 || sLeaser.sprites.Length < playerModule.lastSprite) return;
 
-        OrderAndColorSprites(self, sLeaser, rCam, playerModule, true);
+        newContatiner ??= rCam.ReturnFContainer("Midground");
+        OrderAndColorSprites(self, sLeaser, rCam, playerModule, newContatiner);
     }
 
 
@@ -160,7 +165,7 @@ public static partial class Hooks
 
         playerModule.cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
 
-        OrderAndColorSprites(self, sLeaser, rCam, playerModule);
+        OrderAndColorSprites(self, sLeaser, rCam, playerModule, null);
 
         UpdateLightSource(self, playerModule);
     }
@@ -173,7 +178,7 @@ public static partial class Hooks
 
         var maxAlpha = 1.0f;
 
-        if (playerModule.ActiveObject == null)
+        if (playerModule.ActiveObject?.realizedObject == null)
         {
             self.lightSource.colorAlpha = 0.05f;
             maxAlpha = 0.6f;
@@ -234,53 +239,43 @@ public static partial class Hooks
     }
 
 
-    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, bool isSetup = false)
+    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, FContainer? newContainer)
     {
-        FSprite bodySprite = sLeaser.sprites[BODY_SPRITE];
-        FSprite armLSprite = sLeaser.sprites[ARM_L_SPRITE];
-        FSprite armRSprite = sLeaser.sprites[ARM_R_SPRITE];
-        FSprite hipsSprite = sLeaser.sprites[HIPS_SPRITE];
-        FSprite tailSprite = sLeaser.sprites[TAIL_SPRITE];
-        FSprite headSprite = sLeaser.sprites[HEAD_SPRITE];
-        FSprite handLSprite = sLeaser.sprites[HAND_L_SPRITE];
-        FSprite handRSprite = sLeaser.sprites[HAND_R_SPRITE];
-        FSprite legsSprite = sLeaser.sprites[LEGS_SPRITE];
-        FSprite markSprite = sLeaser.sprites[MARK_SPRITE];
+        var bodySprite = sLeaser.sprites[BODY_SPRITE];
+        var armLSprite = sLeaser.sprites[ARM_L_SPRITE];
+        var armRSprite = sLeaser.sprites[ARM_R_SPRITE];
+        var hipsSprite = sLeaser.sprites[HIPS_SPRITE];
+        var tailSprite = sLeaser.sprites[TAIL_SPRITE];
+        var headSprite = sLeaser.sprites[HEAD_SPRITE];
+        var handLSprite = sLeaser.sprites[HAND_L_SPRITE];
+        var handRSprite = sLeaser.sprites[HAND_R_SPRITE];
+        var legsSprite = sLeaser.sprites[LEGS_SPRITE];
+        var markSprite = sLeaser.sprites[MARK_SPRITE];
 
-        FSprite sleeveLSprite = sLeaser.sprites[playerModule.sleeveLSprite];
-        FSprite sleeveRSprite = sLeaser.sprites[playerModule.sleeveRSprite];
+        var sleeveLSprite = sLeaser.sprites[playerModule.sleeveLSprite];
+        var sleeveRSprite = sLeaser.sprites[playerModule.sleeveRSprite];
 
-        FSprite feetSprite = sLeaser.sprites[playerModule.feetSprite];
+        var feetSprite = sLeaser.sprites[playerModule.feetSprite];
 
-        FSprite earLSprite = sLeaser.sprites[playerModule.earLSprite];
-        FSprite earRSprite = sLeaser.sprites[playerModule.earRSprite];
+        var earLSprite = sLeaser.sprites[playerModule.earLSprite];
+        var earRSprite = sLeaser.sprites[playerModule.earRSprite];
 
-        FSprite cloakSprite = sLeaser.sprites[playerModule.cloakSprite];
-
-        FContainer mgContainer = rCam.ReturnFContainer("Midground");
-        FContainer fgContainer = rCam.ReturnFContainer("Foreground");
-
+        var cloakSprite = sLeaser.sprites[playerModule.cloakSprite];
 
 
         // Container
-        if (isSetup)
+        if (newContainer != null)
         {
-            mgContainer.AddChild(sleeveLSprite);
-            mgContainer.AddChild(sleeveRSprite);
+            newContainer.AddChild(sleeveLSprite);
+            newContainer.AddChild(sleeveRSprite);
 
-            mgContainer.AddChild(feetSprite);
+            newContainer.AddChild(feetSprite);
 
-            mgContainer.AddChild(earLSprite);
-            mgContainer.AddChild(earRSprite);
+            newContainer.AddChild(earLSprite);
+            newContainer.AddChild(earRSprite);
 
-            mgContainer.AddChild(cloakSprite);
-
-            // Color meshes
-            playerModule.LoadTailTexture("tail");
-            playerModule.LoadEarLTexture("ear_l");
-            playerModule.LoadEarRTexture("ear_r");
+            newContainer.AddChild(cloakSprite);
         }
-
 
 
         // Order
@@ -365,11 +360,9 @@ public static partial class Hooks
         headSprite.color = playerModule.BodyColor;
         legsSprite.color = playerModule.BodyColor;
 
-
         feetSprite.color = playerModule.AccentColor;
         armLSprite.color = playerModule.AccentColor;
         armRSprite.color = playerModule.AccentColor;
-        cloakSprite.color = playerModule.AccentColor;
 
         handLSprite.color = playerModule.AccentColor;
         handRSprite.color = playerModule.AccentColor;
@@ -377,19 +370,19 @@ public static partial class Hooks
         sleeveLSprite.color = playerModule.CloakColor;
         sleeveRSprite.color = playerModule.CloakColor;
 
+        markSprite.color = playerModule.ActiveColor;
+
         tailSprite.color = Color.white;
         earLSprite.color = Color.white;
         earRSprite.color = Color.white;
-
         cloakSprite.color = Color.white;
-        playerModule.cloak.UpdateColor(sLeaser);
 
-        markSprite.color = playerModule.ActiveColor;
+
+
+        playerModule.cloak.UpdateColor(sLeaser);
 
         if (playerModule.ActiveObject != null)
             markSprite.y += 10.0f;
-
-        cloakSprite.isVisible = false;
     }
 
 
@@ -634,6 +627,8 @@ public static partial class Hooks
     // Creates raised tail effect
     public static void ApplyTailMovement(PlayerGraphics self)
     {
+        if (self.player.onBack != null) return;
+
         if (EXCLUDE_FROM_TAIL_OFFSET_BODYMODE.Contains(self.player.bodyMode)) return;
 
         if (EXCLUDE_FROM_TAIL_OFFSET_ANIMATION.Contains(self.player.animation)) return;

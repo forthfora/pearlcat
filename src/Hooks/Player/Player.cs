@@ -20,7 +20,6 @@ public static partial class Hooks
         On.Player.Grabability += Player_Grabability;
 
         On.Player.Die += Player_Die;
-
         On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
 
         try
@@ -38,11 +37,13 @@ public static partial class Hooks
         orig(self, eu);
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-        CheckInput(self, playerModule);
-
+        
         playerModule.baseStats = self.Malnourished ? playerModule.malnourishedStats : playerModule.normalStats;
 
+
+        if (self.onBack != null)
+            self.AbstractizeInventory();
+        
         // Warp Fix
         if (self.room != null && JustWarpedData.TryGetValue(self.room.game, out var justWarped) && justWarped.Value)
         {
@@ -52,6 +53,9 @@ public static partial class Hooks
 
         self.TryRealizeInventory();
 
+
+        CheckInput(self, playerModule);
+
         UpdatePlayerOA(self, playerModule);
         UpdatePlayerDaze(self, playerModule);
         UpdatePostDeathInventory(self, playerModule);
@@ -60,7 +64,8 @@ public static partial class Hooks
         ApplyCombinedPOEffect(self, playerModule);
 
         UpdateHUD(self, playerModule);
-        UpdateSFX(self, playerModule);
+        //UpdateSFX(self, playerModule);
+
 
         // HACK
         if (Input.GetKeyDown(KeyCode.G))
@@ -340,10 +345,10 @@ public static partial class Hooks
         return orig(self, obj);
     }
 
-    public static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
+    private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
     {
-        if (self is Player player)
-            AbstractizeInventory(player);
+        if (self is Player player && player.TryGetPearlcatModule(out _))
+            player.AbstractizeInventory();
 
         orig(self, entrancePos, carriedByOther);
     }
