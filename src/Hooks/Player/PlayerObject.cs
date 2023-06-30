@@ -239,6 +239,7 @@ public static partial class Hooks
         oldObject.SwapEffect(newObject);
 
         playerModule.ShowHUD(80);
+        player.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
 
         if (!player.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
 

@@ -63,6 +63,8 @@ public static partial class Hooks
 
         if (Input.GetKeyDown(KeyCode.G))
             self.RetrieveActiveObject();
+
+        playerModule.MenuCrackleLoop.Volume = playerModule.hudFade;
     }
 
     private static void UpdateHUD(Player self, PlayerModule playerModule)
@@ -242,22 +244,16 @@ public static partial class Hooks
         {
             hasSpawned = true;
 
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 6; i++)
             {
                 DataPearlType type = i switch
                 {
-                    0 => DataPearlType.GW,
-                    1 => DataPearlType.CC,
-                    2 => DataPearlType.HI,
-                    3 => DataPearlType.DS,
-                    4 => DataPearlType.SH,
-                    5 => DataPearlType.UW,
-                    6 => DataPearlType.LF_bottom,
-                    7 => DataPearlType.SL_bridge,
-                    8 => DataPearlType.SL_moon,
-                    9 => DataPearlType.Red_stomach,
-                    10 => DataPearlType.SB_filtration,
-                    _ => DataPearlType.Misc,
+                    0 => MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM,
+                    1 => Enums.Pearls.AS_PearlBlue,
+                    2 => Enums.Pearls.AS_PearlYellow,
+                    3 => Enums.Pearls.AS_PearlRed,
+                    4 => Enums.Pearls.AS_PearlGreen,
+                    _ => Enums.Pearls.AS_PearlBlack,
                 };
 
                 var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);

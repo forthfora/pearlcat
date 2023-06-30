@@ -1,0 +1,4 @@
+The following SFX were adapted from and are thus attributed to Zapsplat.org:
+- pearlcat_menu_crackle
+- pearlcat_pearl_equip
+- pearlcat_pearl_scroll

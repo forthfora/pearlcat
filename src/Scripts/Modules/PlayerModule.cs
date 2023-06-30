@@ -136,21 +136,13 @@ public class PlayerModule
 
     #region Sounds
 
-    public DynamicSoundLoop storingObjectSound = null!;
-    public DynamicSoundLoop retrievingObjectSound = null!;
+    public DynamicSoundLoop MenuCrackleLoop = null!;
 
     public void InitSounds(Player player)
     {
-        storingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0])
+        MenuCrackleLoop = new ChunkDynamicSoundLoop(player.bodyChunks[0])
         {
-            sound = Enums.Sounds.StoringObject,
-            destroyClipWhenDone = false,
-            Volume = 0.0f
-        };
-
-        retrievingObjectSound = new ChunkDynamicSoundLoop(player.bodyChunks[0])
-        {
-            sound = Enums.Sounds.RetrievingObject,
+            sound = Enums.Sounds.Pearlcat_MenuCrackle,
             destroyClipWhenDone = false,
             Volume = 0.0f
         };

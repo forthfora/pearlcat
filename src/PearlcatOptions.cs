@@ -9,7 +9,6 @@ namespace Pearlcat;
 public class PearlcatOptions : OptionInterface
 {
     public static PearlcatOptions instance = new();
-    public const string AUTHORS_NAME = "forthbridge";
 
     #region Options
 
@@ -138,6 +137,7 @@ public class PearlcatOptions : OptionInterface
         AddNewLine(18);
         DrawBox(ref Tabs[tabIndex]);
 
+
         #region Ability Input
 
         AddTab(ref tabIndex, "Ability Input");
@@ -165,6 +165,7 @@ public class PearlcatOptions : OptionInterface
         DrawBox(ref Tabs[tabIndex]);
         #endregion
 
+
         #region Swap Input
         AddTab(ref tabIndex, "Swap Input");
 
@@ -180,7 +181,9 @@ public class PearlcatOptions : OptionInterface
         DrawKeybinders(swapKeybindPlayer4, ref Tabs[tabIndex]);
 
         DrawBox(ref Tabs[tabIndex]);
+
         #endregion
+
 
         #region Store Input
         AddTab(ref tabIndex, "Store Input");
@@ -206,6 +209,7 @@ public class PearlcatOptions : OptionInterface
 
         AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
+
         #endregion
     }
 
@@ -214,6 +218,8 @@ public class PearlcatOptions : OptionInterface
 
     public void AddTab(ref int tabIndex, string tabName)
     {
+        tabName = Translate(tabName);
+
         tabIndex++;
         Tabs[tabIndex] = new OpTab(this, tabName);
         InitializeMarginAndPos();
@@ -223,8 +229,8 @@ public class PearlcatOptions : OptionInterface
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine(0.5f);
-        AddTextLabel("Version " + Plugin.VERSION, FLabelAlignment.Left);
-        AddTextLabel("by " + AUTHORS_NAME, FLabelAlignment.Right);
+        AddTextLabel(Translate("Version ") + Plugin.VERSION, FLabelAlignment.Left);
+        AddTextLabel(Translate("by ") + Plugin.AUTHOR, FLabelAlignment.Right);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine();
@@ -233,38 +239,39 @@ public class PearlcatOptions : OptionInterface
 
     public void InitializeMarginAndPos()
     {
-        marginX = new Vector2(50f, 550f);
-        pos = new Vector2(50f, 600f);
+        marginX = new(50f, 550f);
+        pos = new(50f, 600f);
     }
 
     public void AddNewLine(float spacingModifier = 1f)
     {
-        pos.x = marginX.x; // left margin
+        pos.x = marginX.x;
         pos.y -= spacingModifier * spacing;
     }
 
     public void AddBox()
     {
         marginX += new Vector2(spacing, -spacing);
-        boxEndPositions.Add(pos.y); // end position > start position
+        boxEndPositions.Add(pos.y);
         AddNewLine();
     }
 
     public void DrawBox(ref OpTab tab)
     {
         marginX += new Vector2(-spacing, spacing);
+
         AddNewLine();
 
         float boxWidth = marginX.y - marginX.x;
         int lastIndex = boxEndPositions.Count - 1;
 
-        tab.AddItems(new OpRect(pos, new Vector2(boxWidth, boxEndPositions[lastIndex] - pos.y)));
+        tab.AddItems(new OpRect(pos, new(boxWidth, boxEndPositions[lastIndex] - pos.y)));
         boxEndPositions.RemoveAt(lastIndex);
     }
 
     public void DrawKeybinders(Configurable<KeyCode> configurable, ref OpTab tab)
     {
-        string name = (string)configurable.info.Tags[0];
+        string name = Translate((string)configurable.info.Tags[0]);
 
         tab.AddItems(
             new OpLabel(new Vector2(115.0f, pos.y), new Vector2(100f, 34f), name)
@@ -273,7 +280,7 @@ public class PearlcatOptions : OptionInterface
                 verticalAlignment = OpLabel.LabelVAlignment.Center,
                 description = configurable.info?.description
             },
-            new OpKeyBinder(configurable, new Vector2(235.0f, pos.y), new Vector2(146f, 30f), false)
+            new OpKeyBinder(configurable, new(235.0f, pos.y), new(146f, 30f), false)
         );
 
         AddNewLine(2);
@@ -281,32 +288,40 @@ public class PearlcatOptions : OptionInterface
 
     public void AddCheckBox(Configurable<bool> configurable, string text)
     {
+        text = Translate(text);
+
         checkBoxConfigurables.Add(configurable);
-        checkBoxesTextLabels.Add(new OpLabel(new Vector2(), new Vector2(), text, FLabelAlignment.Left));
+        checkBoxesTextLabels.Add(new(new(), new(), text, FLabelAlignment.Left));
     }
 
     public void DrawCheckBoxes(ref OpTab tab) // changes pos.y but not pos.x
     {
         if (checkBoxConfigurables.Count != checkBoxesTextLabels.Count) return;
 
-        float width = marginX.y - marginX.x;
-        float elementWidth = (width - (numberOfCheckboxes - 1) * 0.5f * spacing) / numberOfCheckboxes;
+        var width = marginX.y - marginX.x;
+        var elementWidth = (width - (numberOfCheckboxes - 1) * 0.5f * spacing) / numberOfCheckboxes;
+
         pos.y -= checkBoxSize;
-        float _posX = pos.x;
+
+        var _posX = pos.x;
 
         for (int checkBoxIndex = 0; checkBoxIndex < checkBoxConfigurables.Count; ++checkBoxIndex)
         {
-            Configurable<bool> configurable = checkBoxConfigurables[checkBoxIndex];
+            var configurable = checkBoxConfigurables[checkBoxIndex];
+
             OpCheckBox checkBox = new(configurable, new Vector2(_posX, pos.y))
             {
-                description = configurable.info?.description ?? ""
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(checkBox);
+
             _posX += CheckBoxWithSpacing;
 
-            OpLabel checkBoxLabel = checkBoxesTextLabels[checkBoxIndex];
-            checkBoxLabel.pos = new Vector2(_posX, pos.y + 2f);
-            checkBoxLabel.size = new Vector2(elementWidth - CheckBoxWithSpacing, fontHeight);
+            var checkBoxLabel = checkBoxesTextLabels[checkBoxIndex];
+
+            checkBoxLabel.pos = new(_posX, pos.y + 2f);
+            checkBoxLabel.size = new(elementWidth - CheckBoxWithSpacing, fontHeight);
+
             tab.AddItems(checkBoxLabel);
 
             if (checkBoxIndex < checkBoxConfigurables.Count - 1)
@@ -314,6 +329,7 @@ public class PearlcatOptions : OptionInterface
                 if ((checkBoxIndex + 1) % numberOfCheckboxes == 0)
                 {
                     AddNewLine();
+
                     pos.y -= checkBoxSize;
                     _posX = pos.x;
                 }
@@ -330,7 +346,10 @@ public class PearlcatOptions : OptionInterface
 
     public void AddComboBox(Configurable<string> configurable, List<ListItem> list, string text, bool allowEmpty = false)
     {
+        text = Translate(text);
+
         OpLabel opLabel = new(new Vector2(), new Vector2(0.0f, fontHeight), text, FLabelAlignment.Center, false);
+
         comboBoxesTextLabels.Add(opLabel);
         comboBoxConfigurables.Add(configurable);
         comboBoxLists.Add(list);
@@ -343,28 +362,27 @@ public class PearlcatOptions : OptionInterface
         if (comboBoxConfigurables.Count != comboBoxLists.Count) return;
         if (comboBoxConfigurables.Count != comboBoxAllowEmpty.Count) return;
 
-        float offsetX = (marginX.y - marginX.x) * 0.1f;
-        float width = (marginX.y - marginX.x) * 0.4f;
+        var offsetX = (marginX.y - marginX.x) * 0.1f;
+        var width = (marginX.y - marginX.x) * 0.4f;
 
         for (int comboBoxIndex = 0; comboBoxIndex < comboBoxConfigurables.Count; ++comboBoxIndex)
         {
             AddNewLine(1.25f);
             pos.x += offsetX;
 
-            OpLabel opLabel = comboBoxesTextLabels[comboBoxIndex];
+            var opLabel = comboBoxesTextLabels[comboBoxIndex];
             opLabel.pos = pos;
-            opLabel.size += new Vector2(width, 2f); // size.y is already set
+            opLabel.size += new Vector2(width, 2f);
             pos.x += width;
 
-            Configurable<string> configurable = comboBoxConfigurables[comboBoxIndex];
+            var configurable = comboBoxConfigurables[comboBoxIndex];
             OpComboBox comboBox = new(configurable, pos, width, comboBoxLists[comboBoxIndex])
             {
                 allowEmpty = comboBoxAllowEmpty[comboBoxIndex],
-                description = configurable.info?.description ?? ""
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(opLabel, comboBox);
 
-            // don't add a new line on the last element
             if (comboBoxIndex < comboBoxConfigurables.Count - 1)
             {
                 AddNewLine();
@@ -380,10 +398,12 @@ public class PearlcatOptions : OptionInterface
 
     public void AddSlider(Configurable<int> configurable, string text, string sliderTextLeft = "", string sliderTextRight = "")
     {
+        text = Translate(text);
+
         sliderConfigurables.Add(configurable);
         sliderMainTextLabels.Add(text);
-        sliderTextLabelsLeft.Add(new OpLabel(new Vector2(), new Vector2(), sliderTextLeft, alignment: FLabelAlignment.Right)); // set pos and size when drawing
-        sliderTextLabelsRight.Add(new OpLabel(new Vector2(), new Vector2(), sliderTextRight, alignment: FLabelAlignment.Left));
+        sliderTextLabelsLeft.Add(new(new(), new(), sliderTextLeft, alignment: FLabelAlignment.Right)); // set pos and size when drawing
+        sliderTextLabelsRight.Add(new(new(), new(), sliderTextRight, alignment: FLabelAlignment.Left));
     }
 
     public void DrawSliders(ref OpTab tab)
@@ -401,31 +421,29 @@ public class PearlcatOptions : OptionInterface
         {
             AddNewLine(2f);
 
-            OpLabel opLabel = sliderTextLabelsLeft[sliderIndex];
-            opLabel.pos = new Vector2(marginX.x, pos.y + 5f);
-            opLabel.size = new Vector2(sliderLabelSizeX, fontHeight);
+            var opLabel = sliderTextLabelsLeft[sliderIndex];
+            opLabel.pos = new(marginX.x, pos.y + 5f);
+            opLabel.size = new(sliderLabelSizeX, fontHeight);
             tab.AddItems(opLabel);
 
-            Configurable<int> configurable = sliderConfigurables[sliderIndex];
-            OpSlider slider = new(configurable, new Vector2(sliderCenter - 0.5f * sliderSizeX, pos.y), (int)sliderSizeX)
+            var configurable = sliderConfigurables[sliderIndex];
+            OpSlider slider = new(configurable, new(sliderCenter - 0.5f * sliderSizeX, pos.y), (int)sliderSizeX)
             {
-                size = new Vector2(sliderSizeX, fontHeight),
-                description = configurable.info?.description ?? ""
+                size = new(sliderSizeX, fontHeight),
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(slider);
 
             opLabel = sliderTextLabelsRight[sliderIndex];
-            opLabel.pos = new Vector2(sliderCenter + 0.5f * sliderSizeX + 0.5f * spacing, pos.y + 5f);
-            opLabel.size = new Vector2(sliderLabelSizeX, fontHeight);
+            opLabel.pos = new(sliderCenter + 0.5f * sliderSizeX + 0.5f * spacing, pos.y + 5f);
+            opLabel.size = new(sliderLabelSizeX, fontHeight);
             tab.AddItems(opLabel);
 
             AddTextLabel(sliderMainTextLabels[sliderIndex]);
             DrawTextLabels(ref tab);
 
             if (sliderIndex < sliderConfigurables.Count - 1)
-            {
                 AddNewLine();
-            }
         }
 
         sliderConfigurables.Clear();
@@ -436,16 +454,18 @@ public class PearlcatOptions : OptionInterface
 
     public void AddTextLabel(string text, FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false)
     {
-        float textHeight = (bigText ? 2f : 1f) * fontHeight;
-        if (textLabels.Count == 0)
-        {
-            pos.y -= textHeight;
-        }
+        text = Translate(text);
 
+        float textHeight = (bigText ? 2f : 1f) * fontHeight;
+
+        if (textLabels.Count == 0)
+            pos.y -= textHeight;
+        
         OpLabel textLabel = new(new Vector2(), new Vector2(20f, textHeight), text, alignment, bigText) // minimal size.x = 20f
         {
             autoWrap = true
         };
+        
         textLabels.Add(textLabel);
     }
 
@@ -454,7 +474,8 @@ public class PearlcatOptions : OptionInterface
         if (textLabels.Count == 0) return;
 
         float width = (marginX.y - marginX.x) / textLabels.Count;
-        foreach (OpLabel textLabel in textLabels)
+
+        foreach (var textLabel in textLabels)
         {
             textLabel.pos = pos;
             textLabel.size += new Vector2(width - 20f, 0.0f);

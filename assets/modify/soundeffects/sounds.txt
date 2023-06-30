@@ -1,6 +1,5 @@
 [MERGE]
-StoringObject : pearlcat_storingobject/vol=0.5
-ObjectStored : pearlcat_objectstored/vol=0.5
-RetrievingObject : pearlcat_retrievingobject/vol=0.5
-ObjectRetrieved : pearlcat_objectretrieved/vol=0.5
+PearlcatMenuCrackle : pearlcat_menu_crackle/vol=1.0
+PearlcatPearlEquip : pearlcat_pearl_equip/vol=1.0
+PearlcatPearlScroll : pearlcat_pearl_scroll/vol=1.0
 [ENDMERGE]

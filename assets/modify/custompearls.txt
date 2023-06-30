@@ -1,3 +1,5 @@
-[MERGE]
-AS_Pearl : a170a0 : 873d48 : AS_Pearl
-[ENDMERGE]
+[ADD]AS_PearlBlue : 42adf5 : ffffff : AS_PearlBlue
+[ADD]AS_PearlRed : b32c1b : ffffff : AS_PearlRed
+[ADD]AS_PearlYellow : fcf63f : ffffff : AS_PearlYellow
+[ADD]AS_PearlGreen : 42c728 : ffffff : AS_PearlGreen
+[ADD]AS_PearlBlack : 121212 : ffffff : AS_PearlBlack

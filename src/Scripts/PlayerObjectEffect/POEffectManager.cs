@@ -216,10 +216,6 @@ public static class POEffectManager
         Spearmasterpearl.throwingSkill = 2.0f;
         Spearmasterpearl.bodyWeightFac = 0.05f;
 
-        RM = None;
-        RM.majorEffect = MajorEffect.REVIVE;
-
-
         IteratorWhite = None;
         IteratorWhite.majorEffect = MajorEffect.SPEAR_CREATION;
         IteratorWhite.lungsFac = 0.075f;
@@ -249,16 +245,34 @@ public static class POEffectManager
         IteratorBlue.slideSpeedFac = 0.25f;
 
 
-        AS_Pearl = None;
-        AS_Pearl.majorEffect = MajorEffect.AGILITY;
-        AS_Pearl.threatMusic = "AS";
-        AS_Pearl.runSpeedFac = 0.25f;
-        AS_Pearl.poleClimbSpeedFac = 0.25f;
-        AS_Pearl.corridorClimbSpeedFac = 0.25f;
-        AS_Pearl.rollSpeedFac = 0.25f;
-        AS_Pearl.slideSpeedFac = 0.25f;
+        // Starting Pearls
+        RM = None;
+        RM.majorEffect = MajorEffect.SPEAR_CREATION;
+
+        AS_PearlBlue = None;
+        AS_PearlBlue.majorEffect = MajorEffect.AGILITY;
+        AS_PearlBlue.runSpeedFac = 0.25f;
+        AS_PearlBlue.poleClimbSpeedFac = 0.25f;
+        AS_PearlBlue.corridorClimbSpeedFac = 0.25f;
+        AS_PearlBlue.rollSpeedFac = 0.25f;
+        AS_PearlBlue.slideSpeedFac = 0.25f;
+
+        AS_PearlYellow = None;
+        AS_PearlYellow.majorEffect = MajorEffect.AGILITY;
+
+        AS_PearlGreen = None;
+        AS_PearlGreen.majorEffect = MajorEffect.REVIVE;
+
+        AS_PearlRed = None;
+        AS_PearlRed.majorEffect = MajorEffect.RAGE;
+
+        AS_PearlYellow = None;
+        AS_PearlYellow.majorEffect = MajorEffect.SHIELD;
+
+        AS_PearlBlack = None;
+        AS_PearlBlack.majorEffect = MajorEffect.CAMOFLAGUE;
     }
-    
+
     public static void RegisterEffects()
     {
         SetEffects();
@@ -296,7 +310,12 @@ public static class POEffectManager
         PearlEffects.Add(DataPearlTypeMSC.Spearmasterpearl, Spearmasterpearl);
         PearlEffects.Add(DataPearlTypeMSC.RM, RM);
 
-        PearlEffects.Add(Enums.Pearls.AS_Pearl, AS_Pearl);
+
+        PearlEffects.Add(Enums.Pearls.AS_PearlBlue, AS_PearlBlue);
+        PearlEffects.Add(Enums.Pearls.AS_PearlRed, AS_PearlRed);
+        PearlEffects.Add(Enums.Pearls.AS_PearlGreen, AS_PearlGreen);
+        PearlEffects.Add(Enums.Pearls.AS_PearlYellow, AS_PearlYellow);
+        PearlEffects.Add(Enums.Pearls.AS_PearlBlack, AS_PearlBlack);
     }
 
 
@@ -341,5 +360,9 @@ public static class POEffectManager
     public static POEffect IteratorBlue;
 
 
-    public static POEffect AS_Pearl;
+    public static POEffect AS_PearlBlue;
+    public static POEffect AS_PearlGreen;
+    public static POEffect AS_PearlRed;
+    public static POEffect AS_PearlYellow;
+    public static POEffect AS_PearlBlack;
 }

@@ -13,7 +13,6 @@ public static class AssetLoader
     public static readonly Dictionary<string, Texture2D> textures = new();
 
 
-
     public static string GetUniqueName(string name) => Plugin.MOD_ID + "_" + name;
 
     public static FAtlas? GetAtlas(string atlasName)
@@ -47,12 +46,10 @@ public static class AssetLoader
     }
 
 
-
     public static void LoadAssets()
     {
         LoadAtlases();
         LoadSprites();
-
         LoadTextures();
     }
     
