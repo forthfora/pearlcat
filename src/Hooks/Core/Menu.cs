@@ -49,25 +49,20 @@ public static partial class Hooks
 
         // HACK: remove this once migrated to the new save system
         List<Color> pearlColors = new();
-        Color? activePearlColor = ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, DataPearlType.HI.index);
+        Color? activePearlColor = ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM.index);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
             var type = i switch
             {
-                0 => DataPearlType.SL_moon,
-                1 => DataPearlType.SL_bridge,
-                2 => DataPearlType.LF_bottom,
-                3 => DataPearlType.CC,
-                4 => DataPearlType.GW,
-                5 => DataPearlType.DS,
-                6 => DataPearlType.SH,
-                7 => DataPearlType.Misc,
-                8 => DataPearlType.UW,
-                _ => DataPearlType.SB_filtration,
+                0 => Enums.Pearls.AS_PearlBlue,
+                1 => Enums.Pearls.AS_PearlYellow,
+                2 => Enums.Pearls.AS_PearlRed,
+                3 => Enums.Pearls.AS_PearlGreen,
+                _ => Enums.Pearls.AS_PearlBlack,
             };
 
-            var color = ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, type.index);
+            var color = DataPearl.UniquePearlMainColor(type);
             pearlColors.Add(color);
         }
 

@@ -146,6 +146,9 @@ public static partial class Hooks
 
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {
+        if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
+            return DataPearl.UniquePearlMainColor(dataPearl.dataPearlType);
+
         var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
 
         if (symbolData == null)

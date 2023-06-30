@@ -60,10 +60,15 @@ public static partial class Hooks
         ApplyCombinedPOEffect(self, playerModule);
 
         UpdateHUD(self, playerModule);
+        UpdateSFX(self, playerModule);
 
         if (Input.GetKeyDown(KeyCode.G))
             self.RetrieveActiveObject();
+    }
 
+    private static void UpdateSFX(Player self, PlayerModule playerModule)
+    {
+        playerModule.MenuCrackleLoop.Update();
         playerModule.MenuCrackleLoop.Volume = playerModule.hudFade;
     }
 
@@ -244,7 +249,7 @@ public static partial class Hooks
         {
             hasSpawned = true;
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 11; i++)
             {
                 DataPearlType type = i switch
                 {
@@ -253,7 +258,12 @@ public static partial class Hooks
                     2 => Enums.Pearls.AS_PearlYellow,
                     3 => Enums.Pearls.AS_PearlRed,
                     4 => Enums.Pearls.AS_PearlGreen,
-                    _ => Enums.Pearls.AS_PearlBlack,
+                    5 => Enums.Pearls.AS_PearlBlack,
+                    6 => DataPearlType.LF_bottom,
+                    7 => DataPearlType.SL_chimney,
+                    8 => DataPearlType.SL_bridge,
+                    9 => DataPearlType.HI,
+                    _ => DataPearlType.Misc,
                 };
 
                 var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);

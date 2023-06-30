@@ -16,7 +16,6 @@ public class InventoryHUD : HudPart
     public readonly List<PlayerObjectSymbol> AllSymbols = new();
 
     public Vector2 pos;
-    public Vector2 lastPos;
 
     public FContainer HUDfContainer;
     
@@ -25,7 +24,6 @@ public class InventoryHUD : HudPart
     public InventoryHUD(HUD.HUD hud, FContainer fContainer) : base(hud)
     {
         pos = Vector2.zero;
-        lastPos = pos;
         HUDfContainer = fContainer;
         animationUpdateCounterMax = 150;
     }
@@ -69,7 +67,8 @@ public class InventoryHUD : HudPart
                 pos.x += spacing;
                 pos.x -= activeIndex * GAP;
 
-                symbol.Pos = Vector2.Lerp(symbol.Pos, pos, 0.1f);
+                // lazy fix
+                symbol.Pos = Custom.Dist(symbol.Pos, pos) > 300.0f ? pos : Vector2.Lerp(symbol.Pos, pos, 0.1f);
             }
 
         }
@@ -112,8 +111,6 @@ public class InventoryHUD : HudPart
             }
 
         }
-
-        lastPos = pos;
     }
 }
 

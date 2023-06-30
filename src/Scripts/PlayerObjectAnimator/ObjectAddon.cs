@@ -48,18 +48,19 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         symbolSpriteRevive = spriteIndex++;
         symbolSpriteShield = spriteIndex++;
         symbolSpriteAgility = spriteIndex++;
-
+        symbolSpriteCamo = spriteIndex++;
 
         sLeaser.sprites = new FSprite[spriteIndex];
 
         // Create Sprites
-        sLeaser.sprites[haloSprite] = new FSprite("LizardBubble6", true);
+        sLeaser.sprites[haloSprite] = new("LizardBubble6", true);
 
-        sLeaser.sprites[symbolSpriteSpear] = new FSprite("BigGlyph2", true);
-        sLeaser.sprites[symbolSpriteRage] = new FSprite("BigGlyph6", true);
-        sLeaser.sprites[symbolSpriteRevive] = new FSprite("BigGlyph10", true);
-        sLeaser.sprites[symbolSpriteShield] = new FSprite("BigGlyph0", true);
-        sLeaser.sprites[symbolSpriteAgility] = new FSprite("BigGlyph8", true);
+        sLeaser.sprites[symbolSpriteSpear] = new("BigGlyph2", true);
+        sLeaser.sprites[symbolSpriteRage] = new("BigGlyph6", true);
+        sLeaser.sprites[symbolSpriteRevive] = new("BigGlyph10", true);
+        sLeaser.sprites[symbolSpriteShield] = new("BigGlyph11", true);
+        sLeaser.sprites[symbolSpriteAgility] = new("BigGlyph8", true);
+        sLeaser.sprites[symbolSpriteCamo] = new("BigGlyph12", true);
 
         AddToContainer(sLeaser, rCam, null!);
     }
@@ -70,13 +71,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         for (int i = 0; i < sLeaser.sprites.Length; i++)
         {
-            FSprite sprite = sLeaser.sprites[i];
+            var sprite = sLeaser.sprites[i];
             
-            if (i == symbolSpriteSpear || i == symbolSpriteRage || i == symbolSpriteRevive || i == symbolSpriteShield || i == symbolSpriteAgility)
-                rCam.ReturnFContainer("Midground").AddChild(sprite);
-
-            else
-                rCam.ReturnFContainer("Background").AddChild(sprite);
+            rCam.ReturnFContainer("Background").AddChild(sprite);
         }
     }
 
@@ -105,12 +102,14 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public bool drawSymbolRevive;
     public bool drawSymbolShield;
     public bool drawSymbolAgility;
+    public bool drawSymbolCamo;
 
     public int symbolSpriteSpear;
     public int symbolSpriteRage;
     public int symbolSpriteRevive;
     public int symbolSpriteShield;
     public int symbolSpriteAgility;
+    public int symbolSpriteCamo;
 
     public float symbolScale = 0.85f;
     public float symbolAlpha = 0.75f;
@@ -129,7 +128,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        FSprite halo = sLeaser.sprites[haloSprite];
+        var halo = sLeaser.sprites[haloSprite];
         halo.isVisible = drawHalo;
         halo.SetPosition(parentSprite.GetPosition());
         halo.scale = haloScale;
@@ -137,39 +136,46 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         halo.color = haloColor;
 
 
-        FSprite symbolSpear = sLeaser.sprites[symbolSpriteSpear];
+        var symbolSpear = sLeaser.sprites[symbolSpriteSpear];
         symbolSpear.SetPosition(parentSprite.GetPosition() + symbolOffset);
         symbolSpear.isVisible = drawSymbolSpear;
         symbolSpear.scale = symbolScale;
         symbolSpear.alpha = symbolAlpha;
         symbolSpear.color = symbolColor;
 
-        FSprite symbolRage = sLeaser.sprites[symbolSpriteRage];
+        var symbolRage = sLeaser.sprites[symbolSpriteRage];
         symbolRage.SetPosition(parentSprite.GetPosition() + symbolOffset);
         symbolRage.isVisible = drawSymbolRage;
         symbolRage.scale = symbolScale;
         symbolRage.alpha = symbolAlpha;
         symbolRage.color = symbolColor;
 
-        FSprite symbolRevive = sLeaser.sprites[symbolSpriteRevive];
+        var symbolRevive = sLeaser.sprites[symbolSpriteRevive];
         symbolRevive.SetPosition(parentSprite.GetPosition() + symbolOffset);
         symbolRevive.isVisible = drawSymbolRevive;
         symbolRevive.scale = symbolScale;
         symbolRevive.alpha = symbolAlpha;
         symbolRevive.color = symbolColor;
 
-        FSprite symbolShield = sLeaser.sprites[symbolSpriteShield];
+        var symbolShield = sLeaser.sprites[symbolSpriteShield];
         symbolShield.SetPosition(parentSprite.GetPosition() + symbolOffset);
         symbolShield.isVisible = drawSymbolShield;
         symbolShield.scale = symbolScale;
         symbolShield.alpha = symbolAlpha;
         symbolShield.color = symbolColor;
 
-        FSprite symbolAgility = sLeaser.sprites[symbolSpriteAgility];
+        var symbolAgility = sLeaser.sprites[symbolSpriteAgility];
         symbolAgility.SetPosition(parentSprite.GetPosition() + symbolOffset);
         symbolAgility.isVisible = drawSymbolAgility;
         symbolAgility.scale = symbolScale;
         symbolAgility.alpha = symbolAlpha;
         symbolAgility.color = symbolColor;
+
+        var symbolCamo = sLeaser.sprites[symbolSpriteCamo];
+        symbolCamo.SetPosition(parentSprite.GetPosition() + symbolOffset);
+        symbolCamo.isVisible = drawSymbolCamo;
+        symbolCamo.scale = symbolScale;
+        symbolCamo.alpha = symbolAlpha;
+        symbolCamo.color = symbolColor;
     }
 }

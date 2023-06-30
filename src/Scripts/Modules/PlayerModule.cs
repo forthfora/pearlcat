@@ -19,8 +19,6 @@ public class PlayerModule
         PlayerRef = new WeakReference<Player>(self);
 
         baseStats = normalStats;
-
-        InitSounds(self);
     }
 
     public SlugcatStats baseStats;
@@ -102,9 +100,12 @@ public class PlayerModule
     {
 
         List<ObjectAnimation> animationPool = new()
-        {
-            new BasicOrbitOA(player),
-            new MultiOrbitOA(player),
+            {
+                new BasicOrbitOA(player),
+                new MultiOrbitOA(player),
+            new LayerOrbitOA(player),
+            new SineWaveOA(player),
+            new SineWaveInterOA(player),
         };
 
         if (currentObjectAnimation != null && animationPool.Count > 1)
@@ -140,11 +141,12 @@ public class PlayerModule
 
     public void InitSounds(Player player)
     {
-        MenuCrackleLoop = new ChunkDynamicSoundLoop(player.bodyChunks[0])
+        MenuCrackleLoop = new ChunkDynamicSoundLoop(player.firstChunk)
         {
             sound = Enums.Sounds.Pearlcat_MenuCrackle,
             destroyClipWhenDone = false,
-            Volume = 0.0f
+            Pitch = 1.0f,
+            Volume = 1.0f,
         };
     }
 

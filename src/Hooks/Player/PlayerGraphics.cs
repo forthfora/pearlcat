@@ -86,6 +86,8 @@ public static partial class Hooks
         GenerateEarMesh(sLeaser, playerModule.earR, playerModule.earRSprite);
 
         self.AddToContainer(sLeaser, rCam, null);
+
+        playerModule.InitSounds(self.player);
     }
 
     public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite)

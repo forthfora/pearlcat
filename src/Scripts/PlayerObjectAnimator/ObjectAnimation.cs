@@ -50,7 +50,7 @@ public abstract class ObjectAnimation
         UpdateSymbolEffects(player);
     }
 
-    public virtual Vector2 GetActiveObjectPos(Player player)
+    public static Vector2 GetActiveObjectPos(Player player)
     {
         if (!Hooks.ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
             activeObjectOffset = Vector2.zero;
@@ -135,6 +135,7 @@ public abstract class ObjectAnimation
             addon.drawSymbolRevive = majorEffect == POEffect.MajorEffect.REVIVE;
             addon.drawSymbolShield = majorEffect == POEffect.MajorEffect.SHIELD;
             addon.drawSymbolAgility = majorEffect == POEffect.MajorEffect.AGILITY;
+            addon.drawSymbolCamo = majorEffect == POEffect.MajorEffect.CAMOFLAGUE;
 
             addon.symbolColor = Hooks.GetObjectColor(abstractObject);
         }
@@ -144,9 +145,9 @@ public abstract class ObjectAnimation
     {
         for (int i = 0; i < abstractObjects.Count; i++)
         {
-            AbstractPhysicalObject? abstractObject = abstractObjects[i];
+            var abstractObject = abstractObjects[i];
 
-            float angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * animStacker;
+            var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * animStacker;
 
             Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
             abstractObject.MoveToTargetPos(player, targetPos);

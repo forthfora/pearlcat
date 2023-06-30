@@ -240,10 +240,16 @@ public static partial class Hooks
 
         playerModule.ShowHUD(80);
         player.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
-
+        
         if (!player.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
 
         deathPersistentData.ActiveObjectIndex[player.playerState.playerNumber] = (int)playerModule.activeObjectIndex;
+
+
+        if (player.graphicsModule is not PlayerGraphics pGraphics || newObject == null) return;
+
+        player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
+        pGraphics.LookAtPoint(newObject.firstChunk.pos, 1.0f);
     }
 
 
