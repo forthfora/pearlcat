@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Menu.Remix.MixedUI;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ public abstract class OptionsTemplate : OptionInterface
     
     private Vector2 MarginX;
     private Vector2 Pos;
+
 
     private readonly List<float> CoxEndPositions = new();
 
@@ -418,6 +420,44 @@ public abstract class OptionsTemplate : OptionInterface
 
         DraggerConfigurables.Clear();
         DraggerTextLabels.Clear();
+    }
+
+
+
+    public bool GetCheckbox(Configurable<bool> cfg, out OpCheckBox checkBox)
+    {
+        foreach (var tab in Tabs)
+        {
+            if (tab == null) continue;
+
+            if (tab.items.FirstOrDefault(item => item is OpCheckBox checkBox && checkBox.cfgEntry == cfg) is OpCheckBox search)
+            {
+                checkBox = search;
+                return true;
+            }
+        }
+
+        checkBox = null!;
+        return false;
+    }
+
+    public bool GetLabel(Configurable<bool> cfg, out OpLabel label) => GetLabel(cfg.info.Tags[0].ToString(), out label);
+
+    public bool GetLabel(string text, out OpLabel label)
+    {
+        foreach (var tab in Tabs)
+        {
+            if (tab == null) continue;
+
+            if (tab.items.FirstOrDefault(item => item is OpLabel label && label.text == text) is OpLabel search)
+            {
+                label = search;
+                return true;
+            }
+        }
+
+        label = null!;
+        return false;
     }
 }
 

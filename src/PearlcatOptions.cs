@@ -1,5 +1,4 @@
 ﻿using Menu.Remix.MixedUI;
-using System.Linq;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -8,6 +7,8 @@ public sealed class PearlcatOptions : OptionsTemplate
 {
     public static readonly PearlcatOptions Instance = new();
 
+    public readonly Color WarnRed = new(0.85f, 0.35f, 0.4f);
+
     #region Options
 
     public static Configurable<bool> PearlThreatMusic = Instance.config.Bind(nameof(PearlThreatMusic), true, new ConfigurableInfo(
@@ -15,8 +16,38 @@ public sealed class PearlcatOptions : OptionsTemplate
         "Pearl Threat Music?"));
 
     public static Configurable<bool> DisableCosmetics = Instance.config.Bind(nameof(DisableCosmetics), false, new ConfigurableInfo(
-    "When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.", null, "",
-    "Disable Cosmetics?"));
+        "When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.", null, "",
+        "Disable Cosmetics?"));
+
+
+    public static Configurable<bool> DisableMinorEffects = Instance.config.Bind(nameof(DisableMinorEffects), false, new ConfigurableInfo(
+        "When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.", null, "",
+        "Disable Minor Effects?"));
+
+    public static Configurable<bool> DisableSpear = Instance.config.Bind(nameof(DisableSpear), false, new ConfigurableInfo(
+        "When checked, disables the spear creation effect granted by an active pearl.", null, "",
+        "Disable Spear Effect?"));
+
+    public static Configurable<bool> DisableRevive = Instance.config.Bind(nameof(DisableRevive), false, new ConfigurableInfo(
+        "When checked, disables the revive effect granted by an active pearl.", null, "",
+        "Disable Revive Effect?"));
+
+    public static Configurable<bool> DisableAgility = Instance.config.Bind(nameof(DisableAgility), false, new ConfigurableInfo(
+        "When checked, disables the agility effect granted by an active pearl.", null, "",
+        "Disable Agility Effect?"));
+
+    public static Configurable<bool> DisableRage = Instance.config.Bind(nameof(DisableRage), false, new ConfigurableInfo(
+        "When checked, disables the rage effect granted by an active pearl.", null, "",
+        "Disable Rage Effect?"));
+
+    public static Configurable<bool> DisableShield = Instance.config.Bind(nameof(DisableShield), false, new ConfigurableInfo(
+        "When checked, disables the shield effect granted by an active pearl.", null, "",
+        "Disable Shield Effect?"));
+
+    public static Configurable<bool> DisableCamoflague = Instance.config.Bind(nameof(DisableCamoflague), false, new ConfigurableInfo(
+        "When checked, disables the camoflague effect granted by an active pearl.", null, "",
+        "Disable Camoflague Effect?"));
+
 
     #endregion
 
@@ -94,7 +125,7 @@ public sealed class PearlcatOptions : OptionsTemplate
 
     #endregion
 
-    public const int TAB_COUNT = 4;
+    public const int TAB_COUNT = 5;
 
     public override void Initialize()
     {
@@ -108,6 +139,8 @@ public sealed class PearlcatOptions : OptionsTemplate
         InitAbilityInput(ref tabIndex);
         InitSwapInput(ref tabIndex);
         InitStoreInput(ref tabIndex);
+
+        InitGameplay(ref tabIndex);
     }
 
 
@@ -118,7 +151,7 @@ public sealed class PearlcatOptions : OptionsTemplate
         AddCheckBox(PearlThreatMusic);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(13);
+        AddNewLine(14);
 
         AddCheckBox(DisableCosmetics);
         DrawCheckBoxes(ref Tabs[tabIndex]);
@@ -126,11 +159,93 @@ public sealed class PearlcatOptions : OptionsTemplate
         AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
 
-        var checkBox = (OpCheckBox)Tabs[0].items.Where(item => item is OpCheckBox checkBox && checkBox.cfgEntry == DisableCosmetics).FirstOrDefault();
-        var label = (OpLabel)Tabs[0].items.Where(item => item is OpLabel label && label.text == DisableCosmetics.info.Tags[0].ToString()).FirstOrDefault();
+        if (GetCheckbox(DisableCosmetics, out var checkBox))
+            checkBox.colorEdge = WarnRed;
 
-        checkBox.colorEdge = Color.red;
-        label.color = Color.red;
+        if (GetLabel(DisableCosmetics, out var label))
+            label.color = WarnRed;
+    }
+
+    private void InitGameplay(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Gameplay");
+        Tabs[tabIndex].colorButton = WarnRed;
+
+        var warningText = "Be warned the following may change gameplay significantly!";
+        AddTextLabel(warningText, bigText: true);
+        DrawTextLabels(ref Tabs[tabIndex]);
+         
+
+        AddCheckBox(DisableMinorEffects);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+
+        AddCheckBox(DisableAgility);
+        AddCheckBox(DisableCamoflague);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+        
+        AddCheckBox(DisableRage);
+        AddCheckBox(DisableRevive);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddCheckBox(DisableShield);
+        AddCheckBox(DisableSpear);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddNewLine(6);
+        DrawBox(ref Tabs[tabIndex]);
+
+        #region Color Changes
+
+        if (GetLabel(warningText, out var label))
+            label.color = WarnRed;
+
+
+        if (GetLabel(DisableMinorEffects, out label))
+            label.color = WarnRed;
+
+        if (GetLabel(DisableAgility, out label))
+            label.color = Color.cyan;
+
+        if (GetLabel(DisableCamoflague, out label))
+            label.color = Color.grey;
+
+        if (GetLabel(DisableRage, out label))
+            label.color = Color.red;
+
+        if (GetLabel(DisableRevive, out label))
+            label.color = Color.green;
+
+        if (GetLabel(DisableShield, out label))
+            label.color = Color.yellow;
+
+        if (GetLabel(DisableSpear, out label))
+            label.color = Color.white;
+
+
+        if (GetCheckbox(DisableMinorEffects, out var checkBox))
+            checkBox.colorEdge = WarnRed;
+
+        if (GetCheckbox(DisableAgility, out checkBox))
+            checkBox.colorEdge = Color.cyan;
+
+        if (GetCheckbox(DisableCamoflague, out checkBox))
+            checkBox.colorEdge = Color.grey;
+
+        if (GetCheckbox(DisableRage, out checkBox))
+            checkBox.colorEdge = Color.red;
+
+        if (GetCheckbox(DisableRevive, out checkBox))
+            checkBox.colorEdge = Color.green;
+
+        if (GetCheckbox(DisableShield, out checkBox))
+            checkBox.colorEdge = Color.yellow;
+
+        if (GetCheckbox(DisableSpear, out checkBox))
+            checkBox.colorEdge = Color.white;
+
+        #endregion
     }
 
     private void InitStoreInput(ref int tabIndex)
@@ -164,17 +279,15 @@ public sealed class PearlcatOptions : OptionsTemplate
     {
         AddTab(ref tabIndex, "Swap Input");
 
-        AddNewLine(2);
-
-        DrawKeybinders(SwapLeftKeybind, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapRightKeybind, ref Tabs[tabIndex]);
-
-        AddNewLine(-2);
-
         AddDragger(SwapTriggerPlayer);
         DrawDraggers(ref Tabs[tabIndex]);
 
         AddNewLine(3);
+
+        DrawKeybinders(SwapLeftKeybind, ref Tabs[tabIndex]);
+        DrawKeybinders(SwapRightKeybind, ref Tabs[tabIndex]);
+
+        AddNewLine(1);
 
         DrawKeybinders(SwapKeybindKeyboard, ref Tabs[tabIndex]);
         DrawKeybinders(SwapKeybindPlayer1, ref Tabs[tabIndex]);
@@ -182,7 +295,7 @@ public sealed class PearlcatOptions : OptionsTemplate
         DrawKeybinders(SwapKeybindPlayer3, ref Tabs[tabIndex]);
         DrawKeybinders(SwapKeybindPlayer4, ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine(-2);
         DrawBox(ref Tabs[tabIndex]);
     }
 

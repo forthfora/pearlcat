@@ -45,21 +45,33 @@ public static partial class Hooks
         var effect = playerModule.CurrentPOEffect;
         var stats = self.slugcatStats;
         var baseStats = playerModule.BaseStats;
+    
+        if (PearlcatOptions.DisableMinorEffects.Value)
+        {
+            if (!self.Malnourished)
+            {
+                stats.throwingSkill = 2;
+                stats.runspeedFac = 1.2f;
+                stats.corridorClimbSpeedFac = 1.2f;
+                stats.poleClimbSpeedFac = 1.25f;
+            }
+        }
+        else
+        {
+            stats.lungsFac = baseStats.lungsFac + effect.LungsFac;
+            stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, 0, 2);
+            stats.runspeedFac = baseStats.runspeedFac + effect.RunSpeedFac;
 
-        stats.lungsFac = baseStats.lungsFac + effect.LungsFac;
-        stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, 0, 2);
-        stats.runspeedFac = baseStats.runspeedFac + effect.RunSpeedFac;
+            stats.corridorClimbSpeedFac = baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac;
+            stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac;
+            stats.bodyWeightFac = baseStats.bodyWeightFac + effect.BodyWeightFac;
 
-        stats.corridorClimbSpeedFac = baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac;
-        stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac;
-        stats.bodyWeightFac = baseStats.bodyWeightFac + effect.BodyWeightFac;
+            stats.loudnessFac = baseStats.loudnessFac + effect.LoudnessFac;
+            stats.generalVisibilityBonus = baseStats.generalVisibilityBonus + effect.GeneralVisibilityBonus;
+            stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.VisualStealthInSneakMode;
 
-        stats.loudnessFac = baseStats.loudnessFac + effect.LoudnessFac;
-        stats.generalVisibilityBonus = baseStats.generalVisibilityBonus + effect.GeneralVisibilityBonus;
-        stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.VisualStealthInSneakMode;
-
-        playerModule.CanMaul = effect.MaulFac >= 1.0;
-
+            playerModule.CanMaul = effect.MaulFac >= 1.0;
+        }
 
 
         switch (effect.majorEffect)
@@ -93,17 +105,34 @@ public static partial class Hooks
 
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule)
     {
+        if (PearlcatOptions.DisableSpear.Value) return;
+
         var abilityInput = self.IsAbilityKeybindPressed();
         var wasAbilityInput = playerModule.WasAbilityInput;
     }
 
-    public static void UpdateAgility(Player self, PlayerModule playerModule) { }
+    public static void UpdateAgility(Player self, PlayerModule playerModule)
+    {
+        if (PearlcatOptions.DisableAgility.Value) return;
+    }
     
-    public static void UpdateRevive(Player self, PlayerModule playerModule) { }
+    public static void UpdateRevive(Player self, PlayerModule playerModule)
+    {
+        if (PearlcatOptions.DisableRevive.Value) return;
+    }
     
-    public static void UpdateShield(Player self, PlayerModule playerModule) { }
+    public static void UpdateShield(Player self, PlayerModule playerModule)
+    {
+        if (PearlcatOptions.DisableShield.Value) return;
+    }
     
-    public static void UpdateRage(Player self, PlayerModule playerModule) { }
+    public static void UpdateRage(Player self, PlayerModule playerModule)
+    {
+        if (PearlcatOptions.DisableRage.Value) return;
+    }
 
-    public static void UpdateCamoflague(Player self, PlayerModule playerModule) { }
+    public static void UpdateCamoflague(Player self, PlayerModule playerModule)
+    {
+        if (PearlcatOptions.DisableCamoflague.Value) return;
+    }
 }
