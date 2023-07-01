@@ -40,7 +40,7 @@ public static partial class Hooks
             _ = Enums.Pearls.AS_PearlBlue;
             _ = Enums.Sounds.Pearlcat_PearlEquip;
 
-            MachineConnector.SetRegisteredOI(Plugin.MOD_ID, PearlcatOptions.instance);
+            MachineConnector.SetRegisteredOI(Plugin.MOD_ID, PearlcatOptions.Instance);
             AssetLoader.LoadAssets();
         }
         catch (Exception e)

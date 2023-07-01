@@ -51,7 +51,7 @@ public static partial class Hooks
         ApplyCombinedPOEffect(self, playerModule);
 
         UpdateHUD(self, playerModule);
-        //UpdateSFX(self, playerModule);
+        UpdateSFX(self, playerModule);
 
         UpdateStoreRetrieveObject(self, playerModule);
     }
@@ -115,11 +115,10 @@ public static partial class Hooks
 
     public static void CheckInput(Player self, PlayerModule playerModule)
     {
-        var input = self.input[0];
         var unblockedInput = playerModule.UnblockedInput;
 
-        bool swapLeftInput = (Input.GetKey(PearlcatOptions.swapLeftKeybind.Value) || Input.GetAxis("DschockHorizontalRight") < -0.5f) && self.IsFirstPearlcat();
-        bool swapRightInput = (Input.GetKey(PearlcatOptions.swapRightKeybind.Value) || Input.GetAxis("DschockHorizontalRight") > 0.5f) && self.IsFirstPearlcat();
+        bool swapLeftInput = self.IsSwapLeftInput();
+        bool swapRightInput = self.IsSwapRightInput();
 
         bool swapInput = self.IsSwapKeybindPressed();
         bool storeInput = self.IsStoreKeybindPressed();
