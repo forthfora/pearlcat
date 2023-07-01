@@ -287,7 +287,7 @@ public sealed class PearlcatOptions : OptionsTemplate
         DrawKeybinders(SwapLeftKeybind, ref Tabs[tabIndex]);
         DrawKeybinders(SwapRightKeybind, ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine(2);
 
         DrawKeybinders(SwapKeybindKeyboard, ref Tabs[tabIndex]);
         DrawKeybinders(SwapKeybindPlayer1, ref Tabs[tabIndex]);
@@ -295,7 +295,7 @@ public sealed class PearlcatOptions : OptionsTemplate
         DrawKeybinders(SwapKeybindPlayer3, ref Tabs[tabIndex]);
         DrawKeybinders(SwapKeybindPlayer4, ref Tabs[tabIndex]);
 
-        AddNewLine(-2);
+        AddNewLine(-1);
         DrawBox(ref Tabs[tabIndex]);
     }
 

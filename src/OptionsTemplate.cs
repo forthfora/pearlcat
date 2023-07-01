@@ -63,7 +63,7 @@ public abstract class OptionsTemplate : OptionInterface
 
         AddNewLine(0.5f);
         AddTextLabel(Translate("Version ") + Plugin.VERSION, FLabelAlignment.Left);
-        AddTextLabel(Translate("by ") + Plugin.AUTHOR, FLabelAlignment.Right);
+        AddTextLabel(Translate("by ") + Plugin.AUTHORS, FLabelAlignment.Right);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine();

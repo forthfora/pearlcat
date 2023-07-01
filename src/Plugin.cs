@@ -13,16 +13,16 @@ using System.Security;
 
 namespace Pearlcat;
 
-[BepInPlugin(MOD_ID, MOD_NAME, VERSION)]
+[BepInPlugin(MOD_ID, MOD_ID, "1.0.0")]
 
 public class Plugin : BaseUnityPlugin
 {
-    public const string VERSION = "0.0.0";
     public const string MOD_ID = "pearlcat";
-    public const string AUTHOR = "forthbridge, Geahgeah, Sidera";
-    public const string MOD_NAME = "Pearlcat";
-
     public const string SLUGCAT_ID = "Pearlcat";
+
+    public static string MOD_NAME = "";
+    public static string VERSION = "";
+    public static string AUTHORS = "";
 
     public static new ManualLogSource Logger { get; private set; } = null!;
 

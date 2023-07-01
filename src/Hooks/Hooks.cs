@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Pearlcat;
 
@@ -34,6 +35,13 @@ public static partial class Hooks
         {
             if (isInit) return;
             isInit = true;
+
+            var mod = ModManager.ActiveMods.FirstOrDefault(mod => mod.id == Plugin.MOD_ID);
+
+            Plugin.MOD_NAME = mod.name;
+            Plugin.VERSION = mod.version;
+            Plugin.AUTHORS = mod.authors;
+
 
             // Init Enums
             _ = Enums.General.Pearlcat;
