@@ -119,7 +119,7 @@ public partial class Hooks
 
                 var effect = playerModule.ActiveObject.GetPOEffect();
 
-                if (effect.ThreatMusic != null && (PearlcatOptions.PearlThreatMusic.Value || effect.ThreatMusic == "AS"))
+                if (effect.ThreatMusic != null && PearlcatOptions.PearlThreatMusic.Value)
                 {
                     if (self.proceduralMusic == null || (self.nextProcedural != effect.ThreatMusic && self.proceduralMusic.instruction.name != effect.ThreatMusic))
                     {

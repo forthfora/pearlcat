@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
@@ -105,13 +106,13 @@ public static partial class Hooks
     {
         if (physicalObject == null) return;
 
-        var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
+        var lightningBolt = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
         {
             intensity = 0.75f,
             lifeTime = 12.0f,
             lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
         };
-        physicalObject.room.AddObject(lightningBoltOld);
+        physicalObject.room.AddObject(lightningBolt);
     }
 
 
@@ -144,15 +145,14 @@ public static partial class Hooks
 
 
 
-    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject)
+    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool bypassLimit = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
-
-        if (playerModule.AbstractInventory.Count >= deathPersistentData.MaxStorageCount) return;
+        if (playerModule.AbstractInventory.Count >= PearlcatOptions.MaxPearlCount.Value && !bypassLimit) return;
 
         self.AddToInventory(abstractObject);
+        playerModule.ShowHUD(40);
     }
 
     public static void RetrieveActiveObject(this Player self)
@@ -164,8 +164,8 @@ public static partial class Hooks
         var activeObject = playerModule.ActiveObject;
         if (activeObject == null) return;
 
-        RemoveFromInventory(self, activeObject);
-
+        self.RemoveFromInventory(activeObject);
+        playerModule.ShowHUD(40);
         self.SlugcatGrab(activeObject.realizedObject, self.FreeHand());
     }
 
@@ -175,12 +175,10 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (playerModule.ActiveObject != null && playerModule.ActiveObjectIndex != null)
-            playerModule.AbstractInventory.Insert((int)playerModule.ActiveObjectIndex + 1, abstractObject);
+        int targetIndex = playerModule.ActiveObjectIndex ?? 0;
 
-        else
-            playerModule.AbstractInventory.Add(abstractObject);
-
+        playerModule.AbstractInventory.Insert(targetIndex, abstractObject);
+        self.ActivateObjectInStorage(targetIndex);
 
         abstractObject.realizedObject?.MarkAsPlayerObject();
         self.UpdateInventorySaveData(playerModule);
@@ -210,14 +208,39 @@ public static partial class Hooks
 
     public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
     {
-        if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
-
-        List<string> inventoryData = new();
+        var save = self.room.game.GetMiscWorld();
+        List<string> inventory = new();
 
         foreach (var item in playerModule.AbstractInventory)
-            inventoryData.Add(item.ToString());
-        
-        deathPersistentData.RawInventoryData[self.playerState.playerNumber] = inventoryData;
+            inventory.Add(item.ToString());
+
+
+        save.Inventory[self.playerState.playerNumber] = inventory; 
+
+        if (playerModule.AbstractInventory.Count == 0)
+        {
+            playerModule.ActiveObjectIndex = null;
+            save.ActiveObjectIndex[self.playerState.playerNumber] = null;
+        }
+
+
+        // Consider only Pearlcat's campaign and the first pearlcat's inventory for the select screen
+        if (!self.room.game.IsPearlcatCampaign() || !self.IsFirstPearlcat()) return;
+
+        var miscProgData = self.room.game.GetMiscProgression();
+        miscProgData.StoredPearlTypes.Clear();
+        miscProgData.ActivePearlType = null;
+ 
+        foreach(var item in playerModule.AbstractInventory)
+        {
+            if (item is not DataPearl.AbstractDataPearl dataPearl) continue;
+
+            if (dataPearl == playerModule.ActiveObject)
+                miscProgData.ActivePearlType = dataPearl.dataPearlType;
+             
+            else
+                miscProgData.StoredPearlTypes.Add(dataPearl.dataPearlType);
+        }
     }
 
     
@@ -264,6 +287,8 @@ public static partial class Hooks
 
         if (objectIndex < 0 ||  objectIndex >= playerModule.AbstractInventory.Count) return;
 
+        if (objectIndex == playerModule.ActiveObjectIndex) return;
+
         var oldObject = playerModule.ActiveObject?.realizedObject;
         playerModule.ActiveObjectIndex = objectIndex;
         var newObject = playerModule.ActiveObject?.realizedObject;
@@ -273,9 +298,8 @@ public static partial class Hooks
         playerModule.ShowHUD(80);
         player.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
         
-        if (!player.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
-
-        deathPersistentData.ActiveObjectIndex[player.playerState.playerNumber] = (int)playerModule.ActiveObjectIndex;
+        var save = player.room.game.GetMiscWorld();
+        save.ActiveObjectIndex[player.playerState.playerNumber] = (int)playerModule.ActiveObjectIndex;
 
 
         if (player.graphicsModule is not PlayerGraphics pGraphics || newObject == null) return;

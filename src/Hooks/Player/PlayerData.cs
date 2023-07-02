@@ -47,6 +47,7 @@ public static partial class Hooks
 
     public static bool IsFirstPearlcat(this Player player) => player.playerState.playerNumber == GetFirstPearlcatIndex(player.room?.game);
 
+    public static bool IsPearlcatCampaign(this RainWorldGame game) => game.StoryCharacter == Enums.General.Pearlcat;
 
     // Only pearlcats get this module
     public static bool TryGetPearlcatModule(this Player player, out PlayerModule playerModule)
@@ -107,6 +108,7 @@ public static partial class Hooks
 
         return -1;
     }
+
 
 
     public static Vector2 Vector2Feature(JsonAny json)

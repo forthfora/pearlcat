@@ -424,13 +424,14 @@ public abstract class OptionsTemplate : OptionInterface
 
 
 
-    public bool GetCheckbox(Configurable<bool> cfg, out OpCheckBox checkBox)
+    public bool GetConfigurable<T, TConfigurable>(Configurable<T> cfg, out TConfigurable checkBox)
+        where TConfigurable : UIconfig
     {
         foreach (var tab in Tabs)
         {
             if (tab == null) continue;
 
-            if (tab.items.FirstOrDefault(item => item is OpCheckBox checkBox && checkBox.cfgEntry == cfg) is OpCheckBox search)
+            if (tab.items.FirstOrDefault(item => item is TConfigurable configurable && configurable.cfgEntry == cfg) is TConfigurable search)
             {
                 checkBox = search;
                 return true;
@@ -441,7 +442,7 @@ public abstract class OptionsTemplate : OptionInterface
         return false;
     }
 
-    public bool GetLabel(Configurable<bool> cfg, out OpLabel label) => GetLabel(cfg.info.Tags[0].ToString(), out label);
+    public bool GetLabel<T>(Configurable<T> cfg, out OpLabel label) => GetLabel(cfg.info.Tags[0].ToString(), out label);
 
     public bool GetLabel(string text, out OpLabel label)
     {

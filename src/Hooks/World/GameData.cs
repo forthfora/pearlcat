@@ -10,8 +10,6 @@ public partial class Hooks
 
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
     {
-
-
         for (int i = 0; i < self.world.NumberOfRooms; i++)
         {
             var abstractRoom = self.world.GetAbstractRoom(self.world.firstRoomIndex + i);

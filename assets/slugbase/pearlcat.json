@@ -18,8 +18,8 @@
         "walk_speed": [1.0, 0.875],
         "climb_speed": [1.0, 0.8],
         "tunnel_speed": [1.0, 0.86],
-        "crouch_stealth": [0.15, 0.5],
-        "loudness": [1.5, 1.0],
+        "crouch_stealth": [0.1, 0.8],
+        "loudness": [1.75, 0.5],
         
         "karma": 0,
         "karma_cap": 4,

@@ -11,7 +11,7 @@ public static partial class Hooks
         On.RainWorld.PostModsInit += RainWorld_PostModsInit;
 
         // Core
-        ApplySaveLoadHooks();
+        ApplySaveDataHooks();
         ApplyGameDataHooks();
         ApplyMenuHooks();
 

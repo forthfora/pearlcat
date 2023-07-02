@@ -4,10 +4,10 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static bool IsStoreKeybindPressed(this Player player)
+    public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (!PearlcatOptions.UsesCustomStoreKeybind.Value)
-            return player.input[0].y == 1.0f && player.input[0].pckp;
+            return playerModule.UnblockedInput.y == 1.0f && playerModule.UnblockedInput.pckp;
 
         return player.playerState.playerNumber switch
         {
@@ -20,10 +20,10 @@ public static partial class Hooks
         };
     }
 
-    public static bool IsAbilityKeybindPressed(this Player player)
+    public static bool IsAbilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (!PearlcatOptions.UsesCustomAbilityKeybind.Value)
-            return player.input[0].jmp && player.input[0].pckp;
+            return playerModule.UnblockedInput.jmp && playerModule.UnblockedInput.pckp;
 
         return player.playerState.playerNumber switch
         {

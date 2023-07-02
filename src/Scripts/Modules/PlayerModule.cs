@@ -67,6 +67,7 @@ public class PlayerModule
     public float HudFade { get; set; }
     public float HudFadeStacker { get; set; }
 
+    public bool GivenPearls { get; set; }
 
     public int ObjectAnimationStacker { get; set; }
     public int ObjectAnimationDuration { get; set; }
@@ -125,17 +126,21 @@ public class PlayerModule
 
     public void LoadSaveData(Player self)
     {
-        if (!self.room.game.GetDeathPersistentData(out var deathPersistentData)) return;
+        var save = self.room.game.GetMiscWorld();
 
         var playerNumber = self.playerState.playerNumber;
         var world = self.room.world;
-        
-        if (deathPersistentData.RawInventoryData.TryGetValue(playerNumber, out var inventoryData))
-            foreach (var item in inventoryData)
+
+        if (save.Inventory.TryGetValue(playerNumber, out var inventory))
+            foreach (var item in inventory)
                 self.StoreObject(SaveState.AbstractPhysicalObjectFromString(world, item));
- 
-        if (deathPersistentData.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndexData))
-            ActiveObjectIndex = activeObjectIndexData;
+
+
+        if (AbstractInventory.Count == 0)
+            ActiveObjectIndex = null;
+
+        else if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex))
+            ActiveObjectIndex = activeObjectIndex;
     }
 
 

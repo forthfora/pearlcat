@@ -137,7 +137,6 @@ public static class POEffectManager
         UW.ThreatMusic = "UW";
         UW.BodyWeightFac = -0.05f;
         UW.RunSpeedFac = 0.15f;
-        UW.LoudnessFac = -0.1f;
 
         LF_bottom = None;
         LF_bottom.majorEffect = MajorEffect.RAGE;
@@ -163,9 +162,6 @@ public static class POEffectManager
         VS = None;
         VS.majorEffect = MajorEffect.SPEAR_CREATION;
         VS.ThreatMusic = "VS";
-        VS.GeneralVisibilityBonus = -0.1f;
-        VS.VisualStealthInSneakMode = 0.1f;
-        VS.LoudnessFac = -0.1f;
 
         SU_filt = None;
         SU_filt.majorEffect = MajorEffect.SPEAR_CREATION;
@@ -228,9 +224,6 @@ public static class POEffectManager
      
         IteratorBlack = None;
         IteratorBlack.majorEffect = MajorEffect.CAMOFLAGUE;
-        IteratorBlack.GeneralVisibilityBonus = -0.15f;
-        IteratorBlack.VisualStealthInSneakMode = 0.15f;
-        IteratorBlack.LoudnessFac = -0.15f;
 
         IteratorOrange = None;
         IteratorOrange.majorEffect = MajorEffect.SHIELD;

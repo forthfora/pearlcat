@@ -31,10 +31,7 @@ public struct POEffect
     public float PoleClimbSpeedFac { get; set; }
     public float BodyWeightFac { get; set; }
 
-    public float LoudnessFac { get; set; }
-    public float GeneralVisibilityBonus { get; set; }
-    public float VisualStealthInSneakMode { get; set; }
-    
+
     // Non Standard
     public float JumpHeightFac { get; set; }
     public float SlideSpeedFac { get; set; } // Includes pounce distance

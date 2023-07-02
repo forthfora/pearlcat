@@ -1,4 +1,5 @@
 ﻿using RWCustom;
+using System.Collections.Generic;
 using UnityEngine;
 using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
@@ -61,7 +62,7 @@ public static partial class Hooks
 
         if (!StoreObjectDelay.TryGet(self, out var storeObjectDelay)) return;
 
-        var storeInput = self.IsStoreKeybindPressed();
+        var storeInput = self.IsStoreKeybindPressed(playerModule);
         var isStoring = self.GraspsHasType(AbstractObjectType.DataPearl) == 0;
         var toStore = self.grasps[0]?.grabbed;
 
@@ -82,15 +83,46 @@ public static partial class Hooks
                 self.RetrieveActiveObject();
             }
 
-            playerModule.StoreObjectStacker = -int.MaxValue;
+            playerModule.StoreObjectStacker = -1;
         }
-        
+
 
         if (storeInput)
-            playerModule.StoreObjectStacker++;
-        
+        {
+            if (playerModule.StoreObjectStacker >= 0)
+            {
+                playerModule.BlockInput = true;
+                playerModule.StoreObjectStacker++;
+               
+                var pGraphics = (PlayerGraphics)self.graphicsModule;
+                //pGraphics.hands[self.FreeHand()].absoluteHuntPos = self.firstChunk.pos + new Vector2(50.0f, 0.0f);
+
+                // every 5 frames
+                if (playerModule.StoreObjectStacker % 5 == 0)
+                {
+                    if (isStoring)
+                    {
+                        var activeObjPos = ObjectAnimation.GetActiveObjectPos(self);
+                        toStore?.ConnectEffect(activeObjPos);                
+                    }
+                    else
+                    {
+                        var activeObj = playerModule.ActiveObject?.realizedObject;
+
+                        var hand = pGraphics.hands[self.FreeHand()];
+
+                        hand.relativeHuntPos = Vector2.left * 10.0f;
+
+                        if (activeObj != null && hand != null)
+                            activeObj.ConnectEffect(hand.pos);
+                    }
+                }
+            }
+        }
         else
+        {
             playerModule.StoreObjectStacker = 0;
+        }
     }
 
     private static void UpdateSFX(Player self, PlayerModule playerModule)
@@ -121,8 +153,8 @@ public static partial class Hooks
         bool swapRightInput = self.IsSwapRightInput();
 
         bool swapInput = self.IsSwapKeybindPressed();
-        bool storeInput = self.IsStoreKeybindPressed();
-        bool abilityInput = self.IsAbilityKeybindPressed();
+        bool storeInput = self.IsStoreKeybindPressed(playerModule);
+        bool abilityInput = self.IsAbilityKeybindPressed(playerModule);
         
         int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
 
@@ -269,37 +301,52 @@ public static partial class Hooks
         playerModule.ObjectAnimationStacker++;
 
 
-        
-        // HACK
-        if (!self.dead && !hasSpawned)
-        {
-            hasSpawned = true;
 
-            for (int i = 0; i < 6; i++)
+        // HACK
+        var save = self.room.game.GetMiscWorld();
+
+        if (save.IsNewGame && !playerModule.GivenPearls)
+        {
+            playerModule.GivenPearls = true;
+
+            for (int i = 0; i < PearlcatOptions.MaxPearlCount.Value; i++)
             {
-                DataPearlType type = i switch
+                var types = new List<DataPearlType>()
                 {
-                    0 => MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM,
-                    1 => Enums.Pearls.AS_PearlBlue,
-                    2 => Enums.Pearls.AS_PearlYellow,
-                    3 => Enums.Pearls.AS_PearlRed,
-                    4 => Enums.Pearls.AS_PearlGreen,
-                    5 => Enums.Pearls.AS_PearlBlack,
-                    6 => DataPearlType.LF_bottom,
-                    7 => DataPearlType.SL_chimney,
-                    8 => DataPearlType.SL_bridge,
-                    9 => DataPearlType.HI,
-                    _ => DataPearlType.Misc,
+                    MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM,
+                    Enums.Pearls.AS_PearlBlack,
+                    Enums.Pearls.AS_PearlGreen,
+                    Enums.Pearls.AS_PearlYellow,
+                    Enums.Pearls.AS_PearlRed,
+                    Enums.Pearls.AS_PearlBlue,
+                    DataPearlType.LF_bottom,
+                    DataPearlType.SL_chimney,
+                    DataPearlType.SL_bridge,
+                    DataPearlType.HI,
+                    DataPearlType.Misc,
                 };
 
-                var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
+                var type = i switch
+                {
+                    0 => types[0],
+                    1 => types[1],
+                    2 => types[2],
+                    3 => types[3],
+                    4 => types[4],
+                    5 => types[5],
+                    6 => types[6],
+                    7 => types[7],
+                    8 => types[8],
+                    9 => types[9],
+                    10 => types[10],
+                    _ => types[Random.Range(0, types.Count)],
+                };
+
+                var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
                 self.StoreObject(pearl);
             }
         }
     }
-
-    // HACK
-    public static bool hasSpawned = false;
 
 
     public static void Player_Die(On.Player.orig_Die orig, Player self)

@@ -28,10 +28,6 @@ public static partial class Hooks
             combinedEffect.LungsFac += effect.LungsFac * mult;
             combinedEffect.BodyWeightFac += effect.BodyWeightFac * mult;
 
-            combinedEffect.LoudnessFac += effect.LoudnessFac * mult;
-            combinedEffect.GeneralVisibilityBonus += effect.GeneralVisibilityBonus * mult;
-            combinedEffect.VisualStealthInSneakMode += effect.VisualStealthInSneakMode * mult;
-
             combinedEffect.MaulFac += effect.MaulFac * mult;
             combinedEffect.SpearPullFac += effect.SpearPullFac * mult;
             combinedEffect.BackSpearFac += effect.BackSpearFac * mult;
@@ -66,12 +62,15 @@ public static partial class Hooks
             stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac;
             stats.bodyWeightFac = baseStats.bodyWeightFac + effect.BodyWeightFac;
 
-            stats.loudnessFac = baseStats.loudnessFac + effect.LoudnessFac;
-            stats.generalVisibilityBonus = baseStats.generalVisibilityBonus + effect.GeneralVisibilityBonus;
-            stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode + effect.VisualStealthInSneakMode;
-
             playerModule.CanMaul = effect.MaulFac >= 1.0;
         }
+
+
+        var visibilityMult = PearlcatOptions.VisibilityMultiplier.Value / 100.0f;
+
+        stats.loudnessFac = baseStats.loudnessFac * visibilityMult;
+        stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode * visibilityMult;
+        stats.generalVisibilityBonus = 0.4f * visibilityMult;
 
 
         switch (effect.majorEffect)
@@ -106,14 +105,19 @@ public static partial class Hooks
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule)
     {
         if (PearlcatOptions.DisableSpear.Value) return;
-
-        var abilityInput = self.IsAbilityKeybindPressed();
-        var wasAbilityInput = playerModule.WasAbilityInput;
     }
 
     public static void UpdateAgility(Player self, PlayerModule playerModule)
     {
         if (PearlcatOptions.DisableAgility.Value) return;
+
+        var abilityInput = self.IsAbilityKeybindPressed(playerModule);
+        var wasAbilityInput = playerModule.WasAbilityInput;
+    
+        if (abilityInput && !wasAbilityInput)
+        {
+            Plugin.Logger.LogWarning("Jump");
+        }
     }
     
     public static void UpdateRevive(Player self, PlayerModule playerModule)

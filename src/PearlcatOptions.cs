@@ -19,6 +19,20 @@ public sealed class PearlcatOptions : OptionsTemplate
         "When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.", null, "",
         "Disable Cosmetics?"));
 
+    public static Configurable<bool> LowStartingReputation = Instance.config.Bind(nameof(LowStartingReputation), true, new ConfigurableInfo(
+        "When checked, Pearlcat's starting reputation with many creatures will be low.", null, "",
+        "Low Starting Reputation?"));
+
+    public static Configurable<int> MaxPearlCount = Instance.config.Bind(nameof(MaxPearlCount), 11, new ConfigurableInfo(
+        "Maximum number of pearls that can be stored at once, including the active pearl. Hold and drag up or down to change.",
+        new ConfigAcceptableRange<int>(1, 100), "",
+        "Max Pearl Count"));
+    
+    public static Configurable<int> VisibilityMultiplier = Instance.config.Bind(nameof(VisibilityMultiplier), 100, new ConfigurableInfo(
+        "Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.",
+        new ConfigAcceptableRange<int>(0, 300), "",
+        "Visibility Multiplier"));
+
 
     public static Configurable<bool> DisableMinorEffects = Instance.config.Bind(nameof(DisableMinorEffects), false, new ConfigurableInfo(
         "When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.", null, "",
@@ -140,7 +154,7 @@ public sealed class PearlcatOptions : OptionsTemplate
         InitSwapInput(ref tabIndex);
         InitStoreInput(ref tabIndex);
 
-        InitGameplay(ref tabIndex);
+        InitAccessibility(ref tabIndex);
     }
 
 
@@ -159,16 +173,16 @@ public sealed class PearlcatOptions : OptionsTemplate
         AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
 
-        if (GetCheckbox(DisableCosmetics, out var checkBox))
+        if (GetConfigurable(DisableCosmetics, out OpCheckBox checkBox))
             checkBox.colorEdge = WarnRed;
 
         if (GetLabel(DisableCosmetics, out var label))
             label.color = WarnRed;
     }
 
-    private void InitGameplay(ref int tabIndex)
+    private void InitAccessibility(ref int tabIndex)
     {
-        AddTab(ref tabIndex, "Gameplay");
+        AddTab(ref tabIndex, "Accessibility");
         Tabs[tabIndex].colorButton = WarnRed;
 
         var warningText = "Be warned the following may change gameplay significantly!";
@@ -177,6 +191,7 @@ public sealed class PearlcatOptions : OptionsTemplate
          
 
         AddCheckBox(DisableMinorEffects);
+        AddCheckBox(LowStartingReputation);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddNewLine(1);
@@ -193,7 +208,13 @@ public sealed class PearlcatOptions : OptionsTemplate
         AddCheckBox(DisableSpear);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(6);
+        AddNewLine(1);
+
+        AddDragger(MaxPearlCount);
+        AddDragger(VisibilityMultiplier);
+        DrawDraggers(ref Tabs[tabIndex]);
+
+        AddNewLine(2);
         DrawBox(ref Tabs[tabIndex]);
 
         #region Color Changes
@@ -203,6 +224,9 @@ public sealed class PearlcatOptions : OptionsTemplate
 
 
         if (GetLabel(DisableMinorEffects, out label))
+            label.color = WarnRed;
+
+        if (GetLabel(LowStartingReputation, out label))
             label.color = WarnRed;
 
         if (GetLabel(DisableAgility, out label))
@@ -224,26 +248,49 @@ public sealed class PearlcatOptions : OptionsTemplate
             label.color = Color.white;
 
 
-        if (GetCheckbox(DisableMinorEffects, out var checkBox))
+        if (GetConfigurable(DisableMinorEffects, out OpCheckBox checkBox))
             checkBox.colorEdge = WarnRed;
 
-        if (GetCheckbox(DisableAgility, out checkBox))
+        if (GetConfigurable(LowStartingReputation, out checkBox))
+            checkBox.colorEdge = WarnRed;
+
+        if (GetConfigurable(DisableAgility, out checkBox))
             checkBox.colorEdge = Color.cyan;
 
-        if (GetCheckbox(DisableCamoflague, out checkBox))
+        if (GetConfigurable(DisableCamoflague, out checkBox))
             checkBox.colorEdge = Color.grey;
 
-        if (GetCheckbox(DisableRage, out checkBox))
+        if (GetConfigurable(DisableRage, out checkBox))
             checkBox.colorEdge = Color.red;
 
-        if (GetCheckbox(DisableRevive, out checkBox))
+        if (GetConfigurable(DisableRevive, out checkBox))
             checkBox.colorEdge = Color.green;
 
-        if (GetCheckbox(DisableShield, out checkBox))
+        if (GetConfigurable(DisableShield, out checkBox))
             checkBox.colorEdge = Color.yellow;
 
-        if (GetCheckbox(DisableSpear, out checkBox))
+        if (GetConfigurable(DisableSpear, out checkBox))
             checkBox.colorEdge = Color.white;
+
+
+        if (GetLabel(MaxPearlCount, out label))
+            label.color = WarnRed;
+
+        if (GetConfigurable(MaxPearlCount, out OpDragger dragger))
+        {
+            dragger.colorEdge = WarnRed;
+            dragger.colorText = WarnRed;
+        }
+
+
+        if (GetLabel(VisibilityMultiplier, out label))
+            label.color = WarnRed;
+
+        if (GetConfigurable(VisibilityMultiplier, out dragger))
+        {
+            dragger.colorEdge = WarnRed;
+            dragger.colorText = WarnRed;
+        }
 
         #endregion
     }
