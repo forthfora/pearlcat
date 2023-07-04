@@ -14,8 +14,8 @@ public abstract class ObjectAnimation
 
         HaloEffectStackers.Clear();
 
-        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
-            HaloEffectStackers.Add((1.0f / playerModule.AbstractInventory.Count) * i);
+        for (int i = 0; i < playerModule.Inventory.Count; i++)
+            HaloEffectStackers.Add((1.0f / playerModule.Inventory.Count) * i);
     }
 
 
@@ -26,9 +26,9 @@ public abstract class ObjectAnimation
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
+        for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
-            var abstractObject = playerModule.AbstractInventory[i];
+            var abstractObject = playerModule.Inventory[i];
 
             if (abstractObject.realizedObject == null) continue;
             var realizedObject = abstractObject.realizedObject;
@@ -70,9 +70,9 @@ public abstract class ObjectAnimation
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
+        for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.AbstractInventory[i];
+            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
 
             if (abstractObject.realizedObject == null) continue;
 
@@ -109,9 +109,9 @@ public abstract class ObjectAnimation
     {
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
+        for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.AbstractInventory[i];
+            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
             if (abstractObject.realizedObject == null) continue;
 
             if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;

@@ -15,7 +15,7 @@ public static partial class Hooks
         if (self.room == null || self.onBack != null) return;
 
 
-        foreach (var abstractObject in playerModule.AbstractInventory)
+        foreach (var abstractObject in playerModule.Inventory)
         {
             if (abstractObject.realizedObject != null)
             {
@@ -122,7 +122,7 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        foreach (var abstractObject in playerModule.AbstractInventory)
+        foreach (var abstractObject in playerModule.Inventory)
         {
             if (abstractObject.realizedObject == null) continue;
 
@@ -137,7 +137,7 @@ public static partial class Hooks
         var playerData = GetAllPlayerData(targetObject.world.game);
 
         foreach (var playerModule in playerData)
-            if (playerModule.AbstractInventory.Any(abstractObject => abstractObject == targetObject))
+            if (playerModule.Inventory.Any(abstractObject => abstractObject == targetObject))
                 return true;
 
         return false;
@@ -149,10 +149,17 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (playerModule.AbstractInventory.Count >= PearlcatOptions.MaxPearlCount.Value && !bypassLimit) return;
-
+        if (playerModule.Inventory.Count >= PearlcatOptions.MaxPearlCount.Value && !bypassLimit) return;
+        
         self.AddToInventory(abstractObject);
+
+        int targetIndex = playerModule.ActiveObjectIndex ?? 0;
+        self.ActivateObjectInStorage(targetIndex);
+        
+        playerModule.PickObjectAnimation(self);
         playerModule.ShowHUD(40);
+
+        self.UpdateInventorySaveData(playerModule);
     }
 
     public static void RetrieveActiveObject(this Player self)
@@ -165,10 +172,28 @@ public static partial class Hooks
         if (activeObject == null) return;
 
         self.RemoveFromInventory(activeObject);
-        playerModule.ShowHUD(40);
         self.SlugcatGrab(activeObject.realizedObject, self.FreeHand());
-    }
 
+        playerModule.PickObjectAnimation(self);
+        playerModule.ShowHUD(40);
+
+        if (playerModule.ActiveObject == null && playerModule.Inventory.Count > 0)
+        {
+            var targetIndex = playerModule.ActiveObjectIndex ?? 0;
+
+            if (playerModule.ActiveObjectIndex != null)
+            {
+                targetIndex = playerModule.ActiveObjectIndex.Value - 1;
+
+                if (targetIndex < 0)
+                    targetIndex = playerModule.Inventory.Count - 1;
+            }
+
+            self.ActivateObjectInStorage(targetIndex);
+        }
+
+        self.UpdateInventorySaveData(playerModule);
+    }
 
 
     public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject)
@@ -177,47 +202,36 @@ public static partial class Hooks
 
         int targetIndex = playerModule.ActiveObjectIndex ?? 0;
 
-        playerModule.AbstractInventory.Insert(targetIndex, abstractObject);
-        self.ActivateObjectInStorage(targetIndex);
-
+        playerModule.Inventory.Insert(targetIndex, abstractObject);
         abstractObject.realizedObject?.MarkAsPlayerObject();
-        self.UpdateInventorySaveData(playerModule);
-
-        playerModule.PickObjectAnimation(self);
     }
 
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        playerModule.AbstractInventory.Remove(abstractObject);
-        self.UpdateInventorySaveData(playerModule);
+        playerModule.Inventory.Remove(abstractObject);
+        abstractObject.realizedObject?.ClearAsPlayerObject();
 
         if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon))
             addon.Destroy();
 
         InventoryHUD.Symbols.Remove(abstractObject);
-
-        abstractObject.realizedObject?.ClearAsPlayerObject();
-        
-        if (playerModule.ActiveObject == null && playerModule.AbstractInventory.Count > 0)
-            self.ActivateObjectInStorage(0);
-
-        playerModule.PickObjectAnimation(self);
     }
+
 
     public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
     {
         var save = self.room.game.GetMiscWorld();
         List<string> inventory = new();
 
-        foreach (var item in playerModule.AbstractInventory)
+        foreach (var item in playerModule.Inventory)
             inventory.Add(item.ToString());
 
 
-        save.Inventory[self.playerState.playerNumber] = inventory; 
+        save.Inventory[self.playerState.playerNumber] = inventory;
 
-        if (playerModule.AbstractInventory.Count == 0)
+        if (playerModule.Inventory.Count == 0)
         {
             playerModule.ActiveObjectIndex = null;
             save.ActiveObjectIndex[self.playerState.playerNumber] = null;
@@ -231,7 +245,7 @@ public static partial class Hooks
         miscProgData.StoredPearlTypes.Clear();
         miscProgData.ActivePearlType = null;
  
-        foreach(var item in playerModule.AbstractInventory)
+        foreach(var item in playerModule.Inventory)
         {
             if (item is not DataPearl.AbstractDataPearl dataPearl) continue;
 
@@ -245,47 +259,47 @@ public static partial class Hooks
 
     
 
-    public static void SelectNextObject(this Player player)
+    public static void SelectNextObject(this Player self)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
         if (playerModule.ActiveObjectIndex == null) return;
 
-        if (playerModule.AbstractInventory.Count <= 1) return;
+        if (playerModule.Inventory.Count <= 1) return;
 
 
         int targetIndex = (int)playerModule.ActiveObjectIndex + 1;
 
-        if (targetIndex >= playerModule.AbstractInventory.Count)
+        if (targetIndex >= playerModule.Inventory.Count)
             targetIndex = 0;
 
-        player.ActivateObjectInStorage(targetIndex);
+        self.ActivateObjectInStorage(targetIndex);
     }
 
-    public static void SelectPreviousObject(this Player player)
+    public static void SelectPreviousObject(this Player self)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
         if (playerModule.ActiveObjectIndex == null) return;
 
-        if (playerModule.AbstractInventory.Count <= 1) return;
+        if (playerModule.Inventory.Count <= 1) return;
 
 
         int targetIndex = (int)playerModule.ActiveObjectIndex - 1;
 
         if (targetIndex < 0)
-            targetIndex = playerModule.AbstractInventory.Count - 1;
+            targetIndex = playerModule.Inventory.Count - 1;
 
-        player.ActivateObjectInStorage(targetIndex);
+        self.ActivateObjectInStorage(targetIndex);
     }
 
-    public static void ActivateObjectInStorage(this Player player, int objectIndex)
+    public static void ActivateObjectInStorage(this Player self, int objectIndex)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (objectIndex < 0 ||  objectIndex >= playerModule.AbstractInventory.Count) return;
+        if (objectIndex < 0 ||  objectIndex >= playerModule.Inventory.Count) return;
 
         if (objectIndex == playerModule.ActiveObjectIndex) return;
 
@@ -296,15 +310,16 @@ public static partial class Hooks
         oldObject.SwapEffect(newObject);
 
         playerModule.ShowHUD(80);
-        player.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
+        self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
         
-        var save = player.room.game.GetMiscWorld();
-        save.ActiveObjectIndex[player.playerState.playerNumber] = (int)playerModule.ActiveObjectIndex;
+        var save = self.room.game.GetMiscWorld();
+        save.ActiveObjectIndex[self.playerState.playerNumber] = objectIndex;
 
-
-        if (player.graphicsModule is not PlayerGraphics pGraphics || newObject == null) return;
+        if (self.graphicsModule is not PlayerGraphics pGraphics || newObject == null) return;
 
         //player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
         pGraphics.LookAtPoint(newObject.firstChunk.pos, 1.0f);
+
+        self.UpdateInventorySaveData(playerModule);
     }
 }

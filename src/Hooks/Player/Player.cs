@@ -283,7 +283,7 @@ public static partial class Hooks
         {
             if (self.bodyMode != Player.BodyModeIndex.Stunned && self.bodyMode != Player.BodyModeIndex.Dead && !self.Sleeping)
             {
-                foreach (var abstractObject in playerModule.AbstractInventory)
+                foreach (var abstractObject in playerModule.Inventory)
                     abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
 
                 playerModule.PickObjectAnimation(self);
@@ -301,6 +301,7 @@ public static partial class Hooks
         playerModule.ObjectAnimationStacker++;
 
 
+        if (self.room == null) return;
 
         // HACK
         var save = self.room.game.GetMiscWorld();
@@ -309,7 +310,7 @@ public static partial class Hooks
         {
             playerModule.GivenPearls = true;
 
-            for (int i = 0; i < PearlcatOptions.MaxPearlCount.Value; i++)
+            for (int i = 0; i < 6; i++)
             {
                 var types = new List<DataPearlType>()
                 {
@@ -356,9 +357,9 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        for (int i = playerModule.AbstractInventory.Count - 1; i >= 0; i--)
+        for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
         {
-            AbstractPhysicalObject abstractObject = playerModule.AbstractInventory[i];
+            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
 
             DeathEffect(abstractObject.realizedObject);
             RemoveFromInventory(self, abstractObject);
@@ -379,10 +380,12 @@ public static partial class Hooks
 
     public static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
+        var result = orig(self, obj);
+
         if (obj.abstractPhysicalObject.IsPlayerObject())
             return Player.ObjectGrabability.CantGrab;
 
-        return orig(self, obj);
+        return result;
     }
 
     private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)

@@ -51,10 +51,10 @@ public class PlayerModule
     public int SwapIntervalStacker { get; set; }
     public int StoreObjectStacker { get; set; }
 
-    public List<AbstractPhysicalObject> AbstractInventory { get; set; } = new();
+    public List<AbstractPhysicalObject> Inventory { get; set; } = new();
     public List<AbstractPhysicalObject> PostDeathInventory { get; set; } = new();
 
-    public AbstractPhysicalObject? ActiveObject => ActiveObjectIndex != null && ActiveObjectIndex < AbstractInventory.Count ? AbstractInventory[(int)ActiveObjectIndex] : null;
+    public AbstractPhysicalObject? ActiveObject => ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count ? Inventory[(int)ActiveObjectIndex] : null;
     public int? ActiveObjectIndex { get; set; }
 
     public POEffect CurrentPOEffect { get; set; } = POEffectManager.None;
@@ -88,7 +88,7 @@ public class PlayerModule
         ObjectAnimationDuration = Random.Range(minTime, maxTime);
         Random.state = randState;
 
-        foreach (var abstractObject in AbstractInventory)
+        foreach (var abstractObject in Inventory)
             abstractObject.realizedObject?.SwapEffect(player.firstChunk.pos);
 
         //dazeStacker = dazeDuration;
@@ -132,15 +132,25 @@ public class PlayerModule
         var world = self.room.world;
 
         if (save.Inventory.TryGetValue(playerNumber, out var inventory))
-            foreach (var item in inventory)
-                self.StoreObject(SaveState.AbstractPhysicalObjectFromString(world, item));
+        {
+            for (int i = inventory.Count - 1; i >= 0; i--)
+            {
+                string? item = inventory[i];
+                self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item));
+            }
+        }
 
-
-        if (AbstractInventory.Count == 0)
-            ActiveObjectIndex = null;
-
-        else if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex))
+        if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex))
             ActiveObjectIndex = activeObjectIndex;
+
+
+        Plugin.Logger.LogWarning("LOAD SAVE DATA IN PLAYER MODULE");
+        foreach (var a in Inventory)
+        {
+            if (a is DataPearl.AbstractDataPearl pearl)
+                Plugin.Logger.LogWarning(pearl.dataPearlType);
+        }
+        Plugin.Logger.LogWarning(ActiveObjectIndex);
     }
 
 

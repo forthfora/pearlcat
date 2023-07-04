@@ -40,15 +40,15 @@ public class InventoryHUD : HudPart
             var activeIndex = (int)playerModule.ActiveObjectIndex;
 
 
-            for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
+            for (int i = 0; i < playerModule.Inventory.Count; i++)
             {
-                var abstractObject = playerModule.AbstractInventory[i];
+                var abstractObject = playerModule.Inventory[i];
                 var diff = i - activeIndex;
                 var absDiff = Mathf.Abs(diff);
 
                 if (!Symbols.TryGetValue(abstractObject, out var symbol)) continue;
 
-                symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.AbstractInventory.Count - 2) / 2, 1.0f, 0.2f);
+                symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.Inventory.Count - 2) / 2, 1.0f, 0.2f);
 
                 const float GAP = 17.5f;
                 float spacing = GAP * i;
@@ -91,9 +91,9 @@ public class InventoryHUD : HudPart
         {
             var playerModule = PlayerData[pIndex];
 
-            for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
+            for (int i = 0; i < playerModule.Inventory.Count; i++)
             {
-                var abstractObject = playerModule.AbstractInventory[i];
+                var abstractObject = playerModule.Inventory[i];
                 
                 if (!Symbols.TryGetValue(abstractObject, out var symbol))
                 {

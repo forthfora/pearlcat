@@ -19,7 +19,7 @@ public class SineWaveOA : ObjectAnimation
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
         var floatingObjects = new List<AbstractPhysicalObject>();
-        floatingObjects.AddRange(playerModule.AbstractInventory);
+        floatingObjects.AddRange(playerModule.Inventory);
 
         var activeObject = playerModule.ActiveObject;
 

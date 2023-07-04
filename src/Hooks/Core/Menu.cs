@@ -128,13 +128,10 @@ public static partial class Hooks
 
         if (sceneID.value != "Slugcat_Pearlcat") return;
 
-        
-        var miscProg = menu.manager.rainWorld.progression.miscProgressionData;
-        LoadMiscProgData(miscProg);
-        
-        var miscProgData = miscProg.GetMiscProgression();
 
-        if (miscProgData.IsNewSave)
+        var save = menu.manager.rainWorld.GetMiscProgression();
+
+        if (save.IsNewSave)
         {
             List <DataPearlType> types = new()
             {
@@ -149,7 +146,7 @@ public static partial class Hooks
         }
         else
         {
-            MenuSceneData.Add(self, new(miscProgData.StoredPearlTypes, miscProgData.ActivePearlType));
+            MenuSceneData.Add(self, new(save.StoredPearlTypes, save.ActivePearlType));
         }
 
         MenuPearlAnimStacker = 0;

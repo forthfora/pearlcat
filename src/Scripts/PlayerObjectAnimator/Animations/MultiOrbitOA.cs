@@ -31,9 +31,9 @@ public class MultiOrbitOA : ObjectAnimation
     {
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-        foreach (int randIndex in Enumerable.Range(0, playerModule.AbstractInventory.Count).OrderBy(x => Random.value))
+        foreach (int randIndex in Enumerable.Range(0, playerModule.Inventory.Count).OrderBy(x => Random.value))
         {
-            var item = playerModule.AbstractInventory[randIndex];
+            var item = playerModule.Inventory[randIndex];
             if (item == playerModule.ActiveObject) continue;
 
             if (OrbitPearls_2.Count < 2)

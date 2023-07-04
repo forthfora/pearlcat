@@ -17,7 +17,7 @@ public class BasicOrbitOA : ObjectAnimation
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
         var orbitObjects = new List<AbstractPhysicalObject>();
-        orbitObjects.AddRange(playerModule.AbstractInventory);
+        orbitObjects.AddRange(playerModule.Inventory);
 
         var activeObject = playerModule.ActiveObject;
         

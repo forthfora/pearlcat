@@ -12,9 +12,9 @@ public class FreeFallOA : ObjectAnimation
 
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
-        for (int i = 0; i < playerModule.AbstractInventory.Count; i++)
+        for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.AbstractInventory[i];
+            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
 
             if (abstractObject.realizedObject == null) continue;
             var realizedObject = abstractObject.realizedObject;

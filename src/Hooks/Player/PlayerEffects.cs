@@ -12,7 +12,7 @@ public static partial class Hooks
     {
         POEffect combinedEffect = new();
 
-        foreach (var playerObject in playerModule.AbstractInventory)
+        foreach (var playerObject in playerModule.Inventory)
         {
             var effect = playerObject.GetPOEffect();
             var mult = playerObject == playerModule.ActiveObject ? effect.ActiveMultiplier : 1.0f;

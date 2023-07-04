@@ -771,9 +771,11 @@ public static partial class Hooks
     // Stop player looking at their balls (lmao)
     public static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
     {
+        var result = orig(self, obj);
+
         if (obj != null && obj.abstractPhysicalObject.IsPlayerObject())
             return 0.0f;
 
-        return orig(self, obj);
+        return result;
     }
 }
