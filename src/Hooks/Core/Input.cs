@@ -6,8 +6,10 @@ public static partial class Hooks
 {
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        var input = playerModule.UnblockedInput;
+
         if (!PearlcatOptions.UsesCustomStoreKeybind.Value)
-            return playerModule.UnblockedInput.y == 1.0f && playerModule.UnblockedInput.pckp;
+            return input.y == 1.0f && input.pckp && !input.jmp;
 
         return player.playerState.playerNumber switch
         {
@@ -22,8 +24,10 @@ public static partial class Hooks
 
     public static bool IsAbilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        var input = playerModule.UnblockedInput;
+
         if (!PearlcatOptions.UsesCustomAbilityKeybind.Value)
-            return playerModule.UnblockedInput.jmp && playerModule.UnblockedInput.pckp;
+            return input.jmp && input.pckp;
 
         return player.playerState.playerNumber switch
         {

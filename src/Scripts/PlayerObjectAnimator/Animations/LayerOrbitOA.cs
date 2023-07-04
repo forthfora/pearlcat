@@ -62,7 +62,7 @@ public class LayerOrbitOA : ObjectAnimation
         AnimateOrbit(player, headPos, RADIUS_3, F_ADDITION_3, OrbitPearls_3);
         AnimateOrbit(player, headPos, RADIUS_2, F_ADDITION_2, OrbitPearls_2);
 
-        playerModule.ActiveObject?.MoveToTargetPos(player, GetActiveObjectPos(player));
+        playerModule.ActiveObject?.MoveToTargetPos(player, player.GetActiveObjectPos());
         prevActiveObject = playerModule.ActiveObject;
     }
 

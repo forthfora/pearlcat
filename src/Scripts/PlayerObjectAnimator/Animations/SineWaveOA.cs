@@ -26,7 +26,7 @@ public class SineWaveOA : ObjectAnimation
         if (activeObject != null)
         {
             floatingObjects.Remove(activeObject);
-            activeObject.MoveToTargetPos(player, GetActiveObjectPos(player));
+            activeObject.MoveToTargetPos(player, player.GetActiveObjectPos());
         }
 
         for (int i = 0; i < floatingObjects.Count; i++)

@@ -47,23 +47,10 @@ public abstract class ObjectAnimation
         UpdateSymbolEffects(player);
     }
 
-    public static Vector2 GetActiveObjectPos(Player player)
-    {
-        if (!Hooks.ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
-            activeObjectOffset = Vector2.zero;
-
-        PlayerGraphics playerGraphics = (PlayerGraphics)player.graphicsModule;
-
-        Vector2 pos = playerGraphics.head.pos + activeObjectOffset;
-        pos.x += player.mainBodyChunk.vel.x * 1.0f;
-
-        return pos;
-    }
-
 
     public List<float> HaloEffectStackers { get; set; } = new();
     public float HaloEffectFrameAddition { get; set; } = 0.02f;
-    public float HaloEffectDir { get; set; } = 1;
+    public float HaloEffectDir { get; set; } = 1;   
 
     public virtual void UpdateHaloEffects(Player player)
     {
@@ -117,17 +104,17 @@ public abstract class ObjectAnimation
             if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
 
             var effect = abstractObject.GetPOEffect();
-            var majorEffect = effect.majorEffect;
+            var majorEffect = effect.MajorEffect;
 
             if (i != playerModule.ActiveObjectIndex)
-                majorEffect = POEffect.MajorEffect.NONE;
+                majorEffect = POEffect.MajorEffectType.NONE;
 
-            addon.drawSymbolSpear = majorEffect == POEffect.MajorEffect.SPEAR_CREATION;
-            addon.drawSymbolRage = majorEffect == POEffect.MajorEffect.RAGE;
-            addon.drawSymbolRevive = majorEffect == POEffect.MajorEffect.REVIVE;
-            addon.drawSymbolShield = majorEffect == POEffect.MajorEffect.SHIELD;
-            addon.drawSymbolAgility = majorEffect == POEffect.MajorEffect.AGILITY;
-            addon.drawSymbolCamo = majorEffect == POEffect.MajorEffect.CAMOFLAGUE;
+            addon.drawSymbolSpear = majorEffect == POEffect.MajorEffectType.SPEAR_CREATION;
+            addon.drawSymbolRage = majorEffect == POEffect.MajorEffectType.RAGE;
+            addon.drawSymbolRevive = majorEffect == POEffect.MajorEffectType.REVIVE;
+            addon.drawSymbolShield = majorEffect == POEffect.MajorEffectType.SHIELD;
+            addon.drawSymbolAgility = majorEffect == POEffect.MajorEffectType.AGILITY;
+            addon.drawSymbolCamo = majorEffect == POEffect.MajorEffectType.CAMOFLAGUE;
 
             addon.symbolColor = Hooks.GetObjectColor(abstractObject);
         }

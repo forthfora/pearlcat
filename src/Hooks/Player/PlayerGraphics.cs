@@ -39,10 +39,7 @@ public static partial class Hooks
     public const int GLOW_SPRITE = 10;
     public const int MARK_SPRITE = 11;
 
-
-    #region Graphics Init
-
-    public static void PlayerGraphics_InitiateSprites(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    private static void PlayerGraphics_InitiateSprites(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         orig(self, sLeaser, rCam);
 
@@ -112,8 +109,7 @@ public static partial class Hooks
         sLeaser.sprites[earSprite] = new TriangleMesh("Futile_White", earMeshTries, false, false);
     }
 
-
-    public static void PlayerGraphics_AddToContainer(On.PlayerGraphics.orig_AddToContainer orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
+    private static void PlayerGraphics_AddToContainer(On.PlayerGraphics.orig_AddToContainer orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
     {
         orig(self, sLeaser, rCam, newContatiner);
 
@@ -125,13 +121,34 @@ public static partial class Hooks
         OrderAndColorSprites(self, sLeaser, rCam, playerModule, newContatiner);
     }
 
+    private static void PlayerGraphics_Reset(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
+    {
+        orig(self);
 
-    #endregion
+        if (!self.player.TryGetPearlcatModule(out var playerModule) || PearlcatOptions.DisableCosmetics.Value) return;
 
 
-    #region Draw Sprites
+        if (playerModule.earL == null || playerModule.earR == null) return;
 
-    public static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+        if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
+        if (!EarROffset.TryGet(self.player, out var earROffset)) return;
+
+
+        playerModule.earLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
+
+        for (int segment = 0; segment < playerModule.earL.Length; segment++)
+            playerModule.earL[segment].Reset(playerModule.earLAttachPos);
+
+
+        playerModule.earRAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
+
+        for (int segment = 0; segment < playerModule.earR.Length; segment++)
+            playerModule.earR[segment].Reset(playerModule.earRAttachPos);
+    }
+
+
+
+    private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
@@ -170,74 +187,154 @@ public static partial class Hooks
         OrderAndColorSprites(self, sLeaser, rCam, playerModule, null);
     }
 
-    public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)
+
+    // Ears adapted from NoirCatto (thanks Noir!) https://github.com/NoirCatto/NoirCatto
+    public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
     {
-        if (self.lightSource == null) return;
+        if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
 
-        if (self.player.room == null) return;
+        playerModule.earLAttachPos = GetEarAttachPos(self, timestacker, playerModule, earLOffset);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.earL, playerModule.earLSprite, playerModule.earLAtlas, playerModule.earLAttachPos, playerModule.earLFlipDirection);
 
-        var maxAlpha = 1.0f;
+        if (!EarROffset.TryGet(self.player, out var earROffset)) return;
 
-        if (playerModule.ActiveObject?.realizedObject == null)
+        playerModule.earRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.earR, playerModule.earRSprite, playerModule.earRAtlas, playerModule.earRAttachPos, playerModule.earRFlipDirection);
+    }
+
+    public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, FAtlas? earAtlas, Vector2 attachPos, int earFlipDirection)
+    {
+        if (ear == null || ear.Length == 0) return;
+
+        if (sLeaser.sprites[earSprite] is not TriangleMesh earMesh) return;
+
+        // Draw Mesh
+        float earRad = ear[0].rad;
+
+        for (var segment = 0; segment < ear.Length; segment++)
         {
-            self.lightSource.colorAlpha = 0.05f;
-            maxAlpha = 0.6f;
+            Vector2 earPos = Vector2.Lerp(ear[segment].lastPos, ear[segment].pos, timestacker);
+
+
+            Vector2 normalized = (earPos - attachPos).normalized;
+            Vector2 perpendicularNormalized = Custom.PerpendicularVector(normalized);
+
+            float distance = Vector2.Distance(earPos, attachPos) / 5.0f;
+
+            if (segment == 0) distance = 0.0f;
+
+            earMesh.MoveVertice(segment * 4, attachPos - earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
+            earMesh.MoveVertice(segment * 4 + 1, attachPos + earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
+
+            if (segment >= ear.Length - 1)
+            {
+                earMesh.MoveVertice(segment * 4 + 2, earPos - camPos);
+            }
+            else
+            {
+                earMesh.MoveVertice(segment * 4 + 2, earPos - earFlipDirection * perpendicularNormalized * ear[segment].StretchedRad - normalized * distance - camPos);
+                earMesh.MoveVertice(segment * 4 + 3, earPos + earFlipDirection * perpendicularNormalized * ear[segment].StretchedRad - normalized * distance - camPos);
+            }
+
+            earRad = ear[segment].StretchedRad;
+            attachPos = earPos;
         }
-        else
+
+
+
+        // Apply Texture
+        if (earAtlas == null) return;
+
+        if (earAtlas.elements.Count == 0) return;
+
+        sLeaser.sprites[earSprite].color = Color.white;
+        earMesh.element = earAtlas.elements[0];
+
+        if (earMesh.verticeColors == null || earMesh.verticeColors.Length != earMesh.vertices.Length)
+            earMesh.verticeColors = new Color[earMesh.vertices.Length];
+
+        for (int vertex = earMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
         {
-            self.lightSource.pos = playerModule.ActiveObject.realizedObject.firstChunk.pos;
-            self.lightSource.colorAlpha = 0.05f;
+            float interpolation = (vertex / 2.0f) / (earMesh.verticeColors.Length / 2.0f);
+            Vector2 uvInterpolation;
+
+            // Even vertexes
+            if (vertex % 2 == 0)
+                uvInterpolation = new Vector2(interpolation, 0.0f);
+
+            // Last vertex
+            else if (vertex == earMesh.verticeColors.Length - 1)
+                uvInterpolation = new Vector2(1.0f, 0.0f);
+
+            else
+                uvInterpolation = new Vector2(interpolation, 1.0f);
+
+            Vector2 uv;
+            uv.x = Mathf.Lerp(earMesh.element.uvBottomLeft.x, earMesh.element.uvTopRight.x, uvInterpolation.x);
+            uv.y = Mathf.Lerp(earMesh.element.uvBottomLeft.y, earMesh.element.uvTopRight.y, uvInterpolation.y);
+
+            earMesh.UVvertices[vertex] = uv;
         }
-
-        self.lightSource.color = playerModule.ActiveColor * 1.5f;
-        self.lightSource.alpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, maxAlpha);
     }
 
-    public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndexToCopy, string toCopy, string atlasName, string customName, int spriteIndex)
+    public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
     {
-        sLeaser.sprites[spriteIndex].isVisible = false;
+        FAtlas? tailAtlas = playerModule.tailAtlas;
+        if (tailAtlas == null) return;
 
-        FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
-        if (atlas == null) return;
+        if (tailAtlas.elements.Count == 0) return;
 
-        string? name = sLeaser.sprites[spriteIndexToCopy]?.element?.name;
-        if (name == null) return;
+        if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh) return;
 
-        name = name.Replace(toCopy, customName);
+        tailMesh.element = tailAtlas.elements[0];
 
-        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element)) return;
-
-        sLeaser.sprites[spriteIndex].element = element;
+        if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
+            tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
 
 
-        FSprite spriteToCopy = sLeaser.sprites[spriteIndexToCopy];
+        Vector2 legsPos = self.legs.pos;
+        Vector2 tailPos = self.tail[0].pos;
 
-        sLeaser.sprites[spriteIndex].isVisible = spriteToCopy.isVisible;
+        // Find the difference between the x positions and convert it into a 0.0 - 1.0 ratio between the two
+        float difference = tailPos.x - legsPos.x;
 
-        sLeaser.sprites[spriteIndex].SetPosition(spriteToCopy.GetPosition());
-        sLeaser.sprites[spriteIndex].SetAnchor(spriteToCopy.GetAnchor());
+        if (!MinEffectiveOffset.TryGet(self.player, out var minEffectiveOffset)) return;
+        if (!MaxEffectiveOffset.TryGet(self.player, out var maxEffectiveOffset)) return;
 
-        sLeaser.sprites[spriteIndex].scaleX = spriteToCopy.scaleX;
-        sLeaser.sprites[spriteIndex].scaleY = spriteToCopy.scaleY;
-        sLeaser.sprites[spriteIndex].rotation = spriteToCopy.rotation;
+        float leftRightRatio = Mathf.InverseLerp(minEffectiveOffset, maxEffectiveOffset, difference);
+
+
+        // Multiplier determines how many times larger the texture is vertically relative to the displayed portion
+        const float TRUE_SIZE_MULT = 3.0f;
+        float uvYOffset = Mathf.Lerp(0.0f, tailMesh.element.uvTopRight.y - (tailMesh.element.uvTopRight.y / TRUE_SIZE_MULT), leftRightRatio);
+
+        for (int vertex = tailMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
+        {
+            float interpolation = (vertex / 2.0f) / (tailMesh.verticeColors.Length / 2.0f);
+            Vector2 uvInterpolation;
+
+            // Even vertexes
+            if (vertex % 2 == 0)
+                uvInterpolation = new Vector2(interpolation, 0.0f);
+
+            // Last vertex
+            else if (vertex == tailMesh.verticeColors.Length - 1)
+                uvInterpolation = new Vector2(1.0f, 0.0f);
+
+            else
+                uvInterpolation = new Vector2(interpolation, 1.0f);
+
+            Vector2 uv;
+            uv.x = Mathf.Lerp(tailMesh.element.uvBottomLeft.x, tailMesh.element.uvTopRight.x, uvInterpolation.x);
+            uv.y = Mathf.Lerp(tailMesh.element.uvBottomLeft.y + uvYOffset, (tailMesh.element.uvTopRight.y / TRUE_SIZE_MULT) + uvYOffset, uvInterpolation.y);
+
+            tailMesh.UVvertices[vertex] = uv;
+        }
     }
 
-    public static void UpdateReplacementPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
-    {
-        FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
-        if (atlas == null) return;
-
-        string? name = sLeaser.sprites[spriteIndex]?.element?.name;
-        if (name == null) return;
-
-
-        if (!name.StartsWith(toReplace)) return;
-
-        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element)) return;
-        
-        sLeaser.sprites[spriteIndex].element = element;
-    }
-
+    public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PlayerModule playerModule, Vector2 offset) =>
+        Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
+    
 
     public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, FContainer? newContainer)
     {
@@ -384,216 +481,78 @@ public static partial class Hooks
         if (playerModule.ActiveObject != null)
             markSprite.y += 10.0f;
     }
-
-
-
-    // Ears adapted from NoirCatto (thanks Noir!) https://github.com/NoirCatto/NoirCatto
-    public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
-    {
-        if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
-
-        playerModule.earLAttachPos = GetEarAttachPos(self, timestacker, playerModule, earLOffset);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.earL, playerModule.earLSprite, playerModule.earLAtlas, playerModule.earLAttachPos, playerModule.earLFlipDirection);
-
-        if (!EarROffset.TryGet(self.player, out var earROffset)) return;
-
-        playerModule.earRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.earR, playerModule.earRSprite, playerModule.earRAtlas, playerModule.earRAttachPos, playerModule.earRFlipDirection);
-    }
-
-    public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PlayerModule playerModule, Vector2 offset) =>
-        Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
-
-    static readonly PlayerFeature<Vector2> EarLOffset = new("ear_l_offset", Vector2Feature);
-    static readonly PlayerFeature<Vector2> EarROffset = new("ear_r_offset", Vector2Feature);
-
-    public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, FAtlas? earAtlas, Vector2 attachPos, int earFlipDirection)
-    {
-        if (ear == null || ear.Length == 0) return;
-
-        if (sLeaser.sprites[earSprite] is not TriangleMesh earMesh) return;
-
-        // Draw Mesh
-        float earRad = ear[0].rad;
-
-        for (var segment = 0; segment < ear.Length; segment++)
-        {
-            Vector2 earPos = Vector2.Lerp(ear[segment].lastPos, ear[segment].pos, timestacker);
-
-
-            Vector2 normalized = (earPos - attachPos).normalized;
-            Vector2 perpendicularNormalized = Custom.PerpendicularVector(normalized);
-
-            float distance = Vector2.Distance(earPos, attachPos) / 5.0f;
-
-            if (segment == 0) distance = 0.0f;
-
-            earMesh.MoveVertice(segment * 4, attachPos - earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
-            earMesh.MoveVertice(segment * 4 + 1, attachPos + earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
-
-            if (segment >= ear.Length - 1)
-            {
-                earMesh.MoveVertice(segment * 4 + 2, earPos - camPos);
-            }
-            else
-            {
-                earMesh.MoveVertice(segment * 4 + 2, earPos - earFlipDirection * perpendicularNormalized * ear[segment].StretchedRad - normalized * distance - camPos);
-                earMesh.MoveVertice(segment * 4 + 3, earPos + earFlipDirection * perpendicularNormalized * ear[segment].StretchedRad - normalized * distance - camPos);
-            }
-
-            earRad = ear[segment].StretchedRad;
-            attachPos = earPos;
-        }
-
-
-
-        // Apply Texture
-        if (earAtlas == null) return;
-
-        if (earAtlas.elements.Count == 0) return;
-
-        sLeaser.sprites[earSprite].color = Color.white;
-        earMesh.element = earAtlas.elements[0];
-
-        if (earMesh.verticeColors == null || earMesh.verticeColors.Length != earMesh.vertices.Length)
-            earMesh.verticeColors = new Color[earMesh.vertices.Length];
-
-        for (int vertex = earMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
-        {
-            float interpolation = (vertex / 2.0f) / (earMesh.verticeColors.Length / 2.0f);
-            Vector2 uvInterpolation;
-
-            // Even vertexes
-            if (vertex % 2 == 0)
-                uvInterpolation = new Vector2(interpolation, 0.0f);
-
-            // Last vertex
-            else if (vertex == earMesh.verticeColors.Length - 1)
-                uvInterpolation = new Vector2(1.0f, 0.0f);
-
-            else
-                uvInterpolation = new Vector2(interpolation, 1.0f);
-
-            Vector2 uv;
-            uv.x = Mathf.Lerp(earMesh.element.uvBottomLeft.x, earMesh.element.uvTopRight.x, uvInterpolation.x);
-            uv.y = Mathf.Lerp(earMesh.element.uvBottomLeft.y, earMesh.element.uvTopRight.y, uvInterpolation.y);
-
-            earMesh.UVvertices[vertex] = uv;
-        }
-    }
-
-
-
-    static readonly PlayerFeature<float> MinEffectiveOffset = FeatureTypes.PlayerFloat("min_tail_offset");
-    static readonly PlayerFeature<float> MaxEffectiveOffset = FeatureTypes.PlayerFloat("max_tail_offset");
-
-    static readonly PlayerFeature<Dictionary<int, Vector2>> TailSegmentVelocities = new("tail_segment_velocities", json =>
-    {
-        var result = new Dictionary<int, Vector2>();
-
-        foreach (var segmentVelocityPair in json.AsObject())
-        {
-            var velocities = segmentVelocityPair.Value.AsList();
-
-            if (velocities.Count < 2) continue;
-
-            Vector2 velocity = new(velocities[0].AsFloat(), velocities[1].AsFloat());
-            if (!int.TryParse(segmentVelocityPair.Key, out var segmentIndex)) continue;
-
-            result[segmentIndex] = velocity;
-        }
-
-        return result;
-    });
-
-    public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
-    {
-        FAtlas? tailAtlas = playerModule.tailAtlas;
-        if (tailAtlas == null) return;
-
-        if (tailAtlas.elements.Count == 0) return;
-
-        if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh) return;
-
-        tailMesh.element = tailAtlas.elements[0];
-
-        if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
-            tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
-
-
-        Vector2 legsPos = self.legs.pos;
-        Vector2 tailPos = self.tail[0].pos;
-
-        // Find the difference between the x positions and convert it into a 0.0 - 1.0 ratio between the two
-        float difference = tailPos.x - legsPos.x;
-
-        if (!MinEffectiveOffset.TryGet(self.player, out var minEffectiveOffset)) return;
-        if (!MaxEffectiveOffset.TryGet(self.player, out var maxEffectiveOffset)) return;
-
-        float leftRightRatio = Mathf.InverseLerp(minEffectiveOffset, maxEffectiveOffset, difference);
-
-
-        // Multiplier determines how many times larger the texture is vertically relative to the displayed portion
-        const float TRUE_SIZE_MULT = 3.0f;
-        float uvYOffset = Mathf.Lerp(0.0f, tailMesh.element.uvTopRight.y - (tailMesh.element.uvTopRight.y / TRUE_SIZE_MULT), leftRightRatio);
-
-        for (int vertex = tailMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
-        {
-            float interpolation = (vertex / 2.0f) / (tailMesh.verticeColors.Length / 2.0f);
-            Vector2 uvInterpolation;
-
-            // Even vertexes
-            if (vertex % 2 == 0)
-                uvInterpolation = new Vector2(interpolation, 0.0f);
-
-            // Last vertex
-            else if (vertex == tailMesh.verticeColors.Length - 1)
-                uvInterpolation = new Vector2(1.0f, 0.0f);
-
-            else
-                uvInterpolation = new Vector2(interpolation, 1.0f);
-
-            Vector2 uv;
-            uv.x = Mathf.Lerp(tailMesh.element.uvBottomLeft.x, tailMesh.element.uvTopRight.x, uvInterpolation.x);
-            uv.y = Mathf.Lerp(tailMesh.element.uvBottomLeft.y + uvYOffset, (tailMesh.element.uvTopRight.y / TRUE_SIZE_MULT) + uvYOffset, uvInterpolation.y);
-
-            tailMesh.UVvertices[vertex] = uv;
-        }
-    }
     
-    
-    
-    public static void PlayerGraphics_Reset(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
+    public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)
     {
-        orig(self);
+        if (self.lightSource == null) return;
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule) || PearlcatOptions.DisableCosmetics.Value) return;
+        if (self.player.room == null) return;
 
+        var maxAlpha = 1.0f;
 
-        if (playerModule.earL == null || playerModule.earR == null) return;
+        if (playerModule.ActiveObject?.realizedObject == null)
+        {
+            self.lightSource.colorAlpha = 0.05f;
+            maxAlpha = 0.6f;
+        }
+        else
+        {
+            self.lightSource.pos = playerModule.ActiveObject.realizedObject.firstChunk.pos;
+            self.lightSource.colorAlpha = 0.05f;
+        }
 
-        if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
-        if (!EarROffset.TryGet(self.player, out var earROffset)) return;
-
-
-        playerModule.earLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
-
-        for (int segment = 0; segment < playerModule.earL.Length; segment++)
-            playerModule.earL[segment].Reset(playerModule.earLAttachPos);
-
-
-        playerModule.earRAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
-
-        for (int segment = 0; segment < playerModule.earR.Length; segment++)
-            playerModule.earR[segment].Reset(playerModule.earRAttachPos);
+        self.lightSource.color = playerModule.ActiveColor * 1.5f;
+        self.lightSource.alpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, maxAlpha);
     }
 
-    #endregion
+    public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndexToCopy, string toCopy, string atlasName, string customName, int spriteIndex)
+    {
+        sLeaser.sprites[spriteIndex].isVisible = false;
+
+        FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
+        if (atlas == null) return;
+
+        string? name = sLeaser.sprites[spriteIndexToCopy]?.element?.name;
+        if (name == null) return;
+
+        name = name.Replace(toCopy, customName);
+
+        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element)) return;
+
+        sLeaser.sprites[spriteIndex].element = element;
 
 
-    #region Graphics Update
+        FSprite spriteToCopy = sLeaser.sprites[spriteIndexToCopy];
 
-    public static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
+        sLeaser.sprites[spriteIndex].isVisible = spriteToCopy.isVisible;
+
+        sLeaser.sprites[spriteIndex].SetPosition(spriteToCopy.GetPosition());
+        sLeaser.sprites[spriteIndex].SetAnchor(spriteToCopy.GetAnchor());
+
+        sLeaser.sprites[spriteIndex].scaleX = spriteToCopy.scaleX;
+        sLeaser.sprites[spriteIndex].scaleY = spriteToCopy.scaleY;
+        sLeaser.sprites[spriteIndex].rotation = spriteToCopy.rotation;
+    }
+
+    public static void UpdateReplacementPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
+    {
+        FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
+        if (atlas == null) return;
+
+        string? name = sLeaser.sprites[spriteIndex]?.element?.name;
+        if (name == null) return;
+
+
+        if (!name.StartsWith(toReplace)) return;
+
+        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element)) return;
+        
+        sLeaser.sprites[spriteIndex].element = element;
+    }
+
+
+
+    private static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
     {
         orig(self);
 
@@ -606,8 +565,6 @@ public static partial class Hooks
         playerModule.cloak.Update();
         playerModule.PrevHeadRotation = self.head.connection.Rotation;
     }
-
-
 
     public static readonly List<Player.BodyModeIndex> EXCLUDE_FROM_TAIL_OFFSET_BODYMODE = new()
     {
@@ -721,11 +678,20 @@ public static partial class Hooks
         }
     }
 
-    #endregion
 
 
+    // Stop player looking at their balls (lmao)
+    private static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
+    {
+        var result = orig(self, obj);
 
-    public static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
+        if (obj != null && obj.abstractPhysicalObject.IsPlayerObject())
+            return 0.0f;
+
+        return result;
+    }
+
+    private static Color Player_ShortCutColor(On.Player.orig_ShortCutColor orig, Player self)
     {
         var result = orig(self);
 
@@ -766,16 +732,5 @@ public static partial class Hooks
 
         float newTime = scaledTime - Mathf.Floor(scaledTime);
         return Color.Lerp(oldColor, newColor, newTime);
-    }
-
-    // Stop player looking at their balls (lmao)
-    public static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
-    {
-        var result = orig(self, obj);
-
-        if (obj != null && obj.abstractPhysicalObject.IsPlayerObject())
-            return 0.0f;
-
-        return result;
     }
 }

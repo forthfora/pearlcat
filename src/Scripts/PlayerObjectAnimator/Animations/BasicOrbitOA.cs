@@ -24,7 +24,7 @@ public class BasicOrbitOA : ObjectAnimation
         if (activeObject != null)
         {
             orbitObjects.Remove(activeObject);
-            activeObject.MoveToTargetPos(player, GetActiveObjectPos(player));
+            activeObject.MoveToTargetPos(player, player.GetActiveObjectPos());
         }
 
         AnimateOrbit(player, ((PlayerGraphics)player.graphicsModule).head.pos, RADIUS, ANGLE_FRAME_ADDITION, orbitObjects);

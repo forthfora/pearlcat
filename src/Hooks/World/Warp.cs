@@ -13,6 +13,7 @@ public partial class Hooks
         On.Menu.PauseMenu.WarpSignal += PauseMenu_WarpSignal;
     }
 
+
     public static readonly ConditionalWeakTable<RainWorldGame, StrongBox<bool>> JustWarpedData = new();
 
     private static void PauseMenu_WarpSignal(On.Menu.PauseMenu.orig_WarpSignal orig, Menu.PauseMenu self, Menu.MenuObject sender, string message)

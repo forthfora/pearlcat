@@ -35,6 +35,19 @@ public static partial class Hooks
         }
     }
 
+    public static void AbstractizeInventory(this Player self)
+    {
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+
+        foreach (var abstractObject in playerModule.Inventory)
+        {
+            if (abstractObject.realizedObject == null) continue;
+
+            AbstractedEffect(abstractObject.realizedObject);
+            abstractObject.Abstractize(abstractObject.pos);
+        }
+    }
 
 
     public static void RealizedEffect(this PhysicalObject? physicalObject)
@@ -116,35 +129,6 @@ public static partial class Hooks
     }
 
 
-
-    public static void AbstractizeInventory(this Player self)
-    {
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-
-        foreach (var abstractObject in playerModule.Inventory)
-        {
-            if (abstractObject.realizedObject == null) continue;
-
-            AbstractedEffect(abstractObject.realizedObject);
-            abstractObject.Abstractize(abstractObject.pos);
-        }
-    }
-
-
-    public static bool IsPlayerObject(this AbstractPhysicalObject targetObject)
-    {
-        var playerData = GetAllPlayerData(targetObject.world.game);
-
-        foreach (var playerModule in playerData)
-            if (playerModule.Inventory.Any(abstractObject => abstractObject == targetObject))
-                return true;
-
-        return false;
-    }
-
-
-
     public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool bypassLimit = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
@@ -160,6 +144,16 @@ public static partial class Hooks
         playerModule.ShowHUD(40);
 
         self.UpdateInventorySaveData(playerModule);
+    }
+    
+    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject)
+    {
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        int targetIndex = playerModule.ActiveObjectIndex ?? 0;
+
+        playerModule.Inventory.Insert(targetIndex, abstractObject);
+        abstractObject.realizedObject?.MarkAsPlayerObject();
     }
 
     public static void RetrieveActiveObject(this Player self)
@@ -195,17 +189,6 @@ public static partial class Hooks
         self.UpdateInventorySaveData(playerModule);
     }
 
-
-    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject)
-    {
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-        int targetIndex = playerModule.ActiveObjectIndex ?? 0;
-
-        playerModule.Inventory.Insert(targetIndex, abstractObject);
-        abstractObject.realizedObject?.MarkAsPlayerObject();
-    }
-
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
@@ -218,7 +201,6 @@ public static partial class Hooks
 
         InventoryHUD.Symbols.Remove(abstractObject);
     }
-
 
     public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
     {
@@ -258,7 +240,6 @@ public static partial class Hooks
     }
 
     
-
     public static void SelectNextObject(this Player self)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
@@ -322,4 +303,5 @@ public static partial class Hooks
 
         self.UpdateInventorySaveData(playerModule);
     }
+
 }

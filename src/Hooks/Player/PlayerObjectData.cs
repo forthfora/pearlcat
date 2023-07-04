@@ -1,4 +1,5 @@
 ﻿using RWCustom;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -64,7 +65,7 @@ public static partial class Hooks
 
 
     // TODO: Fix scavs 'picking up' the pearls which breaks which room they're in
-    public static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
+    private static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
     {
         var result = orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
 
@@ -74,7 +75,7 @@ public static partial class Hooks
         return result;
     }
 
-    public static void PhysicalObject_Update(On.PhysicalObject.orig_Update orig, PhysicalObject self, bool eu)
+    private static void PhysicalObject_Update(On.PhysicalObject.orig_Update orig, PhysicalObject self, bool eu)
     {        
         orig(self, eu);
 
@@ -90,7 +91,7 @@ public static partial class Hooks
             weapon.rotationSpeed = 0.0f;
     }
 
-    public static void DataPearl_Update(On.DataPearl.orig_Update orig, DataPearl self, bool eu)
+    private static void DataPearl_Update(On.DataPearl.orig_Update orig, DataPearl self, bool eu)
     {
         orig(self, eu);
 
@@ -103,9 +104,7 @@ public static partial class Hooks
         self.glimmerWait = 40;
     }
 
-
-
-    public static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    private static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
@@ -122,7 +121,7 @@ public static partial class Hooks
         //}
     }
 
-    public static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    private static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         if (!ObjectAddon.ObjectsWithAddon.TryGetValue(self.abstractPhysicalObject, out var addon)) return;
 
@@ -130,6 +129,16 @@ public static partial class Hooks
     }
 
 
+    public static bool IsPlayerObject(this AbstractPhysicalObject targetObject)
+    {
+        var playerData = GetAllPlayerData(targetObject.world.game);
+
+        foreach (var playerModule in playerData)
+            if (playerModule.Inventory.Any(abstractObject => abstractObject == targetObject))
+                return true;
+
+        return false;
+    }
 
     public static bool IsStorable(this AbstractPhysicalObject abstractObject)
     {
@@ -155,6 +164,19 @@ public static partial class Hooks
             return Color.white;
 
         return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
+    }
+
+    public static Vector2 GetActiveObjectPos(this Player player)
+    {
+        if (!Hooks.ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
+            activeObjectOffset = Vector2.zero;
+
+        PlayerGraphics playerGraphics = (PlayerGraphics)player.graphicsModule;
+
+        Vector2 pos = playerGraphics.head.pos + activeObjectOffset;
+        pos.x += player.mainBodyChunk.vel.x * 1.0f;
+
+        return pos;
     }
 
     public static void MoveToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)

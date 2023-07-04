@@ -29,7 +29,7 @@ public static partial class Hooks
 
     public static bool isInit = false;
 
-    public static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
+    private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
     {
         try
         {
@@ -61,9 +61,10 @@ public static partial class Hooks
         }
     }
 
+
     public static bool isPostInit = false;
 
-    public static void RainWorld_PostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self)
+    private static void RainWorld_PostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self)
     {
         try
         {

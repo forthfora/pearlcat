@@ -19,6 +19,77 @@ public static partial class Hooks
         On.Player.Die += Player_Die;
         On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
     }
+    
+
+    private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
+    {
+        orig(self);
+        
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        
+        var input = self.input[0];
+        playerModule.UnblockedInput = input;
+
+        if (playerModule.BlockInput)
+        {
+            input.x = 0;
+            input.y = 0;
+            input.analogueDir *= 0f;
+
+            input.jmp = false;
+            input.thrw = false;
+            input.pckp = false;
+        }
+
+        self.input[0] = input;
+    }
+
+    private static void Player_Die(On.Player.orig_Die orig, Player self)
+    {
+        orig(self);
+
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+
+        for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+        {
+            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
+
+            DeathEffect(abstractObject.realizedObject);
+            RemoveFromInventory(self, abstractObject);
+
+            playerModule.PostDeathInventory.Add(abstractObject);
+        }
+    }
+
+    private static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
+    {
+        orig(self, eu);
+
+        //StoreObjectUpdate(self);
+
+        //TransferObjectUpdate(self);
+    }
+
+    private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
+    {
+        var result = orig(self, obj);
+
+        if (obj.abstractPhysicalObject.IsPlayerObject())
+            return Player.ObjectGrabability.CantGrab;
+
+        return result;
+    }
+
+    private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
+    {
+        if (self is Player player && player.TryGetPearlcatModule(out _))
+            player.AbstractizeInventory();
+
+        orig(self, entrancePos, carriedByOther);
+    }
+
+
 
     public static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
@@ -28,10 +99,80 @@ public static partial class Hooks
         
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
+        var unblockedInput = playerModule.UnblockedInput;
 
+        bool swapLeftInput = self.IsSwapLeftInput();
+        bool swapRightInput = self.IsSwapRightInput();
+
+        bool swapInput = self.IsSwapKeybindPressed();
+        bool storeInput = self.IsStoreKeybindPressed(playerModule);
+        bool abilityInput = self.IsAbilityKeybindPressed(playerModule);
+
+        int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
+
+        playerModule.BlockInput = false;
+
+        if (numPressed >= 0)
+            self.ActivateObjectInStorage(numPressed - 1);
+
+        // Should probably clean this up sometime
+        if (SwapRepeatInterval.TryGet(self, out var swapInterval))
+        {
+            // || playerModule.swapIntervalStacker > swapInterval
+            if (Mathf.Abs(unblockedInput.x) <= 0.5f)
+            {
+                playerModule.WasSwapped = false;
+                playerModule.SwapIntervalStacker = 0;
+            }
+
+            if (swapInput)
+            {
+                playerModule.BlockInput = true;
+
+                if (playerModule.SwapIntervalStacker <= swapInterval)
+                    playerModule.SwapIntervalStacker++;
+            }
+            else
+            {
+                playerModule.SwapIntervalStacker = 0;
+            }
+        }
+
+        if (swapLeftInput && !playerModule.WasSwapLeftInput)
+        {
+            self.SelectPreviousObject();
+        }
+        else if (swapRightInput && !playerModule.WasSwapRightInput)
+        {
+            self.SelectNextObject();
+        }
+        else if (swapInput && !playerModule.WasSwapped)
+        {
+            if (unblockedInput.x < -0.5f)
+            {
+                self.SelectPreviousObject();
+                playerModule.WasSwapped = true;
+            }
+            else if (unblockedInput.x > 0.5f)
+            {
+                self.SelectNextObject();
+                playerModule.WasSwapped = true;
+            }
+        }
+
+        UpdateAll(self, playerModule);
+
+        playerModule.WasSwapLeftInput = swapLeftInput;
+        playerModule.WasSwapRightInput = swapRightInput;
+        playerModule.WasStoreInput = storeInput;
+        playerModule.WasAbilityInput = abilityInput;
+    }
+
+    private static void UpdateAll(Player self, PlayerModule playerModule)
+    {
         if (self.onBack != null)
             self.AbstractizeInventory();
-        
+
         // Warp Fix
         if (self.room != null && JustWarpedData.TryGetValue(self.room.game, out var justWarped) && justWarped.Value)
         {
@@ -40,9 +181,6 @@ public static partial class Hooks
         }
 
         self.TryRealizeInventory();
-
-
-        CheckInput(self, playerModule);
 
         UpdatePlayerOA(self, playerModule);
         UpdatePlayerDaze(self, playerModule);
@@ -93,8 +231,10 @@ public static partial class Hooks
             {
                 playerModule.BlockInput = true;
                 playerModule.StoreObjectStacker++;
-               
-                var pGraphics = (PlayerGraphics)self.graphicsModule;
+
+                self.Blink(5);
+
+                //var pGraphics = (PlayerGraphics)self.graphicsModule;
                 //pGraphics.hands[self.FreeHand()].absoluteHuntPos = self.firstChunk.pos + new Vector2(50.0f, 0.0f);
 
                 // every 5 frames
@@ -102,19 +242,13 @@ public static partial class Hooks
                 {
                     if (isStoring)
                     {
-                        var activeObjPos = ObjectAnimation.GetActiveObjectPos(self);
+                        var activeObjPos = self.GetActiveObjectPos();
                         toStore?.ConnectEffect(activeObjPos);                
                     }
                     else
                     {
                         var activeObj = playerModule.ActiveObject?.realizedObject;
-
-                        var hand = pGraphics.hands[self.FreeHand()];
-
-                        hand.relativeHuntPos = Vector2.left * 10.0f;
-
-                        if (activeObj != null && hand != null)
-                            activeObj.ConnectEffect(hand.pos);
+                        activeObj.ConnectEffect(self.firstChunk.pos);
                     }
                 }
             }
@@ -145,103 +279,7 @@ public static partial class Hooks
         }
     }
 
-    public static void CheckInput(Player self, PlayerModule playerModule)
-    {
-        var unblockedInput = playerModule.UnblockedInput;
-
-        bool swapLeftInput = self.IsSwapLeftInput();
-        bool swapRightInput = self.IsSwapRightInput();
-
-        bool swapInput = self.IsSwapKeybindPressed();
-        bool storeInput = self.IsStoreKeybindPressed(playerModule);
-        bool abilityInput = self.IsAbilityKeybindPressed(playerModule);
-        
-        int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
-
-
-        playerModule.BlockInput = false;
-
-
-        if (numPressed >= 0)
-            self.ActivateObjectInStorage(numPressed - 1);
-
-        // Should probably clean this up sometime
-        if (SwapRepeatInterval.TryGet(self, out var swapInterval))
-        {
-            // || playerModule.swapIntervalStacker > swapInterval
-            if (Mathf.Abs(unblockedInput.x) <= 0.5f)
-            {
-                playerModule.WasSwapped = false;
-                playerModule.SwapIntervalStacker = 0;
-            }
-
-            if (swapInput)
-            {
-                playerModule.BlockInput = true;
-
-                if (playerModule.SwapIntervalStacker <= swapInterval)
-                    playerModule.SwapIntervalStacker++;
-            }
-            else
-            {
-                playerModule.SwapIntervalStacker = 0;
-            }
-        }
-
-        if (swapLeftInput && !playerModule.WasSwapLeftInput)
-        {
-            self.SelectPreviousObject();
-        }
-        else if (swapRightInput && !playerModule.WasSwapRightInput)
-        {
-            self.SelectNextObject();
-        }
-        else if (swapInput && !playerModule.WasSwapped)
-        {
-            if (unblockedInput.x < -0.5f)
-            {
-                self.SelectPreviousObject();
-                playerModule.WasSwapped = true;
-            }
-            else if (unblockedInput.x > 0.5f)
-            {
-                self.SelectNextObject();
-                playerModule.WasSwapped = true;
-            }
-        }
-
-
-        playerModule.WasSwapLeftInput = swapLeftInput;
-        playerModule.WasSwapRightInput = swapRightInput;
-        playerModule.WasStoreInput = storeInput;
-        playerModule.WasAbilityInput = abilityInput;
-    }
-
-    private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
-    {
-        orig(self);
-        
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-        
-        var input = self.input[0];
-        playerModule.UnblockedInput = input;
-
-        if (playerModule.BlockInput)
-        {
-            input.x = 0;
-            input.y = 0;
-            input.analogueDir *= 0f;
-
-            input.jmp = false;
-            input.thrw = false;
-            input.pckp = false;
-        }
-
-        self.input[0] = input;
-    }
-
-
-    public static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
+    private static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
         if (!self.dead && playerModule.PostDeathInventory.Count > 0)
         {
@@ -265,7 +303,7 @@ public static partial class Hooks
         }
     }
 
-    public static void UpdatePlayerDaze(Player self, PlayerModule playerModule)
+    private static void UpdatePlayerDaze(Player self, PlayerModule playerModule)
     {
         if (!DazeDuration.TryGet(self, out var dazeDuration)) return;
 
@@ -276,8 +314,7 @@ public static partial class Hooks
             playerModule.DazeStacker--;
     }
 
-
-    public static void UpdatePlayerOA(Player self, PlayerModule playerModule)
+    private static void UpdatePlayerOA(Player self, PlayerModule playerModule)
     {
         if (playerModule.CurrentObjectAnimation is FreeFallOA)
         {
@@ -347,53 +384,6 @@ public static partial class Hooks
                 self.StoreObject(pearl);
             }
         }
-    }
-
-
-    public static void Player_Die(On.Player.orig_Die orig, Player self)
-    {
-        orig(self);
-
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-
-        for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
-        {
-            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
-
-            DeathEffect(abstractObject.realizedObject);
-            RemoveFromInventory(self, abstractObject);
-
-            playerModule.PostDeathInventory.Add(abstractObject);
-        }
-    }
-
-
-    public static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
-    {
-        orig(self, eu);
-
-        //StoreObjectUpdate(self);
-
-        //TransferObjectUpdate(self);
-    }
-
-    public static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
-    {
-        var result = orig(self, obj);
-
-        if (obj.abstractPhysicalObject.IsPlayerObject())
-            return Player.ObjectGrabability.CantGrab;
-
-        return result;
-    }
-
-    private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
-    {
-        if (self is Player player && player.TryGetPearlcatModule(out _))
-            player.AbstractizeInventory();
-
-        orig(self, entrancePos, carriedByOther);
     }
 
 

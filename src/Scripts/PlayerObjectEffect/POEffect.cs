@@ -5,9 +5,9 @@ public struct POEffect
 {
     public POEffect() { }
 
-    public MajorEffect majorEffect { get; set; } = MajorEffect.NONE;
+    public MajorEffectType MajorEffect { get; set; } = MajorEffectType.NONE;
 
-    public enum MajorEffect
+    public enum MajorEffectType
     {
         NONE,
         SPEAR_CREATION, // White (Very Common)

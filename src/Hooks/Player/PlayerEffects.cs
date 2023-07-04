@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RWCustom;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -73,29 +74,29 @@ public static partial class Hooks
         stats.generalVisibilityBonus = 0.4f * visibilityMult;
 
 
-        switch (effect.majorEffect)
+        switch (effect.MajorEffect)
         {
-            case POEffect.MajorEffect.SPEAR_CREATION:
+            case POEffect.MajorEffectType.SPEAR_CREATION:
                 UpdateSpearCreation(self, playerModule);
                 break;
 
-            case POEffect.MajorEffect.AGILITY:
+            case POEffect.MajorEffectType.AGILITY:
                 UpdateAgility(self, playerModule);
                 break;
 
-            case POEffect.MajorEffect.REVIVE:
+            case POEffect.MajorEffectType.REVIVE:
                 UpdateRevive(self, playerModule);
                 break;
 
-            case POEffect.MajorEffect.SHIELD:
+            case POEffect.MajorEffectType.SHIELD:
                 UpdateShield(self, playerModule);
                 break;
 
-            case POEffect.MajorEffect.RAGE:
+            case POEffect.MajorEffectType.RAGE:
                 UpdateRage(self, playerModule);
                 break;
 
-            case POEffect.MajorEffect.CAMOFLAGUE:
+            case POEffect.MajorEffectType.CAMOFLAGUE:
                 UpdateCamoflague(self, playerModule);
                 break;
         } 
@@ -113,10 +114,76 @@ public static partial class Hooks
 
         var abilityInput = self.IsAbilityKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasAbilityInput;
+
+        Plugin.Logger.LogWarning(abilityInput);
     
         if (abilityInput && !wasAbilityInput)
         {
-            Plugin.Logger.LogWarning("Jump");
+            self.noGrabCounter = 5;
+
+            Vector2 pos = self.firstChunk.pos;
+            
+            for (int i = 0; i < 8; i++)
+                self.room.AddObject(new Explosion.ExplosionSmoke(pos, Custom.RNV() * 5f * Random.value, 1f));
+         
+            self.room.AddObject(new Explosion.ExplosionLight(pos, 160f, 1f, 3, Color.white));
+
+            for (int j = 0; j < 10; j++)
+            {
+                Vector2 a = Custom.RNV();
+                self.room.AddObject(new Spark(pos + a * Random.value * 40f, a * Mathf.Lerp(4f, 30f, Random.value), Color.white, null, 4, 18));
+            }
+
+            self.room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.3f + Random.value * 0.3f, 0.5f + Random.value * 2f);
+
+            if (self.bodyMode == Player.BodyModeIndex.ZeroG || self.room.gravity == 0f || self.gravity == 0f)
+            {
+                float inputX = self.input[0].x;
+                float num4 = self.input[0].y;
+
+                while (inputX == 0f && num4 == 0f)
+                {
+                    inputX = ((double)Random.value <= 0.33) ? 0 : (((double)Random.value <= 0.5) ? 1 : -1);
+                    num4 = ((double)Random.value <= 0.33) ? 0 : (((double)Random.value <= 0.5) ? 1 : -1);
+                }
+
+                self.bodyChunks[0].vel.x = 9f * inputX;
+                self.bodyChunks[0].vel.y = 9f * num4;
+                self.bodyChunks[1].vel.x = 8f * inputX;
+                self.bodyChunks[1].vel.y = 8f * num4;
+                self.pyroJumpCooldown = 150f;
+                self.pyroJumpCounter++;
+            }
+            else
+            {
+                if (self.input[0].x != 0)
+                {
+                    self.bodyChunks[0].vel.y = Mathf.Min(self.bodyChunks[0].vel.y, 0f) + 8f;
+                    self.bodyChunks[1].vel.y = Mathf.Min(self.bodyChunks[1].vel.y, 0f) + 7f;
+                    self.jumpBoost = 6f;
+                }
+
+                if (self.input[0].x == 0 || self.input[0].y == 1)
+                {
+                    self.bodyChunks[0].vel.y = 11f;
+                    self.bodyChunks[1].vel.y = 10f;
+                    self.jumpBoost = 8f;
+                }
+
+                if (self.input[0].y == 1)
+                {
+                    self.bodyChunks[0].vel.x = 10f * self.input[0].x;
+                    self.bodyChunks[1].vel.x = 8f * self.input[0].x;
+                }
+                else
+                {
+                    self.bodyChunks[0].vel.x = 15f * self.input[0].x;
+                    self.bodyChunks[1].vel.x = 13f * self.input[0].x;
+                }
+
+                self.animation = Player.AnimationIndex.Flip;
+                self.bodyMode = Player.BodyModeIndex.Default;
+            }
         }
     }
     

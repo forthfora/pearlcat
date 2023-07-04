@@ -31,19 +31,63 @@ public static partial class Hooks
 
 
     public static readonly ConditionalWeakTable<MenuScene, MenuSceneModule> MenuSceneData = new();
-
     public static readonly ConditionalWeakTable<MenuDepthIllustration, MenuPearlModule> MenuIllustrationData = new();
-
-    private static void SlugcatPage_ctor(On.Menu.SlugcatSelectMenu.SlugcatPage.orig_ctor orig, SlugcatSelectMenu.SlugcatPage self, Menu.Menu menu, MenuObject owner, int pageIndex, SlugcatStats.Name slugcatNumber)
+    
+    private static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, MenuScene self, Menu.Menu menu, MenuObject owner, MenuScene.SceneID sceneID)
     {
-        orig(self, menu, owner, pageIndex, slugcatNumber);
+        orig(self, menu, owner, sceneID);
 
-        if (slugcatNumber != Enums.General.Pearlcat) return;
+        if (sceneID.value != "Slugcat_Pearlcat") return;
 
-        self.effectColor = ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, DataPearlType.HI.index);
+
+        var save = menu.manager.rainWorld.GetMiscProgression();
+
+        if (save.IsNewSave)
+        {
+            List <DataPearlType> types = new()
+            {
+                Enums.Pearls.AS_PearlBlue,
+                Enums.Pearls.AS_PearlYellow,
+                Enums.Pearls.AS_PearlRed,
+                Enums.Pearls.AS_PearlGreen,
+                Enums.Pearls.AS_PearlBlack,
+            };
+
+            MenuSceneData.Add(self, new(types, MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM));
+        }
+        else
+        {
+            MenuSceneData.Add(self, new(save.StoredPearlTypes, save.ActivePearlType));
+        }
+
+        MenuPearlAnimStacker = 0;
+        
+        foreach (var illustration in self.depthIllustrations)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+            if (fileName.Contains("pearl"))
+            {
+                var indexString = fileName.Replace("pearl", "");
+
+                if (!int.TryParse(indexString, out var index))
+                {
+                    if (fileName == "pearlactive")
+                        index = -1;
+
+                    else
+                        continue;
+                }
+
+                MenuIllustrationData.Add(illustration, new(illustration, index));
+            }
+        }
     }
 
-    public static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, MenuScene self)
+    public static Color MenuPearlColorFilter(Color color) => color;
+    public static int MenuPearlAnimStacker = 0;
+
+    private static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, MenuScene self)
     {
         orig(self);
 
@@ -118,62 +162,16 @@ public static partial class Hooks
         MenuPearlAnimStacker++;
     }
 
-    public static Color MenuPearlColorFilter(Color color) => color; 
-
-    public static int MenuPearlAnimStacker = 0;
-
-    public static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, MenuScene self, Menu.Menu menu, MenuObject owner, MenuScene.SceneID sceneID)
+    private static void SlugcatPage_ctor(On.Menu.SlugcatSelectMenu.SlugcatPage.orig_ctor orig, SlugcatSelectMenu.SlugcatPage self, Menu.Menu menu, MenuObject owner, int pageIndex, SlugcatStats.Name slugcatNumber)
     {
-        orig(self, menu, owner, sceneID);
+        orig(self, menu, owner, pageIndex, slugcatNumber);
 
-        if (sceneID.value != "Slugcat_Pearlcat") return;
+        if (slugcatNumber != Enums.General.Pearlcat) return;
 
-
-        var save = menu.manager.rainWorld.GetMiscProgression();
-
-        if (save.IsNewSave)
-        {
-            List <DataPearlType> types = new()
-            {
-                Enums.Pearls.AS_PearlBlue,
-                Enums.Pearls.AS_PearlYellow,
-                Enums.Pearls.AS_PearlRed,
-                Enums.Pearls.AS_PearlGreen,
-                Enums.Pearls.AS_PearlBlack,
-            };
-
-            MenuSceneData.Add(self, new(types, MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM));
-        }
-        else
-        {
-            MenuSceneData.Add(self, new(save.StoredPearlTypes, save.ActivePearlType));
-        }
-
-        MenuPearlAnimStacker = 0;
-        
-        foreach (var illustration in self.depthIllustrations)
-        {
-            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-
-            if (fileName.Contains("pearl"))
-            {
-                var indexString = fileName.Replace("pearl", "");
-
-                if (!int.TryParse(indexString, out var index))
-                {
-                    if (fileName == "pearlactive")
-                        index = -1;
-
-                    else
-                        continue;
-                }
-
-                MenuIllustrationData.Add(illustration, new(illustration, index));
-            }
-        }
+        self.effectColor = ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, DataPearlType.HI.index);
     }
 
-    public static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)
+    private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)
     {
         orig(self);
 
