@@ -1,5 +1,6 @@
 ﻿using RWCustom;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
@@ -122,19 +123,19 @@ public static partial class Hooks
             if (Mathf.Abs(unblockedInput.x) <= 0.5f)
             {
                 playerModule.WasSwapped = false;
-                playerModule.SwapIntervalStacker = 0;
+                playerModule.SwapIntervalTimer = 0;
             }
 
             if (swapInput)
             {
                 playerModule.BlockInput = true;
 
-                if (playerModule.SwapIntervalStacker <= swapInterval)
-                    playerModule.SwapIntervalStacker++;
+                if (playerModule.SwapIntervalTimer <= swapInterval)
+                    playerModule.SwapIntervalTimer++;
             }
             else
             {
-                playerModule.SwapIntervalStacker = 0;
+                playerModule.SwapIntervalTimer = 0;
             }
         }
 
@@ -176,8 +177,11 @@ public static partial class Hooks
         // Warp Fix
         if (self.room != null && JustWarpedData.TryGetValue(self.room.game, out var justWarped) && justWarped.Value)
         {
-            self.AbstractizeInventory();
             justWarped.Value = false;
+            playerModule.LoadSaveData(self);
+
+            Plugin.Logger.LogWarning("WARP LOADED");
+            Plugin.Logger.LogWarning(playerModule.Inventory.Count);
         }
 
         self.TryRealizeInventory();
@@ -201,36 +205,40 @@ public static partial class Hooks
         if (!StoreObjectDelay.TryGet(self, out var storeObjectDelay)) return;
 
         var storeInput = self.IsStoreKeybindPressed(playerModule);
-        var isStoring = self.GraspsHasType(AbstractObjectType.DataPearl) == 0;
         var toStore = self.grasps[0]?.grabbed;
+        var isStoring = self.grasps[0]?.grabbed.abstractPhysicalObject.IsStorable() ?? false;
 
         if (isStoring && toStore == null) return;
 
         if (!isStoring && self.FreeHand() == -1) return;
 
+        if (!isStoring && playerModule.ActiveObject == null) return;
 
-        if (playerModule.StoreObjectStacker > storeObjectDelay)
+
+        if (playerModule.StoreObjectTimer > storeObjectDelay)
         {
-            if (isStoring)
+            if (isStoring && toStore != null)
             {
+                self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, toStore.abstractPhysicalObject.realizedObject.firstChunk);
                 self.ReleaseGrasp(0);
-                self.StoreObject(toStore!.abstractPhysicalObject);
+                self.StoreObject(toStore.abstractPhysicalObject);
             }
-            else
+            else if (playerModule.ActiveObject != null)
             {
+                self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActiveObject.realizedObject.firstChunk);
                 self.RetrieveActiveObject();
             }
 
-            playerModule.StoreObjectStacker = -1;
+            playerModule.StoreObjectTimer = -1;
         }
 
 
         if (storeInput)
         {
-            if (playerModule.StoreObjectStacker >= 0)
+            if (playerModule.StoreObjectTimer >= 0)
             {
                 playerModule.BlockInput = true;
-                playerModule.StoreObjectStacker++;
+                playerModule.StoreObjectTimer++;
 
                 self.Blink(5);
 
@@ -238,7 +246,7 @@ public static partial class Hooks
                 //pGraphics.hands[self.FreeHand()].absoluteHuntPos = self.firstChunk.pos + new Vector2(50.0f, 0.0f);
 
                 // every 5 frames
-                if (playerModule.StoreObjectStacker % 5 == 0)
+                if (playerModule.StoreObjectTimer % 5 == 0)
                 {
                     if (isStoring)
                     {
@@ -255,7 +263,7 @@ public static partial class Hooks
         }
         else
         {
-            playerModule.StoreObjectStacker = 0;
+            playerModule.StoreObjectTimer = 0;
         }
     }
 
@@ -267,14 +275,14 @@ public static partial class Hooks
 
     private static void UpdateHUD(Player self, PlayerModule playerModule)
     {
-        if (playerModule.HudFadeStacker > 0)
+        if (playerModule.HudFadeTimer > 0)
         {
-            playerModule.HudFadeStacker--;
+            playerModule.HudFadeTimer--;
             playerModule.HudFade = Mathf.Lerp(playerModule.HudFade, 1.0f, 0.1f);
         }
         else
         {
-            playerModule.HudFadeStacker = 0;
+            playerModule.HudFadeTimer = 0;
             playerModule.HudFade = Mathf.Lerp(playerModule.HudFade, 0.0f, 0.05f);
         }
     }
@@ -308,10 +316,10 @@ public static partial class Hooks
         if (!DazeDuration.TryGet(self, out var dazeDuration)) return;
 
         if (self.dead || self.bodyMode == Player.BodyModeIndex.Stunned || self.Sleeping)
-            playerModule.DazeStacker = dazeDuration;
+            playerModule.DazeTimer = dazeDuration;
 
-        if (playerModule.DazeStacker > 0)
-            playerModule.DazeStacker--;
+        if (playerModule.DazeTimer > 0)
+            playerModule.DazeTimer--;
     }
 
     private static void UpdatePlayerOA(Player self, PlayerModule playerModule)
@@ -331,11 +339,11 @@ public static partial class Hooks
             playerModule.CurrentObjectAnimation = new FreeFallOA(self);
         }
 
-        if (playerModule.ObjectAnimationStacker > playerModule.ObjectAnimationDuration)
+        if (playerModule.ObjectAnimationTimer > playerModule.ObjectAnimationDuration)
             playerModule.PickObjectAnimation(self);
 
         playerModule.CurrentObjectAnimation?.Update(self);
-        playerModule.ObjectAnimationStacker++;
+        playerModule.ObjectAnimationTimer++;
 
 
         if (self.room == null) return;

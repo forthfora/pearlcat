@@ -26,6 +26,9 @@ public class PlayerModule
     public SlugcatStats NormalStats { get; private set; } = new(Enums.General.Pearlcat, false);
     public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.General.Pearlcat, true);
 
+    public Vector2 AgilityTargetPos { get; set; }
+    public int AgilityTimer { get; set; }
+
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }
 
@@ -48,8 +51,8 @@ public class PlayerModule
     public Player.InputPackage UnblockedInput { get; set; }
     public bool BlockInput { get; set; }
 
-    public int SwapIntervalStacker { get; set; }
-    public int StoreObjectStacker { get; set; }
+    public int SwapIntervalTimer { get; set; }
+    public int StoreObjectTimer { get; set; }
 
     public List<AbstractPhysicalObject> Inventory { get; set; } = new();
     public List<AbstractPhysicalObject> PostDeathInventory { get; set; } = new();
@@ -59,17 +62,19 @@ public class PlayerModule
 
     public POEffect CurrentPOEffect { get; set; } = POEffectManager.None;
 
-    public float ShortcutColorStacker { get; set; }
-    public int ShortcutColorStackerDirection { get; set; } = 1;
+    public float ShortcutColorTimer { get; set; }
+    public int ShortcutColorTimerDirection { get; set; } = 1;
 
-    public void ShowHUD(int duration) => HudFadeStacker = duration;
+    public void ShowHUD(int duration) => HudFadeTimer = duration;
 
     public float HudFade { get; set; }
-    public float HudFadeStacker { get; set; }
+    
+    public float HudFadeTimer { get; set; }
 
     public bool GivenPearls { get; set; }
 
-    public int ObjectAnimationStacker { get; set; }
+    public int ObjectAnimationTimer { get; set; }
+    
     public int ObjectAnimationDuration { get; set; }
 
     public ObjectAnimation? CurrentObjectAnimation { get; set; }
@@ -81,7 +86,7 @@ public class PlayerModule
         if (!Hooks.DazeDuration.TryGet(player, out var dazeDuration)) return;
 
         CurrentObjectAnimation = GetObjectAnimation(player);
-        ObjectAnimationStacker = 0;
+        ObjectAnimationTimer = 0;
 
         var randState = Random.state;
         Random.InitState((int)DateTime.Now.Ticks);
@@ -120,12 +125,15 @@ public class PlayerModule
     //public static int animationI = 0;
 
 
-    public bool IsDazed => DazeStacker > 0;
-    public int DazeStacker { get; set; }
+    public bool IsDazed => DazeTimer > 0;
+    public int DazeTimer { get; set; }
 
 
     public void LoadSaveData(Player self)
     {
+        Inventory.Clear();
+        ActiveObjectIndex = null;
+
         var save = self.room.game.GetMiscWorld();
 
         var playerNumber = self.playerState.playerNumber;
@@ -143,14 +151,13 @@ public class PlayerModule
         if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex))
             ActiveObjectIndex = activeObjectIndex;
 
-
-        Plugin.Logger.LogWarning("LOAD SAVE DATA IN PLAYER MODULE");
-        foreach (var a in Inventory)
-        {
-            if (a is DataPearl.AbstractDataPearl pearl)
-                Plugin.Logger.LogWarning(pearl.dataPearlType);
-        }
-        Plugin.Logger.LogWarning(ActiveObjectIndex);
+        //Plugin.Logger.LogWarning("LOAD SAVE DATA IN PLAYER MODULE");
+        //foreach (var a in Inventory)
+        //{
+        //    if (a is DataPearl.AbstractDataPearl pearl)
+        //        Plugin.Logger.LogWarning(pearl.dataPearlType);
+        //}
+        //Plugin.Logger.LogWarning(ActiveObjectIndex);
     }
 
 

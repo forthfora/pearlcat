@@ -1,5 +1,6 @@
 [MERGE]
 Pearlcat_MenuCrackle : pearlcatmenucrackle/vol=0.25
-Pearlcat_PearlEquip : pearlcatpearlequip/vol=0.1
 Pearlcat_PearlScroll : pearlcatpearlscroll/vol=0.3
+Pearlcat_PearlStore : pearlcatpearlstore/vol=0.25
+Pearlcat_PearlRetrieve : pearlcatpearlretrieve/vol=0.4
 [ENDMERGE]

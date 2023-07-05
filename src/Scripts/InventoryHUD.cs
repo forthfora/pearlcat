@@ -13,17 +13,13 @@ public class InventoryHUD : HudPart
     public static readonly ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectSymbol> Symbols = new();
     public readonly List<PlayerObjectSymbol> AllSymbols = new();
 
-    public Vector2 pos;
-
     public FContainer HUDfContainer;
-    
-    public int animationUpdateCounterMax = 150;
+    public Vector2 pos;
 
     public InventoryHUD(HUD.HUD hud, FContainer fContainer) : base(hud)
     {
-        pos = Vector2.zero;
         HUDfContainer = fContainer;
-        animationUpdateCounterMax = 150;
+        pos = Vector2.zero;
     }
 
 

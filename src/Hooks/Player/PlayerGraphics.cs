@@ -709,22 +709,22 @@ public static partial class Hooks
         if (colors.Count == 0)
             return result;
 
-        playerModule.ShortcutColorStacker += ShortcutColorIncrement * playerModule.ShortcutColorStackerDirection;
+        playerModule.ShortcutColorTimer += ShortcutColorIncrement * playerModule.ShortcutColorTimerDirection;
 
-        if (playerModule.ShortcutColorStackerDirection == 1 && playerModule.ShortcutColorStacker > 1.0f)
+        if (playerModule.ShortcutColorTimerDirection == 1 && playerModule.ShortcutColorTimer > 1.0f)
         {
-            playerModule.ShortcutColorStackerDirection = -1;
-            playerModule.ShortcutColorStacker += ShortcutColorIncrement * playerModule.ShortcutColorStackerDirection;
+            playerModule.ShortcutColorTimerDirection = -1;
+            playerModule.ShortcutColorTimer += ShortcutColorIncrement * playerModule.ShortcutColorTimerDirection;
 
         }
-        else if (playerModule.ShortcutColorStackerDirection == -1 && playerModule.ShortcutColorStacker < 0.0f)
+        else if (playerModule.ShortcutColorTimerDirection == -1 && playerModule.ShortcutColorTimer < 0.0f)
         {
-            playerModule.ShortcutColorStackerDirection = 1;
-            playerModule.ShortcutColorStacker += ShortcutColorIncrement * playerModule.ShortcutColorStackerDirection;
+            playerModule.ShortcutColorTimerDirection = 1;
+            playerModule.ShortcutColorTimer += ShortcutColorIncrement * playerModule.ShortcutColorTimerDirection;
         }
 
         // https://gamedev.stackexchange.com/questions/98740/how-to-color-lerp-between-multiple-colors
-        float scaledTime = playerModule.ShortcutColorStacker * (colors.Count - 1);
+        float scaledTime = playerModule.ShortcutColorTimer * (colors.Count - 1);
         Color oldColor = colors[(int)scaledTime];
 
         int nextIndex = (int)(scaledTime + 1.0f);

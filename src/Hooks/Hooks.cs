@@ -46,7 +46,7 @@ public static partial class Hooks
             // Init Enums
             _ = Enums.General.Pearlcat;
             _ = Enums.Pearls.AS_PearlBlue;
-            _ = Enums.Sounds.Pearlcat_PearlEquip;
+            _ = Enums.Sounds.Pearlcat_PearlScroll;
 
             MachineConnector.SetRegisteredOI(Plugin.MOD_ID, PearlcatOptions.Instance);
             AssetLoader.LoadAssets();

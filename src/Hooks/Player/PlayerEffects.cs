@@ -1,5 +1,6 @@
 ﻿using RWCustom;
 using UnityEngine;
+using static Pearlcat.POEffect;
 
 namespace Pearlcat;
 
@@ -32,6 +33,12 @@ public static partial class Hooks
             combinedEffect.MaulFac += effect.MaulFac * mult;
             combinedEffect.SpearPullFac += effect.SpearPullFac * mult;
             combinedEffect.BackSpearFac += effect.BackSpearFac * mult;
+        }
+        
+        if (playerModule.ActiveObject != null)
+        {
+            var effect = playerModule.ActiveObject.GetPOEffect();
+            combinedEffect.MajorEffect = effect.MajorEffect;
         }
 
         playerModule.CurrentPOEffect = combinedEffect;
@@ -73,59 +80,44 @@ public static partial class Hooks
         stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode * visibilityMult;
         stats.generalVisibilityBonus = 0.4f * visibilityMult;
 
-
-        switch (effect.MajorEffect)
-        {
-            case POEffect.MajorEffectType.SPEAR_CREATION:
-                UpdateSpearCreation(self, playerModule);
-                break;
-
-            case POEffect.MajorEffectType.AGILITY:
-                UpdateAgility(self, playerModule);
-                break;
-
-            case POEffect.MajorEffectType.REVIVE:
-                UpdateRevive(self, playerModule);
-                break;
-
-            case POEffect.MajorEffectType.SHIELD:
-                UpdateShield(self, playerModule);
-                break;
-
-            case POEffect.MajorEffectType.RAGE:
-                UpdateRage(self, playerModule);
-                break;
-
-            case POEffect.MajorEffectType.CAMOFLAGUE:
-                UpdateCamoflague(self, playerModule);
-                break;
-        } 
+        UpdateSpearCreation(self, playerModule, effect);
+        UpdateAgility(self, playerModule, effect);
+        UpdateRevive(self, playerModule, effect);
+        UpdateShield(self, playerModule, effect);
+        UpdateRage(self, playerModule, effect);
+        UpdateCamoflague(self, playerModule, effect);
     }
 
 
-    public static void UpdateSpearCreation(Player self, PlayerModule playerModule)
+    public static void UpdateSpearCreation(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (PearlcatOptions.DisableSpear.Value) return;
+
+        if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION) return;
     }
 
-    public static void UpdateAgility(Player self, PlayerModule playerModule)
+    public static void UpdateAgility(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (PearlcatOptions.DisableAgility.Value) return;
+
+
+        if (playerModule.AgilityTimer > 0)
+        {
+            playerModule.AgilityTimer--;
+
+            self.firstChunk.vel *= Custom.LerpMap(self.firstChunk.vel.magnitude, 0.0f, 10.0f, 0.9f, 0.5f);
+        }
+
+        if (effect.MajorEffect != MajorEffectType.AGILITY) return;
 
         var abilityInput = self.IsAbilityKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasAbilityInput;
 
-        Plugin.Logger.LogWarning(abilityInput);
-    
         if (abilityInput && !wasAbilityInput)
         {
             self.noGrabCounter = 5;
+            var pos = self.firstChunk.pos;
 
-            Vector2 pos = self.firstChunk.pos;
-            
-            for (int i = 0; i < 8; i++)
-                self.room.AddObject(new Explosion.ExplosionSmoke(pos, Custom.RNV() * 5f * Random.value, 1f));
-         
             self.room.AddObject(new Explosion.ExplosionLight(pos, 160f, 1f, 3, Color.white));
 
             for (int j = 0; j < 10; j++)
@@ -134,7 +126,7 @@ public static partial class Hooks
                 self.room.AddObject(new Spark(pos + a * Random.value * 40f, a * Mathf.Lerp(4f, 30f, Random.value), Color.white, null, 4, 18));
             }
 
-            self.room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.3f + Random.value * 0.3f, 0.5f + Random.value * 2f);
+            self.room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.15f + Random.value * 0.15f, 0.5f + Random.value * 2f);
 
             if (self.bodyMode == Player.BodyModeIndex.ZeroG || self.room.gravity == 0f || self.gravity == 0f)
             {
@@ -147,26 +139,24 @@ public static partial class Hooks
                     num4 = ((double)Random.value <= 0.33) ? 0 : (((double)Random.value <= 0.5) ? 1 : -1);
                 }
 
-                self.bodyChunks[0].vel.x = 9f * inputX;
-                self.bodyChunks[0].vel.y = 9f * num4;
-                self.bodyChunks[1].vel.x = 8f * inputX;
-                self.bodyChunks[1].vel.y = 8f * num4;
-                self.pyroJumpCooldown = 150f;
-                self.pyroJumpCounter++;
+                self.bodyChunks[0].vel.x = 15f * inputX;
+                self.bodyChunks[0].vel.y = 15f * num4;
+                self.bodyChunks[1].vel.x = 12f * inputX;
+                self.bodyChunks[1].vel.y = 12f * num4;
             }
             else
             {
                 if (self.input[0].x != 0)
                 {
-                    self.bodyChunks[0].vel.y = Mathf.Min(self.bodyChunks[0].vel.y, 0f) + 8f;
-                    self.bodyChunks[1].vel.y = Mathf.Min(self.bodyChunks[1].vel.y, 0f) + 7f;
+                    self.bodyChunks[0].vel.y = Mathf.Min(self.bodyChunks[0].vel.y, 0f) + 12f;
+                    self.bodyChunks[1].vel.y = Mathf.Min(self.bodyChunks[1].vel.y, 0f) + 10f;
                     self.jumpBoost = 6f;
                 }
 
                 if (self.input[0].x == 0 || self.input[0].y == 1)
                 {
-                    self.bodyChunks[0].vel.y = 11f;
-                    self.bodyChunks[1].vel.y = 10f;
+                    self.bodyChunks[0].vel.y = 16f;
+                    self.bodyChunks[1].vel.y = 15f;
                     self.jumpBoost = 8f;
                 }
 
@@ -184,25 +174,32 @@ public static partial class Hooks
                 self.animation = Player.AnimationIndex.Flip;
                 self.bodyMode = Player.BodyModeIndex.Default;
             }
+
+            var targetPos = self.firstChunk.pos + self.firstChunk.vel * 10.0f;
+            playerModule.AgilityTargetPos = targetPos;
+            playerModule.AgilityTimer = 5;
+
+            if (playerModule.ActiveObject != null)
+                self.ConnectEffect(targetPos, GetObjectColor(playerModule.ActiveObject));
         }
     }
     
-    public static void UpdateRevive(Player self, PlayerModule playerModule)
+    public static void UpdateRevive(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (PearlcatOptions.DisableRevive.Value) return;
     }
     
-    public static void UpdateShield(Player self, PlayerModule playerModule)
+    public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (PearlcatOptions.DisableShield.Value) return;
     }
     
-    public static void UpdateRage(Player self, PlayerModule playerModule)
+    public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (PearlcatOptions.DisableRage.Value) return;
     }
 
-    public static void UpdateCamoflague(Player self, PlayerModule playerModule)
+    public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (PearlcatOptions.DisableCamoflague.Value) return;
     }

@@ -24,6 +24,7 @@ public static class Enums
     {
         public static SoundID Pearlcat_MenuCrackle = new(nameof(Pearlcat_MenuCrackle), true);
         public static SoundID Pearlcat_PearlScroll = new(nameof(Pearlcat_PearlScroll), true);
-        public static SoundID Pearlcat_PearlEquip = new(nameof(Pearlcat_PearlEquip), true);
+        public static SoundID Pearlcat_PearlStore = new(nameof(Pearlcat_PearlStore), true);
+        public static SoundID Pearlcat_PearlRetrieve = new(nameof(Pearlcat_PearlRetrieve), true);
     }
 }

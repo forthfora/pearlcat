@@ -19,7 +19,7 @@ public abstract class ObjectAnimation
     }
 
 
-    public int animStacker = 0;
+    public int animTimer = 0;
 
     public virtual void Update(Player player)
     {
@@ -41,7 +41,7 @@ public abstract class ObjectAnimation
             playerObjectModule.PlayCollisionSound = false;
         }
 
-        animStacker++;
+        animTimer++;
 
         UpdateHaloEffects(player);
         UpdateSymbolEffects(player);
@@ -66,26 +66,26 @@ public abstract class ObjectAnimation
             if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
             
             addon.drawHalo = true;
-            float haloEffectStacker = HaloEffectStackers[i];
+            float haloEffectTimer = HaloEffectStackers[i];
 
             if (i == playerModule.ActiveObjectIndex)
             {
                 addon.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
-                addon.haloScale = 1.0f + 0.45f * haloEffectStacker;
+                addon.haloScale = 1.0f + 0.45f * haloEffectTimer;
                 addon.haloAlpha = 0.8f;
             }
             else
             {
                 addon.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
-                addon.haloScale = 0.3f + 0.45f * haloEffectStacker;
+                addon.haloScale = 0.3f + 0.45f * haloEffectTimer;
                 addon.haloAlpha = 0.6f;
             }
 
 
-            if (haloEffectStacker < 0.0f)
+            if (haloEffectTimer < 0.0f)
                 HaloEffectDir = 1;
 
-            else if (haloEffectStacker > 1.0f)
+            else if (haloEffectTimer > 1.0f)
                 HaloEffectDir = -1;
 
             HaloEffectStackers[i] += HaloEffectDir * HaloEffectFrameAddition;
@@ -126,7 +126,7 @@ public abstract class ObjectAnimation
         {
             var abstractObject = abstractObjects[i];
 
-            var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * animStacker;
+            var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * animTimer;
 
             Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
             abstractObject.MoveToTargetPos(player, targetPos);
