@@ -1,11 +1,28 @@
-﻿namespace Pearlcat;
+﻿using System.Collections.Generic;
+
+namespace Pearlcat;
 
 public partial class Hooks
 {
-    public static void ApplyGameDataHooks()
+    public static void ApplyWorldHooks()
     {
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
         On.RegionState.AdaptRegionStateToWorld += RegionState_AdaptRegionStateToWorld;
+
+        On.Room.Loaded += Room_Loaded;
+    }
+
+    public static List<string> TrainViewRooms = new()
+    {
+        "T1_END",
+    };
+
+    private static void Room_Loaded(On.Room.orig_Loaded orig, Room self)
+    {
+        orig(self);
+
+        if (TrainViewRooms.Contains(self.roomSettings.name))
+            self.AddObject(new TrainView(self));
     }
 
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
@@ -29,7 +46,7 @@ public partial class Hooks
     }
 
     // Prevent Player Pearls being saved in the shelter 
-    public static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
+    private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
     {
         var result = orig(world, room, index);
 

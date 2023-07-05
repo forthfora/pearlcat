@@ -29,6 +29,6 @@ public class Plugin : BaseUnityPlugin
     public void OnEnable()
     {
         Logger = base.Logger;
-        Hooks.ApplyHooks();
+        Hooks.ApplyInit();
     }
 }

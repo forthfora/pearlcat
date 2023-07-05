@@ -1,0 +1,10 @@
+Template: NONE
+DangerType: None
+CeilingDrips: 0
+Clouds: 0.5108696
+Grime: 0
+RandomItemDensity: 0
+RandomItemSpearChance: 0
+Palette: 28
+Effects: Bloom-1-20-20, LightBurn-1-285-132, SkyBloom-0.75-14-128, 
+AmbientSounds: OMNI><AM_WIN-HowlingWnd.ogg><438.8261><488.9349><1><1, OMNI><Deep Weird Wind.wav><220.8><468.9984><0.4021739><1.606522, OMNI><AM_WIN-StrongWnd2.ogg><40.92004><464.3167><1><1, OMNI><MSC-RitualMetal.ogg><232.4078><382.6775><0.7065217><1, OMNI><Noise Wind.wav><223.6917><295.8087><1><1, OMNI><SO_NAT-WindTunnel.ogg><28.32874><366.1467><0.7934783><1.117391, OMNI><MSC-Subtundra.ogg><19.06183><277.1822><1><1.9, OMNI><SO_ENV-StrongWnd.ogg><14.16547><184.5687><1><1.293478, OMNI><AM_RAIN-RollingThunder.ogg><225.1757><197.0643><1><1, OMNI><SO_IND-Generator.ogg><19.32349><98.84402><1><0.5891304, 

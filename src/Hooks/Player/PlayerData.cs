@@ -68,7 +68,6 @@ public static partial class Hooks
             PearlcatData.Add(player, playerModule);
 
             playerModule.LoadSaveData(player);
-            playerModule.PickObjectAnimation(player);
         }
 
         return true;

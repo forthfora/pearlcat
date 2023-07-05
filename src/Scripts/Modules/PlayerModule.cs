@@ -151,6 +151,8 @@ public class PlayerModule
         if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex))
             ActiveObjectIndex = activeObjectIndex;
 
+        PickObjectAnimation(self);
+
         //Plugin.Logger.LogWarning("LOAD SAVE DATA IN PLAYER MODULE");
         //foreach (var a in Inventory)
         //{

@@ -7,12 +7,8 @@ public static partial class Hooks
 {
     public static void ApplyHooks()
     {
-        On.RainWorld.OnModsInit += RainWorld_OnModsInit;
-        On.RainWorld.PostModsInit += RainWorld_PostModsInit;
-
         // Core
         ApplySaveDataHooks();
-        ApplyGameDataHooks();
         ApplyMenuHooks();
 
         // Player
@@ -21,11 +17,17 @@ public static partial class Hooks
         ApplyPlayerObjectDataHooks();
 
         // World
+        ApplyWorldHooks();
         ApplyOracleHooks();
         ApplySoundHooks();
         ApplyWarpHooks();
     }
 
+    public static void ApplyInit()
+    {
+        On.RainWorld.OnModsInit += RainWorld_OnModsInit;
+        On.RainWorld.PostModsInit += RainWorld_PostModsInit;
+    }
 
     public static bool isInit = false;
 
@@ -35,6 +37,8 @@ public static partial class Hooks
         {
             if (isInit) return;
             isInit = true;
+
+            ApplyHooks();
 
             var mod = ModManager.ActiveMods.FirstOrDefault(mod => mod.id == Plugin.MOD_ID);
 
