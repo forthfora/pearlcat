@@ -135,7 +135,7 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (playerModule.Inventory.Count >= PearlcatOptions.MaxPearlCount.Value && !bypassLimit) return;
+        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value && !bypassLimit) return;
         
         self.AddToInventory(abstractObject);
 

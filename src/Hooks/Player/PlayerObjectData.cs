@@ -166,12 +166,15 @@ public static partial class Hooks
         return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
     }
 
-    public static Vector2 GetActiveObjectPos(this Player player)
+    public static Vector2 GetActiveObjectPos(this Player player, Vector2? overrideOffset = null)
     {
-        if (!Hooks.ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
+        if (!ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
             activeObjectOffset = Vector2.zero;
 
-        PlayerGraphics playerGraphics = (PlayerGraphics)player.graphicsModule;
+        if (overrideOffset != null)
+            activeObjectOffset = overrideOffset.Value;
+
+        var playerGraphics = (PlayerGraphics)player.graphicsModule;
 
         Vector2 pos = playerGraphics.head.pos + activeObjectOffset;
         pos.x += player.mainBodyChunk.vel.x * 1.0f;
@@ -207,5 +210,8 @@ public static partial class Hooks
 
         firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, minFricSpeed, maxFricSpeed, minFric, maxFric);
         firstChunk.vel += dir * speed;
+
+        if (dist < 0.1f)
+            firstChunk.pos = targetPos;
     }
 }

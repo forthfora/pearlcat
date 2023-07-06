@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public sealed class PearlcatOptions : OptionsTemplate
+public sealed class ModOptions : OptionsTemplate
 {
-    public static readonly PearlcatOptions Instance = new();
+    public static readonly ModOptions Instance = new();
 
     public readonly Color WarnRed = new(0.85f, 0.35f, 0.4f);
 

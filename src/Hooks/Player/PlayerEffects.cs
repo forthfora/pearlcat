@@ -50,7 +50,7 @@ public static partial class Hooks
         var stats = self.slugcatStats;
         var baseStats = playerModule.BaseStats;
     
-        if (PearlcatOptions.DisableMinorEffects.Value)
+        if (ModOptions.DisableMinorEffects.Value)
         {
             if (!self.Malnourished)
             {
@@ -74,7 +74,7 @@ public static partial class Hooks
         }
 
 
-        var visibilityMult = PearlcatOptions.VisibilityMultiplier.Value / 100.0f;
+        var visibilityMult = ModOptions.VisibilityMultiplier.Value / 100.0f;
 
         stats.loudnessFac = baseStats.loudnessFac * visibilityMult;
         stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode * visibilityMult;
@@ -91,14 +91,14 @@ public static partial class Hooks
 
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (PearlcatOptions.DisableSpear.Value) return;
+        if (ModOptions.DisableSpear.Value) return;
 
         if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION) return;
     }
 
     public static void UpdateAgility(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (PearlcatOptions.DisableAgility.Value) return;
+        if (ModOptions.DisableAgility.Value) return;
 
 
         if (playerModule.AgilityTimer > 0)
@@ -186,21 +186,21 @@ public static partial class Hooks
     
     public static void UpdateRevive(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (PearlcatOptions.DisableRevive.Value) return;
+        if (ModOptions.DisableRevive.Value) return;
     }
     
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (PearlcatOptions.DisableShield.Value) return;
+        if (ModOptions.DisableShield.Value) return;
     }
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (PearlcatOptions.DisableRage.Value) return;
+        if (ModOptions.DisableRage.Value) return;
     }
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (PearlcatOptions.DisableCamoflague.Value) return;
+        if (ModOptions.DisableCamoflague.Value) return;
     }
 }

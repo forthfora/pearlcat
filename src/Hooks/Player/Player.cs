@@ -324,19 +324,20 @@ public static partial class Hooks
 
     private static void UpdatePlayerOA(Player self, PlayerModule playerModule)
     {
-        if (playerModule.CurrentObjectAnimation is FreeFallOA)
-        {
-            if (self.bodyMode != Player.BodyModeIndex.Stunned && self.bodyMode != Player.BodyModeIndex.Dead && !self.Sleeping)
-            {
-                foreach (var abstractObject in playerModule.Inventory)
-                    abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
-
-                playerModule.PickObjectAnimation(self);
-            }
-        }
-        else if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead || self.Sleeping)
+        if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
         {
             playerModule.CurrentObjectAnimation = new FreeFallOA(self);
+        }
+        else if (self.Sleeping || self.sleepCurlUp > 0.0f)
+        {
+            playerModule.CurrentObjectAnimation = new SleepOA(self);
+        }
+        else if (playerModule.CurrentObjectAnimation is SleepOA or FreeFallOA)
+        {
+            foreach (var abstractObject in playerModule.Inventory)
+                abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
+
+            playerModule.PickObjectAnimation(self);
         }
 
         if (playerModule.ObjectAnimationTimer > playerModule.ObjectAnimationDuration)

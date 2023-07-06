@@ -8,15 +8,15 @@ public static partial class Hooks
     {
         var input = playerModule.UnblockedInput;
 
-        if (!PearlcatOptions.UsesCustomStoreKeybind.Value)
+        if (!ModOptions.UsesCustomStoreKeybind.Value)
             return input.y == 1.0f && input.pckp && !input.jmp;
 
         return player.playerState.playerNumber switch
         {
-            0 => Input.GetKey(PearlcatOptions.StoreKeybindPlayer1.Value) || Input.GetKey(PearlcatOptions.StoreKeybindKeyboard.Value),
-            1 => Input.GetKey(PearlcatOptions.StoreKeybindPlayer2.Value),
-            2 => Input.GetKey(PearlcatOptions.StoreKeybindPlayer3.Value),
-            3 => Input.GetKey(PearlcatOptions.StoreKeybindPlayer4.Value),
+            0 => Input.GetKey(ModOptions.StoreKeybindPlayer1.Value) || Input.GetKey(ModOptions.StoreKeybindKeyboard.Value),
+            1 => Input.GetKey(ModOptions.StoreKeybindPlayer2.Value),
+            2 => Input.GetKey(ModOptions.StoreKeybindPlayer3.Value),
+            3 => Input.GetKey(ModOptions.StoreKeybindPlayer4.Value),
 
             _ => false
         };
@@ -26,15 +26,15 @@ public static partial class Hooks
     {
         var input = playerModule.UnblockedInput;
 
-        if (!PearlcatOptions.UsesCustomAbilityKeybind.Value)
+        if (!ModOptions.UsesCustomAbilityKeybind.Value)
             return input.jmp && input.pckp;
 
         return player.playerState.playerNumber switch
         {
-            0 => Input.GetKey(PearlcatOptions.AbilityKeybindPlayer1.Value) || Input.GetKey(PearlcatOptions.AbilityKeybindKeyboard.Value),
-            1 => Input.GetKey(PearlcatOptions.AbilityKeybindPlayer2.Value),
-            2 => Input.GetKey(PearlcatOptions.AbilityKeybindPlayer3.Value),
-            3 => Input.GetKey(PearlcatOptions.AbilityKeybindPlayer4.Value),
+            0 => Input.GetKey(ModOptions.AbilityKeybindPlayer1.Value) || Input.GetKey(ModOptions.AbilityKeybindKeyboard.Value),
+            1 => Input.GetKey(ModOptions.AbilityKeybindPlayer2.Value),
+            2 => Input.GetKey(ModOptions.AbilityKeybindPlayer3.Value),
+            3 => Input.GetKey(ModOptions.AbilityKeybindPlayer4.Value),
 
             _ => false
         };
@@ -44,10 +44,10 @@ public static partial class Hooks
     {
         return player.playerState.playerNumber switch
         {
-            0 => Input.GetKey(PearlcatOptions.SwapKeybindPlayer1.Value) || Input.GetKey(PearlcatOptions.SwapKeybindKeyboard.Value),
-            1 => Input.GetKey(PearlcatOptions.SwapKeybindPlayer2.Value),
-            2 => Input.GetKey(PearlcatOptions.SwapKeybindPlayer3.Value),
-            3 => Input.GetKey(PearlcatOptions.SwapKeybindPlayer4.Value),
+            0 => Input.GetKey(ModOptions.SwapKeybindPlayer1.Value) || Input.GetKey(ModOptions.SwapKeybindKeyboard.Value),
+            1 => Input.GetKey(ModOptions.SwapKeybindPlayer2.Value),
+            2 => Input.GetKey(ModOptions.SwapKeybindPlayer3.Value),
+            3 => Input.GetKey(ModOptions.SwapKeybindPlayer4.Value),
 
             _ => false
         };
@@ -66,10 +66,10 @@ public static partial class Hooks
     }
 
     public static bool IsSwapLeftInput(this Player player)
-        => Input.GetKey(PearlcatOptions.SwapLeftKeybind.Value)
-        || (Input.GetAxis("DschockHorizontalLeft") > 0.5f && player.playerState.playerNumber == PearlcatOptions.SwapTriggerPlayer.Value);
+        => Input.GetKey(ModOptions.SwapLeftKeybind.Value)
+        || (Input.GetAxis("DschockHorizontalLeft") > 0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value);
 
     public static bool IsSwapRightInput(this Player player)
-        => Input.GetKey(PearlcatOptions.SwapRightKeybind.Value)
-        || (Input.GetAxis("DschockHorizontalRight") > 0.5f && player.playerState.playerNumber == PearlcatOptions.SwapTriggerPlayer.Value);
+        => Input.GetKey(ModOptions.SwapRightKeybind.Value)
+        || (Input.GetAxis("DschockHorizontalRight") > 0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value);
 }

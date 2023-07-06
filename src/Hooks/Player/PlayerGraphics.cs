@@ -48,7 +48,7 @@ public static partial class Hooks
         playerModule.InitColors(self);
         playerModule.InitSounds(self.player);
 
-        if (PearlcatOptions.DisableCosmetics.Value) return;
+        if (ModOptions.DisableCosmetics.Value) return;
 
         playerModule.FirstSprite = sLeaser.sprites.Length;
         int spriteIndex = playerModule.FirstSprite;
@@ -113,7 +113,7 @@ public static partial class Hooks
     {
         orig(self, sLeaser, rCam, newContatiner);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule) || PearlcatOptions.DisableCosmetics.Value) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule) || ModOptions.DisableCosmetics.Value) return;
 
         if (playerModule.FirstSprite <= 0 || sLeaser.sprites.Length < playerModule.LastSprite) return;
 
@@ -125,7 +125,7 @@ public static partial class Hooks
     {
         orig(self);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule) || PearlcatOptions.DisableCosmetics.Value) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule) || ModOptions.DisableCosmetics.Value) return;
 
 
         if (playerModule.earL == null || playerModule.earR == null) return;
@@ -156,7 +156,7 @@ public static partial class Hooks
 
         UpdateLightSource(self, playerModule);
 
-        if (PearlcatOptions.DisableCosmetics.Value) return;
+        if (ModOptions.DisableCosmetics.Value) return;
 
 
         UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveLSprite);
@@ -556,7 +556,7 @@ public static partial class Hooks
     {
         orig(self);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule) || PearlcatOptions.DisableCosmetics.Value) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule) || ModOptions.DisableCosmetics.Value) return;
 
 
         ApplyTailMovement(self);

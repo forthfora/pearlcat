@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -10,7 +11,9 @@ public partial class Hooks
         On.RegionState.AdaptRegionStateToWorld += RegionState_AdaptRegionStateToWorld;
 
         On.Room.Loaded += Room_Loaded;
+        On.Room.Update += Room_Update;
     }
+
 
     public static List<string> TrainViewRooms = new()
     {
@@ -22,7 +25,19 @@ public partial class Hooks
         orig(self);
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
+        {
             self.AddObject(new TrainView(self));
+        }
+    }
+
+    private static void Room_Update(On.Room.orig_Update orig, Room self)
+    {
+        orig(self);
+
+        if (TrainViewRooms.Contains(self.roomSettings.name))
+        {
+            self.game.cameras[0].ScreenMovement(null, Vector2.right * 3.0f, 0.15f);
+        }
     }
 
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)

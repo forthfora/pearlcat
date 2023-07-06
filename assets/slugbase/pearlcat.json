@@ -5,7 +5,7 @@
     "features": {
         "color": "122626",
         "world_state": "Artificer",
-        "start_room": "SS_S04",
+        "start_room": "T1_END",
         "auto_grab_batflies": false,
 
         "food_min": 3,
