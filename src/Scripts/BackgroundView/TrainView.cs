@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Reflection;
 using UnityEngine;
-using static Pearlcat.MovingBackgroundElement;
+using static Pearlcat.BackgroundElement;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;
@@ -12,8 +11,10 @@ public class TrainView : BackgroundScene
     public Simple2DBackgroundIllustration DuskSky { get; set; }
     public Fog Fog { get; set; }
 
-    public readonly int[] BkgElemmentTimers;
+    public bool IsInit { get; private set; } = false;
 
+    public readonly int[] BgElementTimers;
+    public readonly int[] BgElementCounters;
 
     public TrainView(Room room) : base(room)
     {
@@ -35,63 +36,91 @@ public class TrainView : BackgroundScene
         };
         AddElement(Fog);
 
-        BkgElemmentTimers = new int[(int)BgElementType.END];
+        var count = (int)BgElementType.END;
+        BgElementTimers = new int[count];
+        BgElementCounters = new int[count];
 
-        for (int i = 0; i < BkgElemmentTimers.Length; i++)
+        for (int i = 0; i < BgElementTimers.Length; i++)
         {
             var type = (BgElementType)i;
 
-            BkgElemmentTimers[i] = type switch
+            // initial spawn time
+            BgElementTimers[i] = type switch
             {
-                BgElementType.VeryCloseCan => Random.Range(0, 120),
-                BgElementType.CloseCan => Random.Range(200, 400),
-                BgElementType.MediumCan => Random.Range(800, 1200),
-                BgElementType.MediumFarCan => Random.Range(400, 1000),
-                BgElementType.FarCan => Random.Range(0, 200),
-                BgElementType.VeryFarCan => Random.Range(400, 1500),
+                BgElementType.VeryCloseCan => 0,
+                BgElementType.CloseCan => 500,
+                BgElementType.MediumCan => 1000,
+                BgElementType.MediumFarCan => 3000,
+                BgElementType.FarCan => 5000,
+                BgElementType.VeryFarCan => 3000,
 
                 BgElementType.FgSupport => 0,
                 BgElementType.BgSupport => 3,
 
-                _ => 0,
+                BgElementType.CloseCloud => 0,
+
+                _ => -1,
             };
-       }
+        }
+
+        var element = new BackgroundElement(this, new(500.0f, 500.0f), BgElementType.FlyingCloud, 0);
+        AddElement(element);
     }
 
     public override void Update(bool eu)
     {
         base.Update(eu);
 
-        for (int i = 0; i < BkgElemmentTimers.Length; i++)
+        // somehow this works flawlessly, not complaining
+        if (!IsInit)
         {
-            int timer = BkgElemmentTimers[i];
-            
-            if (timer <= 0)
+            IsInit = true;
+
+            for (int i = 0; i < 6000; i++)
             {
-                BgElementType type = (BgElementType)i;
+                Update(false);
 
-                BkgElemmentTimers[i] = type switch
-                {
-                    BgElementType.VeryCloseCan => Random.Range(2000, 4000),
-                    BgElementType.CloseCan => Random.Range(4500, 6000),
-                    BgElementType.MediumCan => Random.Range(4000, 5000),
-                    BgElementType.MediumFarCan => Random.Range(5000, 6000),
-                    BgElementType.FarCan => Random.Range(7000, 9000),
-                    BgElementType.VeryFarCan => Random.Range(8000, 10000),
+                foreach (var element in elements)
+                    element.Update(false);
+            }
+        }
 
-                    BgElementType.FgSupport => 120,
-                    BgElementType.BgSupport => 120,
-
-                    _ => 0,
-                };
-                TryAddIteratorCan(type);
+        for (int i = 0; i < BgElementTimers.Length; i++)
+        {
+            int timer = BgElementTimers[i];
+            
+            if (timer == 0)
+            {
+                var type = (BgElementType)i;
+                BgElementTimers[i] = SetSpawnTime(type);
+                AddBgElement(type);
             }
 
-            BkgElemmentTimers[i]--;
+            BgElementTimers[i]--;
         }
     }
 
-    public void TryAddIteratorCan(BgElementType type)
+    public int SetSpawnTime(BgElementType type)
+    {
+        return type switch
+        {
+            BgElementType.VeryCloseCan => Random.Range(3000, 6000),
+            BgElementType.CloseCan => Random.Range(5000, 10000),
+            BgElementType.MediumCan => Random.Range(6000, 8000),
+            BgElementType.MediumFarCan => Random.Range(4000, 9000),
+            BgElementType.FarCan => Random.Range(9000, 12000),
+            BgElementType.VeryFarCan => Random.Range(12000, 15000),
+
+            BgElementType.FgSupport => 120,
+            BgElementType.BgSupport => 120,
+
+            BgElementType.CloseCloud => 120,
+
+            _ => -1,
+        };
+    }
+
+    public void AddBgElement(BgElementType type)
     {
         var spriteName = type switch
         {
@@ -104,6 +133,8 @@ public class TrainView : BackgroundScene
            
             BgElementType.FgSupport => "pearlcat_support",
             BgElementType.BgSupport => "pearlcat_support",
+
+            BgElementType.FlyingCloud => "pearlcat_flyingcloud",
 
             _ => "pearlcat_structure1",
         };
@@ -120,6 +151,9 @@ public class TrainView : BackgroundScene
             BgElementType.BgSupport => 500.0f,
             BgElementType.FgSupport => 500.0f,
 
+            BgElementType.CloseCloud => 2.0f,
+            BgElementType.FlyingCloud => 2.0f,
+
             _ => 0.0f,
         };
 
@@ -135,23 +169,27 @@ public class TrainView : BackgroundScene
             BgElementType.BgSupport => 389.0f,
             BgElementType.FgSupport => 389.0f,
 
+            BgElementType.CloseCloud => 100.0f,
+            BgElementType.FlyingCloud => 400.0f,
+
             _ => 0.0f,
         };
 
         var xPos = type switch
         {
-            BgElementType.BgSupport => -200.0f,
-            BgElementType.FgSupport => -200.0f,
+            BgElementType.CloseCloud => -3000.0f,
+            BgElementType.FlyingCloud => -3000.0f,
 
             _ => -100.0f,
         };
 
-        var test = new MovingBackgroundElement(this, spriteName, new(xPos, yPos), type)
+        var index = BgElementCounters[(int)type]++;
+        var element = new BackgroundElement(this, new(xPos, yPos), type, index)
         {
             Vel = Vector2.right * vel,
         };
 
-        AddElement(test);
-        room.AddObject(test);
+        AddElement(element);
+        room.AddObject(element);
     }
 }

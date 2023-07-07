@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using RWCustom;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -13,7 +17,6 @@ public partial class Hooks
         On.Room.Loaded += Room_Loaded;
         On.Room.Update += Room_Update;
     }
-
 
     public static List<string> TrainViewRooms = new()
     {

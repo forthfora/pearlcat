@@ -105,10 +105,10 @@ public static class AssetLoader
     {
         byte[] fileData = File.ReadAllBytes(filePath);
 
-        Texture2D texture = new(2, 2, TextureFormat.ARGB32, false)
+        Texture2D texture = new(0, 0, TextureFormat.ARGB32, false)
         {
-            anisoLevel = 1,
-            filterMode = FilterMode.Point
+            anisoLevel = 0,
+            filterMode = FilterMode.Point,
         };
 
         if (!texture.LoadImage(fileData))
