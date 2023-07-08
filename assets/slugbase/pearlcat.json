@@ -104,6 +104,8 @@
 
         "swap_repeat_interval": 5,
 
-        "store_object_delay": 30
+        "store_object_delay": 30,
+
+        "train_view_yshift": 11000.0
     }
 }

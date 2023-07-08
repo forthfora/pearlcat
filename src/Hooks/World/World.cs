@@ -21,6 +21,7 @@ public partial class Hooks
     public static List<string> TrainViewRooms = new()
     {
         "T1_END",
+        "T1_START",
     };
 
     private static void Room_Loaded(On.Room.orig_Loaded orig, Room self)
@@ -28,9 +29,7 @@ public partial class Hooks
         orig(self);
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
-        {
             self.AddObject(new TrainView(self));
-        }
     }
 
     private static void Room_Update(On.Room.orig_Update orig, Room self)
@@ -39,7 +38,21 @@ public partial class Hooks
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {
-            self.game.cameras[0].ScreenMovement(null, Vector2.right * 3.0f, 0.15f);
+            var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.025f;
+            //self.game.cameras[0].ScreenMovement(null, Vector2.right * 3.0f, intensity);
+        }
+
+        if (self.roomSettings.name == "T1_END")
+        {
+            foreach (var updatable in self.updateList)
+            {
+                if (updatable is not PhysicalObject physicalObject) continue;
+
+                if (physicalObject is not Player player) continue;
+
+                if (player.bodyMode != Player.BodyModeIndex.Crawl)
+                    player.firstChunk.vel.x += player.canJump == 0 ?  1.0f : 0.5f;
+            }
         }
     }
 

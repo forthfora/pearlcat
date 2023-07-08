@@ -15,6 +15,7 @@ public class Fog : BackgroundScene.FullScreenSingleColor
     {
         alpha = Alpha;
         depth = Depth;
+
         base.DrawSprites(sLeaser, rCam, timeStacker, camPos);
     }
 

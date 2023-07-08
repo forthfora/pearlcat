@@ -1,2 +1,4 @@
-OffScreenDen_T1: 96><-15><0><-20><0><
-T1_END: 102><-159><0><-70><0><Transit System
+T1_END: 102><-157.5><0><-70><0><Transit System
+OffScreenDen_t1: 96><-15><0><-20><0><
+T1_START: 753><-153><0><-70><0><Transit System
+Connection: T1_END,T1_START,57,11,7,9,3,2

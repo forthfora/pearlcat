@@ -1,48 +1,67 @@
 ﻿using System.Reflection;
 using UnityEngine;
-using static Pearlcat.BackgroundElement;
+using static Pearlcat.CustomBgElement;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
-public class TrainView : BackgroundScene
+public class TrainView : CustomBgScene
 {
-    public Simple2DBackgroundIllustration DaySky { get; set; }
-    public Simple2DBackgroundIllustration DuskSky { get; set; }
-    public Fog Fog { get; set; }
-
     public bool IsInit { get; private set; } = false;
+    public bool IsOutside { get; private set; } = false;
 
     public readonly int[] BgElementTimers;
-    public readonly int[] BgElementCounters;
 
     public TrainView(Room room) : base(room)
     {
-        DaySky = new(this, "pearlcat_daysky", new(683.0f, 384.0f))
+        IsOutside = room.roomSettings.name == "T1_END";
+
+        var daySky = new Simple2DBackgroundIllustration(this, "pearlcat_daysky", new(683.0f, 384.0f))
         {
             alpha = 0.5f,
         };
-        AddElement(DaySky);
+        AddElement(daySky);
 
-        DuskSky = new(this, "pearlcat_dusksky", new(683.0f, 384.0f))
+        var duskSky = new Simple2DBackgroundIllustration(this, "pearlcat_dusksky", new(683.0f, 384.0f))
         {
             alpha = 0.5f,
         };
-        AddElement(DuskSky);
+        AddElement(duskSky);
 
-        Fog = new(this)
+        var fog = new Fog(this)
         {
-            Alpha = 0.4f,
+            Alpha = 0.3f,
         };
-        AddElement(Fog);
+        AddElement(fog);
+
+        AddElement(new HorizonCloud(this, PosFromDrawPosAtNeutralCamPos(new(0f, 75f), 355f), 355f, 0, 0.35f, 0.5f, 0.9f));
+        AddElement(new HorizonCloud(this, PosFromDrawPosAtNeutralCamPos(new(0f, 43f), 920f), 920f, 0, 0.15f, 0.3f, 0.95f));
+
+        int closeCloudCount = 7;
+        for (int i = 0; i < closeCloudCount; i++)
+        {
+            float cloudDepth = i / (float)(closeCloudCount - 1);
+            AddElement(new CloseCloud(this, Vector2.zero, cloudDepth, i));
+        }
+
+        int distantCloudCount = 11;
+        for (int j = 0; j < distantCloudCount; j++)
+        {
+            float cloudDepth = j / (float)(distantCloudCount - 1);
+            AddElement(new DistantCloud(this, new(0f, -40f * CloudsEndDepth * (1f - cloudDepth)), cloudDepth, j));
+        }
+
+        Shader.SetGlobalVector("_AboveCloudsAtmosphereColor", AtmosphereColor);
+        Shader.SetGlobalVector("_MultiplyColor", Color.white);
+        
 
         var count = (int)BgElementType.END;
         BgElementTimers = new int[count];
-        BgElementCounters = new int[count];
 
         for (int i = 0; i < BgElementTimers.Length; i++)
         {
             var type = (BgElementType)i;
+
 
             // initial spawn time
             BgElementTimers[i] = type switch
@@ -54,22 +73,34 @@ public class TrainView : BackgroundScene
                 BgElementType.FarCan => 5000,
                 BgElementType.VeryFarCan => 3000,
 
-                BgElementType.FgSupport => 0,
+                BgElementType.VeryCloseSpire => 0,
+                BgElementType.CloseSpire => 300,
+                BgElementType.MediumSpire => 0,
+                BgElementType.MediumFarSprie => 900,
+                BgElementType.FarSpire => 1200,
+                BgElementType.VeryFarSpire => 300,
+                BgElementType.FarthestSpire => 600,
+
+                BgElementType.FgSupport => IsOutside ? 0 : -1,
                 BgElementType.BgSupport => 3,
 
-                BgElementType.CloseCloud => 0,
+                BgElementType.VeryCloseCloud => -1,
+                BgElementType.CloseCloud => -1,
+                BgElementType.MediumCloud => -1,
+                BgElementType.MediumFarCloud => -1,
+                BgElementType.FarCloud => -1,
 
                 _ => -1,
             };
         }
-
-        var element = new BackgroundElement(this, new(500.0f, 500.0f), BgElementType.FlyingCloud, 0);
-        AddElement(element);
     }
 
     public override void Update(bool eu)
     {
         base.Update(eu);
+
+        if (Hooks.TrainViewYShift.TryGet(room.world.game, out var trainViewYShift))
+            YShift = trainViewYShift;
 
         // somehow this works flawlessly, not complaining
         if (!IsInit)
@@ -111,10 +142,23 @@ public class TrainView : BackgroundScene
             BgElementType.FarCan => Random.Range(9000, 12000),
             BgElementType.VeryFarCan => Random.Range(12000, 15000),
 
+            BgElementType.VeryCloseSpire => Random.Range(1500, 3000),
+            BgElementType.CloseSpire => Random.Range(2500, 5000),
+            BgElementType.MediumSpire => Random.Range(3000, 4000),
+            BgElementType.MediumFarSprie => Random.Range(2000, 4500),
+            BgElementType.FarSpire => Random.Range(4500, 6000),
+            BgElementType.VeryFarSpire => Random.Range(6000, 7500),
+            BgElementType.FarthestSpire => Random.Range(6000, 7500),
+
             BgElementType.FgSupport => 120,
             BgElementType.BgSupport => 120,
 
-            BgElementType.CloseCloud => 120,
+            BgElementType.VeryCloseCloud => -1,
+            BgElementType.CloseCloud => -1,
+            BgElementType.MediumCloud => -1,
+            BgElementType.MediumFarCloud => -1,
+            BgElementType.FarCloud => -1,
+            BgElementType.VeryFarCloud => -1,
 
             _ => -1,
         };
@@ -130,11 +174,17 @@ public class TrainView : BackgroundScene
             BgElementType.MediumFarCan => "pearlcat_structure4",
             BgElementType.FarCan => "pearlcat_structure5",
             BgElementType.VeryFarCan => "pearlcat_structure6",
-           
+
+            BgElementType.VeryCloseSpire => "pearlcat_spire1",
+            BgElementType.CloseSpire => "pearlcat_spire2",
+            BgElementType.MediumSpire => "pearlcat_spire3",
+            BgElementType.MediumFarSprie => "pearlcat_spire4",
+            BgElementType.FarSpire => "pearlcat_spire5",
+            BgElementType.VeryFarSpire => "pearlcat_spire8",
+            BgElementType.FarthestSpire => "pearlcat_spire9",
+
             BgElementType.FgSupport => "pearlcat_support",
             BgElementType.BgSupport => "pearlcat_support",
-
-            BgElementType.FlyingCloud => "pearlcat_flyingcloud",
 
             _ => "pearlcat_structure1",
         };
@@ -148,11 +198,16 @@ public class TrainView : BackgroundScene
             BgElementType.FarCan => 0.2f,
             BgElementType.VeryFarCan => 0.2f,
 
-            BgElementType.BgSupport => 500.0f,
-            BgElementType.FgSupport => 500.0f,
+            BgElementType.VeryCloseSpire => 0.4f,
+            BgElementType.CloseSpire => 0.35f,
+            BgElementType.MediumSpire => 0.25f,
+            BgElementType.MediumFarSprie => 0.2f,
+            BgElementType.FarSpire => 0.2f,
+            BgElementType.VeryFarSpire => 0.2f,
+            BgElementType.FarthestSpire => 0.2f,
 
-            BgElementType.CloseCloud => 2.0f,
-            BgElementType.FlyingCloud => 2.0f,
+            BgElementType.BgSupport => IsOutside ? 500.0f : 200.0f,
+            BgElementType.FgSupport => IsOutside ? 500.0f : 200.0f,
 
             _ => 0.0f,
         };
@@ -166,30 +221,28 @@ public class TrainView : BackgroundScene
             BgElementType.FarCan => 485.0f,
             BgElementType.VeryFarCan => 485.0f,
 
+            BgElementType.VeryCloseSpire => 450.0f,
+            BgElementType.CloseSpire => 465.0f,
+            BgElementType.MediumSpire => 475.0f,
+            BgElementType.MediumFarSprie => 480.0f,
+            BgElementType.FarSpire => 485.0f,
+            BgElementType.VeryFarSpire => 485.0f,
+            BgElementType.FarthestSpire => 485.0f,
+
             BgElementType.BgSupport => 389.0f,
             BgElementType.FgSupport => 389.0f,
-
-            BgElementType.CloseCloud => 100.0f,
-            BgElementType.FlyingCloud => 400.0f,
 
             _ => 0.0f,
         };
 
-        var xPos = type switch
-        {
-            BgElementType.CloseCloud => -3000.0f,
-            BgElementType.FlyingCloud => -3000.0f,
+        var xPos = -100.0f;
 
-            _ => -100.0f,
-        };
+        //var element = new CustomBgElement(this, spriteName, new(xPos, yPos), type, index)
+        //{
+        //    Vel = Vector2.right * vel,
+        //};
 
-        var index = BgElementCounters[(int)type]++;
-        var element = new BackgroundElement(this, new(xPos, yPos), type, index)
-        {
-            Vel = Vector2.right * vel,
-        };
-
-        AddElement(element);
-        room.AddObject(element);
+        //AddElement(element);
+        //room.AddObject(element);
     }
 }
