@@ -19,9 +19,5 @@ public class Fog : BackgroundScene.FullScreenSingleColor
         base.DrawSprites(sLeaser, rCam, timeStacker, camPos);
     }
 
-    public override void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
-    {
-        color = palette.skyColor;
-        base.ApplyPalette(sLeaser, rCam, palette);
-    }
+    public override void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) => color = palette.skyColor;
 }

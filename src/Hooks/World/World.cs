@@ -38,8 +38,12 @@ public partial class Hooks
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {
-            var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.025f;
-            //self.game.cameras[0].ScreenMovement(null, Vector2.right * 3.0f, intensity);
+            var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.05f;
+            self.ScreenMovement(null, Vector2.right * 3.0f, intensity);
+        }
+        else
+        {
+            Shader.SetGlobalFloat("_windDir", ModManager.MSC ? -1f : 1f);
         }
 
         if (self.roomSettings.name == "T1_END")

@@ -5,53 +5,70 @@ namespace Pearlcat;
 
 public class DistantCloud : Cloud
 {
-    public DistantCloud(CustomBgScene scene, Vector2 pos, float depth, int index) : base(scene, pos, depth, index)
+    public float DistantCloudDepth { get; private set; }
+
+    public DistantCloud(CustomBgScene scene, Vector2 pos, float depth, int index) : base(scene, pos, scene.DepthFromDistantCloud(depth), index)
     {
+        DistantCloudDepth = depth;
     }
 
     public override void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
-        base.InitiateSprites(sLeaser, rCam);
+        sLeaser.sprites = new FSprite[2];
 
-        CloudSprite = sLeaser.sprites[1];
+        sLeaser.sprites[0] = new FSprite("pixel", true)
+        {
+            shader = rCam.game.rainWorld.Shaders["Background"],
+            anchorY = 0f,
+            scaleX = 1400f,
+            x = 683f,
+            y = 0f,
 
-        var shaders = rCam.game.rainWorld.Shaders;
-        CloudSprite.shader = shaders["CloudDistant"];
+        };
+
+        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString(), true)
+        {
+            shader = rCam.game.rainWorld.Shaders["CloudDistant"],
+            anchorY = 1f
+        };
 
         AddToContainer(sLeaser, rCam, null!);
     }
 
     public override void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        base.DrawSprites(sLeaser, rCam, timeStacker, camPos);
+        var firstSprite = sLeaser.sprites[0];
+        var cloudSprite = sLeaser.sprites[1];
 
         float value = scene.RoomToWorldPos(rCam.room.cameraPositions[rCam.currentCameraPosition]).y + Scene.YShift;
         
         if (Mathf.InverseLerp(Scene.StartAltitude, Scene.EndAltitude, value) < 0.33f)
         {
-            CloudSprite.isVisible = false;
-            FirstSprite.isVisible = false;
+            cloudSprite.isVisible = false;
+            firstSprite.isVisible = false;
             return;
         }
         
-        CloudSprite.isVisible = true;
-        FirstSprite.isVisible = true;
+        cloudSprite.isVisible = true;
+        firstSprite.isVisible = true;
         
         float posY = DrawPos(new Vector2(camPos.x, camPos.y + Scene.YShift), rCam.hDisplace).y;
 
         float scaleX = 2f;
-        float scaleY = Mathf.Lerp(0.3f, 0.01f, CloudDepth);
+        float scaleY = Mathf.Lerp(0.3f, 0.01f, DistantCloudDepth);
 
         if (Index == 8)
             scaleY *= 1.5f;
         
-        CloudSprite.scaleY = scaleY * scaleX;
-        CloudSprite.scaleX = scaleX;
-        CloudSprite.color = new Color(Mathf.Lerp(0.75f, 0.95f, CloudDepth), RandomOffset, Mathf.Lerp(scaleY, 1f, 0.5f), 1f);
-        CloudSprite.x = 683f;
-        CloudSprite.y = posY;
+        cloudSprite.scaleY = scaleY * scaleX;
+        cloudSprite.scaleX = scaleX;
+        cloudSprite.color = new Color(Mathf.Lerp(0.75f, 0.95f, DistantCloudDepth), RandomOffset, Mathf.Lerp(scaleY, 1f, 0.5f), 1f);
+        cloudSprite.x = 683f;
+        cloudSprite.y = posY;
 
-        FirstSprite.scaleY = posY - 150f * scaleX * scaleY;
-        FirstSprite.color = Color.Lerp(SkyColor, Scene.AtmosphereColor, Mathf.Lerp(0.75f, 0.95f, CloudDepth));
+        firstSprite.scaleY = posY - 150f * scaleX * scaleY;
+        firstSprite.color = Color.Lerp(SkyColor, Scene.AtmosphereColor, Mathf.Lerp(0.75f, 0.95f, DistantCloudDepth));
+     
+        base.DrawSprites(sLeaser, rCam, timeStacker, camPos);
     }
 }

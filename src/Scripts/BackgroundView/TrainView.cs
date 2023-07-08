@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using RWCustom;
+using System;
+using System.Reflection;
 using UnityEngine;
 using static Pearlcat.CustomBgElement;
 using Random = UnityEngine.Random;
@@ -15,6 +17,11 @@ public class TrainView : CustomBgScene
     public TrainView(Room room) : base(room)
     {
         IsOutside = room.roomSettings.name == "T1_END";
+
+        float effectAmount = 10000f - 30000f;
+        sceneOrigo = new Vector2(2514f, effectAmount);
+        StartAltitude = effectAmount - 5500f;
+        EndAltitude = effectAmount + 5500f;
 
         var daySky = new Simple2DBackgroundIllustration(this, "pearlcat_daysky", new(683.0f, 384.0f))
         {
@@ -34,15 +41,9 @@ public class TrainView : CustomBgScene
         };
         AddElement(fog);
 
+
         AddElement(new HorizonCloud(this, PosFromDrawPosAtNeutralCamPos(new(0f, 75f), 355f), 355f, 0, 0.35f, 0.5f, 0.9f));
         AddElement(new HorizonCloud(this, PosFromDrawPosAtNeutralCamPos(new(0f, 43f), 920f), 920f, 0, 0.15f, 0.3f, 0.95f));
-
-        int closeCloudCount = 7;
-        for (int i = 0; i < closeCloudCount; i++)
-        {
-            float cloudDepth = i / (float)(closeCloudCount - 1);
-            AddElement(new CloseCloud(this, Vector2.zero, cloudDepth, i));
-        }
 
         int distantCloudCount = 11;
         for (int j = 0; j < distantCloudCount; j++)
@@ -51,9 +52,18 @@ public class TrainView : CustomBgScene
             AddElement(new DistantCloud(this, new(0f, -40f * CloudsEndDepth * (1f - cloudDepth)), cloudDepth, j));
         }
 
+        int closeCloudCount = 7;
+        for (int i = 0; i < closeCloudCount; i++)
+        {
+            float cloudDepth = i / (float)(closeCloudCount - 1);
+            AddElement(new CloseCloud(this, Vector2.zero, cloudDepth, i));
+        }
+
         Shader.SetGlobalVector("_AboveCloudsAtmosphereColor", AtmosphereColor);
         Shader.SetGlobalVector("_MultiplyColor", Color.white);
         
+        // thank god for this global
+        Shader.SetGlobalFloat("_windDir", 10.0f);
 
         var count = (int)BgElementType.END;
         BgElementTimers = new int[count];
@@ -119,7 +129,7 @@ public class TrainView : CustomBgScene
         for (int i = 0; i < BgElementTimers.Length; i++)
         {
             int timer = BgElementTimers[i];
-            
+
             if (timer == 0)
             {
                 var type = (BgElementType)i;
@@ -214,35 +224,71 @@ public class TrainView : CustomBgScene
 
         var yPos = type switch
         {
-            BgElementType.VeryCloseCan => 450.0f,
-            BgElementType.CloseCan => 465.0f,
-            BgElementType.MediumCan => 475.0f,
-            BgElementType.MediumFarCan => 480.0f,
-            BgElementType.FarCan => 485.0f,
-            BgElementType.VeryFarCan => 485.0f,
+            BgElementType.VeryCloseCan => 300.0f,
+            BgElementType.CloseCan => 350.0f,
+            BgElementType.MediumCan => 400.0f,
+            BgElementType.MediumFarCan => 500.0f,
+            BgElementType.FarCan => 520.0f,
+            BgElementType.VeryFarCan => 520.0f,
 
-            BgElementType.VeryCloseSpire => 450.0f,
-            BgElementType.CloseSpire => 465.0f,
-            BgElementType.MediumSpire => 475.0f,
-            BgElementType.MediumFarSprie => 480.0f,
-            BgElementType.FarSpire => 485.0f,
-            BgElementType.VeryFarSpire => 485.0f,
-            BgElementType.FarthestSpire => 485.0f,
+            BgElementType.VeryCloseSpire => 300.0f,
+            BgElementType.CloseSpire => 350.0f,
+            BgElementType.MediumSpire => 400.0f,
+            BgElementType.MediumFarSprie => 450.0f,
+            BgElementType.FarSpire => 520.0f,
+            BgElementType.VeryFarSpire => 520.0f,
+            BgElementType.FarthestSpire => 520.0f,
 
-            BgElementType.BgSupport => 389.0f,
-            BgElementType.FgSupport => 389.0f,
+            BgElementType.BgSupport => 100.0f,
+            BgElementType.FgSupport => 100.0f,
+
+            _ => 0.0f,
+        };
+
+        var depth = type switch
+        {
+            BgElementType.VeryCloseCan => 160.0f,
+            BgElementType.CloseCan => 350.0f,
+            BgElementType.MediumCan => 600.0f,
+            BgElementType.MediumFarCan => 800.0f,
+            BgElementType.FarCan => 850.0f,
+            BgElementType.VeryFarCan => 900.0f,
+
+            BgElementType.VeryCloseSpire => 160.0f,
+            BgElementType.CloseSpire => 350.0f,
+            BgElementType.MediumSpire => 600.0f,
+            BgElementType.MediumFarSprie => 800.0f,
+            BgElementType.FarSpire => 850.0f,
+            BgElementType.VeryFarSpire => 900.0f,
+            BgElementType.FarthestSpire => 900.0f,
+
+            BgElementType.BgSupport => 0.0f,
+            BgElementType.FgSupport => 0.0f,
 
             _ => 0.0f,
         };
 
         var xPos = -100.0f;
 
-        //var element = new CustomBgElement(this, spriteName, new(xPos, yPos), type, index)
-        //{
-        //    Vel = Vector2.right * vel,
-        //};
+        var newElement = new BgBuilding(this, spriteName, new(xPos, yPos), depth, depth * -0.3f, type)
+        {
+            Vel = Vector2.right * vel,
+        };
 
-        //AddElement(element);
-        //room.AddObject(element);
+        AddElement(newElement);
+        room.AddObject(newElement);
+
+        for (int i = 0; i < room.drawableObjects.Count; i++)
+        {
+            var drawable = room.drawableObjects[i];
+
+            if (drawable is not CustomBgElement existingElement) continue;
+
+            if (existingElement.depth < depth) continue;
+
+            room.drawableObjects.Remove(drawable);
+            room.drawableObjects.Insert(i, drawable);
+            break;
+        }
     }
 }

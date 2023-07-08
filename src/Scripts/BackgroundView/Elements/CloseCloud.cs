@@ -5,16 +5,42 @@ namespace Pearlcat;
 
 public class CloseCloud : Cloud
 {
-    public CloseCloud(CustomBgScene scene, Vector2 pos, float depth, int index) : base(scene, pos, depth, index)
+    public float CloudDepth { get; private set; }
+
+    public CloseCloud(CustomBgScene scene, Vector2 pos, float depth, int index) : base(scene, pos, scene.DepthFromCloud(depth), index)
     {
+        CloudDepth = depth;
+    }
+
+    public override void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    {
+        sLeaser.sprites = new FSprite[2];
+
+        sLeaser.sprites[0] = new FSprite("pixel", true)
+        {
+            shader = rCam.game.rainWorld.Shaders["Background"],
+            anchorY = 0f,
+            scaleX = 1400f,
+            x = 683f,
+            y = 0f,
+
+        };
+        
+        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString(), true)
+        {
+            shader = rCam.game.rainWorld.Shaders["Cloud"],
+            anchorY = 1f
+        };
+        
+        AddToContainer(sLeaser, rCam, null!);
     }
 
     public override void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        base.DrawSprites(sLeaser, rCam, timeStacker, camPos);
+        var firstSprite = sLeaser.sprites[0];
+        var cloudSprite = sLeaser.sprites[1];
 
         float y = scene.RoomToWorldPos(rCam.room.cameraPositions[rCam.currentCameraPosition]).y;
-     
         float alt = Mathf.InverseLerp(Scene.StartAltitude, Scene.EndAltitude, y);
         float cloudDepth = CloudDepth;
 
@@ -31,13 +57,15 @@ public class CloseCloud : Cloud
         
         float scaleY = Mathf.Lerp(1f, Mathf.Lerp(0.75f, 0.25f, alt), cloudDepth);
         
-        CloudSprite.scaleY = scaleY * scaleX;
-        CloudSprite.scaleX = -scaleX;
-        CloudSprite.color = new(cloudDepth * 0.75f * -100.0f, RandomOffset, Mathf.Lerp(scaleY, 1f, 0.5f), 1f);
-        CloudSprite.x = 683f;
-        CloudSprite.y = posY;
+        cloudSprite.scaleY = scaleY * scaleX;
+        cloudSprite.scaleX = scaleX;
+        cloudSprite.color = new(cloudDepth * 0.75f, RandomOffset, Mathf.Lerp(scaleY, 1f, 0.5f), 1f);
+        cloudSprite.x = 683f;
+        cloudSprite.y = posY;
  
-        FirstSprite.color = Color.Lerp(SkyColor, Scene.AtmosphereColor, cloudDepth * 0.75f);
-        FirstSprite.scaleY = posY - 150f * scaleX * scaleY;
+        firstSprite.scaleY = posY - 150f * scaleX * scaleY;
+        firstSprite.color = Color.Lerp(SkyColor, Scene.AtmosphereColor, cloudDepth * 0.75f);
+        
+        base.DrawSprites(sLeaser, rCam, timeStacker, camPos);
     }
 }
