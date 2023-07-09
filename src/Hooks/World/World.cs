@@ -16,12 +16,32 @@ public partial class Hooks
 
         On.Room.Loaded += Room_Loaded;
         On.Room.Update += Room_Update;
+
+        On.RoomSpecificScript.AddRoomSpecificScript += RoomSpecificScript_AddRoomSpecificScript;
+
+        On.ShelterDoor.DrawSprites += ShelterDoor_DrawSprites;
+        On.ShelterDoor.DoorGraphic.DrawSprites += DoorGraphic_DrawSprites;
+    }
+
+    private static void RoomSpecificScript_AddRoomSpecificScript(On.RoomSpecificScript.orig_AddRoomSpecificScript orig, Room room)
+    {
+        orig(room);
+
+        if (room.game.IsStorySession && room.game.GetStorySession.saveState.saveStateNumber == Enums.General.Pearlcat
+            && room.abstractRoom.firstTimeRealized && room.game.GetStorySession.saveState.cycleNumber == 0
+            && room.game.GetStorySession.saveState.denPosition == "T1_START")
+        {
+            room.AddObject(new PearlcatStart(room));
+        }
     }
 
     public static List<string> TrainViewRooms = new()
     {
-        "T1_END",
         "T1_START",
+        "T1_CAR1",
+        "T1_CAREND",
+        "T1_END",
+        "T1_S01",
     };
 
     private static void Room_Loaded(On.Room.orig_Loaded orig, Room self)
@@ -38,7 +58,7 @@ public partial class Hooks
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {
-            var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.05f;
+            var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.1f;
             self.ScreenMovement(null, Vector2.right * 3.0f, intensity);
         }
         else
@@ -58,6 +78,25 @@ public partial class Hooks
                     player.firstChunk.vel.x += player.canJump == 0 ?  1.0f : 0.5f;
             }
         }
+    }
+
+
+    private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (self.myShelter.room.roomSettings.name == "T1_S01")
+            foreach (var sprite in sLeaser.sprites)
+                sprite.isVisible = false;
+    }
+
+    private static void ShelterDoor_DrawSprites(On.ShelterDoor.orig_DrawSprites orig, ShelterDoor self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (self.room.roomSettings.name == "T1_S01")
+            foreach (var sprite in sLeaser.sprites)
+                sprite.isVisible = false;
     }
 
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)

@@ -16,31 +16,17 @@ public abstract class CustomBgElement : BackgroundScene.BackgroundSceneElement
         
         VeryCloseSpire,
         CloseSpire,
-
-        VeryCloseCloud,
         VeryCloseCan,
         MediumSpire,
-        
-        CloseCloud,
         CloseCan,
-        MediumFarSprie,
-        
-        MediumCloud,
+        MediumFarSpire,
         MediumCan,
         MediumFarCan,
-        
         FarSpire,
-        
-        MediumFarCloud,
         FarCan,
         VeryFarSpire,
-        
         VeryFarCan,
-        FarCloud,
         FarthestSpire,
-
-        VeryFarCloud,
-        FlyingCloud,
 
         END,
     }
@@ -48,15 +34,19 @@ public abstract class CustomBgElement : BackgroundScene.BackgroundSceneElement
     public Vector2 Vel { get; set; } = Vector2.zero;
     public Vector2 LastPos { get; set; }
 
+    public float InitialDepth { get; private set; }
+
     public CustomBgElement(CustomBgScene scene, Vector2 pos, float depth, BgElementType type) : base(scene, pos, depth)
     {
         Scene = scene;
         Type = type;
         LastPos = pos;
+
+        InitialDepth = depth;
     }
 
     public override void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {        
+    {
         if (this is not Cloud)
         {
             var currentPos = Vector2.Lerp(LastPos, pos, timeStacker);

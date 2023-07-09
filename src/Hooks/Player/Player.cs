@@ -347,9 +347,12 @@ public static partial class Hooks
         playerModule.ObjectAnimationTimer++;
 
 
-        if (self.room == null) return;
+        if (self.room != null)
+            self.GivePearls(playerModule);
+    }
 
-        // HACK
+    public static void GivePearls(this Player self, PlayerModule playerModule)
+    {
         var save = self.room.game.GetMiscWorld();
 
         if (save.IsNewGame && !playerModule.GivenPearls)
@@ -360,12 +363,13 @@ public static partial class Hooks
             {
                 var types = new List<DataPearlType>()
                 {
-                    MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM,
                     Enums.Pearls.AS_PearlBlack,
                     Enums.Pearls.AS_PearlGreen,
                     Enums.Pearls.AS_PearlYellow,
                     Enums.Pearls.AS_PearlRed,
                     Enums.Pearls.AS_PearlBlue,
+                    MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM,
+
                     DataPearlType.LF_bottom,
                     DataPearlType.SL_chimney,
                     DataPearlType.SL_bridge,
@@ -381,6 +385,7 @@ public static partial class Hooks
                     3 => types[3],
                     4 => types[4],
                     5 => types[5],
+                    
                     6 => types[6],
                     7 => types[7],
                     8 => types[8],

@@ -1,0 +1,10 @@
+Template: NONE
+DangerType: None
+Clouds: 0.7282609
+Grime: 0
+RandomItemDensity: 0
+RandomItemSpearChance: 0
+Palette: 28
+EffectColorA: 13
+EffectColorB: 13
+Effects: Brightness-0.326087-312-174, Contrast-0.4347826-52-150, SkyAndLightBloom-0.1304348-20-20, SunBlock-1-34-72, 

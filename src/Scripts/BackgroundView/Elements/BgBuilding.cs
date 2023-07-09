@@ -23,7 +23,7 @@ public class BgBuilding : CustomBgElement
         sLeaser.sprites[0] = new FSprite(AssetName, true)
         {
             shader = UseNonMultiplyShader ? rCam.game.rainWorld.Shaders["DistantBkgObjectAlpha"] : rCam.game.rainWorld.Shaders["DistantBkgObject"],
-            anchorY = 0f
+            anchorY = 1.0f
         };
 
         AddToContainer(sLeaser, rCam, null!);

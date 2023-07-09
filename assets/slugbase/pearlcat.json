@@ -5,7 +5,7 @@
     "features": {
         "color": "122626",
         "world_state": "Artificer",
-        "start_room": "T1_END",
+        "start_room": "T1_START",
         "auto_grab_batflies": false,
 
         "food_min": 3,
@@ -21,13 +21,12 @@
         "crouch_stealth": [0.1, 0.8],
         "loudness": [1.75, 0.5],
         
-        "karma": 0,
+        "karma": 3,
         "karma_cap": 4,
 
         "the_mark": true,
         "the_glow": true,
         
-        "guide_overseer": 5,
         "has_dreams": false,
         "cycle_length_min": 6,
         "cycle_length_max": 13,

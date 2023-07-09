@@ -61,9 +61,6 @@ public class TrainView : CustomBgScene
 
         Shader.SetGlobalVector("_AboveCloudsAtmosphereColor", AtmosphereColor);
         Shader.SetGlobalVector("_MultiplyColor", Color.white);
-        
-        // thank god for this global
-        Shader.SetGlobalFloat("_windDir", 10.0f);
 
         var count = (int)BgElementType.END;
         BgElementTimers = new int[count];
@@ -86,19 +83,13 @@ public class TrainView : CustomBgScene
                 BgElementType.VeryCloseSpire => 0,
                 BgElementType.CloseSpire => 300,
                 BgElementType.MediumSpire => 0,
-                BgElementType.MediumFarSprie => 900,
+                BgElementType.MediumFarSpire => 900,
                 BgElementType.FarSpire => 1200,
                 BgElementType.VeryFarSpire => 300,
                 BgElementType.FarthestSpire => 600,
 
                 BgElementType.FgSupport => IsOutside ? 0 : -1,
                 BgElementType.BgSupport => 3,
-
-                BgElementType.VeryCloseCloud => -1,
-                BgElementType.CloseCloud => -1,
-                BgElementType.MediumCloud => -1,
-                BgElementType.MediumFarCloud => -1,
-                BgElementType.FarCloud => -1,
 
                 _ => -1,
             };
@@ -108,6 +99,9 @@ public class TrainView : CustomBgScene
     public override void Update(bool eu)
     {
         base.Update(eu);
+
+        // thank god for this global
+        Shader.SetGlobalFloat("_windDir", 7.0f);
 
         if (Hooks.TrainViewYShift.TryGet(room.world.game, out var trainViewYShift))
             YShift = trainViewYShift;
@@ -155,7 +149,7 @@ public class TrainView : CustomBgScene
             BgElementType.VeryCloseSpire => Random.Range(1500, 3000),
             BgElementType.CloseSpire => Random.Range(2500, 5000),
             BgElementType.MediumSpire => Random.Range(3000, 4000),
-            BgElementType.MediumFarSprie => Random.Range(2000, 4500),
+            BgElementType.MediumFarSpire => Random.Range(2000, 4500),
             BgElementType.FarSpire => Random.Range(4500, 6000),
             BgElementType.VeryFarSpire => Random.Range(6000, 7500),
             BgElementType.FarthestSpire => Random.Range(6000, 7500),
@@ -163,19 +157,14 @@ public class TrainView : CustomBgScene
             BgElementType.FgSupport => 120,
             BgElementType.BgSupport => 120,
 
-            BgElementType.VeryCloseCloud => -1,
-            BgElementType.CloseCloud => -1,
-            BgElementType.MediumCloud => -1,
-            BgElementType.MediumFarCloud => -1,
-            BgElementType.FarCloud => -1,
-            BgElementType.VeryFarCloud => -1,
-
             _ => -1,
         };
     }
 
     public void AddBgElement(BgElementType type)
     {
+        if (type == BgElementType.END) return;
+
         var spriteName = type switch
         {
             BgElementType.VeryCloseCan => "pearlcat_structure1",
@@ -188,7 +177,7 @@ public class TrainView : CustomBgScene
             BgElementType.VeryCloseSpire => "pearlcat_spire1",
             BgElementType.CloseSpire => "pearlcat_spire2",
             BgElementType.MediumSpire => "pearlcat_spire3",
-            BgElementType.MediumFarSprie => "pearlcat_spire4",
+            BgElementType.MediumFarSpire => "pearlcat_spire4",
             BgElementType.FarSpire => "pearlcat_spire5",
             BgElementType.VeryFarSpire => "pearlcat_spire8",
             BgElementType.FarthestSpire => "pearlcat_spire9",
@@ -211,7 +200,7 @@ public class TrainView : CustomBgScene
             BgElementType.VeryCloseSpire => 0.4f,
             BgElementType.CloseSpire => 0.35f,
             BgElementType.MediumSpire => 0.25f,
-            BgElementType.MediumFarSprie => 0.2f,
+            BgElementType.MediumFarSpire => 0.2f,
             BgElementType.FarSpire => 0.2f,
             BgElementType.VeryFarSpire => 0.2f,
             BgElementType.FarthestSpire => 0.2f,
@@ -234,7 +223,7 @@ public class TrainView : CustomBgScene
             BgElementType.VeryCloseSpire => 300.0f,
             BgElementType.CloseSpire => 350.0f,
             BgElementType.MediumSpire => 400.0f,
-            BgElementType.MediumFarSprie => 450.0f,
+            BgElementType.MediumFarSpire => 450.0f,
             BgElementType.FarSpire => 520.0f,
             BgElementType.VeryFarSpire => 520.0f,
             BgElementType.FarthestSpire => 520.0f,
@@ -257,7 +246,7 @@ public class TrainView : CustomBgScene
             BgElementType.VeryCloseSpire => 160.0f,
             BgElementType.CloseSpire => 350.0f,
             BgElementType.MediumSpire => 600.0f,
-            BgElementType.MediumFarSprie => 800.0f,
+            BgElementType.MediumFarSpire => 800.0f,
             BgElementType.FarSpire => 850.0f,
             BgElementType.VeryFarSpire => 900.0f,
             BgElementType.FarthestSpire => 900.0f,
@@ -277,18 +266,5 @@ public class TrainView : CustomBgScene
 
         AddElement(newElement);
         room.AddObject(newElement);
-
-        for (int i = 0; i < room.drawableObjects.Count; i++)
-        {
-            var drawable = room.drawableObjects[i];
-
-            if (drawable is not CustomBgElement existingElement) continue;
-
-            if (existingElement.depth < depth) continue;
-
-            room.drawableObjects.Remove(drawable);
-            room.drawableObjects.Insert(i, drawable);
-            break;
-        }
     }
 }
