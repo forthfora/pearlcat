@@ -36,8 +36,10 @@ public class PearlcatStart : UpdatableAndDeletable
             player.sleepCounter = 100;
             CurrentPhase = Phase.End;
 
-            foreach (var item in playerModule.Inventory)
+            for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
             {
+                var item = playerModule.Inventory[i];
+
                 player.RemoveFromInventory(item);
                 item.destroyOnAbstraction = true;
                 item.Abstractize(item.pos);

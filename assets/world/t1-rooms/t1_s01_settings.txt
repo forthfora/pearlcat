@@ -3,8 +3,8 @@ DangerType: None
 Grime: 0
 RandomItemDensity: 0
 RandomItemSpearChance: 0
-Palette: 28
+Palette: 300
 EffectColorA: 13
 EffectColorB: 13
-Effects: SkyAndLightBloom-0.1630435-20-20, SunBlock-1-14-79, Contrast-0.4347826-259-69, Brightness-0.3043478-200-164, 
-PlacedObjects: CustomDecal><292.8879><205.2554><-15~110~161~117~184~31~-355.1383~43.59352~0~1~0.3601555~sleepingdragon~0.964241~0.4594312~0.964241~0.4594312~0.964241~0.4594312~0.964241~0.4594312, 
+Effects: SkyAndLightBloom-0.1630435-20-20, SunBlock-1-14-79, Contrast-0.1521739-259-69, Brightness-0.1521739-200-164, 
+PlacedObjects: CustomDecal><292.8879><205.2554><-15~110~161~117~184~31~-355.1383~43.59352~0.3133203~1~0.3562221~sleepingdragon~0.964241~0.4594312~0.964241~0.4594312~0.964241~0.4594312~0.964241~0.4594312, 
