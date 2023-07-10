@@ -7,7 +7,7 @@ public sealed class ModOptions : OptionsTemplate
 {
     public static readonly ModOptions Instance = new();
 
-    public readonly Color WarnRed = new(0.85f, 0.35f, 0.4f);
+    public static readonly Color WarnRed = new(0.85f, 0.35f, 0.4f);
 
     #region Options
 

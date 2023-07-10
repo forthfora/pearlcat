@@ -26,9 +26,6 @@ public class PlayerModule
     public SlugcatStats NormalStats { get; private set; } = new(Enums.General.Pearlcat, false);
     public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.General.Pearlcat, true);
 
-    public Vector2 AgilityTargetPos { get; set; }
-    public int AgilityTimer { get; set; }
-
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }
 

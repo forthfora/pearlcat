@@ -17,50 +17,42 @@ public static partial class Hooks
         On.DataPearl.Update += DataPearl_Update;
     }
 
-
-    public static readonly ConditionalWeakTable<PhysicalObject, PlayerObjectModule> PlayerObjectData = new();
+    public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectModule> PlayerObjectData { get; } = new();
 
     public static void MarkAsPlayerObject(this PhysicalObject physicalObject)
     {
-        if (PlayerObjectData.TryGetValue(physicalObject, out _)) return;
+        var module = PlayerObjectData.GetValue(physicalObject.abstractPhysicalObject, x => new PlayerObjectModule());
 
-        var playerObjectModule = new PlayerObjectModule()
-        {
-            Gravity = physicalObject.gravity,
+        module.IsCurrentlyStored = true;
+        module.Gravity = physicalObject.gravity;
 
-            CollideWithObjects = physicalObject.CollideWithObjects,
-            CollideWithSlopes = physicalObject.CollideWithSlopes,
-            CollideWithTerrain = physicalObject.CollideWithTerrain,
-        };
+        module.CollideWithObjects = physicalObject.CollideWithObjects;
+        module.CollideWithSlopes = physicalObject.CollideWithSlopes;
+        module.CollideWithTerrain = physicalObject.CollideWithTerrain;
 
         if (physicalObject is DataPearl pearl)
-            playerObjectModule.PearlGlimmerWait = pearl.glimmerWait;
+            module.PearlGlimmerWait = pearl.glimmerWait;
 
         if (physicalObject is Weapon weapon)
-            playerObjectModule.WeaponRotationSpeed = weapon.rotationSpeed;
-
-
-        PlayerObjectData.Add(physicalObject, playerObjectModule);
+            module.WeaponRotationSpeed = weapon.rotationSpeed;
     }
 
     public static void ClearAsPlayerObject(this PhysicalObject physicalObject)
     {
-        if (!PlayerObjectData.TryGetValue(physicalObject, out var playerObjectModule)) return;
+        if (!PlayerObjectData.TryGetValue(physicalObject.abstractPhysicalObject, out var module)) return;
 
-        physicalObject.gravity = playerObjectModule.Gravity;
+        module.IsCurrentlyStored = false;
+        physicalObject.gravity = module.Gravity;
 
-        physicalObject.CollideWithObjects = playerObjectModule.CollideWithObjects;
-        physicalObject.CollideWithSlopes = playerObjectModule.CollideWithSlopes;
-        physicalObject.CollideWithTerrain = playerObjectModule.CollideWithTerrain;
+        physicalObject.CollideWithObjects = module.CollideWithObjects;
+        physicalObject.CollideWithSlopes = module.CollideWithSlopes;
+        physicalObject.CollideWithTerrain = module.CollideWithTerrain;
 
         if (physicalObject is DataPearl pearl)
-            pearl.glimmerWait = playerObjectModule.PearlGlimmerWait;
+            pearl.glimmerWait = module.PearlGlimmerWait;
 
         if (physicalObject is Weapon weapon)
-            weapon.rotationSpeed = playerObjectModule.WeaponRotationSpeed;
-
-
-        PlayerObjectData.Remove(physicalObject);
+            weapon.rotationSpeed = module.WeaponRotationSpeed;
     }
 
 
@@ -79,7 +71,11 @@ public static partial class Hooks
     {        
         orig(self, eu);
 
-        if (!PlayerObjectData.TryGetValue(self, out _)) return;
+        if (!PlayerObjectData.TryGetValue(self.abstractPhysicalObject, out var module)) return;
+
+        module.CooldownTimer--;
+
+        if (!module.IsCurrentlyStored) return;
 
         self.gravity = 0.0f;
 
@@ -95,7 +91,7 @@ public static partial class Hooks
     {
         orig(self, eu);
 
-        if (!PlayerObjectData.TryGetValue(self, out _)) return;
+        if (!PlayerObjectData.TryGetValue(self.abstractPhysicalObject, out var poModule) || !poModule.IsCurrentlyStored) return;
 
         self.CollideWithObjects = false;
         self.CollideWithSlopes = false;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RWCustom;
+using System.Collections.Generic;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
@@ -31,9 +32,8 @@ public abstract class ObjectAnimation
             var abstractObject = playerModule.Inventory[i];
 
             if (abstractObject.realizedObject == null) continue;
-            var realizedObject = abstractObject.realizedObject;
 
-            if (!Hooks.PlayerObjectData.TryGetValue(realizedObject, out var playerObjectModule)) continue;
+            if (!Hooks.PlayerObjectData.TryGetValue(abstractObject, out var playerObjectModule)) continue;
 
             if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out _))
                 new ObjectAddon(abstractObject);
@@ -103,20 +103,40 @@ public abstract class ObjectAnimation
 
             if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
 
+            if (!Hooks.PlayerObjectData.TryGetValue(abstractObject, out var poModule)) continue;
+            
             var effect = abstractObject.GetPOEffect();
             var majorEffect = effect.MajorEffect;
 
+            addon.symbolColor = Hooks.GetObjectColor(abstractObject);
+            
             if (i != playerModule.ActiveObjectIndex)
                 majorEffect = POEffect.MajorEffectType.NONE;
 
+            if (poModule.CooldownTimer > 0)
+            {
+                if (poModule.CooldownTimer == 1)
+                {
+                    abstractObject.realizedObject.room.AddObject(new ShockWave(abstractObject.realizedObject.firstChunk.pos, 10.0f, 1.0f, 5, true));
+                }
+
+                majorEffect = POEffect.MajorEffectType.NONE;
+                addon.drawSymbolCooldown = true;
+
+                var cooldownLerp = Custom.LerpMap(poModule.CooldownTimer, 40, 0, 1.0f, 0.0f);
+                addon.symbolColor = Color.Lerp(addon.symbolColor, new Color(189 / 255.0f, 13 / 255.0f, 0.0f), cooldownLerp);
+            }
+            else
+            {
+                addon.drawSymbolCooldown = false;
+            }
+            
             addon.drawSymbolSpear = majorEffect == POEffect.MajorEffectType.SPEAR_CREATION;
             addon.drawSymbolRage = majorEffect == POEffect.MajorEffectType.RAGE;
             addon.drawSymbolRevive = majorEffect == POEffect.MajorEffectType.REVIVE;
             addon.drawSymbolShield = majorEffect == POEffect.MajorEffectType.SHIELD;
             addon.drawSymbolAgility = majorEffect == POEffect.MajorEffectType.AGILITY;
             addon.drawSymbolCamo = majorEffect == POEffect.MajorEffectType.CAMOFLAGUE;
-
-            addon.symbolColor = Hooks.GetObjectColor(abstractObject);
         }
     }
 

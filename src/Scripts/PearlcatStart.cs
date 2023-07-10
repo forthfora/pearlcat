@@ -36,14 +36,15 @@ public class PearlcatStart : UpdatableAndDeletable
             player.sleepCounter = 100;
             CurrentPhase = Phase.End;
 
-            for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
-            {
-                var item = playerModule.Inventory[i];
+            //// Clear default pearls
+            //for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+            //{
+            //    var item = playerModule.Inventory[i];
 
-                player.RemoveFromInventory(item);
-                item.destroyOnAbstraction = true;
-                item.Abstractize(item.pos);
-            }
+            //    player.RemoveFromInventory(item);
+            //    item.destroyOnAbstraction = true;
+            //    item.Abstractize(item.pos);
+            //}
         }
 
         // I think Slugbase is setting the position after us ?

@@ -19,8 +19,7 @@ public class FreeFallOA : ObjectAnimation
             if (abstractObject.realizedObject == null) continue;
             var realizedObject = abstractObject.realizedObject;
 
-            if (!Hooks.PlayerObjectData.TryGetValue(realizedObject, out var playerObjectModule)) continue;
-
+            if (!Hooks.PlayerObjectData.TryGetValue(realizedObject.abstractPhysicalObject, out var playerObjectModule)) continue;
 
             realizedObject.gravity = 1.0f;
             realizedObject.CollideWithTerrain = true;

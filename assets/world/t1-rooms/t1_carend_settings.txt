@@ -1,6 +1,6 @@
 Template: NONE
 DangerType: None
-Clouds: 0.2934783
+Clouds: 0.326087
 Grime: 0
 RandomItemDensity: 0
 RandomItemSpearChance: 0

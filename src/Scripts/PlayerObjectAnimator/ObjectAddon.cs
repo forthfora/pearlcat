@@ -46,6 +46,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         // Assign Sprite Indexes
         haloSprite = spriteIndex++;
+        symbolSpriteCooldown = spriteIndex++;
 
         symbolSpriteSpear = spriteIndex++;
         symbolSpriteRage = spriteIndex++;
@@ -58,6 +59,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         // Create Sprites
         sLeaser.sprites[haloSprite] = new("LizardBubble6", true);
+        sLeaser.sprites[symbolSpriteCooldown] = new("pearlcat_glpyhcoodlown", true);
 
         sLeaser.sprites[symbolSpriteSpear] = new("BigGlyph2", true);
         sLeaser.sprites[symbolSpriteRage] = new("BigGlyph6", true);
@@ -101,12 +103,16 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public float haloAlpha = 0.5f;
     public Color haloColor = Color.white;
 
+    public bool drawSymbolCooldown;
+
     public bool drawSymbolSpear;
     public bool drawSymbolRage;
     public bool drawSymbolRevive;
     public bool drawSymbolShield;
     public bool drawSymbolAgility;
     public bool drawSymbolCamo;
+
+    public int symbolSpriteCooldown;
 
     public int symbolSpriteSpear;
     public int symbolSpriteRage;
@@ -138,6 +144,13 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         halo.scale = haloScale;
         halo.alpha = haloAlpha;
         halo.color = haloColor;
+
+        var symbolCooldown = sLeaser.sprites[symbolSpriteCooldown];
+        symbolCooldown.SetPosition(parentSprite.GetPosition() + symbolOffset);
+        symbolCooldown.isVisible = drawSymbolCooldown;
+        symbolCooldown.scale = symbolScale;
+        symbolCooldown.alpha = symbolAlpha;
+        symbolCooldown.color = symbolColor;
 
 
         var symbolSpear = sLeaser.sprites[symbolSpriteSpear];

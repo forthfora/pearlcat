@@ -67,9 +67,9 @@ public static partial class Hooks
 
     public static bool IsSwapLeftInput(this Player player)
         => Input.GetKey(ModOptions.SwapLeftKeybind.Value)
-        || (Input.GetAxis("DschockHorizontalLeft") > 0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value);
+        || (Input.GetAxis("DschockHorizontalRight") < -0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1);
 
     public static bool IsSwapRightInput(this Player player)
         => Input.GetKey(ModOptions.SwapRightKeybind.Value)
-        || (Input.GetAxis("DschockHorizontalRight") > 0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value);
+        || (Input.GetAxis("DschockHorizontalRight") > 0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1);
 }

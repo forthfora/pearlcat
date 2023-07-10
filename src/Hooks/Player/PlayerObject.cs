@@ -32,6 +32,8 @@ public static partial class Hooks
 
             abstractObject.realizedObject.MarkAsPlayerObject();
             abstractObject.realizedObject.RealizedEffect();
+
+            self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk.pos);
         }
     }
 
@@ -47,6 +49,9 @@ public static partial class Hooks
             AbstractedEffect(abstractObject.realizedObject);
             abstractObject.Abstractize(abstractObject.pos);
         }
+
+        if (playerModule.Inventory.Count > 0)
+            self.room.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk.pos);
     }
 
 

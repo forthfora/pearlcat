@@ -8,7 +8,7 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static readonly ConditionalWeakTable<Player, PlayerModule> PearlcatData = new();
+    public static ConditionalWeakTable<Player, PlayerModule> PearlcatData { get; } = new();
 
     public static readonly GameFeature<float> TrainViewYShift = FeatureTypes.GameFloat("train_view_yshift");
 

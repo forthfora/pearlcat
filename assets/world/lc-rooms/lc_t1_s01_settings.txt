@@ -1,0 +1,7 @@
+Template: NONE
+Clouds: 0.3695652
+Grime: 0
+Palette: 30
+EffectColorA: 13
+EffectColorB: 13
+Effects: Contrast-0-20-20, Brightness-0-15-86, SunBlock-1-282-99, 

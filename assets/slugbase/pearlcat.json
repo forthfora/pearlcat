@@ -3,7 +3,7 @@
     "name": "Pearlcat",
     "description": "A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover in your travels?",
     "features": {
-        "color": "122626",
+        "color": "abc9c9",
         "world_state": "Artificer",
         "start_room": "T1_START",
         "auto_grab_batflies": false,
