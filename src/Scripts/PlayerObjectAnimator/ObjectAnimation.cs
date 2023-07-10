@@ -137,6 +137,8 @@ public abstract class ObjectAnimation
             addon.drawSymbolShield = majorEffect == POEffect.MajorEffectType.SHIELD;
             addon.drawSymbolAgility = majorEffect == POEffect.MajorEffectType.AGILITY;
             addon.drawSymbolCamo = majorEffect == POEffect.MajorEffectType.CAMOFLAGUE;
+
+            addon.camoLerp = playerModule.CamoLerp;
         }
     }
 

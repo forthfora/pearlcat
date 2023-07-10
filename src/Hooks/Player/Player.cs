@@ -167,6 +167,15 @@ public static partial class Hooks
         playerModule.WasSwapRightInput = swapRightInput;
         playerModule.WasStoreInput = storeInput;
         playerModule.WasAbilityInput = abilityInput;
+
+
+        // LAG CAUSER
+        if (eu)
+        {
+            //playerModule.LoadTailTexture("tail");
+            //playerModule.LoadEarLTexture("ear_l");
+            //playerModule.LoadEarRTexture("ear_r");
+        }
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)

@@ -163,14 +163,21 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "General");
 
         AddCheckBox(PearlThreatMusic);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        AddNewLine(14);
-
         AddCheckBox(DisableCosmetics);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
+        AddNewLine(2);
+
+        AddTextLabel("Special thanks to the following people!", bigText: true);
+        DrawTextLabels(ref Tabs[tabIndex]);
+
         AddNewLine(1);
+
+        AddTextLabel("NoirCatto");
+        AddTextLabel("Vigaro");
+        DrawTextLabels(ref Tabs[tabIndex]);
+
+        AddNewLine(12);
         DrawBox(ref Tabs[tabIndex]);
 
         if (GetConfigurable(DisableCosmetics, out OpCheckBox checkBox))

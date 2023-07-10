@@ -1,5 +1,8 @@
 ﻿using RWCustom;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Profiling;
 using static Pearlcat.POEffect;
 
 namespace Pearlcat;
@@ -196,7 +199,7 @@ public static partial class Hooks
             || self.bodyMode == Player.BodyModeIndex.WallClimb || self.animation == Player.AnimationIndex.AntlerClimb
             || self.animation == Player.AnimationIndex.VineGrab || self.animation == Player.AnimationIndex.ZeroGPoleGrab
             || self.bodyMode == Player.BodyModeIndex.Swimming || ((self.bodyMode == Player.BodyModeIndex.ZeroG
-            || (self.room != null && self.room.gravity <= 0.5f) || self.gravity <= 0.5f) && (self.wantToJump == 0 || !self.input[0].pckp)))
+            || self.gravity <= 0.5f) && (self.wantToJump == 0 || !self.input[0].pckp)))
         {
             poModule.UsedAgility = false;
         }
@@ -205,20 +208,56 @@ public static partial class Hooks
     public static void UpdateRevive(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableRevive.Value) return;
+
+        if (effect.MajorEffect != MajorEffectType.REVIVE) return;
     }
     
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableShield.Value) return;
+
+        if (effect.MajorEffect != MajorEffectType.SHIELD) return;
     }
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableRage.Value) return;
+
+        if (effect.MajorEffect != MajorEffectType.RAGE) return;
     }
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableCamoflague.Value) return;
+
+        var camera = self.abstractCreature.world.game.cameras[0];
+        List<Color> samples = new()
+        {
+            camera.PixelColorAtCoordinate(self.firstChunk.pos),
+
+            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(10.0f, 10.0f)),
+            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(-10.0f, -10.0f)),
+            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(10.0f, -10.0f)),
+            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(-10.0f, 10.0f)),
+
+            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(0.0f, 10.0f)),
+            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(10.0f, 0.0f)),
+            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(0.0f, -10.0f)),
+            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(-10.0f, 0.0f)),
+        };
+
+        var totalColor = Color.black;
+
+        foreach (var color in samples)
+            totalColor += color;
+
+        playerModule.CamoColor = totalColor / samples.Count;
+
+        
+        bool shouldCamo = ((self.canJump > 0 && self.firstChunk.vel.magnitude < 2.0f)
+            || self.bodyMode == Player.BodyModeIndex.Crawl) && effect.MajorEffect == MajorEffectType.CAMOFLAGUE
+            && playerModule.StoreObjectTimer <= 0;
+
+        playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, 0.001f) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, 0.001f);
     }
 }

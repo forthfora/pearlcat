@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RWCustom;
+using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -89,10 +90,15 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     PhysicalObject? parent;
     FSprite? parentSprite;
 
+    public float camoLerp;
+
     public void ParentGraphics_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         parent = self;
         parentSprite = sLeaser.sprites.FirstOrDefault();
+
+        foreach (var sprite in sLeaser.sprites)
+            sprite.alpha = Custom.LerpMap(camoLerp, 0.0f, 1.0f, 1.0f, 0.05f);
     }
 
 

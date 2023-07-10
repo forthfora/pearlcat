@@ -452,20 +452,20 @@ public static partial class Hooks
 
 
         // Color
-        bodySprite.color = playerModule.BodyColor;
-        hipsSprite.color = playerModule.BodyColor;
-        headSprite.color = playerModule.BodyColor;
-        legsSprite.color = playerModule.BodyColor;
+        bodySprite.color = Color.Lerp(playerModule.BodyColor, playerModule.CamoColor, playerModule.CamoLerp);
+        hipsSprite.color = Color.Lerp(playerModule.BodyColor, playerModule.CamoColor, playerModule.CamoLerp);
+        headSprite.color = Color.Lerp(playerModule.BodyColor, playerModule.CamoColor, playerModule.CamoLerp);
+        legsSprite.color = Color.Lerp(playerModule.BodyColor, playerModule.CamoColor, playerModule.CamoLerp);
 
-        feetSprite.color = playerModule.AccentColor;
-        armLSprite.color = playerModule.AccentColor;
-        armRSprite.color = playerModule.AccentColor;
+        feetSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
+        armLSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
+        armRSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
 
-        handLSprite.color = playerModule.AccentColor;
-        handRSprite.color = playerModule.AccentColor;
+        handLSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
+        handRSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
 
-        sleeveLSprite.color = playerModule.CloakColor;
-        sleeveRSprite.color = playerModule.CloakColor;
+        sleeveLSprite.color = Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp);
+        sleeveRSprite.color = Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp);
 
         markSprite.color = playerModule.ActiveColor;
 
@@ -473,8 +473,6 @@ public static partial class Hooks
         earLSprite.color = Color.white;
         earRSprite.color = Color.white;
         cloakSprite.color = Color.white;
-
-
 
         playerModule.cloak.UpdateColor(sLeaser);
 

@@ -179,6 +179,9 @@ public class PlayerModule
 
     #region Colours
 
+    public Color CamoColor;
+    public float CamoLerp;
+
     public Color BodyColor;
     public Color EyesColor;
 
@@ -199,21 +202,24 @@ public class PlayerModule
 
     public static void MapAlphaToColor(Texture2D texture, float alphaFrom, Color colorTo)
     {
+        //TODO: fix this crap
         for (var x = 0; x < texture.width; x++)
-        {
             for (var y = 0; y < texture.height; y++)
-            {
-                if (texture.GetPixel(x, y).a != alphaFrom) continue;
+                if (texture.GetPixel(x, y).a == alphaFrom)
+                    texture.SetPixel(x, y, colorTo);
 
-                texture.SetPixel(x, y, colorTo);
-            }
-        }
+        //var data = texture.GetPixelData<Color>(0);
+
+        //for (int i = 0; i < data.Length; i++)
+        //    if (data[i].a == alphaFrom)
+        //        data[i] = colorTo;
+
+        //texture.SetPixelData(data, 0);
 
         texture.Apply(false);
     }
 
     #endregion
-
 
 
     #region Ears
@@ -243,7 +249,7 @@ public class PlayerModule
 
 
     public void LoadEarLTexture(string textureName)
-    {
+    {   
         earLTexture = AssetLoader.GetTexture(textureName);
         if (earLTexture == null) return;
 
@@ -251,8 +257,8 @@ public class PlayerModule
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevEarL);
 
         // Apply Colors
-        MapAlphaToColor(earLTexture, 1.0f, BodyColor);
-        MapAlphaToColor(earLTexture, 0.0f, AccentColor);
+        MapAlphaToColor(earLTexture, 1.0f, Color.Lerp(BodyColor, CamoColor, CamoLerp));
+        MapAlphaToColor(earLTexture, 0.0f, Color.Lerp(AccentColor, CamoColor, CamoLerp));
 
         prevEarL = Plugin.MOD_ID + textureName + PlayerNumber + earLAlt;
         earLAlt = !earLAlt;
@@ -269,8 +275,8 @@ public class PlayerModule
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevEarR);
 
         // Apply Colors
-        MapAlphaToColor(earRTexture, 1.0f, BodyColor);
-        MapAlphaToColor(earRTexture, 0.0f, AccentColor);
+        MapAlphaToColor(earRTexture, 1.0f, Color.Lerp(BodyColor, CamoColor, CamoLerp));
+        MapAlphaToColor(earRTexture, 0.0f, Color.Lerp(AccentColor, CamoColor, CamoLerp));
 
         prevEarR = Plugin.MOD_ID + textureName + PlayerNumber + earRAlt;
         earRAlt = !earRAlt;
@@ -343,6 +349,7 @@ public class PlayerModule
     public string prevTail { get; set; } = "";
     public bool tailAlt { get; set; } = false;
 
+
     public void LoadTailTexture(string textureName)
     {
         tailTexture = AssetLoader.GetTexture(textureName);
@@ -352,8 +359,8 @@ public class PlayerModule
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevTail);
 
         // Apply Colors
-        MapAlphaToColor(tailTexture, 1.0f, BodyColor);
-        MapAlphaToColor(tailTexture, 0.0f, AccentColor);
+        MapAlphaToColor(tailTexture, 1.0f, Color.Lerp(BodyColor, CamoColor, CamoLerp));
+        MapAlphaToColor(tailTexture, 0.0f, Color.Lerp(AccentColor, CamoColor, CamoLerp));
 
         prevTail = Plugin.MOD_ID + textureName + PlayerNumber + tailAlt;
         tailAlt = !tailAlt;
@@ -532,7 +539,8 @@ public class PlayerModule
             return bodyPos + Mathf.Lerp(-1f, 1f, num) * perp * Mathf.Lerp(9f, 11f, t) + dir * Mathf.Lerp(8f, -9f, t) * (1f + Mathf.Sin(3.1415927f * num) * 0.35f * Mathf.Lerp(-1f, 1f, t));
         }
 
-        public Color CloakColorAtPos(float f) => playerModule.CloakColor * Custom.HSL2RGB(0.0f, 0.0f, Custom.LerpMap(f, 0.3f, 1.0f, 1.0f, 0.3f));
+        public Color CloakColorAtPos(float f) => Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp)
+            * Custom.HSL2RGB(0.0f, 0.0f, Custom.LerpMap(f, 0.3f, 1.0f, 1.0f, Custom.LerpMap(playerModule.CamoLerp, 0.0f, 1.0f, 0.3f, 1.0f)));
 
 
         public void InitiateSprite(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
