@@ -194,12 +194,15 @@ public static partial class Hooks
                 self.ConnectEffect(targetPos, GetObjectColor(playerModule.ActiveObject));
         }
 
-        if (self.canJump > 0 || !self.Consious || self.Stunned
-            || self.animation == Player.AnimationIndex.HangFromBeam || self.animation == Player.AnimationIndex.ClimbOnBeam
+        bool isAnim = self.animation == Player.AnimationIndex.HangFromBeam || self.animation == Player.AnimationIndex.ClimbOnBeam
             || self.bodyMode == Player.BodyModeIndex.WallClimb || self.animation == Player.AnimationIndex.AntlerClimb
             || self.animation == Player.AnimationIndex.VineGrab || self.animation == Player.AnimationIndex.ZeroGPoleGrab
-            || self.bodyMode == Player.BodyModeIndex.Swimming || ((self.bodyMode == Player.BodyModeIndex.ZeroG
-            || self.gravity <= 0.5f) && (self.wantToJump == 0 || !self.input[0].pckp)))
+            || self.bodyMode == Player.BodyModeIndex.Swimming;
+
+        // FREAKING NULL REF
+        if (isAnim || self.canJump > 0 || !self.Consious || self.Stunned
+            || ((self.bodyMode == Player.BodyModeIndex.ZeroG)
+            && (self.wantToJump == 0 || !self.input[0].pckp)))
         {
             poModule.UsedAgility = false;
         }

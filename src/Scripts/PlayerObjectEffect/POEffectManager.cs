@@ -244,7 +244,11 @@ public static class POEffectManager
 
         AS_PearlBlue = None;
         AS_PearlBlue.MajorEffect = MajorEffectType.AGILITY;
-        AS_PearlBlue.RunSpeedFac = 0.75f;
+        AS_PearlBlue.RunSpeedFac = 0.25f;
+        AS_PearlBlue.PoleClimbSpeedFac = 0.25f;
+        AS_PearlBlue.CorridorClimbSpeedFac = 0.25f;
+        AS_PearlBlue.RollSpeedFac = 0.25f;
+        AS_PearlBlue.SlideSpeedFac = 0.25f;
 
         AS_PearlGreen = None;
         AS_PearlGreen.MajorEffect = MajorEffectType.REVIVE;

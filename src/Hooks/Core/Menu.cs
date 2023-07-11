@@ -109,7 +109,8 @@ public static partial class Hooks
 
         if (illustrationModule.Index == -1)
         {
-            bool isPlaceholder = illustration.fileName == "pearlactiveplaceholder";
+            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+            bool isPlaceholder = fileName == "pearlactiveplaceholder";
             
             if (menuSceneModule.ActivePearlType == null)
             {
@@ -139,8 +140,8 @@ public static partial class Hooks
             var spritePos = illustration.sprite.GetPosition();
             var mousePos = self.menu.mousePosition;
 
-            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 120.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 90.0f)
+                illustrationModule.vel += (spritePos - mousePos).normalized * 1.5f;
 
 
             var dir = (illustrationModule.setPos - pos).normalized;
@@ -169,8 +170,9 @@ public static partial class Hooks
 
         illustration.visible = true;
         illustration.sprite.scale = 0.35f;
-
         illustration.color = MenuPearlColorFilter(DataPearl.UniquePearlMainColor(pearlTypes[i]));
+
+        illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin((MenuPearlAnimStacker + i * 50.0f) / 50.0f) * 25.0f;
     }
 
     private static void UpdateSelectScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)

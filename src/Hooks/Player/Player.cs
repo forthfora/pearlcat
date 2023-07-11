@@ -14,7 +14,6 @@ public static partial class Hooks
         On.Player.Update += Player_Update;
         On.Player.checkInput += Player_checkInput;
 
-        On.Player.GrabUpdate += Player_GrabUpdate;
         On.Player.Grabability += Player_Grabability;
 
         On.Player.Die += Player_Die;
@@ -61,15 +60,6 @@ public static partial class Hooks
 
             playerModule.PostDeathInventory.Add(abstractObject);
         }
-    }
-
-    private static void Player_GrabUpdate(On.Player.orig_GrabUpdate orig, Player self, bool eu)
-    {
-        orig(self, eu);
-
-        //StoreObjectUpdate(self);
-
-        //TransferObjectUpdate(self);
     }
 
     private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
@@ -170,7 +160,7 @@ public static partial class Hooks
 
 
         // LAG CAUSER
-        if (playerModule.TextureUpdateTimer % 5 == 0)
+        if (playerModule.TextureUpdateTimer % 3 == 0)
         {
             playerModule.LoadTailTexture("tail");
             playerModule.LoadEarLTexture("ear_l");

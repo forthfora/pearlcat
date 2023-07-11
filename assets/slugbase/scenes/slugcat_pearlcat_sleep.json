@@ -6,16 +6,16 @@
     
     {"name": "background", "pos": [730, 130], "depth": 5.5, "shader": "Basic"},
     
-    {"name": "pearl0", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl1", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl2", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl3", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl4", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl0", "pos": [1256, 561], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl1", "pos": [1083, 649], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl2", "pos": [1144, 505], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl3", "pos": [849, 555], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl4", "pos": [920, 653], "depth": 2.3, "shader": "Basic"},
 
     {"name": "slugcat", "pos": [730, 130], "depth": 3.0, "shader": "Basic"},
 
     {"name": "pearlactiveplaceholder", "pos": [730, 160], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearlactive", "pos": [730, 190], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearlactive", "pos": [906, 447], "depth": 2.3, "shader": "Basic"},
     
     {"name": "pearl5", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl6", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
@@ -26,6 +26,8 @@
     {"name": "topgrass", "pos": [730  , 130], "depth": 2.5, "shader": "Basic"}
   ],
   
+  "select_menu_pos": [0, -150],
+
 	"idle_depths": [2.9],
 	"sleep scene_depth": 3.0
 }
