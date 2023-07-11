@@ -215,8 +215,17 @@ public static partial class Hooks
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableShield.Value) return;
-
+        
         if (effect.MajorEffect != MajorEffectType.SHIELD) return;
+        
+        var abilityInput = self.IsAbilityKeybindPressed(playerModule);
+        var wasAbilityInput = playerModule.WasAbilityInput;
+
+        if (abilityInput && !wasAbilityInput)
+        {
+            self.room.AddObject(new ShockWave(self.firstChunk.pos, 100.0f, 0.07f, 1000, false));
+            Plugin.Logger.LogWarning("shield");
+        }
     }
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)

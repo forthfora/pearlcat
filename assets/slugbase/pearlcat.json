@@ -33,6 +33,7 @@
         "perma_unlock_gates": false,
 
         "select_menu_scene": "Slugcat_Pearlcat",
+        "sleep_scene": "Slugcat_Pearlcat_Sleep",
         
         "diet": {
             "base": "White",

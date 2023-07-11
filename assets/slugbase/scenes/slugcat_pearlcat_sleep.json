@@ -1,0 +1,31 @@
+{
+  "id": "Slugcat_Pearlcat_Sleep",
+  "scene_folder": "slugbase/scenes/slugcat_pearlcat_sleep",
+  "images": [
+    {"name": "flat", "pos": [730, 130], "depth": -1.0, "flatmode": true},
+    
+    {"name": "background", "pos": [730, 130], "depth": 5.5, "shader": "Basic"},
+    
+    {"name": "pearl0", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl1", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl2", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl3", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl4", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+
+    {"name": "slugcat", "pos": [730, 130], "depth": 3.0, "shader": "Basic"},
+
+    {"name": "pearlactiveplaceholder", "pos": [730, 160], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearlactive", "pos": [730, 190], "depth": 2.3, "shader": "Basic"},
+    
+    {"name": "pearl5", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl6", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl7", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl8", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl9", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+
+    {"name": "topgrass", "pos": [730  , 130], "depth": 2.5, "shader": "Basic"}
+  ],
+  
+	"idle_depths": [2.9],
+	"sleep scene_depth": 3.0
+}

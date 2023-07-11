@@ -1,8 +1,8 @@
 [MERGE]
-Pearlcat_MenuCrackle : pearlcatmenucrackle/vol=0.75/pitch=0.8
-Pearlcat_PearlScroll : pearlcatpearlscroll/vol=0.5/minPitch=0.7/maxPitch=1.4
-Pearlcat_PearlStore : pearlcatpearlstore/vol=0.15/minPitch=0.8/maxPitch=1.3
-Pearlcat_PearlRetrieve : pearlcatpearlretrieve/vol=0.25/minPitch=0.8/maxPitch=1.3
+Pearlcat_MenuCrackle : pearlcatmenucrackle/vol=0.2/pitch=0.8
+Pearlcat_PearlScroll : pearlcatpearlscroll/vol=0.3/minPitch=0.7/maxPitch=1.4
+Pearlcat_PearlStore : pearlcatpearlstore/vol=0.1/minPitch=0.8/maxPitch=1.3
+Pearlcat_PearlRetrieve : pearlcatpearlretrieve/vol=0.2/minPitch=0.8/maxPitch=1.3
 Pearlcat_PearlRealize : pearlcatpearlrealize/vol=0.25/minPitch=0.8/maxPitch=1.3
 Pearlcat_PearlAbstract : pearlcatpearlabstract/vol=0.35/minPitch=0.8/maxPitch=1.3
 [ENDMERGE]

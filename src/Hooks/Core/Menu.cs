@@ -31,15 +31,12 @@ public static partial class Hooks
 
 
     public static readonly ConditionalWeakTable<MenuScene, MenuSceneModule> MenuSceneData = new();
-    public static readonly ConditionalWeakTable<MenuDepthIllustration, MenuPearlModule> MenuIllustrationData = new();
+    public static readonly ConditionalWeakTable<MenuDepthIllustration, MenuIllustrationModule> MenuIllustrationData = new();
     
     private static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, MenuScene self, Menu.Menu menu, MenuObject owner, MenuScene.SceneID sceneID)
     {
         orig(self, menu, owner, sceneID);
-
-        if (sceneID.value != "Slugcat_Pearlcat") return;
-
-
+       
         var save = menu.manager.rainWorld.GetMiscProgression();
 
         if (save.IsNewSave)
@@ -66,21 +63,18 @@ public static partial class Hooks
         {
             var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
+            var index = -2;
+
             if (fileName.Contains("pearl"))
             {
                 var indexString = fileName.Replace("pearl", "");
 
-                if (!int.TryParse(indexString, out var index))
-                {
-                    if (fileName == "pearlactive")
+                if (!int.TryParse(indexString, out index))
+                    if (fileName == "pearlactive" || fileName == "pearlactiveplaceholder")
                         index = -1;
-
-                    else
-                        continue;
-                }
-
-                MenuIllustrationData.Add(illustration, new(illustration, index));
             }
+
+            MenuIllustrationData.Add(illustration, new(illustration, index));
         }
     }
 
@@ -95,72 +89,158 @@ public static partial class Hooks
         {
             if (!MenuSceneData.TryGetValue(self, out var menuSceneModule)) continue;
 
-            if (!MenuIllustrationData.TryGetValue(illustration, out var pearlModule)) continue;
+            if (!MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
 
-            if (pearlModule.Index == -1)
-            {
-                if (menuSceneModule.ActivePearlType == null)
-                {
-                    illustration.visible = false;
-                    continue;
-                }
-               
-                var activePearlColor = DataPearl.UniquePearlMainColor(menuSceneModule.ActivePearlType);
-                
-                illustration.visible = true;
-                illustration.color = MenuPearlColorFilter(activePearlColor);
-                illustration.sprite.scale = 0.3f;
+            if (self.sceneID.value == "Slugcat_Pearlcat")
+                UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);
 
-
-                var pos = illustration.pos;
-                var spritePos = illustration.sprite.GetPosition();
-                var mousePos = self.menu.mousePosition;
-                var mouseVel = (self.menu.mousePosition - self.menu.lastMousePos).magnitude;
-                // Custom.LerpMap(mouseVel, 0.0f, 100.0f, 1.0f, 6.0f);
-
-                if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, pearlModule.InitialPos) < 120.0f)
-                    pearlModule.Vel += (spritePos - mousePos).normalized * 2.0f;
-
-
-                var dir = (pearlModule.InitialPos - pos).normalized;
-                var dist = Custom.Dist(pearlModule.InitialPos, pos);
-                var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
-
-                pearlModule.Vel *= Custom.LerpMap(pearlModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-                pearlModule.Vel += dir * speed;
-
-                illustration.pos += pearlModule.Vel;
-                continue;
-            }
-
-            var pearlTypes = menuSceneModule.PearlTypes;
-
-            var count = pearlTypes.Count;
-            var i = pearlModule.Index;
-
-            if (i >= pearlTypes.Count)
-            {
-                illustration.visible = false;
-                continue;
-            }
-
-            illustration.visible = true;
-
-            var angleFrameAddition = 0.00075f;
-            var radius = 120.0f;
-            var origin = new Vector2(680, 400);
-
-            var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
-
-            Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius * 1.25f);
-            illustration.pos = targetPos;
-
-            illustration.sprite.scale = Custom.LerpMap(Mathf.Cos(angle), 0.0f, 1.0f, 0.2f, 0.35f);
-            illustration.color = MenuPearlColorFilter(DataPearl.UniquePearlMainColor(pearlTypes[i]));
+            if (self.sceneID.value == "Slugcat_Pearlcat_Sleep")
+                UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
         }
 
         MenuPearlAnimStacker++;
     }
+
+    private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    {
+        illustration.alpha = 1.0f;
+
+        if (illustrationModule.Index == -2) return;
+
+        if (illustrationModule.Index == -1)
+        {
+            bool isPlaceholder = illustration.fileName == "pearlactiveplaceholder";
+            
+            if (menuSceneModule.ActivePearlType == null)
+            {
+                if (isPlaceholder)
+                {
+                    illustration.visible = true;
+                }
+                else
+                {
+                    illustration.visible = false;
+                    return;
+                }
+            }
+            else if (isPlaceholder)
+            {
+                illustration.visible = false;
+                return;
+            }
+
+            var activePearlColor = DataPearl.UniquePearlMainColor(menuSceneModule.ActivePearlType);
+
+            illustration.visible = true;
+            illustration.color = MenuPearlColorFilter(activePearlColor);
+            illustration.sprite.scale = isPlaceholder ? 1.0f : 0.3f;
+
+            var pos = illustration.pos;
+            var spritePos = illustration.sprite.GetPosition();
+            var mousePos = self.menu.mousePosition;
+
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 120.0f)
+                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+
+
+            var dir = (illustrationModule.setPos - pos).normalized;
+            var dist = Custom.Dist(illustrationModule.setPos, pos);
+            var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
+
+            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.vel += dir * speed;
+
+            illustration.pos += illustrationModule.vel;
+
+            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            return;
+        }
+
+        var pearlTypes = menuSceneModule.PearlTypes;
+
+        var count = pearlTypes.Count;
+        var i = illustrationModule.Index;
+
+        if (i >= count)
+        {
+            illustration.visible = false;
+            return;
+        }
+
+        illustration.visible = true;
+        illustration.sprite.scale = 0.35f;
+
+        illustration.color = MenuPearlColorFilter(DataPearl.UniquePearlMainColor(pearlTypes[i]));
+    }
+
+    private static void UpdateSelectScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    {
+        if (illustrationModule.Index == -2) return;
+
+        if (illustrationModule.Index == -1)
+        {
+            if (menuSceneModule.ActivePearlType == null)
+            {
+                illustration.visible = false;
+                return;
+            }
+
+            var activePearlColor = DataPearl.UniquePearlMainColor(menuSceneModule.ActivePearlType);
+
+            illustration.visible = true;
+            illustration.color = MenuPearlColorFilter(activePearlColor);
+            illustration.sprite.scale = 0.3f;
+
+
+            var pos = illustration.pos;
+            var spritePos = illustration.sprite.GetPosition();
+            var mousePos = self.menu.mousePosition;
+            // var mouseVel = (self.menu.mousePosition - self.menu.lastMousePos).magnitude;
+            // Custom.LerpMap(mouseVel, 0.0f, 100.0f, 1.0f, 6.0f);
+
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 120.0f)
+                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+
+
+            var dir = (illustrationModule.setPos - pos).normalized;
+            var dist = Custom.Dist(illustrationModule.setPos, pos);
+            var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
+
+            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.vel += dir * speed;
+
+            illustration.pos += illustrationModule.vel;
+
+            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            return;
+        }
+
+        var pearlTypes = menuSceneModule.PearlTypes;
+
+        var count = pearlTypes.Count;
+        var i = illustrationModule.Index;
+
+        if (i >= count)
+        {
+            illustration.visible = false;
+            return;
+        }
+
+        illustration.visible = true;
+
+        var angleFrameAddition = 0.00075f;
+        var radius = 120.0f;
+        var origin = new Vector2(680, 400);
+
+        var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
+
+        Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius * 1.25f);
+        illustration.pos = targetPos;
+
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Cos(angle), 0.0f, 1.0f, 0.2f, 0.35f);
+        illustration.color = MenuPearlColorFilter(DataPearl.UniquePearlMainColor(pearlTypes[i]));
+    }
+
 
     private static void SlugcatPage_ctor(On.Menu.SlugcatSelectMenu.SlugcatPage.orig_ctor orig, SlugcatSelectMenu.SlugcatPage self, Menu.Menu menu, MenuObject owner, int pageIndex, SlugcatStats.Name slugcatNumber)
     {

@@ -21,6 +21,8 @@ public static partial class Hooks
 
     public static void MarkAsPlayerObject(this PhysicalObject physicalObject)
     {
+        if (PlayerObjectData.TryGetValue(physicalObject.abstractPhysicalObject, out PlayerObjectModule _)) return;
+
         var module = PlayerObjectData.GetValue(physicalObject.abstractPhysicalObject, x => new PlayerObjectModule());
 
         module.IsCurrentlyStored = true;

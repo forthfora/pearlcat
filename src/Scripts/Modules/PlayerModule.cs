@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using RWCustom;
+using System.Drawing;
+using Color = UnityEngine.Color;
 
 namespace Pearlcat;
 
@@ -28,6 +30,8 @@ public class PlayerModule
 
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }
+
+    public int ScarfSprite { get; set; }
 
     public int SleeveLSprite { get; set; }
     public int SleeveRSprite { get; set; }
@@ -56,7 +60,6 @@ public class PlayerModule
 
     public AbstractPhysicalObject? ActiveObject => ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count ? Inventory[(int)ActiveObjectIndex] : null;
     public int? ActiveObjectIndex { get; set; }
-
     public POEffect CurrentPOEffect { get; set; } = POEffectManager.None;
 
     public float ShortcutColorTimer { get; set; }
@@ -65,15 +68,12 @@ public class PlayerModule
     public void ShowHUD(int duration) => HudFadeTimer = duration;
 
     public float HudFade { get; set; }
-    
     public float HudFadeTimer { get; set; }
 
     public bool GivenPearls { get; set; }
 
     public int ObjectAnimationTimer { get; set; }
-    
     public int ObjectAnimationDuration { get; set; }
-
     public ObjectAnimation? CurrentObjectAnimation { get; set; }
 
     public void PickObjectAnimation(Player player)
@@ -131,10 +131,10 @@ public class PlayerModule
         Inventory.Clear();
         ActiveObjectIndex = null;
 
-        var save = self.room.game.GetMiscWorld();
+        var world = self.abstractCreature.world;
+        var save = world.game.GetMiscWorld();
 
         var playerNumber = self.playerState.playerNumber;
-        var world = self.room.world;
 
         if (save.Inventory.TryGetValue(playerNumber, out var inventory))
         {
@@ -179,6 +179,8 @@ public class PlayerModule
 
     #region Colours
 
+    public int TextureUpdateTimer { get; set; }
+
     public Color CamoColor;
     public float CamoLerp;
 
@@ -200,29 +202,29 @@ public class PlayerModule
     }
 
 
-    public static void MapAlphaToColor(Texture2D texture, float alphaFrom, Color colorTo)
+    public static void MapAlphaToColor(Texture2D texture, Dictionary<byte, Color> map)
     {
-        //TODO: fix this crap
-        for (var x = 0; x < texture.width; x++)
-            for (var y = 0; y < texture.height; y++)
-                if (texture.GetPixel(x, y).a == alphaFrom)
-                    texture.SetPixel(x, y, colorTo);
+        var data = texture.GetPixelData<Color32>(0);
 
-        //var data = texture.GetPixelData<Color>(0);
+        for (int i = 0; i < data.Length; i++)
+            if (map.TryGetValue(data[i].a, out var targetColor))
+                data[i] = targetColor;
 
-        //for (int i = 0; i < data.Length; i++)
-        //    if (data[i].a == alphaFrom)
-        //        data[i] = colorTo;
+        texture.SetPixelData(data, 0);
 
-        //texture.SetPixelData(data, 0);
-
+        // Works
+        //for (var x = 0; x < texture.width; x++)
+        //    for (var y = 0; y < texture.height; y++)
+        //        if (map.TryGetValue((byte)(texture.GetPixel(x, y).a * 255), out var targetColor))
+        //            texture.SetPixel(x, y, targetColor);
+        
         texture.Apply(false);
     }
 
     #endregion
 
 
-    #region Ears
+    #region Ears & Tail
 
     public TailSegment[]? earL;
     public TailSegment[]? earR;
@@ -230,58 +232,53 @@ public class PlayerModule
     public int earLSprite;
     public int earRSprite;
 
-    public Texture2D? earLTexture;
-    public Texture2D? earRTexture;
-
     public FAtlas? earLAtlas;
     public FAtlas? earRAtlas;
 
     public Vector2 earLAttachPos;
     public Vector2 earRAttachPos;
 
-    public int earLFlipDirection { get; set; } = 1;
-    public int earRFlipDirection { get; set; } = 1;
-
-    public string prevEarL { get; set; } = "";
-    public string prevEarR { get; set; } = "";
-    public bool earLAlt { get; set; } = false;
-    public bool earRAlt { get; set; } = false;
-
+    public int EarLFlipDirection { get; set; } = 1;
+    public int EarRFlipDirection { get; set; } = 1;
 
     public void LoadEarLTexture(string textureName)
     {   
-        earLTexture = AssetLoader.GetTexture(textureName);
+        var earLTexture = AssetLoader.GetTexture(textureName);
         if (earLTexture == null) return;
 
-        if (Futile.atlasManager.DoesContainAtlas(prevEarL))
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevEarL);
-
         // Apply Colors
-        MapAlphaToColor(earLTexture, 1.0f, Color.Lerp(BodyColor, CamoColor, CamoLerp));
-        MapAlphaToColor(earLTexture, 0.0f, Color.Lerp(AccentColor, CamoColor, CamoLerp));
+        MapAlphaToColor(earLTexture, new Dictionary<byte, Color>()
+        {
+            { 255, Color.Lerp(BodyColor, CamoColor, CamoLerp) },
+            { 0, Color.Lerp(AccentColor, CamoColor, CamoLerp) },
+        });
 
-        prevEarL = Plugin.MOD_ID + textureName + PlayerNumber + earLAlt;
-        earLAlt = !earLAlt;
+        var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
 
-        earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevEarL, earLTexture, false);
+        if (Futile.atlasManager.DoesContainAtlas(atlasName))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+
+        earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earLTexture, false);
     }
 
     public void LoadEarRTexture(string textureName)
     {
-        earRTexture = AssetLoader.GetTexture(textureName);
+        var earRTexture = AssetLoader.GetTexture(textureName);
         if (earRTexture == null) return;
 
-        if (Futile.atlasManager.DoesContainAtlas(prevEarR))
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevEarR);
-
         // Apply Colors
-        MapAlphaToColor(earRTexture, 1.0f, Color.Lerp(BodyColor, CamoColor, CamoLerp));
-        MapAlphaToColor(earRTexture, 0.0f, Color.Lerp(AccentColor, CamoColor, CamoLerp));
+        MapAlphaToColor(earRTexture, new Dictionary<byte, Color>()
+        {
+            { 255, Color.Lerp(BodyColor, CamoColor, CamoLerp) },
+            { 0, Color.Lerp(AccentColor, CamoColor, CamoLerp) },
+        });
 
-        prevEarR = Plugin.MOD_ID + textureName + PlayerNumber + earRAlt;
-        earRAlt = !earRAlt;
+        var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
 
-        earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevEarR, earRTexture, false);
+        if (Futile.atlasManager.DoesContainAtlas(atlasName))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+
+        earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earRTexture, false);
     }
 
     public void RegenerateEars()
@@ -339,33 +336,27 @@ public class PlayerModule
         self.bodyParts = newBodyParts.ToArray();
     }
 
-    #endregion
 
-    #region Tail
-
-    public Texture2D? tailTexture;
     public FAtlas? tailAtlas;
-
-    public string prevTail { get; set; } = "";
-    public bool tailAlt { get; set; } = false;
-
 
     public void LoadTailTexture(string textureName)
     {
-        tailTexture = AssetLoader.GetTexture(textureName);
+        var tailTexture = AssetLoader.GetTexture(textureName);
         if (tailTexture == null) return;
 
-        if (Futile.atlasManager.DoesContainAtlas(prevTail))
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(prevTail);
-
         // Apply Colors
-        MapAlphaToColor(tailTexture, 1.0f, Color.Lerp(BodyColor, CamoColor, CamoLerp));
-        MapAlphaToColor(tailTexture, 0.0f, Color.Lerp(AccentColor, CamoColor, CamoLerp));
+        MapAlphaToColor(tailTexture, new Dictionary<byte, Color>()
+        {
+            { 255, Color.Lerp(BodyColor, CamoColor, CamoLerp) },
+            { 0, Color.Lerp(AccentColor, CamoColor, CamoLerp) },
+        });
 
-        prevTail = Plugin.MOD_ID + textureName + PlayerNumber + tailAlt;
-        tailAlt = !tailAlt;
+        var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
 
-        tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(prevTail, tailTexture, false);
+        if (Futile.atlasManager.DoesContainAtlas(atlasName))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+
+        tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
     }
 
 

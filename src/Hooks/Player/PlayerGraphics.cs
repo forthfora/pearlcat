@@ -53,6 +53,8 @@ public static partial class Hooks
         playerModule.FirstSprite = sLeaser.sprites.Length;
         int spriteIndex = playerModule.FirstSprite;
 
+        playerModule.ScarfSprite = spriteIndex++;
+
         playerModule.SleeveLSprite = spriteIndex++;
         playerModule.SleeveRSprite = spriteIndex++;
 
@@ -67,6 +69,7 @@ public static partial class Hooks
         playerModule.LastSprite = spriteIndex;
         Array.Resize(ref sLeaser.sprites, spriteIndex);
 
+        sLeaser.sprites[playerModule.ScarfSprite] = new FSprite("pearlcatScarfA0");
 
         sLeaser.sprites[playerModule.SleeveLSprite] = new FSprite("pearlcatSleeve0");
         sLeaser.sprites[playerModule.SleeveRSprite] = new FSprite("pearlcatSleeve0");
@@ -158,6 +161,7 @@ public static partial class Hooks
 
         if (ModOptions.DisableCosmetics.Value) return;
 
+        UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "scarf", "Scarf", playerModule.ScarfSprite);
 
         UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveLSprite);
         UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveRSprite);
@@ -194,12 +198,12 @@ public static partial class Hooks
         if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
 
         playerModule.earLAttachPos = GetEarAttachPos(self, timestacker, playerModule, earLOffset);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.earL, playerModule.earLSprite, playerModule.earLAtlas, playerModule.earLAttachPos, playerModule.earLFlipDirection);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.earL, playerModule.earLSprite, playerModule.earLAtlas, playerModule.earLAttachPos, playerModule.EarLFlipDirection);
 
         if (!EarROffset.TryGet(self.player, out var earROffset)) return;
 
         playerModule.earRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.earR, playerModule.earRSprite, playerModule.earRAtlas, playerModule.earRAttachPos, playerModule.earRFlipDirection);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.earR, playerModule.earRSprite, playerModule.earRAtlas, playerModule.earRAttachPos, playerModule.EarRFlipDirection);
     }
 
     public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, FAtlas? earAtlas, Vector2 attachPos, int earFlipDirection)
@@ -349,6 +353,7 @@ public static partial class Hooks
         var legsSprite = sLeaser.sprites[LEGS_SPRITE];
         var markSprite = sLeaser.sprites[MARK_SPRITE];
 
+        var scarfSprite = sLeaser.sprites[playerModule.ScarfSprite];
         var sleeveLSprite = sLeaser.sprites[playerModule.SleeveLSprite];
         var sleeveRSprite = sLeaser.sprites[playerModule.SleeveRSprite];
 
@@ -363,6 +368,8 @@ public static partial class Hooks
         // Container
         if (newContainer != null)
         {
+            newContainer.AddChild(scarfSprite);
+
             newContainer.AddChild(sleeveLSprite);
             newContainer.AddChild(sleeveRSprite);
 
@@ -377,6 +384,10 @@ public static partial class Hooks
 
         // Order
         // Generally, move behind body, move infront of head
+        scarfSprite.MoveInFrontOfOtherNode(headSprite);
+        scarfSprite.MoveBehindOtherNode(earLSprite);
+        scarfSprite.MoveBehindOtherNode(earRSprite);
+
         sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
         sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
 
@@ -463,6 +474,8 @@ public static partial class Hooks
 
         handLSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
         handRSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
+
+        scarfSprite.color = Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp);
 
         sleeveLSprite.color = Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp);
         sleeveRSprite.color = Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp);

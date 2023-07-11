@@ -170,12 +170,14 @@ public static partial class Hooks
 
 
         // LAG CAUSER
-        if (eu)
+        if (playerModule.TextureUpdateTimer % 5 == 0)
         {
-            //playerModule.LoadTailTexture("tail");
-            //playerModule.LoadEarLTexture("ear_l");
-            //playerModule.LoadEarRTexture("ear_r");
+            playerModule.LoadTailTexture("tail");
+            playerModule.LoadEarLTexture("ear_l");
+            playerModule.LoadEarRTexture("ear_r");
         }
+
+        playerModule.TextureUpdateTimer++;
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)

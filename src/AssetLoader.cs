@@ -10,8 +10,8 @@ public static class AssetLoader
     public const string SPRITES_DIRPATH = Plugin.MOD_ID + "_sprites";
     public const string TEXTURES_DIRPATH = Plugin.MOD_ID + "_textures";
 
-    public static readonly Dictionary<string, Texture2D> textures = new();
-
+    public const TextureFormat TEXTURE_FORMAT = TextureFormat.RGBA32;
+    public static Dictionary<string, Texture2D> Textures { get; } = new();
 
     public static string GetUniqueName(string name) => Plugin.MOD_ID + "_" + name;
 
@@ -35,11 +35,12 @@ public static class AssetLoader
 
     public static Texture2D? GetTexture(string textureName)
     {
-        if (!textures.ContainsKey(textureName))
+        if (!Textures.ContainsKey(textureName))
             return null;
 
-        Texture2D originalTexture = textures[textureName];
-        Texture2D? copiedTexture = new(originalTexture.width, originalTexture.height, TextureFormat.ARGB32, false);
+        var originalTexture = Textures[textureName];
+
+        Texture2D? copiedTexture = new(originalTexture.width, originalTexture.height, TEXTURE_FORMAT, false);
         Graphics.CopyTexture(originalTexture, copiedTexture);
 
         return copiedTexture;
@@ -61,7 +62,7 @@ public static class AssetLoader
         {
             if (Path.GetExtension(filePath) != ".txt") continue;
 
-            string atlasName = Path.GetFileNameWithoutExtension(filePath);
+            var atlasName = Path.GetFileNameWithoutExtension(filePath);
             Futile.atlasManager.LoadAtlas(ATLASES_DIRPATH + Path.AltDirectorySeparatorChar + atlasName);
         }
     }
@@ -75,7 +76,7 @@ public static class AssetLoader
 
             string atlasName = Path.GetFileNameWithoutExtension(filePath);
 
-            Texture2D? texture = FileToTexture2D(filePath);
+            var texture = FileToTexture2D(filePath);
             if (texture == null) continue;
 
             Futile.atlasManager.LoadAtlasFromTexture(atlasName, texture, false);
@@ -91,10 +92,10 @@ public static class AssetLoader
 
             string textureName = Path.GetFileNameWithoutExtension(filePath);
 
-            Texture2D? texture = FileToTexture2D(filePath);
+            var texture = FileToTexture2D(filePath);
             if (texture == null) continue;
 
-            textures.Add(textureName, texture);
+            Textures.Add(textureName, texture);
         }
     }
 
@@ -105,7 +106,7 @@ public static class AssetLoader
     {
         byte[] fileData = File.ReadAllBytes(filePath);
 
-        Texture2D texture = new(0, 0, TextureFormat.ARGB32, false)
+        Texture2D texture = new(0, 0, TEXTURE_FORMAT, false)
         {
             anisoLevel = 0,
             filterMode = FilterMode.Point,
