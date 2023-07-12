@@ -174,8 +174,11 @@ public static partial class Hooks
 
         var playerGraphics = (PlayerGraphics)player.graphicsModule;
 
-        Vector2 pos = playerGraphics.head.pos + activeObjectOffset;
+        var pos = playerGraphics.head.pos + activeObjectOffset;
         pos.x += player.mainBodyChunk.vel.x * 1.0f;
+
+        if (player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0)
+            pos.y += 30.0f;
 
         return pos;
     }

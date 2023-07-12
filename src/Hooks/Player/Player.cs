@@ -99,6 +99,8 @@ public static partial class Hooks
         bool storeInput = self.IsStoreKeybindPressed(playerModule);
         bool abilityInput = self.IsAbilityKeybindPressed(playerModule);
 
+        bool djInput = self.IsDoubleJumpKeybindPressed(playerModule);
+
         int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
 
         playerModule.BlockInput = false;
@@ -157,6 +159,7 @@ public static partial class Hooks
         playerModule.WasSwapRightInput = swapRightInput;
         playerModule.WasStoreInput = storeInput;
         playerModule.WasAbilityInput = abilityInput;
+        playerModule.WasDJInput = djInput;
 
 
         // LAG CAUSER

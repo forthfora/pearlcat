@@ -34,6 +34,11 @@ public class PlayerModule
     public int SleeveLSprite { get; set; }
     public int SleeveRSprite { get; set; }
     public int FeetSprite { get; set; }
+    public int ShieldSprite { get; set; }
+
+    public int ShieldTimer { get; set; }
+    public float ShieldAlpha { get; set; }
+    public float ShieldScale { get; set; } = 7.0f;
 
     public Vector2 PrevHeadRotation { get; set; }
 
@@ -46,6 +51,7 @@ public class PlayerModule
     public bool WasSwapped { get; set; }
     public bool WasStoreInput { get; set; }
     public bool WasAbilityInput { get; set; }
+    public bool WasDJInput { get; set; }
 
     public Player.InputPackage UnblockedInput { get; set; }
     public bool BlockInput { get; set; }

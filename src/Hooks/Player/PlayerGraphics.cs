@@ -65,6 +65,7 @@ public static partial class Hooks
 
         playerModule.CloakSprite = spriteIndex++;
 
+        playerModule.ShieldSprite = spriteIndex++;
 
         playerModule.LastSprite = spriteIndex;
         Array.Resize(ref sLeaser.sprites, spriteIndex);
@@ -75,7 +76,12 @@ public static partial class Hooks
         sLeaser.sprites[playerModule.SleeveRSprite] = new FSprite("pearlcatSleeve0");
 
         sLeaser.sprites[playerModule.FeetSprite] = new FSprite("pearlcatFeetA0");
-        
+
+        sLeaser.sprites[playerModule.ShieldSprite] = new FSprite("Futile_White")
+        {
+            shader = rCam.room.game.rainWorld.Shaders["GravityDisruptor"],
+        };
+
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
 
@@ -85,12 +91,12 @@ public static partial class Hooks
         GenerateEarMesh(sLeaser, playerModule.EarL, playerModule.EarLSprite);
         GenerateEarMesh(sLeaser, playerModule.EarR, playerModule.EarRSprite);
 
-        self.AddToContainer(sLeaser, rCam, null);
-
         // Color meshes
         playerModule.LoadTailTexture("tail");
         playerModule.LoadEarLTexture("ear_l");
         playerModule.LoadEarRTexture("ear_r");
+
+        self.AddToContainer(sLeaser, rCam, null);
     }
 
     public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite)
@@ -98,7 +104,7 @@ public static partial class Hooks
         if (ear == null) return;
 
         int earMeshTriesLength = (ear.Length - 1) * 4;
-        TriangleMesh.Triangle[] earMeshTries = new TriangleMesh.Triangle[earMeshTriesLength + 1];
+        var earMeshTries = new TriangleMesh.Triangle[earMeshTriesLength + 1];
 
         for (int i = 0; i < ear.Length - 1; i++)
         {
@@ -137,7 +143,7 @@ public static partial class Hooks
         if (!EarROffset.TryGet(self.player, out var earROffset)) return;
 
 
-        playerModule.EarLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
+        playerModule.EarLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earLOffset);
 
         for (int segment = 0; segment < playerModule.EarL.Length; segment++)
             playerModule.EarL[segment].Reset(playerModule.EarLAttachPos);
@@ -364,10 +370,14 @@ public static partial class Hooks
 
         var cloakSprite = sLeaser.sprites[playerModule.CloakSprite];
 
+        var shieldSprite = sLeaser.sprites[playerModule.ShieldSprite];
 
         // Container
         if (newContainer != null)
         {
+            var hudContainer = rCam.ReturnFContainer("HUD");
+            var lightsContainer = rCam.ReturnFContainer("ForegroundLights");
+
             newContainer.AddChild(scarfSprite);
 
             newContainer.AddChild(sleeveLSprite);
@@ -379,6 +389,9 @@ public static partial class Hooks
             newContainer.AddChild(earRSprite);
 
             newContainer.AddChild(cloakSprite);
+
+            hudContainer.AddChild(shieldSprite);
+            lightsContainer.AddChild(lightsContainer);
         }
 
 
@@ -496,6 +509,10 @@ public static partial class Hooks
         earLSprite.color = Color.white;
         earRSprite.color = Color.white;
         cloakSprite.color = Color.white;
+
+        shieldSprite.alpha = playerModule.ShieldAlpha;
+        shieldSprite.scale = playerModule.ShieldScale;
+        shieldSprite.SetPosition(bodySprite.GetPosition());
 
         playerModule.Cloak.UpdateColor(sLeaser);
 

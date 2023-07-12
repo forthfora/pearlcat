@@ -33,8 +33,6 @@ public partial class Hooks
                 player.AbstractizeInventory();
             }
 
-            orig(self, sender, message);
-
             var game = self.game;
 
             if (!JustWarpedData.TryGetValue(game, out var justWarped))

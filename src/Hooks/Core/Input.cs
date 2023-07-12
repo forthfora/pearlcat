@@ -24,11 +24,6 @@ public static partial class Hooks
 
     public static bool IsAbilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        var input = playerModule.UnblockedInput;
-
-        if (!ModOptions.UsesCustomAbilityKeybind.Value)
-            return input.jmp && input.pckp;
-
         return player.playerState.playerNumber switch
         {
             0 => Input.GetKey(ModOptions.AbilityKeybindPlayer1.Value) || Input.GetKey(ModOptions.AbilityKeybindKeyboard.Value),
@@ -38,6 +33,15 @@ public static partial class Hooks
 
             _ => false
         };
+    }
+
+    public static bool IsDoubleJumpKeybindPressed(this Player player, PlayerModule playerModule)
+    {
+        if (ModOptions.PreferCustomAbilityKeybind.Value)
+            return IsAbilityKeybindPressed(player, playerModule);
+
+        var input = playerModule.UnblockedInput;
+        return input.jmp && input.pckp;
     }
 
     public static bool IsSwapKeybindPressed(this Player player)

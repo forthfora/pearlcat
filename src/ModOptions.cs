@@ -97,9 +97,9 @@ public sealed class ModOptions : OptionsTemplate
 
 
 
-    public static Configurable<bool> UsesCustomAbilityKeybind = Instance.config.Bind(nameof(UsesCustomAbilityKeybind), false, new ConfigurableInfo(
-        "Enables custom keybinds below, as opposed to the default (JUMP + PICKUP).",
-        null, "", "Custom Keybind?"));
+    public static Configurable<bool> PreferCustomAbilityKeybind = Instance.config.Bind(nameof(PreferCustomAbilityKeybind), false, new ConfigurableInfo(
+        "Prefer to use the custom keybinds below, as opposed to the defaults in some cases, such as (JUMP + PICKUP) for Agiltiy.",
+        null, "", "Prefer Custom Keybind?"));
 
     public static Configurable<KeyCode> AbilityKeybindKeyboard = Instance.config.Bind(nameof(AbilityKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
@@ -357,7 +357,7 @@ public sealed class ModOptions : OptionsTemplate
     {
         AddTab(ref tabIndex, "Ability Input");
 
-        AddCheckBox(UsesCustomAbilityKeybind);
+        AddCheckBox(PreferCustomAbilityKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddNewLine(3);

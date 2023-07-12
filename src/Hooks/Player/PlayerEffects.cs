@@ -107,8 +107,8 @@ public static partial class Hooks
 
         if (effect.MajorEffect != MajorEffectType.AGILITY) return;
 
-        var abilityInput = self.IsAbilityKeybindPressed(playerModule);
-        var wasAbilityInput = playerModule.WasAbilityInput;
+        var abilityInput = self.IsDoubleJumpKeybindPressed(playerModule);
+        var wasAbilityInput = playerModule.WasDJInput;
 
         poModule.CooldownTimer = poModule.UsedAgility ? 40 : 0;
         
@@ -218,16 +218,42 @@ public static partial class Hooks
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableShield.Value) return;
-        
-        if (effect.MajorEffect != MajorEffectType.SHIELD) return;
+
+        if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
+
+
+        if (playerModule.ShieldTimer > 0)
+        {
+            playerModule.ShieldTimer--;
+            poModule.CooldownTimer = 120;
+
+            playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 1.0f, 0.25f);
+            playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 7.0f, 0.4f);
+            
+            if (playerModule.ShieldTimer % 3 == 0)
+                playerModule.ActiveObject.realizedObject.ConnectEffect(self.firstChunk.pos);
+        }
+        else
+        {
+            playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 0.0f, 0.25f);
+            playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 0.0f, 0.4f);
+        }
+
+
+        if (effect.MajorEffect != MajorEffectType.SHIELD)
+        {
+            if (playerModule.ShieldTimer > 80)
+                playerModule.ShieldTimer = 80;
+
+            return;
+        }
         
         var abilityInput = self.IsAbilityKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasAbilityInput;
 
         if (abilityInput && !wasAbilityInput)
         {
-            self.room.AddObject(new ShockWave(self.firstChunk.pos, 100.0f, 0.07f, 1000, false));
-            Plugin.Logger.LogWarning("shield");
+            playerModule.ShieldTimer = 200;
         }
     }
     

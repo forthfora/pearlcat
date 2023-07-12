@@ -1,8 +1,5 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using RWCustom;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -21,6 +18,34 @@ public partial class Hooks
 
         On.ShelterDoor.DrawSprites += ShelterDoor_DrawSprites;
         On.ShelterDoor.DoorGraphic.DrawSprites += DoorGraphic_DrawSprites;
+
+        On.GlobalRain.Update += GlobalRain_Update;
+        On.RoomRain.DrawSprites += RoomRain_DrawSprites;
+    }
+
+    private static void RoomRain_DrawSprites(On.RoomRain.orig_DrawSprites orig, RoomRain self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (self.room.roomSettings.name == "T1_END")
+        {
+
+        }
+    }
+
+    private static void GlobalRain_Update(On.GlobalRain.orig_Update orig, GlobalRain self)
+    {
+        orig(self);
+
+        foreach (var crit in self.game.Players)
+        {
+            if (crit.realizedCreature is not Player player) continue;
+
+            if (player.room == null || !player.room.BeingViewed) continue;
+
+            if (player.room.roomSettings.name == "T1_END")
+                self.rainDirection = 40.0f;
+        }
     }
 
     private static void RoomSpecificScript_AddRoomSpecificScript(On.RoomSpecificScript.orig_AddRoomSpecificScript orig, Room room)

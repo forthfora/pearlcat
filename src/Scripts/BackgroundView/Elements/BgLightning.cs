@@ -27,7 +27,7 @@ public class BgLightning : CustomBgElement
     public float ThunderFac => 1.0f - ((float)Thunder / ThunderLength);
     public float TinyThunderFac => 1.0f - ((float)TinyThunder / TinyThunderLength);
 
-    public BgLightning(CustomBgScene scene, string assetName, Vector2 pos, float depth, float minusDepthForLayering) : base(scene, pos, depth - minusDepthForLayering, BgElementType.END)
+    public BgLightning(CustomBgScene scene, string assetName, Vector2 pos, float depth, float minusDepthForLayering, BgElementType type) : base(scene, pos, depth - minusDepthForLayering, type)
     {
         MinusDepthForLayering = minusDepthForLayering;
         AssetName = assetName;

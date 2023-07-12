@@ -166,6 +166,29 @@ public class TrainView : CustomBgScene
                     foreach (var newSprite in newSLeaser.sprites)
                         newSprite.MoveBehindOtherNode(sprite);
 
+            // lazy lightning infront of buildings fix
+            if (newElement is BgLightning lightning)
+            {
+                lightning.IntensityMultiplier = 1.0f;
+
+                foreach (var sLeaser in sLeasers)
+                {
+                    if (sLeaser.drawableObject is not BgBuilding building) continue;
+
+                    if (building.Type != BgElementType.CloseCan && building.Type != BgElementType.MediumCan && building.Type != BgElementType.VeryCloseCan) continue;
+
+
+                    // lightning is for this building or we are the closest lightning
+                    if (newElement.Type == building.Type || newElement.Type == BgElementType.VeryCloseCan) continue;
+
+                    if (newElement.Type == BgElementType.CloseCan && building.Type == BgElementType.MediumCan) continue;
+
+                    if (Mathf.Abs(building.pos.x - newElement.pos.x) > 100.0f) continue;
+
+                    lightning.IntensityMultiplier = 0.0f;
+                    break;
+                }
+            }
         }
 
         for (int i = DynamicBgElements.Count - 1; i >= 0; i--)
@@ -201,7 +224,7 @@ public class TrainView : CustomBgScene
         //}
     }
 
-    public static int stacker = 0;
+    //public static int stacker = 0;
     
     public int SetSpawnTime(BgElementType type)
     {
@@ -359,7 +382,7 @@ public class TrainView : CustomBgScene
             _ => 0.0f,
         };
 
-        var newLight = new BgLightning(this, light, new(xPos, yPos + yAdd), 0.0f, 50.0f)
+        var newLight = new BgLightning(this, light, new(xPos, yPos + yAdd), 0.0f, 50.0f, type)
         {
             Vel = Vector2.right * vel,
         };
