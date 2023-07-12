@@ -74,8 +74,34 @@ public partial class Hooks
 
                 if (physicalObject is not Player player) continue;
 
-                if (player.bodyMode != Player.BodyModeIndex.Crawl)
-                    player.firstChunk.vel.x += player.canJump == 0 ?  1.0f : 0.5f;
+                List<Player.BodyModeIndex> exemptBodyModes = new()
+                {
+                    Player.BodyModeIndex.Crawl,
+                    Player.BodyModeIndex.ClimbIntoShortCut,
+                    Player.BodyModeIndex.CorridorClimb,
+                };
+                
+                var target = player.canJump == 0 ? 1.5f : 1.1f;
+               
+                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+
+                if (playerModule.EarL == null || playerModule.EarR == null) continue;
+
+                foreach (var earSegment in playerModule.EarL)
+                    earSegment.vel.x += target * 1.25f;
+
+                foreach (var earSegment in playerModule.EarR)
+                    earSegment.vel.x += target * 1.25f;
+
+                if (player.graphicsModule is not PlayerGraphics graphics) continue;
+
+                foreach (var tailSegment in graphics.tail)
+                    tailSegment.vel.x += target * 1.25f;
+
+
+                if (!exemptBodyModes.Contains(player.bodyMode))
+                    foreach (var bodyChunk in player.bodyChunks)
+                        bodyChunk.vel.x += target;
             }
         }
     }

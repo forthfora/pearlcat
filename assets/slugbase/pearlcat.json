@@ -106,6 +106,6 @@
 
         "store_object_delay": 30,
 
-        "train_view_yshift": -22000.0
+        "train_view_yshift": -20000.0
     }
 }

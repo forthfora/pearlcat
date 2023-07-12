@@ -34,7 +34,7 @@ public abstract class CustomBgElement : BackgroundScene.BackgroundSceneElement
     public Vector2 Vel { get; set; } = Vector2.zero;
     public Vector2 LastPos { get; set; }
 
-    public float InitialDepth { get; private set; }
+    public float InitialDepth { get; protected set; }
 
     public CustomBgElement(CustomBgScene scene, Vector2 pos, float depth, BgElementType type) : base(scene, pos, depth)
     {

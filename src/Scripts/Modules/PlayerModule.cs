@@ -5,14 +5,13 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using RWCustom;
-using System.Drawing;
 using Color = UnityEngine.Color;
 
 namespace Pearlcat;
 
 public class PlayerModule
 {
-    public WeakReference<Player> PlayerRef { get; set; }
+    public WeakReference<Player> PlayerRef { get; private set; }
 
     public PlayerModule(Player self)
     {
@@ -32,7 +31,6 @@ public class PlayerModule
     public int LastSprite { get; set; }
 
     public int ScarfSprite { get; set; }
-
     public int SleeveLSprite { get; set; }
     public int SleeveRSprite { get; set; }
     public int FeetSprite { get; set; }
@@ -55,8 +53,8 @@ public class PlayerModule
     public int SwapIntervalTimer { get; set; }
     public int StoreObjectTimer { get; set; }
 
-    public List<AbstractPhysicalObject> Inventory { get; set; } = new();
-    public List<AbstractPhysicalObject> PostDeathInventory { get; set; } = new();
+    public List<AbstractPhysicalObject> Inventory { get; } = new();
+    public List<AbstractPhysicalObject> PostDeathInventory { get; } = new();
 
     public AbstractPhysicalObject? ActiveObject => ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count ? Inventory[(int)ActiveObjectIndex] : null;
     public int? ActiveObjectIndex { get; set; }
@@ -75,6 +73,9 @@ public class PlayerModule
     public int ObjectAnimationTimer { get; set; }
     public int ObjectAnimationDuration { get; set; }
     public ObjectAnimation? CurrentObjectAnimation { get; set; }
+
+    public bool IsDazed => DazeTimer > 0;
+    public int DazeTimer { get; set; }
 
     public void PickObjectAnimation(Player player)
     {
@@ -120,10 +121,6 @@ public class PlayerModule
     }
 
     //public static int animationI = 0;
-
-
-    public bool IsDazed => DazeTimer > 0;
-    public int DazeTimer { get; set; }
 
 
     public void LoadSaveData(Player self)
@@ -181,26 +178,38 @@ public class PlayerModule
 
     public int TextureUpdateTimer { get; set; }
 
-    public Color CamoColor;
-    public float CamoLerp;
+    public Color CamoColor { get; set; }
+    public float CamoLerp { get; set; }
 
-    public Color BodyColor;
-    public Color EyesColor;
+    public Color BodyColor { get; set; }
+    public Color EyesColor { get; set; }
+    public Color AccentColor { get; set; }
+    public Color CloakColor { get; set; }
 
-    public Color AccentColor;
-    public Color CloakColor;
+    public Color BaseBodyColor { get; set; }
+    public Color BaseEyesColor { get; set; }
+    public Color BaseAccentColor { get; set; }
+    public Color BaseCloakColor { get; set; }
 
     public Color ActiveColor => ActiveObject == null ? Color.white : ActiveObject.GetObjectColor();
 
-    public void InitColors(PlayerGraphics graphicsModule)
+    public void InitColors(PlayerGraphics self)
     {
-        BodyColor = PlayerColor.Body.GetColor(graphicsModule) ?? Color.white;
-        EyesColor = PlayerColor.Eyes.GetColor(graphicsModule) ?? Color.magenta;
+        BaseBodyColor = PlayerColor.Body.GetColor(self) ?? Color.white;
+        BaseEyesColor = PlayerColor.Eyes.GetColor(self) ?? Color.magenta;
 
-        AccentColor = new PlayerColor("Accent").GetColor(graphicsModule) ?? Color.magenta;
-        CloakColor = new PlayerColor("Cloak").GetColor(graphicsModule) ?? Color.red;
+        BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? Color.magenta;
+        BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? Color.red;
     }
 
+    public void UpdateColors(PlayerGraphics self)
+    {
+        BodyColor = self.HypothermiaColorBlend(Color.Lerp(BaseBodyColor, CamoColor, CamoLerp));
+        AccentColor = self.HypothermiaColorBlend(Color.Lerp(BaseAccentColor, CamoColor, CamoLerp));
+        CloakColor = self.HypothermiaColorBlend(Color.Lerp(BaseCloakColor, CamoColor, CamoLerp));
+
+        EyesColor = BaseEyesColor;
+    }
 
     public static void MapAlphaToColor(Texture2D texture, Dictionary<byte, Color> map)
     {
@@ -212,7 +221,6 @@ public class PlayerModule
 
         texture.SetPixelData(data, 0);
 
-        // Works
         //for (var x = 0; x < texture.width; x++)
         //    for (var y = 0; y < texture.height; y++)
         //        if (map.TryGetValue((byte)(texture.GetPixel(x, y).a * 255), out var targetColor))
@@ -226,17 +234,17 @@ public class PlayerModule
 
     #region Ears & Tail
 
-    public TailSegment[]? earL;
-    public TailSegment[]? earR;
+    public TailSegment[]? EarL { get; set; }
+    public TailSegment[]? EarR { get; set; }
 
-    public int earLSprite;
-    public int earRSprite;
+    public int EarLSprite { get; set; }
+    public int EarRSprite { get; set; }
 
-    public FAtlas? earLAtlas;
-    public FAtlas? earRAtlas;
+    public FAtlas? EarLAtlas { get; set; }
+    public FAtlas? EarRAtlas { get; set; }
 
-    public Vector2 earLAttachPos;
-    public Vector2 earRAttachPos;
+    public Vector2 EarLAttachPos { get; set; }
+    public Vector2 EarRAttachPos { get; set; }
 
     public int EarLFlipDirection { get; set; } = 1;
     public int EarRFlipDirection { get; set; } = 1;
@@ -249,8 +257,8 @@ public class PlayerModule
         // Apply Colors
         MapAlphaToColor(earLTexture, new Dictionary<byte, Color>()
         {
-            { 255, Color.Lerp(BodyColor, CamoColor, CamoLerp) },
-            { 0, Color.Lerp(AccentColor, CamoColor, CamoLerp) },
+            { 255, BodyColor },
+            { 0, AccentColor },
         });
 
         var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
@@ -258,7 +266,7 @@ public class PlayerModule
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
 
-        earLAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earLTexture, false);
+        EarLAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earLTexture, false);
     }
 
     public void LoadEarRTexture(string textureName)
@@ -269,8 +277,8 @@ public class PlayerModule
         // Apply Colors
         MapAlphaToColor(earRTexture, new Dictionary<byte, Color>()
         {
-            { 255, Color.Lerp(BodyColor, CamoColor, CamoLerp) },
-            { 0, Color.Lerp(AccentColor, CamoColor, CamoLerp) },
+            { 255, BodyColor },
+            { 0, AccentColor },
         });
 
         var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
@@ -278,7 +286,7 @@ public class PlayerModule
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
 
-        earRAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earRTexture, false);
+        EarRAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earRTexture, false);
     }
 
     public void RegenerateEars()
@@ -295,15 +303,15 @@ public class PlayerModule
         newEarL[2] = new TailSegment(self, 1.0f, 4.0f, newEarL[1], 0.85f, 1.0f, 0.05f, true);
 
 
-        if (earL != null)
+        if (EarL != null)
         {
-            for (var i = 0; i < newEarL.Length && i < earL.Length; i++)
+            for (var i = 0; i < newEarL.Length && i < EarL.Length; i++)
             {
-                newEarL[i].pos = earL[i].pos;
-                newEarL[i].lastPos = earL[i].lastPos;
-                newEarL[i].vel = earL[i].vel;
-                newEarL[i].terrainContact = earL[i].terrainContact;
-                newEarL[i].stretched = earL[i].stretched;
+                newEarL[i].pos = EarL[i].pos;
+                newEarL[i].lastPos = EarL[i].lastPos;
+                newEarL[i].vel = EarL[i].vel;
+                newEarL[i].terrainContact = EarL[i].terrainContact;
+                newEarL[i].stretched = EarL[i].stretched;
             }
         }
 
@@ -313,25 +321,25 @@ public class PlayerModule
         newEarR[1] = new TailSegment(self, 3.0f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.05f, true);
         newEarR[2] = new TailSegment(self, 1.0f, 4.0f, newEarR[1], 0.85f, 1.0f, 0.05f, true);
 
-        if (earR != null)
+        if (EarR != null)
         {
-            for (var i = 0; i < newEarR.Length && i < earR.Length; i++)
+            for (var i = 0; i < newEarR.Length && i < EarR.Length; i++)
             {
-                newEarR[i].pos = earR[i].pos;
-                newEarR[i].lastPos = earR[i].lastPos;
-                newEarR[i].vel = earR[i].vel;
-                newEarR[i].terrainContact = earR[i].terrainContact;
-                newEarR[i].stretched = earR[i].stretched;
+                newEarR[i].pos = EarR[i].pos;
+                newEarR[i].lastPos = EarR[i].lastPos;
+                newEarR[i].vel = EarR[i].vel;
+                newEarR[i].terrainContact = EarR[i].terrainContact;
+                newEarR[i].stretched = EarR[i].stretched;
             }
         }
 
-        earL = newEarL;
-        earR = newEarR;
+        EarL = newEarL;
+        EarR = newEarR;
 
         List<BodyPart> newBodyParts = self.bodyParts.ToList();
 
-        newBodyParts.AddRange(earL);
-        newBodyParts.AddRange(earR);
+        newBodyParts.AddRange(EarL);
+        newBodyParts.AddRange(EarR);
 
         self.bodyParts = newBodyParts.ToArray();
     }
@@ -347,8 +355,8 @@ public class PlayerModule
         // Apply Colors
         MapAlphaToColor(tailTexture, new Dictionary<byte, Color>()
         {
-            { 255, Color.Lerp(BodyColor, CamoColor, CamoLerp) },
-            { 0, Color.Lerp(AccentColor, CamoColor, CamoLerp) },
+            { 255, BodyColor },
+            { 0, AccentColor },
         });
 
         var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
@@ -399,22 +407,22 @@ public class PlayerModule
 
     #region Cloak
 
-    public Texture2D? cloakTexture;
-    public FAtlas? cloakAtlas;
+    public Texture2D? CloakTexture { get; set; }
+    public FAtlas? CloakAtlas { get; set; }
 
-    public int cloakSprite;
-    public Cloak cloak { get; set; } = null!;
+    public int CloakSprite { get; set; }
+    public CloakGraphics Cloak { get; set; } = null!;
 
     public void LoadCloakTexture(string textureName)
     {
-        cloakTexture = AssetLoader.GetTexture(textureName);
-        if (cloakTexture == null) return;
+        CloakTexture = AssetLoader.GetTexture(textureName);
+        if (CloakTexture == null) return;
 
-        cloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, cloakTexture, false);
+        CloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, CloakTexture, false);
     }
 
     // CTRL + C CTRL + V (carbonara detected)
-    public class Cloak
+    public class CloakGraphics
     {
         public readonly int sprite;
 
@@ -427,7 +435,7 @@ public class PlayerModule
         public bool visible;
         public bool needsReset;
 
-        public Cloak(PlayerGraphics owner, PlayerModule playerModule)
+        public CloakGraphics(PlayerGraphics owner, PlayerModule playerModule)
         {
             this.owner = owner;
             this.playerModule = playerModule;
@@ -436,7 +444,7 @@ public class PlayerModule
             visible = true;
             needsReset = true;
 
-            sprite = playerModule.cloakSprite;
+            sprite = playerModule.CloakSprite;
         }
 
         public void Update()
@@ -530,17 +538,16 @@ public class PlayerModule
             return bodyPos + Mathf.Lerp(-1f, 1f, num) * perp * Mathf.Lerp(9f, 11f, t) + dir * Mathf.Lerp(8f, -9f, t) * (1f + Mathf.Sin(3.1415927f * num) * 0.35f * Mathf.Lerp(-1f, 1f, t));
         }
 
-        public Color CloakColorAtPos(float f) => Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp)
-            * Custom.HSL2RGB(0.0f, 0.0f, Custom.LerpMap(f, 0.3f, 1.0f, 1.0f, Custom.LerpMap(playerModule.CamoLerp, 0.0f, 1.0f, 0.3f, 1.0f)));
+        public Color CloakColorAtPos(float f) => playerModule.CloakColor * Custom.HSL2RGB(0.0f, 0.0f, Custom.LerpMap(f, 0.3f, 1.0f, 1.0f, Custom.LerpMap(playerModule.CamoLerp, 0.0f, 1.0f, 0.3f, 1.0f)));
 
 
         public void InitiateSprite(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
         {
             playerModule.LoadCloakTexture("cloak");
 
-            if (playerModule.cloakAtlas == null) return;
+            if (playerModule.CloakAtlas == null) return;
 
-            sLeaser.sprites[sprite] = TriangleMesh.MakeGridMesh(playerModule.cloakAtlas.name, divs - 1);
+            sLeaser.sprites[sprite] = TriangleMesh.MakeGridMesh(playerModule.CloakAtlas.name, divs - 1);
             sLeaser.sprites[sprite].color = Color.white;
 
             for (int i = 0; i < divs; i++)

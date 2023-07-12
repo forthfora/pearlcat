@@ -60,10 +60,10 @@ public static partial class Hooks
 
         playerModule.FeetSprite = spriteIndex++;
 
-        playerModule.earLSprite = spriteIndex++;
-        playerModule.earRSprite = spriteIndex++;
+        playerModule.EarLSprite = spriteIndex++;
+        playerModule.EarRSprite = spriteIndex++;
 
-        playerModule.cloakSprite = spriteIndex++;
+        playerModule.CloakSprite = spriteIndex++;
 
 
         playerModule.LastSprite = spriteIndex;
@@ -79,11 +79,11 @@ public static partial class Hooks
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
 
-        playerModule.cloak = new PlayerModule.Cloak(self, playerModule);
-        playerModule.cloak.InitiateSprite(sLeaser, rCam);
+        playerModule.Cloak = new PlayerModule.CloakGraphics(self, playerModule);
+        playerModule.Cloak.InitiateSprite(sLeaser, rCam);
 
-        GenerateEarMesh(sLeaser, playerModule.earL, playerModule.earLSprite);
-        GenerateEarMesh(sLeaser, playerModule.earR, playerModule.earRSprite);
+        GenerateEarMesh(sLeaser, playerModule.EarL, playerModule.EarLSprite);
+        GenerateEarMesh(sLeaser, playerModule.EarR, playerModule.EarRSprite);
 
         self.AddToContainer(sLeaser, rCam, null);
 
@@ -131,22 +131,22 @@ public static partial class Hooks
         if (!self.player.TryGetPearlcatModule(out var playerModule) || ModOptions.DisableCosmetics.Value) return;
 
 
-        if (playerModule.earL == null || playerModule.earR == null) return;
+        if (playerModule.EarL == null || playerModule.EarR == null) return;
 
         if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
         if (!EarROffset.TryGet(self.player, out var earROffset)) return;
 
 
-        playerModule.earLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
+        playerModule.EarLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
 
-        for (int segment = 0; segment < playerModule.earL.Length; segment++)
-            playerModule.earL[segment].Reset(playerModule.earLAttachPos);
+        for (int segment = 0; segment < playerModule.EarL.Length; segment++)
+            playerModule.EarL[segment].Reset(playerModule.EarLAttachPos);
 
 
-        playerModule.earRAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
+        playerModule.EarRAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
 
-        for (int segment = 0; segment < playerModule.earR.Length; segment++)
-            playerModule.earR[segment].Reset(playerModule.earRAttachPos);
+        for (int segment = 0; segment < playerModule.EarR.Length; segment++)
+            playerModule.EarR[segment].Reset(playerModule.EarRAttachPos);
     }
 
 
@@ -186,7 +186,7 @@ public static partial class Hooks
         DrawEars(self, sLeaser, timeStacker, camPos, playerModule);
         DrawTail(self, sLeaser, playerModule);
 
-        playerModule.cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
+        playerModule.Cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
 
         OrderAndColorSprites(self, sLeaser, rCam, playerModule, null);
     }
@@ -197,13 +197,13 @@ public static partial class Hooks
     {
         if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
 
-        playerModule.earLAttachPos = GetEarAttachPos(self, timestacker, playerModule, earLOffset);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.earL, playerModule.earLSprite, playerModule.earLAtlas, playerModule.earLAttachPos, playerModule.EarLFlipDirection);
+        playerModule.EarLAttachPos = GetEarAttachPos(self, timestacker, playerModule, earLOffset);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.EarL, playerModule.EarLSprite, playerModule.EarLAtlas, playerModule.EarLAttachPos, playerModule.EarLFlipDirection);
 
         if (!EarROffset.TryGet(self.player, out var earROffset)) return;
 
-        playerModule.earRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.earR, playerModule.earRSprite, playerModule.earRAtlas, playerModule.earRAttachPos, playerModule.EarRFlipDirection);
+        playerModule.EarRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.EarR, playerModule.EarRSprite, playerModule.EarRAtlas, playerModule.EarRAttachPos, playerModule.EarRFlipDirection);
     }
 
     public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, FAtlas? earAtlas, Vector2 attachPos, int earFlipDirection)
@@ -359,10 +359,10 @@ public static partial class Hooks
 
         var feetSprite = sLeaser.sprites[playerModule.FeetSprite];
 
-        var earLSprite = sLeaser.sprites[playerModule.earLSprite];
-        var earRSprite = sLeaser.sprites[playerModule.earRSprite];
+        var earLSprite = sLeaser.sprites[playerModule.EarLSprite];
+        var earRSprite = sLeaser.sprites[playerModule.EarRSprite];
 
-        var cloakSprite = sLeaser.sprites[playerModule.cloakSprite];
+        var cloakSprite = sLeaser.sprites[playerModule.CloakSprite];
 
 
         // Container
@@ -384,10 +384,6 @@ public static partial class Hooks
 
         // Order
         // Generally, move behind body, move infront of head
-        scarfSprite.MoveInFrontOfOtherNode(headSprite);
-        scarfSprite.MoveBehindOtherNode(earLSprite);
-        scarfSprite.MoveBehindOtherNode(earRSprite);
-
         sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
         sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
 
@@ -427,6 +423,15 @@ public static partial class Hooks
             earRSprite.MoveBehindOtherNode(cloakSprite);
         }
 
+        if (upsideDown)
+        {
+            scarfSprite.MoveBehindOtherNode(headSprite);
+        }
+        else
+        {
+            scarfSprite.MoveInFrontOfOtherNode(headSprite);
+        }
+
 
         if (self.player.firstChunk.vel.x <= 0.3f)
         {
@@ -461,24 +466,29 @@ public static partial class Hooks
         sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
 
 
+        playerModule.UpdateColors(self);
+
+        var bodyColor = playerModule.BodyColor;
+        var accentColor = playerModule.AccentColor;
+        var cloakColor = playerModule.CloakColor;
 
         // Color
-        bodySprite.color = Color.Lerp(playerModule.BodyColor, playerModule.CamoColor, playerModule.CamoLerp);
-        hipsSprite.color = Color.Lerp(playerModule.BodyColor, playerModule.CamoColor, playerModule.CamoLerp);
-        headSprite.color = Color.Lerp(playerModule.BodyColor, playerModule.CamoColor, playerModule.CamoLerp);
-        legsSprite.color = Color.Lerp(playerModule.BodyColor, playerModule.CamoColor, playerModule.CamoLerp);
+        bodySprite.color = bodyColor;
+        hipsSprite.color = bodyColor;
+        headSprite.color = bodyColor;
+        legsSprite.color = bodyColor;
 
-        feetSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
-        armLSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
-        armRSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
+        feetSprite.color = accentColor;
+        armLSprite.color = accentColor;
+        armRSprite.color = accentColor;
 
-        handLSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
-        handRSprite.color = Color.Lerp(playerModule.AccentColor, playerModule.CamoColor, playerModule.CamoLerp);
+        handLSprite.color = accentColor;
+        handRSprite.color = accentColor;
 
-        scarfSprite.color = Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp);
+        scarfSprite.color = cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.4f);
 
-        sleeveLSprite.color = Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp);
-        sleeveRSprite.color = Color.Lerp(playerModule.CloakColor, playerModule.CamoColor, playerModule.CamoLerp);
+        sleeveLSprite.color = cloakColor;
+        sleeveRSprite.color = cloakColor;
 
         markSprite.color = playerModule.ActiveColor;
 
@@ -487,7 +497,7 @@ public static partial class Hooks
         earRSprite.color = Color.white;
         cloakSprite.color = Color.white;
 
-        playerModule.cloak.UpdateColor(sLeaser);
+        playerModule.Cloak.UpdateColor(sLeaser);
 
         if (playerModule.ActiveObject != null)
             markSprite.y += 10.0f;
@@ -573,7 +583,7 @@ public static partial class Hooks
         ApplyTailMovement(self);
         ApplyEarMovement(self);
 
-        playerModule.cloak.Update();
+        playerModule.Cloak.Update();
         playerModule.PrevHeadRotation = self.head.connection.Rotation;
     }
 
@@ -624,13 +634,13 @@ public static partial class Hooks
     {
         if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
-        TailSegment[]? earL = playerModule.earL;
-        TailSegment[]? earR = playerModule.earR;
+        TailSegment[]? earL = playerModule.EarL;
+        TailSegment[]? earR = playerModule.EarR;
 
         if (earL == null || earR == null) return;
 
-        UpdateEarSegments(self, earL, playerModule.earLAttachPos);
-        UpdateEarSegments(self, earR, playerModule.earRAttachPos);
+        UpdateEarSegments(self, earL, playerModule.EarLAttachPos);
+        UpdateEarSegments(self, earR, playerModule.EarRAttachPos);
     }
 
     public static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)

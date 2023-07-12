@@ -10,6 +10,7 @@ public class CloseCloud : Cloud
     public CloseCloud(CustomBgScene scene, Vector2 pos, float depth, int index) : base(scene, pos, scene.DepthFromCloud(depth), index)
     {
         CloudDepth = depth;
+        InitialDepth = depth;
     }
 
     public override void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)

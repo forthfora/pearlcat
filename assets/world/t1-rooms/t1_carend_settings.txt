@@ -8,3 +8,4 @@ Palette: 300
 EffectColorA: 13
 EffectColorB: 13
 Effects: SunBlock-1-20-20, Brightness-0.1630435-292-67, Contrast-0.1521739-42-113, SkyAndLightBloom-0.1413043-323-203, 
+AmbientSounds: OMNI><pearlcat-traininside.ogg><723.6431><562.1398><0.3043478><1, OMNI><am_win-strongwnd2.ogg><731.1622><476.3831><0.5217391><1, OMNI><msc-subtundra.ogg><529.3076><565.1954><0.7173913><1, SPOT><am_win-strongwnd2.ogg><413.3004><234.013><1><1><1005.389><395.1941><6.644653><-63.35535><0><0.1652175, SPOT><msc-subtundra.ogg><712.1282><189.0914><1><1><1008.635><392.9276><-43.35535><-47.35535><0><0.1, 

@@ -8,3 +8,4 @@ EffectColorA: 13
 EffectColorB: 13
 Effects: SkyAndLightBloom-0.1630435-20-20, SunBlock-1-14-79, Contrast-0.1521739-259-69, Brightness-0.1521739-200-164, 
 PlacedObjects: CustomDecal><292.8879><205.2554><-15~110~161~117~184~31~-355.1383~43.59352~0.3133203~1~0.3562221~sleepingdragon~0.964241~0.4594312~0.964241~0.4594312~0.964241~0.4594312~0.964241~0.4594312, 
+AmbientSounds: OMNI><pearlcat-traininside.ogg><753.9793><572.6989><0.25><1, OMNI><am_rain-rollingthunder.ogg><567.6443><568.1116><0.4021739><1, OMNI><msc-subtundra.ogg><528.9464><467.288><0.5><1, SPOT><msc-subtundra.ogg><736.4359><186.176><1><1><320.7008><355.5551><0.6446533><-45.35535><0><0.1, OMNI><am_win-strongwnd2.ogg><714.3009><477.981><0.5><1, SPOT><am_win-strongwnd2.ogg><746.1846><356.577><1><1><324.479><355.465><-35.35534><-35.35534><0><0.1, 

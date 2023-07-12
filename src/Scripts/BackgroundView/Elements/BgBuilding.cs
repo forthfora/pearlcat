@@ -22,16 +22,19 @@ public class BgBuilding : CustomBgElement
 
         sLeaser.sprites[0] = new FSprite(AssetName, true)
         {
-            shader = UseNonMultiplyShader ? rCam.game.rainWorld.Shaders["DistantBkgObjectAlpha"] : rCam.game.rainWorld.Shaders["DistantBkgObject"],
+            shader = Type == BgElementType.FgSupport ? rCam.game.rainWorld.Shaders["Basic"] : UseNonMultiplyShader ? rCam.game.rainWorld.Shaders["DistantBkgObjectAlpha"] : rCam.game.rainWorld.Shaders["DistantBkgObject"],
             anchorY = 1.0f
         };
 
-        AddToContainer(sLeaser, rCam, null!);
+        var container = Type == BgElementType.FgSupport ? rCam.ReturnFContainer("HUD") : null;
+
+        AddToContainer(sLeaser, rCam, container);
     }
 
     public override void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        var pos = DrawPos(new(camPos.x, camPos.y + Scene.yShift), rCam.hDisplace);
+        // + Scene.YShift
+        var pos = DrawPos(new(camPos.x, camPos.y), rCam.hDisplace);
         
         sLeaser.sprites[0].x = pos.x;
         sLeaser.sprites[0].y = pos.y;
