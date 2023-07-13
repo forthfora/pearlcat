@@ -17,9 +17,9 @@ public static partial class Hooks
         On.Player.Grabability += Player_Grabability;
 
         On.Player.Die += Player_Die;
+
         On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
     }
-    
 
     private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
     {
@@ -201,6 +201,9 @@ public static partial class Hooks
         UpdateSFX(self, playerModule);
 
         UpdateStoreRetrieveObject(self, playerModule);
+
+        if (self.dead || self.dangerGraspTime == 60 && self.AI == null)
+            TryRevivePlayer(self, playerModule);
     }
 
     private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
@@ -293,25 +296,24 @@ public static partial class Hooks
 
     private static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
-        if (!self.dead && playerModule.PostDeathInventory.Count > 0)
+        if (self.dead || playerModule.PostDeathInventory.Count == 0) return;
+
+        for (int i = playerModule.PostDeathInventory.Count - 1; i >= 0; i--)
         {
-            for (int i = playerModule.PostDeathInventory.Count - 1; i >= 0; i--)
-            {
-                AbstractPhysicalObject? item = playerModule.PostDeathInventory[i];
-                playerModule.PostDeathInventory.RemoveAt(i);
+            AbstractPhysicalObject? item = playerModule.PostDeathInventory[i];
+            playerModule.PostDeathInventory.RemoveAt(i);
 
-                if (item.realizedObject == null) continue;
+            if (item.realizedObject == null) continue;
 
-                if (item.realizedObject.room != self.room) continue;
+            if (item.realizedObject.room != self.room) continue;
 
-                if (item.realizedObject.grabbedBy.Count > 0) continue;
+            if (item.realizedObject.grabbedBy.Count > 0) continue;
 
 
-                if (ObjectAddon.ObjectsWithAddon.TryGetValue(item, out var _))
-                    ObjectAddon.ObjectsWithAddon.Remove(item);
+            if (ObjectAddon.ObjectsWithAddon.TryGetValue(item, out var _))
+                ObjectAddon.ObjectsWithAddon.Remove(item);
 
-                self.StoreObject(item);
-            }
+            self.StoreObject(item);
         }
     }
 
@@ -405,25 +407,74 @@ public static partial class Hooks
     }
 
 
+    public static void TryRevivePlayer(this Player self, PlayerModule playerModule)
+    {
+        bool shouldRevive = false;
+
+        foreach (var abstractObject in playerModule.PostDeathInventory)
+        {
+            var effect = abstractObject.GetPOEffect();
+
+            if (effect.MajorEffect != POEffect.MajorEffectType.REVIVE) continue;
+            
+            if (!PlayerObjectData.TryGetValue(abstractObject, out var poModule)) continue;
+
+            if (poModule.CooldownTimer < 0) continue;
+
+            poModule.CooldownTimer = -1;
+            shouldRevive = true;
+            break;
+        }
+
+        if (!shouldRevive) return;
+
+
+        if (self.dangerGrasp != null)
+        {
+            var danger = self.dangerGrasp;
+
+            danger.grabber.Stun(10);
+            danger.Release();
+
+            DeflectEffect(self.room, self.firstChunk.pos);
+        }
+
+
+        if (!self.dead) return;
+        
+        self.RevivePlayer();
+    }
 
     // Revivify moment
-    public static void Revive(this Player self)
+    public static void RevivePlayer(this Player self)
     {
+        self.Revive();
+        
+        self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
+        self.playerState.permaDead = false;
+        
         self.stun = 20;
         self.airInLungs = 0.1f;
         self.exhausted = true;
         self.aerobicLevel = 1;
-         
-        self.playerState.alive = true;
-        self.playerState.permaDead = false;
+
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        self.room.ReviveEffect(self.firstChunk.pos);
+        playerModule.PickObjectAnimation(self);
+    }
+
+    public static void Revive(this Creature self)
+    {
+        if (self.State is HealthState healthState)
+            healthState.health = 1.0f;
+
+        self.State.alive = true;
+
         self.dead = false;
         self.killTag = null;
         self.killTagCounter = 0;
         self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
-
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-        playerModule.PickObjectAnimation(self);
     }
 
     public static int GraspsHasType(this Player self, AbstractPhysicalObject.AbstractObjectType type)

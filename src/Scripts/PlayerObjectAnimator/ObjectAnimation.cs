@@ -110,20 +110,25 @@ public abstract class ObjectAnimation
 
             addon.symbolColor = Hooks.GetObjectColor(abstractObject);
             
-            if (i != playerModule.ActiveObjectIndex)
+            if (i == playerModule.ActiveObjectIndex)
+            {
+                addon.isActive = true;
+            }
+            else
+            {
+                addon.isActive = false;
                 majorEffect = POEffect.MajorEffectType.NONE;
+            }    
 
-            if (poModule.CooldownTimer > 0)
+            if (poModule.CooldownTimer != 0)
             {
                 if (poModule.CooldownTimer == 1)
-                {
                     abstractObject.realizedObject.room.AddObject(new ShockWave(abstractObject.realizedObject.firstChunk.pos, 10.0f, 1.0f, 5, true));
-                }
-
+                
                 majorEffect = POEffect.MajorEffectType.NONE;
                 addon.drawSymbolCooldown = true;
 
-                var cooldownLerp = Custom.LerpMap(poModule.CooldownTimer, 40, 0, 1.0f, 0.0f);
+                var cooldownLerp = poModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(poModule.CooldownTimer, 40, 0, 1.0f, 0.0f);
                 addon.symbolColor = Color.Lerp(addon.symbolColor, new Color(189 / 255.0f, 13 / 255.0f, 0.0f), cooldownLerp);
             }
             else

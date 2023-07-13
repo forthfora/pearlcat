@@ -8,7 +8,6 @@ public class BgLightning : CustomBgElement
     public string AssetName { get; private set; }
     public int Index { get; set; }
 
-    
     public float MinusDepthForLayering { get; set; }
     private bool RestoredDepth { get; set; }
     public int Wait { get; set; }
@@ -84,6 +83,7 @@ public class BgLightning : CustomBgElement
             depth += MinusDepthForLayering;
             RestoredDepth = true;
         }
+
         RandomLevelChange--;
 
         if (RandomLevelChange < 1)
@@ -95,23 +95,22 @@ public class BgLightning : CustomBgElement
         if (Wait > 0)
         {
             Wait--;
+
             if (Wait < 1)
-            {
                 Thunder = ThunderLength;
-            }
         }
         else
         {
             Thunder--;
+
             if (Thunder < 1)
-            {
                 Reset();
-            }
         }
 
         if (TinyThunderWait > 0)
         {
             TinyThunderWait--;
+
             if (TinyThunderWait < 1)
             {
                 TinyThunderWait = Random.Range(10, 80);
@@ -125,9 +124,8 @@ public class BgLightning : CustomBgElement
         float b = 0f;
 
         if (Thunder > 0)
-        {
             a = Mathf.Pow(RandomLevel, Mathf.Lerp(3f, 0.1f, Mathf.Sin(ThunderFac * 3.1415927f)));
-        }
+
         if (TinyThunder > 0)
         {
             TinyThunder--;
@@ -135,6 +133,7 @@ public class BgLightning : CustomBgElement
         }
 
         Intensity = Mathf.Max(a, b);
+
         base.Update(eu);
     }
 }

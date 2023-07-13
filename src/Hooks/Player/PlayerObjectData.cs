@@ -65,6 +65,15 @@ public static partial class Hooks
 
         if (obj.abstractPhysicalObject.IsPlayerObject())
             return false;
+        
+        if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0)
+        {
+            self.Stun(10);
+            playerModule.ReduceShieldTimer();
+            
+            DeflectEffect(self.room, self.firstChunk.pos);
+            return false;
+        }
 
         return result;
     }
@@ -75,7 +84,8 @@ public static partial class Hooks
 
         if (!PlayerObjectData.TryGetValue(self.abstractPhysicalObject, out var module)) return;
 
-        module.CooldownTimer--;
+        if (module.CooldownTimer > 0)
+            module.CooldownTimer--;
 
         if (!module.IsCurrentlyStored) return;
 

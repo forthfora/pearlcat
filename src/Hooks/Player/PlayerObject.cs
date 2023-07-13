@@ -135,6 +135,24 @@ public static partial class Hooks
         physicalObject.room.AddObject(lightningBolt);
     }
 
+    public static void DeflectEffect(this Room room, Vector2 pos)
+    {
+        for (int i = 0; i < 5; i++)
+            room.AddObject(new Spark(pos, Custom.RNV(), Color.white, null, 16, 24));
+
+        room.AddObject(new Explosion.ExplosionLight(pos, 150f, 1f, 8, Color.white));
+        room.AddObject(new ShockWave(pos, 60f, 0.1f, 8, false));
+
+        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1f, 1.5f + Random.value * 0.5f);
+    }
+
+    public static void ReviveEffect(this Room room, Vector2 pos)
+    {
+        room.AddObject(new Explosion.ExplosionLight(pos, 100.0f, 1.0f, 3, Color.white));
+        room.AddObject(new ShockWave(pos, 250.0f, 0.07f, 6, false));
+    }
+
+
 
     public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool bypassLimit = false)
     {
@@ -207,6 +225,9 @@ public static partial class Hooks
 
         if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon))
             addon.Destroy();
+
+        if (playerModule.Inventory.Count == 0)
+            playerModule.ActiveObjectIndex = null;
 
         InventoryHUD.Symbols.Remove(abstractObject);
     }

@@ -80,7 +80,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         {
             var sprite = sLeaser.sprites[i];
             
-            rCam.ReturnFContainer("Background").AddChild(sprite);
+            rCam.ReturnFContainer("Foreground").AddChild(sprite);
         }
     }
 
@@ -101,6 +101,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
             sprite.alpha = Custom.LerpMap(camoLerp, 0.0f, 1.0f, 1.0f, 0.05f);
     }
 
+
+    public bool isActive;
 
     public bool drawHalo = false;
     public int haloSprite;
@@ -130,9 +132,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public float symbolScale = 0.85f;
     public float symbolAlpha = 0.75f;
     public Color symbolColor = Color.white;
-
-    public Vector2 symbolOffset = new(17.5f, 10.0f);
-
+    
+    public Vector2 activeOffset = new(17.5f, 10.0f);
+    public Vector2 inactiveOffset = new(7.5f, 5.0f);
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
@@ -150,6 +152,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         halo.scale = haloScale;
         halo.alpha = haloAlpha;
         halo.color = haloColor;
+
+
+        var symbolOffset = isActive ? activeOffset : inactiveOffset;
 
         var symbolCooldown = sLeaser.sprites[symbolSpriteCooldown];
         symbolCooldown.SetPosition(parentSprite.GetPosition() + symbolOffset);

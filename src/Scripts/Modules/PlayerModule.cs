@@ -36,9 +36,12 @@ public class PlayerModule
     public int FeetSprite { get; set; }
     public int ShieldSprite { get; set; }
 
+    public int ReviveTimer { get; set; }
+
+    public void ReduceShieldTimer() => ShieldTimer = (int)(ShieldTimer * 0.75f);
     public int ShieldTimer { get; set; }
     public float ShieldAlpha { get; set; }
-    public float ShieldScale { get; set; } = 7.0f;
+    public float ShieldScale { get; set; }
 
     public Vector2 PrevHeadRotation { get; set; }
 

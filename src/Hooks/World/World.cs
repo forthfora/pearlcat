@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using RWCustom;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -19,20 +19,51 @@ public partial class Hooks
         On.ShelterDoor.DrawSprites += ShelterDoor_DrawSprites;
         On.ShelterDoor.DoorGraphic.DrawSprites += DoorGraphic_DrawSprites;
 
-        On.GlobalRain.Update += GlobalRain_Update;
-        On.RoomRain.DrawSprites += RoomRain_DrawSprites;
+        //On.GlobalRain.Update += GlobalRain_Update;
+        On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
     }
 
-    private static void RoomRain_DrawSprites(On.RoomRain.orig_DrawSprites orig, RoomRain self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+
+    // Shield deflects tusks
+    private static void Tusk_ShootUpdate(On.KingTusks.Tusk.orig_ShootUpdate orig, KingTusks.Tusk self, float speed)
     {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
+        orig(self, speed);
 
-        if (self.room.roomSettings.name == "T1_END")
+        if (self.mode != KingTusks.Tusk.Mode.ShootingOut) return;
+
+        foreach (var crit in self.vulture.abstractCreature.Room.world.game.Players)
         {
+            if (crit.realizedCreature is not Player player) continue;   
+            
+            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
 
+            if (playerModule.ShieldTimer <= 0) continue;
+
+
+            var pos = self.chunkPoints[0, 0] + self.shootDir * (20.0f + speed);
+
+            if (!Custom.DistLess(player.firstChunk.pos, pos, 50.0f)) continue;
+
+            self.mode = KingTusks.Tusk.Mode.Dangling;
+
+            self.room.DeflectEffect(pos);
+            playerModule.ReduceShieldTimer();
+
+            self.head.pos += Custom.DirVec(self.head.pos, self.chunkPoints[1, 0]) * 100f;
+            self.head.vel += Custom.DirVec(self.head.pos, self.chunkPoints[1, 0]) * 100f;
+            
+            self.chunkPoints[0, 2] = self.shootDir * speed * 0.4f;
+            self.chunkPoints[1, 2] = self.shootDir * speed * 0.6f;
+
+            var rand = Custom.RNV();
+            self.chunkPoints[0, 0] += rand * 4f;
+            self.chunkPoints[0, 2] += rand * 6f;
+            self.chunkPoints[1, 0] -= rand * 4f;
+            self.chunkPoints[1, 2] -= rand * 6f;
         }
     }
 
+    // nevermind, rain shader looks weird at this angle
     private static void GlobalRain_Update(On.GlobalRain.orig_Update orig, GlobalRain self)
     {
         orig(self);
@@ -169,6 +200,7 @@ public partial class Hooks
 
         orig(self, playerShelter, activeGate);
     }
+
 
     // Prevent Player Pearls being saved in the shelter 
     private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)

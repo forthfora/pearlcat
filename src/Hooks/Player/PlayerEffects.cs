@@ -212,26 +212,90 @@ public static partial class Hooks
     {
         if (ModOptions.DisableRevive.Value) return;
 
-        if (effect.MajorEffect != MajorEffectType.REVIVE) return;
+        if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
+
+        var abilityInput = self.IsAbilityKeybindPressed(playerModule);
+
+        if (effect.MajorEffect != MajorEffectType.REVIVE || !abilityInput)
+        {
+            playerModule.ReviveTimer = 0;
+            return;
+        }
+
+        if (poModule.CooldownTimer != 0) return;
+
+        bool shouldResetRevive = true;
+
+        foreach (var grasp in self.grasps)
+        {
+            if (grasp?.grabbed is not Creature creature) continue;
+
+            if (!creature.dead) continue;
+
+
+            if (playerModule.ReviveTimer % 3 == 0)
+                playerModule.ActiveObject.realizedObject.ConnectEffect(creature.firstChunk.pos);
+
+            if (playerModule.ReviveTimer > 200)
+            {
+                poModule.CooldownTimer = -1;
+
+                if (creature is Player player)
+                    player.RevivePlayer();
+                
+                else
+                    creature.Revive();  
+            }
+
+            shouldResetRevive = false;
+            playerModule.ReviveTimer++;
+            break;
+        }
+
+        if (shouldResetRevive)
+            playerModule.ReviveTimer = 0;
+        
+        else
+            playerModule.ReviveTimer++;
     }
-    
+
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableShield.Value) return;
 
         if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
 
-
         if (playerModule.ShieldTimer > 0)
         {
             playerModule.ShieldTimer--;
-            poModule.CooldownTimer = 120;
 
             playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 1.0f, 0.25f);
-            playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 7.0f, 0.4f);
+            playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 6.0f, 0.4f);
             
             if (playerModule.ShieldTimer % 3 == 0)
                 playerModule.ActiveObject.realizedObject.ConnectEffect(self.firstChunk.pos);
+
+            var roomObjects = self.room.physicalObjects;
+
+            foreach (var roomObject in roomObjects)
+            {
+                foreach (var physicalObject in roomObject)
+                {
+                    if (physicalObject is not Weapon weapon) continue;
+
+                    if (weapon.thrownBy == self) continue;
+
+                    if (weapon.mode == Weapon.Mode.Thrown && Custom.Dist(weapon.firstChunk.pos, self.firstChunk.pos) < 50.0f)
+                    {
+                        weapon.ChangeMode(Weapon.Mode.Free);
+                        weapon.SetRandomSpin();
+                        weapon.firstChunk.vel *= -0.2f;
+
+                        weapon.room.DeflectEffect(weapon.firstChunk.pos);
+                        playerModule.ReduceShieldTimer();
+                    }
+                }
+            }
         }
         else
         {
@@ -251,9 +315,11 @@ public static partial class Hooks
         var abilityInput = self.IsAbilityKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasAbilityInput;
 
-        if (abilityInput && !wasAbilityInput)
+
+        if (abilityInput && !wasAbilityInput && poModule.CooldownTimer == 0)
         {
             playerModule.ShieldTimer = 200;
+            poModule.CooldownTimer = playerModule.ShieldTimer + 300;
         }
     }
     
