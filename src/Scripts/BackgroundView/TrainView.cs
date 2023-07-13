@@ -26,6 +26,8 @@ public class TrainView : CustomBgScene
         StartAltitude = effectAmount - 5500f;
         EndAltitude = effectAmount + 5500f;
 
+        AtmosphereColor = new Color32(149, 107, 107, 255);
+
         var daySky = new Simple2DBackgroundIllustration(this, "pearlcat_daysky", new(683.0f, 384.0f))
         {
             alpha = 1.0f,
@@ -95,7 +97,7 @@ public class TrainView : CustomBgScene
                 //BgElementType.BgSupport => -1,
 
                 BgElementType.FgSupport => IsOutside ? 0 : -1,
-                BgElementType.BgSupport => 3,
+                BgElementType.BgSupport => 1,
 
                 _ => -1,
             };
@@ -198,7 +200,9 @@ public class TrainView : CustomBgScene
             if (newElement.pos.x > 2000.0f)
             {
                 DynamicBgElements.Remove(newElement);
+                elements.Remove(newElement);
                 newElement.slatedForDeletetion = true;
+                newElement.RemoveFromRoom();
             }
         }
 
@@ -281,23 +285,23 @@ public class TrainView : CustomBgScene
 
         var vel = type switch
         {
-            BgElementType.VeryCloseCan => 0.4f,
-            BgElementType.CloseCan => 0.25f,
-            BgElementType.MediumCan => 0.2f,
-            BgElementType.MediumFarCan => 0.15f,
-            BgElementType.FarCan => 0.1f,
-            BgElementType.VeryFarCan => 0.1f,
+            BgElementType.VeryCloseCan => 0.3f,
+            BgElementType.CloseCan => 0.15f,
+            BgElementType.MediumCan => 0.1f,
+            BgElementType.MediumFarCan => 0.1f,
+            BgElementType.FarCan => 0.05f,
+            BgElementType.VeryFarCan => 0.05f,
 
-            BgElementType.VeryCloseSpire => 0.4f,
-            BgElementType.CloseSpire => 0.3f,
-            BgElementType.MediumSpire => 0.2f,
-            BgElementType.MediumFarSpire => 0.15f,
+            BgElementType.VeryCloseSpire => 0.35f,
+            BgElementType.CloseSpire => 0.2f,
+            BgElementType.MediumSpire => 0.15f,
+            BgElementType.MediumFarSpire => 0.1f,
             BgElementType.FarSpire => 0.1f,
-            BgElementType.VeryFarSpire => 0.1f,
-            BgElementType.FarthestSpire => 0.1f,
+            BgElementType.VeryFarSpire => 0.05f,
+            BgElementType.FarthestSpire => 0.05f,
 
-            BgElementType.BgSupport => IsOutside ? 500.0f : 200.0f,
-            BgElementType.FgSupport => IsOutside ? 500.0f : 200.0f,
+            BgElementType.BgSupport => IsOutside ? 400.0f : 150.0f,
+            BgElementType.FgSupport => IsOutside ? 400.0f : 150.0f,
 
             _ => 0.0f,
         };

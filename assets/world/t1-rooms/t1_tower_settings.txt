@@ -1,0 +1,7 @@
+Template: NONE
+Clouds: 0
+Grime: 0
+WaterReflectionAlpha: 1
+Palette: 30
+Effects: Brightness-0.4021739-16-66, Contrast-0.4021739-28-122, Bloom-0-20-20, 
+FadePalette: 49, 0.2826087

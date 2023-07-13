@@ -26,7 +26,7 @@ public class BgBuilding : CustomBgElement
             anchorY = 1.0f
         };
 
-        var container = Type == BgElementType.FgSupport ? rCam.ReturnFContainer("HUD") : null;
+        var container = Type == BgElementType.FgSupport ? rCam.ReturnFContainer("Foreground") : null;
 
         AddToContainer(sLeaser, rCam, container);
     }

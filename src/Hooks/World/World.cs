@@ -106,7 +106,7 @@ public partial class Hooks
                     Player.BodyModeIndex.CorridorClimb,
                 };
                 
-                var target = player.canJump == 0 ? 1.5f : 1.1f;
+                var target = player.canJump == 0 ? 1.1f : 0.95f;
                
                 if (!player.TryGetPearlcatModule(out var playerModule)) continue;
 
