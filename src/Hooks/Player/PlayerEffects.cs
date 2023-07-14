@@ -112,8 +112,10 @@ public static partial class Hooks
 
 
         var abilityInput = self.IsAbilityKeybindPressed(playerModule);
+
+        var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
     
-        if (abilityInput)
+        if (abilityInput && (!self.spearOnBack.HasASpear || !holdingSpear))
         {
             playerModule.SpearTimer++;
             self.Blink(5);
@@ -136,8 +138,14 @@ public static partial class Hooks
 
                 save.PearlSpears.Add(abstractSpear.ID.number, spearModule);
 
-                if (self.FreeHand() > -1)
+                if (holdingSpear)
+                {
+                    self.spearOnBack.SpearToBack((Spear)abstractSpear.realizedObject);
+                }
+                else
+                {
                     self.SlugcatGrab(abstractSpear.realizedObject, self.FreeHand());
+                }
 
                 ConnectEffect(playerModule.ActiveObject.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
             }
@@ -416,4 +424,6 @@ public static partial class Hooks
 
         playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, 0.001f) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, 0.001f);
     }
+
+    Type
 }

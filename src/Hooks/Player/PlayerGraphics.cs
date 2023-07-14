@@ -38,6 +38,7 @@ public static partial class Hooks
     public const int FACE_SPRITE = 9;
     public const int GLOW_SPRITE = 10;
     public const int MARK_SPRITE = 11;
+    public const int MARK_GLOW_SPRITE = 12;
 
     private static void PlayerGraphics_InitiateSprites(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
@@ -358,6 +359,7 @@ public static partial class Hooks
         var handRSprite = sLeaser.sprites[HAND_R_SPRITE];
         var legsSprite = sLeaser.sprites[LEGS_SPRITE];
         var markSprite = sLeaser.sprites[MARK_SPRITE];
+        var markGlowSprite = sLeaser.sprites[MARK_GLOW_SPRITE];
 
         var scarfSprite = sLeaser.sprites[playerModule.ScarfSprite];
         var sleeveLSprite = sLeaser.sprites[playerModule.SleeveLSprite];
@@ -504,6 +506,13 @@ public static partial class Hooks
         sleeveRSprite.color = cloakColor;
 
         markSprite.color = playerModule.ActiveColor;
+        markGlowSprite.color = playerModule.ActiveColor;
+        
+        if (playerModule.ActiveObject != null)
+        {
+            markSprite.y += 10.0f;
+            markGlowSprite.y += 10.0f;
+        }
 
         tailSprite.color = Color.white;
         earLSprite.color = Color.white;
@@ -516,8 +525,6 @@ public static partial class Hooks
 
         playerModule.Cloak.UpdateColor(sLeaser);
 
-        if (playerModule.ActiveObject != null)
-            markSprite.y += 10.0f;
     }
     
     public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)

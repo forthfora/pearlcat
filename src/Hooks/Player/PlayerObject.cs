@@ -135,6 +135,17 @@ public static partial class Hooks
         physicalObject.room.AddObject(lightningBolt);
     }
 
+    public static void ConnectEffect(this Room room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f)
+    {
+        var lightningBolt = new MoreSlugcats.LightningBolt(startPos, targetPos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
+        {
+            intensity = intensity,
+            lifeTime = lifeTime,
+            lightningType = Custom.RGB2HSL(color).x,
+        };
+        room.AddObject(lightningBolt);
+    }
+
     public static void DeflectEffect(this Room room, Vector2 pos)
     {
         for (int i = 0; i < 5; i++)

@@ -77,7 +77,7 @@ public static partial class Hooks
                 var indexString = fileName.Replace("pearl", "");
 
                 if (!int.TryParse(indexString, out index))
-                    if (fileName == "pearlactive" || fileName == "pearlactiveplaceholder")
+                    if (fileName == "pearlactive" || fileName == "pearlactiveplaceholder" || fileName == "pearlactivehalo")
                         index = -1;
             }
 
@@ -117,6 +117,16 @@ public static partial class Hooks
         if (illustrationModule.Index == -1)
         {
             var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+            if (fileName == "pearlactivehalo")
+            {
+                illustration.sprite.SetAnchor(Vector2.one * 0.5f);
+                illustration.sprite.scale = 0.3f;
+
+                illustration.pos = menuSceneModule.ActivePearlPos;
+                return;
+            }
+
             bool isPlaceholder = fileName == "pearlactiveplaceholder";
             
             if (menuSceneModule.ActivePearlType == null)
@@ -161,6 +171,7 @@ public static partial class Hooks
             illustration.pos += illustrationModule.vel;
 
             illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
 
@@ -194,6 +205,17 @@ public static partial class Hooks
                 return;
             }
 
+            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+            if (fileName == "pearlactivehalo")
+            {
+                illustration.sprite.SetAnchor(Vector2.one * 0.5f);
+                illustration.sprite.scale = 0.3f;
+
+                illustration.pos = menuSceneModule.ActivePearlPos;
+                return;
+            }
+
             var activePearlColor = DataPearl.UniquePearlMainColor(menuSceneModule.ActivePearlType);
 
             illustration.visible = true;
@@ -221,6 +243,7 @@ public static partial class Hooks
             illustration.pos += illustrationModule.vel;
 
             illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
 

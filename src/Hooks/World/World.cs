@@ -22,7 +22,38 @@ public partial class Hooks
 
         //On.GlobalRain.Update += GlobalRain_Update;
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
+
         On.Spear.DrawSprites += Spear_DrawSprites;
+        On.Spear.Update += Spear_Update;
+
+        On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
+    }
+
+    private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)
+    {
+        var result = orig(self);
+
+        if (result == "T1_S01")
+            return "LC_T1_S01";
+
+        return result;
+    }
+
+    private static void Spear_Update(On.Spear.orig_Update orig, Spear self, bool eu)
+    {
+        orig(self, eu);
+
+
+        if (!self.abstractSpear.TryGetModule(out var module)) return;
+
+        if (module.SparkTimer <= 0)
+        {
+            module.SparkTimer = Random.Range(40, 350);
+        }
+        else
+        {
+            module.SparkTimer--;
+        }
     }
 
     public static bool TryGetModule(this AbstractSpear spear, out SpearModule module)
@@ -43,6 +74,19 @@ public partial class Hooks
 
         sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_spear");
         sLeaser.sprites[0].color = module.Color;
+
+        var randOffset = Custom.DegToVec(Random.value * 360f) * 0.25f * Random.value;
+        sLeaser.sprites[0].x += randOffset.x;
+        sLeaser.sprites[0].y += randOffset.y;
+
+        var thrown = self.mode == Weapon.Mode.Thrown;
+
+        if (module.SparkTimer == 0 || thrown)
+        {
+            var startPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * -30.0f;
+            var endPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * 30.0f;
+            self.room.ConnectEffect(startPos, endPos, module.Color, thrown ? 0.5f : 0.75f, thrown ? 6 : 12);
+        }
     }
 
 
@@ -105,12 +149,11 @@ public partial class Hooks
     {
         orig(room);
 
-        if (room.game.IsStorySession && room.game.GetStorySession.saveState.saveStateNumber == Enums.General.Pearlcat
-            && room.abstractRoom.firstTimeRealized && room.game.GetStorySession.saveState.cycleNumber == 0
-            && room.game.GetStorySession.saveState.denPosition == "T1_START")
-        {
-            room.AddObject(new PearlcatStart(room));
-        }
+        if (room.game.GetStorySession.saveState.denPosition == "T1_START")
+            room.AddObject(new T1_START(room));
+
+        if (room.roomSettings.name == "LC_T1_S01")
+            room.AddObject(new LC_T1_S01(room));
     }
 
     public static List<string> TrainViewRooms { get; } = new()

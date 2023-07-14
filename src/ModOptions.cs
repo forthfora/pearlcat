@@ -24,7 +24,7 @@ public sealed class ModOptions : OptionsTemplate
         "Low Starting Reputation?"));
 
     public static Configurable<int> MaxPearlCount = Instance.config.Bind(nameof(MaxPearlCount), 11, new ConfigurableInfo(
-        "Maximum number of pearls that can be stored at once, including the active pearl. Hold and drag up or down to change.",
+        "Maximum number of pearls that can be stored at once, including the active pearl. Default is 11. Hold and drag up or down to change.",
         new ConfigAcceptableRange<int>(1, 100), "",
         "Max Pearl Count"));
     
@@ -75,19 +75,19 @@ public sealed class ModOptions : OptionsTemplate
 
 
 
-    public static Configurable<KeyCode> SwapKeybindKeyboard = Instance.config.Bind(nameof(SwapKeybindKeyboard), KeyCode.S, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindKeyboard = Instance.config.Bind(nameof(SwapKeybindKeyboard), KeyCode.LeftControl, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
-    public static Configurable<KeyCode> SwapKeybindPlayer1 = Instance.config.Bind(nameof(SwapKeybindPlayer1), KeyCode.Joystick1Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindPlayer1 = Instance.config.Bind(nameof(SwapKeybindPlayer1), KeyCode.Joystick1Button3, new ConfigurableInfo(
         "Keybind for Player 1.", null, "", "Player 1"));
 
-    public static Configurable<KeyCode> SwapKeybindPlayer2 = Instance.config.Bind(nameof(SwapKeybindPlayer2), KeyCode.Joystick2Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindPlayer2 = Instance.config.Bind(nameof(SwapKeybindPlayer2), KeyCode.Joystick2Button3, new ConfigurableInfo(
         "Keybind for Player 2.", null, "", "Player 2"));
 
-    public static Configurable<KeyCode> SwapKeybindPlayer3 = Instance.config.Bind(nameof(SwapKeybindPlayer3), KeyCode.Joystick3Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindPlayer3 = Instance.config.Bind(nameof(SwapKeybindPlayer3), KeyCode.Joystick3Button3, new ConfigurableInfo(
         "Keybind for Player 3.", null, "", "Player 3"));
 
-    public static Configurable<KeyCode> SwapKeybindPlayer4 = Instance.config.Bind(nameof(SwapKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindPlayer4 = Instance.config.Bind(nameof(SwapKeybindPlayer4), KeyCode.Joystick4Button3, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Player 4"));
 
     public static Configurable<int> SwapTriggerPlayer = Instance.config.Bind(nameof(SwapTriggerPlayer), 1, new ConfigurableInfo(
@@ -98,7 +98,7 @@ public sealed class ModOptions : OptionsTemplate
 
 
     public static Configurable<bool> PreferCustomAbilityKeybind = Instance.config.Bind(nameof(PreferCustomAbilityKeybind), false, new ConfigurableInfo(
-        "Prefer to use the custom keybinds below, as opposed to the defaults in some cases, such as (JUMP + PICKUP) for Agiltiy.",
+        "Prefer to use the custom keybinds below, as opposed to special binds in some cases, such as (JUMP + PICKUP) for Agiltiy.",
         null, "", "Prefer Custom Keybind?"));
 
     public static Configurable<KeyCode> AbilityKeybindKeyboard = Instance.config.Bind(nameof(AbilityKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
@@ -125,16 +125,16 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<KeyCode> StoreKeybindKeyboard = Instance.config.Bind(nameof(StoreKeybindKeyboard), KeyCode.LeftAlt, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
-    public static Configurable<KeyCode> StoreKeybindPlayer1 = Instance.config.Bind(nameof(StoreKeybindPlayer1), KeyCode.Joystick1Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindPlayer1 = Instance.config.Bind(nameof(StoreKeybindPlayer1), KeyCode.Joystick1Button6, new ConfigurableInfo(
         "Keybind for Player 1.", null, "", "Player 1"));
 
-    public static Configurable<KeyCode> StoreKeybindPlayer2 = Instance.config.Bind(nameof(StoreKeybindPlayer2), KeyCode.Joystick2Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindPlayer2 = Instance.config.Bind(nameof(StoreKeybindPlayer2), KeyCode.Joystick2Button6, new ConfigurableInfo(
         "Keybind for Player 2.", null, "", "Player 2"));
 
-    public static Configurable<KeyCode> StoreKeybindPlayer3 = Instance.config.Bind(nameof(StoreKeybindPlayer3), KeyCode.Joystick3Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindPlayer3 = Instance.config.Bind(nameof(StoreKeybindPlayer3), KeyCode.Joystick3Button6, new ConfigurableInfo(
         "Keybind for Player 3.", null, "", "Player 3"));
 
-    public static Configurable<KeyCode> StoreKeybindPlayer4 = Instance.config.Bind(nameof(StoreKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindPlayer4 = Instance.config.Bind(nameof(StoreKeybindPlayer4), KeyCode.Joystick4Button6, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Player 4"));
 
     #endregion
@@ -173,8 +173,7 @@ public sealed class ModOptions : OptionsTemplate
 
         AddNewLine(1);
 
-        AddTextLabel("NoirCatto");
-        AddTextLabel("Vigaro");
+        AddTextLabel("NoirCatto - Floppy Ears");
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine(12);

@@ -19,6 +19,17 @@ public static partial class Hooks
         On.Player.Die += Player_Die;
 
         On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
+        On.Creature.Violence += Creature_Violence;
+    }
+
+    private static void Creature_Violence(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
+    {
+        // sin number 2
+        if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
+            if (playerModule.InvulnerabilityTimer > 0)
+                return;
+        
+        orig(self, source, directionAndMomentum, hitChunk, hitAppendage, type, damage, stunBonus);
     }
 
     private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
@@ -46,9 +57,16 @@ public static partial class Hooks
 
     private static void Player_Die(On.Player.orig_Die orig, Player self)
     {
-        orig(self);
+        if (!self.TryGetPearlcatModule(out var playerModule))
+        {
+            orig(self);
+            return;
+        }
 
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        // forgive our sins
+        if (playerModule.InvulnerabilityTimer > 0) return;
+
+        orig(self);
 
         playerModule.ReviveTimer = 0;
         playerModule.ShieldTimer = 0;
@@ -173,6 +191,9 @@ public static partial class Hooks
         }
 
         playerModule.TextureUpdateTimer++;
+
+        if (playerModule.InvulnerabilityTimer > 0)
+            playerModule.InvulnerabilityTimer--;
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)
@@ -204,8 +225,23 @@ public static partial class Hooks
 
         UpdateStoreRetrieveObject(self, playerModule);
 
-        if (self.dead || self.dangerGraspTime == 60 && self.AI == null)
-            TryRevivePlayer(self, playerModule);
+        UpdateTryRevive(self, playerModule);
+    }
+
+    private static void UpdateTryRevive(Player self, PlayerModule playerModule)
+    {
+        bool shouldTryRevive = false;
+
+        if (self.dead)
+            shouldTryRevive = true;
+
+        if (self.dangerGraspTime >= 60 && self.AI == null)
+            shouldTryRevive = true;
+
+
+        if (!shouldTryRevive) return;
+
+        TryRevivePlayer(self, playerModule);
     }
 
     private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
@@ -413,7 +449,9 @@ public static partial class Hooks
     {
         bool shouldRevive = false;
 
-        foreach (var abstractObject in playerModule.PostDeathInventory)
+        var inventory = self.dead ? playerModule.PostDeathInventory : playerModule.Inventory;
+
+        foreach (var abstractObject in inventory)
         {
             var effect = abstractObject.GetPOEffect();
 
@@ -431,21 +469,35 @@ public static partial class Hooks
         if (!shouldRevive) return;
 
 
+        List<Creature.Grasp> dangerGrasps = new();
+
         if (self.dangerGrasp != null)
+            dangerGrasps.Add(self.dangerGrasp);
+
+
+        foreach (var grasp in self.grabbedBy)
         {
-            var danger = self.dangerGrasp;
+            if (grasp?.grabber is not Creature crit) continue;
 
-            danger.grabber.Stun(10);
-            danger.Release();
+            var relationship = self.abstractCreature.creatureTemplate.CreatureRelationship(crit.abstractCreature.creatureTemplate);
 
-            DeflectEffect(self.room, self.firstChunk.pos);
+            if (relationship.type == CreatureTemplate.Relationship.Type.Afraid)
+                dangerGrasps.Add(grasp);
         }
 
+        foreach (var dangerGrasp in dangerGrasps)
+        {
+            dangerGrasp.Release();
+            dangerGrasp.grabber.Stun(100);
+        }
 
-        if (!self.dead) return;
-        
-        self.RevivePlayer();
+        DeflectEffect(self.room, self.firstChunk.pos);
+        playerModule.ShieldTimer = 120;
+
+        if (self.dead)
+            self.RevivePlayer();
     }
+
 
     // Revivify moment
     public static void RevivePlayer(this Player self)
@@ -455,14 +507,10 @@ public static partial class Hooks
         self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
         self.playerState.permaDead = false;
         
-        self.stun = 20;
-        self.airInLungs = 0.1f;
-        self.exhausted = true;
-        self.aerobicLevel = 1;
-
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         self.room.ReviveEffect(self.firstChunk.pos);
+
         playerModule.PickObjectAnimation(self);
     }
 

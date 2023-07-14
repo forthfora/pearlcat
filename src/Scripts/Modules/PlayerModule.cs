@@ -46,6 +46,8 @@ public class PlayerModule
     public int SpearTimer { get; set; }
     public float SpearLerp { get; set; }
 
+    public int InvulnerabilityTimer { get; set; }
+
     public Vector2 PrevHeadRotation { get; set; }
 
     public bool CanMaul { get; set; }

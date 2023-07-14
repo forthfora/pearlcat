@@ -16,6 +16,7 @@
 
     {"name": "pearlactiveplaceholder", "pos": [730, 160], "depth": 2.3, "shader": "Basic"},
     {"name": "pearlactive", "pos": [906, 447], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearlactivehalo", "pos": [906, 447], "depth": 2.1, "shader": "Basic"},
     
     {"name": "pearl5", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl6", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},

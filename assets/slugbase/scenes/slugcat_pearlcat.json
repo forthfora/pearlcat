@@ -31,7 +31,8 @@
     {"name": "topgrass", "pos": [430, 130], "depth": 1.7, "shader": "Normal"},
     {"name": "bottomgrass", "pos": [430, 130], "depth": 1.7,  "shader": "Normal"},
 
-    {"name": "pearlactive", "pos": [690, 380], "depth": 2.3, "shader": "Basic"}  
+    {"name": "pearlactive", "pos": [690, 380], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearlactivehalo", "pos": [690, 380], "depth": 2.0, "shader": "Basic"}  
   ],
   
   "idle_depths": [2.4],
