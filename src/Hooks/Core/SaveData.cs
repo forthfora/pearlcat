@@ -1,5 +1,9 @@
-﻿using SlugBase.SaveData;
+﻿using Newtonsoft.Json;
+using SlugBase;
+using SlugBase.SaveData;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
@@ -10,8 +14,10 @@ public static partial class Hooks
     {
         public bool IsNewGame { get; set; } = true;
 
-        public Dictionary<int, List<string>> Inventory { get; set; } = new();
-        public Dictionary<int, int?> ActiveObjectIndex { get; set; } = new();
+        public Dictionary<int, List<string>> Inventory { get; } = new();
+        public Dictionary<int, int?> ActiveObjectIndex { get; } = new();
+
+        public Dictionary<int, SpearModule> PearlSpears { get; } = new();
     }
 
     public class SaveDeathPersistent
@@ -81,5 +87,34 @@ public static partial class Hooks
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
         miscProg.IsNewSave = miscWorld.IsNewGame;
+    }
+
+
+    // https://medium.com/@altaf.navalur/serialize-deserialize-color-objects-in-unity-1731e580af94
+    public class ColorHandler : Newtonsoft.Json.JsonConverter
+    {
+        public override bool CanConvert(Type objectType) => true;
+
+        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        {
+            try
+            {
+                ColorUtility.TryParseHtmlString("#" + reader.Value, out Color loadedColor);
+                return loadedColor;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to parse color {objectType} : {ex.Message}");
+                return null;
+            }
+        }
+
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        {
+            if (value == null) return;
+
+            string val = ColorUtility.ToHtmlStringRGB((Color)value);
+            writer.WriteValue(val);
+        }
     }
 }

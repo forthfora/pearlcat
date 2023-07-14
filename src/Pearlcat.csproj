@@ -57,6 +57,10 @@
       <public>False</public>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="SlugBase">
       <HintPath>..\..\Backups\Rain World\Rain World References\SlugBase.dll</HintPath>
       <public>False</public>

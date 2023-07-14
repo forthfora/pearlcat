@@ -50,10 +50,13 @@ public static partial class Hooks
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
+        playerModule.ReviveTimer = 0;
+        playerModule.ShieldTimer = 0;
+        playerModule.SpearTimer = 0;
 
         for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
         {
-            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
+            var abstractObject = playerModule.Inventory[i];
 
             DeathEffect(abstractObject.realizedObject);
             RemoveFromInventory(self, abstractObject);
@@ -79,7 +82,6 @@ public static partial class Hooks
 
         orig(self, entrancePos, carriedByOther);
     }
-
 
 
     public static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)

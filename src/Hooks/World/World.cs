@@ -1,5 +1,6 @@
 ﻿using RWCustom;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -21,6 +22,27 @@ public partial class Hooks
 
         //On.GlobalRain.Update += GlobalRain_Update;
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
+        On.Spear.DrawSprites += Spear_DrawSprites;
+    }
+
+    public static bool TryGetModule(this AbstractSpear spear, out SpearModule module)
+    {
+        var save = spear.Room.world.game.GetMiscWorld();
+
+        if (save.PearlSpears.TryGetValue(spear.ID.number, out module))
+            return true;
+
+        return false;
+    }
+
+    private static void Spear_DrawSprites(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (!self.abstractSpear.TryGetModule(out var module)) return;
+
+        sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_spear");
+        sLeaser.sprites[0].color = module.Color;
     }
 
 
@@ -91,7 +113,7 @@ public partial class Hooks
         }
     }
 
-    public static List<string> TrainViewRooms = new()
+    public static List<string> TrainViewRooms { get; } = new()
     {
         "T1_START",
         "T1_CAR1",

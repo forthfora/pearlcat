@@ -43,6 +43,9 @@ public class PlayerModule
     public float ShieldAlpha { get; set; }
     public float ShieldScale { get; set; }
 
+    public int SpearTimer { get; set; }
+    public float SpearLerp { get; set; }
+
     public Vector2 PrevHeadRotation { get; set; }
 
     public bool CanMaul { get; set; }

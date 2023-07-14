@@ -94,10 +94,62 @@ public static partial class Hooks
 
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule, POEffect effect)
     {
+        var spearCreationTime = 40.0f;
+        playerModule.SpearLerp = Custom.LerpMap(playerModule.SpearTimer, 10, spearCreationTime, 0.0f, 1.0f);
+        
         if (ModOptions.DisableSpear.Value) return;
 
-        if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION) return;
+        if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
+
+
+        if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION)
+        {
+            playerModule.SpearTimer = 0;
+            return;
+        }
+
+        if (poModule.CooldownTimer > 0) return;
+
+
+        var abilityInput = self.IsAbilityKeybindPressed(playerModule);
+    
+        if (abilityInput)
+        {
+            playerModule.SpearTimer++;
+            self.Blink(5);
+
+            if (playerModule.SpearTimer > spearCreationTime)
+            {
+                playerModule.SpearTimer = 0;
+                poModule.CooldownTimer = 100;
+
+                var abstractSpear = new AbstractSpear(self.room.world, null, self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.room.game.GetNewID(), false);
+                self.room.abstractRoom.AddEntity(abstractSpear);
+                abstractSpear.pos = self.abstractCreature.pos;
+                abstractSpear.RealizeInRoom();
+
+                var save = self.abstractCreature.Room.world.game.GetMiscWorld();
+                var spearModule = new SpearModule()
+                {
+                    Color = playerModule.ActiveColor,
+                };
+
+                save.PearlSpears.Add(abstractSpear.ID.number, spearModule);
+
+                if (self.FreeHand() > -1)
+                    self.SlugcatGrab(abstractSpear.realizedObject, self.FreeHand());
+
+                ConnectEffect(playerModule.ActiveObject.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
+            }
+        }
+        else
+        {
+            playerModule.SpearTimer = 0;
+        }
     }
+
+    public static Color SpearColorFilter(this Color color) => color * Custom.HSL2RGB(1.0f, 0.7f, 1.5f);
+
 
     public static void UpdateAgility(Player self, PlayerModule playerModule, POEffect effect)
     {

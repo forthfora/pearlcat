@@ -47,6 +47,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         // Assign Sprite Indexes
         haloSprite = spriteIndex++;
+        spearSprite = spriteIndex++;
+
         symbolSpriteCooldown = spriteIndex++;
 
         symbolSpriteSpear = spriteIndex++;
@@ -60,6 +62,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         // Create Sprites
         sLeaser.sprites[haloSprite] = new("LizardBubble6", true);
+        sLeaser.sprites[spearSprite] = new("pearlcat_spear", true);
+        
         sLeaser.sprites[symbolSpriteCooldown] = new("pearlcat_glpyhcoodlown", true);
 
         sLeaser.sprites[symbolSpriteSpear] = new("BigGlyph2", true);
@@ -80,7 +84,13 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         {
             var sprite = sLeaser.sprites[i];
             
-            rCam.ReturnFContainer("Foreground").AddChild(sprite);
+            if (i == spearSprite)
+            {
+                rCam.ReturnFContainer("Midground").AddChild(sprite);
+                continue;
+            }
+
+            rCam.ReturnFContainer("HUD").AddChild(sprite);
         }
     }
 
@@ -104,13 +114,14 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
     public bool isActive;
 
-    public bool drawHalo = false;
+    public bool drawHalo;
     public int haloSprite;
 
     public float haloScale = 0.75f;
     public float haloAlpha = 0.5f;
     public Color haloColor = Color.white;
 
+    public float drawSpearLerp;
     public bool drawSymbolCooldown;
 
     public bool drawSymbolSpear;
@@ -120,6 +131,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public bool drawSymbolAgility;
     public bool drawSymbolCamo;
 
+    public int spearSprite;
     public int symbolSpriteCooldown;
 
     public int symbolSpriteSpear;
@@ -153,6 +165,11 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         halo.alpha = haloAlpha;
         halo.color = haloColor;
 
+        var spear = sLeaser.sprites[spearSprite];
+        spear.SetPosition(parentSprite.GetPosition());
+        spear.scaleY = isActive ? drawSpearLerp : 0.0f;
+        spear.color = symbolColor;
+        spear.rotation = 90.0f;
 
         var symbolOffset = isActive ? activeOffset : inactiveOffset;
 

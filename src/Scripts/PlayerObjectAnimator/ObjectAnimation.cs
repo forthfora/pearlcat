@@ -144,6 +144,7 @@ public abstract class ObjectAnimation
             addon.drawSymbolCamo = majorEffect == POEffect.MajorEffectType.CAMOFLAGUE;
 
             addon.camoLerp = playerModule.CamoLerp;
+            addon.drawSpearLerp = playerModule.SpearLerp;
         }
     }
 
