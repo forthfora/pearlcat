@@ -295,12 +295,12 @@ public static partial class Hooks
         if (page.slugcatNumber == Enums.General.Pearlcat)
         {
             var save = self.manager.rainWorld.progression.miscProgressionData.GetMiscProgression();
-            var disableSave = (!save.IsNewSave && save.IsMSCSave != ModManager.MSC);
+            var disableSave = !save.IsNewSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;
 
             if (disableSave)
             {
                 self.startButton.buttonBehav.greyedOut = true;
-                var text = "CANNOT PLAY\n" + (save.IsMSCSave ? "MSC" : "VANILLA") + " SAVE!";
+                var text = "CANNOT PLAY\n" + (save.IsMSCSave ? "MSC" : "NON-MSC") + " SAVE";
 
                 self.startButton.menuLabel.text = text;
             }

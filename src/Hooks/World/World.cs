@@ -190,6 +190,9 @@ public partial class Hooks
 
         if (room.roomSettings.name == "LC_T1_S01")
             room.AddObject(new LC_T1_S01(room));
+
+        if (room.roomSettings.name == "T1_S01")
+            room.AddObject(new T1_S01(room));
     }
 
     public static List<string> TrainViewRooms { get; } = new()
@@ -238,7 +241,7 @@ public partial class Hooks
                     Player.BodyModeIndex.CorridorClimb,
                 };
                 
-                var target = player.canJump == 0 ? 1.1f : 0.95f;
+                var target = player.canJump == 0 ? 1.0f : 0.85f;
                
                 if (!player.TryGetPearlcatModule(out var playerModule)) continue;
 
