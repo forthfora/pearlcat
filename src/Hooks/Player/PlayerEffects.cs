@@ -424,6 +424,4 @@ public static partial class Hooks
 
         playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, 0.001f) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, 0.001f);
     }
-
-    Type
 }
