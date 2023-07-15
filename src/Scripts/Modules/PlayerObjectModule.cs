@@ -14,6 +14,5 @@ public class PlayerObjectModule
     public bool PlayCollisionSound { get; set; } = true;
 
     public int CooldownTimer { get; set; }
-
     public bool UsedAgility { get; set; }
 }

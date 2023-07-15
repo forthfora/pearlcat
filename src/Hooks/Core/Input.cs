@@ -6,6 +6,9 @@ public static partial class Hooks
 {
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (player.bodyMode != Player.BodyModeIndex.Stand && player.bodyMode != Player.BodyModeIndex.ZeroG && player.bodyMode != Player.BodyModeIndex.Swimming)
+            return false;
+
         var input = playerModule.UnblockedInput;
 
         if (!ModOptions.UsesCustomStoreKeybind.Value)
@@ -35,13 +38,22 @@ public static partial class Hooks
         };
     }
 
-    public static bool IsDoubleJumpKeybindPressed(this Player player, PlayerModule playerModule)
+    public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (ModOptions.PreferCustomAbilityKeybind.Value)
             return IsAbilityKeybindPressed(player, playerModule);
 
         var input = playerModule.UnblockedInput;
         return input.jmp && input.pckp;
+    }
+
+    public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
+    {
+        if (ModOptions.PreferCustomAbilityKeybind.Value)
+            return IsAbilityKeybindPressed(player, playerModule);
+
+        var input = playerModule.UnblockedInput;
+        return input.pckp;
     }
 
     public static bool IsSwapKeybindPressed(this Player player)

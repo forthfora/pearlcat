@@ -44,7 +44,6 @@ public static partial class Hooks
     public static readonly PlayerFeature<float> MaxSpeed = FeatureTypes.PlayerFloat("oa_max_speed");
 
     public static readonly PlayerFeature<Vector2> InventoryUIOffset = new("inventory_ui_offset", Vector2Feature);
-    public static readonly PlayerFeature<int> SwapRepeatInterval = FeatureTypes.PlayerInt("swap_repeat_interval");
 
     public static readonly PlayerFeature<int> StoreObjectDelay = FeatureTypes.PlayerInt("store_object_delay");
 
@@ -85,8 +84,6 @@ public static partial class Hooks
 
         foreach (AbstractCreature creature in players)
         {
-            if (creature.realizedCreature == null) continue;
-
             if (creature.realizedCreature is not Player player) continue;
 
             if (!PearlcatData.TryGetValue(player, out PlayerModule playerModule)) continue;

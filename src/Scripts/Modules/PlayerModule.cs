@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using RWCustom;
+using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
+using static Pearlcat.POEffect;
 
 namespace Pearlcat;
 
@@ -36,20 +37,99 @@ public class PlayerModule
     public int FeetSprite { get; set; }
     public int ShieldSprite { get; set; }
 
+
+    public int AgilityCount => MajorEffectCount(MajorEffectType.AGILITY);
+    public int CamoCount => MajorEffectCount(MajorEffectType.CAMOFLAGUE);
+    public int RageCount => MajorEffectCount(MajorEffectType.RAGE);
+    public int ReviveCount => MajorEffectCount(MajorEffectType.REVIVE);
+    public int SpearCount => MajorEffectCount(MajorEffectType.SPEAR_CREATION);
+    public int ShieldCount => MajorEffectCount(MajorEffectType.SHIELD);
+
+    public int MajorEffectCount(MajorEffectType type)
+    {
+        var count = -1;
+
+        var inventory = type == MajorEffectType.REVIVE ? Inventory.Concat(PostDeathInventory) : Inventory;
+
+        foreach (var pearl in inventory)
+        {
+            if (!pearl.TryGetModule(out var module)) continue;
+
+            if (pearl.GetPOEffect().MajorEffect != type) continue;
+
+            if (count < 0)
+                count = 0;
+
+            if (module.CooldownTimer == 0)
+                count++;
+        }
+
+        return count;
+    }
+
+    public AbstractPhysicalObject? SetAgilityCooldown(int cooldown) => PutOnCooldown(MajorEffectType.AGILITY, cooldown);
+    public AbstractPhysicalObject? SetCamoCooldown (int cooldown) => PutOnCooldown(MajorEffectType.CAMOFLAGUE, cooldown);
+    public AbstractPhysicalObject? SetRageCooldown(int cooldown) => PutOnCooldown(MajorEffectType.RAGE, cooldown);
+    public AbstractPhysicalObject? SetReviveCooldown(int cooldown) => PutOnCooldown(MajorEffectType.REVIVE, cooldown);
+    public AbstractPhysicalObject? SetSpearCooldown(int cooldown) => PutOnCooldown(MajorEffectType.SPEAR_CREATION, cooldown);
+    public AbstractPhysicalObject? SetShieldCooldown(int cooldown) => PutOnCooldown(MajorEffectType.SHIELD, cooldown);
+
+    public AbstractPhysicalObject? PutOnCooldown(MajorEffectType type, int cooldown)
+    {
+        foreach (var pearl in Inventory)
+        {
+            if (!pearl.TryGetModule(out var module)) continue;
+
+            if (pearl.GetPOEffect().MajorEffect != type) continue;
+
+            if (module.CooldownTimer == 0)
+            {
+                module.CooldownTimer = cooldown;
+                return pearl;
+            }
+        }
+
+        return null;
+    }
+
+    public void ResetCooldown(MajorEffectType type)
+    {
+        foreach (var pearl in Inventory)
+        {
+            if (!pearl.TryGetModule(out var module)) continue;
+
+            if (pearl.GetPOEffect().MajorEffect != type) continue;
+
+            module.CooldownTimer = 0;
+        }
+    }
+
+
     public int ReviveTimer { get; set; }
 
-    public void ReduceShieldTimer() => ShieldTimer = (int)(ShieldTimer * 0.75f);
     public int ShieldTimer { get; set; }
     public float ShieldAlpha { get; set; }
     public float ShieldScale { get; set; }
 
+    public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value;
+    public void ActivateVisualShield()
+    {
+        if (ShieldTimer > 0) return;
+
+        SetShieldCooldown(400);
+        ShieldTimer = 100;
+    }
+
     public int SpearTimer { get; set; }
+    public int SpearDelay { get; set; }
+    public bool ForceLockSpearOnBack { get; set; }
     public float SpearLerp { get; set; }
 
-    public int InvulnerabilityTimer { get; set; }
+    public bool WasSpearOnBack { get; set; }
 
     public Vector2 PrevHeadRotation { get; set; }
 
+    // UNIMPLEMENTED
     public bool CanMaul { get; set; }
     public bool CanSpearPull { get; set; }
     public bool CanBackSpear { get; set; }
@@ -59,7 +139,7 @@ public class PlayerModule
     public bool WasSwapped { get; set; }
     public bool WasStoreInput { get; set; }
     public bool WasAbilityInput { get; set; }
-    public bool WasDJInput { get; set; }
+    public bool WasAgilityInput { get; set; }
 
     public Player.InputPackage UnblockedInput { get; set; }
     public bool BlockInput { get; set; }
@@ -69,6 +149,7 @@ public class PlayerModule
 
     public List<AbstractPhysicalObject> Inventory { get; } = new();
     public List<AbstractPhysicalObject> PostDeathInventory { get; } = new();
+    public int? PostDeathActiveObjectIndex { get; set; }
 
     public AbstractPhysicalObject? ActiveObject => ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count ? Inventory[(int)ActiveObjectIndex] : null;
     public int? ActiveObjectIndex { get; set; }

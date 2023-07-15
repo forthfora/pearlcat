@@ -20,93 +20,21 @@ public static partial class Hooks
 
         On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
         On.Creature.Violence += Creature_Violence;
+
+        On.Player.SpearOnBack.Update += SpearOnBack_Update;
     }
 
-    private static void Creature_Violence(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
-    {
-        // sin number 2
-        if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
-            if (playerModule.InvulnerabilityTimer > 0)
-                return;
-        
-        orig(self, source, directionAndMomentum, hitChunk, hitAppendage, type, damage, stunBonus);
-    }
 
-    private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
+    private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
-        orig(self);
-        
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-        
-        var input = self.input[0];
-        playerModule.UnblockedInput = input;
-
-        if (playerModule.BlockInput)
+        if (self.TryGetPearlcatModule(out var playerModule))
         {
-            input.x = 0;
-            input.y = 0;
-            input.analogueDir *= 0f;
-
-            input.jmp = false;
-            input.thrw = false;
-            input.pckp = false;
+            playerModule.WasSpearOnBack = self.spearOnBack.HasASpear;
         }
 
-        self.input[0] = input;
-    }
-
-    private static void Player_Die(On.Player.orig_Die orig, Player self)
-    {
-        if (!self.TryGetPearlcatModule(out var playerModule))
-        {
-            orig(self);
-            return;
-        }
-
-        // forgive our sins
-        if (playerModule.InvulnerabilityTimer > 0) return;
-
-        orig(self);
-
-        playerModule.ReviveTimer = 0;
-        playerModule.ShieldTimer = 0;
-        playerModule.SpearTimer = 0;
-
-        for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
-        {
-            var abstractObject = playerModule.Inventory[i];
-
-            DeathEffect(abstractObject.realizedObject);
-            RemoveFromInventory(self, abstractObject);
-
-            playerModule.PostDeathInventory.Add(abstractObject);
-        }
-    }
-
-    private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
-    {
-        var result = orig(self, obj);
-
-        if (obj.abstractPhysicalObject.IsPlayerObject())
-            return Player.ObjectGrabability.CantGrab;
-
-        return result;
-    }
-
-    private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
-    {
-        if (self is Player player && player.TryGetPearlcatModule(out _))
-            player.AbstractizeInventory();
-
-        orig(self, entrancePos, carriedByOther);
-    }
-
-
-    public static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
-    {
         orig(self, eu);
 
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        if (playerModule == null) return;
         
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
@@ -119,39 +47,17 @@ public static partial class Hooks
         bool storeInput = self.IsStoreKeybindPressed(playerModule);
         bool abilityInput = self.IsAbilityKeybindPressed(playerModule);
 
-        bool djInput = self.IsDoubleJumpKeybindPressed(playerModule);
+        bool agilityInput = self.IsAgilityKeybindPressed(playerModule);
 
         int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
 
         playerModule.BlockInput = false;
 
         if (numPressed >= 0)
-            self.ActivateObjectInStorage(numPressed - 1);
-
-        // Should probably clean this up sometime
-        if (SwapRepeatInterval.TryGet(self, out var swapInterval))
         {
-            // || playerModule.swapIntervalStacker > swapInterval
-            if (Mathf.Abs(unblockedInput.x) <= 0.5f)
-            {
-                playerModule.WasSwapped = false;
-                playerModule.SwapIntervalTimer = 0;
-            }
-
-            if (swapInput)
-            {
-                playerModule.BlockInput = true;
-
-                if (playerModule.SwapIntervalTimer <= swapInterval)
-                    playerModule.SwapIntervalTimer++;
-            }
-            else
-            {
-                playerModule.SwapIntervalTimer = 0;
-            }
+            self.ActivateObjectInStorage(numPressed - 1);
         }
-
-        if (swapLeftInput && !playerModule.WasSwapLeftInput)
+        else if (swapLeftInput && !playerModule.WasSwapLeftInput)
         {
             self.SelectPreviousObject();
         }
@@ -179,8 +85,7 @@ public static partial class Hooks
         playerModule.WasSwapRightInput = swapRightInput;
         playerModule.WasStoreInput = storeInput;
         playerModule.WasAbilityInput = abilityInput;
-        playerModule.WasDJInput = djInput;
-
+        playerModule.WasAgilityInput = agilityInput;
 
         // LAG CAUSER
         if (playerModule.TextureUpdateTimer % 3 == 0)
@@ -191,9 +96,6 @@ public static partial class Hooks
         }
 
         playerModule.TextureUpdateTimer++;
-
-        if (playerModule.InvulnerabilityTimer > 0)
-            playerModule.InvulnerabilityTimer--;
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)
@@ -353,6 +255,11 @@ public static partial class Hooks
 
             self.StoreObject(item);
         }
+
+        if (playerModule.PostDeathActiveObjectIndex != null)
+            ActivateObjectInStorage(self, (int)playerModule.PostDeathActiveObjectIndex);
+        
+        playerModule.PostDeathActiveObjectIndex = null;
     }
 
     private static void UpdatePlayerDaze(Player self, PlayerModule playerModule)
@@ -394,6 +301,83 @@ public static partial class Hooks
         if (self.room != null)
             self.GivePearls(playerModule);
     }
+
+
+    private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
+    {
+        orig(self);
+        
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        
+        var input = self.input[0];
+        playerModule.UnblockedInput = input;
+
+        if (playerModule.BlockInput)
+        {
+            input.x = 0;
+            input.y = 0;
+            input.analogueDir *= 0f;
+
+            input.jmp = false;
+            input.thrw = false;
+            input.pckp = false;
+        }
+
+        self.input[0] = input;
+    }
+
+    private static void Player_Die(On.Player.orig_Die orig, Player self)
+    {
+        orig(self);
+
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        playerModule.ReviveTimer = 0;
+        playerModule.ShieldTimer = 0;
+        playerModule.SpearTimer = 0;
+
+        playerModule.PostDeathActiveObjectIndex = playerModule.ActiveObjectIndex;
+
+        for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+        {
+            var abstractObject = playerModule.Inventory[i];
+
+            DeathEffect(abstractObject.realizedObject);
+            RemoveFromInventory(self, abstractObject);
+
+            playerModule.PostDeathInventory.Add(abstractObject);
+        }
+    }
+    
+    private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
+    {
+        var result = orig(self, obj);
+
+        if (obj.abstractPhysicalObject.IsPlayerObject())
+            return Player.ObjectGrabability.CantGrab;
+
+        return result;
+    }
+
+
+    private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
+    {
+        if (self is Player player && player.TryGetPearlcatModule(out _))
+            player.AbstractizeInventory();
+
+        orig(self, entrancePos, carriedByOther);
+    }
+
+    private static void Creature_Violence(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
+    {
+        // sin number 2
+        if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
+            if (playerModule.ShieldActive)
+                return;
+        
+        orig(self, source, directionAndMomentum, hitChunk, hitAppendage, type, damage, stunBonus);
+    }
+
 
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
@@ -443,37 +427,40 @@ public static partial class Hooks
             }
         }
     }
+    
+    public static int GraspsHasType(this Player self, AbstractPhysicalObject.AbstractObjectType type)
+    {
+        for (int i = 0; i < self.grasps.Length; i++)
+        {
+            Creature.Grasp? grasp = self.grasps[i];
+            
+            if (grasp == null) continue;
 
+            if (grasp.grabbed.abstractPhysicalObject.type == type)
+                return i;
+        }
+
+        return -1;
+    }
+
+    private static void SpearOnBack_Update(On.Player.SpearOnBack.orig_Update orig, Player.SpearOnBack self, bool eu)
+    {
+        orig(self, eu);
+
+        if (!self.owner.TryGetPearlcatModule(out var playerModule)) return;
+
+        if (playerModule.ForceLockSpearOnBack)
+            self.interactionLocked = true;
+    }
 
     public static void TryRevivePlayer(this Player self, PlayerModule playerModule)
     {
-        bool shouldRevive = false;
-
-        var inventory = self.dead ? playerModule.PostDeathInventory : playerModule.Inventory;
-
-        foreach (var abstractObject in inventory)
-        {
-            var effect = abstractObject.GetPOEffect();
-
-            if (effect.MajorEffect != POEffect.MajorEffectType.REVIVE) continue;
-            
-            if (!PlayerObjectData.TryGetValue(abstractObject, out var poModule)) continue;
-
-            if (poModule.CooldownTimer < 0) continue;
-
-            poModule.CooldownTimer = -1;
-            shouldRevive = true;
-            break;
-        }
-
-        if (!shouldRevive) return;
-
+        if (playerModule.ReviveCount <= 0) return;
 
         List<Creature.Grasp> dangerGrasps = new();
 
         if (self.dangerGrasp != null)
             dangerGrasps.Add(self.dangerGrasp);
-
 
         foreach (var grasp in self.grabbedBy)
         {
@@ -492,14 +479,14 @@ public static partial class Hooks
         }
 
         DeflectEffect(self.room, self.firstChunk.pos);
-        playerModule.ShieldTimer = 120;
+        playerModule.ShieldTimer = 200;
 
         if (self.dead)
             self.RevivePlayer();
+
+        playerModule.SetReviveCooldown(-1);
     }
 
-
-    // Revivify moment
     public static void RevivePlayer(this Player self)
     {
         self.Revive();
@@ -513,7 +500,7 @@ public static partial class Hooks
 
         playerModule.PickObjectAnimation(self);
     }
-
+    
     public static void Revive(this Creature self)
     {
         if (self.State is HealthState healthState)
@@ -525,20 +512,5 @@ public static partial class Hooks
         self.killTag = null;
         self.killTagCounter = 0;
         self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
-    }
-
-    public static int GraspsHasType(this Player self, AbstractPhysicalObject.AbstractObjectType type)
-    {
-        for (int i = 0; i < self.grasps.Length; i++)
-        {
-            Creature.Grasp? grasp = self.grasps[i];
-            
-            if (grasp == null) continue;
-
-            if (grasp.grabbed.abstractPhysicalObject.type == type)
-                return i;
-        }
-
-        return -1;
     }
 }

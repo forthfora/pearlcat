@@ -19,6 +19,25 @@ public static partial class Hooks
 
     public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectModule> PlayerObjectData { get; } = new();
 
+    public static bool TryGetModule(this AbstractPhysicalObject abstractObject, out PlayerObjectModule module)
+    {
+        if (PlayerObjectData.TryGetValue(abstractObject, out module))
+            return true;
+
+        module = null!;
+        return false;
+    }
+
+    public static bool TryGetAddon(this AbstractPhysicalObject abstractObject, out ObjectAddon addon)
+    {
+        if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out addon))
+            return true;
+
+        addon = null!;
+        return false;
+    }
+
+
     public static void MarkAsPlayerObject(this PhysicalObject physicalObject)
     {
         if (PlayerObjectData.TryGetValue(physicalObject.abstractPhysicalObject, out PlayerObjectModule _)) return;
@@ -66,12 +85,12 @@ public static partial class Hooks
         if (obj.abstractPhysicalObject.IsPlayerObject())
             return false;
         
-        if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0)
+        if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive)
         {
             self.Stun(10);
-            playerModule.ReduceShieldTimer();
-            
             DeflectEffect(self.room, self.firstChunk.pos);
+
+            playerModule.ActivateVisualShield();
             return false;
         }
 

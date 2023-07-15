@@ -102,8 +102,8 @@ public partial class Hooks
             if (crit.realizedCreature is not Player player) continue;   
             
             if (!player.TryGetPearlcatModule(out var playerModule)) continue;
-
-            if (playerModule.ShieldTimer <= 0) continue;
+            
+            if (!playerModule.ShieldActive) continue;
 
 
             var pos = self.chunkPoints[0, 0] + self.shootDir * (20.0f + speed);
@@ -113,7 +113,6 @@ public partial class Hooks
             self.mode = KingTusks.Tusk.Mode.Dangling;
 
             self.room.DeflectEffect(pos);
-            playerModule.ReduceShieldTimer();
 
             self.head.pos += Custom.DirVec(self.head.pos, self.chunkPoints[1, 0]) * 100f;
             self.head.vel += Custom.DirVec(self.head.pos, self.chunkPoints[1, 0]) * 100f;
@@ -126,6 +125,8 @@ public partial class Hooks
             self.chunkPoints[0, 2] += rand * 6f;
             self.chunkPoints[1, 0] -= rand * 4f;
             self.chunkPoints[1, 2] -= rand * 6f;
+
+            playerModule.ActivateVisualShield();
         }
     }
 

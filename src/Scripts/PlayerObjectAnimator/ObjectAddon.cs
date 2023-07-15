@@ -14,8 +14,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public ObjectAddon(AbstractPhysicalObject abstractObject)
     {
         ObjectRef = new(abstractObject);
-        abstractObject.realizedObject.room.AddObject(this);
         ObjectsWithAddon.Add(abstractObject, this);
+
+        abstractObject.realizedObject.room.AddObject(this);
     }
 
 
@@ -23,10 +24,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
         base.Update(eu);
 
-        if (!ObjectRef.TryGetTarget(out var abstractObject)
-            || abstractObject.slatedForDeletion
-            || abstractObject.realizedObject == null
-            || abstractObject.realizedObject.slatedForDeletetion)
+        if (!ObjectRef.TryGetTarget(out var abstractObject) || abstractObject.slatedForDeletion || abstractObject.realizedObject == null || abstractObject.realizedObject.slatedForDeletetion)
             Destroy();
     }
 
@@ -45,33 +43,15 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
         int spriteIndex = 0;
 
-        // Assign Sprite Indexes
-        haloSprite = spriteIndex++;
-        spearSprite = spriteIndex++;
-
-        symbolSpriteCooldown = spriteIndex++;
-
-        symbolSpriteSpear = spriteIndex++;
-        symbolSpriteRage = spriteIndex++;
-        symbolSpriteRevive = spriteIndex++;
-        symbolSpriteShield = spriteIndex++;
-        symbolSpriteAgility = spriteIndex++;
-        symbolSpriteCamo = spriteIndex++;
+        HaloSprite = spriteIndex++;
+        SymbolSprite = spriteIndex++;
+        SpearSprite = spriteIndex++;
 
         sLeaser.sprites = new FSprite[spriteIndex];
 
-        // Create Sprites
-        sLeaser.sprites[haloSprite] = new("LizardBubble6", true);
-        sLeaser.sprites[spearSprite] = new("pearlcat_spear", true);
-        
-        sLeaser.sprites[symbolSpriteCooldown] = new("pearlcat_glpyhcoodlown", true);
-
-        sLeaser.sprites[symbolSpriteSpear] = new("BigGlyph2", true);
-        sLeaser.sprites[symbolSpriteRage] = new("BigGlyph6", true);
-        sLeaser.sprites[symbolSpriteRevive] = new("BigGlyph10", true);
-        sLeaser.sprites[symbolSpriteShield] = new("BigGlyph11", true);
-        sLeaser.sprites[symbolSpriteAgility] = new("BigGlyph8", true);
-        sLeaser.sprites[symbolSpriteCamo] = new("BigGlyph12", true);
+        sLeaser.sprites[HaloSprite] = new("LizardBubble6");
+        sLeaser.sprites[SymbolSprite] = new("pearlcat_glyphcooldown");
+        sLeaser.sprites[SpearSprite] = new("pearlcat_spear");
 
         AddToContainer(sLeaser, rCam, null!);
     }
@@ -84,143 +64,105 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         {
             var sprite = sLeaser.sprites[i];
             
-            if (i == spearSprite)
-            {
+            if (i == SpearSprite)
                 rCam.ReturnFContainer("Midground").AddChild(sprite);
-                continue;
-            }
 
-            rCam.ReturnFContainer("HUD").AddChild(sprite);
+            else
+                rCam.ReturnFContainer("HUD").AddChild(sprite);
         }
     }
 
     public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) { }
 
 
-    PhysicalObject? parent;
-    FSprite? parentSprite;
-
-    public float camoLerp;
+    public PhysicalObject? Parent { get; private set; }
+    public FSprite? ParentSprite { get; private set; }
+    public float CamoLerp { get; set; }
 
     public void ParentGraphics_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        parent = self;
-        parentSprite = sLeaser.sprites.FirstOrDefault();
+        Parent = self;
+        ParentSprite = sLeaser.sprites.FirstOrDefault();
 
         foreach (var sprite in sLeaser.sprites)
-            sprite.alpha = Custom.LerpMap(camoLerp, 0.0f, 1.0f, 1.0f, 0.05f);
+            sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, 0.05f);
     }
 
 
-    public bool isActive;
+    public bool IsActiveObject { get; set; }
 
-    public bool drawHalo;
-    public int haloSprite;
+    public bool DrawHalo { get; set; }
+    public int HaloSprite { get; set; }
 
-    public float haloScale = 0.75f;
-    public float haloAlpha = 0.5f;
-    public Color haloColor = Color.white;
+    public float HaloScale { get; set; } = 0.75f;
+    public float HaloAlpha { get; set; } = 0.5f;
+    public Color HaloColor { get; set; } = Color.white;
 
-    public float drawSpearLerp;
-    public bool drawSymbolCooldown;
+    public int SymbolSprite { get; set; }
+    public POEffect.MajorEffectType SymbolType { get; set; }
+    public bool DrawSymbolCooldown { get; set; }
 
-    public bool drawSymbolSpear;
-    public bool drawSymbolRage;
-    public bool drawSymbolRevive;
-    public bool drawSymbolShield;
-    public bool drawSymbolAgility;
-    public bool drawSymbolCamo;
-
-    public int spearSprite;
-    public int symbolSpriteCooldown;
-
-    public int symbolSpriteSpear;
-    public int symbolSpriteRage;
-    public int symbolSpriteRevive;
-    public int symbolSpriteShield;
-    public int symbolSpriteAgility;
-    public int symbolSpriteCamo;
-
-    public float symbolScale = 0.85f;
-    public float symbolAlpha = 0.75f;
-    public Color symbolColor = Color.white;
+    public int SpearSprite { get; set; }
+    public float DrawSpearLerp { get; set; }
     
-    public Vector2 activeOffset = new(17.5f, 10.0f);
-    public Vector2 inactiveOffset = new(7.5f, 5.0f);
+
+    public float SymbolScale { get; set; } = 0.85f;
+    public float SymbolAlpha { get; set; } = 0.75f;
+    public Color SymbolColor { get; set; } = Color.white;
+    
+    public Vector2 ActiveOffset { get; } = new(17.5f, 10.0f);
+    public Vector2 InactiveOffset { get; } = new(7.5f, 5.0f);
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        if (parent == null || parentSprite == null) return;
+        if (Parent == null || ParentSprite == null) return;
 
-        if (slatedForDeletetion || rCam.room != room || parent.room != room)
+        if (slatedForDeletetion || rCam.room != room || Parent.room != room)
         {
             sLeaser.CleanSpritesAndRemove();
             return;
         }
 
-        var halo = sLeaser.sprites[haloSprite];
-        halo.isVisible = drawHalo;
-        halo.SetPosition(parentSprite.GetPosition());
-        halo.scale = haloScale;
-        halo.alpha = haloAlpha;
-        halo.color = haloColor;
+        var halo = sLeaser.sprites[HaloSprite];
+        halo.isVisible = DrawHalo;
+        halo.SetPosition(ParentSprite.GetPosition());
+        halo.scale = HaloScale;
+        halo.alpha = HaloAlpha;
+        halo.color = HaloColor;
 
-        var spear = sLeaser.sprites[spearSprite];
-        spear.SetPosition(parentSprite.GetPosition());
-        spear.scaleY = isActive ? drawSpearLerp : 0.0f;
-        spear.color = symbolColor;
-        spear.rotation = 90.0f;
-
-        var symbolOffset = isActive ? activeOffset : inactiveOffset;
-
-        var symbolCooldown = sLeaser.sprites[symbolSpriteCooldown];
-        symbolCooldown.SetPosition(parentSprite.GetPosition() + symbolOffset);
-        symbolCooldown.isVisible = drawSymbolCooldown;
-        symbolCooldown.scale = symbolScale;
-        symbolCooldown.alpha = symbolAlpha;
-        symbolCooldown.color = symbolColor;
+        var spear = sLeaser.sprites[SpearSprite];
+        spear.SetPosition(ParentSprite.GetPosition());
+        spear.scaleY = IsActiveObject ? DrawSpearLerp : 0.0f;
+        spear.color = SymbolColor;
+        spear.rotation = Mathf.Lerp(0.0f, 360.0f, DrawSpearLerp);
 
 
-        var symbolSpear = sLeaser.sprites[symbolSpriteSpear];
-        symbolSpear.SetPosition(parentSprite.GetPosition() + symbolOffset);
-        symbolSpear.isVisible = drawSymbolSpear;
-        symbolSpear.scale = symbolScale;
-        symbolSpear.alpha = symbolAlpha;
-        symbolSpear.color = symbolColor;
+        var symbol = sLeaser.sprites[SymbolSprite];
+        var symbolOffset = IsActiveObject ? ActiveOffset : InactiveOffset;
 
-        var symbolRage = sLeaser.sprites[symbolSpriteRage];
-        symbolRage.SetPosition(parentSprite.GetPosition() + symbolOffset);
-        symbolRage.isVisible = drawSymbolRage;
-        symbolRage.scale = symbolScale;
-        symbolRage.alpha = symbolAlpha;
-        symbolRage.color = symbolColor;
+        var symbolSpriteName = !IsActiveObject ? null : SymbolType switch
+        {
+            POEffect.MajorEffectType.SPEAR_CREATION => "BigGlyph2",
+            POEffect.MajorEffectType.AGILITY => "BigGlyph8",
+            POEffect.MajorEffectType.REVIVE => "BigGlyph10",
+            POEffect.MajorEffectType.SHIELD => "BigGlyph11",
+            POEffect.MajorEffectType.RAGE => "BigGlyph6",
+            POEffect.MajorEffectType.CAMOFLAGUE => "BigGlyph12",
 
-        var symbolRevive = sLeaser.sprites[symbolSpriteRevive];
-        symbolRevive.SetPosition(parentSprite.GetPosition() + symbolOffset);
-        symbolRevive.isVisible = drawSymbolRevive;
-        symbolRevive.scale = symbolScale;
-        symbolRevive.alpha = symbolAlpha;
-        symbolRevive.color = symbolColor;
+            _ => null,
+        };
 
-        var symbolShield = sLeaser.sprites[symbolSpriteShield];
-        symbolShield.SetPosition(parentSprite.GetPosition() + symbolOffset);
-        symbolShield.isVisible = drawSymbolShield;
-        symbolShield.scale = symbolScale;
-        symbolShield.alpha = symbolAlpha;
-        symbolShield.color = symbolColor;
+        if (DrawSymbolCooldown)
+            symbolSpriteName = "pearlcat_glyphcooldown";
 
-        var symbolAgility = sLeaser.sprites[symbolSpriteAgility];
-        symbolAgility.SetPosition(parentSprite.GetPosition() + symbolOffset);
-        symbolAgility.isVisible = drawSymbolAgility;
-        symbolAgility.scale = symbolScale;
-        symbolAgility.alpha = symbolAlpha;
-        symbolAgility.color = symbolColor;
+        if (symbolSpriteName != null)
+            symbol.element = Futile.atlasManager.GetElementWithName(symbolSpriteName);
+        
+        symbol.isVisible = symbolSpriteName != null;
 
-        var symbolCamo = sLeaser.sprites[symbolSpriteCamo];
-        symbolCamo.SetPosition(parentSprite.GetPosition() + symbolOffset);
-        symbolCamo.isVisible = drawSymbolCamo;
-        symbolCamo.scale = symbolScale;
-        symbolCamo.alpha = symbolAlpha;
-        symbolCamo.color = symbolColor;
+        symbol.SetPosition(ParentSprite.GetPosition() + symbolOffset);
+        symbol.scale = SymbolScale;
+        symbol.alpha = SymbolAlpha;
+        symbol.color = SymbolColor;
     }
 }

@@ -62,6 +62,13 @@ public static partial class Hooks
                 stats.corridorClimbSpeedFac = 1.2f;
                 stats.poleClimbSpeedFac = 1.25f;
             }
+            else
+            {
+                stats.throwingSkill = 0;
+                stats.runspeedFac = 0.875f;
+                stats.corridorClimbSpeedFac = 0.86f;
+                stats.poleClimbSpeedFac = 0.8f;
+            }
         }
         else
         {
@@ -74,8 +81,9 @@ public static partial class Hooks
             stats.bodyWeightFac = baseStats.bodyWeightFac + effect.BodyWeightFac;
 
             playerModule.CanMaul = effect.MaulFac >= 1.0;
+            playerModule.CanSpearPull = effect.SpearPullFac >= 1.0f;
+            playerModule.CanBackSpear = effect.BackSpearFac >= 1.0f;
         }
-
 
         var visibilityMult = ModOptions.VisibilityMultiplier.Value / 100.0f;
 
@@ -94,85 +102,85 @@ public static partial class Hooks
 
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule, POEffect effect)
     {
-        var spearCreationTime = 40.0f;
-        playerModule.SpearLerp = Custom.LerpMap(playerModule.SpearTimer, 10, spearCreationTime, 0.0f, 1.0f);
-        
         if (ModOptions.DisableSpear.Value) return;
 
-        if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
+        var spearCreationTime = Custom.LerpMap(playerModule.SpearCount, 1, 7, 100, 10);
+        playerModule.SpearLerp = Custom.LerpMap(playerModule.SpearTimer, 5, spearCreationTime, 0.0f, 1.0f);
 
+        playerModule.ForceLockSpearOnBack = false;
 
         if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION)
         {
             playerModule.SpearTimer = 0;
+            playerModule.SpearDelay = 0;
             return;
         }
 
-        if (poModule.CooldownTimer > 0) return;
+        if (playerModule.SpearCount <= 0) return;
 
-
-        var abilityInput = self.IsAbilityKeybindPressed(playerModule);
-
+        playerModule.ForceLockSpearOnBack = self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20;
+        
+        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule);
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
-    
-        if (abilityInput && (!self.spearOnBack.HasASpear || !holdingSpear))
+
+        if (abilityInput && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear))
         {
-            playerModule.SpearTimer++;
-            self.Blink(5);
+            playerModule.ForceLockSpearOnBack = true;
 
-            if (playerModule.SpearTimer > spearCreationTime)
+            if (playerModule.SpearDelay > 10)
             {
-                playerModule.SpearTimer = 0;
-                poModule.CooldownTimer = 100;
+                playerModule.BlockInput = true;
+                playerModule.SpearTimer++;
+                self.Blink(5);
 
-                var abstractSpear = new AbstractSpear(self.room.world, null, self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.room.game.GetNewID(), false);
-                self.room.abstractRoom.AddEntity(abstractSpear);
-                abstractSpear.pos = self.abstractCreature.pos;
-                abstractSpear.RealizeInRoom();
-
-                var save = self.abstractCreature.Room.world.game.GetMiscWorld();
-                var spearModule = new SpearModule()
+                if (playerModule.SpearTimer > spearCreationTime)
                 {
-                    Color = playerModule.ActiveColor,
-                };
+                    playerModule.SpearTimer = 0;
 
-                save.PearlSpears.Add(abstractSpear.ID.number, spearModule);
+                    var abstractSpear = new AbstractSpear(self.room.world, null, self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.room.game.GetNewID(), false);
+                    self.room.abstractRoom.AddEntity(abstractSpear);
+                    abstractSpear.pos = self.abstractCreature.pos;
+                    abstractSpear.RealizeInRoom();
 
-                if (holdingSpear)
-                {
-                    self.spearOnBack.SpearToBack((Spear)abstractSpear.realizedObject);
+                    var save = self.abstractCreature.Room.world.game.GetMiscWorld();
+                    var spearModule = new SpearModule(playerModule.ActiveColor);
+
+                    save.PearlSpears.Add(abstractSpear.ID.number, spearModule);
+
+                    if (holdingSpear)
+                        self.spearOnBack.SpearToBack((Spear)abstractSpear.realizedObject);
+
+                    else
+                        self.SlugcatGrab(abstractSpear.realizedObject, self.FreeHand());
+
+
+                    ConnectEffect(playerModule.ActiveObject?.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
                 }
-                else
-                {
-                    self.SlugcatGrab(abstractSpear.realizedObject, self.FreeHand());
-                }
-
-                ConnectEffect(playerModule.ActiveObject.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
+            }
+            else
+            {
+                playerModule.SpearDelay++;
             }
         }
         else
         {
             playerModule.SpearTimer = 0;
+            playerModule.SpearDelay = 0;
         }
     }
-
-    public static Color SpearColorFilter(this Color color) => color * Custom.HSL2RGB(1.0f, 0.7f, 1.5f);
-
 
     public static void UpdateAgility(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableAgility.Value) return;
 
-        if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
+        // really op (meh) but feels weird tbh
+        //var velocityMult = Custom.LerpMap(playerModule.AgilityCount, 1, 5, 1.0f, 2.0f);
+        var velocityMult = 1.0f;
 
-        if (effect.MajorEffect != MajorEffectType.AGILITY) return;
-
-        var abilityInput = self.IsDoubleJumpKeybindPressed(playerModule);
-        var wasAbilityInput = playerModule.WasDJInput;
-
-        poModule.CooldownTimer = poModule.UsedAgility ? 40 : 0;
+        var abilityInput = self.IsAgilityKeybindPressed(playerModule);
+        var wasAbilityInput = playerModule.WasAgilityInput;
         
-        bool canUseAbility = !poModule.UsedAgility
+        bool canUseAbility = playerModule.AgilityCount > 0
             && self.canJump <= 0 && !(self.eatMeat >= 20 || self.maulTimer >= 15)
             && self.Consious && self.bodyMode != Player.BodyModeIndex.Crawl
             && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut
@@ -183,9 +191,8 @@ public static partial class Hooks
 
         if (abilityInput && !wasAbilityInput && canUseAbility)
         {
-            poModule.CooldownTimer = 20;
+            var agilityObject = playerModule.SetAgilityCooldown(-1);
 
-            poModule.UsedAgility = true;
             self.noGrabCounter = 5;
             var pos = self.firstChunk.pos;
 
@@ -199,7 +206,6 @@ public static partial class Hooks
 
             self.room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.15f + Random.value * 0.15f, 0.5f + Random.value * 2f);
 
-            var velocityMult = 1.0f;
 
             if (self.bodyMode == Player.BodyModeIndex.ZeroG || self.room.gravity == 0f || self.gravity == 0f)
             {
@@ -250,8 +256,8 @@ public static partial class Hooks
 
             var targetPos = self.firstChunk.pos + self.firstChunk.vel * -10.0f;
 
-            if (playerModule.ActiveObject != null)
-                self.ConnectEffect(targetPos, GetObjectColor(playerModule.ActiveObject));
+            if (agilityObject != null)
+                self.ConnectEffect(targetPos, GetObjectColor(agilityObject));
         }
 
         bool isAnim = self.animation == Player.AnimationIndex.HangFromBeam || self.animation == Player.AnimationIndex.ClimbOnBeam
@@ -264,7 +270,7 @@ public static partial class Hooks
             || ((self.bodyMode == Player.BodyModeIndex.ZeroG)
             && (self.wantToJump == 0 || !self.input[0].pckp)))
         {
-            poModule.UsedAgility = false;
+            playerModule.ResetCooldown(MajorEffectType.AGILITY);
         }
     }
     
@@ -321,10 +327,6 @@ public static partial class Hooks
 
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableShield.Value) return;
-
-        if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
-
         if (playerModule.ShieldTimer > 0)
         {
             playerModule.ShieldTimer--;
@@ -333,14 +335,41 @@ public static partial class Hooks
             playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 6.0f, 0.4f);
             
             if (playerModule.ShieldTimer % 3 == 0)
-                playerModule.ActiveObject.realizedObject.ConnectEffect(self.firstChunk.pos);
-
-            var roomObjects = self.room.physicalObjects;
-
-            foreach (var roomObject in roomObjects)
             {
-                foreach (var physicalObject in roomObject)
+                foreach (var item in playerModule.Inventory)
                 {
+                    var itemEffect = item.GetPOEffect();
+
+                    if (!item.TryGetModule(out var module)) continue;
+
+                    if (module.CooldownTimer != 0) continue;
+
+                    if (itemEffect.MajorEffect == MajorEffectType.SHIELD)
+                        item.realizedObject.ConnectEffect(self.firstChunk.pos);
+                }
+            }
+        }
+        else
+        {
+            playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 0.0f, 0.25f);
+            playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 0.0f, 0.4f);
+        }
+
+        if (self.room == null) return;
+        
+        var roomObjects = self.room.physicalObjects;
+        bool didDeflect = false;
+
+        if (playerModule.ShieldActive)
+        {
+            for (int i = roomObjects.Length - 1; i >= 0; i--)
+            {
+                List<PhysicalObject>? roomObject = roomObjects[i];
+                
+                for (int j = roomObject.Count - 1; j >= 0; j--)
+                {
+                    PhysicalObject? physicalObject = roomObject[j];
+             
                     if (physicalObject is not Weapon weapon) continue;
 
                     if (weapon.thrownBy == self) continue;
@@ -352,34 +381,16 @@ public static partial class Hooks
                         weapon.firstChunk.vel *= -0.2f;
 
                         weapon.room.DeflectEffect(weapon.firstChunk.pos);
-                        playerModule.ReduceShieldTimer();
+                        didDeflect = true;
                     }
                 }
             }
         }
-        else
+
+        if (didDeflect)
         {
-            playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 0.0f, 0.25f);
-            playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 0.0f, 0.4f);
-        }
-
-
-        if (effect.MajorEffect != MajorEffectType.SHIELD)
-        {
-            if (playerModule.ShieldTimer > 80)
-                playerModule.ShieldTimer = 80;
-
-            return;
-        }
-        
-        var abilityInput = self.IsAbilityKeybindPressed(playerModule);
-        var wasAbilityInput = playerModule.WasAbilityInput;
-
-
-        if (abilityInput && !wasAbilityInput && poModule.CooldownTimer == 0)
-        {
-            playerModule.ShieldTimer = 200;
-            poModule.CooldownTimer = playerModule.ShieldTimer + 300;
+            Plugin.Logger.LogWarning("DEFLECTED");
+            playerModule.ActivateVisualShield();
         }
     }
     
@@ -388,6 +399,8 @@ public static partial class Hooks
         if (ModOptions.DisableRage.Value) return;
 
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
+
+        // add the shooty lasers code
     }
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
@@ -417,11 +430,13 @@ public static partial class Hooks
 
         playerModule.CamoColor = totalColor / samples.Count;
 
-        
-        bool shouldCamo = ((self.canJump > 0 && self.firstChunk.vel.magnitude < 2.0f)
-            || self.bodyMode == Player.BodyModeIndex.Crawl) && effect.MajorEffect == MajorEffectType.CAMOFLAGUE
-            && playerModule.StoreObjectTimer <= 0;
 
-        playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, 0.001f) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, 0.001f);
+        var camoSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 0.001f, 0.01f);
+        var camoMaxMoveSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 2.0f, 20.0f);
+
+        bool shouldCamo = ((self.canJump > 0 && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) || self.bodyMode == Player.BodyModeIndex.Crawl)
+            && effect.MajorEffect == MajorEffectType.CAMOFLAGUE && playerModule.StoreObjectTimer <= 0;
+
+        playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, camoSpeed) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, camoSpeed);
     }
 }

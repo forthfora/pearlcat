@@ -65,20 +65,20 @@ public abstract class ObjectAnimation
 
             if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
             
-            addon.drawHalo = true;
+            addon.DrawHalo = true;
             float haloEffectTimer = HaloEffectStackers[i];
 
             if (i == playerModule.ActiveObjectIndex)
             {
-                addon.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
-                addon.haloScale = 1.0f + 0.45f * haloEffectTimer;
-                addon.haloAlpha = 0.8f;
+                addon.HaloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
+                addon.HaloScale = 1.0f + 0.45f * haloEffectTimer;
+                addon.HaloAlpha = 0.8f;
             }
             else
             {
-                addon.haloColor = Hooks.GetObjectColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
-                addon.haloScale = 0.3f + 0.45f * haloEffectTimer;
-                addon.haloAlpha = 0.6f;
+                addon.HaloColor = Hooks.GetObjectColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
+                addon.HaloScale = 0.3f + 0.45f * haloEffectTimer;
+                addon.HaloAlpha = 0.6f;
             }
 
 
@@ -98,53 +98,39 @@ public abstract class ObjectAnimation
 
         for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
+            var abstractObject = playerModule.Inventory[i];
+
             if (abstractObject.realizedObject == null) continue;
 
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
+            if (!abstractObject.TryGetAddon(out var addon)) continue;
 
-            if (!Hooks.PlayerObjectData.TryGetValue(abstractObject, out var poModule)) continue;
+            if (!abstractObject.TryGetModule(out var poModule)) continue;
             
+
             var effect = abstractObject.GetPOEffect();
-            var majorEffect = effect.MajorEffect;
 
-            addon.symbolColor = Hooks.GetObjectColor(abstractObject);
-            
-            if (i == playerModule.ActiveObjectIndex)
-            {
-                addon.isActive = true;
-            }
-            else
-            {
-                addon.isActive = false;
-                majorEffect = POEffect.MajorEffectType.NONE;
-            }    
+            addon.IsActiveObject = i == playerModule.ActiveObjectIndex;
+            addon.SymbolColor = Hooks.GetObjectColor(abstractObject);
 
             if (poModule.CooldownTimer != 0)
             {
                 if (poModule.CooldownTimer == 1)
                     abstractObject.realizedObject.room.AddObject(new ShockWave(abstractObject.realizedObject.firstChunk.pos, 10.0f, 1.0f, 5, true));
                 
-                majorEffect = POEffect.MajorEffectType.NONE;
-                addon.drawSymbolCooldown = true;
+                addon.DrawSymbolCooldown = true;
 
                 var cooldownLerp = poModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(poModule.CooldownTimer, 40, 0, 1.0f, 0.0f);
-                addon.symbolColor = Color.Lerp(addon.symbolColor, new Color(189 / 255.0f, 13 / 255.0f, 0.0f), cooldownLerp);
+                addon.SymbolColor = Color.Lerp(addon.SymbolColor, new Color(189 / 255.0f, 13 / 255.0f, 0.0f), cooldownLerp);
             }
             else
             {
-                addon.drawSymbolCooldown = false;
+                addon.DrawSymbolCooldown = false;
             }
-            
-            addon.drawSymbolSpear = majorEffect == POEffect.MajorEffectType.SPEAR_CREATION;
-            addon.drawSymbolRage = majorEffect == POEffect.MajorEffectType.RAGE;
-            addon.drawSymbolRevive = majorEffect == POEffect.MajorEffectType.REVIVE;
-            addon.drawSymbolShield = majorEffect == POEffect.MajorEffectType.SHIELD;
-            addon.drawSymbolAgility = majorEffect == POEffect.MajorEffectType.AGILITY;
-            addon.drawSymbolCamo = majorEffect == POEffect.MajorEffectType.CAMOFLAGUE;
 
-            addon.camoLerp = playerModule.CamoLerp;
-            addon.drawSpearLerp = playerModule.SpearLerp;
+
+            addon.SymbolType = effect.MajorEffect;
+            addon.CamoLerp = playerModule.CamoLerp;
+            addon.DrawSpearLerp = playerModule.SpearLerp;
         }
     }
 

@@ -102,8 +102,6 @@
 
         "inventory_ui_offset": [0, 90],
 
-        "swap_repeat_interval": 5,
-
         "store_object_delay": 30,
 
         "train_view_yshift": -20000.0
