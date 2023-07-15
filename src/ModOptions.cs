@@ -11,54 +11,54 @@ public sealed class ModOptions : OptionsTemplate
 
     #region Options
 
-    public static Configurable<bool> PearlThreatMusic = Instance.config.Bind(nameof(PearlThreatMusic), true, new ConfigurableInfo(
+    public static Configurable<bool> PearlThreatMusic { get; } = Instance.config.Bind(nameof(PearlThreatMusic), true, new ConfigurableInfo(
         "When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.", null, "",
         "Pearl Threat Music?"));
 
-    public static Configurable<bool> DisableCosmetics = Instance.config.Bind(nameof(DisableCosmetics), false, new ConfigurableInfo(
+    public static Configurable<bool> DisableCosmetics { get; } = Instance.config.Bind(nameof(DisableCosmetics), false, new ConfigurableInfo(
         "When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.", null, "",
         "Disable Cosmetics?"));
 
-    public static Configurable<bool> LowStartingReputation = Instance.config.Bind(nameof(LowStartingReputation), true, new ConfigurableInfo(
+    public static Configurable<bool> LowStartingReputation { get; } = Instance.config.Bind(nameof(LowStartingReputation), true, new ConfigurableInfo(
         "When checked, Pearlcat's starting reputation with many creatures will be low.", null, "",
         "Low Starting Reputation?"));
 
-    public static Configurable<int> MaxPearlCount = Instance.config.Bind(nameof(MaxPearlCount), 11, new ConfigurableInfo(
+    public static Configurable<int> MaxPearlCount { get; } = Instance.config.Bind(nameof(MaxPearlCount), 11, new ConfigurableInfo(
         "Maximum number of pearls that can be stored at once, including the active pearl. Default is 11. Hold and drag up or down to change.",
         new ConfigAcceptableRange<int>(1, 100), "",
         "Max Pearl Count"));
     
-    public static Configurable<int> VisibilityMultiplier = Instance.config.Bind(nameof(VisibilityMultiplier), 100, new ConfigurableInfo(
+    public static Configurable<int> VisibilityMultiplier { get; } = Instance.config.Bind(nameof(VisibilityMultiplier), 100, new ConfigurableInfo(
         "Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.",
         new ConfigAcceptableRange<int>(0, 300), "",
         "Visibility Multiplier"));
 
 
-    public static Configurable<bool> DisableMinorEffects = Instance.config.Bind(nameof(DisableMinorEffects), false, new ConfigurableInfo(
+    public static Configurable<bool> DisableMinorEffects { get; } = Instance.config.Bind(nameof(DisableMinorEffects), false, new ConfigurableInfo(
         "When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.", null, "",
         "Disable Minor Effects?"));
 
-    public static Configurable<bool> DisableSpear = Instance.config.Bind(nameof(DisableSpear), false, new ConfigurableInfo(
+    public static Configurable<bool> DisableSpear { get; } = Instance.config.Bind(nameof(DisableSpear), false, new ConfigurableInfo(
         "When checked, disables the spear creation effect granted by an active pearl.", null, "",
         "Disable Spear Effect?"));
 
-    public static Configurable<bool> DisableRevive = Instance.config.Bind(nameof(DisableRevive), false, new ConfigurableInfo(
+    public static Configurable<bool> DisableRevive { get; } = Instance.config.Bind(nameof(DisableRevive), false, new ConfigurableInfo(
         "When checked, disables the revive effect granted by an active pearl.", null, "",
         "Disable Revive Effect?"));
 
-    public static Configurable<bool> DisableAgility = Instance.config.Bind(nameof(DisableAgility), false, new ConfigurableInfo(
+    public static Configurable<bool> DisableAgility { get; } = Instance.config.Bind(nameof(DisableAgility), false, new ConfigurableInfo(
         "When checked, disables the agility effect granted by an active pearl.", null, "",
         "Disable Agility Effect?"));
 
-    public static Configurable<bool> DisableRage = Instance.config.Bind(nameof(DisableRage), false, new ConfigurableInfo(
+    public static Configurable<bool> DisableRage { get; } = Instance.config.Bind(nameof(DisableRage), false, new ConfigurableInfo(
         "When checked, disables the rage effect granted by an active pearl.", null, "",
         "Disable Rage Effect?"));
 
-    public static Configurable<bool> DisableShield = Instance.config.Bind(nameof(DisableShield), false, new ConfigurableInfo(
+    public static Configurable<bool> DisableShield { get; } = Instance.config.Bind(nameof(DisableShield), false, new ConfigurableInfo(
         "When checked, disables the shield effect granted by an active pearl.", null, "",
         "Disable Shield Effect?"));
 
-    public static Configurable<bool> DisableCamoflague = Instance.config.Bind(nameof(DisableCamoflague), false, new ConfigurableInfo(
+    public static Configurable<bool> DisableCamoflague { get; } = Instance.config.Bind(nameof(DisableCamoflague), false, new ConfigurableInfo(
         "When checked, disables the camoflague effect granted by an active pearl.", null, "",
         "Disable Camoflague Effect?"));
 

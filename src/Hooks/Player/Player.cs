@@ -88,12 +88,18 @@ public static partial class Hooks
         playerModule.WasAgilityInput = agilityInput;
 
         // LAG CAUSER
-        if (playerModule.TextureUpdateTimer % 3 == 0)
+        if (playerModule.TextureUpdateTimer % 5 == 0 && (playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor))
         {
             playerModule.LoadTailTexture("tail");
             playerModule.LoadEarLTexture("ear_l");
             playerModule.LoadEarRTexture("ear_r");
         }
+
+        playerModule.LastBodyColor = playerModule.BodyColor;
+        playerModule.LastAccentColor = playerModule.AccentColor;
+
+        //if (playerModule.TextureUpdateTimer % 120 == 0)
+        //    Plugin.Logger.LogWarning(Futile.atlasManager._atlases.Count);
 
         playerModule.TextureUpdateTimer++;
     }

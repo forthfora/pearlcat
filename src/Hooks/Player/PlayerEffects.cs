@@ -388,10 +388,7 @@ public static partial class Hooks
         }
 
         if (didDeflect)
-        {
-            Plugin.Logger.LogWarning("DEFLECTED");
             playerModule.ActivateVisualShield();
-        }
     }
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)

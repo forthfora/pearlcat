@@ -289,7 +289,7 @@ public static partial class Hooks
 
     public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
     {
-        FAtlas? tailAtlas = playerModule.tailAtlas;
+        FAtlas? tailAtlas = playerModule.TailAtlas;
         if (tailAtlas == null) return;
 
         if (tailAtlas.elements.Count == 0) return;

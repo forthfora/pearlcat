@@ -118,7 +118,7 @@ public class PlayerModule
     {
         if (ShieldTimer > 0) return;
 
-        SetShieldCooldown(400);
+        SetShieldCooldown(1200);
         ShieldTimer = 100;
     }
 
@@ -277,6 +277,9 @@ public class PlayerModule
 
     public Color CamoColor { get; set; }
     public float CamoLerp { get; set; }
+
+    public Color LastBodyColor { get; set; }
+    public Color LastAccentColor { get; set; }
 
     public Color BodyColor { get; set; }
     public Color EyesColor { get; set; }
@@ -442,7 +445,7 @@ public class PlayerModule
     }
 
 
-    public FAtlas? tailAtlas;
+    public FAtlas? TailAtlas { get; set; }
 
     public void LoadTailTexture(string textureName)
     {
@@ -461,7 +464,7 @@ public class PlayerModule
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
 
-        tailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
+        TailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
     }
 
 
@@ -504,19 +507,8 @@ public class PlayerModule
 
     #region Cloak
 
-    public Texture2D? CloakTexture { get; set; }
-    public FAtlas? CloakAtlas { get; set; }
-
     public int CloakSprite { get; set; }
     public CloakGraphics Cloak { get; set; } = null!;
-
-    public void LoadCloakTexture(string textureName)
-    {
-        CloakTexture = AssetLoader.GetTexture(textureName);
-        if (CloakTexture == null) return;
-
-        CloakAtlas = Futile.atlasManager.LoadAtlasFromTexture(Plugin.MOD_ID + textureName, CloakTexture, false);
-    }
 
     // CTRL + C CTRL + V (carbonara detected)
     public class CloakGraphics
@@ -640,11 +632,9 @@ public class PlayerModule
 
         public void InitiateSprite(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
         {
-            playerModule.LoadCloakTexture("cloak");
-
-            if (playerModule.CloakAtlas == null) return;
-
-            sLeaser.sprites[sprite] = TriangleMesh.MakeGridMesh(playerModule.CloakAtlas.name, divs - 1);
+            var element = Futile.atlasManager.GetElementWithName("pearlcat_cloak");
+            
+            sLeaser.sprites[sprite] = TriangleMesh.MakeGridMesh(element.name, divs - 1);
             sLeaser.sprites[sprite].color = Color.white;
 
             for (int i = 0; i < divs; i++)
