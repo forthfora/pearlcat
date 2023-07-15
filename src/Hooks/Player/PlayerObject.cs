@@ -8,30 +8,25 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static void TryRealizeInventory(this Player self)
+    public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
         if (self.room == null || self.onBack != null) return;
-
 
         foreach (var abstractObject in playerModule.Inventory)
         {
             if (abstractObject.realizedObject != null)
             {
-                abstractObject.realizedObject.MarkAsPlayerObject();
+                abstractObject.MarkAsPlayerObject();
                 continue;
             }
-
-            abstractObject.pos = self.abstractCreature.pos;
             
+            abstractObject.pos = self.abstractCreature.pos;   
             self.room.abstractRoom.AddEntity(abstractObject);
+            
             abstractObject.RealizeInRoom();
 
-            if (abstractObject.realizedObject == null) continue;
-
-            abstractObject.realizedObject.MarkAsPlayerObject();
-            abstractObject.realizedObject.RealizedEffect();
+            abstractObject.MarkAsPlayerObject();
+            abstractObject.realizedObject?.RealizedEffect();
 
             self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk.pos);
         }
@@ -189,7 +184,7 @@ public static partial class Hooks
         int targetIndex = playerModule.ActiveObjectIndex ?? 0;
 
         playerModule.Inventory.Insert(targetIndex, abstractObject);
-        abstractObject.realizedObject?.MarkAsPlayerObject();
+        abstractObject.MarkAsPlayerObject();
     }
 
     public static void RetrieveActiveObject(this Player self)
@@ -232,7 +227,7 @@ public static partial class Hooks
         if (!playerModule.Inventory.Contains(abstractObject)) return;
 
         playerModule.Inventory.Remove(abstractObject);
-        abstractObject.realizedObject?.ClearAsPlayerObject();
+        abstractObject.ClearAsPlayerObject();
 
         if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon))
             addon.Destroy();

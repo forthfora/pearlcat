@@ -113,7 +113,7 @@ public static partial class Hooks
             Plugin.Logger.LogWarning(playerModule.Inventory.Count);
         }
 
-        self.TryRealizeInventory();
+        self.TryRealizeInventory(playerModule);
 
         UpdatePlayerOA(self, playerModule);
         UpdatePlayerDaze(self, playerModule);

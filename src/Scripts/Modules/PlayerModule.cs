@@ -49,7 +49,7 @@ public class PlayerModule
     {
         var count = -1;
 
-        var inventory = type == MajorEffectType.REVIVE ? Inventory.Concat(PostDeathInventory) : Inventory;
+        var inventory = Inventory.Concat(PostDeathInventory);
 
         foreach (var pearl in inventory)
         {
@@ -76,7 +76,9 @@ public class PlayerModule
 
     public AbstractPhysicalObject? PutOnCooldown(MajorEffectType type, int cooldown)
     {
-        foreach (var pearl in Inventory)
+        var inventory = Inventory.Concat(PostDeathInventory);
+
+        foreach (var pearl in inventory)
         {
             if (!pearl.TryGetModule(out var module)) continue;
 

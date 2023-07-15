@@ -8,8 +8,8 @@ namespace Pearlcat;
 
 public class ObjectAddon : UpdatableAndDeletable, IDrawable
 {
-    public readonly static ConditionalWeakTable<AbstractPhysicalObject, ObjectAddon> ObjectsWithAddon = new();
-    public readonly WeakReference<AbstractPhysicalObject> ObjectRef;
+    public static ConditionalWeakTable<AbstractPhysicalObject, ObjectAddon> ObjectsWithAddon { get; } = new();
+    public WeakReference<AbstractPhysicalObject> ObjectRef { get; }
 
     public ObjectAddon(AbstractPhysicalObject abstractObject)
     {
@@ -24,7 +24,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
         base.Update(eu);
 
-        if (!ObjectRef.TryGetTarget(out var abstractObject) || abstractObject.slatedForDeletion || abstractObject.realizedObject == null || abstractObject.realizedObject.slatedForDeletetion)
+        if (!ObjectRef.TryGetTarget(out var abstractObject) || abstractObject.slatedForDeletion
+            || abstractObject.realizedObject == null || abstractObject.realizedObject.slatedForDeletetion
+            || room != abstractObject.realizedObject.room)
             Destroy();
     }
 
@@ -117,7 +119,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
         if (Parent == null || ParentSprite == null) return;
 
-        if (slatedForDeletetion || rCam.room != room || Parent.room != room)
+        if (slatedForDeletetion)
         {
             sLeaser.CleanSpritesAndRemove();
             return;

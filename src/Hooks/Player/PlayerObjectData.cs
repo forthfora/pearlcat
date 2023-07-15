@@ -38,11 +38,14 @@ public static partial class Hooks
     }
 
 
-    public static void MarkAsPlayerObject(this PhysicalObject physicalObject)
+    public static void MarkAsPlayerObject(this AbstractPhysicalObject abstractObject)
     {
-        if (PlayerObjectData.TryGetValue(physicalObject.abstractPhysicalObject, out PlayerObjectModule _)) return;
+        var module = PlayerObjectData.GetValue(abstractObject, x => new PlayerObjectModule());
 
-        var module = PlayerObjectData.GetValue(physicalObject.abstractPhysicalObject, x => new PlayerObjectModule());
+        if (module.IsCurrentlyStored) return;
+
+        var physicalObject = abstractObject.realizedObject;
+        if (abstractObject.realizedObject == null) return;
 
         module.IsCurrentlyStored = true;
         module.Gravity = physicalObject.gravity;
@@ -58,9 +61,14 @@ public static partial class Hooks
             module.WeaponRotationSpeed = weapon.rotationSpeed;
     }
 
-    public static void ClearAsPlayerObject(this PhysicalObject physicalObject)
+    public static void ClearAsPlayerObject(this AbstractPhysicalObject abstractObject)
     {
-        if (!PlayerObjectData.TryGetValue(physicalObject.abstractPhysicalObject, out var module)) return;
+        if (!abstractObject.TryGetModule(out var module)) return;
+
+        if (!module.IsCurrentlyStored) return;
+
+        var physicalObject = abstractObject.realizedObject;
+        if (physicalObject == null) return;
 
         module.IsCurrentlyStored = false;
         physicalObject.gravity = module.Gravity;
@@ -101,7 +109,7 @@ public static partial class Hooks
     {        
         orig(self, eu);
 
-        if (!PlayerObjectData.TryGetValue(self.abstractPhysicalObject, out var module)) return;
+        if (!self.abstractPhysicalObject.TryGetModule(out var module)) return;
 
         if (module.CooldownTimer > 0)
             module.CooldownTimer--;
@@ -122,7 +130,7 @@ public static partial class Hooks
     {
         orig(self, eu);
 
-        if (!PlayerObjectData.TryGetValue(self.abstractPhysicalObject, out var poModule) || !poModule.IsCurrentlyStored) return;
+        if (!self.abstractPhysicalObject.TryGetModule(out var module) || !module.IsCurrentlyStored) return;
 
         self.CollideWithObjects = false;
         self.CollideWithSlopes = false;
@@ -137,7 +145,7 @@ public static partial class Hooks
 
         IDrawable_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
 
-        // TODO: SWAP CONTAINERS
+        // SWAP CONTAINERS?
         //if (!PlayerObjectData.TryGetValue(self, out var _))
         //{
         //    self.AddToContainer(sLeaser, rCam, null);
@@ -150,7 +158,7 @@ public static partial class Hooks
 
     private static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        if (!ObjectAddon.ObjectsWithAddon.TryGetValue(self.abstractPhysicalObject, out var addon)) return;
+        if (!self.abstractPhysicalObject.TryGetAddon(out var addon)) return;
 
         addon.ParentGraphics_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
     }

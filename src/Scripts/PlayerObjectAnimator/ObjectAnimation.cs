@@ -33,12 +33,12 @@ public abstract class ObjectAnimation
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!Hooks.PlayerObjectData.TryGetValue(abstractObject, out var playerObjectModule)) continue;
+            if (!abstractObject.TryGetModule(out var module)) continue;
 
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out _))
+            if (!abstractObject.TryGetAddon(out _))
                 new ObjectAddon(abstractObject);
 
-            playerObjectModule.PlayCollisionSound = false;
+            module.PlayCollisionSound = false;
         }
 
         animTimer++;
