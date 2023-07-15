@@ -1,3 +1,4 @@
+[ADD]RM_Pearlcat : 622ffb : ff0000 : RM_Pearlcat
 [ADD]AS_PearlBlue : 42adf5 : ffffff : AS_PearlBlue
 [ADD]AS_PearlRed : b32c1b : ffffff : AS_PearlRed
 [ADD]AS_PearlYellow : fcf63f : ffffff : AS_PearlYellow

@@ -254,25 +254,6 @@ public static partial class Hooks
             playerModule.ActiveObjectIndex = null;
             save.ActiveObjectIndex[self.playerState.playerNumber] = null;
         }
-
-
-        // Consider only Pearlcat's campaign and the first pearlcat's inventory for the select screen
-        if (!self.room.game.IsPearlcatCampaign() || !self.IsFirstPearlcat()) return;
-
-        var miscProgData = self.room.game.GetMiscProgression();
-        miscProgData.StoredPearlTypes.Clear();
-        miscProgData.ActivePearlType = null;
- 
-        foreach(var item in playerModule.Inventory)
-        {
-            if (item is not DataPearl.AbstractDataPearl dataPearl) continue;
-
-            if (dataPearl == playerModule.ActiveObject)
-                miscProgData.ActivePearlType = dataPearl.dataPearlType;
-             
-            else
-                miscProgData.StoredPearlTypes.Add(dataPearl.dataPearlType);
-        }
     }
 
     

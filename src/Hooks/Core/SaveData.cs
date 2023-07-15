@@ -27,6 +27,7 @@ public static partial class Hooks
     public class SaveMiscProgression
     {
         public bool IsNewSave { get; set; } = true;
+        public bool IsMSCSave { get; set; }
 
         public List<DataPearlType> StoredPearlTypes { get; set; } = new();
         public DataPearlType? ActivePearlType { get; set; }
@@ -87,6 +88,7 @@ public static partial class Hooks
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
         miscProg.IsNewSave = miscWorld.IsNewGame;
+        miscProg.IsMSCSave = ModManager.MSC;
     }
 
 

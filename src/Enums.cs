@@ -13,6 +13,7 @@ public static class Enums
 
     public static class Pearls
     {
+        public static DataPearlType RM_Pearlcat = new(nameof(RM_Pearlcat), false);
         public static DataPearlType AS_PearlBlue = new(nameof(AS_PearlBlue), false);
         public static DataPearlType AS_PearlYellow = new(nameof(AS_PearlYellow), false);
         public static DataPearlType AS_PearlGreen = new(nameof(AS_PearlGreen), false);

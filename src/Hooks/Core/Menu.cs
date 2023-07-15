@@ -28,7 +28,6 @@ public static partial class Hooks
     }
 
 
-
     private static void HUD_InitSinglePlayerHud(On.HUD.HUD.orig_InitSinglePlayerHud orig, HUD.HUD self, RoomCamera cam)
     {
         orig(self, cam);
@@ -57,7 +56,7 @@ public static partial class Hooks
                 Enums.Pearls.AS_PearlBlack,
             };
 
-            MenuSceneData.Add(self, new(types, MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM));
+            MenuSceneData.Add(self, new(types, Enums.Pearls.RM_Pearlcat));
         }
         else
         {
@@ -99,13 +98,14 @@ public static partial class Hooks
             if (!MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
 
             if (self.sceneID.value == "Slugcat_Pearlcat")
-                UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);
-
-            if (self.sceneID.value == "Slugcat_Pearlcat_Sleep")
+                UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);                
+            
+            else if (self.sceneID.value == "Slugcat_Pearlcat_Sleep")
                 UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
         }
 
-        MenuPearlAnimStacker++;
+        // without MSC the main menu updates at half the speed?
+        MenuPearlAnimStacker += !ModManager.MSC && self.sceneID.value == "Slugcat_Pearlcat" ? 3 : 1;
     }
 
     private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
@@ -128,6 +128,7 @@ public static partial class Hooks
             }
 
             bool isPlaceholder = fileName == "pearlactiveplaceholder";
+            var activePearlColor = Color.white;
             
             if (menuSceneModule.ActivePearlType == null)
             {
@@ -146,8 +147,10 @@ public static partial class Hooks
                 illustration.visible = false;
                 return;
             }
-
-            var activePearlColor = DataPearl.UniquePearlMainColor(menuSceneModule.ActivePearlType);
+            else
+            {
+                activePearlColor = DataPearl.UniquePearlMainColor(menuSceneModule.ActivePearlType);
+            }
 
             illustration.visible = true;
             illustration.color = MenuPearlColorFilter(activePearlColor);
@@ -287,6 +290,23 @@ public static partial class Hooks
     {
         orig(self);
 
+        var page = self.slugcatPages[self.slugcatPageIndex];
+
+        if (page.slugcatNumber == Enums.General.Pearlcat)
+        {
+            var save = self.manager.rainWorld.progression.miscProgressionData.GetMiscProgression();
+            var disableSave = (!save.IsNewSave && save.IsMSCSave != ModManager.MSC);
+
+            if (disableSave)
+            {
+                self.startButton.buttonBehav.greyedOut = true;
+                var text = "CANNOT PLAY\n" + (save.IsMSCSave ? "MSC" : "VANILLA") + " SAVE!";
+
+                self.startButton.menuLabel.text = text;
+            }
+        }
+
+        
         //Music.MusicPlayer musicPlayer = self.manager.musicPlayer;
 
         //if (self.slugcatPages[self.slugcatPageIndex].slugcatNumber.ToString() == Plugin.SLUGCAT_ID)

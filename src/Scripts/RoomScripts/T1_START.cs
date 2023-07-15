@@ -45,7 +45,7 @@ public class T1_START : UpdatableAndDeletable
             }
 
             // I think Slugbase is setting the position after us ?
-            if (HardsetPosTimer > 0)
+            if (room == player.room && HardsetPosTimer > 0)
             {
                 player.SuperHardSetPosition(new(680.0f, 340.0f));
                 player.graphicsModule?.Reset();

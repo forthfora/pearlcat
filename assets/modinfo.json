@@ -4,8 +4,8 @@
 	"version": "0.0.0",
 	"authors": "forthbridge, Geahgeah, Sidera",
 	"description": "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Each pearl grants some effect, though it is stronger when selected & active!<LINE><LINE>Provides no significant world changes alone, only new abilities, and unique interactions.<LINE>Source: https://github.com/forthbridge/pearlcat",
-	"requirements": ["moreslugcats", "slime-cubed.slugbase", "crs"],
-	"requirements_names": ["More Slugcats Expansion", "SlugBase", "Custom Regions Support"],
+	"requirements": ["slime-cubed.slugbase", "crs"],
+	"requirements_names": ["SlugBase", "Custom Regions Support"],
 	"tags": ["Custom Slugcat", "Gameplay Mechanics", "Campaigns"],
 	"checksum_override_version": false
 }

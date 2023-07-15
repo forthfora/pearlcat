@@ -295,19 +295,25 @@ public static class POEffectManager
         PearlEffects.Add(DataPearlType.SI_top, SI_top);
         PearlEffects.Add(DataPearlType.SI_west, SI_west);
 
-        PearlEffects.Add(DataPearlTypeMSC.VS, VS);
-        PearlEffects.Add(DataPearlTypeMSC.SU_filt, SU_filt);
-        PearlEffects.Add(DataPearlTypeMSC.OE, OE);
-        PearlEffects.Add(DataPearlTypeMSC.LC, LC);
-        PearlEffects.Add(DataPearlTypeMSC.LC_second, LC_second);
-        PearlEffects.Add(DataPearlTypeMSC.MS, MS);
-        PearlEffects.Add(DataPearlTypeMSC.DM, DM);
-
         PearlEffects.Add(DataPearlType.Red_stomach, Red_stomach);
-        PearlEffects.Add(DataPearlTypeMSC.Rivulet_stomach, Rivulet_stomach);
-        PearlEffects.Add(DataPearlTypeMSC.Spearmasterpearl, Spearmasterpearl);
-        PearlEffects.Add(DataPearlTypeMSC.RM, RM);
 
+        if (ModManager.MSC)
+        {
+            PearlEffects.Add(DataPearlTypeMSC.VS, VS);
+            PearlEffects.Add(DataPearlTypeMSC.SU_filt, SU_filt);
+            PearlEffects.Add(DataPearlTypeMSC.OE, OE);
+            PearlEffects.Add(DataPearlTypeMSC.LC, LC);
+            PearlEffects.Add(DataPearlTypeMSC.LC_second, LC_second);
+            PearlEffects.Add(DataPearlTypeMSC.MS, MS);
+            PearlEffects.Add(DataPearlTypeMSC.DM, DM);
+
+            PearlEffects.Add(DataPearlTypeMSC.Rivulet_stomach, Rivulet_stomach);
+            PearlEffects.Add(DataPearlTypeMSC.Spearmasterpearl, Spearmasterpearl);
+
+            PearlEffects.Add(DataPearlTypeMSC.RM, RM);
+        }
+
+        PearlEffects.Add(Enums.Pearls.RM_Pearlcat, RM);
 
         PearlEffects.Add(Enums.Pearls.AS_PearlBlue, AS_PearlBlue);
         PearlEffects.Add(Enums.Pearls.AS_PearlRed, AS_PearlRed);
@@ -350,13 +356,13 @@ public static class POEffectManager
     public static POEffect Red_stomach;
     public static POEffect Rivulet_stomach;
     public static POEffect Spearmasterpearl;
-    public static POEffect RM;
 
     public static POEffect IteratorWhite;
     public static POEffect IteratorBlack;
     public static POEffect IteratorOrange;
     public static POEffect IteratorBlue;
 
+    public static POEffect RM;
 
     public static POEffect AS_PearlBlue;
     public static POEffect AS_PearlGreen;

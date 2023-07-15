@@ -391,12 +391,12 @@ public static partial class Hooks
             {
                 var types = new List<DataPearlType>()
                 {
-                    Enums.Pearls.AS_PearlBlack,
-                    Enums.Pearls.AS_PearlGreen,
-                    Enums.Pearls.AS_PearlYellow,
-                    Enums.Pearls.AS_PearlRed,
                     Enums.Pearls.AS_PearlBlue,
-                    MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM,
+                    Enums.Pearls.AS_PearlYellow,
+                    Enums.Pearls.AS_PearlGreen,
+                    Enums.Pearls.AS_PearlBlack,
+                    Enums.Pearls.AS_PearlRed,
+                    Enums.Pearls.RM_Pearlcat,
 
                     DataPearlType.LF_bottom,
                     DataPearlType.SL_chimney,
