@@ -559,7 +559,12 @@ public static partial class Hooks
         if (creatureAI != null)
             if (prey?.critRep?.representedCreature == self.abstractCreature && creatureAI.DynamicRelationship(prey.critRep).intensity > 0.1f)
                 return true;
-        
+
+        //var preyTracker = creatureAI?.preyTracker;
+
+        //if (creatureAI != null)
+        //    if (preyTracker?.currentPrey?.critRep?.representedCreature == self.abstractCreature && preyTracker.Utility() == 1.0f)
+        //        return true;
 
         var myRelationship = self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
         var creatureRelationship = creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
