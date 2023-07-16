@@ -31,10 +31,6 @@ public static partial class Hooks
             combinedEffect.ThrowingSkill += effect.ThrowingSkill * mult;
             combinedEffect.LungsFac += effect.LungsFac * mult;
             combinedEffect.BodyWeightFac += effect.BodyWeightFac * mult;
-
-            combinedEffect.MaulFac += effect.MaulFac * mult;
-            combinedEffect.SpearPullFac += effect.SpearPullFac * mult;
-            combinedEffect.BackSpearFac += effect.BackSpearFac * mult;
         }
         
         if (playerModule.ActiveObject != null)
@@ -78,10 +74,6 @@ public static partial class Hooks
             stats.corridorClimbSpeedFac = baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac;
             stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac;
             stats.bodyWeightFac = baseStats.bodyWeightFac + effect.BodyWeightFac;
-
-            playerModule.CanMaul = effect.MaulFac >= 1.0;
-            playerModule.CanSpearPull = effect.SpearPullFac >= 1.0f;
-            playerModule.CanBackSpear = effect.BackSpearFac >= 1.0f;
         }
 
         var visibilityMult = ModOptions.VisibilityMultiplier.Value / 100.0f;
@@ -199,8 +191,8 @@ public static partial class Hooks
 
             for (int j = 0; j < 10; j++)
             {
-                Vector2 a = Custom.RNV();
-                self.room.AddObject(new Spark(pos + a * Random.value * 40f, a * Mathf.Lerp(4f, 30f, Random.value), Color.white, null, 4, 18));
+                var randVec = Custom.RNV();
+                self.room.AddObject(new Spark(pos + randVec * Random.value * 40f, randVec * Mathf.Lerp(4f, 30f, Random.value), Color.white, null, 4, 18));
             }
 
             self.room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.15f + Random.value * 0.15f, 0.5f + Random.value * 2f);
@@ -402,7 +394,7 @@ public static partial class Hooks
 
             module.LaserLerp = 0.0f;
 
-            if (effect.MajorEffect != MajorEffectType.RAGE)
+            if (effect.MajorEffect != MajorEffectType.RAGE || playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out _))
                 module.LaserTimer = 80;
         }
 

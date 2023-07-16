@@ -13,6 +13,9 @@ public static partial class Hooks
 
         On.Creature.Grab += Creature_Grab;
 
+        On.PhysicalObject.Grabbed += PhysicalObject_Grabbed;
+        On.ScavengerAI.CollectScore_PhysicalObject_bool += ScavengerAI_CollectScore_PhysicalObject_bool;
+
         On.PhysicalObject.Update += PhysicalObject_Update;
         On.DataPearl.Update += DataPearl_Update;
     }
@@ -85,7 +88,6 @@ public static partial class Hooks
     }
 
 
-    // TODO: Fix scavs 'picking up' the pearls which breaks which room they're in
     private static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
     {
         var result = orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
@@ -104,6 +106,27 @@ public static partial class Hooks
 
         return result;
     }
+
+    // extra grab prevention safety
+    private static void PhysicalObject_Grabbed(On.PhysicalObject.orig_Grabbed orig, PhysicalObject self, Creature.Grasp grasp)
+    {
+        orig(self, grasp);
+
+        if (self.abstractPhysicalObject.IsPlayerObject())
+            grasp.Release();
+    }
+
+    private static int ScavengerAI_CollectScore_PhysicalObject_bool(On.ScavengerAI.orig_CollectScore_PhysicalObject_bool orig, ScavengerAI self, PhysicalObject obj, bool weaponFiltered)
+    {
+        var result = orig(self, obj, weaponFiltered);
+
+        // weird nullref here
+        if (obj?.abstractPhysicalObject != null && obj.abstractPhysicalObject.IsPlayerObject())
+            return 0;
+
+        return result;
+    }
+
 
     private static void PhysicalObject_Update(On.PhysicalObject.orig_Update orig, PhysicalObject self, bool eu)
     {        

@@ -28,10 +28,10 @@ public partial class Hooks
         On.Spear.Update += Spear_Update;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
-        On.SaveState.SaveToString += SaveState_SaveToString1;
+        On.SaveState.SaveToString += SaveState_SaveToStringPearls;
     }
 
-    private static string SaveState_SaveToString1(On.SaveState.orig_SaveToString orig, SaveState self)
+    private static string SaveState_SaveToStringPearls(On.SaveState.orig_SaveToString orig, SaveState self)
     {
         var miscWorld = self.miscWorldSaveData.GetMiscWorld();
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
@@ -75,19 +75,40 @@ public partial class Hooks
 
     private static void Spear_Update(On.Spear.orig_Update orig, Spear self, bool eu)
     {
-        orig(self, eu);
+        bool wasThrown = self.mode == Weapon.Mode.Thrown;
 
+        orig(self, eu);
 
         if (!self.abstractSpear.TryGetModule(out var module)) return;
 
-        if (module.SparkTimer <= 0)
-        {
+        if (module.SparkTimer <= 0 && module.LifeTimer < 800)
             module.SparkTimer = Random.Range(40, 350);
-        }
+
         else
-        {
             module.SparkTimer--;
+
+
+        if (wasThrown && self.mode != Weapon.Mode.Thrown && self.mode != Weapon.Mode.StuckInWall)
+        {
+            if (self.stuckInObject != null && self.stuckInChunk != null)
+            {
+                var physicalObj = self.stuckInChunk.owner;
+
+                if (physicalObj is Creature creature)
+                    creature.Stun(20);
+            }
+
+            for (int i = 0; i < 3; i++)
+                self.room.AddObject(new ExplosiveSpear.SpearFragment(self.firstChunk.pos, Custom.RNV() * Mathf.Lerp(20f, 40f, Random.value)));
+
+            self.room.AddObject(new ShockWave(self.firstChunk.pos, 20.0f, 5.0f, 10));
+            self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk.pos, Random.Range(0.4f, 0.8f), Random.Range(1.8f, 2.2f));
+
+            self.Destroy();
         }
+
+        if (self.mode == Weapon.Mode.StuckInWall || self.mode == Weapon.Mode.Free)
+            module.LifeTimer++;
     }
 
     public static bool TryGetModule(this AbstractSpear spear, out SpearModule module)
@@ -106,16 +127,18 @@ public partial class Hooks
 
         if (!self.abstractSpear.TryGetModule(out var module)) return;
 
-        sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_spear");
-        sLeaser.sprites[0].color = module.Color;
+        var color =  module.Color * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.LifeTimer, 0, 1200, 1.0f, 0.5f), Custom.LerpMap(module.LifeTimer, 0, 1200, 1.0f, 0.2f));
 
-        var randOffset = Custom.DegToVec(Random.value * 360f) * 0.25f * Random.value;
+        sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_spear");
+        sLeaser.sprites[0].color = color;
+
+        var randOffset = Custom.DegToVec(Random.value * 360f) * Custom.LerpMap(module.LifeTimer, 400, 1200, 0.25f, 0.0f) * Random.value;
         sLeaser.sprites[0].x += randOffset.x;
         sLeaser.sprites[0].y += randOffset.y;
 
         var thrown = self.mode == Weapon.Mode.Thrown;
 
-        if (module.SparkTimer == 0 || thrown)
+        if (module.SparkTimer == 0 || thrown && module.LifeTimer < 800)
         {
             var startPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * -30.0f;
             var endPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * 30.0f;

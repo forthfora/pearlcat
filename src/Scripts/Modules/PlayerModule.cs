@@ -134,10 +134,6 @@ public class PlayerModule
 
     public Vector2 PrevHeadRotation { get; set; }
 
-    // UNIMPLEMENTED
-    public bool CanMaul { get; set; }
-    public bool CanSpearPull { get; set; }
-    public bool CanBackSpear { get; set; }
 
     public bool WasSwapLeftInput { get; set; }
     public bool WasSwapRightInput { get; set; }

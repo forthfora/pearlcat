@@ -1,6 +1,9 @@
-﻿using RWCustom;
+﻿using MonoMod.RuntimeDetour;
+using Newtonsoft.Json.Linq;
+using RWCustom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
@@ -22,6 +25,22 @@ public static partial class Hooks
         On.Creature.Violence += Creature_Violence;
 
         On.Player.SpearOnBack.Update += SpearOnBack_Update;
+
+        new Hook(
+            typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(Hooks.get_PlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
+        );
+    }
+
+    public delegate float orig_PlayerVisibilityBonus(Player self);
+
+    public static float get_PlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
+    {
+        if (self.TryGetPearlcatModule(out var playerModule))
+            if (playerModule.CamoLerp > 0.5f)
+                return -playerModule.CamoLerp;
+
+        return orig(self);
     }
 
 

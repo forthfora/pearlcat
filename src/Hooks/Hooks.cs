@@ -27,16 +27,18 @@ public static partial class Hooks
     {
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         On.RainWorld.PostModsInit += RainWorld_PostModsInit;
+
+        On.ModManager.RefreshModsLists += ModManager_RefreshModsLists;
     }
 
-    public static bool isInit = false;
+    public static bool IsInit { get; private set; } = false;
 
     private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
     {
         try
         {
-            if (isInit) return;
-            isInit = true;
+            if (IsInit) return;
+            IsInit = true;
 
             ApplyHooks();
 
@@ -65,15 +67,14 @@ public static partial class Hooks
         }
     }
 
-
-    public static bool isPostInit = false;
+    public static bool IsPostInit { get; private set; } = false;
 
     private static void RainWorld_PostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self)
     {
         try
         {
-            if (isPostInit) return;
-            isPostInit = true;
+            if (IsPostInit) return;
+            IsPostInit = true;
 
             POEffectManager.RegisterEffects();
         }
@@ -85,5 +86,26 @@ public static partial class Hooks
         {
             orig(self);
         }
+    }
+
+    // fix the stupid remix load order issues
+    private static void ModManager_RefreshModsLists(On.ModManager.orig_RefreshModsLists orig, RainWorld rainWorld)
+    {
+        orig(rainWorld);
+
+        if (!ModManager.MSC) return;
+
+        var modIndex = ModManager.ActiveMods.FindIndex(mod => mod.id == Plugin.MOD_ID);
+        if (modIndex == -1) return;
+        
+        var mod = ModManager.ActiveMods[modIndex];
+        
+        var mscIndex = ModManager.ActiveMods.FindIndex(mod => mod.id == "moreslugcats");
+        if (mscIndex == -1) return;
+
+        if (modIndex > mscIndex) return;
+
+        ModManager.ActiveMods.Remove(mod);
+        ModManager.ActiveMods.Insert(mscIndex + 1, mod);
     }
 }

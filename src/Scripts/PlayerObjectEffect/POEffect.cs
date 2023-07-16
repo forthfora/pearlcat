@@ -39,9 +39,5 @@ public struct POEffect
 
     public float SurvivalFac { get; set; }
 
-    public float MaulFac { get; set; }
-    public float SpearPullFac { get; set; }
-    public float BackSpearFac { get; set; }
-
     public string? ThreatMusic { get; set; }
 }

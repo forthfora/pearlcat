@@ -136,10 +136,17 @@ public abstract class ObjectAnimation
             addon.ShieldCounter = playerModule.ShieldCount;
             addon.ReviveCounter = playerModule.ReviveCount;
 
-            addon.LaserLerp = poModule.LaserLerp;
+
+            var hasTarget = false;
 
             if (playerModule.RageTarget?.TryGetTarget(out var target) == true)
+            {
+                hasTarget = true;
                 addon.LaserTarget = target.mainBodyChunk.pos;
+            }
+            
+            addon.IsLaserVisible = hasTarget && effect.MajorEffect == POEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPOEffect().MajorEffect == POEffect.MajorEffectType.RAGE;
+            addon.LaserLerp = poModule.LaserLerp;
         }
     }
 

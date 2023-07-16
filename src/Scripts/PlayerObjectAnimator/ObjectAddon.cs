@@ -126,6 +126,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public int ShieldCounter { get; set; }
     public int ReviveCounter { get; set; }
 
+    public bool IsLaserVisible { get; set; }
     public Vector2 LaserTarget { get; set; }
     public float LaserLerp { get; set; }
 
@@ -225,15 +226,17 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         sprite = sLeaser.sprites[LaserSprite];
         sprite.scale = 1.0f;
-        sprite.alpha = LaserLerp;
-        sprite.color = SymbolColor;
+        sprite.isVisible = IsLaserVisible;
+
+        sprite.alpha = Custom.LerpMap(LaserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
+        sprite.color = LaserLerp > 0.97f ? Color.white : SymbolColor;
 
         var startPos = ParentSprite.GetPosition();
         var targetPos = LaserTarget - camPos;
 
         var dir = Custom.DirVec(startPos, targetPos);
 
-        var laserWidth = LaserLerp * 5.0f;
+        var laserWidth = LaserLerp > 0.97 ? 10.0f : Custom.LerpMap(LaserLerp, 0.0f, 1.0f, 1.5f, 5.0f);
         var laserLength = Custom.Dist(startPos, targetPos);
 
         //var perpVecNorm = Custom.PerpendicularVector(dir).normalized;

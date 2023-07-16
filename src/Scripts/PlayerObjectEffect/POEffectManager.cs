@@ -73,9 +73,7 @@ public static class POEffectManager
         SL_bridge.MajorEffect = MajorEffectType.RAGE;
         SL_bridge.ThreatMusic = "SL";
         SL_bridge.ThrowingSkill = 0.5f;
-        SL_bridge.SpearPullFac = 1.0f;
         SL_bridge.BodyWeightFac = 0.1f;
-        SL_bridge.MaulFac = 0.5f;
 
         SB_filtration = None;
         SB_filtration.MajorEffect = MajorEffectType.AGILITY;
@@ -89,9 +87,7 @@ public static class POEffectManager
         SB_ravine.MajorEffect = MajorEffectType.RAGE;
         SB_ravine.ThreatMusic = "SB";
         SB_ravine.ThrowingSkill = 1.0f;
-        SB_ravine.SpearPullFac = 0.5f;
         SB_ravine.BodyWeightFac = 0.1f;
-        SB_ravine.MaulFac = 0.5f;
 
         SU = None;
         SU.MajorEffect = MajorEffectType.AGILITY;

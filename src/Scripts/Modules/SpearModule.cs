@@ -15,4 +15,6 @@ public class SpearModule
     public Color Color { get; set; }
 
     public int SparkTimer { get; set; }
+
+    public int LifeTimer { get; set; }
 }
