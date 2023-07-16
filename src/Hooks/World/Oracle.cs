@@ -9,7 +9,6 @@ public static partial class Hooks
     }
 
     public const string SS_ORACLE_ROOM = "SS_AI";
-    public const string DM_ORACLE_ROOM = "DM_AI";
 
 
     public static void SSOracleBehavior_ctor(On.SSOracleBehavior.orig_ctor orig, SSOracleBehavior self, Oracle oracle)

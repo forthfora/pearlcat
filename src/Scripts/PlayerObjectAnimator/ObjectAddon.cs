@@ -49,11 +49,22 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         SymbolSprite = spriteIndex++;
         SpearSprite = spriteIndex++;
 
+        LaserSprite = spriteIndex++;
+
+        ReviveCounterSprite = spriteIndex++;
+        ShieldCounterSprite = spriteIndex++;
+
         sLeaser.sprites = new FSprite[spriteIndex];
 
         sLeaser.sprites[HaloSprite] = new("LizardBubble6");
         sLeaser.sprites[SymbolSprite] = new("pearlcat_glyphcooldown");
         sLeaser.sprites[SpearSprite] = new("pearlcat_spear");
+
+        sLeaser.sprites[ReviveCounterSprite] = new("pixel");
+        sLeaser.sprites[ShieldCounterSprite] = new("pixel");
+
+        var sprite = sLeaser.sprites[LaserSprite] = new("pixel");
+        sprite.shader = rCam.game.rainWorld.Shaders["HologramBehindTerrain"];
 
         AddToContainer(sLeaser, rCam, null!);
     }
@@ -66,7 +77,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         {
             var sprite = sLeaser.sprites[i];
             
-            if (i == SpearSprite)
+            if (i == SpearSprite || i == LaserSprite)
                 rCam.ReturnFContainer("Midground").AddChild(sprite);
 
             else
@@ -100,13 +111,23 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public float HaloAlpha { get; set; } = 0.5f;
     public Color HaloColor { get; set; } = Color.white;
 
+    public int LaserSprite { get; set; }
+
+    public int ShieldCounterSprite { get; set; }
+    public int ReviveCounterSprite { get; set; }
+
     public int SymbolSprite { get; set; }
     public POEffect.MajorEffectType SymbolType { get; set; }
     public bool DrawSymbolCooldown { get; set; }
 
     public int SpearSprite { get; set; }
     public float DrawSpearLerp { get; set; }
-    
+
+    public int ShieldCounter { get; set; }
+    public int ReviveCounter { get; set; }
+
+    public Vector2 LaserTarget { get; set; }
+    public float LaserLerp { get; set; }
 
     public float SymbolScale { get; set; } = 0.85f;
     public float SymbolAlpha { get; set; } = 0.75f;
@@ -125,24 +146,25 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var halo = sLeaser.sprites[HaloSprite];
-        halo.isVisible = DrawHalo;
-        halo.SetPosition(ParentSprite.GetPosition());
-        halo.scale = HaloScale;
-        halo.alpha = HaloAlpha;
-        halo.color = HaloColor;
+        var sprite = sLeaser.sprites[HaloSprite];
+        sprite.isVisible = DrawHalo;
+        sprite.SetPosition(ParentSprite.GetPosition());
+        sprite.scale = HaloScale;
+        sprite.alpha = HaloAlpha;
+        sprite.color = HaloColor;
 
-        var spear = sLeaser.sprites[SpearSprite];
-        spear.SetPosition(ParentSprite.GetPosition());
-        spear.scaleY = IsActiveObject ? DrawSpearLerp : 0.0f;
-        spear.color = SymbolColor;
-        spear.rotation = Mathf.Lerp(0.0f, 360.0f, DrawSpearLerp);
+        sprite = sLeaser.sprites[SpearSprite];
+        sprite.SetPosition(ParentSprite.GetPosition());
+        sprite.scaleY = IsActiveObject ? DrawSpearLerp : 0.0f;
+        sprite.color = SymbolColor;
+        sprite.rotation = Mathf.Lerp(0.0f, 360.0f, DrawSpearLerp);
 
 
-        var symbol = sLeaser.sprites[SymbolSprite];
-        var symbolOffset = IsActiveObject ? ActiveOffset : InactiveOffset;
 
-        var symbolSpriteName = !IsActiveObject ? null : SymbolType switch
+        sprite = sLeaser.sprites[SymbolSprite];
+        var offset = IsActiveObject ? ActiveOffset : InactiveOffset;
+
+        var spriteName = !IsActiveObject ? null : SymbolType switch
         {
             POEffect.MajorEffectType.SPEAR_CREATION => "BigGlyph2",
             POEffect.MajorEffectType.AGILITY => "BigGlyph8",
@@ -155,16 +177,99 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         };
 
         if (DrawSymbolCooldown)
-            symbolSpriteName = "pearlcat_glyphcooldown";
+            spriteName = "pearlcat_glyphcooldown";
 
-        if (symbolSpriteName != null)
-            symbol.element = Futile.atlasManager.GetElementWithName(symbolSpriteName);
+        if (spriteName != null)
+            sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
         
-        symbol.isVisible = symbolSpriteName != null;
+        sprite.isVisible = spriteName != null;
 
-        symbol.SetPosition(ParentSprite.GetPosition() + symbolOffset);
-        symbol.scale = SymbolScale;
-        symbol.alpha = SymbolAlpha;
-        symbol.color = SymbolColor;
+        sprite.SetPosition(ParentSprite.GetPosition() + offset);
+        sprite.scale = SymbolScale;
+        sprite.alpha = spriteName == "pearlcat_glyphcooldown" ? 1.0f : SymbolAlpha;
+        sprite.color = SymbolColor;
+
+
+
+        sprite = sLeaser.sprites[ShieldCounterSprite];
+        offset = new Vector2(-17.5f, 7.0f);
+
+        spriteName = !IsActiveObject ? null : SpriteFromNumber(ShieldCounter);
+
+        if (spriteName != null)
+            sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
+
+        sprite.isVisible = spriteName != null;
+
+        sprite.SetPosition(ParentSprite.GetPosition() + offset);
+        sprite.scale = SymbolScale;
+        sprite.alpha = SymbolAlpha;
+        sprite.color = ShieldCounter == 0 ? Color.red : new Color32(230, 203, 85, 255);
+
+
+        sprite = sLeaser.sprites[ReviveCounterSprite];
+        offset = new Vector2(-17.5f, -7.0f);
+
+        spriteName = !IsActiveObject ? null : SpriteFromNumber(ReviveCounter);
+
+        if (spriteName != null)
+            sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
+
+        sprite.isVisible = spriteName != null;
+
+        sprite.SetPosition(ParentSprite.GetPosition() + offset);
+        sprite.scale = SymbolScale;
+        sprite.alpha = SymbolAlpha;
+        sprite.color = ReviveCounter == 0 ? Color.red : new Color32(115, 209, 96, 255);
+
+
+        sprite = sLeaser.sprites[LaserSprite];
+        sprite.scale = 1.0f;
+        sprite.alpha = LaserLerp;
+        sprite.color = SymbolColor;
+
+        var startPos = ParentSprite.GetPosition();
+        var targetPos = LaserTarget - camPos;
+
+        var dir = Custom.DirVec(startPos, targetPos);
+
+        var laserWidth = LaserLerp * 5.0f;
+        var laserLength = Custom.Dist(startPos, targetPos);
+
+        //var perpVecNorm = Custom.PerpendicularVector(dir).normalized;
+        
+        //var startLeft = startPos - perpVecNorm * laserWidth;
+        //var startRight = startPos + perpVecNorm * laserWidth;
+        
+        //var endLeft = startPos + dir * laserLength - (perpVecNorm * laserWidth);
+        //var endRight = startPos + dir * laserLength + (perpVecNorm * laserWidth);
+
+
+        sprite.rotation = Custom.VecToDeg(dir);
+        sprite.scaleX = laserWidth;
+        sprite.scaleY = laserLength;
+
+        sprite.SetPosition(startPos + dir * laserLength / 2.0f);
+    }
+
+    public string? SpriteFromNumber(int num)
+    {
+        // it's dumb but i'm lazy shut up
+        return num switch
+        {
+            -1 => null,
+            0 => "pearlcat_0",
+            1 => "pearlcat_1",
+            2 => "pearlcat_2",
+            3 => "pearlcat_3",
+            4 => "pearlcat_4",
+            5 => "pearlcat_5",
+            6 => "pearlcat_6",
+            7 => "pearlcat_7",
+            8 => "pearlcat_8",
+            9 => "pearlcat_9",
+
+            _ => "pearlcat_over9",
+        };
     }
 }

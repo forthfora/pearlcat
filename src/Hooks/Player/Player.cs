@@ -292,9 +292,18 @@ public static partial class Hooks
         else if (playerModule.CurrentObjectAnimation is SleepOA or FreeFallOA)
         {
             foreach (var abstractObject in playerModule.Inventory)
+            {
                 abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
+            }
 
             playerModule.PickObjectAnimation(self);
+        }
+        else
+        {
+            if (playerModule.CurrentObjectAnimation is SineWaveInterOA or SineWaveOA && self.firstChunk.vel.magnitude > 4.0f)
+            {
+                playerModule.PickObjectAnimation(self);
+            }
         }
 
         if (playerModule.ObjectAnimationTimer > playerModule.ObjectAnimationDuration)
@@ -434,7 +443,7 @@ public static partial class Hooks
         }
     }
     
-    public static int GraspsHasType(this Player self, AbstractPhysicalObject.AbstractObjectType type)
+    public static int GraspsHasType(this Player self, AbstractObjectType type)
     {
         for (int i = 0; i < self.grasps.Length; i++)
         {
@@ -472,9 +481,7 @@ public static partial class Hooks
         {
             if (grasp?.grabber is not Creature crit) continue;
 
-            var relationship = self.abstractCreature.creatureTemplate.CreatureRelationship(crit.abstractCreature.creatureTemplate);
-
-            if (relationship.type == CreatureTemplate.Relationship.Type.Afraid)
+            if (self.IsHostileToMe(crit))
                 dangerGrasps.Add(grasp);
         }
 
@@ -518,5 +525,26 @@ public static partial class Hooks
         self.killTag = null;
         self.killTagCounter = 0;
         self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
+    }
+
+
+    public static bool IsHostileToMe(this Creature self, Creature creature)
+    {
+        // trust no one, not even yourself?
+        if (creature == self)
+            return false;
+
+        var creatureAI = creature.abstractCreature.abstractAI?.RealAI;
+        var prey = creatureAI?.preyTracker?.currentPrey;
+
+        if (creatureAI != null)
+            if (prey?.critRep?.representedCreature == self.abstractCreature && creatureAI.DynamicRelationship(prey.critRep).intensity > 0.1f)
+                return true;
+        
+
+        var myRelationship = self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
+        var creatureRelationship = creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
+
+        return myRelationship.GoForKill || creatureRelationship.GoForKill;
     }
 }

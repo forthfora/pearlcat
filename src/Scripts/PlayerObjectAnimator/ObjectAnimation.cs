@@ -127,10 +127,19 @@ public abstract class ObjectAnimation
                 addon.DrawSymbolCooldown = false;
             }
 
+            addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
 
             addon.SymbolType = effect.MajorEffect;
             addon.CamoLerp = playerModule.CamoLerp;
             addon.DrawSpearLerp = playerModule.SpearLerp;
+
+            addon.ShieldCounter = playerModule.ShieldCount;
+            addon.ReviveCounter = playerModule.ReviveCount;
+
+            addon.LaserLerp = poModule.LaserLerp;
+
+            if (playerModule.RageTarget?.TryGetTarget(out var target) == true)
+                addon.LaserTarget = target.mainBodyChunk.pos;
         }
     }
 

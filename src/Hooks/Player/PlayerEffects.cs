@@ -1,8 +1,7 @@
-﻿using RWCustom;
+﻿using MoreSlugcats;
+using RWCustom;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Profiling;
 using static Pearlcat.POEffect;
 
 namespace Pearlcat;
@@ -270,7 +269,7 @@ public static partial class Hooks
             || ((self.bodyMode == Player.BodyModeIndex.ZeroG)
             && (self.wantToJump == 0 || !self.input[0].pckp)))
         {
-            playerModule.ResetCooldown(MajorEffectType.AGILITY);
+            playerModule.ResetAgilityCooldown(40);
         }
     }
     
@@ -393,11 +392,134 @@ public static partial class Hooks
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
+        foreach (var item in playerModule.Inventory)
+        {
+            if (!item.TryGetModule(out var module)) continue;
+
+            var itemEffect = item.GetPOEffect();
+
+            if (itemEffect.MajorEffect != MajorEffectType.RAGE) continue;
+
+            module.LaserLerp = 0.0f;
+
+            if (effect.MajorEffect != MajorEffectType.RAGE)
+                module.LaserTimer = 80;
+        }
+
         if (ModOptions.DisableRage.Value) return;
 
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
-        // add the shooty lasers code
+        if (self.room == null) return;
+
+        if (!self.Consious) return;
+
+
+        var playerRoom = self.room;
+        
+        // search for target
+        if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out var target))
+        {
+            Creature? bestTarget = null;
+            var shortestDist = float.MaxValue;
+
+            foreach (var roomObject in playerRoom.physicalObjects)
+            {
+                foreach (var physicalObject in roomObject)
+                {
+                    if (physicalObject is not Creature creature) continue;
+
+                    if (creature.dead) continue;
+
+
+                    var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
+
+                    if (dist > 400.0f) continue;
+
+                    if (dist > shortestDist) continue;
+
+
+                    if (!self.IsHostileToMe(creature)) continue;
+
+                    if (SharedPhysics.RayTraceTilesForTerrainReturnFirstSolid(playerRoom, self.firstChunk.pos, creature.mainBodyChunk.pos) != null) continue;
+
+                    shortestDist = dist;
+                    bestTarget = creature;
+                }
+            }
+
+            if (bestTarget != null)
+                playerModule.RageTarget = new(bestTarget);
+        }
+        else
+        {
+            // ensure target is still valid
+            bool invalidTarget = false;
+
+            if (!Custom.DistLess(target.mainBodyChunk.pos, self.mainBodyChunk.pos, 500.0f))
+                invalidTarget = true;
+
+            if (target.room != self.room)
+                invalidTarget = true;
+
+            if (target.dead)
+                invalidTarget = true;
+
+            if (SharedPhysics.RayTraceTilesForTerrainReturnFirstSolid(playerRoom, self.mainBodyChunk.pos, target.mainBodyChunk.pos) != null)
+                invalidTarget = true;
+
+            if (invalidTarget)
+                playerModule.RageTarget = null;
+        }
+
+        if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out target)) return;
+
+        var shootTime = 80;
+        var shootDamage = 0.2f;
+
+        var minCooldown = 40;
+        var maxCooldown = 120;
+
+        foreach (var item in playerModule.Inventory)
+        {
+            if (!item.TryGetModule(out var module)) continue;
+
+            if (!item.TryGetAddon(out var addon)) continue;
+
+
+            var itemEffect = item.GetPOEffect();
+
+            if (itemEffect.MajorEffect != MajorEffectType.RAGE) continue;
+
+            if (module.CooldownTimer > 0)
+            {
+                module.LaserTimer = shootTime;
+                continue;
+            }
+
+
+            if(module.LaserTimer <= 0)
+            {
+                module.CooldownTimer = Random.Range(minCooldown, maxCooldown + 1);
+
+                var targetPos = target.mainBodyChunk.pos;
+
+                // shoot laser
+                self.room.PlaySound(SoundID.Bomb_Explode, targetPos, 0.8f, Random.Range(0.7f, 1.3f));
+                self.room.AddObject(new LightningMachine.Impact(targetPos, 0.5f, addon.SymbolColor, true));
+
+                self.room.AddObject(new ShockWave(targetPos, 30.0f, 0.4f, 5, false));
+                self.room.AddObject(new ExplosionSpikes(self.room, targetPos, 5, 20.0f, 10, 20.0f, 20.0f, addon.SymbolColor));
+
+                target.Violence(self.firstChunk, null, self.mainBodyChunk, null, Creature.DamageType.Explosion, shootDamage, 5.0f);
+            }
+            else
+            {
+                module.LaserTimer--;
+            }
+
+            module.LaserLerp = Custom.LerpMap(module.LaserTimer, shootTime, 0, 0.0f, 1.0f);
+        }
     }
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)

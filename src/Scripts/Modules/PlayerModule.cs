@@ -94,15 +94,16 @@ public class PlayerModule
         return null;
     }
 
-    public void ResetCooldown(MajorEffectType type)
+    public void ResetAgilityCooldown(int time)
     {
         foreach (var pearl in Inventory)
         {
             if (!pearl.TryGetModule(out var module)) continue;
 
-            if (pearl.GetPOEffect().MajorEffect != type) continue;
+            if (pearl.GetPOEffect().MajorEffect != MajorEffectType.AGILITY) continue;
 
-            module.CooldownTimer = 0;
+            if (module.CooldownTimer == -1)
+                module.CooldownTimer = time;
         }
     }
 
@@ -121,6 +122,8 @@ public class PlayerModule
         SetShieldCooldown(1200);
         ShieldTimer = 100;
     }
+
+    public WeakReference<Creature>? RageTarget { get; set; }
 
     public int SpearTimer { get; set; }
     public int SpearDelay { get; set; }
@@ -200,11 +203,19 @@ public class PlayerModule
         List<ObjectAnimation> animationPool = new()
         {
             new BasicOrbitOA(player),
-            new MultiOrbitOA(player),
             new LayerOrbitOA(player),
+        };
+
+        List<ObjectAnimation> stillAnimationPool = new()
+        {
+            new MultiOrbitOA(player),
             new SineWaveOA(player),
             new SineWaveInterOA(player),
         };
+
+
+        if (player.firstChunk.vel.magnitude < 4.0f)
+            animationPool.AddRange(stillAnimationPool);
 
         if (CurrentObjectAnimation != null && animationPool.Count > 1)
             animationPool.RemoveAll(x => x.GetType() == CurrentObjectAnimation.GetType());
