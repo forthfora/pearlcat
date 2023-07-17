@@ -1,14 +1,11 @@
-﻿namespace Pearlcat;
+﻿using RWCustom;
+using UnityEngine;
 
-public class T1_S01 : UpdatableAndDeletable
+namespace Pearlcat;
+
+public class T1_S01 : UpdatableAndDeletable, IDrawable
 {
-    public Phase CurrentPhase { get; set; } = Phase.Init;
-
-    public enum Phase
-    {
-        Init,
-        End,
-    }
+    public float ShelterCloseLerp { get; set; }
 
     public T1_S01(Room room)
     {
@@ -22,5 +19,43 @@ public class T1_S01 : UpdatableAndDeletable
         if (room.shelterDoor.IsClosing && room.lockedShortcuts.Count == 0)
             for (int i = 0; i < room.shortcutsIndex.Length; i++)
                 room.lockedShortcuts.Add(room.shortcutsIndex[i]);
+
+        ShelterCloseLerp = Custom.LerpMap(room.shelterDoor.closedFac, 0.0f, 0.5f, 0.0f, 1.0f);
     }
+
+
+    public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    {
+        sLeaser.sprites = new FSprite[2];
+
+        sLeaser.sprites[0] = new FSprite("pearlcat_topshutter");
+        sLeaser.sprites[1] = new FSprite("pearlcat_bottomshutter");
+
+        AddToContainer(sLeaser, rCam, null!);
+    }
+    
+    public void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
+    {
+        sLeaser.RemoveAllSpritesFromContainer();
+
+        var container = rCam.ReturnFContainer("Background");
+
+        container.AddChild(sLeaser.sprites[0]);
+        container.AddChild(sLeaser.sprites[1]);
+    }
+
+
+    public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        sLeaser.sprites[0].SetPosition(new Vector2(519.0f, 345.0f) - camPos);
+        sLeaser.sprites[1].SetPosition(new Vector2(519.0f, 325.0f) - camPos);
+
+        sLeaser.sprites[0].y -= (sLeaser.sprites[0].height / 2.0f) * ShelterCloseLerp;
+        sLeaser.sprites[1].y -= (sLeaser.sprites[1].height / 2.0f) * ShelterCloseLerp;
+
+        sLeaser.sprites[0].scaleY = ShelterCloseLerp;
+        sLeaser.sprites[1].scaleY = ShelterCloseLerp;
+    }
+
+    public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) { }
 }

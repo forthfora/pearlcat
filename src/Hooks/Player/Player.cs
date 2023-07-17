@@ -506,6 +506,8 @@ public static partial class Hooks
     {
         if (playerModule.ReviveCount <= 0) return;
 
+        if (self.room == null) return;
+
         List<Creature.Grasp> dangerGrasps = new();
 
         if (self.dangerGrasp != null)
