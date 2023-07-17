@@ -3,28 +3,31 @@
   "scene_folder": "slugbase/scenes/slugcat_pearlcat_sleep",
   "images": [
     {"name": "flat", "pos": [730, 130], "depth": -1.0, "flatmode": true},
-    
-    {"name": "background", "pos": [730, 130], "depth": 5.5, "shader": "Basic"},
-    
-    {"name": "pearl0", "pos": [1256, 561], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl1", "pos": [1083, 649], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl2", "pos": [1144, 505], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl3", "pos": [849, 555], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl4", "pos": [920, 653], "depth": 2.3, "shader": "Basic"},
 
-    {"name": "slugcat", "pos": [730, 130], "depth": 3.0, "shader": "Basic"},
+    {"name": "sleep5", "pos": [683, 265], "depth": 5.0, "shader": "Normal"},
+    {"name": "sleep4", "pos": [678, 188], "depth": 4.5, "shader": "Normal"},
+    {"name": "sleep3", "pos": [735, 179], "depth": 4.0, "shader": "Normal"},
 
-    {"name": "pearlactiveplaceholder", "pos": [730, 160], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearlactive", "pos": [906, 447], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearlactivehalo", "pos": [906, 447], "depth": 2.1, "shader": "Basic"},
+    {"name": "pearl0", "pos": [789, 472], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl1", "pos": [870, 558], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl2", "pos": [1193, 492], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl3", "pos": [1077, 648], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl4", "pos": [952, 647], "depth": 2.3, "shader": "Basic"},
+
+    {"name": "slugcat", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},
+    {"name": "sweat", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},
+
+    {"name": "pearlactiveplaceholder", "pos": [906, 406], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearlactive", "pos": [911, 406], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearlactivehalo", "pos": [911, 406], "depth": 2.1, "shader": "Basic"},
     
-    {"name": "pearl5", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl6", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl7", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl8", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl9", "pos": [730, 130], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl5", "pos": [805, 327], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl6", "pos": [1106, 405], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl7", "pos": [1218, 330], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl8", "pos": [1005, 275], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearl9", "pos": [1213, 599], "depth": 2.3, "shader": "Basic"},
 
-    {"name": "topgrass", "pos": [730  , 130], "depth": 2.5, "shader": "Basic"}
+    {"name": "sleep1", "pos": [486, 29], "depth": 2.5, "shader": "Normal"}
   ],
   
   "select_menu_pos": [0, -150],

@@ -76,7 +76,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         for (int i = 0; i < sLeaser.sprites.Length; i++)
         {
             var sprite = sLeaser.sprites[i];
-            
+
             if (i == SpearSprite || i == LaserSprite)
                 rCam.ReturnFContainer("Midground").AddChild(sprite);
 
@@ -133,7 +133,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public float SymbolScale { get; set; } = 0.85f;
     public float SymbolAlpha { get; set; } = 0.75f;
     public Color SymbolColor { get; set; } = Color.white;
-    
+
     public Vector2 ActiveOffset { get; } = new(17.5f, 10.0f);
     public Vector2 InactiveOffset { get; } = new(7.5f, 5.0f);
 
@@ -182,7 +182,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         if (spriteName != null)
             sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
-        
+
         sprite.isVisible = spriteName != null;
 
         sprite.SetPosition(ParentSprite.GetPosition() + offset);
@@ -229,7 +229,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.isVisible = IsLaserVisible;
 
         sprite.alpha = Custom.LerpMap(LaserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
-        sprite.color = LaserLerp > 0.97f ? Color.white : SymbolColor;
+        sprite.color = LaserLerp > 0.97f || LaserLerp == 0.0 ? Color.white : SymbolColor;
 
         var startPos = ParentSprite.GetPosition();
         var targetPos = LaserTarget - camPos;

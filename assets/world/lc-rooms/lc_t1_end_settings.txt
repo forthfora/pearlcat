@@ -1,6 +1,6 @@
 Clouds: 0.2717391
 EffectColorB: 18
-Effects: DayNight-0.7717391-322-180, Contrast-0-292-51, SkyAndLightBloom-0.1521739-360-244, RoofTopView-1-366-422, SunBlock-1-369-117, FairyParticles-0.1521739-374-316, Moth-0.2391304-1067-133, Darkness-0-20-57, Fog-1-20-20, Brightness-0-318--5, 
+Effects: DayNight-0.7717391-322-180, Contrast-0.1195652-292-51, SkyAndLightBloom-0.1521739-360-244, RoofTopView-1-366-422, SunBlock-1-369-117, FairyParticles-0.1521739-374-316, Moth-0.2391304-1067-133, Darkness-0-20-57, Fog-1-20-20, Brightness-0.05434782-318-0, 
 PlacedObjects: LanternOnStick><1363.677><374.5931><33~-111, LanternOnStick><389.4537><412.1946><-23~-81, LanternOnStick><1798.681><325.9158><-10~-67, LanternOnStick><231.1736><398.0993><19~-64, LanternOnStick><820.415><397.319><20~-146, LanternOnStick><663.6527><424.6747><-38~-85, HangingPearls><912.9374><467.8101><, HangingPearls><1149.265><459.9495><, HangingPearls><1111.371><464.9089><, HangingPearls><1919.26><452.3002><, HangingPearls><1660.254><465.7><, FairyParticleSettings><2337.07><-29.8353><-478~250.6602~0~1~1~0~1~1.448696~60~495.2173~40~100~5~30~0~360~0~0.1999999~0.1521739~0.2282609~0.05434782~0.1413043~1~0.1195652~7.790894~Pixel~SIN_IO~SIN_IO~0~0~0, LanternOnStick><2124.823><375.0924><-16~-130, DayNightSettings><5418.16><280.4286><-8~138.6602~35~10, 
-FadePalette: 8, 0.8586956, 0.8260869, 0.7282609, 0.5652174, 0.2282609, 0
+FadePalette: 8, 0.8043478, 0.6739131, 0.6195652, 0.5543478, 0.2282609, 0
 WetTerrain: OFF

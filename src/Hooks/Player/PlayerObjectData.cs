@@ -98,7 +98,13 @@ public static partial class Hooks
         if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive)
         {
             self.Stun(10);
-            DeflectEffect(self.room, self.firstChunk.pos);
+            
+            //if (graspUsed > 0 && graspUsed < self.grasps.Length)
+            //    self.grasps[graspUsed].Release();
+
+            //Plugin.Logger.LogWarning("GRABBED BY " + self.GetType());
+
+            DeflectEffect(self.room, self.mainBodyChunk.pos);
 
             playerModule.ActivateVisualShield();
             return false;
@@ -134,8 +140,16 @@ public static partial class Hooks
 
         if (!self.abstractPhysicalObject.TryGetModule(out var module)) return;
 
+
         if (module.CooldownTimer > 0)
+        {
             module.CooldownTimer--;
+
+            var effect = self.abstractPhysicalObject.GetPOEffect();
+
+            if (module.CooldownTimer == 0 && effect.MajorEffect == POEffect.MajorEffectType.SHIELD)
+                self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.0f);
+        }
 
         if (!module.IsCurrentlyStored) return;
 

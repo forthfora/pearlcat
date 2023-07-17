@@ -50,7 +50,6 @@ public abstract class OptionsTemplate : OptionInterface
     private readonly List<OpLabel> FloatSliderTextLabelsRight = new();
 
 
-
     protected void AddTab(ref int tabIndex, string tabName)
     {
         tabIndex++;

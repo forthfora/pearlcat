@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using SlugBase;
 using SlugBase.SaveData;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static DataPearl.AbstractDataPearl;
 
@@ -13,11 +13,15 @@ public static partial class Hooks
     public class SaveMiscWorld
     {
         public bool IsNewGame { get; set; } = true;
+        public bool IsPearlcatStory { get; set; }
 
         public Dictionary<int, List<string>> Inventory { get; } = new();
         public Dictionary<int, int?> ActiveObjectIndex { get; } = new();
 
         public Dictionary<int, SpearModule> PearlSpears { get; } = new();
+
+
+        public bool ShownFullInventoryTutorial { get; set; }
     }
 
     public class SaveDeathPersistent
@@ -26,7 +30,7 @@ public static partial class Hooks
 
     public class SaveMiscProgression
     {
-        public bool IsNewSave { get; set; } = true;
+        public bool IsNewPearlcatSave { get; set; } = true;
         public bool IsMSCSave { get; set; }
 
         public List<DataPearlType> StoredPearlTypes { get; set; } = new();
@@ -67,6 +71,42 @@ public static partial class Hooks
     {
         On.SaveState.SaveToString += SaveState_SaveToString;
         On.SaveState.LoadGame += SaveState_LoadGame;
+
+        On.PlayerProgression.SaveToDisk += PlayerProgression_SaveToDisk;
+    }
+
+    private static bool PlayerProgression_SaveToDisk(On.PlayerProgression.orig_SaveToDisk orig, PlayerProgression self, bool saveCurrentState, bool saveMaps, bool saveMiscProg)
+    {
+        var miscWorld = self.currentSaveState?.miscWorldSaveData?.GetMiscWorld();
+        var miscProg = self.miscProgressionData?.GetMiscProgression();
+
+
+        if (miscWorld != null && miscProg != null && saveCurrentState && miscWorld.IsPearlcatStory)
+        {
+            miscProg.StoredPearlTypes.Clear();
+            miscProg.ActivePearlType = null;
+
+            if (miscWorld.Inventory.TryGetValue(0, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(0, out var activeIndex))
+            {
+                for (int i = 0; i < inventory.Count; i++)
+                {
+                    string? item = inventory[i];
+                    var tryToParse = item.Split('>').Last();
+
+                    if (!ExtEnumBase.TryParse(typeof(DataPearlType), tryToParse, false, out var type)) continue;
+
+                    if (type is not DataPearlType dataPearlType) continue;
+
+                    if (i == activeIndex)
+                        miscProg.ActivePearlType = dataPearlType;
+
+                    else
+                        miscProg.StoredPearlTypes.Add(dataPearlType);
+                }
+            }
+        }
+
+        return orig(self, saveCurrentState, saveMaps, saveMiscProg);
     }
 
     private static string SaveState_SaveToString(On.SaveState.orig_SaveToString orig, SaveState self)
@@ -74,8 +114,8 @@ public static partial class Hooks
         var miscWorld = self.miscWorldSaveData.GetMiscWorld();
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
+        miscProg.IsNewPearlcatSave = false;
         miscWorld.IsNewGame = false;
-        miscProg.IsNewSave = false;
 
         return orig(self);
     }
@@ -87,13 +127,19 @@ public static partial class Hooks
         var miscWorld = self.miscWorldSaveData.GetMiscWorld();
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
-        miscProg.IsNewSave = miscWorld.IsNewGame;
+
+        miscWorld.IsPearlcatStory = self.saveStateNumber == Enums.General.Pearlcat;
         miscProg.IsMSCSave = ModManager.MSC;
+
+        if (miscWorld.IsPearlcatStory)
+        {
+            miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
+        }
     }
 
 
     // https://medium.com/@altaf.navalur/serialize-deserialize-color-objects-in-unity-1731e580af94
-    public class ColorHandler : Newtonsoft.Json.JsonConverter
+    public class ColorHandler : JsonConverter
     {
         public override bool CanConvert(Type objectType) => true;
 

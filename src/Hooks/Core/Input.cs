@@ -25,7 +25,7 @@ public static partial class Hooks
         };
     }
 
-    public static bool IsAbilityKeybindPressed(this Player player, PlayerModule playerModule)
+    public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
         return player.playerState.playerNumber switch
         {
@@ -40,8 +40,8 @@ public static partial class Hooks
 
     public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (ModOptions.PreferCustomAbilityKeybind.Value)
-            return IsAbilityKeybindPressed(player, playerModule);
+        if (ModOptions.CustomAgilityKeybind.Value)
+            return IsCustomAbilityKeybindPressed(player, playerModule);
 
         var input = playerModule.UnblockedInput;
         return input.jmp && input.pckp;
@@ -49,12 +49,22 @@ public static partial class Hooks
 
     public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (ModOptions.PreferCustomAbilityKeybind.Value)
-            return IsAbilityKeybindPressed(player, playerModule);
+        if (ModOptions.CustomSpearKeybind.Value)
+            return IsCustomAbilityKeybindPressed(player, playerModule);
 
         var input = playerModule.UnblockedInput;
         return input.pckp;
     }
+
+    public static bool IsReviveKeybindPressed(this Player player, PlayerModule playerModule)
+    {
+        //if (ModOptions.CustomReviveKeybind.Value)
+        //    return IsCustomAbilityKeybindPressed(player, playerModule);
+
+        var input = playerModule.UnblockedInput;
+        return input.pckp;
+    }
+
 
     public static bool IsSwapKeybindPressed(this Player player)
     {
@@ -80,6 +90,7 @@ public static partial class Hooks
 
         return -1;
     }
+
 
     public static bool IsSwapLeftInput(this Player player)
         => Input.GetKey(ModOptions.SwapLeftKeybind.Value)

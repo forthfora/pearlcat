@@ -180,12 +180,12 @@ public static partial class Hooks
 
         UpdateReplacementPlayerSprite(sLeaser, HIPS_SPRITE, "Hips", "hips");
         UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "head");
-        
+
         UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
-        
+
         UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
         UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
-        
+
         UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
 
 
@@ -376,7 +376,6 @@ public static partial class Hooks
         if (newContainer != null)
         {
             var hudContainer = rCam.ReturnFContainer("HUD");
-            var lightsContainer = rCam.ReturnFContainer("ForegroundLights");
 
             newContainer.AddChild(scarfSprite);
 
@@ -391,7 +390,6 @@ public static partial class Hooks
             newContainer.AddChild(cloakSprite);
 
             hudContainer.AddChild(shieldSprite);
-            lightsContainer.AddChild(lightsContainer);
         }
 
 

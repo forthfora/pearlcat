@@ -45,7 +45,7 @@ public static partial class Hooks
        
         var save = menu.manager.rainWorld.GetMiscProgression();
 
-        if (save.IsNewSave)
+        if (save.IsNewPearlcatSave)
         {
             List <DataPearlType> types = new()
             {
@@ -102,6 +102,17 @@ public static partial class Hooks
             
             else if (self.sceneID.value == "Slugcat_Pearlcat_Sleep")
                 UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
+
+
+            //if (Input.GetKey("-"))
+            //{
+            //    var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+                
+            //    if (illustration.depth > 4.8f)
+            //        Plugin.Logger.LogWarning("-----------------------------------------");
+
+            //    Plugin.Logger.LogWarning(fileName + " - " + illustration.pos);
+            //}
         }
 
         // without MSC the main menu updates at half the speed?
@@ -110,18 +121,26 @@ public static partial class Hooks
 
     private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
+        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
         illustration.alpha = 1.0f;
 
-        if (illustrationModule.Index == -2) return;
+
+        if (illustrationModule.Index == -2)
+        {
+            if (fileName == "sweat")
+                illustration.visible = menuSceneModule.ActivePearlType == null;
+
+            return;
+        }
 
         if (illustrationModule.Index == -1)
         {
-            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
             if (fileName == "pearlactivehalo")
             {
                 illustration.sprite.SetAnchor(Vector2.one * 0.5f);
                 illustration.sprite.scale = 0.3f;
+                illustration.visible = menuSceneModule.ActivePearlType != null; 
 
                 illustration.pos = menuSceneModule.ActivePearlPos;
                 return;
@@ -174,6 +193,7 @@ public static partial class Hooks
             illustration.pos += illustrationModule.vel;
 
             illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
@@ -295,7 +315,7 @@ public static partial class Hooks
         if (page.slugcatNumber == Enums.General.Pearlcat)
         {
             var save = self.manager.rainWorld.progression.miscProgressionData.GetMiscProgression();
-            var disableSave = !save.IsNewSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;
+            var disableSave = !save.IsNewPearlcatSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;
 
             if (disableSave)
             {

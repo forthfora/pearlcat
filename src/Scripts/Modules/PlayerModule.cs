@@ -121,6 +121,9 @@ public class PlayerModule
 
         SetShieldCooldown(1200);
         ShieldTimer = 100;
+
+        if (PlayerRef.TryGetTarget(out var player))
+            player.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, player.firstChunk);
     }
 
     public WeakReference<Creature>? RageTarget { get; set; }
@@ -139,7 +142,6 @@ public class PlayerModule
     public bool WasSwapRightInput { get; set; }
     public bool WasSwapped { get; set; }
     public bool WasStoreInput { get; set; }
-    public bool WasAbilityInput { get; set; }
     public bool WasAgilityInput { get; set; }
 
     public Player.InputPackage UnblockedInput { get; set; }
@@ -264,12 +266,21 @@ public class PlayerModule
     #region Sounds
 
     public DynamicSoundLoop MenuCrackleLoop { get; set; } = null!;
+    public DynamicSoundLoop ShieldHoldLoop { get; set; } = null!;
 
     public void InitSounds(Player player)
     {
         MenuCrackleLoop = new ChunkDynamicSoundLoop(player.firstChunk)
         {
             sound = Enums.Sounds.Pearlcat_MenuCrackle,
+            destroyClipWhenDone = false,
+            Pitch = 1.0f,
+            Volume = 1.0f,
+        };
+
+        ShieldHoldLoop = new ChunkDynamicSoundLoop(player.firstChunk)
+        {
+            sound = Enums.Sounds.Pearlcat_ShieldHold,
             destroyClipWhenDone = false,
             Pitch = 1.0f,
             Volume = 1.0f,

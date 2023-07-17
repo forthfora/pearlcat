@@ -37,6 +37,8 @@ public static partial class Hooks
     {
         try
         {
+            ModOptions.RegisterOI();
+
             if (IsInit) return;
             IsInit = true;
 
@@ -54,7 +56,6 @@ public static partial class Hooks
             _ = Enums.Pearls.AS_PearlBlue;
             _ = Enums.Sounds.Pearlcat_PearlScroll;
 
-            MachineConnector.SetRegisteredOI(Plugin.MOD_ID, ModOptions.Instance);
             AssetLoader.LoadAssets();
         }
         catch (Exception e)
@@ -93,19 +94,26 @@ public static partial class Hooks
     {
         orig(rainWorld);
 
-        if (!ModManager.MSC) return;
+        try
+        {
+            if (!ModManager.MSC) return;
 
-        var modIndex = ModManager.ActiveMods.FindIndex(mod => mod.id == Plugin.MOD_ID);
-        if (modIndex == -1) return;
+            var modIndex = ModManager.ActiveMods.FindIndex(mod => mod.id == Plugin.MOD_ID);
+            if (modIndex == -1) return;
         
-        var mod = ModManager.ActiveMods[modIndex];
+            var mod = ModManager.ActiveMods[modIndex];
         
-        var mscIndex = ModManager.ActiveMods.FindIndex(mod => mod.id == "moreslugcats");
-        if (mscIndex == -1) return;
+            var mscIndex = ModManager.ActiveMods.FindIndex(mod => mod.id == "moreslugcats");
+            if (mscIndex == -1) return;
 
-        if (modIndex > mscIndex) return;
+            if (modIndex > mscIndex) return;
 
-        ModManager.ActiveMods.Remove(mod);
-        ModManager.ActiveMods.Insert(mscIndex + 1, mod);
+            ModManager.ActiveMods.Remove(mod);
+            ModManager.ActiveMods.Insert(mscIndex, mod);
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("ModManager.RefreshModsLists:\n" + e.Message);
+        }
     }
 }

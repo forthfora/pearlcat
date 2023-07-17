@@ -70,7 +70,7 @@ public static partial class Hooks
     {
         if (physicalObject == null) return;
 
-        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 250.0f, 0.07f, 6, false));
+        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 150.0f, 0.8f, 10, false));
     }
 
     public static void SwapEffect(this PhysicalObject? physicalObject, PhysicalObject? newObject)
@@ -149,23 +149,54 @@ public static partial class Hooks
         room.AddObject(new Explosion.ExplosionLight(pos, 150f, 1f, 8, Color.white));
         room.AddObject(new ShockWave(pos, 60f, 0.1f, 8, false));
 
-        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1f, 1.5f + Random.value * 0.5f);
+        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 0.6f, 1.5f + Random.value * 0.5f);
     }
 
     public static void ReviveEffect(this Room room, Vector2 pos)
     {
         room.AddObject(new Explosion.ExplosionLight(pos, 100.0f, 1.0f, 3, Color.white));
         room.AddObject(new ShockWave(pos, 250.0f, 0.07f, 6, false));
+
+        room.AddObject(new ShockWave(pos, 30.0f, 20.0f, 20));
+
+        for (int i = 0; i < 4; i++)
+        {
+            var randVec = Custom.RNV() * 150.0f;
+            room.ConnectEffect(pos, pos + randVec, Color.green, 1.5f, 80);
+        }
+
+        room.PlaySound(SoundID.UI_Slugcat_Die, pos, 1.0f, 1.0f);
+
+        room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.5f, 0.7f);
+        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 3.0f, 0.4f);
     }
 
 
 
-    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool bypassLimit = false)
+    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value && !bypassLimit) return;
-        
+        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value)
+        {
+            var save = self.abstractCreature.world.game.GetMiscWorld();
+
+            if (!save.ShownFullInventoryTutorial)
+            {
+                save.ShownFullInventoryTutorial = true;
+                self.abstractCreature.world.game.AddTextPrompt($"Storage limit reached ({ModOptions.MaxPearlCount.Value}): swap out a pearl, or change the limit in the Remix options.", 40, 300);
+            }
+
+            self.room.PlaySound(SoundID.MENU_Error_Ping, self.firstChunk, false, 2.0f, 1.0f);
+            return;
+        }
+
+        if (fromGrasp)
+        {
+            self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, abstractObject.realizedObject.firstChunk);
+            self.ReleaseGrasp(0);
+        }
+
         self.AddToInventory(abstractObject);
 
         int targetIndex = playerModule.ActiveObjectIndex ?? 0;

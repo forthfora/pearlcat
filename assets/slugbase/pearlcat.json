@@ -4,7 +4,7 @@
     "description": "A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?",
     "features": {
         "color": "122626",
-        "world_state": ["Pearlcat", "Artificer", "Red"],
+        "world_state": ["Pearlcat", "Red"],
         "start_room": ["T1_START", "SS_S04"],
         "auto_grab_batflies": false,
 

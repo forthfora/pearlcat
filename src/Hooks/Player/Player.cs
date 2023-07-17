@@ -64,7 +64,6 @@ public static partial class Hooks
 
         bool swapInput = self.IsSwapKeybindPressed();
         bool storeInput = self.IsStoreKeybindPressed(playerModule);
-        bool abilityInput = self.IsAbilityKeybindPressed(playerModule);
 
         bool agilityInput = self.IsAgilityKeybindPressed(playerModule);
 
@@ -103,7 +102,6 @@ public static partial class Hooks
         playerModule.WasSwapLeftInput = swapLeftInput;
         playerModule.WasSwapRightInput = swapRightInput;
         playerModule.WasStoreInput = storeInput;
-        playerModule.WasAbilityInput = abilityInput;
         playerModule.WasAgilityInput = agilityInput;
 
         // LAG CAUSER
@@ -191,9 +189,7 @@ public static partial class Hooks
         {
             if (isStoring && toStore != null)
             {
-                self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, toStore.abstractPhysicalObject.realizedObject.firstChunk);
-                self.ReleaseGrasp(0);
-                self.StoreObject(toStore.abstractPhysicalObject);
+                self.StoreObject(toStore.abstractPhysicalObject, true);
             }
             else if (playerModule.ActiveObject != null)
             {
@@ -243,6 +239,9 @@ public static partial class Hooks
     {
         playerModule.MenuCrackleLoop.Update();
         playerModule.MenuCrackleLoop.Volume = playerModule.HudFade;
+
+        playerModule.ShieldHoldLoop.Update();
+        playerModule.ShieldHoldLoop.Volume = playerModule.ShieldTimer > 0 ? 1.0f : 0.0f;
     }
 
     private static void UpdateHUD(Player self, PlayerModule playerModule)
@@ -372,14 +371,30 @@ public static partial class Hooks
 
         playerModule.PostDeathActiveObjectIndex = playerModule.ActiveObjectIndex;
 
+        self.room.PlaySound(SoundID.Zapper_Zap, self.firstChunk.pos, 0.4f, 0.6f);
+        self.room.PlaySound(SoundID.Fire_Spear_Explode, self.firstChunk.pos, 0.7f, 0.6f);
+
+        if (playerModule.ReviveCount <= 0 && playerModule.Inventory.Count > 0)
+        {
+            self.room.AddObject(new ShockWave(self.firstChunk.pos, 30.0f, 0.4f, 5, false));
+            self.room.AddObject(new ExplosionSpikes(self.room, self.firstChunk.pos, 5, 20.0f, 10, 20.0f, 20.0f, Color.red));
+        }
+
         for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
         {
             var abstractObject = playerModule.Inventory[i];
 
-            DeathEffect(abstractObject.realizedObject);
             RemoveFromInventory(self, abstractObject);
 
             playerModule.PostDeathInventory.Add(abstractObject);
+
+            if (playerModule.ReviveCount <= 0)
+            {
+                var randVec = Custom.RNV() * 150.0f;
+                self.room.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80);
+
+                DeathEffect(abstractObject.realizedObject);
+            }
         }
     }
     
@@ -515,6 +530,9 @@ public static partial class Hooks
 
         if (self.dead)
             self.RevivePlayer();
+
+        else
+            self.room.ReviveEffect(self.firstChunk.pos);
 
         playerModule.SetReviveCooldown(-1);
     }

@@ -146,6 +146,9 @@ public static partial class Hooks
 
 
                     ConnectEffect(playerModule.ActiveObject?.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
+
+                    self.room?.PlaySound(Enums.Sounds.Pearlcat_SpearEquip, self.firstChunk);
+                    self.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldRecharge, self.firstChunk, false, 0.5f, 2.0f);
                 }
             }
             else
@@ -155,6 +158,9 @@ public static partial class Hooks
         }
         else
         {
+            if (playerModule.SpearTimer > spearCreationTime / 2.0f)
+                self.room?.AddObject(new ShockWave(playerModule.ActiveObject!.realizedObject.firstChunk.pos, 30.0f, 0.5f, 6));
+
             playerModule.SpearTimer = 0;
             playerModule.SpearDelay = 0;
         }
@@ -271,7 +277,7 @@ public static partial class Hooks
 
         if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
 
-        var abilityInput = self.IsAbilityKeybindPressed(playerModule);
+        var abilityInput = self.IsCustomAbilityKeybindPressed(playerModule);
 
         if (effect.MajorEffect != MajorEffectType.REVIVE || !abilityInput)
         {
@@ -320,6 +326,7 @@ public static partial class Hooks
     {
         if (playerModule.ShieldTimer > 0)
         {
+            self.AllGraspsLetGoOfThisObject(true);
             playerModule.ShieldTimer--;
 
             playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 1.0f, 0.25f);
@@ -339,6 +346,9 @@ public static partial class Hooks
                         item.realizedObject.ConnectEffect(self.firstChunk.pos);
                 }
             }
+
+            if (playerModule.ShieldTimer == 0)
+                self.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldOff, self.firstChunk);
         }
         else
         {
@@ -384,6 +394,13 @@ public static partial class Hooks
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
+        var shootTime = 60;
+
+        var minCooldown = 40;
+        var maxCooldown = 80;
+
+        var rageCounter = 0;
+
         foreach (var item in playerModule.Inventory)
         {
             if (!item.TryGetModule(out var module)) continue;
@@ -395,7 +412,9 @@ public static partial class Hooks
             module.LaserLerp = 0.0f;
 
             if (effect.MajorEffect != MajorEffectType.RAGE || playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out _))
-                module.LaserTimer = 80;
+                module.LaserTimer = shootTime + rageCounter * 5;
+
+            rageCounter++;
         }
 
         if (ModOptions.DisableRage.Value) return;
@@ -423,6 +442,7 @@ public static partial class Hooks
 
                     if (creature.dead) continue;
 
+                    if (creature.VisibilityBonus == -1.0) continue;
 
                     var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
 
@@ -466,11 +486,7 @@ public static partial class Hooks
 
         if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out target)) return;
 
-        var shootTime = 80;
         var shootDamage = 0.2f;
-
-        var minCooldown = 40;
-        var maxCooldown = 120;
 
         foreach (var item in playerModule.Inventory)
         {
@@ -548,6 +564,14 @@ public static partial class Hooks
         bool shouldCamo = ((self.canJump > 0 && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) || self.bodyMode == Player.BodyModeIndex.Crawl)
             && effect.MajorEffect == MajorEffectType.CAMOFLAGUE && playerModule.StoreObjectTimer <= 0;
 
+        var prevCamo = playerModule.CamoLerp;
+
         playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, camoSpeed) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, camoSpeed);
+
+        if (shouldCamo && prevCamo < 0.9f && playerModule.CamoLerp > 0.9f)
+        {
+            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, self.firstChunk, false, 0.25f, 2.0f);
+            self.room?.PlaySound(Enums.Sounds.Pearlcat_CamoFade, self.firstChunk);
+        }
     }
 }

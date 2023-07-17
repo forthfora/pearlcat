@@ -28,39 +28,6 @@ public partial class Hooks
         On.Spear.Update += Spear_Update;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
-        On.SaveState.SaveToString += SaveState_SaveToStringPearls;
-    }
-
-    private static string SaveState_SaveToStringPearls(On.SaveState.orig_SaveToString orig, SaveState self)
-    {
-        var miscWorld = self.miscWorldSaveData.GetMiscWorld();
-        var miscProg = self.progression.miscProgressionData.GetMiscProgression();
-
-        miscProg.StoredPearlTypes.Clear();
-        miscProg.ActivePearlType = null;
-
-        if (miscWorld.Inventory.TryGetValue(0, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(0, out var activeIndex))
-        {
-            for (int i = 0; i < inventory.Count; i++)
-            {
-                string? item = inventory[i];
-                var tryToParse = item.Split('>').Last();
-
-                Plugin.Logger.LogWarning(tryToParse);
-
-                if (!ExtEnumBase.TryParse(typeof(DataPearlType), tryToParse, false, out var type)) continue;
-
-                if (type is not DataPearlType dataPearlType) continue;
-
-                if (i == activeIndex)
-                    miscProg.ActivePearlType = dataPearlType;
-
-                else
-                    miscProg.StoredPearlTypes.Add(dataPearlType);
-            }
-        }
-
-        return orig(self);
     }
 
     private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)
@@ -208,7 +175,7 @@ public partial class Hooks
         orig(room);
 
         if (room.game.IsStorySession && room.game.GetStorySession.saveState.saveStateNumber == Enums.General.Pearlcat && room.abstractRoom.firstTimeRealized
-            && room.game.GetStorySession.saveState.cycleNumber == 0 && room.game.GetStorySession.saveState.denPosition == "T1_START")
+            && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
 
         if (room.roomSettings.name == "LC_T1_S01")
@@ -342,4 +309,10 @@ public partial class Hooks
 
         return result;
     }
+
+    public static void AddTextPrompt(this RainWorldGame game, string text, int wait, int time, bool darken = false, bool? hideHud = null)
+    {
+        hideHud ??= ModManager.MMF;
+        game.cameras.First().hud.textPrompt.AddMessage(game.manager.rainWorld.inGameTranslator.Translate(text), wait, time, darken, (bool)hideHud);
+    } 
 }

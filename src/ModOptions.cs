@@ -5,7 +5,13 @@ namespace Pearlcat;
 
 public sealed class ModOptions : OptionsTemplate
 {
-    public static readonly ModOptions Instance = new();
+    public static ModOptions Instance { get; } = new();
+    public static void RegisterOI()
+    {
+        if (MachineConnector.GetRegisteredOI(Plugin.MOD_ID) != Instance)
+            MachineConnector.SetRegisteredOI(Plugin.MOD_ID, Instance);
+    }
+
 
     public static readonly Color WarnRed = new(0.85f, 0.35f, 0.4f);
 
@@ -75,7 +81,7 @@ public sealed class ModOptions : OptionsTemplate
 
 
 
-    public static Configurable<KeyCode> SwapKeybindKeyboard = Instance.config.Bind(nameof(SwapKeybindKeyboard), KeyCode.LeftControl, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindKeyboard = Instance.config.Bind(nameof(SwapKeybindKeyboard), KeyCode.LeftAlt, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
     public static Configurable<KeyCode> SwapKeybindPlayer1 = Instance.config.Bind(nameof(SwapKeybindPlayer1), KeyCode.Joystick1Button3, new ConfigurableInfo(
@@ -97,9 +103,14 @@ public sealed class ModOptions : OptionsTemplate
 
 
 
-    public static Configurable<bool> PreferCustomAbilityKeybind = Instance.config.Bind(nameof(PreferCustomAbilityKeybind), false, new ConfigurableInfo(
-        "Prefer to use the custom keybinds below, as opposed to special binds in some cases, such as (JUMP + PICKUP) for Agiltiy.",
+    public static Configurable<bool> CustomSpearKeybind = Instance.config.Bind(nameof(CustomSpearKeybind), false, new ConfigurableInfo(
+        "Prefer to use the custom keybinds below for spear creation.",
         null, "", "Prefer Custom Keybind?"));
+
+    public static Configurable<bool> CustomAgilityKeybind = Instance.config.Bind(nameof(CustomAgilityKeybind), false, new ConfigurableInfo(
+    "Prefer to use the custom keybinds below for agility double jump.",
+    null, "", "Prefer Custom Keybind?"));
+
 
     public static Configurable<KeyCode> AbilityKeybindKeyboard = Instance.config.Bind(nameof(AbilityKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
@@ -122,7 +133,7 @@ public sealed class ModOptions : OptionsTemplate
         "Enables custom keybinds below, as opposed to the default (UP + PICKUP).",
         null, "", "Custom Keybind?"));
 
-    public static Configurable<KeyCode> StoreKeybindKeyboard = Instance.config.Bind(nameof(StoreKeybindKeyboard), KeyCode.LeftAlt, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindKeyboard = Instance.config.Bind(nameof(StoreKeybindKeyboard), KeyCode.LeftControl, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
     public static Configurable<KeyCode> StoreKeybindPlayer1 = Instance.config.Bind(nameof(StoreKeybindPlayer1), KeyCode.Joystick1Button6, new ConfigurableInfo(
@@ -356,7 +367,8 @@ public sealed class ModOptions : OptionsTemplate
     {
         AddTab(ref tabIndex, "Ability Input");
 
-        AddCheckBox(PreferCustomAbilityKeybind);
+        AddCheckBox(CustomSpearKeybind);
+        AddCheckBox(CustomAgilityKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddNewLine(3);
