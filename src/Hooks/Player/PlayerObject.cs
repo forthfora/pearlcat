@@ -130,19 +130,24 @@ public static partial class Hooks
         physicalObject.room.AddObject(lightningBolt);
     }
 
-    public static void ConnectEffect(this Room room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f)
+    public static void ConnectEffect(this Room? room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f)
     {
+        if (room == null) return;
+
         var lightningBolt = new MoreSlugcats.LightningBolt(startPos, targetPos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
         {
             intensity = intensity,
             lifeTime = lifeTime,
             lightningType = Custom.RGB2HSL(color).x,
         };
+
         room.AddObject(lightningBolt);
     }
 
-    public static void DeflectEffect(this Room room, Vector2 pos)
+    public static void DeflectEffect(this Room? room, Vector2 pos)
     {
+        if (room == null) return;
+
         for (int i = 0; i < 5; i++)
             room.AddObject(new Spark(pos, Custom.RNV(), Color.white, null, 16, 24));
 
@@ -152,8 +157,10 @@ public static partial class Hooks
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 0.6f, 1.5f + Random.value * 0.5f);
     }
 
-    public static void ReviveEffect(this Room room, Vector2 pos)
+    public static void ReviveEffect(this Room? room, Vector2 pos)
     {
+        if (room == null) return;
+
         room.AddObject(new Explosion.ExplosionLight(pos, 100.0f, 1.0f, 3, Color.white));
         room.AddObject(new ShockWave(pos, 250.0f, 0.07f, 6, false));
 
