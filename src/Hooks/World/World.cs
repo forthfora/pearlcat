@@ -28,6 +28,18 @@ public partial class Hooks
         On.Spear.Update += Spear_Update;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
+
+        On.SlugcatStats.HiddenOrUnplayableSlugcat += SlugcatStats_HiddenOrUnplayableSlugcat;
+    }
+
+    private static bool SlugcatStats_HiddenOrUnplayableSlugcat(On.SlugcatStats.orig_HiddenOrUnplayableSlugcat orig, SlugcatStats.Name i)
+    {
+        var result = orig(i);
+
+        if (i == Enums.SSOracle.PearlcatPebbles)
+            return true;
+
+        return result;
     }
 
     private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)

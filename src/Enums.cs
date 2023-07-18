@@ -14,6 +14,8 @@ public static class Enums
 
         public static SSOracleBehavior.Action Pearlcat_SSActionGeneral = new(nameof(Pearlcat_SSActionGeneral), true);
         public static SSOracleBehavior.SubBehavior.SubBehavID Pearlcat_SSSubBehavGeneral = new(nameof(Pearlcat_SSSubBehavGeneral), true);
+
+        public static SlugcatStats.Name PearlcatPebbles = new(nameof(PearlcatPebbles), true);
     }
 
     public static class Sounds

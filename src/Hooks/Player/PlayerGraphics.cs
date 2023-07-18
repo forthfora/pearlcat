@@ -80,6 +80,8 @@ public static partial class Hooks
         sLeaser.sprites[playerModule.ShieldSprite] = new FSprite("Futile_White")
         {
             shader = rCam.room.game.rainWorld.Shaders["GravityDisruptor"],
+            // this one is pretty coool too...
+            //shader = rCam.room.game.rainWorld.Shaders["GhostDistortion"],
         };
 
         playerModule.RegenerateTail();

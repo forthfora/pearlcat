@@ -21,6 +21,8 @@ public static partial class Hooks
         public Dictionary<int, SpearModule> PearlSpears { get; } = new();
 
         public int PebblesMeetCount { get; set; }
+        public Dictionary<int, int> PearlIDsBroughtToPebbles { get; } = new();
+        public int UniquePearlsBroughtToPebbles => PearlIDsBroughtToPebbles.Keys.Count;
 
         public bool ShownFullInventoryTutorial { get; set; }
     }

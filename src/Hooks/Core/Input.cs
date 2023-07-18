@@ -25,18 +25,18 @@ public static partial class Hooks
         };
     }
 
-    public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModule playerModule)
+public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModule playerModule)
+{
+    return player.playerState.playerNumber switch
     {
-        return player.playerState.playerNumber switch
-        {
-            0 => Input.GetKey(ModOptions.AbilityKeybindPlayer1.Value) || Input.GetKey(ModOptions.AbilityKeybindKeyboard.Value),
-            1 => Input.GetKey(ModOptions.AbilityKeybindPlayer2.Value),
-            2 => Input.GetKey(ModOptions.AbilityKeybindPlayer3.Value),
-            3 => Input.GetKey(ModOptions.AbilityKeybindPlayer4.Value),
+        0 => Input.GetKey(ModOptions.AbilityKeybindPlayer1.Value) || Input.GetKey(ModOptions.AbilityKeybindKeyboard.Value),
+        1 => Input.GetKey(ModOptions.AbilityKeybindPlayer2.Value),
+        2 => Input.GetKey(ModOptions.AbilityKeybindPlayer3.Value),
+        3 => Input.GetKey(ModOptions.AbilityKeybindPlayer4.Value),
 
-            _ => false
-        };
-    }
+        _ => false
+    };
+}
 
     public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
