@@ -277,7 +277,7 @@ public static partial class Hooks
 
         if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
 
-        var abilityInput = self.IsCustomAbilityKeybindPressed(playerModule);
+        var abilityInput = self.IsReviveKeybindPressed(playerModule);
 
         if (effect.MajorEffect != MajorEffectType.REVIVE || !abilityInput)
         {
@@ -312,6 +312,7 @@ public static partial class Hooks
 
             shouldResetRevive = false;
             playerModule.ReviveTimer++;
+            playerModule.BlockInput = true;
             break;
         }
 

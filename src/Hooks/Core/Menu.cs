@@ -301,9 +301,12 @@ public static partial class Hooks
     {
         orig(self, menu, owner, pageIndex, slugcatNumber);
 
-        if (slugcatNumber != Enums.General.Pearlcat) return;
+        if (slugcatNumber != Enums.Pearlcat) return;
 
-        self.effectColor = ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, DataPearlType.HI.index);
+        var save = menu.manager.rainWorld.GetMiscProgression();
+        var type = save.ActivePearlType;
+
+        self.effectColor = type != null ? ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, type.index) : Color.white;
     }
 
     private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)
@@ -312,7 +315,7 @@ public static partial class Hooks
 
         var page = self.slugcatPages[self.slugcatPageIndex];
 
-        if (page.slugcatNumber == Enums.General.Pearlcat)
+        if (page.slugcatNumber == Enums.Pearlcat)
         {
             var save = self.manager.rainWorld.progression.miscProgressionData.GetMiscProgression();
             var disableSave = !save.IsNewPearlcatSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;

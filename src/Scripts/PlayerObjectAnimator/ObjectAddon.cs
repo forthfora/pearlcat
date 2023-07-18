@@ -56,15 +56,31 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         sLeaser.sprites = new FSprite[spriteIndex];
 
+        var shaders = rCam.game.rainWorld.Shaders;
+
         sLeaser.sprites[HaloSprite] = new("LizardBubble6");
-        sLeaser.sprites[SymbolSprite] = new("pearlcat_glyphcooldown");
+
+        sLeaser.sprites[SymbolSprite] = new("pearlcat_glyphcooldown")
+        {
+            shader = shaders["GateHologram"],
+        };
+
         sLeaser.sprites[SpearSprite] = new("pearlcat_spear");
 
-        sLeaser.sprites[ReviveCounterSprite] = new("pixel");
-        sLeaser.sprites[ShieldCounterSprite] = new("pixel");
+        sLeaser.sprites[ReviveCounterSprite] = new("pixel")
+        {
+            shader = shaders["GateHologram"],
+        };
+        
+        sLeaser.sprites[ShieldCounterSprite] = new("pixel")
+        {
+            shader = shaders["GateHologram"],
+        };
 
-        var sprite = sLeaser.sprites[LaserSprite] = new("pixel");
-        sprite.shader = rCam.game.rainWorld.Shaders["HologramBehindTerrain"];
+        var sprite = sLeaser.sprites[LaserSprite] = new("pixel")
+        {
+            shader = shaders["HologramBehindTerrain"],
+        };
 
         AddToContainer(sLeaser, rCam, null!);
     }

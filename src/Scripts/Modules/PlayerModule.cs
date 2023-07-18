@@ -25,8 +25,8 @@ public class PlayerModule
     public int PlayerNumber { get; private set; }
 
     public SlugcatStats BaseStats { get; set; }
-    public SlugcatStats NormalStats { get; private set; } = new(Enums.General.Pearlcat, false);
-    public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.General.Pearlcat, true);
+    public SlugcatStats NormalStats { get; private set; } = new(Enums.Pearlcat, false);
+    public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.Pearlcat, true);
 
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }

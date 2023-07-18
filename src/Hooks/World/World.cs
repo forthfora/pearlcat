@@ -174,7 +174,7 @@ public partial class Hooks
     {
         orig(room);
 
-        if (room.game.IsStorySession && room.game.GetStorySession.saveState.saveStateNumber == Enums.General.Pearlcat && room.abstractRoom.firstTimeRealized
+        if (room.game.IsStorySession && room.game.GetStorySession.saveState.saveStateNumber == Enums.Pearlcat && room.abstractRoom.firstTimeRealized
             && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
 

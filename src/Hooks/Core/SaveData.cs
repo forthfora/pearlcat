@@ -20,6 +20,7 @@ public static partial class Hooks
 
         public Dictionary<int, SpearModule> PearlSpears { get; } = new();
 
+        public int PebblesMeetCount { get; set; }
 
         public bool ShownFullInventoryTutorial { get; set; }
     }
@@ -128,7 +129,7 @@ public static partial class Hooks
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
 
-        miscWorld.IsPearlcatStory = self.saveStateNumber == Enums.General.Pearlcat;
+        miscWorld.IsPearlcatStory = self.saveStateNumber == Enums.Pearlcat;
         miscProg.IsMSCSave = ModManager.MSC;
 
         if (miscWorld.IsPearlcatStory)

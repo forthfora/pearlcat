@@ -48,13 +48,10 @@ public static partial class Hooks
     public static readonly PlayerFeature<int> StoreObjectDelay = FeatureTypes.PlayerInt("store_object_delay");
 
 
-    public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.General.Pearlcat;
-
+    public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.Pearlcat;
     public static bool IsFirstPearlcat(this Player player) => player.playerState.playerNumber == GetFirstPearlcatIndex(player.room?.game);
+    public static bool IsPearlcatStory(this RainWorldGame game) => game.StoryCharacter == Enums.Pearlcat;
 
-    public static bool IsPearlcatCampaign(this RainWorldGame game) => game.StoryCharacter == Enums.General.Pearlcat;
-
-    // Only pearlcats get this module
     public static bool TryGetPearlcatModule(this Player player, out PlayerModule playerModule)
     {
         if (!player.IsPearlcat())
@@ -73,7 +70,7 @@ public static partial class Hooks
 
         return true;
     }
-
+    
     public static List<PlayerModule> GetAllPlayerData(this RainWorldGame game)
     {
         List<PlayerModule> allPlayerData = new();
@@ -93,7 +90,7 @@ public static partial class Hooks
 
         return allPlayerData;
     }
-
+    
     public static int GetFirstPearlcatIndex(this RainWorldGame? game)
     {
         if (game == null)
@@ -112,13 +109,12 @@ public static partial class Hooks
     }
 
 
-
     public static Vector2 Vector2Feature(JsonAny json)
     {
         var jsonList = json.AsList();
         return new(jsonList[0].AsFloat(), jsonList[1].AsFloat());
     }
-
+    
     public static Dictionary<int, Vector2> IntVector2Feature(JsonAny json)
     {
         var result = new Dictionary<int, Vector2>();

@@ -548,8 +548,6 @@ public static partial class Hooks
         
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        self.room.ReviveEffect(self.firstChunk.pos);
-
         playerModule.PickObjectAnimation(self);
     }
     
@@ -564,6 +562,8 @@ public static partial class Hooks
         self.killTag = null;
         self.killTagCounter = 0;
         self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
+
+        self.room.ReviveEffect(self.mainBodyChunk.pos);
     }
 
 

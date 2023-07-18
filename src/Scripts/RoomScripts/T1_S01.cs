@@ -20,7 +20,7 @@ public class T1_S01 : UpdatableAndDeletable, IDrawable
             for (int i = 0; i < room.shortcutsIndex.Length; i++)
                 room.lockedShortcuts.Add(room.shortcutsIndex[i]);
 
-        ShelterCloseLerp = Custom.LerpMap(room.shelterDoor.closedFac, 0.0f, 0.5f, 0.0f, 1.0f);
+        ShelterCloseLerp = Custom.LerpMap(room.shelterDoor.closedFac, 0.4f, 0.7f, 0.0f, 1.0f);
     }
 
 

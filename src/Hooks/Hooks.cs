@@ -18,9 +18,11 @@ public static partial class Hooks
 
         // World
         ApplyWorldHooks();
-        ApplyOracleHooks();
         ApplySoundHooks();
         ApplyWarpHooks();
+
+        ApplySSOracleHooks();
+        ApplySLOracleHooks();
     }
 
     public static void ApplyInit()
@@ -52,8 +54,10 @@ public static partial class Hooks
 
 
             // Init Enums
-            _ = Enums.General.Pearlcat;
-            _ = Enums.Pearls.AS_PearlBlue;
+            _ = Enums.Pearlcat;
+
+            _ = Enums.SSOracle.Pearlcat_SSActionGeneral;
+            _ = Enums.Pearls.RM_Pearlcat;
             _ = Enums.Sounds.Pearlcat_PearlScroll;
 
             AssetLoader.LoadAssets();

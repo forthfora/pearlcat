@@ -4,21 +4,16 @@ namespace Pearlcat;
 
 public static class Enums
 {
-    public static class General
+    public static SlugcatStats.Name Pearlcat = new(nameof(Pearlcat), false);
+    
+    public static class SSOracle
     {
-        public static SlugcatStats.Name Pearlcat = new(nameof(Pearlcat), false);
+        public static Conversation.ID Pearlcat_SSConvoFirstMeet = new(nameof(Pearlcat_SSConvoFirstMeet), true);
+        public static Conversation.ID Pearlcat_SSConvoRMPearl = new(nameof(Pearlcat_SSConvoRMPearl), true);
+        public static Conversation.ID Pearlcat_SSConvoFirstLeave = new(nameof(Pearlcat_SSConvoFirstLeave), true);
 
-        public static SSOracleBehavior.Action Pearlcat_SSOracleGeneral = new(nameof(Pearlcat_SSOracleGeneral), true);
-    }
-
-    public static class Pearls
-    {
-        public static DataPearlType RM_Pearlcat = new(nameof(RM_Pearlcat), false);
-        public static DataPearlType AS_PearlBlue = new(nameof(AS_PearlBlue), false);
-        public static DataPearlType AS_PearlYellow = new(nameof(AS_PearlYellow), false);
-        public static DataPearlType AS_PearlGreen = new(nameof(AS_PearlGreen), false);
-        public static DataPearlType AS_PearlRed = new(nameof(AS_PearlRed), false);
-        public static DataPearlType AS_PearlBlack = new(nameof(AS_PearlBlack), false);
+        public static SSOracleBehavior.Action Pearlcat_SSActionGeneral = new(nameof(Pearlcat_SSActionGeneral), true);
+        public static SSOracleBehavior.SubBehavior.SubBehavID Pearlcat_SSSubBehavGeneral = new(nameof(Pearlcat_SSSubBehavGeneral), true);
     }
 
     public static class Sounds
@@ -40,5 +35,15 @@ public static class Enums
 
         public static SoundID Pearlcat_ShieldHold = new(nameof(Pearlcat_ShieldHold), true);
         public static SoundID Pearlcat_CamoFade = new(nameof(Pearlcat_CamoFade), true);
+    }
+
+    public static class Pearls
+    {
+        public static DataPearlType RM_Pearlcat = new(nameof(RM_Pearlcat), false);
+        public static DataPearlType AS_PearlBlue = new(nameof(AS_PearlBlue), false);
+        public static DataPearlType AS_PearlYellow = new(nameof(AS_PearlYellow), false);
+        public static DataPearlType AS_PearlGreen = new(nameof(AS_PearlGreen), false);
+        public static DataPearlType AS_PearlRed = new(nameof(AS_PearlRed), false);
+        public static DataPearlType AS_PearlBlack = new(nameof(AS_PearlBlack), false);
     }
 }
