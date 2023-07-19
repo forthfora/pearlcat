@@ -17,5 +17,5 @@ public class SSOracleModule
     public ConditionalWeakTable<DataPearl, Player> PearlsHeldByPlayer { get; } = new();
 
     public int TakeRMTimer { get; set; } = 120;
-    public int GiveSSTimer { get; set; } = 120;
+    public int GiveSSTimer { get; set; } = 60;
 }

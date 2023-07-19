@@ -181,7 +181,7 @@ public static partial class Hooks
             e.Add(new TextEvent(self, 0,
                 self.Translate("I will be waiting here, as always."), l * 80));
 
-            e.Add(new WaitEvent(self, 160));
+            e.Add(new WaitEvent(self, 40));
         }
         
         else if (id == Enums.SSOracle.Pearlcat_SSConvoRMPearl)
@@ -606,6 +606,7 @@ public static partial class Hooks
 
                         if (physicalObject is not DataPearl dataPearl) continue;
 
+                        if (physicalObject.abstractPhysicalObject.IsPlayerObject()) continue;
 
                         if (!module.PearlsHeldByPlayer.TryGetValue(dataPearl, out var player)) continue;
 

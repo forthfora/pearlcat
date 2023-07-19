@@ -239,7 +239,7 @@ public static class POEffectManager
         RM.MajorEffect = MajorEffectType.SPEAR_CREATION;
 
         SS = None;
-        SS.MajorEffect = MajorEffectType.SPEAR_CREATION;
+        SS.MajorEffect = MajorEffectType.REVIVE;
 
         AS_PearlBlue = None;
         AS_PearlBlue.MajorEffect = MajorEffectType.AGILITY;

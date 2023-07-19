@@ -1,5 +1,5 @@
 [ADD]RM_Pearlcat : 622ffb : ff0000 : RM_Pearlcat
-[ADD]SS_Pearlcat : ffffff : ffcfcf : SS_Pearlcat
+[ADD]SS_Pearlcat : ffffff : 00ff00 : SS_Pearlcat
 
 [ADD]AS_PearlBlue : 42adf5 : ffffff : AS_PearlBlue
 [ADD]AS_PearlRed : b32c1b : ffffff : AS_PearlRed
