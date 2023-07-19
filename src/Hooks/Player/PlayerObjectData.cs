@@ -18,6 +18,20 @@ public static partial class Hooks
 
         On.PhysicalObject.Update += PhysicalObject_Update;
         On.DataPearl.Update += DataPearl_Update;
+
+        On.AbstractPhysicalObject.Update += AbstractPhysicalObject_Update;
+    }
+
+    private static void AbstractPhysicalObject_Update(On.AbstractPhysicalObject.orig_Update orig, AbstractPhysicalObject self, int time)
+    {
+        var tracker = self.tracker;
+
+        if (self.IsPlayerObject())
+            self.tracker = null;
+
+        orig(self, time);
+
+        self.tracker = tracker;
     }
 
     public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectModule> PlayerObjectData { get; } = new();

@@ -656,8 +656,6 @@ public static partial class Hooks
                 if (ConvoCount == 0)
                 {
                     owner.LockShortcuts();
-
-                    Plugin.Logger.LogWarning("ACK");
                     owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstMeet, this);
                     ConvoCount++;
                 }

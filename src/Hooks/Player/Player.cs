@@ -1,5 +1,4 @@
 ﻿using MonoMod.RuntimeDetour;
-using Newtonsoft.Json.Linq;
 using RWCustom;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +21,7 @@ public static partial class Hooks
         On.Player.Die += Player_Die;
 
         On.Creature.SuckedIntoShortCut += Creature_SuckedIntoShortCut;
+        On.Creature.SpitOutOfShortCut += Creature_SpitOutOfShortCut;
         On.Creature.Violence += Creature_Violence;
 
         On.Player.SpearOnBack.Update += SpearOnBack_Update;
@@ -30,6 +30,17 @@ public static partial class Hooks
             typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
         );
+    }
+
+    private static void Creature_SpitOutOfShortCut(On.Creature.orig_SpitOutOfShortCut orig, Creature self, IntVector2 pos, Room newRoom, bool spitOutAllSticks)
+    {
+        orig(self, pos, newRoom, spitOutAllSticks);
+
+        if (self is not Player player) return;
+
+        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+
+        playerModule.LastGroundedPos = player.firstChunk.pos;
     }
 
     public delegate float orig_PlayerVisibilityBonus(Player self);
@@ -41,7 +52,6 @@ public static partial class Hooks
 
         return orig(self);
     }
-
 
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
@@ -128,6 +138,37 @@ public static partial class Hooks
         //    Plugin.Logger.LogWarning(Futile.atlasManager._atlases.Count);
 
         playerModule.TextureUpdateTimer++;
+
+        if (self.canJump >= 5)
+        {
+            if (playerModule.GroundedTimer > 15)
+                playerModule.LastGroundedPos = self.firstChunk.pos;
+
+            else
+                playerModule.GroundedTimer++;
+        }
+        else
+        {
+            playerModule.GroundedTimer = 0;
+        }
+
+        if (playerModule.ReviveCount > 0 && self.InDeathpit())
+        {
+            self.Die();
+            self.SuperHardSetPosition(playerModule.LastGroundedPos);
+
+            self.graphicsModule.Reset();
+            self.Stun(5);
+            playerModule.FlyTimer = 60;
+        }
+
+        if (playerModule.FlyTimer > 0)
+        {
+            playerModule.FlyTimer--;
+
+            self.firstChunk.vel.x = self.input[0].x * 5.0f;
+            self.firstChunk.vel.y = 6.0f;
+        }
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)
@@ -406,7 +447,7 @@ public static partial class Hooks
             }
         }
     }
-    
+
     private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
         var result = orig(self, obj);
@@ -416,7 +457,6 @@ public static partial class Hooks
 
         return result;
     }
-
 
     private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
     {
@@ -528,7 +568,7 @@ public static partial class Hooks
     public static void RevivePlayer(this Player self)
     {
         self.Revive();
-        
+
         self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
         self.playerState.permaDead = false;
         
@@ -577,4 +617,7 @@ public static partial class Hooks
 
         return myRelationship.GoForKill || creatureRelationship.GoForKill;
     }
+
+    // https://github.com/WondaMegapon/pitrespawn/blob/master/PitRespawn.cs
+    public static bool InDeathpit(this Player self) => self.mainBodyChunk.pos.y < -25f && (!self.room.water || self.room.waterInverted || self.room.defaultWaterLevel < -10) && (!self.Template.canFly || self.Stunned || self.dead);
 }

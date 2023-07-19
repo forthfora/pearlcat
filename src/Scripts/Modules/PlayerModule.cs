@@ -137,6 +137,9 @@ public class PlayerModule
 
     public Vector2 PrevHeadRotation { get; set; }
 
+    public Vector2 LastGroundedPos { get; set; }
+    public int GroundedTimer { get; set; }
+    public int FlyTimer { get; set; }
 
     public bool WasSwapLeftInput { get; set; }
     public bool WasSwapRightInput { get; set; }

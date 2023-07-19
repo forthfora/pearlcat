@@ -12,6 +12,8 @@ public partial class Hooks
     public static void ApplyWorldHooks()
     {
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
+
+
         On.RegionState.AdaptRegionStateToWorld += RegionState_AdaptRegionStateToWorld;
 
         On.Room.Loaded += Room_Loaded;
@@ -252,7 +254,7 @@ public partial class Hooks
         if (TrainViewRooms.Contains(self.roomSettings.name))
             self.AddObject(new TrainView(self));
     }
-
+        
     private static void Room_Update(On.Room.orig_Update orig, Room self)
     {
         orig(self);
@@ -339,7 +341,9 @@ public partial class Hooks
                 if (entity is not AbstractPhysicalObject abstractObject) continue;
 
                 if (abstractObject.IsPlayerObject())
+                {
                     abstractRoom.RemoveEntity(entity);
+                }
             }
         }
 
