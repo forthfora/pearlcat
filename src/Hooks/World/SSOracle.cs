@@ -106,7 +106,7 @@ public static partial class Hooks
 
     private static void PebblesConversation_AddEvents(On.SSOracleBehavior.PebblesConversation.orig_AddEvents orig, PebblesConversation self)
     {
-        if (self.currentSaveFile != Enums.Pearlcat)
+        if (!self.owner.oracle.room.game.IsPearlcatStory())
         {
             orig(self);
             return;
@@ -657,6 +657,7 @@ public static partial class Hooks
                 {
                     owner.LockShortcuts();
 
+                    Plugin.Logger.LogWarning("ACK");
                     owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstMeet, this);
                     ConvoCount++;
                 }
@@ -876,7 +877,7 @@ public static partial class Hooks
                             if (item.realizedObject != null)
                             {
                                 item.realizedObject.AbstractedEffect();
-                                oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, item.realizedObject.firstChunk);
+                                oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, player.firstChunk.pos);
                             }
 
                             player.RemoveFromInventory(item);
@@ -899,7 +900,7 @@ public static partial class Hooks
 
 
                     physicalObject.AbstractedEffect();
-                    oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 1.0f, 1.5f);
+                    oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 1.0f, 1.0f);
 
                     //physicalObject.abstractPhysicalObject.tracker.UninitializeTracker();
 
