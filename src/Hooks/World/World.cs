@@ -26,6 +26,7 @@ public partial class Hooks
 
         //On.GlobalRain.Update += GlobalRain_Update;
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
+        On.KingTusks.Tusk.Update += Tusk_Update;
 
         On.Spear.DrawSprites += Spear_DrawSprites;
         On.Spear.Update += Spear_Update;
@@ -205,6 +206,15 @@ public partial class Hooks
 
             playerModule.ActivateVisualShield();
         }
+    }
+
+    private static void Tusk_Update(On.KingTusks.Tusk.orig_Update orig, KingTusks.Tusk self)
+    {
+        orig(self);
+
+        if (self.impaleChunk != null && self.impaleChunk.owner is Player impaledPlayer)
+            if (impaledPlayer.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0)
+                self.mode = KingTusks.Tusk.Mode.Dangling;
     }
 
     // nevermind, rain shader looks weird at this angle

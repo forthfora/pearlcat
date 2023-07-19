@@ -534,24 +534,7 @@ public static partial class Hooks
 
         if (self.room == null) return;
 
-        List<Creature.Grasp> dangerGrasps = new();
-
-        if (self.dangerGrasp != null)
-            dangerGrasps.Add(self.dangerGrasp);
-
-        foreach (var grasp in self.grabbedBy)
-        {
-            if (grasp?.grabber is not Creature crit) continue;
-
-            if (self.IsHostileToMe(crit))
-                dangerGrasps.Add(grasp);
-        }
-
-        foreach (var dangerGrasp in dangerGrasps)
-        {
-            dangerGrasp.Release();
-            dangerGrasp.grabber.Stun(100);
-        }
+        self.AllGraspsLetGoOfThisObject(true);
 
         DeflectEffect(self.room, self.firstChunk.pos);
         playerModule.ShieldTimer = 200;

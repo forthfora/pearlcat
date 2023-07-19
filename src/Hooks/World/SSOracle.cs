@@ -189,6 +189,9 @@ public static partial class Hooks
         
         else if (id == Enums.SSOracle.Pearlcat_SSConvoRMPearl)
         {
+            module.TakeRMTimer = 120;
+            module.GiveSSTimer = 60;
+
             e.Add(new WaitEvent(self, 120));
 
             e.Add(new TextEvent(self, 0,
@@ -490,7 +493,7 @@ public static partial class Hooks
 
     private static void SSOracleBehavior_NewAction(On.SSOracleBehavior.orig_NewAction orig, SSOracleBehavior self, Action nextAction)
     {
-        if (self.oracle.room.game.IsPearlcatStory() && self.action != Enums.SSOracle.Pearlcat_SSActionGeneral)
+        if (self.oracle.room.game.IsPearlcatStory() && self.action != Enums.SSOracle.Pearlcat_SSActionGeneral && self.action != SSOracleBehavior.Action.ThrowOut_KillOnSight)
         {
             if (self.currSubBehavior.ID == Enums.SSOracle.Pearlcat_SSSubBehavGeneral) return;
 
