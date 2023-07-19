@@ -12,6 +12,7 @@ using static AbstractPhysicalObject;
 using UnityEngine;
 using MonoMod.RuntimeDetour;
 using System.Reflection;
+using MoreSlugcats;
 
 namespace Pearlcat;
 
@@ -105,20 +106,21 @@ public static partial class Hooks
 
     private static void PebblesConversation_AddEvents(On.SSOracleBehavior.PebblesConversation.orig_AddEvents orig, PebblesConversation self)
     {
+        if (self.currentSaveFile != Enums.Pearlcat)
+        {
+            orig(self);
+            return;
+        }
+
         var module = self.owner.GetModule();
         var l = self.owner.rainWorld.inGameTranslator.currentLanguage == InGameTranslator.LanguageID.Chinese ? 1 : 0;
 
         var id = self.id;
         var e = self.events;
 
+        var rand = module.Rand;
 
-        if (self.id == ID.Moon_Pearl_Misc || self.id == ID.Moon_Pearl_Misc2)
-        {
-            self.PebblesPearlIntro();
-            self.LoadEventsFromFile(38, Enums.SSOracle.PearlcatPebbles, true, module.Rand);
-        }
-
-        else if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
+        if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
         {
             e.Add(new WaitEvent(self, 160));
 
@@ -134,12 +136,13 @@ public static partial class Hooks
             e.Add(new WaitEvent(self, 80));
             
 
+            e.Add(new TextEvent(self, 0,
+                self.Translate("You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me..."), l * 80));
 
             e.Add(new TextEvent(self, 0,
-                self.Translate("You can communicate with us, you can manipulate our storage medium in unforseen ways..."), l * 80));
+                self.Translate("...you can manipulate our storage medium in unforseen ways..."), l * 80));
 
             e.Add(new WaitEvent(self, 40));
-
 
 
             e.Add(new TextEvent(self, 0,
@@ -179,7 +182,7 @@ public static partial class Hooks
             e.Add(new WaitEvent(self, 120));
 
             e.Add(new TextEvent(self, 0,
-                self.Translate("I will be waiting here, as always."), l * 80));
+                self.Translate("I must resume my work. I will be waiting here, as always."), l * 80));
 
             e.Add(new WaitEvent(self, 40));
         }
@@ -235,11 +238,165 @@ public static partial class Hooks
                 self.Translate("...there."), l * 80));
         }
 
+        #region Vanilla Pearls
+
+        else if (self.id == ID.Moon_Pearl_Misc || self.id == ID.Moon_Pearl_Misc2)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(38, Enums.SSOracle.PearlcatPebbles, true, rand);
+        }
+
+        else if (self.id == ID.Moon_Pebbles_Pearl)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(40, Enums.SSOracle.PearlcatPebbles, true, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_CC)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(7, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_LF_west)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(10, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_LF_bottom)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(11, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_HI)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(12, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_SH)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(13, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_DS)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(14, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_SB_filtration)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(15, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_GW)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(16, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_SL_bridge)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(17, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_SL_moon)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(18, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_SU)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(41, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_UW)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(42, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_SB_ravine)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(43, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_SL_chimney)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(54, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_Red_stomach)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(51, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        #endregion
+
+        #region MSC Pearls
+        else if (self.id == ID.Moon_Pearl_SI_west)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(20, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == ID.Moon_Pearl_SI_top)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(21, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_SI_chat3)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(22, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_SI_chat4)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(23, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_SI_chat5)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(24, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_SU_filt)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(101, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_DM)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(102, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_LC)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(103, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_OE)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(104, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_MS)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(105, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_Rivulet_stomach)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(119, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == MoreSlugcatsEnums.ConversationID.Moon_Pearl_LC_second)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(121, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        #endregion
+
         else
         {
             orig(self); // HACK
         }
     }
+
 
     private static void PebblesPearlIntro(this PebblesConversation self)
     {
@@ -308,7 +465,7 @@ public static partial class Hooks
                             break;
 
                         default:
-                            self.events.Add(new TextEvent(self, 0, self.owner.Translate("Something else new, strange scholar? Allow me to see..."), 10));
+                            self.events.Add(new TextEvent(self, 0, self.owner.Translate("Something else new? Allow me to see..."), 10));
                             break;
                     }
                     break;
@@ -404,7 +561,7 @@ public static partial class Hooks
 
                         case 2:
                             dialogBox.NewMessage(
-                                Translate("Hello again, strange scholar."), 0);
+                                Translate("Hello again."), 0);
                             break;
 
                         default:
@@ -664,8 +821,8 @@ public static partial class Hooks
             else if (pearl.AbstractPearl.dataPearlType == DataPearl.AbstractDataPearl.DataPearlType.Misc2)
                 owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc2, this);
 
-            else if (ModManager.MSC && pearl.AbstractPearl.dataPearlType == MoreSlugcats.MoreSlugcatsEnums.DataPearlType.BroadcastMisc)
-                owner.InitateConversation(MoreSlugcats.MoreSlugcatsEnums.ConversationID.Moon_Pearl_BroadcastMisc, this);
+            else if (ModManager.MSC && pearl.AbstractPearl.dataPearlType == MoreSlugcatsEnums.DataPearlType.BroadcastMisc)
+                owner.InitateConversation(MoreSlugcatsEnums.ConversationID.Moon_Pearl_BroadcastMisc, this);
 
             else if (pearl.AbstractPearl.dataPearlType == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
                 owner.InitateConversation(Conversation.ID.Moon_Pebbles_Pearl, this);
@@ -684,7 +841,7 @@ public static partial class Hooks
 
                     var type = dataPearl.AbstractPearl.dataPearlType;
 
-                    if (type == Enums.Pearls.RM_Pearlcat || type == MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM)
+                    if (type == Enums.Pearls.RM_Pearlcat || type == MoreSlugcatsEnums.DataPearlType.RM)
                         return true;
                 }
             }
@@ -714,15 +871,20 @@ public static partial class Hooks
 
                             var itemType = itemDataPearl.dataPearlType;
 
-                            if (itemType != Enums.Pearls.RM_Pearlcat && itemType != MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM) continue;
+                            if (itemType != Enums.Pearls.RM_Pearlcat && itemType != MoreSlugcatsEnums.DataPearlType.RM) continue;
 
-                            item.realizedObject?.AbstractedEffect();
+                            if (item.realizedObject != null)
+                            {
+                                item.realizedObject.AbstractedEffect();
+                                oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, item.realizedObject.firstChunk);
+                            }
+
                             player.RemoveFromInventory(item);
-
                             //item.tracker.UninitializeTracker();
 
                             item.destroyOnAbstraction = true;
                             item.Abstractize(item.pos);
+
                         }
                         continue;
                     }
@@ -733,10 +895,11 @@ public static partial class Hooks
 
                     var type = dataPearl.AbstractPearl.dataPearlType;
 
-                    if (type != Enums.Pearls.RM_Pearlcat && type != MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM) continue;
+                    if (type != Enums.Pearls.RM_Pearlcat && type != MoreSlugcatsEnums.DataPearlType.RM) continue;
 
 
                     physicalObject.AbstractedEffect();
+                    oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 1.0f, 1.5f);
 
                     //physicalObject.abstractPhysicalObject.tracker.UninitializeTracker();
 

@@ -313,6 +313,7 @@ public static class POEffectManager
         }
 
         PearlEffects.Add(Enums.Pearls.RM_Pearlcat, RM);
+        PearlEffects.Add(Enums.Pearls.SS_Pearlcat, SS);
 
         PearlEffects.Add(Enums.Pearls.AS_PearlBlue, AS_PearlBlue);
         PearlEffects.Add(Enums.Pearls.AS_PearlRed, AS_PearlRed);
