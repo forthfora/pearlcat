@@ -1,8 +1,9 @@
-﻿using RWCustom;
+﻿using MonoMod.RuntimeDetour;
+using RWCustom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
-using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
@@ -30,6 +31,44 @@ public partial class Hooks
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
 
         On.SlugcatStats.HiddenOrUnplayableSlugcat += SlugcatStats_HiddenOrUnplayableSlugcat;
+        
+        On.GateKarmaGlyph.ctor += GateKarmaGlyph_ctor;
+
+        new Hook(
+            typeof(RegionGate).GetProperty(nameof(RegionGate.MeetRequirement), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetRegionGateMeetRequirement), BindingFlags.Static | BindingFlags.Public)
+        );
+    }
+
+    public delegate bool orig_RegionGateMeetRequirement(RegionGate self);
+    public static bool GetRegionGateMeetRequirement(orig_RegionGateMeetRequirement orig, RegionGate self)
+    {
+        var result = orig(self);
+
+        var roomName = self.room.roomSettings.name;
+
+        if (roomName != "GATE_UW_LC")
+            return result;
+
+        if (!self.room.game.IsPearlcatStory())
+            return result;
+
+        return true;
+    }
+
+    private static void GateKarmaGlyph_ctor(On.GateKarmaGlyph.orig_ctor orig, GateKarmaGlyph self, bool side, RegionGate gate, RegionGate.GateRequirement requirement)
+    {
+        orig(self, side, gate, requirement);
+
+        if (gate.room == null) return;
+        
+        var roomName = gate.room.roomSettings.name;
+
+        if (roomName != "GATE_UW_LC") return;
+
+        if (!gate.room.game.IsPearlcatStory()) return;
+
+        self.requirement = RegionGate.GateRequirement.OneKarma;
     }
 
     private static bool SlugcatStats_HiddenOrUnplayableSlugcat(On.SlugcatStats.orig_HiddenOrUnplayableSlugcat orig, SlugcatStats.Name i)

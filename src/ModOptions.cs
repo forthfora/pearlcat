@@ -1,4 +1,5 @@
 ﻿using Menu.Remix.MixedUI;
+using System.Reflection.Emit;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -150,7 +151,7 @@ public sealed class ModOptions : OptionsTemplate
 
     #endregion
 
-    public const int TAB_COUNT = 5;
+    public const int TAB_COUNT = 6;
 
     public override void Initialize()
     {
@@ -165,7 +166,8 @@ public sealed class ModOptions : OptionsTemplate
         InitSwapInput(ref tabIndex);
         InitStoreInput(ref tabIndex);
 
-        InitAccessibility(ref tabIndex);
+        InitDifficulty(ref tabIndex);
+        InitCheats(ref tabIndex);
     }
 
 
@@ -197,12 +199,41 @@ public sealed class ModOptions : OptionsTemplate
             label.color = WarnRed;
     }
 
-    private void InitAccessibility(ref int tabIndex)
+    private void InitCheats(ref int tabIndex)
     {
-        AddTab(ref tabIndex, "Accessibility");
+        AddTab(ref tabIndex, "Cheats");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var warningText = "Be warned the following may change gameplay significantly!";
+        var warningText = "The following may change gameplay significantly!";
+        AddTextLabel(warningText, bigText: true);
+        DrawTextLabels(ref Tabs[tabIndex]);
+        
+        AddDragger(MaxPearlCount);
+        DrawDraggers(ref Tabs[tabIndex]);
+
+        AddNewLine(18);
+        DrawBox(ref Tabs[tabIndex]);
+
+
+        if (GetLabel(warningText, out OpLabel label))
+            label.color = WarnRed;
+
+        if (GetLabel(MaxPearlCount, out label))
+            label.color = WarnRed;
+
+        if (GetConfigurable(MaxPearlCount, out OpDragger dragger))
+        {
+            dragger.colorEdge = WarnRed;
+            dragger.colorText = WarnRed;
+        }
+    }
+
+    private void InitDifficulty(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Difficulty");
+        Tabs[tabIndex].colorButton = WarnRed;
+
+        var warningText = "The following may change gameplay significantly!";
         AddTextLabel(warningText, bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
          
@@ -227,7 +258,6 @@ public sealed class ModOptions : OptionsTemplate
 
         AddNewLine(1);
 
-        AddDragger(MaxPearlCount);
         AddDragger(VisibilityMultiplier);
         DrawDraggers(ref Tabs[tabIndex]);
 
@@ -290,20 +320,10 @@ public sealed class ModOptions : OptionsTemplate
             checkBox.colorEdge = Color.white;
 
 
-        if (GetLabel(MaxPearlCount, out label))
-            label.color = WarnRed;
-
-        if (GetConfigurable(MaxPearlCount, out OpDragger dragger))
-        {
-            dragger.colorEdge = WarnRed;
-            dragger.colorText = WarnRed;
-        }
-
-
         if (GetLabel(VisibilityMultiplier, out label))
             label.color = WarnRed;
 
-        if (GetConfigurable(VisibilityMultiplier, out dragger))
+        if (GetConfigurable(VisibilityMultiplier, out OpDragger dragger))
         {
             dragger.colorEdge = WarnRed;
             dragger.colorText = WarnRed;

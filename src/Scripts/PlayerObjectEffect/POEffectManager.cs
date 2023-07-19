@@ -25,8 +25,8 @@ public static class POEffectManager
             return pebblesPearl.color switch
             {
                 -1 => IteratorBlue,
-                0 => IteratorWhite,
-                1 => IteratorOrange,
+                0 => IteratorOrange,
+                1 => IteratorWhite,
                 2 => IteratorBlack,
 
                 _ => IteratorBlack,
@@ -238,6 +238,9 @@ public static class POEffectManager
         RM = None;
         RM.MajorEffect = MajorEffectType.SPEAR_CREATION;
 
+        SS = None;
+        SS.MajorEffect = MajorEffectType.SPEAR_CREATION;
+
         AS_PearlBlue = None;
         AS_PearlBlue.MajorEffect = MajorEffectType.AGILITY;
         AS_PearlBlue.RunSpeedFac = 0.25f;
@@ -359,6 +362,7 @@ public static class POEffectManager
     public static POEffect IteratorBlue;
 
     public static POEffect RM;
+    public static POEffect SS;
 
     public static POEffect AS_PearlBlue;
     public static POEffect AS_PearlGreen;

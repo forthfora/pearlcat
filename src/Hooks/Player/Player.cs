@@ -28,13 +28,12 @@ public static partial class Hooks
 
         new Hook(
             typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(Hooks.get_PlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
+            typeof(Hooks).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
         );
     }
 
     public delegate float orig_PlayerVisibilityBonus(Player self);
-
-    public static float get_PlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
+    public static float GetPlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
     {
         if (self.TryGetPearlcatModule(out var playerModule))
             if (playerModule.CamoLerp > 0.5f)
@@ -52,6 +51,16 @@ public static partial class Hooks
         }
 
         orig(self, eu);
+
+        // zero G movement assist
+        if (self.room != null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
+        {
+            if (self.firstChunk.vel.magnitude < 7.5f)
+                self.firstChunk.vel += self.input[0].analogueDir * 0.7f;
+
+            if (self.input[0].analogueDir.magnitude < 0.05f)
+                self.firstChunk.vel *= 0.8f;
+        }
 
         if (playerModule == null) return;
         
@@ -446,32 +455,9 @@ public static partial class Hooks
                     Enums.Pearls.AS_PearlBlack,
                     Enums.Pearls.AS_PearlRed,
                     Enums.Pearls.RM_Pearlcat,
-
-                    DataPearlType.LF_bottom,
-                    DataPearlType.SL_chimney,
-                    DataPearlType.SL_bridge,
-                    DataPearlType.HI,
-                    DataPearlType.Misc,
                 };
 
-                var type = i switch
-                {
-                    0 => types[0],
-                    1 => types[1],
-                    2 => types[2],
-                    3 => types[3],
-                    4 => types[4],
-                    5 => types[5],
-                    
-                    6 => types[6],
-                    7 => types[7],
-                    8 => types[8],
-                    9 => types[9],
-                    10 => types[10],
-                    _ => types[Random.Range(0, types.Count)],
-                };
-
-                var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, type);
+                var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, types[i]);
                 self.StoreObject(pearl);
             }
         }
