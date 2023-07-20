@@ -441,6 +441,8 @@ public static partial class Hooks
     {
         var module = self.owner.GetModule();
         var save = self.owner.oracle.room.game.GetMiscWorld();
+
+        if (save == null) return;
         
 
         if (module.WasPearlAlreadyRead)
@@ -560,6 +562,8 @@ public static partial class Hooks
         {
             var save = oracle.room.game.GetMiscWorld();
 
+            if (save == null) return;
+
             Plugin.Logger.LogWarning("PEARLCAT PEBBLES MEETING: " + save.PebblesMeetCount);
 
             switch (save.PebblesMeetCount)
@@ -620,6 +624,8 @@ public static partial class Hooks
 
             var module = owner.GetModule();
             var save = oracle.room.game.GetMiscWorld();
+
+            if (save == null) return;
 
             var meetCount = save.PebblesMeetCount;
 
@@ -838,6 +844,9 @@ public static partial class Hooks
         public void StartItemConversation(DataPearl pearl, SSOracleModule module)
         {
             var save = pearl.room.game.GetMiscWorld();
+
+            if (save == null) return;
+
             var pearlID = pearl.abstractPhysicalObject.ID.number;
 
             module.WasPearlAlreadyRead = save.PearlIDsBroughtToPebbles.ContainsKey(pearlID);

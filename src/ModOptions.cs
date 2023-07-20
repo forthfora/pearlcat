@@ -79,6 +79,10 @@ public sealed class ModOptions : OptionsTemplate
         "\nDoes not save over the current inventory - it is returned to when unchecked.", null, "",
         "Inventory Override?"));
 
+    public static Configurable<bool> StartingInventoryOverride { get; } = Instance.config.Bind(nameof(StartingInventoryOverride), false, new ConfigurableInfo(
+        "When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?", null, "",
+        "Starting Inventory Override?"));
+
 
     public static Configurable<int> SpearPearlCount { get; } = Instance.config.Bind(nameof(SpearPearlCount), 1, new ConfigurableInfo(
         "Number of spear creation pearls (white). Effective only when Inventory Override? is checked.",
@@ -258,6 +262,7 @@ public sealed class ModOptions : OptionsTemplate
         AddNewLine(1);
 
         AddCheckBox(InventoryOverride);
+        AddCheckBox(StartingInventoryOverride);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddNewLine(1);
@@ -284,6 +289,9 @@ public sealed class ModOptions : OptionsTemplate
         if (GetLabel(InventoryOverride, out label))
             label.color = WarnRed;
 
+        if (GetLabel(StartingInventoryOverride, out label))
+            label.color = WarnRed;
+
         if (GetLabel(MaxPearlCount, out label))
             label.color = WarnRed;
 
@@ -308,6 +316,9 @@ public sealed class ModOptions : OptionsTemplate
 
 
         if (GetConfigurable(InventoryOverride, out OpCheckBox checkBox))
+            checkBox.colorEdge = WarnRed;
+
+        if (GetConfigurable(StartingInventoryOverride, out checkBox))
             checkBox.colorEdge = WarnRed;
 
 

@@ -109,9 +109,9 @@ public partial class Hooks
             module.SparkTimer--;
 
 
-        if (wasThrown && self.mode != Weapon.Mode.Thrown && self.mode != Weapon.Mode.StuckInWall)
+        if (wasThrown && self.mode != Weapon.Mode.Thrown && self.mode != Weapon.Mode.StuckInWall && self.mode != Weapon.Mode.StuckInCreature)
         {
-            if (self.stuckInObject != null && self.stuckInChunk != null)
+            if (self.stuckInObject != null && self.stuckInChunk != null)    
             {
                 var physicalObj = self.stuckInChunk.owner;
 
@@ -135,6 +135,12 @@ public partial class Hooks
     public static bool TryGetModule(this AbstractSpear spear, out SpearModule module)
     {
         var save = spear.Room.world.game.GetMiscWorld();
+
+        if (save == null)
+        {
+            module = null!;
+            return false;
+        }
 
         if (save.PearlSpears.TryGetValue(spear.ID.number, out module))
             return true;

@@ -136,7 +136,7 @@ public static partial class Hooks
                     var save = self.abstractCreature.Room.world.game.GetMiscWorld();
                     var spearModule = new SpearModule(playerModule.ActiveColor);
 
-                    save.PearlSpears.Add(abstractSpear.ID.number, spearModule);
+                    save?.PearlSpears.Add(abstractSpear.ID.number, spearModule);
 
                     if (holdingSpear)
                         self.spearOnBack.SpearToBack((Spear)abstractSpear.realizedObject);

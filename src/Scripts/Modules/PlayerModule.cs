@@ -238,7 +238,9 @@ public class PlayerModule
     {
         var world = self.abstractCreature.world;
         var save = world.game.GetMiscWorld();
-        
+
+        if (save == null) return;
+
         var playerNumber = self.playerState.playerNumber;
 
         if (!ModOptions.InventoryOverride.Value)

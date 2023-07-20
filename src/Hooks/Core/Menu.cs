@@ -47,7 +47,7 @@ public static partial class Hooks
        
         var save = menu.manager.rainWorld.GetMiscProgression();
 
-        if (ModOptions.InventoryOverride.Value)
+        if (ModOptions.InventoryOverride.Value || (save.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
         {
             var pearls = ModOptions.GetOverridenInventory(true);
             var activePearl = pearls.FirstOrDefault();

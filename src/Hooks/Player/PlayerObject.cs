@@ -190,7 +190,7 @@ public static partial class Hooks
         {
             var save = self.abstractCreature.world.game.GetMiscWorld();
 
-            if (!save.ShownFullInventoryTutorial)
+            if (save?.ShownFullInventoryTutorial == false)
             {
                 save.ShownFullInventoryTutorial = true;
                 self.abstractCreature.world.game.AddTextPrompt($"Storage limit reached ({ModOptions.MaxPearlCount.Value}): swap out a pearl, or change the limit in the Remix options.", 40, 300);
@@ -283,6 +283,9 @@ public static partial class Hooks
         if (ModOptions.InventoryOverride.Value) return;
 
         var save = self.room.game.GetMiscWorld();
+
+        if (save == null) return;
+
         List<string> inventory = new();
 
         foreach (var item in playerModule.Inventory)
@@ -353,7 +356,9 @@ public static partial class Hooks
         self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
         
         var save = self.room.game.GetMiscWorld();
-        save.ActiveObjectIndex[self.playerState.playerNumber] = objectIndex;
+
+        if (save != null)
+            save.ActiveObjectIndex[self.playerState.playerNumber] = objectIndex;
 
         if (self.graphicsModule is not PlayerGraphics pGraphics || newObject == null) return;
 

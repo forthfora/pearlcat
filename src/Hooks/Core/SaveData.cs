@@ -41,7 +41,7 @@ public static partial class Hooks
     }
 
 
-    public static SaveMiscWorld GetMiscWorld(this RainWorldGame game) => GetMiscWorld(game.GetStorySession.saveState.miscWorldSaveData);
+    public static SaveMiscWorld? GetMiscWorld(this RainWorldGame game) => game.IsStorySession ? GetMiscWorld(game.GetStorySession.saveState.miscWorldSaveData) : null;
     public static SaveMiscWorld GetMiscWorld(this MiscWorldSaveData data)
     {
         if (!data.GetSlugBaseData().TryGet(Plugin.MOD_ID, out SaveMiscWorld save))

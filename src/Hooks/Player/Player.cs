@@ -479,16 +479,20 @@ public static partial class Hooks
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
         var save = self.room.game.GetMiscWorld();
+        bool isNewGame = true;
+
+        if (save != null)
+            isNewGame = save.IsNewGame;
 
         if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
             playerModule.GivenPearls = false;
 
-        if (!(save.IsNewGame || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
+        if (!(isNewGame || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
 
-        
-        List<DataPearlType> pearls = new();
 
-        if (ModOptions.InventoryOverride.Value)
+        List<DataPearlType> pearls;
+
+        if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
         {
             pearls = ModOptions.GetOverridenInventory(self.IsFirstPearlcat());
         }
