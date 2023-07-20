@@ -4,9 +4,11 @@ using MonoMod.Cil;
 using RWCustom;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using static DataPearl.AbstractDataPearl;
+using static Pearlcat.Enums;
 
 namespace Pearlcat;
 
@@ -45,21 +47,38 @@ public static partial class Hooks
        
         var save = menu.manager.rainWorld.GetMiscProgression();
 
-        if (save.IsNewPearlcatSave)
+        if (ModOptions.InventoryOverride.Value)
         {
-            List <DataPearlType> types = new()
+            var pearls = ModOptions.GetOverridenInventory(true);
+            var activePearl = pearls.FirstOrDefault();
+
+            if (pearls.Count > 11)
+                pearls.RemoveRange(11, pearls.Count - 11);
+
+            pearls.Remove(activePearl);
+
+            MenuSceneData.Add(self, new(pearls, activePearl));
+        }
+        else if (save.IsNewPearlcatSave)
+        {
+            List<DataPearlType> pearls = new()
             {
-                Enums.Pearls.AS_PearlBlue,
-                Enums.Pearls.AS_PearlYellow,
-                Enums.Pearls.AS_PearlRed,
-                Enums.Pearls.AS_PearlGreen,
-                Enums.Pearls.AS_PearlBlack,
+                Pearls.AS_PearlBlue,
+                Pearls.AS_PearlYellow,
+                Pearls.AS_PearlRed,
+                Pearls.AS_PearlGreen,
+                Pearls.AS_PearlBlack,
             };
 
-            MenuSceneData.Add(self, new(types, Enums.Pearls.RM_Pearlcat));
+            MenuSceneData.Add(self, new(pearls, Pearls.RM_Pearlcat));
         }
         else
         {
+            var pearls = save.StoredPearlTypes;
+
+            if (pearls.Count > 11)
+                pearls.RemoveRange(11, pearls.Count - 11);
+
             MenuSceneData.Add(self, new(save.StoredPearlTypes, save.ActivePearlType));
         }
 
@@ -304,7 +323,7 @@ public static partial class Hooks
         if (slugcatNumber != Enums.Pearlcat) return;
 
         var save = menu.manager.rainWorld.GetMiscProgression();
-        var type = save.ActivePearlType;
+        var type = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault() : save.ActivePearlType;
 
         self.effectColor = type != null ? ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, type.index) : Color.white;
     }

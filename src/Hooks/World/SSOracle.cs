@@ -187,7 +187,7 @@ public static partial class Hooks
             e.Add(new WaitEvent(self, 40));
         }
         
-        else if (id == Enums.SSOracle.Pearlcat_SSConvoRMPearl)
+        else if (id == Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect)
         {
             module.TakeRMTimer = 120;
             module.GiveSSTimer = 60;
@@ -393,6 +393,42 @@ public static partial class Hooks
             self.LoadEventsFromFile(121, Enums.SSOracle.PearlcatPebbles, false, rand);
         }
         #endregion
+
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoRMPearl)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(1001, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoSSPearl)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(1002, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoASPearlBlue)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(1003, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoASPearlRed)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(1004, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoASPearlYellow)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(1005, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoASPearlGreen)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(1006, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoASPearlBlack)
+        {
+            self.PebblesPearlIntro();
+            self.LoadEventsFromFile(1007, Enums.SSOracle.PearlcatPebbles, false, rand);
+        }
 
         else
         {
@@ -665,7 +701,7 @@ public static partial class Hooks
                 else if (ConvoCount == 1)
                 {
                     if (HasRMPearl(oracle))
-                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearl, this);
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
 
                     ConvoCount++;
                 }
@@ -706,7 +742,7 @@ public static partial class Hooks
                         owner.LockShortcuts();
                         owner.getToWorking = 0.0f;
 
-                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearl, this);
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
                         ConvoCount++;
                     }
                 }
@@ -815,22 +851,45 @@ public static partial class Hooks
                 rand = save.PearlIDsBroughtToPebbles[pearlID];
 
             module.Rand = rand;
+            var type = pearl.AbstractPearl.dataPearlType;
 
-
-            if (pearl.AbstractPearl.dataPearlType == DataPearl.AbstractDataPearl.DataPearlType.Misc || pearl.AbstractPearl.dataPearlType.Index == -1)
+            if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1)
                 owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc, this);
 
-            else if (pearl.AbstractPearl.dataPearlType == DataPearl.AbstractDataPearl.DataPearlType.Misc2)
+            else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc2)
                 owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc2, this);
 
-            else if (ModManager.MSC && pearl.AbstractPearl.dataPearlType == MoreSlugcatsEnums.DataPearlType.BroadcastMisc)
+            else if (ModManager.MSC && type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc)
                 owner.InitateConversation(MoreSlugcatsEnums.ConversationID.Moon_Pearl_BroadcastMisc, this);
 
-            else if (pearl.AbstractPearl.dataPearlType == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
+            else if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
                 owner.InitateConversation(Conversation.ID.Moon_Pebbles_Pearl, this);
 
+
+            else if (type == Enums.Pearls.RM_Pearlcat || type == MoreSlugcatsEnums.DataPearlType.RM)
+                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearl, this);
+
+            else if (type == Enums.Pearls.SS_Pearlcat)
+                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSSPearl, this);
+
+            else if (type == Enums.Pearls.AS_PearlBlue)
+                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlBlue, this);
+
+            else if (type == Enums.Pearls.AS_PearlGreen)
+                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlGreen, this);
+            
+            else if (type == Enums.Pearls.AS_PearlRed)
+                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlRed, this);
+            
+            else if (type == Enums.Pearls.AS_PearlYellow)
+                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlYellow, this);
+            
+            else if (type == Enums.Pearls.AS_PearlBlack)
+                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlBlack, this);
+
+
             else
-                owner.InitateConversation(DataPearlToConversation(pearl.AbstractPearl.dataPearlType), this);
+                owner.InitateConversation(DataPearlToConversation(type), this);
         }
 
         public bool HasRMPearl(Oracle oracle)

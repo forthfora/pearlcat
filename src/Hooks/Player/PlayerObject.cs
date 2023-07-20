@@ -14,6 +14,8 @@ public static partial class Hooks
 
         foreach (var abstractObject in playerModule.Inventory)
         {
+            if (abstractObject == null) continue;
+
             if (abstractObject.realizedObject != null)
             {
                 abstractObject.MarkAsPlayerObject();
@@ -278,6 +280,8 @@ public static partial class Hooks
 
     public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
     {
+        if (ModOptions.InventoryOverride.Value) return;
+
         var save = self.room.game.GetMiscWorld();
         List<string> inventory = new();
 

@@ -28,6 +28,8 @@ public class PlayerModule
     public SlugcatStats NormalStats { get; private set; } = new(Enums.Pearlcat, false);
     public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.Pearlcat, true);
 
+    public bool JustWarped { get; set; }
+
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }
 
@@ -234,25 +236,29 @@ public class PlayerModule
 
     public void LoadSaveData(Player self)
     {
-        Inventory.Clear();
-        ActiveObjectIndex = null;
-
         var world = self.abstractCreature.world;
         var save = world.game.GetMiscWorld();
-
+        
         var playerNumber = self.playerState.playerNumber;
 
-        if (save.Inventory.TryGetValue(playerNumber, out var inventory))
+        if (!ModOptions.InventoryOverride.Value)
         {
-            for (int i = inventory.Count - 1; i >= 0; i--)
+            Inventory.Clear();
+            
+            if (save.Inventory.TryGetValue(playerNumber, out var inventory))
             {
-                string? item = inventory[i];
-                self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item));
+                for (int i = inventory.Count - 1; i >= 0; i--)
+                {
+                    string? item = inventory[i];
+                    self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item));
+                }
             }
         }
+        
+        ActiveObjectIndex = null;
 
-        if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex))
-            ActiveObjectIndex = activeObjectIndex;
+        if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex) && Inventory.Count > 0)
+            ActiveObjectIndex = activeObjectIndex >= Inventory.Count ? activeObjectIndex : 0;
 
         PickObjectAnimation(self);
 

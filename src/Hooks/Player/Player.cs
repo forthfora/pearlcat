@@ -177,13 +177,13 @@ public static partial class Hooks
             self.AbstractizeInventory();
 
         // Warp Fix
-        if (self.room != null && JustWarpedData.TryGetValue(self.room.game, out var justWarped) && justWarped.Value)
+        if (self.room != null && playerModule.JustWarped)
         {
-            justWarped.Value = false;
+            self.GivePearls(playerModule);
             playerModule.LoadSaveData(self);
 
-            Plugin.Logger.LogWarning("WARP LOADED");
-            Plugin.Logger.LogWarning(playerModule.Inventory.Count);
+            Plugin.Logger.LogWarning("PEARLCAT WARP EMD");
+            playerModule.JustWarped = false;
         }
 
         self.TryRealizeInventory(playerModule);
@@ -201,6 +201,9 @@ public static partial class Hooks
         UpdateStoreRetrieveObject(self, playerModule);
 
         UpdateTryRevive(self, playerModule);
+
+        if (self.room != null)
+            self.GivePearls(playerModule);
     }
 
     private static void UpdateTryRevive(Player self, PlayerModule playerModule)
@@ -379,10 +382,6 @@ public static partial class Hooks
 
         playerModule.CurrentObjectAnimation?.Update(self);
         playerModule.ObjectAnimationTimer++;
-
-
-        if (self.room != null)
-            self.GivePearls(playerModule);
     }
 
 
@@ -481,26 +480,39 @@ public static partial class Hooks
     {
         var save = self.room.game.GetMiscWorld();
 
-        if (save.IsNewGame && !playerModule.GivenPearls)
+        if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
+            playerModule.GivenPearls = false;
+
+        if (!(save.IsNewGame || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
+
+        
+        List<DataPearlType> pearls = new();
+
+        if (ModOptions.InventoryOverride.Value)
         {
-            playerModule.GivenPearls = true;
-
-            for (int i = 0; i < 6; i++)
-            {
-                var types = new List<DataPearlType>()
-                {
-                    Enums.Pearls.AS_PearlBlue,
-                    Enums.Pearls.AS_PearlYellow,
-                    Enums.Pearls.AS_PearlGreen,
-                    Enums.Pearls.AS_PearlBlack,
-                    Enums.Pearls.AS_PearlRed,
-                    Enums.Pearls.RM_Pearlcat,
-                };
-
-                var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, types[i]);
-                self.StoreObject(pearl);
-            }
+            pearls = ModOptions.GetOverridenInventory(self.IsFirstPearlcat());
         }
+        else
+        {
+            // Defaults
+            pearls = new List<DataPearlType>()
+            {
+                Enums.Pearls.AS_PearlBlue,
+                Enums.Pearls.AS_PearlYellow,
+                Enums.Pearls.AS_PearlGreen,
+                Enums.Pearls.AS_PearlBlack,
+                Enums.Pearls.AS_PearlRed,
+                self.IsFirstPearlcat() ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc,
+            };
+        }
+
+        foreach (var pearlType in pearls)
+        {
+            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
+            self.StoreObject(pearl);
+        }
+
+        playerModule.GivenPearls = true;
     }
     
     public static int GraspsHasType(this Player self, AbstractObjectType type)

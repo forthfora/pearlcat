@@ -1,6 +1,9 @@
 ﻿using Menu.Remix.MixedUI;
+using System.Collections.Generic;
 using System.Reflection.Emit;
 using UnityEngine;
+using static DataPearl.AbstractDataPearl;
+using static Pearlcat.Enums;
 
 namespace Pearlcat;
 
@@ -68,6 +71,45 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<bool> DisableCamoflague { get; } = Instance.config.Bind(nameof(DisableCamoflague), false, new ConfigurableInfo(
         "When checked, disables the camoflague effect granted by an active pearl.", null, "",
         "Disable Camoflague Effect?"));
+
+
+
+    public static Configurable<bool> InventoryOverride { get; } = Instance.config.Bind(nameof(InventoryOverride), false, new ConfigurableInfo(
+        "When checked, sets the inventory to the specified numbers of coloured pearls below every cycle." +
+        "\nDoes not save over the current inventory - it is returned to when unchecked.", null, "",
+        "Inventory Override?"));
+
+
+    public static Configurable<int> SpearPearlCount { get; } = Instance.config.Bind(nameof(SpearPearlCount), 1, new ConfigurableInfo(
+        "Number of spear creation pearls (white). Effective only when Inventory Override? is checked.",
+        new ConfigAcceptableRange<int>(0, 100), "",
+        "Spear Pearl Count"));
+
+    public static Configurable<int> RevivePearlCount { get; } = Instance.config.Bind(nameof(RevivePearlCount), 1, new ConfigurableInfo(
+        "Number of revive pearls (green). Effective only when Inventory Override? is checked.",
+        new ConfigAcceptableRange<int>(0, 100), "",
+        "Revive Pearl Count"));
+
+    public static Configurable<int> AgilityPearlCount { get; } = Instance.config.Bind(nameof(AgilityPearlCount), 1, new ConfigurableInfo(
+        "Number of agility pearls (blue). Effective only when Inventory Override? is checked.",
+        new ConfigAcceptableRange<int>(0, 100), "",
+        "Agility Pearl Count"));
+
+    public static Configurable<int> RagePearlCount { get; } = Instance.config.Bind(nameof(RagePearlCount), 1, new ConfigurableInfo(
+        "Number of rage pearls (red). Effective only when Inventory Override? is checked.",
+        new ConfigAcceptableRange<int>(0, 100), "",
+        "Rage Pearl Count"));
+
+    public static Configurable<int> ShieldPearlCount { get; } = Instance.config.Bind(nameof(ShieldPearlCount), 1, new ConfigurableInfo(
+        "Number of shield pearls (yellow). Effective only when Inventory Override? is checked.",
+        new ConfigAcceptableRange<int>(0, 100), "",
+        "Shield Pearl Count"));
+
+    public static Configurable<int> CamoPearlCount { get; } = Instance.config.Bind(nameof(CamoPearlCount), 1, new ConfigurableInfo(
+        "Number of camo pearls (black). Effective only when Inventory Override? is checked.",
+        new ConfigAcceptableRange<int>(0, 100), "",
+        "Camo Pearl Count"));
+
 
 
     #endregion
@@ -204,27 +246,105 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "Cheats");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var warningText = "The following may change gameplay significantly!";
+        var warningText = "Intended for fun," +
+            "\nmay change gameplay significantly!";
+        
         AddTextLabel(warningText, bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
         
         AddDragger(MaxPearlCount);
         DrawDraggers(ref Tabs[tabIndex]);
 
-        AddNewLine(18);
+        AddNewLine(1);
+
+        AddCheckBox(InventoryOverride);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+
+        AddDragger(AgilityPearlCount);
+        AddDragger(CamoPearlCount);
+        DrawDraggers(ref Tabs[tabIndex]);
+
+        AddDragger(RagePearlCount);
+        AddDragger(RevivePearlCount);
+        DrawDraggers(ref Tabs[tabIndex]);
+
+        AddDragger(ShieldPearlCount);
+        AddDragger(SpearPearlCount);
+        DrawDraggers(ref Tabs[tabIndex]);
+
+        AddNewLine(2);
         DrawBox(ref Tabs[tabIndex]);
 
 
         if (GetLabel(warningText, out OpLabel label))
             label.color = WarnRed;
 
+        if (GetLabel(InventoryOverride, out label))
+            label.color = WarnRed;
+
         if (GetLabel(MaxPearlCount, out label))
             label.color = WarnRed;
+
+
+        if (GetLabel(AgilityPearlCount, out label))
+            label.color = Color.cyan;
+
+        if (GetLabel(CamoPearlCount, out label))
+            label.color = Color.grey;
+
+        if (GetLabel(RagePearlCount, out label))
+            label.color = Color.red;
+
+        if (GetLabel(RevivePearlCount, out label))
+            label.color = Color.green;
+
+        if (GetLabel(ShieldPearlCount, out label))
+            label.color = Color.yellow;
+
+        if (GetLabel(SpearPearlCount, out label))
+            label.color = Color.white;
+
+
+        if (GetConfigurable(InventoryOverride, out OpCheckBox checkBox))
+            checkBox.colorEdge = WarnRed;
+
 
         if (GetConfigurable(MaxPearlCount, out OpDragger dragger))
         {
             dragger.colorEdge = WarnRed;
             dragger.colorText = WarnRed;
+        }
+        if (GetConfigurable(AgilityPearlCount, out dragger))
+        {
+            dragger.colorEdge = Color.cyan;
+            dragger.colorText = Color.cyan;
+        }
+        if (GetConfigurable(CamoPearlCount, out dragger))
+        {
+            dragger.colorEdge = Color.grey;
+            dragger.colorText = Color.grey;
+        }
+        if (GetConfigurable(RagePearlCount, out dragger))
+        {
+            dragger.colorEdge = Color.red;
+            dragger.colorText = Color.red;
+        }
+        if (GetConfigurable(RevivePearlCount, out dragger))
+        {
+            dragger.colorEdge = Color.green;
+            dragger.colorText = Color.green;
+        }
+        if (GetConfigurable(ShieldPearlCount, out dragger))
+        {
+            dragger.colorEdge = Color.yellow;
+            dragger.colorText = Color.yellow;
+        }
+        if (GetConfigurable(SpearPearlCount, out dragger))
+        {
+            dragger.colorEdge = Color.white;
+            dragger.colorText = Color.white;
         }
     }
 
@@ -233,7 +353,7 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "Difficulty");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var warningText = "The following may change gameplay significantly!";
+        var warningText = "Intended to make gameplay more challenging, may change gameplay significantly!";
         AddTextLabel(warningText, bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
          
@@ -409,5 +529,31 @@ public sealed class ModOptions : OptionsTemplate
 
         AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
+    }
+
+
+    public static List<DataPearlType> GetOverridenInventory(bool hasRM)
+    {
+        List<DataPearlType> pearls = new();
+
+        for (int i = 0; i < AgilityPearlCount.Value; i++)
+            pearls.Add(Pearls.AS_PearlBlue);
+
+        for (int i = 0; i < ShieldPearlCount.Value; i++)
+            pearls.Add(Pearls.AS_PearlYellow);
+
+        for (int i = 0; i < RevivePearlCount.Value; i++)
+            pearls.Add(Pearls.AS_PearlGreen);
+
+        for (int i = 0; i < CamoPearlCount.Value; i++)
+            pearls.Add(Pearls.AS_PearlBlack);
+
+        for (int i = 0; i < RagePearlCount.Value; i++)
+            pearls.Add(Pearls.AS_PearlRed);
+
+        for (int i = 0; i < SpearPearlCount.Value; i++)
+            pearls.Add(i == 0 && hasRM ? Pearls.RM_Pearlcat : DataPearlType.Misc);
+
+        return pearls;
     }
 }

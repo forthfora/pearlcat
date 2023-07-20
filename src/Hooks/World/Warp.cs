@@ -15,8 +15,6 @@ public partial class Hooks
         //On.AbstractPhysicalObject.GetAllConnectedObjects += AbstractPhysicalObject_GetAllConnectedObjects;
     }
 
-    public static readonly ConditionalWeakTable<RainWorldGame, StrongBox<bool>> JustWarpedData = new();
-
     private static void PauseMenu_Singal(On.Menu.PauseMenu.orig_Singal orig, Menu.PauseMenu self, Menu.MenuObject sender, string message)
     {
         orig(self, sender, message);
@@ -31,17 +29,9 @@ public partial class Hooks
 
                 player.UpdateInventorySaveData(playerModule);
                 player.AbstractizeInventory();
+
+                playerModule.JustWarped = true;
             }
-
-            var game = self.game;
-
-            if (!JustWarpedData.TryGetValue(game, out var justWarped))
-            {
-                justWarped = new();
-                JustWarpedData.Add(game, justWarped);
-            }
-
-            justWarped.Value = true;
         }
     }
 
