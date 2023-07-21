@@ -32,7 +32,7 @@ public static partial class Hooks
         string prefix = t.Translate("strange");
 
         if (capitalized)
-            prefix = char.ToUpper(prefix[0]) + prefix.Substring(1);
+            prefix = string.Concat(prefix[0].ToString().ToUpper(), prefix.Substring(1));
 
         return prefix + (damagedSpeech ? "... " : " ") + name;
     }
@@ -141,7 +141,7 @@ public static partial class Hooks
 
                     Say("You... I didn't forget...", 30, 0);
 
-                    Say("You... I didn't forget...", 30, 0);
+                    Say("I can only hope you have not come... to hurt me more.", 30, 0);
                     return;
 
                 case 5:

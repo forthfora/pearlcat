@@ -12,6 +12,8 @@ public static partial class Hooks
     {
         if (self.room == null || self.onBack != null) return;
 
+        if (playerModule.JustWarped) return;
+
         foreach (var abstractObject in playerModule.Inventory)
         {
             if (abstractObject == null) continue;
