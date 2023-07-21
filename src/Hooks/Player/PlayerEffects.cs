@@ -443,7 +443,7 @@ public static partial class Hooks
 
                     if (creature.dead) continue;
 
-                    if (creature.VisibilityBonus == -1.0) continue;
+                    if (creature.VisibilityBonus < 0.0f) continue;
 
                     var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
 

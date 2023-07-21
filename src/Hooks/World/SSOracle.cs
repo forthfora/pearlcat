@@ -235,7 +235,7 @@ public static partial class Hooks
 
         else if (id == Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl)
         {
-            e.Add(new WaitEvent(self, 400));
+            e.Add(new WaitEvent(self, 200));
 
             e.Add(new TextEvent(self, 0,
                 self.Translate("...there."), l * 80));
@@ -470,23 +470,23 @@ public static partial class Hooks
         {
             switch (save.UniquePearlsBroughtToPebbles)
             {
-                case 0:
+                case 1:
                     self.events.Add(new TextEvent(self, 0, self.owner.Translate("Something new to read... it has been too long..."), 10));
                     break;
 
-                case 1:
+                case 2:
                     self.events.Add(new TextEvent(self, 0, self.owner.Translate("Another? And I shall read this one to you as well..."), 10));
                     break;
 
-                case 2:
+                case 3:
                     self.events.Add(new TextEvent(self, 0, self.owner.Translate("And a third? So it is..."), 10));
                     break;
 
-                case 3:
+                case 4:
                     self.events.Add(new TextEvent(self, 0, self.owner.Translate("Four! Well, if you insist..."), 10));
                     break;
 
-                case 4:
+                case 5:
                     self.events.Add(new TextEvent(self, 0, self.owner.Translate("So curious..."), 10));
                     break;
 

@@ -25,11 +25,15 @@ public partial class Hooks
         On.ShelterDoor.DoorGraphic.DrawSprites += DoorGraphic_DrawSprites;
 
         //On.GlobalRain.Update += GlobalRain_Update;
+
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
         On.KingTusks.Tusk.Update += Tusk_Update;
 
         On.Spear.DrawSprites += Spear_DrawSprites;
         On.Spear.Update += Spear_Update;
+
+        On.DartMaggot.ShotUpdate += DartMaggot_ShotUpdate;
+        On.BigNeedleWorm.Swish += BigNeedleWorm_Swish;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
 
@@ -43,6 +47,57 @@ public partial class Hooks
         );
     }
 
+    private static void BigNeedleWorm_Swish(On.BigNeedleWorm.orig_Swish orig, BigNeedleWorm self)
+    {
+        orig(self);
+
+        foreach (var crit in self.abstractCreature.Room.world.game.Players)
+        {
+
+            if (crit.realizedCreature is not Player player) continue;
+
+            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+
+            if (!playerModule.ShieldActive) continue;
+
+            if (self.impaleChunk == null || self.impaleChunk.owner != player) continue;
+
+            self.swishCounter = 0;
+            self.firstChunk.vel = Vector2.zero;
+
+            self.impaleChunk = null;
+
+            self.Stun(40);
+
+            self.room.DeflectEffect(self.firstChunk.pos);
+            playerModule.ActivateVisualShield();
+        }
+    }
+
+    private static void DartMaggot_ShotUpdate(On.DartMaggot.orig_ShotUpdate orig, DartMaggot self)
+    {
+        orig(self);
+
+        foreach (var crit in self.room.world.game.Players)
+        {
+            if (crit.realizedCreature is not Player player) continue;
+
+            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+
+            if (!playerModule.ShieldActive) continue;
+
+            if (!Custom.DistLess(player.firstChunk.pos, self.firstChunk.pos, 50.0f)) continue;
+
+            self.mode = DartMaggot.Mode.Free;
+
+            self.firstChunk.vel = Vector2.zero;
+            
+            self.room.DeflectEffect(self.firstChunk.pos);
+            playerModule.ActivateVisualShield();
+        }
+    }
+
+    
     public delegate bool orig_RegionGateMeetRequirement(RegionGate self);
     public static bool GetRegionGateMeetRequirement(orig_RegionGateMeetRequirement orig, RegionGate self)
     {
@@ -58,6 +113,7 @@ public partial class Hooks
 
         return true;
     }
+
 
     private static void GateKarmaGlyph_ctor(On.GateKarmaGlyph.orig_ctor orig, GateKarmaGlyph self, bool side, RegionGate gate, RegionGate.GateRequirement requirement)
     {
@@ -247,11 +303,15 @@ public partial class Hooks
             && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
 
-        if (room.roomSettings.name == "LC_T1_S01")
+        else if (room.roomSettings.name == "LC_T1_S01")
             room.AddObject(new LC_T1_S01(room));
 
-        if (room.roomSettings.name == "T1_S01")
+        else if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
+
+
+        else if (room.roomSettings.name == "T1_CAR1")
+            room.AddObject(new T1_CAR1(room));
     }
 
     public static List<string> TrainViewRooms { get; } = new()
@@ -386,4 +446,50 @@ public partial class Hooks
         hideHud ??= ModManager.MMF;
         game.cameras.First().hud.textPrompt.AddMessage(game.manager.rainWorld.inGameTranslator.Translate(text), wait, time, darken, (bool)hideHud);
     } 
+
+
+    public static void LockAndHideShortcuts(this Room room)
+    {
+        room.LockShortcuts();
+        room.HideShortcuts();
+    }
+    public static void UnlockAndShowShortcuts(this Room room)
+    {
+        room.UnlockShortcuts();
+        room.ShowShortcuts();
+
+        room.game.cameras.First().hud.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom);
+    }
+
+    public static void LockShortcuts(this Room room)
+    {
+        foreach (var shortcut in room.shortcutsIndex)
+            room.lockedShortcuts.Add(shortcut);
+    }
+    public static void UnlockShortcuts(this Room room) => room.lockedShortcuts.Clear();
+
+    public static void HideShortcuts(this Room room)
+    {
+        var rCam = room.game.cameras.First();
+
+        if (rCam.room != room) return;
+
+        var shortcutGraphics = rCam.shortcutGraphics;
+
+        for (int i = 0; i < room.shortcuts.Length; i++)
+            if (shortcutGraphics.entranceSprites[i, 0] != null)
+                shortcutGraphics.entranceSprites[i, 0].isVisible = false;
+    }
+    public static void ShowShortcuts(this Room room)
+    {
+        var rCam = room.game.cameras.First();
+
+        if (rCam.room != room) return;
+
+        var shortcutGraphics = rCam.shortcutGraphics;
+
+        for (int i = 0; i < room.shortcuts.Length; i++)
+            if (shortcutGraphics.entranceSprites[i, 0] != null)
+                shortcutGraphics.entranceSprites[i, 0].isVisible = true;
+    }
 }

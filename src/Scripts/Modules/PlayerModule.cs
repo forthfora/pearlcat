@@ -249,11 +249,8 @@ public class PlayerModule
             
             if (save.Inventory.TryGetValue(playerNumber, out var inventory))
             {
-                for (int i = inventory.Count - 1; i >= 0; i--)
-                {
-                    string? item = inventory[i];
+                foreach (var item in inventory)
                     self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item));
-                }
             }
         }
         

@@ -112,11 +112,8 @@ public static partial class Hooks
         if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive)
         {
             self.Stun(10);
-            
-            //if (graspUsed > 0 && graspUsed < self.grasps.Length)
-            //    self.grasps[graspUsed].Release();
 
-            //Plugin.Logger.LogWarning("GRABBED BY " + self.GetType());
+            //Plugin.Logger.LogWarning("PEARLCAT GRABBED BY " + self.GetType());
 
             DeflectEffect(self.room, self.mainBodyChunk.pos);
 

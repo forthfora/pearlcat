@@ -102,17 +102,27 @@ public static partial class Hooks
         {
             self.SelectNextObject();
         }
-        else if (swapInput && !playerModule.WasSwapped)
+        else if (swapInput)
         {
-            if (unblockedInput.x < -0.5f)
+            playerModule.BlockInput = true;
+
+
+            if (!playerModule.WasSwapped)
             {
-                self.SelectPreviousObject();
-                playerModule.WasSwapped = true;
+                if (unblockedInput.x < -0.5f)
+                {
+                    self.SelectPreviousObject();
+                    playerModule.WasSwapped = true;
+                }
+                else if (unblockedInput.x > 0.5f)
+                {
+                    self.SelectNextObject();
+                    playerModule.WasSwapped = true;
+                }
             }
-            else if (unblockedInput.x > 0.5f)
+            else if (Mathf.Abs(unblockedInput.x) < 0.5f)
             {
-                self.SelectNextObject();
-                playerModule.WasSwapped = true;
+                playerModule.WasSwapped = false;
             }
         }
 
@@ -469,9 +479,14 @@ public static partial class Hooks
     {
         // sin number 2
         if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
+        {
             if (playerModule.ShieldActive)
+            {
+                playerModule.ActivateVisualShield();
                 return;
-        
+            }
+        }
+
         orig(self, source, directionAndMomentum, hitChunk, hitAppendage, type, damage, stunBonus);
     }
 

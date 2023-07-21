@@ -9,7 +9,7 @@ Palette: 300
 EffectColorA: 13
 EffectColorB: 13
 Effects: SunBlock-1-20-20, SkyAndLightBloom-0.1630435-10-125, Moth-0.3913043-310-30, Brightness-0.173913-282-104, Contrast-0.1847826-260-172, 
-PlacedObjects: ReliableSpear><692.1077><210.4136><, ReliableSpear><610.8189><216.8269><, DangleFruit><241.6507><315.7953><-254.7929~174.9338~0~2, DangleFruit><304.3997><357.5645><-70.522~-317.0743~0~3, DangleFruit><958.827><357.6813><-297.3502~18.40421~0~3, DangleFruit><1049.2><321.7883><-3.0448~-106.2552~0~3, 
+PlacedObjects: ReliableSpear><692.1077><210.4136><, ReliableSpear><611.9697><216.8384><, DangleFruit><241.6507><315.7953><-254.7929~174.9338~0~2, DangleFruit><304.3997><357.5645><-70.522~-317.0743~0~3, DangleFruit><958.827><357.6813><-297.3502~18.40421~0~3, DangleFruit><1049.2><321.7883><-3.0448~-106.2552~0~3, 
 AmbientSounds: OMNI><MSC-Subtundra.ogg><499.4102><582.4287><1><0.8630434, OMNI><pearlcat-traininside.ogg><518.5399><478.304><0.3586957><1, OMNI><am_win-strongwnd2.ogg><722.0909><476.3218><1><1, OMNI><msc-lowgroans.ogg><704.6972><585.7833><0.4021739><1, 
 FadePalette: 51, 0.1086956
 RoomSpecificScriptActive: ON
