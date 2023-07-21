@@ -1,5 +1,8 @@
-﻿using MonoMod.RuntimeDetour;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using MonoMod.RuntimeDetour;
 using RWCustom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,10 +29,88 @@ public static partial class Hooks
 
         On.Player.SpearOnBack.Update += SpearOnBack_Update;
 
+        //On.Player.Jump += Player_Jump;
+        //IL.Player.Jump += Player_JumpIL;
+
         new Hook(
             typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
         );
+    }
+
+    private static void Player_JumpIL(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        // Jump from Roll
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdsfld<Player.AnimationIndex>(nameof(Player.AnimationIndex.RocketJump)),
+            x => x.MatchStfld<Player>(nameof(Player.animation))
+        );
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Action<Player>>((player) =>
+        {
+            if (!player.TryGetPearlcatModule(out var playerModule))
+                return;
+
+            var effect = playerModule.CurrentPOEffect;
+
+            player.bodyChunks[0].vel.x *= effect.RollSpeedFac;
+            player.bodyChunks[0].vel.y *= effect.RollSpeedFac;
+
+            player.bodyChunks[1].vel.x *= effect.RollSpeedFac;
+            player.bodyChunks[1].vel.y *= effect.RollSpeedFac;
+        });
+
+
+        // Jump from Slide
+        c.GotoNext(MoveType.After,
+            x => x.MatchStfld<Player>(nameof(Player.rocketJumpFromBellySlide))
+        );
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.Emit(OpCodes.Ldloc_0);        
+        c.EmitDelegate<Action<Player, float>>((player, origValue) =>
+        {
+            if (!player.TryGetPearlcatModule(out var playerModule))
+                return;
+
+            var effect = playerModule.CurrentPOEffect;
+
+            player.bodyChunks[1].vel = new Vector2(player.rollDirection * effect.SlideSpeedFac, effect.SlideSpeedFac) * origValue * (player.longBellySlide ? 1.2f : 1.0f);
+            player.bodyChunks[0].vel = new Vector2(player.rollDirection * effect.SlideSpeedFac, effect.SlideSpeedFac) * origValue * (player.longBellySlide ? 1.2f : 1.0f);
+        });
+
+
+        // Backflip
+        //c.GotoNext(MoveType.After,
+        //    x => x.MatchLdsfld<Player.AnimationIndex>(nameof(Player.AnimationIndex.Flip)),
+        //    x => x.MatchStfld<Player>(nameof(Player.jumpBoost))
+        //);
+
+        //c.Emit(OpCodes.Ldarg_0);
+        //c.Emit(OpCodes.Ldloc_0);
+        //c.EmitDelegate<Action<Player, float>>((player, origValue) =>
+        //{
+        //    if (!player.TryGetPearlcatModule(out var playerModule))
+        //        return;
+
+        //    var effect = playerModule.CurrentPOEffect;
+
+        //    player.bodyChunks[0].vel.y = (effect.JumpHeightFac + 2) * origValue;
+        //    player.bodyChunks[1].vel.y = effect.JumpHeightFac * origValue;
+        //});
+    }
+
+
+    private static void Player_Jump(On.Player.orig_Jump orig, Player self)
+    {
+        orig(self);
+
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        self.jumpBoost *= playerModule.CurrentPOEffect.JumpHeightFac;
     }
 
     private static void Creature_SpitOutOfShortCut(On.Creature.orig_SpitOutOfShortCut orig, Creature self, IntVector2 pos, Room newRoom, bool spitOutAllSticks)

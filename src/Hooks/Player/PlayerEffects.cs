@@ -16,6 +16,10 @@ public static partial class Hooks
     {
         POEffect combinedEffect = new();
 
+        combinedEffect.JumpHeightFac = 1.0f;
+        combinedEffect.RollSpeedFac = 1.0f;
+        combinedEffect.SlideSpeedFac = 1.0f;
+
         foreach (var playerObject in playerModule.Inventory)
         {
             var effect = playerObject.GetPOEffect();
@@ -31,6 +35,10 @@ public static partial class Hooks
             combinedEffect.ThrowingSkill += effect.ThrowingSkill * mult;
             combinedEffect.LungsFac += effect.LungsFac * mult;
             combinedEffect.BodyWeightFac += effect.BodyWeightFac * mult;
+
+            combinedEffect.JumpHeightFac += effect.JumpHeightFac * mult;
+            combinedEffect.RollSpeedFac += effect.RollSpeedFac * mult;
+            combinedEffect.SlideSpeedFac += effect.SlideSpeedFac * mult;
         }
         
         if (playerModule.ActiveObject != null)

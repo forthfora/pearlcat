@@ -28,7 +28,16 @@ public partial class Hooks
                 if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
 
                 player.UpdateInventorySaveData(playerModule);
-                player.AbstractizeInventory();
+
+                for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+                {
+                    var item = playerModule.Inventory[i];
+
+                    player.RemoveFromInventory(item);
+
+                    item.destroyOnAbstraction = true;
+                    item.Abstractize(item.pos);
+                }
 
                 playerModule.JustWarped = true;
             }

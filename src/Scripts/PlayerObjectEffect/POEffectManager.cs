@@ -60,91 +60,58 @@ public static class POEffectManager
         SL_moon = None;
         SL_moon.MajorEffect = MajorEffectType.SHIELD;
         SL_moon.ThreatMusic = "SL";
-        SL_moon.BodyWeightFac = -0.1f;
-        SL_moon.LungsFac = 0.75f;
 
         SL_chimney = None;
         SL_chimney.MajorEffect = MajorEffectType.RAGE;
         SL_chimney.ThreatMusic = "SL";
-        SL_chimney.ThrowingSkill = 1.0f;
-        SL_chimney.BodyWeightFac = 0.1f;
 
         SL_bridge = None;
         SL_bridge.MajorEffect = MajorEffectType.RAGE;
         SL_bridge.ThreatMusic = "SL";
-        SL_bridge.ThrowingSkill = 0.5f;
-        SL_bridge.BodyWeightFac = 0.1f;
 
         SB_filtration = None;
         SB_filtration.MajorEffect = MajorEffectType.AGILITY;
         SB_filtration.ThreatMusic = "SB";
-        SB_filtration.RunSpeedFac = 0.2f;
-        SB_filtration.PoleClimbSpeedFac = 0.2f;
-        SB_filtration.CorridorClimbSpeedFac = 0.2f;
-        SB_filtration.LungsFac = 0.5f;
 
         SB_ravine = None;
         SB_ravine.MajorEffect = MajorEffectType.RAGE;
         SB_ravine.ThreatMusic = "SB";
-        SB_ravine.ThrowingSkill = 1.0f;
-        SB_ravine.BodyWeightFac = 0.1f;
 
         SU = None;
         SU.MajorEffect = MajorEffectType.AGILITY;
         SU.ThreatMusic = "SU";
-        SU.RunSpeedFac = 0.35f;
-        SU.PoleClimbSpeedFac = 0.2f;
-        SU.CorridorClimbSpeedFac = 0.2f;
 
         HI = None;
         HI.MajorEffect = MajorEffectType.AGILITY;
         HI.ThreatMusic = "HI";
-        HI.RunSpeedFac = 0.2f;
-        HI.PoleClimbSpeedFac = 0.35f;
-        HI.CorridorClimbSpeedFac = 0.35f;
 
         GW = None;
         GW.MajorEffect = MajorEffectType.AGILITY;
         GW.ThreatMusic = "GW";
-        GW.RunSpeedFac = 0.15f;
-        GW.PoleClimbSpeedFac = 0.05f;
-        GW.CorridorClimbSpeedFac = 0.05f;
-        GW.LungsFac = 0.5f;
 
         DS = None;
         DS.MajorEffect = MajorEffectType.REVIVE;
         DS.ThreatMusic = "DS";
-        DS.SurvivalFac = 0.3f;
-        DS.LungsFac = 0.5f;
 
         SH = None;
         SH.MajorEffect = MajorEffectType.RAGE;
         SH.ThreatMusic = "SH";
-        SH.ThrowingSkill = 0.5f;
-        SH.BodyWeightFac = 0.1f;
 
         CC = None;
         CC.MajorEffect = MajorEffectType.SHIELD;
         CC.ThreatMusic = "CC";
-        CC.BodyWeightFac = -0.1f;
 
         UW = None;
         UW.MajorEffect = MajorEffectType.REVIVE;
         UW.ThreatMusic = "UW";
-        UW.BodyWeightFac = -0.05f;
-        UW.RunSpeedFac = 0.15f;
 
         LF_bottom = None;
         LF_bottom.MajorEffect = MajorEffectType.RAGE;
         LF_bottom.ThreatMusic = "LF";
-        LF_bottom.ThrowingSkill = 1.0f;
-        LF_bottom.BodyWeightFac = 0.1f;
 
         LF_west = None;
         LF_west.MajorEffect = MajorEffectType.RAGE;
         LF_west.ThreatMusic = "LF";
-        LF_west.ThrowingSkill = 0.5f;
-        LF_west.BodyWeightFac = 0.05f;
 
         SI_west = None;
         SI_west.MajorEffect = MajorEffectType.AGILITY;
@@ -162,51 +129,35 @@ public static class POEffectManager
         SU_filt = None;
         SU_filt.MajorEffect = MajorEffectType.SPEAR_CREATION;
         SU_filt.ThreatMusic = "SU";
-        SU_filt.LungsFac = 0.5f;
-        SU_filt.RunSpeedFac = 0.1f;
 
         OE = None;
         OE.MajorEffect = MajorEffectType.RAGE;
         OE.ThreatMusic = "OE";
-        OE.RunSpeedFac = 0.15f;
-        OE.PoleClimbSpeedFac = 0.05f;
-        OE.CorridorClimbSpeedFac = 0.05f;
 
         LC = None;
         LC.MajorEffect = MajorEffectType.REVIVE;
         LC.ThreatMusic = "LC";
-        LC.BodyWeightFac = -0.1f;
 
         LC_second = None;
         LC_second.MajorEffect = MajorEffectType.SHIELD;
         LC_second.ThreatMusic = "LC";
-        LC_second.BodyWeightFac = -0.1f;
 
         MS = None;
         MS.MajorEffect = MajorEffectType.SHIELD;
         MS.ThreatMusic = "MS";
-        MS.BodyWeightFac = -0.1f;
 
         DM = None;
         DM.MajorEffect = MajorEffectType.SHIELD;
         DM.ThreatMusic = "DM";
-        DM.BodyWeightFac = -0.1f;
 
         Red_stomach = None;
         Red_stomach.MajorEffect = MajorEffectType.RAGE;
-        Red_stomach.ThrowingSkill = 1.0f;
-        Red_stomach.BodyWeightFac = 0.05f;
 
         Rivulet_stomach = None;
         Rivulet_stomach.MajorEffect = MajorEffectType.AGILITY;
-        Rivulet_stomach.RunSpeedFac = 0.35f;
-        Rivulet_stomach.PoleClimbSpeedFac = 0.25f;
-        Rivulet_stomach.CorridorClimbSpeedFac = 0.25f;
 
         Spearmasterpearl = None;
         Spearmasterpearl.MajorEffect = MajorEffectType.RAGE;
-        Spearmasterpearl.ThrowingSkill = 2.0f;
-        Spearmasterpearl.BodyWeightFac = 0.05f;
 
         IteratorWhite = None;
         IteratorWhite.MajorEffect = MajorEffectType.SPEAR_CREATION;
@@ -223,15 +174,9 @@ public static class POEffectManager
 
         IteratorOrange = None;
         IteratorOrange.MajorEffect = MajorEffectType.SHIELD;
-        IteratorOrange.BodyWeightFac = -0.1f;
 
         IteratorBlue = None;
         IteratorBlue.MajorEffect = MajorEffectType.AGILITY;
-        IteratorBlue.RunSpeedFac = 0.25f;
-        IteratorBlue.PoleClimbSpeedFac = 0.25f;
-        IteratorBlue.CorridorClimbSpeedFac = 0.25f;
-        IteratorBlue.RollSpeedFac = 0.25f;
-        IteratorBlue.SlideSpeedFac = 0.25f;
 
 
         // Starting Pearls
@@ -243,11 +188,6 @@ public static class POEffectManager
 
         AS_PearlBlue = None;
         AS_PearlBlue.MajorEffect = MajorEffectType.AGILITY;
-        AS_PearlBlue.RunSpeedFac = 0.25f;
-        AS_PearlBlue.PoleClimbSpeedFac = 0.25f;
-        AS_PearlBlue.CorridorClimbSpeedFac = 0.25f;
-        AS_PearlBlue.RollSpeedFac = 0.25f;
-        AS_PearlBlue.SlideSpeedFac = 0.25f;
 
         AS_PearlGreen = None;
         AS_PearlGreen.MajorEffect = MajorEffectType.REVIVE;

@@ -1,3 +1,4 @@
+0-1
 What a curious pearl - it does not contain any meaningful data, but the lattice is extremely pure.
 
 Ah, this might require a small lecture on the specifics of a pearl's data structure! But I will make it brief...
