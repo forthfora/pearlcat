@@ -19,7 +19,7 @@ public struct POEffect
     }
 
     // When the PO is active, percentages are multiplied by this value before being applied
-    public float ActiveMultiplier { get; set; } = 2.0f;
+    public float ActiveMultiplier { get; set; } = 1.0f;
 
 
     // Slugcat Stats
@@ -34,10 +34,8 @@ public struct POEffect
 
     // Non Standard
     public float JumpHeightFac { get; set; }
-    public float SlideSpeedFac { get; set; } // Includes pounce distance
+    public float SlideSpeedFac { get; set; }
     public float RollSpeedFac { get; set; }
-
-    public float SurvivalFac { get; set; }
 
     public string? ThreatMusic { get; set; }
 }

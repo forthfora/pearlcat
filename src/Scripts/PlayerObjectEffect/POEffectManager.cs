@@ -48,160 +48,179 @@ public static class POEffectManager
         None = new();
 
         Misc = None;
+        Misc.ThrowingSkill = 0.2f;
         Misc.MajorEffect = MajorEffectType.SPEAR_CREATION;
+        Misc.ActiveMultiplier = 2.0f;
         Misc.LungsFac = 0.05f;
         Misc.RunSpeedFac = 0.05f;
         Misc.PoleClimbSpeedFac = 0.05f;
         Misc.CorridorClimbSpeedFac = 0.05f;
         Misc.RollSpeedFac = 0.05f;
         Misc.SlideSpeedFac = 0.05f;
-        Misc.SurvivalFac = 0.05f;
 
-        SL_moon = None;
+        IteratorWhite = Misc;
+
+        IteratorBlack = Misc;
+        IteratorBlack.MajorEffect = MajorEffectType.CAMOFLAGUE;
+
+
+
+        Color = None;
+        Misc.LungsFac = -0.05f;
+        Misc.RunSpeedFac = -0.05f;
+        Misc.PoleClimbSpeedFac = -0.05f;
+        Misc.CorridorClimbSpeedFac = -0.05f;
+        Misc.RollSpeedFac = -0.05f;
+        Misc.SlideSpeedFac = -0.05f;
+
+
+        SL_moon = Color;
         SL_moon.MajorEffect = MajorEffectType.SHIELD;
         SL_moon.ThreatMusic = "SL";
 
-        SL_chimney = None;
+        SL_chimney = Color;
         SL_chimney.MajorEffect = MajorEffectType.RAGE;
         SL_chimney.ThreatMusic = "SL";
 
-        SL_bridge = None;
+        SL_bridge = Color;
         SL_bridge.MajorEffect = MajorEffectType.RAGE;
         SL_bridge.ThreatMusic = "SL";
 
-        SB_filtration = None;
+        SB_filtration = Color;
         SB_filtration.MajorEffect = MajorEffectType.AGILITY;
         SB_filtration.ThreatMusic = "SB";
 
-        SB_ravine = None;
+        SB_ravine = Color;
         SB_ravine.MajorEffect = MajorEffectType.RAGE;
         SB_ravine.ThreatMusic = "SB";
 
-        SU = None;
+        SU = Color;
         SU.MajorEffect = MajorEffectType.AGILITY;
         SU.ThreatMusic = "SU";
 
-        HI = None;
+        HI = Color;
         HI.MajorEffect = MajorEffectType.AGILITY;
         HI.ThreatMusic = "HI";
 
-        GW = None;
+        GW = Color;
         GW.MajorEffect = MajorEffectType.AGILITY;
         GW.ThreatMusic = "GW";
 
-        DS = None;
+        DS = Color;
         DS.MajorEffect = MajorEffectType.REVIVE;
         DS.ThreatMusic = "DS";
 
-        SH = None;
+        SH = Color;
         SH.MajorEffect = MajorEffectType.RAGE;
         SH.ThreatMusic = "SH";
 
-        CC = None;
+        CC = Color;
         CC.MajorEffect = MajorEffectType.SHIELD;
         CC.ThreatMusic = "CC";
 
-        UW = None;
+        UW = Color;
         UW.MajorEffect = MajorEffectType.REVIVE;
         UW.ThreatMusic = "UW";
 
-        LF_bottom = None;
+        LF_bottom = Color;
         LF_bottom.MajorEffect = MajorEffectType.RAGE;
         LF_bottom.ThreatMusic = "LF";
 
-        LF_west = None;
+        LF_west = Color;
         LF_west.MajorEffect = MajorEffectType.RAGE;
         LF_west.ThreatMusic = "LF";
 
-        SI_west = None;
+        SI_west = Color;
         SI_west.MajorEffect = MajorEffectType.AGILITY;
         SI_west.ThreatMusic = "SI";
 
-        SI_top  = None;
+        SI_top  = Color;
         SI_top.MajorEffect = MajorEffectType.RAGE;
         SI_top.ThreatMusic = "SI";
 
 
-        VS = None;
+        VS = Color;
         VS.MajorEffect = MajorEffectType.SPEAR_CREATION;
         VS.ThreatMusic = "VS";
 
-        SU_filt = None;
+        SU_filt = Color;
         SU_filt.MajorEffect = MajorEffectType.SPEAR_CREATION;
         SU_filt.ThreatMusic = "SU";
 
-        OE = None;
+        OE = Color;
         OE.MajorEffect = MajorEffectType.RAGE;
         OE.ThreatMusic = "OE";
 
-        LC = None;
+        LC = Color;
         LC.MajorEffect = MajorEffectType.REVIVE;
         LC.ThreatMusic = "LC";
 
-        LC_second = None;
+        LC_second = Color;
         LC_second.MajorEffect = MajorEffectType.SHIELD;
         LC_second.ThreatMusic = "LC";
 
-        MS = None;
+        MS = Color;
         MS.MajorEffect = MajorEffectType.SHIELD;
         MS.ThreatMusic = "MS";
 
-        DM = None;
+        DM = Color;
         DM.MajorEffect = MajorEffectType.SHIELD;
         DM.ThreatMusic = "DM";
 
-        Red_stomach = None;
+
+        Red_stomach = Color;
         Red_stomach.MajorEffect = MajorEffectType.RAGE;
 
-        Rivulet_stomach = None;
+        Rivulet_stomach = Color;
         Rivulet_stomach.MajorEffect = MajorEffectType.AGILITY;
 
-        Spearmasterpearl = None;
+        Spearmasterpearl = Color;
         Spearmasterpearl.MajorEffect = MajorEffectType.RAGE;
 
-        IteratorWhite = None;
-        IteratorWhite.MajorEffect = MajorEffectType.SPEAR_CREATION;
-        IteratorWhite.LungsFac = 0.075f;
-        IteratorWhite.RunSpeedFac = 0.075f;
-        IteratorWhite.PoleClimbSpeedFac = 0.075f;
-        IteratorWhite.CorridorClimbSpeedFac = 0.075f;
-        IteratorWhite.RollSpeedFac = 0.075f;
-        IteratorWhite.SlideSpeedFac = 0.075f;
-        IteratorWhite.SurvivalFac = 0.075f;
-     
-        IteratorBlack = None;
-        IteratorBlack.MajorEffect = MajorEffectType.CAMOFLAGUE;
-
-        IteratorOrange = None;
+        IteratorOrange = Color;
         IteratorOrange.MajorEffect = MajorEffectType.SHIELD;
 
-        IteratorBlue = None;
+        IteratorBlue = Color;
         IteratorBlue.MajorEffect = MajorEffectType.AGILITY;
 
 
-        // Starting Pearls
-        RM = None;
-        RM.MajorEffect = MajorEffectType.SPEAR_CREATION;
-
-        SS = None;
-        SS.MajorEffect = MajorEffectType.REVIVE;
-
-        AS_PearlBlue = None;
+        // Custom Pearls
+        AS_PearlBlue = Color;
         AS_PearlBlue.MajorEffect = MajorEffectType.AGILITY;
 
-        AS_PearlGreen = None;
+        AS_PearlGreen = Color;
         AS_PearlGreen.MajorEffect = MajorEffectType.REVIVE;
 
-        AS_PearlRed = None;
+        AS_PearlRed = Color;
         AS_PearlRed.MajorEffect = MajorEffectType.RAGE;
 
-        AS_PearlYellow = None;
+        AS_PearlYellow = Color;
         AS_PearlYellow.MajorEffect = MajorEffectType.SHIELD;
 
-        AS_PearlBlack = None;
+        AS_PearlBlack = Misc;
         AS_PearlBlack.MajorEffect = MajorEffectType.CAMOFLAGUE;
         
-        
+        RM = None;
+        RM.MajorEffect = MajorEffectType.NONE;
+        RM.ActiveMultiplier = 2.0f;
+        RM.LungsFac = 0.15f;
+        RM.RunSpeedFac = 0.15f;
+        RM.PoleClimbSpeedFac = 0.15f;
+        RM.CorridorClimbSpeedFac = 0.15f;
+        RM.RollSpeedFac = 0.15f;
+        RM.SlideSpeedFac = 0.15f;
+
+        SS = None;
+        SS.MajorEffect = MajorEffectType.NONE;
+        SS.ActiveMultiplier = 2.0f;
+        SS.LungsFac = 0.3f;
+        SS.RunSpeedFac = 0.3f;
+        SS.PoleClimbSpeedFac = 0.3f;
+        SS.CorridorClimbSpeedFac = 0.3f;
+        SS.RollSpeedFac = 0.3f;
+        SS.SlideSpeedFac = 0.3f;
+
+
         // fix lag first
         //AS_PearlBlue.ThreatMusic = "AS";
         //AS_PearlGreen.ThreatMusic = "AS";
@@ -264,6 +283,7 @@ public static class POEffectManager
 
 
     public static POEffect None;
+    public static POEffect Color;
 
     // Vanilla
     public static POEffect Misc;

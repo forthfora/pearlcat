@@ -14,11 +14,12 @@ public static partial class Hooks
 
     public static void UpdateCombinedPOEffect(Player self, PlayerModule playerModule)
     {
-        POEffect combinedEffect = new();
-
-        combinedEffect.JumpHeightFac = 1.0f;
-        combinedEffect.RollSpeedFac = 1.0f;
-        combinedEffect.SlideSpeedFac = 1.0f;
+        POEffect combinedEffect = new()
+        {
+            JumpHeightFac = 1.0f,
+            RollSpeedFac = 1.0f,
+            SlideSpeedFac = 1.0f
+        };
 
         foreach (var playerObject in playerModule.Inventory)
         {
@@ -28,11 +29,12 @@ public static partial class Hooks
             if (self.Malnourished)
                 mult *= 0.75f;
 
+            combinedEffect.ThrowingSkill += effect.ThrowingSkill;
+
             combinedEffect.RunSpeedFac += effect.RunSpeedFac * mult;
             combinedEffect.CorridorClimbSpeedFac += effect.CorridorClimbSpeedFac * mult;
             combinedEffect.PoleClimbSpeedFac += effect.PoleClimbSpeedFac * mult;
 
-            combinedEffect.ThrowingSkill += effect.ThrowingSkill * mult;
             combinedEffect.LungsFac += effect.LungsFac * mult;
             combinedEffect.BodyWeightFac += effect.BodyWeightFac * mult;
 
@@ -75,13 +77,14 @@ public static partial class Hooks
         }
         else
         {
-            stats.lungsFac = baseStats.lungsFac + effect.LungsFac;
             stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, 0, 2);
-            stats.runspeedFac = baseStats.runspeedFac + effect.RunSpeedFac;
 
-            stats.corridorClimbSpeedFac = baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac;
-            stats.poleClimbSpeedFac = baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac;
-            stats.bodyWeightFac = baseStats.bodyWeightFac + effect.BodyWeightFac;
+            stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.5f, float.MaxValue);
+            stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.5f, float.MaxValue);
+
+            stats.corridorClimbSpeedFac = Mathf.Clamp(baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac, 0.5f, float.MaxValue);
+            stats.poleClimbSpeedFac = Mathf.Clamp(baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac, 0.5f, float.MaxValue);
+            stats.bodyWeightFac = Mathf.Clamp(baseStats.bodyWeightFac + effect.BodyWeightFac, 0.5f, float.MaxValue);
         }
 
         var visibilityMult = ModOptions.VisibilityMultiplier.Value / 100.0f;
@@ -103,7 +106,7 @@ public static partial class Hooks
     {
         if (ModOptions.DisableSpear.Value) return;
 
-        var spearCreationTime = Custom.LerpMap(playerModule.SpearCount, 1, 7, 100, 10);
+        var spearCreationTime = 100;
         playerModule.SpearLerp = Custom.LerpMap(playerModule.SpearTimer, 5, spearCreationTime, 0.0f, 1.0f);
 
         playerModule.ForceLockSpearOnBack = false;
@@ -157,6 +160,15 @@ public static partial class Hooks
 
                     self.room?.PlaySound(Enums.Sounds.Pearlcat_SpearEquip, self.firstChunk);
                     self.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldRecharge, self.firstChunk, false, 0.5f, 2.0f);
+
+                    if (playerModule.ActiveObject != null)
+                    {
+                        var activeObj = playerModule.ActiveObject;
+                        self.RemoveFromInventory(playerModule.ActiveObject);
+
+                        activeObj.destroyOnAbstraction = true;
+                        activeObj.Abstractize(activeObj.pos);
+                    }
                 }
             }
             else
@@ -568,9 +580,10 @@ public static partial class Hooks
 
 
         var camoSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 0.001f, 0.01f);
-        var camoMaxMoveSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 2.0f, 20.0f);
+        var camoMaxMoveSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 2.0f, 10.0f);
 
-        bool shouldCamo = ((self.canJump > 0 && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) || self.bodyMode == Player.BodyModeIndex.Crawl)
+        bool shouldCamo = (((self.canJump > 0  || self.bodyMode == Player.BodyModeIndex.ClimbingOnBeam || self.bodyMode == Player.BodyModeIndex.CorridorClimb) 
+            && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) || self.bodyMode == Player.BodyModeIndex.Crawl)
             && effect.MajorEffect == MajorEffectType.CAMOFLAGUE && playerModule.StoreObjectTimer <= 0;
 
         var prevCamo = playerModule.CamoLerp;

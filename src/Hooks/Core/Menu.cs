@@ -1,10 +1,12 @@
 ﻿using Menu;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using MonoMod.RuntimeDetour;
 using RWCustom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using static DataPearl.AbstractDataPearl;
@@ -25,8 +27,43 @@ public static partial class Hooks
 
         On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
 
-        IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
         On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
+
+        new Hook(
+            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasMark), BindingFlags.Static | BindingFlags.Public)
+        );
+
+        new Hook(
+            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasGlow), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.Public)
+        );
+
+        // uses trygoto
+        IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
+    }
+
+
+    public delegate bool orig_SlugcatPageHasMark(SlugcatSelectMenu.SlugcatPage self);
+    public static bool GetSlugcatPageHasMark(orig_SlugcatPageHasMark orig, SlugcatSelectMenu.SlugcatPage self)
+    {
+        var result = orig(self);
+
+        if (self.slugcatNumber == Enums.Pearlcat)
+            return true;
+
+        return result;
+    }
+
+    public delegate bool orig_SlugcatPageHasGlow(SlugcatSelectMenu.SlugcatPage self);
+    public static bool GetSlugcatPageHasGlow(orig_SlugcatPageHasGlow orig, SlugcatSelectMenu.SlugcatPage self)
+    {
+        var result = orig(self);
+
+        if (self.slugcatNumber == Enums.Pearlcat)
+            return true;
+
+        return result;
     }
 
 
@@ -323,9 +360,10 @@ public static partial class Hooks
         if (slugcatNumber != Enums.Pearlcat) return;
 
         var save = menu.manager.rainWorld.GetMiscProgression();
-        var type = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault() : save.ActivePearlType;
+        var type = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat : save.ActivePearlType;
 
-        self.effectColor = type != null ? ItemSymbol.ColorForItem(AbstractPhysicalObject.AbstractObjectType.DataPearl, type.index) : Color.white;
+        // screw pebbles pearls you get ORANGE    
+        self.effectColor = type != null ? GetDataPearlColor(type, 2) : Color.white;
     }
 
     private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)

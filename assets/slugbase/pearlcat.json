@@ -3,18 +3,20 @@
     "name": "Pearlcat",
     "description": "A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?",
     "features": {
-        "color": "122626",
-        "world_state": ["Pearlcat", "Red"],
-        "start_room": ["T1_START", "SS_S04"],
-        "auto_grab_batflies": false,
+        "expedition_description": "Their curiosity insatiable, Pearlcat ventures out once more in\npursuit of expanding their collection",
 
+        "world_state": ["Pearlcat", "Red"],
+        "timeline_after": "Red",
+        
+        "start_room": ["T1_START", "SS_S04"],
+        
         "food_min": 3,
         "food_max": 5,
-
+        
+        "throw_skill": [1, 0],
+        
         "weight": [0.95, 0.9],
         "lung_capacity": [1.0, 1.0],
-        "throw_skill": 0,
-        "back_spear": true,
         "walk_speed": [1.0, 0.875],
         "climb_speed": [1.0, 0.8],
         "tunnel_speed": [1.0, 0.86],
@@ -23,47 +25,51 @@
         
         "karma": 3,
         "karma_cap": 4,
-
+        
+        "back_spear": true,
         "the_mark": true,
         "the_glow": true,
         
+        "auto_grab_batflies": false,
         "has_dreams": false,
+        "perma_unlock_gates": false,
+        
         "cycle_length_min": 6,
         "cycle_length_max": 13,
-        "perma_unlock_gates": false,
-
-        "select_menu_scene": "Slugcat_Pearlcat",
-        "sleep_scene": "Slugcat_Pearlcat_Sleep",
         
         "diet": {
             "base": "White",
             "corpses": 0.25,
             "meat": 0.5,
-            "plants": 0.5,
-            "overrides": {
-            }
+            "plants": 1.0
         },
-
+        
+        "color": "122626",
         "custom_colors": [
-            { 
+            {
                 "name": "Body",
                 "story": "122626"
             },
-            { 
+            {
                 "name": "Eyes",
                 "story": "ffffff"
             },
-            { 
+            {
                 "name": "Accent",
                 "story": "ffffff"
             },
-            { 
+            {
                 "name": "Cloak",
-                "story": "ad2424"
+                "story": "ad2424",
+                "arena": [ "ffffff", "ff8080", "80ff80", "8080ff" ]
             }
         ],
         
+        "select_menu_scene": "Slugcat_Pearlcat",
+        "sleep_scene": "Slugcat_Pearlcat_Sleep",
+        "select_menu_scene_ascended": "Slugcat_Pearlcat_Ascended",
         
+
         "min_tail_offset": -15.0,
         "max_tail_offset": 15.0,
         

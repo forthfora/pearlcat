@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 namespace Pearlcat;
 
@@ -239,7 +240,12 @@ public static partial class Hooks
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {
         if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
-            return DataPearl.UniquePearlMainColor(dataPearl.dataPearlType);
+        {
+            if (dataPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
+                GetDataPearlColor(dataPearl.dataPearlType, pebblesPearl.color);
+
+            GetDataPearlColor(dataPearl.dataPearlType);
+        }
 
         var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
 
@@ -248,6 +254,33 @@ public static partial class Hooks
 
         return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
     }
+
+    public static Color GetDataPearlColor(DataPearl.AbstractDataPearl.DataPearlType type, int pebblesPearlColor = 0)
+    {
+        if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
+        {
+            switch (Mathf.Abs(pebblesPearlColor))
+            {
+                case 1:
+                    return new(0.7f, 0.7f, 0.7f);
+
+                case 2:
+                    if (pebblesPearlColor < 0)
+                        return new(1f, 122f / 255f, 2f / 255f);
+
+                    return new(0.01f, 0.01f, 0.01f);
+
+                default:
+                    if (pebblesPearlColor < 0)
+                        return new(0f, 116f / 255f, 163f / 255f);
+
+                    return new(1f, 122f / 255f, 2f / 255f);
+            }
+        }
+
+        return DataPearl.UniquePearlMainColor(type);
+    }
+
 
     public static Vector2 GetActiveObjectPos(this Player player, Vector2? overrideOffset = null)
     {

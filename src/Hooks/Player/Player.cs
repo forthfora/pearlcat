@@ -38,6 +38,7 @@ public static partial class Hooks
         );
     }
 
+    // yucky
     private static void Player_JumpIL(ILContext il)
     {
         var c = new ILCursor(il);
@@ -102,8 +103,6 @@ public static partial class Hooks
         //    player.bodyChunks[1].vel.y = effect.JumpHeightFac * origValue;
         //});
     }
-
-
     private static void Player_Jump(On.Player.orig_Jump orig, Player self)
     {
         orig(self);
@@ -112,6 +111,7 @@ public static partial class Hooks
 
         self.jumpBoost *= playerModule.CurrentPOEffect.JumpHeightFac;
     }
+
 
     private static void Creature_SpitOutOfShortCut(On.Creature.orig_SpitOutOfShortCut orig, Creature self, IntVector2 pos, Room newRoom, bool spitOutAllSticks)
     {

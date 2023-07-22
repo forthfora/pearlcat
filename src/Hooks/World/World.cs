@@ -152,8 +152,6 @@ public partial class Hooks
 
     private static void Spear_Update(On.Spear.orig_Update orig, Spear self, bool eu)
     {
-        bool wasThrown = self.mode == Weapon.Mode.Thrown;
-
         orig(self, eu);
 
         if (!self.abstractSpear.TryGetModule(out var module)) return;
@@ -165,26 +163,30 @@ public partial class Hooks
             module.SparkTimer--;
 
 
-        if (wasThrown && self.mode != Weapon.Mode.Thrown && self.mode != Weapon.Mode.StuckInWall && self.mode != Weapon.Mode.StuckInCreature)
+        // this got some problems rip
+        if (self.mode == Weapon.Mode.StuckInCreature)
         {
             if (self.stuckInObject != null && self.stuckInChunk != null)    
             {
                 var physicalObj = self.stuckInChunk.owner;
 
                 if (physicalObj is Creature creature)
+                {
                     creature.Stun(20);
+                    creature.Violence(self.thrownBy.firstChunk, null, self.stuckInChunk, self.stuckInAppendage, Creature.DamageType.Electric, 3.0f, 20);
+                }
             }
 
             for (int i = 0; i < 3; i++)
                 self.room.AddObject(new ExplosiveSpear.SpearFragment(self.firstChunk.pos, Custom.RNV() * Mathf.Lerp(20f, 40f, Random.value)));
 
-            self.room.AddObject(new ShockWave(self.firstChunk.pos, 20.0f, 5.0f, 10));
+            self.room.AddObject(new ShockWave(self.firstChunk.pos, 60.0f, 10.0f, 15));
             self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk.pos, Random.Range(0.4f, 0.8f), Random.Range(1.8f, 2.2f));
 
             self.Destroy();
         }
 
-        if (self.mode == Weapon.Mode.StuckInWall || self.mode == Weapon.Mode.Free)
+        if (self.mode == Weapon.Mode.StuckInWall)
             module.LifeTimer++;
     }
 
