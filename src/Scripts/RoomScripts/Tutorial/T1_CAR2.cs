@@ -39,6 +39,9 @@ public class T1_CAR2 : UpdatableAndDeletable
         {
             if (CurrentPhase == Phase.Init)
             {
+                if (room.fullyLoaded)
+                    room.LockAndHideShortcuts();
+
                 if (room.fullyLoaded && room.BeingViewed)
                 {
                     room.LockAndHideShortcuts();

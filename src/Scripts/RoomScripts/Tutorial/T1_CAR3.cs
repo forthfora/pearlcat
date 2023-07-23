@@ -24,9 +24,9 @@ public class T1_CAR3 : UpdatableAndDeletable
         this.room = room;
     }
 
-    public Vector2 TutorialSlugpupPos { get; } = new(600.0f, 230.0f);
+    public Vector2 TutorialSlugpupPos { get; } = new(500.0f, 280.0f);
 
-    public Vector2 TutorialPearlPos { get; } = new(750.0f, 230.0f);
+    public Vector2 TutorialPearlPos { get; } = new(730.0f, 190.0f);
     public DataPearl.AbstractDataPearl.DataPearlType TutorialPearlType { get; } = Enums.Pearls.AS_PearlGreen;
 
     public DataPearl.AbstractDataPearl? TutorialPearl { get; set; }
@@ -55,17 +55,20 @@ public class T1_CAR3 : UpdatableAndDeletable
                     var pearl = abstractPearl.realizedObject;
                     pearl.firstChunk.HardSetPosition(TutorialPearlPos);
 
+                    if (ModManager.MSC)
+                    {
+                        var abstractSlugpup = new AbstractCreature(room.world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC), null, new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID());
 
-                    var abstractSlugpup = new AbstractCreature(room.world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC), null, new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID());
+                        room.abstractRoom.entities.Add(abstractSlugpup);
+                        abstractSlugpup.RealizeInRoom();
 
-                    room.abstractRoom.entities.Add(abstractSlugpup);
-                    abstractSlugpup.RealizeInRoom();
+                        var slugpup = (Player)abstractSlugpup.realizedObject;
+                        slugpup.SuperHardSetPosition(TutorialSlugpupPos);
+                        slugpup.graphicsModule.Reset();
 
-                    var slugpup = (Player)abstractSlugpup.realizedObject;
-                    slugpup.firstChunk.pos = TutorialSlugpupPos;
-                    slugpup.graphicsModule.Reset();
-
-                    slugpup.Die();
+                        slugpup.Stun(40);
+                        slugpup.Die();
+                    }
 
 
                     TutorialPearl = abstractPearl;

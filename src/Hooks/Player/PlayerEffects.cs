@@ -315,6 +315,7 @@ public static partial class Hooks
 
             if (!creature.dead) continue;
 
+            self.Blink(5);
 
             if (playerModule.ReviveTimer % 3 == 0)
                 playerModule.ActiveObject.realizedObject.ConnectEffect(creature.firstChunk.pos);

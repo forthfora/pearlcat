@@ -49,7 +49,7 @@ public static partial class Hooks
     {
         var result = orig(self);
 
-        if (self.room.game.IsPearlcatStory())
+        if (self.room.game.IsPearlcatStory() && !self.abstractPhysicalObject.IsPlayerObject())
             return false;
 
         return result;
