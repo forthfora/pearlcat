@@ -188,14 +188,14 @@ public static partial class Hooks
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
+        var save = self.abstractCreature.world.game.GetMiscWorld();
+    
         if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value)
         {
-            var save = self.abstractCreature.world.game.GetMiscWorld();
-
             if (save?.ShownFullInventoryTutorial == false)
             {
                 save.ShownFullInventoryTutorial = true;
-                self.abstractCreature.world.game.AddTextPrompt($"Storage limit reached ({ModOptions.MaxPearlCount.Value}): swap out a pearl, or change the limit in the Remix options.", 40, 300);
+                self.abstractCreature.world.game.AddTextPrompt($"Storage limit reached ({ModOptions.MaxPearlCount.Value}): swap out a pearl, or change the limit in the Remix options", 40, 300);
             }
 
             self.room.PlaySound(SoundID.MENU_Error_Ping, self.firstChunk, false, 2.0f, 1.0f);
@@ -217,6 +217,17 @@ public static partial class Hooks
         playerModule.ShowHUD(40);
 
         self.UpdateInventorySaveData(playerModule);
+
+        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPOEffect().MajorEffect == POEffect.MajorEffectType.SPEAR_CREATION)
+        {
+            save.ShownSpearCreationTutorial = true;
+
+            if (ModOptions.CustomSpearKeybind.Value)
+                self.abstractCreature.world.game.AddTextPrompt($"Hold ({ModOptions.AbilityKeybindKeyboard.Value}) with an active common pearl to convert it into a pearl spear", 40, 300);
+
+            else
+                self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 40, 300);
+        }
     }
     
     public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject)

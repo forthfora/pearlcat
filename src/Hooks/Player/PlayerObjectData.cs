@@ -242,9 +242,9 @@ public static partial class Hooks
         if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
         {
             if (dataPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
-                GetDataPearlColor(dataPearl.dataPearlType, pebblesPearl.color);
+                return GetDataPearlColor(dataPearl.dataPearlType, pebblesPearl.color);
 
-            GetDataPearlColor(dataPearl.dataPearlType);
+            return GetDataPearlColor(dataPearl.dataPearlType);
         }
 
         var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);

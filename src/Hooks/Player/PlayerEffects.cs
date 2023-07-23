@@ -8,10 +8,6 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static void ApplyPlayerEffectsHooks()
-    {
-    }
-
     public static void UpdateCombinedPOEffect(Player self, PlayerModule playerModule)
     {
         POEffect combinedEffect = new()
@@ -26,8 +22,6 @@ public static partial class Hooks
             var effect = playerObject.GetPOEffect();
             var mult = playerObject == playerModule.ActiveObject ? effect.ActiveMultiplier : 1.0f;
 
-            if (self.Malnourished)
-                mult *= 0.75f;
 
             combinedEffect.ThrowingSkill += effect.ThrowingSkill;
 
@@ -79,12 +73,12 @@ public static partial class Hooks
         {
             stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, 0, 2);
 
-            stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.5f, float.MaxValue);
-            stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.5f, float.MaxValue);
+            stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.75f, float.MaxValue);
+            stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.75f, float.MaxValue);
 
-            stats.corridorClimbSpeedFac = Mathf.Clamp(baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac, 0.5f, float.MaxValue);
-            stats.poleClimbSpeedFac = Mathf.Clamp(baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac, 0.5f, float.MaxValue);
-            stats.bodyWeightFac = Mathf.Clamp(baseStats.bodyWeightFac + effect.BodyWeightFac, 0.5f, float.MaxValue);
+            stats.corridorClimbSpeedFac = Mathf.Clamp(baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac, 0.75f, float.MaxValue);
+            stats.poleClimbSpeedFac = Mathf.Clamp(baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac, 0.75f, float.MaxValue);
+            stats.bodyWeightFac = Mathf.Clamp(baseStats.bodyWeightFac + effect.BodyWeightFac, 0.75f, float.MaxValue);
         }
 
         var visibilityMult = ModOptions.VisibilityMultiplier.Value / 100.0f;
@@ -99,6 +93,13 @@ public static partial class Hooks
         UpdateShield(self, playerModule, effect);
         UpdateRage(self, playerModule, effect);
         UpdateCamoflague(self, playerModule, effect);
+
+        //Plugin.Logger.LogWarning(
+        //    "\nThrowSkill " + stats.throwingSkill +
+        //    "\nLungsFac " + stats.lungsFac +
+        //    "\nRunspeedFac " + stats.runspeedFac +
+        //    "\nCorridorClimb " + stats.corridorClimbSpeedFac +
+        //    "\nPoleClimb " + stats.poleClimbSpeedFac);
     }
 
 
@@ -122,7 +123,7 @@ public static partial class Hooks
 
         playerModule.ForceLockSpearOnBack = self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20;
         
-        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule);
+        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule);
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
 
         if (abilityInput && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear))
@@ -158,8 +159,7 @@ public static partial class Hooks
 
                     ConnectEffect(playerModule.ActiveObject?.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
 
-                    self.room?.PlaySound(Enums.Sounds.Pearlcat_SpearEquip, self.firstChunk);
-                    self.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldRecharge, self.firstChunk, false, 0.5f, 2.0f);
+                    self.room?.PlaySound(Enums.Sounds.Pearlcat_SpearEquip, self.firstChunk, false, 1.0f, Random.Range(1.2f, 1.5f));
 
                     if (playerModule.ActiveObject != null)
                     {

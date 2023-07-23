@@ -130,6 +130,17 @@ public abstract class ObjectAnimation
             addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
 
             addon.SymbolType = effect.MajorEffect;
+            addon.OverrideSymbol = null;
+
+            if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
+            {
+                if (dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM)
+                    addon.OverrideSymbol = "haloGlyph5";
+
+                else if (dataPearl.dataPearlType == Enums.Pearls.SS_Pearlcat)
+                    addon.OverrideSymbol = "haloGlyph6";
+            }
+
             addon.CamoLerp = playerModule.CamoLerp;
             addon.DrawSpearLerp = playerModule.SpearLerp;
 

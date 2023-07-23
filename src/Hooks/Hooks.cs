@@ -72,15 +72,10 @@ public static partial class Hooks
         }
     }
 
-    public static bool IsPostInit { get; private set; } = false;
-
     private static void RainWorld_PostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self)
     {
         try
         {
-            if (IsPostInit) return;
-            IsPostInit = true;
-
             POEffectManager.RegisterEffects();
         }
         catch (Exception e)

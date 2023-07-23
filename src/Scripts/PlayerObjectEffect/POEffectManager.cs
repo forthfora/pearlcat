@@ -7,8 +7,8 @@ namespace Pearlcat;
 
 public static class POEffectManager
 {
-    public static readonly Dictionary<DataPearlType, POEffect> PearlEffects = new();
-    public static readonly Dictionary<string, POEffect> CustomPearlEffects = new();
+    public static Dictionary<DataPearlType, POEffect> PearlEffects { get; } = new();
+    public static Dictionary<string, POEffect> CustomPearlEffects { get; } = new();
 
     public static POEffect GetPOEffect(this AbstractPhysicalObject abstractObject)
     {
@@ -66,12 +66,12 @@ public static class POEffectManager
 
 
         Color = None;
-        Misc.LungsFac = -0.05f;
-        Misc.RunSpeedFac = -0.05f;
-        Misc.PoleClimbSpeedFac = -0.05f;
-        Misc.CorridorClimbSpeedFac = -0.05f;
-        Misc.RollSpeedFac = -0.05f;
-        Misc.SlideSpeedFac = -0.05f;
+        Color.LungsFac = -0.05f;
+        Color.RunSpeedFac = -0.05f;
+        Color.PoleClimbSpeedFac = -0.05f;
+        Color.CorridorClimbSpeedFac = -0.05f;
+        Color.RollSpeedFac = -0.05f;
+        Color.SlideSpeedFac = -0.05f;
 
 
         SL_moon = Color;
@@ -231,10 +231,13 @@ public static class POEffectManager
 
     public static void RegisterEffects()
     {
+        PearlEffects.Clear();
+
         SetEffects();
 
         PearlEffects.Add(DataPearlType.Misc, Misc);
         PearlEffects.Add(DataPearlType.Misc2, Misc);
+
         PearlEffects.Add(DataPearlType.SL_moon, SL_moon);
         PearlEffects.Add(DataPearlType.SL_chimney, SL_chimney);
         PearlEffects.Add(DataPearlType.SL_bridge, SL_bridge);

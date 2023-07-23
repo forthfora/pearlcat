@@ -25,6 +25,7 @@ public static partial class Hooks
         public int UniquePearlsBroughtToPebbles => PearlIDsBroughtToPebbles.Keys.Count;
 
         public bool ShownFullInventoryTutorial { get; set; }
+        public bool ShownSpearCreationTutorial { get; set; }
     }
 
     public class SaveDeathPersistent

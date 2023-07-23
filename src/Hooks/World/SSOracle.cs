@@ -61,19 +61,29 @@ public static partial class Hooks
 
         if (self.oracle == null) return;
 
-        if (self.room.gravity == 1.0f) return;
-
         if (!self.oracle.room.game.IsPearlcatStory()) return;
 
+        
+        if (self.oracle.oracleBehavior is SSOracleBehavior behavior && behavior.timeSinceSeenPlayer < 0) return;
+
+        if (self.room.gravity == 1.0f) return;
+
+
         if (self.grabbedBy.Count > 0) return;
+
+        if (self.abstractPhysicalObject.IsPlayerObject()) return;
+
 
         var origin = new Vector2(225.0f, 570.0f);
         var targetPos = origin + Vector2.down * 12.5f * self.marbleIndex;
 
-        if (Custom.Dist(self.firstChunk.pos, targetPos) > 10.0f)
-            self.AbstractedEffect();
-    
-        self.firstChunk.HardSetPosition(targetPos);
+        var oraclePearlDir = Custom.DirVec(self.firstChunk.pos, targetPos);
+        var oraclePearlDist = Custom.Dist(targetPos, self.firstChunk.pos);
+
+        self.firstChunk.vel = oraclePearlDir * Custom.LerpMap(oraclePearlDist, 200.0f, 10.0f, 15.0f, 4.0f);
+
+        if (Custom.DistLess(self.firstChunk.pos, targetPos, 5.0f))
+            self.firstChunk.HardSetPosition(targetPos);
     }
 
     private static void SSOracleBehavior_Update(ILContext il)

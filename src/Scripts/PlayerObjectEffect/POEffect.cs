@@ -1,7 +1,7 @@
 ﻿
 namespace Pearlcat;
 
-public struct POEffect
+public record struct POEffect
 {
     public POEffect() { }
 

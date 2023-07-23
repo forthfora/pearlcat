@@ -21,7 +21,7 @@ public sealed class ModOptions : OptionsTemplate
 
     #region Options
 
-    public static Configurable<bool> PearlThreatMusic { get; } = Instance.config.Bind(nameof(PearlThreatMusic), true, new ConfigurableInfo(
+    public static Configurable<bool> PearlThreatMusic { get; } = Instance.config.Bind(nameof(PearlThreatMusic), false, new ConfigurableInfo(
         "When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.", null, "",
         "Pearl Threat Music?"));
 

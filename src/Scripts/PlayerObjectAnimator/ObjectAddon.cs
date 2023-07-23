@@ -134,6 +134,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
     public int SymbolSprite { get; set; }
     public POEffect.MajorEffectType SymbolType { get; set; }
+    public string? OverrideSymbol { get; set; }
     public bool DrawSymbolCooldown { get; set; }
 
     public int SpearSprite { get; set; }
@@ -181,7 +182,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite = sLeaser.sprites[SymbolSprite];
         var offset = IsActiveObject ? ActiveOffset : InactiveOffset;
 
-        var spriteName = !IsActiveObject ? null : SymbolType switch
+        var spriteName = !IsActiveObject ? null : OverrideSymbol ?? SymbolType switch
         {
             POEffect.MajorEffectType.SPEAR_CREATION => "BigGlyph2",
             POEffect.MajorEffectType.AGILITY => "BigGlyph8",

@@ -156,38 +156,69 @@ public partial class Hooks
 
         if (!self.abstractSpear.TryGetModule(out var module)) return;
 
-        if (module.SparkTimer <= 0 && module.LifeTimer < 800)
+        if (self.mode == Weapon.Mode.Thrown)
+        {
+            if (!module.WasThrown)
+                self.firstChunk.vel *= 1.5f;
+            
+            module.WasThrown = true;
+        }
+        else
+        {
+            module.WasThrown = false;
+        }
+
+
+        if (module.SparkTimer <= 0 && module.DecayTimer < 800)
             module.SparkTimer = Random.Range(40, 350);
 
         else
             module.SparkTimer--;
 
 
-        // this got some problems rip
-        if (self.mode == Weapon.Mode.StuckInCreature)
+        if (self.mode == Weapon.Mode.StuckInCreature && module.ExplodeTimer == -1)
         {
-            if (self.stuckInObject != null && self.stuckInChunk != null)    
+            self.room.PlaySound(SoundID.Fire_Spear_Ignite, self.firstChunk, false, 0.7f, 2.5f);
+            module.ExplodeTimer = 40;
+        }
+    
+        if (module.ExplodeTimer == 0)
+        {
+            if (self.stuckInObject != null)
             {
-                var physicalObj = self.stuckInChunk.owner;
+                if (self.stuckInObject is Creature creature)
+                    creature.Violence(self.firstChunk, new Vector2?(self.rotation * 12f), self.stuckInChunk, null, Creature.DamageType.Explosion, (self.stuckInAppendage != null) ? 2.2f : 5.0f, 120f);
 
-                if (physicalObj is Creature creature)
-                {
-                    creature.Stun(20);
-                    creature.Violence(self.thrownBy.firstChunk, null, self.stuckInChunk, self.stuckInAppendage, Creature.DamageType.Electric, 3.0f, 20);
-                }
+                self.stuckInChunk.vel += self.rotation * 12f / self.stuckInChunk.mass;
             }
 
             for (int i = 0; i < 3; i++)
                 self.room.AddObject(new ExplosiveSpear.SpearFragment(self.firstChunk.pos, Custom.RNV() * Mathf.Lerp(20f, 40f, Random.value)));
 
-            self.room.AddObject(new ShockWave(self.firstChunk.pos, 60.0f, 10.0f, 15));
-            self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk.pos, Random.Range(0.4f, 0.8f), Random.Range(1.8f, 2.2f));
+            self.room.AddObject(new ShockWave(self.firstChunk.pos, 120.0f, 1.0f, 40));
+
+            var pos = self.firstChunk.pos;
+            self.room.AddObject(new Explosion.ExplosionLight(pos, 160f, 1f, 3, module.Color));
+            self.room.AddObject(new ExplosionSpikes(self.room, pos, 9, 4f, 5f, 5f, 90f, module.Color));
+
+            self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk.pos, Random.Range(1.2f, 1.6f), Random.Range(0.6f, 0.8f));
+            self.room.PlaySound(SoundID.Bomb_Explode, self.firstChunk.pos, Random.Range(0.8f, 1.2f), Random.Range(0.8f, 1.2f));
+
+            self.room.AddObject(new Explosion(self.room, self, pos, 5, 110f, 5f, 1.1f, 60f, 0.3f, self.thrownBy, 0.8f, 0f, 0.7f));
 
             self.Destroy();
         }
+        else if (module.ExplodeTimer > 0)
+        {
+            if (module.ExplodeTimer % 3 == 0)
+                self.ConnectEffect(self.firstChunk.pos + Custom.RNV() * 100.0f, module.Color);
+            
+            module.ExplodeTimer--;   
+        }
+
 
         if (self.mode == Weapon.Mode.StuckInWall)
-            module.LifeTimer++;
+            module.DecayTimer++;
     }
 
     public static bool TryGetModule(this AbstractSpear spear, out SpearModule module)
@@ -212,18 +243,18 @@ public partial class Hooks
 
         if (!self.abstractSpear.TryGetModule(out var module)) return;
 
-        var color =  module.Color * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.LifeTimer, 0, 1200, 1.0f, 0.5f), Custom.LerpMap(module.LifeTimer, 0, 1200, 1.0f, 0.2f));
+        var color =  module.Color * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.DecayTimer, 0, 1200, 1.0f, 0.5f), Custom.LerpMap(module.DecayTimer, 0, 1200, 1.0f, 0.2f));
 
         sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_spear");
         sLeaser.sprites[0].color = color;
 
-        var randOffset = Custom.DegToVec(Random.value * 360f) * Custom.LerpMap(module.LifeTimer, 400, 1200, 0.25f, 0.0f) * Random.value;
+        var randOffset = Custom.DegToVec(Random.value * 360f) * Custom.LerpMap(module.DecayTimer, 400, 1200, 0.25f, 0.0f) * Random.value;
         sLeaser.sprites[0].x += randOffset.x;
         sLeaser.sprites[0].y += randOffset.y;
 
         var thrown = self.mode == Weapon.Mode.Thrown;
 
-        if (module.SparkTimer == 0 || thrown && module.LifeTimer < 800)
+        if (module.SparkTimer == 0 || thrown && module.DecayTimer < 800)
         {
             var startPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * -30.0f;
             var endPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * 30.0f;
