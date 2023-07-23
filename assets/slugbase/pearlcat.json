@@ -3,7 +3,7 @@
     "name": "Pearlcat",
     "description": "A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?",
     "features": {
-        "expedition_description": "Their curiosity insatiable, Pearlcat ventures out once more in\npursuit of expanding their collection",
+        "expedition_description": "Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection",
 
         "world_state": ["Pearlcat", "Red"],
         "timeline_after": "Red",
@@ -67,7 +67,6 @@
         
         "select_menu_scene": "Slugcat_Pearlcat",
         "sleep_scene": "Slugcat_Pearlcat_Sleep",
-        "select_menu_scene_ascended": "Slugcat_Pearlcat_Ascended",
         
 
         "min_tail_offset": -15.0,

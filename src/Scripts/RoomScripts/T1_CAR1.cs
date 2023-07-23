@@ -10,9 +10,9 @@ public class T1_CAR1 : UpdatableAndDeletable
     {
         Init,
 
-        SwapTutorial,
-        StoreTutorial,
-
+        PreTutorial,
+        ShieldTutorial,
+        
         End,
     }
 
@@ -20,6 +20,8 @@ public class T1_CAR1 : UpdatableAndDeletable
     {
         this.room = room;
     }
+
+    public DataPearl.AbstractDataPearl? ShieldPearl { get; set; }
 
     public override void Update(bool eu)
     {
@@ -31,25 +33,36 @@ public class T1_CAR1 : UpdatableAndDeletable
         {
             if (CurrentPhase == Phase.Init)
             {
-                if (room.fullyLoaded)
+                if (room.fullyLoaded && room.BeingViewed)
                 {
                     room.LockAndHideShortcuts();
-                    PhaseTimer = 50;
+                    
+                    var abstractPearl = new DataPearl.AbstractDataPearl(room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null,
+                        new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID(), -1, -1, null, Enums.Pearls.AS_PearlYellow);
 
+                    room.abstractRoom.entities.Add(abstractPearl);
+                    abstractPearl.RealizeInRoom();
+
+                    var pearl = abstractPearl.realizedObject;
+                    pearl.firstChunk.HardSetPosition(new(680.0f, 230.0f));
+
+                    ShieldPearl = abstractPearl;
+                    CurrentPhase = Phase.PreTutorial;
                 }
             }
-            else if (CurrentPhase == Phase.SwapTutorial)
+            else if (CurrentPhase == Phase.PreTutorial)
             {
-                game.AddTextPrompt($"To cycle between pearls, use ({ModOptions.SwapLeftKeybind.Value}) & ({ModOptions.SwapRightKeybind.Value}), or the triggers on controller.", 0, 400);
-
-                PhaseTimer = 800;
-                CurrentPhase = Phase.StoreTutorial;
+                if (ShieldPearl != null && ShieldPearl.IsPlayerObject())
+                    CurrentPhase = Phase.ShieldTutorial;
             }
-            else if (CurrentPhase == Phase.StoreTutorial)
+            else if (CurrentPhase == Phase.ShieldTutorial)
             {
-                game.AddTextPrompt($"To store, hold the same keybind with a pearl in your right hand.", 0, 400);
+                game.AddTextPrompt($"YELLOW signifies protection. Each yellow pearl stored will provide a shield charge", 0, 400);
+                
+                game.AddTextPrompt($"Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time", 0, 400);
 
-                PhaseTimer = 800;
+
+                PhaseTimer = 400;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

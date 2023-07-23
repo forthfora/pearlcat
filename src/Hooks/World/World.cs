@@ -47,6 +47,7 @@ public partial class Hooks
         );
     }
 
+
     private static void BigNeedleWorm_Swish(On.BigNeedleWorm.orig_Swish orig, BigNeedleWorm self)
     {
         orig(self);
@@ -143,6 +144,10 @@ public partial class Hooks
     private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)
     {
         var result = orig(self);
+
+        if (self.progression.miscProgressionData.GetMiscProgression().IsNewPearlcatSave)
+            if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
+                return ModOptions.StartShelterOverride.Value;
 
         if (result == "T1_S01")
             return ModManager.MSC ? "LC_T1_S01" : "SS_S04";
@@ -336,16 +341,17 @@ public partial class Hooks
             && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
 
-        else if (room.roomSettings.name == "LC_T1_S01")
+        if (room.roomSettings.name == "LC_T1_S01")
             room.AddObject(new LC_T1_S01(room));
 
-        else if (room.roomSettings.name == "T1_S01")
+        if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
 
 
-        else if (room.roomSettings.name == "T1_CAR1")
+        if (room.roomSettings.name == "T1_CAR1")
             room.AddObject(new T1_CAR1(room));
     }
+
 
     public static List<string> TrainViewRooms { get; } = new()
     {
@@ -497,7 +503,8 @@ public partial class Hooks
     public static void LockShortcuts(this Room room)
     {
         foreach (var shortcut in room.shortcutsIndex)
-            room.lockedShortcuts.Add(shortcut);
+            if (!room.lockedShortcuts.Contains(shortcut))
+                room.lockedShortcuts.Add(shortcut);
     }
     public static void UnlockShortcuts(this Room room) => room.lockedShortcuts.Clear();
 

@@ -33,7 +33,7 @@ public class T1_START : UpdatableAndDeletable
         {
             if (CurrentPhase == Phase.Init)
             {
-                if (room.fullyLoaded)
+                if (room.fullyLoaded && room.BeingViewed)
                 {
                     room.LockAndHideShortcuts();
 
@@ -92,7 +92,7 @@ public class T1_START : UpdatableAndDeletable
 
                 player.controller = new PearlcatController(new(this, player.playerState.playerNumber));
 
-                if (!ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value)
+                if (!ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value && player.playerState.playerNumber == 0)
                 {
                     // Clear default pearls
                     for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
@@ -100,7 +100,7 @@ public class T1_START : UpdatableAndDeletable
                         var item = playerModule.Inventory[i];
 
                         if (item is DataPearl.AbstractDataPearl dataPearl)
-                            if (dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == Enums.Pearls.AS_PearlBlack || dataPearl.dataPearlType == Enums.Pearls.AS_PearlBlue)
+                            if (dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == Enums.Pearls.AS_PearlBlack)
                                 continue;
 
                         player.RemoveFromInventory(item);

@@ -115,6 +115,8 @@ public sealed class ModOptions : OptionsTemplate
         "Camo Pearl Count"));
 
 
+    public static Configurable<string> StartShelterOverride { get; } = Instance.config.Bind(nameof(StartShelterOverride), "", new ConfigurableInfo(
+        "Input a shelter name to have it override where Pearlcat starts a new game.", null, "", "Start Shelter Override"));
 
     #endregion
 
@@ -258,6 +260,23 @@ public sealed class ModOptions : OptionsTemplate
         
         AddDragger(MaxPearlCount);
         DrawDraggers(ref Tabs[tabIndex]);
+
+
+        var offset = new Vector2(100.0f, 109.0f);
+
+        var startShelterOverride = new OpTextBox(StartShelterOverride, new Vector2(165.0f, 259.0f) + offset, 90.0f)
+        {
+            colorEdge = WarnRed,
+            colorText = WarnRed,
+        };
+
+        var startShelterOverrideLabel = new OpLabel(new Vector2(230.0f, 210.0f) + offset, new Vector2(150f, 16.0f) + offset, StartShelterOverride.info.Tags[0].ToString())
+        {
+            color = WarnRed,
+        };
+
+        Tabs[tabIndex].AddItems(startShelterOverride, startShelterOverrideLabel);
+
 
         AddNewLine(1);
 

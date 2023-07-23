@@ -13,6 +13,8 @@ using System.Security;
 
 namespace Pearlcat;
 
+[BepInDependency("slime-cubed.slugbase")]
+[BepInDependency("com.rainworldgame.garrakx.crs.mod")]
 [BepInPlugin(MOD_ID, MOD_ID, "1.0.0")]
 
 public class Plugin : BaseUnityPlugin
