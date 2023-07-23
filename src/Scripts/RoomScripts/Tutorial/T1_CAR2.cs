@@ -1,7 +1,9 @@
 ﻿
+using UnityEngine;
+
 namespace Pearlcat;
 
-public class T1_CAR1 : UpdatableAndDeletable
+public class T1_CAR2 : UpdatableAndDeletable
 {
     public Phase CurrentPhase { get; set; } = Phase.Init;
     public int PhaseTimer { get; set; }
@@ -11,17 +13,21 @@ public class T1_CAR1 : UpdatableAndDeletable
         Init,
 
         PreTutorial,
-        ShieldTutorial,
+        Tutorial,
         
         End,
     }
 
-    public T1_CAR1(Room room)
+    public T1_CAR2(Room room)
     {
         this.room = room;
     }
 
-    public DataPearl.AbstractDataPearl? ShieldPearl { get; set; }
+    public Vector2 TutorialPearlPos { get; } = new(660.0f, 270.0f);
+    public DataPearl.AbstractDataPearl.DataPearlType TutorialPearlType { get; } = Enums.Pearls.AS_PearlRed;
+
+    public DataPearl.AbstractDataPearl? TutorialPearl { get; set; }
+
 
     public override void Update(bool eu)
     {
@@ -38,28 +44,29 @@ public class T1_CAR1 : UpdatableAndDeletable
                     room.LockAndHideShortcuts();
                     
                     var abstractPearl = new DataPearl.AbstractDataPearl(room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null,
-                        new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID(), -1, -1, null, Enums.Pearls.AS_PearlYellow);
+                        new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID(), -1, -1, null, TutorialPearlType);
 
                     room.abstractRoom.entities.Add(abstractPearl);
                     abstractPearl.RealizeInRoom();
 
                     var pearl = abstractPearl.realizedObject;
-                    pearl.firstChunk.HardSetPosition(new(680.0f, 230.0f));
+                    pearl.firstChunk.HardSetPosition(TutorialPearlPos);
 
-                    ShieldPearl = abstractPearl;
-                    CurrentPhase = Phase.PreTutorial;
+
+                    TutorialPearl = abstractPearl;
+                    CurrentPhase = ModOptions.DisableTutorials.Value ? Phase.End : Phase.PreTutorial;
                 }
             }
             else if (CurrentPhase == Phase.PreTutorial)
             {
-                if (ShieldPearl != null && ShieldPearl.IsPlayerObject())
-                    CurrentPhase = Phase.ShieldTutorial;
+                if (TutorialPearl != null && TutorialPearl.IsPlayerObject())
+                    CurrentPhase = Phase.Tutorial;
             }
-            else if (CurrentPhase == Phase.ShieldTutorial)
+            else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt($"YELLOW signifies protection. Each yellow pearl stored will provide a shield charge", 0, 400);
+                game.AddTextPrompt($"RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 400);
                 
-                game.AddTextPrompt($"Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time", 0, 400);
+                game.AddTextPrompt($"Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 400);
 
 
                 PhaseTimer = 400;

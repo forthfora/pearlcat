@@ -503,6 +503,8 @@ public static partial class Hooks
     {
         orig(self);
 
+        //Plugin.Logger.LogWarning(self.mainBodyChunk.pos);
+
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         playerModule.ReviveTimer = 0;
@@ -684,6 +686,9 @@ public static partial class Hooks
         self.killTagCounter = 0;
         self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
 
+        if (self is not Player)
+            self.Stun(100);
+
         self.room.ReviveEffect(self.mainBodyChunk.pos);
     }
 
@@ -714,5 +719,6 @@ public static partial class Hooks
     }
 
     // https://github.com/WondaMegapon/pitrespawn/blob/master/PitRespawn.cs
-    public static bool InDeathpit(this Player self) => self.mainBodyChunk.pos.y < -25f && (!self.room.water || self.room.waterInverted || self.room.defaultWaterLevel < -10) && (!self.Template.canFly || self.Stunned || self.dead);
+    public static bool InDeathpit(this Player self) => self.mainBodyChunk.pos.y < -400.0f
+        && (!self.room.water || self.room.waterInverted || self.room.defaultWaterLevel < -10) && (!self.Template.canFly || self.Stunned || self.dead) && self.room.deathFallGraphic != null;
 }

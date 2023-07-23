@@ -1,0 +1,16 @@
+Template: NONE
+DangerType: None
+WaveSpeed: 0.5
+WaveLength: 0.75
+WaveAmplitude: 0.03062898
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Clouds: 0.4639946
+Grime: 0
+RandomItemDensity: 0
+RandomItemSpearChance: 0
+Palette: 300
+EffectColorA: 13
+EffectColorB: 13
+Effects: SkyAndLightBloom-0.1391985-20-20, SunBlock-1-24.13049-105.2367, Brightness-0.1681983-297.864-24.66406, Contrast-0.179798-283.8523-112.0352, 
+RoomSpecificScriptActive: ON

@@ -1,0 +1,12 @@
+Template: NONE
+DangerType: None
+Clouds: 0.4639946
+Grime: 0
+RandomItemDensity: 0
+RandomItemSpearChance: 0
+Palette: 300
+EffectColorA: 13
+EffectColorB: 13
+Effects: SkyAndLightBloom-0.1681981-20-20, Brightness-0.191398-319.7414-47.60859, Contrast-0.1855978-48.00391-97.62813, SunBlock-1-357.6265-254.1094, 
+FadePalette: 10, 0
+RoomSpecificScriptActive: ON

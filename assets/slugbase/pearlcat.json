@@ -41,7 +41,10 @@
             "base": "White",
             "corpses": 0.25,
             "meat": 0.5,
-            "plants": 1.0
+            "plants": 1.0,
+            "overrides": {
+                "Fly" : 1.0
+            }
         },
         
         "color": "122626",

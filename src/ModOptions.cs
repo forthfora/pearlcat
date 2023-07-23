@@ -29,6 +29,11 @@ public sealed class ModOptions : OptionsTemplate
         "When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.", null, "",
         "Disable Cosmetics?"));
 
+    public static Configurable<bool> DisableTutorials { get; } = Instance.config.Bind(nameof(DisableTutorials), false, new ConfigurableInfo(
+        "When checked, all tutorials will be disabled.", null, "",
+        "Disable Tutorials?"));
+
+
     public static Configurable<bool> LowStartingReputation { get; } = Instance.config.Bind(nameof(LowStartingReputation), true, new ConfigurableInfo(
         "When checked, Pearlcat's starting reputation with many creatures will be low.", null, "",
         "Low Starting Reputation?"));
@@ -227,6 +232,9 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(DisableCosmetics);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
+        AddCheckBox(DisableTutorials);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
         AddNewLine(2);
 
         AddTextLabel("Special thanks to the following people!", bigText: true);
@@ -237,13 +245,20 @@ public sealed class ModOptions : OptionsTemplate
         AddTextLabel("NoirCatto - Floppy Ears");
         DrawTextLabels(ref Tabs[tabIndex]);
 
-        AddNewLine(12);
+        AddNewLine(9);
         DrawBox(ref Tabs[tabIndex]);
 
         if (GetConfigurable(DisableCosmetics, out OpCheckBox checkBox))
             checkBox.colorEdge = WarnRed;
 
+        if (GetConfigurable(DisableTutorials, out checkBox))
+            checkBox.colorEdge = WarnRed;
+
+
         if (GetLabel(DisableCosmetics, out var label))
+            label.color = WarnRed;
+
+        if (GetLabel(DisableTutorials, out label))
             label.color = WarnRed;
     }
 

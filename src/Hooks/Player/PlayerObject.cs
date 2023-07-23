@@ -190,7 +190,7 @@ public static partial class Hooks
 
         var save = self.abstractCreature.world.game.GetMiscWorld();
     
-        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value)
+        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value && !ModOptions.DisableTutorials.Value)
         {
             if (save?.ShownFullInventoryTutorial == false)
             {
@@ -218,7 +218,7 @@ public static partial class Hooks
 
         self.UpdateInventorySaveData(playerModule);
 
-        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPOEffect().MajorEffect == POEffect.MajorEffectType.SPEAR_CREATION)
+        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPOEffect().MajorEffect == POEffect.MajorEffectType.SPEAR_CREATION && !ModOptions.DisableTutorials.Value)
         {
             save.ShownSpearCreationTutorial = true;
 

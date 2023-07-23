@@ -472,7 +472,7 @@ public static partial class Hooks
                     if (dist > shortestDist) continue;
 
 
-                    if (!self.IsHostileToMe(creature)) continue;
+                    if (!self.IsHostileToMe(creature) && !(self.room.roomSettings.name == "T1_CAR2" && creature is Fly)) continue;
 
                     if (SharedPhysics.RayTraceTilesForTerrainReturnFirstSolid(playerRoom, self.firstChunk.pos, creature.mainBodyChunk.pos) != null) continue;
 

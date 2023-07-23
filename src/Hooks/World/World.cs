@@ -45,6 +45,24 @@ public partial class Hooks
             typeof(RegionGate).GetProperty(nameof(RegionGate.MeetRequirement), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetRegionGateMeetRequirement), BindingFlags.Static | BindingFlags.Public)
         );
+
+        new Hook(
+            typeof(StoryGameSession).GetProperty(nameof(StoryGameSession.slugPupMaxCount), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetStoryGameSessionSlugPupMaxCount), BindingFlags.Static | BindingFlags.Public)
+        );
+    }
+
+
+    public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
+    public static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)
+    {
+        var result = orig(self);
+
+        if (self.saveStateNumber == Enums.Pearlcat)
+            if (self.saveState.progression.miscProgressionData.beaten_Gourmand_Full || MoreSlugcats.MoreSlugcats.chtUnlockSlugpups.Value)
+                return 2;
+
+        return result;
     }
 
 
@@ -337,10 +355,6 @@ public partial class Hooks
     {
         orig(room);
 
-        if (room.game.IsStorySession && room.game.GetStorySession.saveState.saveStateNumber == Enums.Pearlcat && room.abstractRoom.firstTimeRealized
-            && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
-            room.AddObject(new T1_START(room));
-
         if (room.roomSettings.name == "LC_T1_S01")
             room.AddObject(new LC_T1_S01(room));
 
@@ -348,15 +362,38 @@ public partial class Hooks
             room.AddObject(new T1_S01(room));
 
 
+        // Tutorial
+
+        // Start
+        if (room.game.IsStorySession && room.game.GetStorySession.saveState.saveStateNumber == Enums.Pearlcat && room.abstractRoom.firstTimeRealized
+            && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
+            room.AddObject(new T1_START(room));
+
+        // Agility
+        if (room.roomSettings.name == "T1_CAR0")
+            room.AddObject(new T1_CAR0(room));
+
+        // Shield
         if (room.roomSettings.name == "T1_CAR1")
             room.AddObject(new T1_CAR1(room));
+
+        // Rage
+        if (room.roomSettings.name == "T1_CAR2")
+            room.AddObject(new T1_CAR2(room));
+
+        // Revive
+        if (room.roomSettings.name == "T1_CAR3")
+            room.AddObject(new T1_CAR3(room));
     }
 
 
     public static List<string> TrainViewRooms { get; } = new()
     {
         "T1_START",
+        "T1_CAR0",
         "T1_CAR1",
+        "T1_CAR2",
+        "T1_CAR3",
         "T1_CAREND",
         "T1_END",
         "T1_S01",
