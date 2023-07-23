@@ -62,7 +62,7 @@ public class T1_START : UpdatableAndDeletable
                     player.UpdateInventorySaveData(playerModule);
                 }
             }
-            else if (CurrentPhase == Phase.StoreTutorial)
+            else if (CurrentPhase == Phase.StoreTutorial || CurrentPhase == Phase.End)
             {
                 player.controller = null;
             }

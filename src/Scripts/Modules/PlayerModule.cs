@@ -248,16 +248,14 @@ public class PlayerModule
             Inventory.Clear();
             
             if (save.Inventory.TryGetValue(playerNumber, out var inventory))
-            {
                 foreach (var item in inventory)
-                    self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item));
-            }
+                    self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item), addToEnd: true);
         }
-        
+
         ActiveObjectIndex = null;
 
         if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex) && Inventory.Count > 0)
-            ActiveObjectIndex = activeObjectIndex >= Inventory.Count ? activeObjectIndex : 0;
+            ActiveObjectIndex = activeObjectIndex < Inventory.Count ? activeObjectIndex : 0;
 
         PickObjectAnimation(self);
 

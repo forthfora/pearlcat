@@ -229,10 +229,10 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "General");
 
         AddCheckBox(PearlThreatMusic);
-        AddCheckBox(DisableCosmetics);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableTutorials);
+        AddCheckBox(DisableCosmetics);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddNewLine(2);

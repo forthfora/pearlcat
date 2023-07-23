@@ -71,7 +71,11 @@ public static partial class Hooks
 
         if (self.grabbedBy.Count > 0) return;
 
-        if (self.abstractPhysicalObject.IsPlayerObject()) return;
+        if (self.abstractPhysicalObject.IsPlayerObject())
+        {
+            self.label.Destroy();
+            return;
+        }
 
 
         var origin = new Vector2(225.0f, 570.0f);

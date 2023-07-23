@@ -230,13 +230,18 @@ public static partial class Hooks
         }
     }
     
-    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject)
+    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool addToEnd = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         int targetIndex = playerModule.ActiveObjectIndex ?? 0;
 
-        playerModule.Inventory.Insert(targetIndex, abstractObject);
+        if (addToEnd)
+            playerModule.Inventory.Add(abstractObject);
+       
+        else
+            playerModule.Inventory.Insert(targetIndex, abstractObject);
+        
         abstractObject.MarkAsPlayerObject();
     }
 
