@@ -90,6 +90,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
             shader = shaders["HologramBehindTerrain"],
         };
 
+        foreach (var sprite in sLeaser.sprites)
+            sprite.isVisible = false;
+
         AddToContainer(sLeaser, rCam, null!);
     }
 
@@ -164,13 +167,14 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        if (Parent == null || ParentSprite == null) return;
-
         if (slatedForDeletetion)
         {
             sLeaser.CleanSpritesAndRemove();
             return;
         }
+
+        if (Parent == null || ParentSprite == null) return;
+
 
         var sprite = sLeaser.sprites[HaloSprite];
         sprite.isVisible = DrawHalo;
@@ -180,6 +184,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.color = HaloColor;
 
         sprite = sLeaser.sprites[SpearSprite];
+        sprite.isVisible = IsActiveObject;
         sprite.SetPosition(ParentSprite.GetPosition());
         sprite.scaleY = IsActiveObject ? DrawSpearLerp : 0.0f;
         sprite.color = SymbolColor;
