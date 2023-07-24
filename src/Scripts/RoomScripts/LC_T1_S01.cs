@@ -3,7 +3,7 @@
 public class LC_T1_S01 : UpdatableAndDeletable
 {
     public Phase CurrentPhase { get; set; } = Phase.Init;
-
+    
     public enum Phase
     {
         Init,
@@ -19,17 +19,19 @@ public class LC_T1_S01 : UpdatableAndDeletable
     {
         base.Update(eu);
 
-        foreach (var crit in room.game.Players)
-        {
-            if (crit.realizedCreature is not Player player) continue;
+        if (!room.fullyLoaded) return;
 
-            if (CurrentPhase == Phase.Init)
+        if (CurrentPhase == Phase.Init)
+        {
+            foreach (var player in room.PlayersInRoom)
             {
+                if (player == null) continue;
+
                 player.SuperHardSetPosition(new(550.0f, 222.0f));
                 player.graphicsModule?.Reset();
-
-                CurrentPhase = Phase.End;
             }
+
+            CurrentPhase = Phase.End;
         }
     }
 }

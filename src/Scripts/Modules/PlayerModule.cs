@@ -333,6 +333,14 @@ public class PlayerModule
         CloakColor = self.HypothermiaColorBlend(Color.Lerp(BaseCloakColor, CamoColor, CamoLerp));
 
         EyesColor = BaseEyesColor;
+
+        if (self.malnourished > 0.0f)
+        {
+            float malnourished = self.player.Malnourished ? self.malnourished : Mathf.Max(0f, self.malnourished - 0.005f);
+            
+            BodyColor = Color.Lerp(BodyColor, Color.gray, 0.4f * malnourished);
+            AccentColor = Color.Lerp(AccentColor, Color.gray, 0.4f * malnourished);
+        }
     }
 
     public static void MapAlphaToColor(Texture2D texture, Dictionary<byte, Color> map)

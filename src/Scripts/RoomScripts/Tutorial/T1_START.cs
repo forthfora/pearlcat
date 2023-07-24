@@ -27,6 +27,8 @@ public class T1_START : UpdatableAndDeletable
     {
         base.Update(eu);
 
+        if (!room.fullyLoaded) return;
+
         var game = room.game;
 
         // Per player
@@ -85,7 +87,7 @@ public class T1_START : UpdatableAndDeletable
         {
             if (CurrentPhase == Phase.Init)
             {
-                if (room.fullyLoaded && room.BeingViewed)
+                if (room.BeingViewed)
                 {
                     room.LockAndHideShortcuts();
 

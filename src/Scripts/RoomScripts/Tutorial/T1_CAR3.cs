@@ -36,13 +36,15 @@ public class T1_CAR3 : UpdatableAndDeletable
     {
         base.Update(eu);
 
+        if (!room.fullyLoaded) return;
+
         var game = room.game;
 
         if (PhaseTimer == 0)
         {
             if (CurrentPhase == Phase.Init)
             {
-                if (room.fullyLoaded && room.BeingViewed)
+                if (room.BeingViewed)
                 {
                     room.LockAndHideShortcuts();
                     

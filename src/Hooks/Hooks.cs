@@ -30,7 +30,8 @@ public static partial class Hooks
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         On.RainWorld.PostModsInit += RainWorld_PostModsInit;
 
-        On.ModManager.RefreshModsLists += ModManager_RefreshModsLists;
+        // deprecated
+        //On.ModManager.RefreshModsLists += ModManager_RefreshModsLists;
     }
 
     public static bool IsInit { get; private set; } = false;

@@ -49,7 +49,7 @@ public static partial class Hooks
     {
         var result = orig(self);
 
-        if (self.room.game.IsPearlcatStory() && !self.abstractPhysicalObject.IsPlayerObject())
+        if (self.room.game.IsPearlcatStory())
             return false;
 
         return result;
@@ -59,23 +59,24 @@ public static partial class Hooks
     {
         orig(self, eu);
 
+        if (self.abstractPhysicalObject.IsPlayerObject())
+        {
+            // hmm
+            self.abstractPhysicalObject.slatedForDeletion = false;
+            self.label?.Destroy();
+            return;
+        }
+
         if (self.oracle == null) return;
 
-        if (!self.oracle.room.game.IsPearlcatStory()) return;
 
+        if (!self.oracle.room.game.IsPearlcatStory()) return;
         
         if (self.oracle.oracleBehavior is SSOracleBehavior behavior && behavior.timeSinceSeenPlayer < 0) return;
 
         if (self.room.gravity == 1.0f) return;
 
-
         if (self.grabbedBy.Count > 0) return;
-
-        if (self.abstractPhysicalObject.IsPlayerObject())
-        {
-            self.label.Destroy();
-            return;
-        }
 
 
         var origin = new Vector2(225.0f, 570.0f);

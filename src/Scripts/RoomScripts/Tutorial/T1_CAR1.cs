@@ -34,6 +34,8 @@ public class T1_CAR1 : UpdatableAndDeletable
     {
         base.Update(eu);
 
+        if (!room.fullyLoaded) return;
+
         var game = room.game;
 
         if (PhaseTimer == 0)

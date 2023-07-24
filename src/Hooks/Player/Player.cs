@@ -544,7 +544,7 @@ public static partial class Hooks
     {
         var result = orig(self, obj);
 
-        if (obj.abstractPhysicalObject.IsPlayerObject())
+        if (obj != null && obj.abstractPhysicalObject.IsPlayerObject())
             return Player.ObjectGrabability.CantGrab;
 
         return result;

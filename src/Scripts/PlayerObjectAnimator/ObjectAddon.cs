@@ -24,10 +24,16 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
         base.Update(eu);
 
+
         if (!ObjectRef.TryGetTarget(out var abstractObject) || abstractObject.slatedForDeletion
             || abstractObject.realizedObject == null || abstractObject.realizedObject.slatedForDeletetion
             || room != abstractObject.realizedObject.room)
             Destroy();
+
+        //Plugin.Logger.LogWarning("1: " + abstractObject.slatedForDeletion);
+        //Plugin.Logger.LogWarning("2: " + abstractObject.realizedObject == null);
+        //Plugin.Logger.LogWarning("3: " + abstractObject.realizedObject?.slatedForDeletetion);
+        //Plugin.Logger.LogWarning("4: " + (abstractObject.realizedObject?.room != room));
     }
 
     public override void Destroy()
@@ -36,6 +42,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         if (ObjectRef.TryGetTarget(out var abstractObject))
             ObjectsWithAddon.Remove(abstractObject);
+
+        //Plugin.Logger.LogWarning("DESTROY");
 
         RemoveFromRoom();
     }
@@ -77,7 +85,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
             shader = shaders["GateHologram"],
         };
 
-        var sprite = sLeaser.sprites[LaserSprite] = new("pixel")
+        sLeaser.sprites[LaserSprite] = new("pixel")
         {
             shader = shaders["HologramBehindTerrain"],
         };

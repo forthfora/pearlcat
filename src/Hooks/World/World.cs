@@ -163,7 +163,7 @@ public partial class Hooks
     {
         var result = orig(self);
 
-        if (self.progression.miscProgressionData.GetMiscProgression().IsNewPearlcatSave)
+        if (self.saveStateNumber == Enums.Pearlcat && self.progression.miscProgressionData.GetMiscProgression().IsNewPearlcatSave)
             if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
                 return ModOptions.StartShelterOverride.Value;
 
@@ -355,18 +355,19 @@ public partial class Hooks
     {
         orig(room);
 
-        if (room.roomSettings.name == "LC_T1_S01")
-            room.AddObject(new LC_T1_S01(room));
-
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
 
 
+        if (!room.abstractRoom.firstTimeRealized) return;
+
+        if (room.roomSettings.name == "LC_T1_S01")
+            room.AddObject(new LC_T1_S01(room));
+
         // Tutorial
 
         // Start
-        if (room.game.IsStorySession && room.game.GetStorySession.saveState.saveStateNumber == Enums.Pearlcat && room.abstractRoom.firstTimeRealized
-            && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
+        if (room.game.GetStorySession.saveState.saveStateNumber == Enums.Pearlcat && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
 
         // Agility
