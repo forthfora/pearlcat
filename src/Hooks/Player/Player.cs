@@ -264,9 +264,6 @@ public static partial class Hooks
 
     private static void UpdateAll(Player self, PlayerModule playerModule)
     {
-        if (self.onBack != null)
-            self.AbstractizeInventory();
-
         // Warp Fix
         if (self.room != null && playerModule.JustWarped)
         {
@@ -553,7 +550,13 @@ public static partial class Hooks
     private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
     {
         if (self is Player player && player.TryGetPearlcatModule(out _))
+        {
             player.AbstractizeInventory();
+
+            if (player.slugOnBack?.slugcat?.TryGetPearlcatModule(out _) == true)
+                player.slugOnBack.slugcat.AbstractizeInventory();
+        }
+
 
         orig(self, entrancePos, carriedByOther);
     }

@@ -46,17 +46,6 @@
                 "Fly" : 1.0
             }
         },
-
-        "alignments": {
-            "Scavengers": {
-                "like": -1.0,
-                "strength": 0.45
-            },
-            "Lizards": {
-                "like": -1.0,
-                "strength": 0.35
-            }
-        },
         
         "color": "122626",
         "custom_colors": [

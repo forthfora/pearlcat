@@ -58,7 +58,9 @@ public partial class Hooks
     {
         orig(self, saveStateNumber);
 
-        if (saveStateNumber != Enums.Pearlcat || !ModOptions.LowStartingReputation.Value) return;
+        if (saveStateNumber != Enums.Pearlcat) return;
+
+        if (ModOptions.BadScavRep.Value) return;
 
         // reset rep
         for (int i = 0; i < self.playerOpinions.GetLength(0); i++)
@@ -66,6 +68,7 @@ public partial class Hooks
                 for (int k = 0; k < self.playerOpinions.GetLength(2); k++)
                     self.playerOpinions[i, j, k] = 0.0f; 
     }
+
 
     public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
     public static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)

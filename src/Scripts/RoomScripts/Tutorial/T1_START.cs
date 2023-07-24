@@ -4,7 +4,7 @@ namespace Pearlcat;
 public class T1_START : UpdatableAndDeletable
 {
     public Phase CurrentPhase { get; set; } = Phase.Init;
-    public int HardsetPosTimer { get; set; } = 2;
+    public int HardsetPosTimer { get; set; } = 4;
 
     public int PhaseTimer { get; set; }
 

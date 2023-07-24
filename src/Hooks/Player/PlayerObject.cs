@@ -10,9 +10,10 @@ public static partial class Hooks
 {
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
-        if (self.room == null || self.onBack != null) return;
+        if (self.room == null) return;
 
         if (playerModule.JustWarped) return;
+
 
         foreach (var abstractObject in playerModule.Inventory)
         {

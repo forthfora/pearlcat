@@ -348,7 +348,7 @@ public static partial class Hooks
     {
         if (playerModule.ShieldTimer > 0)
         {
-            self.AllGraspsLetGoOfThisObject(true);
+            self.AllGraspsLetGoOfThisObject(false);
             playerModule.ShieldTimer--;
 
             playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 1.0f, 0.25f);

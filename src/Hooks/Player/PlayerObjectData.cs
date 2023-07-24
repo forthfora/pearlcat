@@ -110,7 +110,7 @@ public static partial class Hooks
         if (obj.abstractPhysicalObject.IsPlayerObject())
             return false;
         
-        if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive)
+        if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive && player.IsHostileToMe(self))
         {
             self.Stun(10);
 
@@ -282,21 +282,21 @@ public static partial class Hooks
     }
 
 
-    public static Vector2 GetActiveObjectPos(this Player player, Vector2? overrideOffset = null)
+    public static Vector2 GetActiveObjectPos(this Player self, Vector2? overrideOffset = null)
     {
-        if (!ActiveObjectOffset.TryGet(player, out var activeObjectOffset))
+        if (!ActiveObjectOffset.TryGet(self, out var activeObjectOffset))
             activeObjectOffset = Vector2.zero;
 
         if (overrideOffset != null)
             activeObjectOffset = overrideOffset.Value;
 
-        var playerGraphics = (PlayerGraphics)player.graphicsModule;
+        var playerGraphics = (PlayerGraphics)self.graphicsModule;
 
         var pos = playerGraphics.head.pos + activeObjectOffset;
-        pos.x += player.mainBodyChunk.vel.x * 1.0f;
+        pos.x += self.mainBodyChunk.vel.x * 1.0f;
 
-        if (player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0)
-            pos.y += 30.0f;
+        if (self.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0 || self.onBack != null)
+            pos.y += self.onBack != null ? 40.0f : 30.0f;
 
         return pos;
     }

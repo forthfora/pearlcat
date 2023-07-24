@@ -61,6 +61,9 @@ public class InventoryHUD : HudPart
                 pos.x += spacing;
                 pos.x -= activeIndex * GAP;
 
+                if (player.onBack != null)
+                    pos.y += 30.0f;
+
                 // lazy fix
                 symbol.Pos = Custom.Dist(symbol.Pos, pos) > 300.0f ? pos : Vector2.Lerp(symbol.Pos, pos, 0.1f);
             }
