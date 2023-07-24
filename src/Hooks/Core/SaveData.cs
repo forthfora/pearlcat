@@ -95,7 +95,13 @@ public static partial class Hooks
                 for (int i = 0; i < inventory.Count; i++)
                 {
                     string? item = inventory[i];
-                    var tryToParse = item.Split('>').Last();
+
+                    var split = item.Split(new string[] { "<oA>" }, StringSplitOptions.None);
+
+                    if (split.Length < 5) continue;
+
+                    var tryToParse = split[5];
+
 
                     if (!ExtEnumBase.TryParse(typeof(DataPearlType), tryToParse, false, out var type)) continue;
 

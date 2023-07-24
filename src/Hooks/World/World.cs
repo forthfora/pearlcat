@@ -50,8 +50,22 @@ public partial class Hooks
             typeof(StoryGameSession).GetProperty(nameof(StoryGameSession.slugPupMaxCount), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetStoryGameSessionSlugPupMaxCount), BindingFlags.Static | BindingFlags.Public)
         );
+
+        On.CreatureCommunities.LoadDefaultCommunityAlignments += CreatureCommunities_LoadDefaultCommunityAlignments;
     }
 
+    private static void CreatureCommunities_LoadDefaultCommunityAlignments(On.CreatureCommunities.orig_LoadDefaultCommunityAlignments orig, CreatureCommunities self, SlugcatStats.Name saveStateNumber)
+    {
+        orig(self, saveStateNumber);
+
+        if (saveStateNumber != Enums.Pearlcat || !ModOptions.LowStartingReputation.Value) return;
+
+        // reset rep
+        for (int i = 0; i < self.playerOpinions.GetLength(0); i++)
+            for (int j = 0; j < self.playerOpinions.GetLength(1); j++)
+                for (int k = 0; k < self.playerOpinions.GetLength(2); k++)
+                    self.playerOpinions[i, j, k] = 0.0f; 
+    }
 
     public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
     public static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)
