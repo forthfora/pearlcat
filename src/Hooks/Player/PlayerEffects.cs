@@ -126,7 +126,7 @@ public static partial class Hooks
         var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule);
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
 
-        if (abilityInput && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear))
+        if (abilityInput && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear) && !(self.spearOnBack.HasASpear && self.onBack != null))
         {
             playerModule.ForceLockSpearOnBack = true;
 
@@ -150,7 +150,7 @@ public static partial class Hooks
 
                     save?.PearlSpears.Add(abstractSpear.ID.number, spearModule);
 
-                    if (holdingSpear)
+                    if (holdingSpear || self.onBack != null)
                         self.spearOnBack.SpearToBack((Spear)abstractSpear.realizedObject);
 
                     else
@@ -396,6 +396,8 @@ public static partial class Hooks
                     if (physicalObject is not Weapon weapon) continue;
 
                     if (weapon.thrownBy == self) continue;
+
+                    if (weapon.thrownBy is Player playerThrownBy && (!self.room.game.rainWorld.options.friendlyFire || playerThrownBy.onBack == self)) continue;
 
                     if (weapon.mode == Weapon.Mode.Thrown && Custom.Dist(weapon.firstChunk.pos, self.firstChunk.pos) < 50.0f)
                     {
