@@ -372,11 +372,11 @@ public partial class Hooks
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
 
-
-        if (!room.abstractRoom.firstTimeRealized) return;
-
         if (room.roomSettings.name == "LC_T1_S01")
             room.AddObject(new LC_T1_S01(room));
+
+
+        if (!room.abstractRoom.firstTimeRealized) return;
 
         // Tutorial
 
