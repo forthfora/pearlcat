@@ -163,11 +163,14 @@ public static partial class Hooks
             else if (self.sceneID.value == "Slugcat_Pearlcat_Sleep")
                 UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
 
+            else if (self.sceneID.value == "Slugcat_Pearlcat_Ascended")
+                UpdateAscendedScreen(self, illustration, menuSceneModule, illustrationModule);
+
 
             //if (Input.GetKey("-"))
             //{
             //    var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-                
+
             //    if (illustration.depth > 4.8f)
             //        Plugin.Logger.LogWarning("-----------------------------------------");
 
@@ -175,7 +178,7 @@ public static partial class Hooks
             //}
         }
 
-        // without MSC the main menu updates at half the speed?
+        // without MSC the main menu updates at a lower speed?
         MenuPearlAnimStacker += !ModManager.MSC && self.sceneID.value == "Slugcat_Pearlcat" ? 3 : 1;
     }
 
@@ -354,6 +357,85 @@ public static partial class Hooks
 
         illustration.sprite.scale = Custom.LerpMap(Mathf.Cos(angle), 0.0f, 1.0f, 0.2f, 0.35f);
         illustration.color = pearlColors[i].MenuPearlColorFilter();
+    }
+
+    private static void UpdateAscendedScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    {
+        if (illustrationModule.Index == -2) return;
+
+        if (illustrationModule.Index == -1)
+        {
+            if (menuSceneModule.ActivePearlColor == null)
+            {
+                illustration.visible = false;
+                return;
+            }
+
+            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+            if (fileName == "pearlactivehalo")
+            {
+                illustration.sprite.SetAnchor(Vector2.one * 0.5f);
+                illustration.sprite.scale = 0.3f;
+
+                illustration.pos = menuSceneModule.ActivePearlPos;
+                return;
+            }
+
+            var activePearlColor = menuSceneModule.ActivePearlColor;
+
+            illustration.visible = true;
+            illustration.color = (Color)activePearlColor * Custom.HSL2RGB(1.0f, 0.2f, 1.0f);
+            illustration.sprite.scale = 0.25f;
+            illustration.alpha = 0.8f;
+
+            var pos = illustration.pos;
+            var spritePos = illustration.sprite.GetPosition();
+            var mousePos = self.menu.mousePosition;
+
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 120.0f)
+                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+
+
+            var dir = (illustrationModule.setPos - pos).normalized;
+            var dist = Custom.Dist(illustrationModule.setPos, pos);
+            var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
+
+            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.vel += dir * speed;
+
+            illustration.pos += illustrationModule.vel;
+
+            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            menuSceneModule.ActivePearlPos = illustration.pos;
+            return;
+        }
+
+        var pearlColors = menuSceneModule.PearlColors;
+
+        var count = pearlColors.Count;
+        var i = illustrationModule.Index;
+
+        if (i >= count)
+        {
+            illustration.visible = false;
+            return;
+        }
+
+        illustration.visible = true;
+
+        var angleFrameAddition = 0.0005f;
+        var radius = 90.0f;
+        var origin = new Vector2(660, 360);
+
+        var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
+
+        var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius * 1.7f, origin.y + Mathf.Sin(angle) * radius);
+        illustration.pos = targetPos;
+
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, 0.0f, 0.2f, 0.3f);
+        illustration.alpha = 0.8f;
+        illustration.color = pearlColors[i].MenuPearlColorFilter() * Custom.HSL2RGB(1.0f, 0.2f, 1.0f);
     }
 
 

@@ -2,10 +2,10 @@
   "id": "Slugcat_Pearlcat_Ascended",
   "scene_folder": "slugbase/scenes/slugcat_pearlcat_ascended",
   "images": [
-    {"name": "flat", "pos": [430, 130], "depth": -1.0, "flatmode": true},
+    {"name": "flat", "pos": [560, 200], "depth": -1.0, "flatmode": true},
 
-    {"name": "glow", "pos": [460, 70], "depth": 6.0,  "shader": "Basic"},
-    {"name": "slugcat", "pos": [560, 200], "depth": 2.9, "shader": "Basic"},
+    {"name": "glow", "pos": [460, 70], "depth": 4.0,  "shader": "Basic"},
+    {"name": "slugcatlower", "pos": [560, 200], "depth": 2.9, "shader": "Basic"},
     
     {"name": "pearl0", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
@@ -17,8 +17,11 @@
     {"name": "pearl7", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl8", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl9", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    
+    {"name": "slugcatupper", "pos": [560, 200], "depth": 2.9, "shader": "Basic"},
 
-    {"name": "pearlactive", "pos": [690, 380], "depth": 2.3, "shader": "Basic"}
+    {"name": "pearlactivehalo", "pos": [650, 560], "depth": 2.0, "shader": "Basic"},
+    {"name": "pearlactive", "pos": [650, 560], "depth": 2.3, "shader": "Basic"}
   ],
   
   "idle_depths": [2.4],

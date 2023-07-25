@@ -108,7 +108,7 @@ public static partial class Hooks
 
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableSpear.Value) return;
+        if (ModOptions.DisableSpear.Value || self.inVoidSea) return;
 
         var spearCreationTime = 100;
         playerModule.SpearLerp = Custom.LerpMap(playerModule.SpearTimer, 5, spearCreationTime, 0.0f, 1.0f);
@@ -195,7 +195,7 @@ public static partial class Hooks
 
     public static void UpdateAgility(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableAgility.Value) return;
+        if (ModOptions.DisableAgility.Value || self.inVoidSea) return;
 
         // really op (meh) but feels weird tbh
         //var velocityMult = Custom.LerpMap(playerModule.AgilityCount, 1, 5, 1.0f, 2.0f);
@@ -300,7 +300,7 @@ public static partial class Hooks
     
     public static void UpdateRevive(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableRevive.Value) return;
+        if (ModOptions.DisableRevive.Value || self.inVoidSea) return;
 
         if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
 
@@ -447,7 +447,7 @@ public static partial class Hooks
             ragePearlCounter++;
         }
 
-        if (ModOptions.DisableRage.Value) return;
+        if (ModOptions.DisableRage.Value || self.inVoidSea) return;
 
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
@@ -587,7 +587,7 @@ public static partial class Hooks
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableCamoflague.Value) return;
+        if (ModOptions.DisableCamoflague.Value || self.inVoidSea) return;
 
         var camera = self.abstractCreature.world.game.cameras[0];
         List<Color> samples = new()

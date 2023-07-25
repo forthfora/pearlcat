@@ -299,7 +299,7 @@ public static partial class Hooks
 
         if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh) return;
 
-        tailMesh.element = tailAtlas.elements[0];
+        tailMesh.element = self.player.inVoidSea ? Futile.atlasManager.GetElementWithName("Futile_White") : tailAtlas.elements[0];
 
         if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
             tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
@@ -509,7 +509,7 @@ public static partial class Hooks
         if (playerModule.ActiveObject != null)
             markSprite.y += 10.0f;
 
-        tailSprite.color = Color.white;
+        tailSprite.color = self.player.inVoidSea ? playerModule.BodyColor : Color.white;
         earLSprite.color = Color.white;
         earRSprite.color = Color.white;
         cloakSprite.color = Color.white;

@@ -154,7 +154,7 @@ public static partial class Hooks
         }
 
         if (playerModule == null) return;
-        
+
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
         var unblockedInput = playerModule.UnblockedInput;
@@ -171,39 +171,42 @@ public static partial class Hooks
 
         playerModule.BlockInput = false;
 
-        if (numPressed >= 0)
+        if (!self.inVoidSea)
         {
-            self.ActivateObjectInStorage(numPressed - 1);
-        }
-        else if (swapLeftInput && !playerModule.WasSwapLeftInput)
-        {
-            self.SelectPreviousObject();
-        }
-        else if (swapRightInput && !playerModule.WasSwapRightInput)
-        {
-            self.SelectNextObject();
-        }
-        else if (swapInput)
-        {
-            playerModule.BlockInput = true;
-
-
-            if (!playerModule.WasSwapped)
+            if (numPressed >= 0)
             {
-                if (unblockedInput.x < -0.5f)
-                {
-                    self.SelectPreviousObject();
-                    playerModule.WasSwapped = true;
-                }
-                else if (unblockedInput.x > 0.5f)
-                {
-                    self.SelectNextObject();
-                    playerModule.WasSwapped = true;
-                }
+                self.ActivateObjectInStorage(numPressed - 1);
             }
-            else if (Mathf.Abs(unblockedInput.x) < 0.5f)
+            else if (swapLeftInput && !playerModule.WasSwapLeftInput)
             {
-                playerModule.WasSwapped = false;
+                self.SelectPreviousObject();
+            }
+            else if (swapRightInput && !playerModule.WasSwapRightInput)
+            {
+                self.SelectNextObject();
+            }
+            else if (swapInput)
+            {
+                playerModule.BlockInput = true;
+
+
+                if (!playerModule.WasSwapped)
+                {
+                    if (unblockedInput.x < -0.5f)
+                    {
+                        self.SelectPreviousObject();
+                        playerModule.WasSwapped = true;
+                    }
+                    else if (unblockedInput.x > 0.5f)
+                    {
+                        self.SelectNextObject();
+                        playerModule.WasSwapped = true;
+                    }
+                }
+                else if (Mathf.Abs(unblockedInput.x) < 0.5f)
+                {
+                    playerModule.WasSwapped = false;
+                }
             }
         }
 
@@ -315,6 +318,7 @@ public static partial class Hooks
 
     private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
     {
+        if (self.inVoidSea) return;
 
         if (!StoreObjectDelay.TryGet(self, out var storeObjectDelay)) return;
 
