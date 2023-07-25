@@ -253,7 +253,7 @@ public static partial class Hooks
         return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
     }
 
-    public static Color GetDataPearlColor(DataPearl.AbstractDataPearl.DataPearlType type, int pebblesPearlColor = 0)
+    public static Color GetDataPearlColor(this DataPearl.AbstractDataPearl.DataPearlType type, int pebblesPearlColor = 0)
     {
         if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
         {

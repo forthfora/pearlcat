@@ -37,8 +37,11 @@ public static partial class Hooks
         public bool IsNewPearlcatSave { get; set; } = true;
         public bool IsMSCSave { get; set; }
 
-        public List<DataPearlType> StoredPearlTypes { get; } = new();
-        public DataPearlType? ActivePearlType { get; set; }
+        [JsonProperty(ItemConverterType = typeof(ColorHandler))]
+        public List<Color> StoredPearlColors { get; } = new();
+
+        [JsonConverter(typeof(ColorHandler))]
+        public Color? ActivePearlColor { get; set; }
     }
 
 
@@ -70,7 +73,7 @@ public static partial class Hooks
         return save;
     }
 
-    
+
     public static void ApplySaveDataHooks()
     {
         On.SaveState.SaveToString += SaveState_SaveToString;
@@ -87,31 +90,40 @@ public static partial class Hooks
 
         if (miscWorld != null && miscProg != null && saveCurrentState && miscWorld.IsPearlcatStory)
         {
-            miscProg.StoredPearlTypes.Clear();
-            miscProg.ActivePearlType = null;
+            miscProg.StoredPearlColors.Clear();
+            miscProg.ActivePearlColor = null;
 
             if (miscWorld.Inventory.TryGetValue(0, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(0, out var activeIndex))
             {
                 for (int i = 0; i < inventory.Count; i++)
                 {
-                    string? item = inventory[i];
+                    var item = inventory[i];
 
                     var split = item.Split(new string[] { "<oA>" }, StringSplitOptions.None);
 
+                    foreach (var a in split)
+                        Plugin.Logger.LogWarning(a);
+
                     if (split.Length < 5) continue;
 
-                    var tryToParse = split[5];
+                    var potentialType = split[5];
 
-
-                    if (!ExtEnumBase.TryParse(typeof(DataPearlType), tryToParse, false, out var type)) continue;
+                    if (!ExtEnumBase.TryParse(typeof(DataPearlType), potentialType, false, out var type)) continue;
 
                     if (type is not DataPearlType dataPearlType) continue;
 
+
+                    var potentialPebblesColor = 0;
+
+                    if (dataPearlType == DataPearlType.PebblesPearl && split.Length >= 6 && int.TryParse(split[6], out var result))
+                        potentialPebblesColor = result;
+
+
                     if (i == activeIndex)
-                        miscProg.ActivePearlType = dataPearlType;
+                        miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
 
                     else
-                        miscProg.StoredPearlTypes.Add(dataPearlType);
+                        miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
                 }
             }
         }
@@ -146,33 +158,33 @@ public static partial class Hooks
             miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
         }
     }
+}
 
 
-    // https://medium.com/@altaf.navalur/serialize-deserialize-color-objects-in-unity-1731e580af94
-    public class ColorHandler : JsonConverter
+// https://medium.com/@altaf.navalur/serialize-deserialize-color-objects-in-unity-1731e580af94
+public class ColorHandler : JsonConverter
+{
+    public override bool CanConvert(Type objectType) => true;
+
+    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
     {
-        public override bool CanConvert(Type objectType) => true;
-
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        try
         {
-            try
-            {
-                ColorUtility.TryParseHtmlString("#" + reader.Value, out Color loadedColor);
-                return loadedColor;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Failed to parse color {objectType} : {ex.Message}");
-                return null;
-            }
+            ColorUtility.TryParseHtmlString("#" + reader.Value, out Color loadedColor);
+            return loadedColor;
         }
-
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        catch (Exception ex)
         {
-            if (value == null) return;
-
-            string val = ColorUtility.ToHtmlStringRGB((Color)value);
-            writer.WriteValue(val);
+            Debug.LogError($"Failed to parse color {objectType} : {ex.Message}");
+            return null;
         }
+    }
+
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    {
+        if (value == null) return;
+
+        string val = ColorUtility.ToHtmlStringRGB((Color)value);
+        writer.WriteValue(val);
     }
 }

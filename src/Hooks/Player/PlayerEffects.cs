@@ -123,7 +123,7 @@ public static partial class Hooks
 
         playerModule.ForceLockSpearOnBack = self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20;
         
-        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule);
+        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule) && self.eatCounter > 40;
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
 
         if (abilityInput && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear) && !(self.spearOnBack.HasASpear && self.onBack != null))
@@ -313,7 +313,8 @@ public static partial class Hooks
         {
             if (grasp?.grabbed is not Creature creature) continue;
 
-            if (!creature.dead) continue;
+            // maybe i dunno
+            if (!creature.dead && !creature.State.dead && !(creature is Player deadPlayer && (deadPlayer.playerState.dead || deadPlayer.playerState.permaDead))) continue;
 
             self.Blink(5);
 
@@ -618,11 +619,11 @@ public static partial class Hooks
 
         if (shouldCamo && prevCamo < 0.9f && playerModule.CamoLerp > 0.9f)
         {
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk);
+            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk, false, 0.5f, Random.Range(0.8f, 1.2f));
         }
-        else if (shouldCamo && prevCamo > 0.9 && playerModule.CamoLerp < 0.9f)
+        else if (!shouldCamo && prevCamo > 0.9 && playerModule.CamoLerp < 0.9f)
         {
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk);
+            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk, false, 0.7f, Random.Range(0.8f, 1.2f));
         }
     }
 }

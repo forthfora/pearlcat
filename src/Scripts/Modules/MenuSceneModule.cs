@@ -6,14 +6,14 @@ namespace Pearlcat;
 
 public class MenuSceneModule
 {
-    public MenuSceneModule(List<DataPearlType> pearlTypes, DataPearlType? activePearlType)
+    public MenuSceneModule(List<Color> pearlColors, Color? activePearlType)
     {
-        PearlTypes = pearlTypes;
-        ActivePearlType = activePearlType;
+        PearlColors = pearlColors;
+        ActivePearlColor = activePearlType;
     }
 
-    public List<DataPearlType> PearlTypes { get; set; } = new();
-    public DataPearlType? ActivePearlType { get; set; }
+    public List<Color> PearlColors { get; set; } = new();
+    public Color? ActivePearlColor { get; set; }
 
     public Vector2 ActivePearlPos { get; set; }
 }

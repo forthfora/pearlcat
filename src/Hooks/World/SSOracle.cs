@@ -1027,7 +1027,7 @@ public static partial class Hooks
 
     // womp womp
     // https://github.com/Garrakx/Custom-Regions/blob/dp-release/src/Pearls/Encryption.cs
-    public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name saveFile = null, bool oneRandomLine = false, int randomSeed = 0)
+    public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)
     {
         if (saveFile == null) { saveFile = self.currentSaveFile; }
 

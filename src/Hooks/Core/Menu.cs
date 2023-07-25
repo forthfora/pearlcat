@@ -94,29 +94,34 @@ public static partial class Hooks
 
             pearls.Remove(activePearl);
 
-            MenuSceneData.Add(self, new(pearls, activePearl));
+            List<Color> pearlColors = new();
+
+            foreach (var pearl in pearls)
+                pearlColors.Add(pearl.GetDataPearlColor());
+
+            MenuSceneData.Add(self, new(pearlColors, activePearl.GetDataPearlColor()));
         }
         else if (save.IsNewPearlcatSave)
         {
-            List<DataPearlType> pearls = new()
+            List<Color> pearlColors = new()
             {
-                Pearls.AS_PearlBlue,
-                Pearls.AS_PearlYellow,
-                Pearls.AS_PearlRed,
-                Pearls.AS_PearlGreen,
-                Pearls.AS_PearlBlack,
+                Pearls.AS_PearlBlue.GetDataPearlColor(),
+                Pearls.AS_PearlYellow.GetDataPearlColor(),
+                Pearls.AS_PearlRed.GetDataPearlColor(),
+                Pearls.AS_PearlGreen.GetDataPearlColor(),
+                Pearls.AS_PearlBlack.GetDataPearlColor(),
             };
 
-            MenuSceneData.Add(self, new(pearls, Pearls.RM_Pearlcat));
+            MenuSceneData.Add(self, new(pearlColors, Pearls.RM_Pearlcat.GetDataPearlColor()));
         }
         else
         {
-            var pearls = save.StoredPearlTypes;
+            var pearls = save.StoredPearlColors;
 
             if (pearls.Count > 11)
                 pearls.RemoveRange(11, pearls.Count - 11);
 
-            MenuSceneData.Add(self, new(save.StoredPearlTypes, save.ActivePearlType));
+            MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
         }
 
         MenuPearlAnimStacker = 0;
@@ -140,7 +145,7 @@ public static partial class Hooks
         }
     }
 
-    public static Color MenuPearlColorFilter(Color color) => color;
+    public static Color MenuPearlColorFilter(this Color color) => color;
     public static int MenuPearlAnimStacker = 0;
 
     private static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, MenuScene self)
@@ -184,7 +189,7 @@ public static partial class Hooks
         if (illustrationModule.Index == -2)
         {
             if (fileName == "sweat")
-                illustration.visible = menuSceneModule.ActivePearlType == null;
+                illustration.visible = menuSceneModule.ActivePearlColor == null;
 
             return;
         }
@@ -196,7 +201,7 @@ public static partial class Hooks
             {
                 illustration.sprite.SetAnchor(Vector2.one * 0.5f);
                 illustration.sprite.scale = 0.3f;
-                illustration.visible = menuSceneModule.ActivePearlType != null; 
+                illustration.visible = menuSceneModule.ActivePearlColor != null; 
 
                 illustration.pos = menuSceneModule.ActivePearlPos;
                 return;
@@ -205,7 +210,7 @@ public static partial class Hooks
             bool isPlaceholder = fileName == "pearlactiveplaceholder";
             var activePearlColor = Color.white;
             
-            if (menuSceneModule.ActivePearlType == null)
+            if (menuSceneModule.ActivePearlColor == null)
             {
                 if (isPlaceholder)
                 {
@@ -224,7 +229,7 @@ public static partial class Hooks
             }
             else
             {
-                activePearlColor = DataPearl.UniquePearlMainColor(menuSceneModule.ActivePearlType);
+                activePearlColor = (Color)menuSceneModule.ActivePearlColor;
             }
 
             illustration.visible = true;
@@ -254,9 +259,9 @@ public static partial class Hooks
             return;
         }
 
-        var pearlTypes = menuSceneModule.PearlTypes;
+        var pearlColors = menuSceneModule.PearlColors;
 
-        var count = pearlTypes.Count;
+        var count = pearlColors.Count;
         var i = illustrationModule.Index;
 
         if (i >= count)
@@ -267,7 +272,7 @@ public static partial class Hooks
 
         illustration.visible = true;
         illustration.sprite.scale = 0.35f;
-        illustration.color = MenuPearlColorFilter(DataPearl.UniquePearlMainColor(pearlTypes[i]));
+        illustration.color = pearlColors[i].MenuPearlColorFilter();
 
         illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin((MenuPearlAnimStacker + i * 50.0f) / 50.0f) * 25.0f;
     }
@@ -278,7 +283,7 @@ public static partial class Hooks
 
         if (illustrationModule.Index == -1)
         {
-            if (menuSceneModule.ActivePearlType == null)
+            if (menuSceneModule.ActivePearlColor == null)
             {
                 illustration.visible = false;
                 return;
@@ -295,10 +300,10 @@ public static partial class Hooks
                 return;
             }
 
-            var activePearlColor = DataPearl.UniquePearlMainColor(menuSceneModule.ActivePearlType);
+            var activePearlColor = menuSceneModule.ActivePearlColor;
 
             illustration.visible = true;
-            illustration.color = MenuPearlColorFilter(activePearlColor);
+            illustration.color = (Color)activePearlColor;
             illustration.sprite.scale = 0.3f;
 
 
@@ -326,9 +331,9 @@ public static partial class Hooks
             return;
         }
 
-        var pearlTypes = menuSceneModule.PearlTypes;
+        var pearlColors = menuSceneModule.PearlColors;
 
-        var count = pearlTypes.Count;
+        var count = pearlColors.Count;
         var i = illustrationModule.Index;
 
         if (i >= count)
@@ -349,7 +354,7 @@ public static partial class Hooks
         illustration.pos = targetPos;
 
         illustration.sprite.scale = Custom.LerpMap(Mathf.Cos(angle), 0.0f, 1.0f, 0.2f, 0.35f);
-        illustration.color = MenuPearlColorFilter(DataPearl.UniquePearlMainColor(pearlTypes[i]));
+        illustration.color = pearlColors[i].MenuPearlColorFilter();
     }
 
 
@@ -360,10 +365,10 @@ public static partial class Hooks
         if (slugcatNumber != Enums.Pearlcat) return;
 
         var save = menu.manager.rainWorld.GetMiscProgression();
-        var type = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat : save.ActivePearlType;
+        var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault().GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
 
         // screw pebbles pearls you get ORANGE    
-        self.effectColor = type != null ? GetDataPearlColor(type, 2) : Color.white;
+        self.effectColor = color ?? Color.white;
     }
 
     private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)

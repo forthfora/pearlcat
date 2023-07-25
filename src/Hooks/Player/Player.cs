@@ -721,8 +721,6 @@ public static partial class Hooks
             if (rep?.dynamicRelationship == null)
                 return false;
 
-            Plugin.Logger.LogWarning(aggression);
-
             if (AI is LizardAI)
                 return aggression > 0.0f;
 
