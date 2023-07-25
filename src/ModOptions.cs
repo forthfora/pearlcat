@@ -35,7 +35,7 @@ public sealed class ModOptions : OptionsTemplate
 
 
 
-    public static Configurable<bool> BadScavRep { get; } = Instance.config.Bind(nameof(BadScavRep), true, new ConfigurableInfo(
+    public static Configurable<bool> BadScavRep { get; } = Instance.config.Bind(nameof(BadScavRep), false, new ConfigurableInfo(
         "When checked, Pearlcat's reputation with the scavengers will be permanently the minimum, like Artificer.", null, "",
         "Bad Scav Rep?"));
 

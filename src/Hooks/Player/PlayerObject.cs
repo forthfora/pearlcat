@@ -14,6 +14,8 @@ public static partial class Hooks
 
         if (playerModule.JustWarped) return;
 
+        if (self.inVoidSea) return;
+
 
         foreach (var abstractObject in playerModule.Inventory)
         {
@@ -32,9 +34,9 @@ public static partial class Hooks
 
             abstractObject.MarkAsPlayerObject();
             abstractObject.realizedObject?.RealizedEffect();
-
-            self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk.pos);
         }
+        
+        //self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk.pos);
     }
 
     public static void AbstractizeInventory(this Player self)
@@ -50,8 +52,8 @@ public static partial class Hooks
             abstractObject.Abstractize(abstractObject.pos);
         }
 
-        if (playerModule.Inventory.Count > 0)
-            self.room.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk.pos);
+        //if (playerModule.Inventory.Count > 0)
+        //    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk.pos);
     }
 
 

@@ -9,10 +9,16 @@ namespace Pearlcat;
 public class ObjectAddon : UpdatableAndDeletable, IDrawable
 {
     public static ConditionalWeakTable<AbstractPhysicalObject, ObjectAddon> ObjectsWithAddon { get; } = new();
-    public WeakReference<AbstractPhysicalObject> ObjectRef { get; }
+    public WeakReference<AbstractPhysicalObject> ObjectRef { get; } = null!;
 
     public ObjectAddon(AbstractPhysicalObject abstractObject)
     {
+        if (abstractObject?.realizedObject?.room == null)
+        {
+            Destroy();
+            return;
+        }
+
         ObjectRef = new(abstractObject);
         ObjectsWithAddon.Add(abstractObject, this);
 

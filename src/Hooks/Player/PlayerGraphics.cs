@@ -527,19 +527,8 @@ public static partial class Hooks
 
         if (self.player.room == null) return;
 
-        var maxAlpha = 1.0f;
-
-        if (playerModule.ActiveObject?.realizedObject == null)
-        {
-            self.lightSource.colorAlpha = 0.05f;
-            maxAlpha = 0.6f;
-        }
-        else
-        {
-            self.lightSource.pos = playerModule.ActiveObject.realizedObject.firstChunk.pos;
-            self.lightSource.colorAlpha = 0.05f;
-        }
-
+        var maxAlpha = playerModule.ActiveObject?.realizedObject == null ? 0.6f : 1.0f;
+        
         self.lightSource.color = playerModule.ActiveColor * 1.5f;
         self.lightSource.alpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, maxAlpha);
     }

@@ -419,11 +419,9 @@ public static partial class Hooks
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
         var shootTime = 60;
+        var shootDamage = 0.2f;
 
-        var minCooldown = 40;
-        var maxCooldown = 80;
-
-        var rageCounter = 0;
+        var ragePearlCounter = 0;
 
         foreach (var item in playerModule.Inventory)
         {
@@ -436,9 +434,9 @@ public static partial class Hooks
             module.LaserLerp = 0.0f;
 
             if (effect.MajorEffect != MajorEffectType.RAGE || playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out _))
-                module.LaserTimer = shootTime + rageCounter * 5;
+                module.LaserTimer = shootTime + ragePearlCounter * 5;
 
-            rageCounter++;
+            ragePearlCounter++;
         }
 
         if (ModOptions.DisableRage.Value) return;
@@ -464,9 +462,17 @@ public static partial class Hooks
                 {
                     if (physicalObject is not Creature creature) continue;
 
+                    if (creature is Cicada) continue;
+
+                    if (creature is Centipede centipede && centipede.Small) continue;
+
+                    if (!self.IsHostileToMe(creature) && !(self.room.roomSettings.name == "T1_CAR2" && creature is Fly)) continue;
+
+
                     if (creature.dead) continue;
 
                     if (creature.VisibilityBonus < 0.0f) continue;
+
 
                     var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
 
@@ -475,9 +481,7 @@ public static partial class Hooks
                     if (dist > shortestDist) continue;
 
 
-                    if (!self.IsHostileToMe(creature) && !(self.room.roomSettings.name == "T1_CAR2" && creature is Fly)) continue;
-
-                    if (SharedPhysics.RayTraceTilesForTerrainReturnFirstSolid(playerRoom, self.firstChunk.pos, creature.mainBodyChunk.pos) != null) continue;
+                    if (!self.room.VisualContact(self.mainBodyChunk.pos, creature.mainBodyChunk.pos)) continue;
 
                     shortestDist = dist;
                     bestTarget = creature;
@@ -485,7 +489,27 @@ public static partial class Hooks
             }
 
             if (bestTarget != null)
+            {
                 playerModule.RageTarget = new(bestTarget);
+
+                ragePearlCounter = 0;
+
+                if (bestTarget is Spider)
+                {
+                    foreach (var item in playerModule.Inventory)
+                    {
+                        if (!item.TryGetModule(out var module)) continue;
+
+                        var itemEffect = item.GetPOEffect();
+
+                        if (itemEffect.MajorEffect != MajorEffectType.RAGE) continue;
+
+                        module.LaserTimer = 7 + 3 * ragePearlCounter;
+                        ragePearlCounter++;
+                    }
+                }
+                    
+            }
         }
         else
         {
@@ -501,16 +525,16 @@ public static partial class Hooks
             if (target.dead)
                 invalidTarget = true;
 
-            if (SharedPhysics.RayTraceTilesForTerrainReturnFirstSolid(playerRoom, self.mainBodyChunk.pos, target.mainBodyChunk.pos) != null)
+            if (!self.room.VisualContact(self.mainBodyChunk.pos, target.mainBodyChunk.pos))
                 invalidTarget = true;
+
 
             if (invalidTarget)
                 playerModule.RageTarget = null;
         }
 
-        if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out target)) return;
 
-        var shootDamage = 0.2f;
+        if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out target)) return;
 
         foreach (var item in playerModule.Inventory)
         {
@@ -529,10 +553,9 @@ public static partial class Hooks
                 continue;
             }
 
-
-            if(module.LaserTimer <= 0)
+            if (module.LaserTimer <= 0)
             {
-                module.CooldownTimer = Random.Range(minCooldown, maxCooldown + 1);
+                module.CooldownTimer = shootTime;
 
                 var targetPos = target.mainBodyChunk.pos;
 
@@ -595,8 +618,11 @@ public static partial class Hooks
 
         if (shouldCamo && prevCamo < 0.9f && playerModule.CamoLerp > 0.9f)
         {
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, self.firstChunk, false, 0.25f, 2.0f);
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_CamoFade, self.firstChunk);
+            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk);
+        }
+        else if (shouldCamo && prevCamo > 0.9 && playerModule.CamoLerp < 0.9f)
+        {
+            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk);
         }
     }
 }

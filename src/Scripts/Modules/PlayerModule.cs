@@ -122,7 +122,7 @@ public class PlayerModule
         if (ShieldTimer > 0) return;
 
         SetShieldCooldown(1200);
-        ShieldTimer = 100;
+        ShieldTimer = 60;
 
         if (PlayerRef.TryGetTarget(out var player))
             player.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, player.firstChunk);

@@ -51,24 +51,26 @@ public partial class Hooks
             typeof(Hooks).GetMethod(nameof(GetStoryGameSessionSlugPupMaxCount), BindingFlags.Static | BindingFlags.Public)
         );
 
-        On.CreatureCommunities.LoadDefaultCommunityAlignments += CreatureCommunities_LoadDefaultCommunityAlignments;
+        On.SporePlant.AttachedBee.Update += AttachedBee_Update;
+        On.WormGrass.Update += WormGrass_Update;
     }
 
-    private static void CreatureCommunities_LoadDefaultCommunityAlignments(On.CreatureCommunities.orig_LoadDefaultCommunityAlignments orig, CreatureCommunities self, SlugcatStats.Name saveStateNumber)
+    private static void WormGrass_Update(On.WormGrass.orig_Update orig, WormGrass self, bool eu)
     {
-        orig(self, saveStateNumber);
-
-        if (saveStateNumber != Enums.Pearlcat) return;
-
-        if (ModOptions.BadScavRep.Value) return;
-
-        // reset rep
-        for (int i = 0; i < self.playerOpinions.GetLength(0); i++)
-            for (int j = 0; j < self.playerOpinions.GetLength(1); j++)
-                for (int k = 0; k < self.playerOpinions.GetLength(2); k++)
-                    self.playerOpinions[i, j, k] = 0.0f; 
+        orig(self, eu);
     }
 
+    private static void AttachedBee_Update(On.SporePlant.AttachedBee.orig_Update orig, SporePlant.AttachedBee self, bool eu)
+    {
+        orig(self, eu);
+
+        if (self.attachedChunk?.owner is not Player player) return;
+
+        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+
+        if (playerModule.ShieldTimer > 0)
+            self.BreakStinger();
+    }
 
     public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
     public static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)

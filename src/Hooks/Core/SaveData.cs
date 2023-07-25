@@ -37,7 +37,7 @@ public static partial class Hooks
         public bool IsNewPearlcatSave { get; set; } = true;
         public bool IsMSCSave { get; set; }
 
-        public List<DataPearlType> StoredPearlTypes { get; set; } = new();
+        public List<DataPearlType> StoredPearlTypes { get; } = new();
         public DataPearlType? ActivePearlType { get; set; }
     }
 

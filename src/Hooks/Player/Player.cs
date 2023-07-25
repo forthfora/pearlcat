@@ -137,12 +137,13 @@ public static partial class Hooks
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
         if (self.TryGetPearlcatModule(out var playerModule))
-        {
             playerModule.WasSpearOnBack = self.spearOnBack.HasASpear;
-        }
 
         orig(self, eu);
 
+        if (self.inVoidSea)
+            self.AbstractizeInventory();
+        
         // zero G movement assist
         if (self.room != null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
         {
@@ -566,7 +567,12 @@ public static partial class Hooks
         // sin number 2
         if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
         {
-            if (playerModule.ShieldActive)
+            bool shouldShield = playerModule.ShieldActive;
+
+            if (self is JetFish)
+                shouldShield = false;
+
+            if (shouldShield)
             {
                 playerModule.ActivateVisualShield();
                 return;
@@ -702,12 +708,25 @@ public static partial class Hooks
         if (creature == self)
             return false;
 
-        var creatureAI = creature.abstractCreature.abstractAI?.RealAI;
-        var prey = creatureAI?.preyTracker?.currentPrey;
+        var AI = creature.abstractCreature.abstractAI?.RealAI;
 
-        if (creatureAI != null)
-            if (prey?.critRep?.representedCreature == self.abstractCreature && creatureAI.DynamicRelationship(prey.critRep).intensity > 0.1f)
-                return true;
+        if (AI != null && AI.CurrentPlayerAggression(self.abstractCreature) > 0.75f)
+            return true;
+        
+
+        // all for nothing :AGONY:
+        //if (creature is Lizard lizard && lizard.LizardState.socialMemory.GetLike(self.abstractCreature.ID) == 0.0f)
+        //    return true;
+
+        //if (creature is Scavenger scavenger)
+        //    return scavenger.AI.CurrentPlayerAggression(self.abstractCreature);
+
+        //var creatureAI = creature.abstractCreature.abstractAI?.RealAI;
+        //var prey = creatureAI?.preyTracker?.currentPrey;
+
+        //if (creatureAI != null)
+        //    if (prey?.critRep?.representedCreature == self.abstractCreature && creatureAI.DynamicRelationship(prey.critRep).intensity > 0.1f)
+        //        return true;
 
         //var preyTracker = creatureAI?.preyTracker;
 
