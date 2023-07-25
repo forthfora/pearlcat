@@ -85,7 +85,7 @@ public class T1_CAR1 : UpdatableAndDeletable
                         playerModule.ActivateVisualShield();
                 }
 
-                room.PlaySound(SoundID.Bomb_Explode, room.PlayersInRoom.First().firstChunk, false, 1.5f, 0.4f);
+                room.PlaySound(SoundID.Bomb_Explode, room.PlayersInRoom.First().firstChunk, false, 1.1f, 0.4f);
                 room.ScreenMovement(null, Vector2.right * 3.0f, 7.0f);
 
                 PhaseTimer = 300;

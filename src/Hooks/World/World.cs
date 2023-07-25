@@ -551,9 +551,7 @@ public partial class Hooks
                 if (entity is not AbstractPhysicalObject abstractObject) continue;
 
                 if (abstractObject.IsPlayerObject())
-                {
                     abstractRoom.RemoveEntity(entity);
-                }
             }
         }
 

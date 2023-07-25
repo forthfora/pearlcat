@@ -23,8 +23,9 @@ public static partial class Hooks
 
         On.PlayerGraphics.PlayerObjectLooker.HowInterestingIsThisObject += PlayerObjectLooker_HowInterestingIsThisObject;
         On.Player.ShortCutColor += Player_ShortCutColor;
-    }
 
+        On.JollyCoop.JollyHUD.JollyPlayerSpecificHud.Draw += JollyPlayerSpecificHud_Draw;
+    }
 
     public const int BODY_SPRITE = 0;
     public const int HIPS_SPRITE = 1;
@@ -760,5 +761,16 @@ public static partial class Hooks
 
         float newTime = scaledTime - Mathf.Floor(scaledTime);
         return Color.Lerp(oldColor, newColor, newTime);
+    }
+
+    private static void JollyPlayerSpecificHud_Draw(On.JollyCoop.JollyHUD.JollyPlayerSpecificHud.orig_Draw orig, JollyCoop.JollyHUD.JollyPlayerSpecificHud self, float timeStacker)
+    {
+        orig(self, timeStacker);
+
+        if (self.abstractPlayer.realizedCreature is not Player player) return;
+
+        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+
+        self.playerColor = playerModule.ActiveColor;
     }
 }

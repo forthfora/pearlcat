@@ -140,11 +140,11 @@ public static class POEffectManager
 
 
         VS = Color;
-        VS.MajorEffect = MajorEffectType.SPEAR_CREATION;
+        VS.MajorEffect = MajorEffectType.RAGE;
         VS.ThreatMusic = "VS";
 
         SU_filt = Color;
-        SU_filt.MajorEffect = MajorEffectType.SPEAR_CREATION;
+        SU_filt.MajorEffect = MajorEffectType.RAGE;
         SU_filt.ThreatMusic = "SU";
 
         OE = Color;
@@ -156,7 +156,7 @@ public static class POEffectManager
         LC.ThreatMusic = "LC";
 
         LC_second = Color;
-        LC_second.MajorEffect = MajorEffectType.SHIELD;
+        LC_second.MajorEffect = MajorEffectType.RAGE;
         LC_second.ThreatMusic = "LC";
 
         MS = Color;
@@ -166,6 +166,18 @@ public static class POEffectManager
         DM = Color;
         DM.MajorEffect = MajorEffectType.SHIELD;
         DM.ThreatMusic = "DM";
+
+        SI_chat3 = Color;
+        SI_chat3.MajorEffect = MajorEffectType.RAGE;
+        SI_chat3.ThreatMusic = "SI";
+
+        SI_chat4 = Color;
+        SI_chat4.MajorEffect = MajorEffectType.REVIVE;
+        SI_chat4.ThreatMusic = "SI";
+
+        SI_chat5 = Color;
+        SI_chat5.MajorEffect = MajorEffectType.RAGE;
+        SI_chat5.ThreatMusic = "SI";
 
 
         Red_stomach = Color;
@@ -237,7 +249,7 @@ public static class POEffectManager
 
         PearlEffects.Add(DataPearlType.Misc, Misc);
         PearlEffects.Add(DataPearlType.Misc2, Misc);
-
+   
         PearlEffects.Add(DataPearlType.SL_moon, SL_moon);
         PearlEffects.Add(DataPearlType.SL_chimney, SL_chimney);
         PearlEffects.Add(DataPearlType.SL_bridge, SL_bridge);
@@ -260,6 +272,8 @@ public static class POEffectManager
 
         if (ModManager.MSC)
         {
+            PearlEffects.Add(DataPearlTypeMSC.BroadcastMisc, Misc);
+           
             PearlEffects.Add(DataPearlTypeMSC.VS, VS);
             PearlEffects.Add(DataPearlTypeMSC.SU_filt, SU_filt);
             PearlEffects.Add(DataPearlTypeMSC.OE, OE);
@@ -271,6 +285,11 @@ public static class POEffectManager
             PearlEffects.Add(DataPearlTypeMSC.Rivulet_stomach, Rivulet_stomach);
             PearlEffects.Add(DataPearlTypeMSC.Spearmasterpearl, Spearmasterpearl);
 
+            PearlEffects.Add(DataPearlTypeMSC.SI_chat3, SI_chat3);
+            PearlEffects.Add(DataPearlTypeMSC.SI_chat4, SI_chat4);
+            PearlEffects.Add(DataPearlTypeMSC.SI_chat5, SI_chat5);
+
+            PearlEffects.Add(DataPearlTypeMSC.CL, RM);
             PearlEffects.Add(DataPearlTypeMSC.RM, RM);
         }
 
@@ -315,6 +334,10 @@ public static class POEffectManager
     public static POEffect LC_second;
     public static POEffect MS;
     public static POEffect DM;
+
+    public static POEffect SI_chat3;
+    public static POEffect SI_chat4;
+    public static POEffect SI_chat5;
 
     public static POEffect Red_stomach;
     public static POEffect Rivulet_stomach;

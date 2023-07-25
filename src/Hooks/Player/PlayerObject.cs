@@ -198,7 +198,7 @@ public static partial class Hooks
             if (save?.ShownFullInventoryTutorial == false)
             {
                 save.ShownFullInventoryTutorial = true;
-                self.abstractCreature.world.game.AddTextPrompt($"Storage limit reached ({ModOptions.MaxPearlCount.Value}): swap out a pearl, or change the limit in the Remix options", 40, 300);
+                self.abstractCreature.world.game.AddTextPrompt($"Storage limit reached ({ModOptions.MaxPearlCount.Value}): swap out a pearl, or change the limit in the Remix options", 40, 600);
             }
 
             self.room.PlaySound(SoundID.MENU_Error_Ping, self.firstChunk, false, 2.0f, 1.0f);
@@ -226,10 +226,10 @@ public static partial class Hooks
             save.ShownSpearCreationTutorial = true;
 
             if (ModOptions.CustomSpearKeybind.Value)
-                self.abstractCreature.world.game.AddTextPrompt($"Hold ({ModOptions.AbilityKeybindKeyboard.Value}) with an active common pearl to convert it into a pearl spear", 40, 300);
+                self.abstractCreature.world.game.AddTextPrompt($"Hold ({ModOptions.AbilityKeybindKeyboard.Value}) with an active common pearl to convert it into a pearl spear", 40, 600);
 
             else
-                self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 40, 300);
+                self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 40, 600);
         }
     }
     

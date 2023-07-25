@@ -21,19 +21,27 @@ public static partial class Hooks
         On.DataPearl.Update += DataPearl_Update;
 
         On.AbstractPhysicalObject.Update += AbstractPhysicalObject_Update;
+        On.AbstractPhysicalObject.UsesAPersistantTracker += AbstractPhysicalObject_UsesAPersistantTracker;
     }
 
+    private static bool AbstractPhysicalObject_UsesAPersistantTracker(On.AbstractPhysicalObject.orig_UsesAPersistantTracker orig, AbstractPhysicalObject abs)
+    {
+        var result = orig(abs);
+
+        if (abs.IsPlayerObject())
+            return false;
+
+        return result;
+    }
+    
     private static void AbstractPhysicalObject_Update(On.AbstractPhysicalObject.orig_Update orig, AbstractPhysicalObject self, int time)
     {
-        var tracker = self.tracker;
-
-        if (self.IsPlayerObject())
-            self.tracker = null;
-
         orig(self, time);
 
-        self.tracker = tracker;
+        if (self.IsPlayerObject() && self.Room.world.game.GetStorySession is StoryGameSession session)
+            session.RemovePersistentTracker(self);
     }
+
 
     public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectModule> PlayerObjectData { get; } = new();
 

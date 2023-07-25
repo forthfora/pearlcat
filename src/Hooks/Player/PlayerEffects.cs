@@ -1,8 +1,11 @@
 ﻿using MoreSlugcats;
 using RWCustom;
+using SlugBase.Features;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Pearlcat.POEffect;
+using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -122,9 +125,13 @@ public static partial class Hooks
         if (playerModule.SpearCount <= 0) return;
 
         playerModule.ForceLockSpearOnBack = self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20;
-        
-        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule) && self.eatCounter > 40;
+
+        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule)
+            && !self.grasps.Any(x => x?.grabbed is Creature creature && creature.dead && PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(creature) > 0) ;
+
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
+
+        //Plugin.Logger.LogWarning(self.eatCounter);
 
         if (abilityInput && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear) && !(self.spearOnBack.HasASpear && self.onBack != null))
         {
