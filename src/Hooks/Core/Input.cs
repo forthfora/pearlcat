@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -99,4 +100,29 @@ public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModul
     public static bool IsSwapRightInput(this Player player)
         => Input.GetKey(ModOptions.SwapRightKeybind.Value)
         || (Input.GetAxis("DschockHorizontalRight") > 0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1);
+
+
+    public static string GetDisplayName(this KeyCode keyCode)
+    {
+        var keyCodeChar = Regex.Replace(keyCode.ToString(), "Joystick[0-9]Button", "");
+
+        if (!int.TryParse(keyCodeChar, out var buttonNum))
+            return keyCode.ToString();
+
+        return buttonNum switch
+        {
+            0 => "Button South",
+            1 => "Button East",
+            2 => "Button West",
+            3 => "Button North",
+            4 => "Left Bumper",
+            5 => "Right Bumper",
+            6 => "Menu",
+            7 => "View",
+            8 => "L-Stick",
+            9 => "R-Stick",
+
+            _ => keyCode.ToString(),
+        };
+    }
 }

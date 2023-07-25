@@ -610,7 +610,7 @@ public partial class Hooks
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (int i = 0; i < room.shortcuts.Length; i++)
-            if (shortcutGraphics.entranceSprites[i, 0] != null)
+            if (shortcutGraphics.entranceSprites.Length > i && shortcutGraphics.entranceSprites[i, 0] != null)
                 shortcutGraphics.entranceSprites[i, 0].isVisible = false;
     }
     public static void ShowShortcuts(this Room room)

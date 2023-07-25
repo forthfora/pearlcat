@@ -57,7 +57,7 @@ public class T1_CAR1 : UpdatableAndDeletable
 
 
                     TutorialPearl = abstractPearl;
-                    CurrentPhase = ModOptions.DisableTutorials.Value ? Phase.End : Phase.PreTutorial;
+                    CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
                 }
             }
             else if (CurrentPhase == Phase.PreTutorial)
@@ -67,12 +67,11 @@ public class T1_CAR1 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt($"YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge", 0, 400);
+                game.AddTextPrompt($"YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge", 0, 800);
                 
-                game.AddTextPrompt($"Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time", 100, 400);
+                game.AddTextPrompt($"Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time", 100, 800);
 
-
-                PhaseTimer = 300;
+                PhaseTimer = 400;
                 CurrentPhase = Phase.Demo;
             }
             else if (CurrentPhase == Phase.Demo)
@@ -88,7 +87,7 @@ public class T1_CAR1 : UpdatableAndDeletable
                 room.PlaySound(SoundID.Bomb_Explode, room.PlayersInRoom.First().firstChunk, false, 1.1f, 0.4f);
                 room.ScreenMovement(null, Vector2.right * 3.0f, 7.0f);
 
-                PhaseTimer = 300;
+                PhaseTimer = 600;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

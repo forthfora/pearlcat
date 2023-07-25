@@ -152,8 +152,8 @@ public sealed class ModOptions : OptionsTemplate
         "Keybind for Player 4.", null, "", "Player 4"));
 
     public static Configurable<int> SwapTriggerPlayer = Instance.config.Bind(nameof(SwapTriggerPlayer), 1, new ConfigurableInfo(
-        "Which player controller trigger swapping will apply to. Hold and drag up or down to change.",
-        new ConfigAcceptableRange<int>(1, 4), "",
+        "Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.",
+        new ConfigAcceptableRange<int>(0, 4), "",
         "Trigger Player"));
 
 

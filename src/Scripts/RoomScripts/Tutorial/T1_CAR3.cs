@@ -74,7 +74,7 @@ public class T1_CAR3 : UpdatableAndDeletable
 
 
                     TutorialPearl = abstractPearl;
-                    CurrentPhase = ModOptions.DisableTutorials.Value ? Phase.End : Phase.PreTutorial;
+                    CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
                 }
             }
             else if (CurrentPhase == Phase.PreTutorial)
@@ -84,12 +84,12 @@ public class T1_CAR3 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt($"GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you", 0, 400);
+                game.AddTextPrompt($"GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you", 0, 800);
                 
-                game.AddTextPrompt($"Grab a creature and hold (GRAB) with an active green pearl to revive them", 0, 400);
+                game.AddTextPrompt($"Grab a creature and hold (GRAB) with an active green pearl to revive them", 0, 800);
 
 
-                PhaseTimer = 400;
+                PhaseTimer = 1300;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

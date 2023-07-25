@@ -143,9 +143,6 @@ public static partial class Hooks
 
         orig(self, eu);
 
-        if (self.inVoidSea)
-            self.AbstractizeInventory();
-        
         // zero G movement assist
         if (self.room != null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
         {
@@ -263,6 +260,9 @@ public static partial class Hooks
             self.firstChunk.vel.x = self.input[0].x * 5.0f;
             self.firstChunk.vel.y = 6.0f;
         }
+
+        if (self.inVoidSea || playerModule.Inventory.Any(x => x.Room != self.abstractCreature.Room))
+            self.AbstractizeInventory();
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)

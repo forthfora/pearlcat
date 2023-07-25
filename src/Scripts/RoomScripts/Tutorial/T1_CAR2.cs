@@ -59,7 +59,7 @@ public class T1_CAR2 : UpdatableAndDeletable
 
 
                     TutorialPearl = abstractPearl;
-                    CurrentPhase = ModOptions.DisableTutorials.Value ? Phase.End : Phase.PreTutorial;
+                    CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
                 }
             }
             else if (CurrentPhase == Phase.PreTutorial)
@@ -69,12 +69,12 @@ public class T1_CAR2 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt($"RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 400);
+                game.AddTextPrompt($"RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 800);
                 
-                game.AddTextPrompt($"Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 400);
+                game.AddTextPrompt($"Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 800);
 
 
-                PhaseTimer = 400;
+                PhaseTimer = 1300;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

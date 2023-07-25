@@ -54,7 +54,7 @@ public class T1_CAR0 : UpdatableAndDeletable
 
 
                     TutorialPearl = abstractPearl;
-                    CurrentPhase = ModOptions.DisableTutorials.Value ? Phase.End : Phase.PreTutorial;
+                    CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
                 }
             }
             else if (CurrentPhase == Phase.PreTutorial)
@@ -64,14 +64,14 @@ public class T1_CAR0 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt($"BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump", 0, 400);
+                game.AddTextPrompt($"BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump", 0, 800);
                 
                 if (ModOptions.CustomAgilityKeybind.Value)
-                    game.AddTextPrompt($"Press ({ModOptions.CustomAgilityKeybind.Value}) while in the air to perform a double jump", 0, 400);
+                    game.AddTextPrompt($"Press ({ModOptions.AbilityKeybindKeyboard.Value}) or ({ModOptions.StoreKeybindPlayer1.Value.GetDisplayName()}) while in the air to perform a double jump", 0, 800);
 
-                game.AddTextPrompt("Press (JUMP + GRAB) while in the air to perform a double jump", 0, 400);
+                game.AddTextPrompt("Press (JUMP + GRAB) while in the air to perform a double jump", 0, 800);
 
-                PhaseTimer = 400;
+                PhaseTimer = 1300;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

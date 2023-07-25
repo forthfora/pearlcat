@@ -95,37 +95,37 @@ public class T1_START : UpdatableAndDeletable
                     room.game.cameras[0].hud.foodMeter.fade = 0f;
                     room.game.cameras[0].hud.foodMeter.lastFade = 0f;
                     
-                    if (ModOptions.DisableTutorials.Value)
+                    if (ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat)
                     {
                         CurrentPhase = Phase.End;
                     }
                     else
                     {
                         CurrentPhase = Phase.SwapTutorial;
-                        PhaseTimer = 150;
+                        PhaseTimer = 300;
                     }
                 }
             }
             else if (CurrentPhase == Phase.SwapTutorial)
             {
-                game.AddTextPrompt($"To cycle between pearls, use ({ModOptions.SwapLeftKeybind.Value}) & ({ModOptions.SwapRightKeybind.Value}), or the triggers on controller", 0, 400);
+                game.AddTextPrompt($"To cycle between pearls, use ({ModOptions.SwapLeftKeybind.Value}) & ({ModOptions.SwapRightKeybind.Value}), or the triggers on controller", 0, 800);
 
-                game.AddTextPrompt($"Alternatively, hold ({ModOptions.SwapKeybindKeyboard.Value}) & use the (LEFT) & (RIGHT) directional inputs", 50, 300);
+                game.AddTextPrompt($"Alternatively, hold ({ModOptions.SwapKeybindKeyboard.Value}) or ({ModOptions.StoreKeybindPlayer1.Value.GetDisplayName()}) & use the (LEFT) & (RIGHT) directional inputs", 50, 600);
 
-                PhaseTimer = 800;
+                PhaseTimer = 1400;
                 CurrentPhase = Phase.StoreTutorial;
             }
             else if (CurrentPhase == Phase.StoreTutorial)
             {
                 if (ModOptions.UsesCustomStoreKeybind.Value)
-                    game.AddTextPrompt($"To retrieve pearls, have an empty right hand, and hold ({ModOptions.StoreKeybindKeyboard.Value})", 0, 600);
+                    game.AddTextPrompt($"To retrieve pearls, have an empty right hand, and hold ({ModOptions.StoreKeybindKeyboard.Value}) or ({ModOptions.StoreKeybindPlayer1.Value.GetDisplayName()})", 0, 800);
  
                 else
-                    game.AddTextPrompt($"To retrieve pearls, have an empty right hand, and hold (GRAB + UP)", 0, 600);
+                    game.AddTextPrompt($"To retrieve pearls, have an empty right hand, and hold (GRAB + UP)", 0, 800);
 
-                game.AddTextPrompt($"To store, hold the same keybind with a pearl in your right hand", 0, 400);
+                game.AddTextPrompt($"To store, hold the same keybind with a pearl in your right hand", 0, 600);
 
-                PhaseTimer = 800;
+                PhaseTimer = 1400;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

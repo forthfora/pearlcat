@@ -226,10 +226,10 @@ public static partial class Hooks
             save.ShownSpearCreationTutorial = true;
 
             if (ModOptions.CustomSpearKeybind.Value)
-                self.abstractCreature.world.game.AddTextPrompt($"Hold ({ModOptions.AbilityKeybindKeyboard.Value}) with an active common pearl to convert it into a pearl spear", 40, 600);
+                self.abstractCreature.world.game.AddTextPrompt($"Hold ({ModOptions.AbilityKeybindKeyboard.Value}) or ({ModOptions.AbilityKeybindPlayer1.Value.GetDisplayName()}) with an active common pearl to convert it into a pearl spear", 0, 800);
 
             else
-                self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 40, 600);
+                self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 0, 800);
         }
     }
     
