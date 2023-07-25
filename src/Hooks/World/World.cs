@@ -52,12 +52,47 @@ public partial class Hooks
         );
 
         On.SporePlant.AttachedBee.Update += AttachedBee_Update;
-        On.WormGrass.Update += WormGrass_Update;
+
+        On.WormGrass.WormGrassPatch.Update += WormGrassPatch_Update;
+        On.WormGrass.Worm.Attached += Worm_Attached;
     }
 
-    private static void WormGrass_Update(On.WormGrass.orig_Update orig, WormGrass self, bool eu)
+    private static void WormGrassPatch_Update(On.WormGrass.WormGrassPatch.orig_Update orig, WormGrass.WormGrassPatch self)
     {
-        orig(self, eu);
+        orig(self);
+
+        for (int i = self.trackedCreatures.Count - 1; i >= 0; i--)
+        {
+            var trackedCreature = self.trackedCreatures[i];
+            if (trackedCreature.creature is not Player player) continue;
+
+            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+
+            if (playerModule.ShieldTimer > 0)
+                self.trackedCreatures.Remove(trackedCreature);
+        }
+    }
+
+    private static void Worm_Attached(On.WormGrass.Worm.orig_Attached orig, WormGrass.Worm self)
+    {
+        orig(self);
+
+        if (self.attachedChunk?.owner is not Player player) return;
+
+        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+
+        if (self.patch?.trackedCreatures == null) return;
+
+
+        var playerPull = self.patch.trackedCreatures.FirstOrDefault(x => x.creature == self.attachedChunk.owner);
+
+        if (playerPull == null) return;
+
+        DeflectEffect(self.room, self.pos);
+        playerModule.ActivateVisualShield();
+        
+        if (playerModule.ShieldTimer > 0)
+            self.attachedChunk = null;
     }
 
     private static void AttachedBee_Update(On.SporePlant.AttachedBee.orig_Update orig, SporePlant.AttachedBee self, bool eu)
@@ -69,7 +104,10 @@ public partial class Hooks
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
         if (playerModule.ShieldTimer > 0)
+        {
             self.BreakStinger();
+            self.stingerOut = false;
+        }
     }
 
     public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);

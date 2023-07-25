@@ -112,12 +112,10 @@ public static partial class Hooks
         
         if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive && player.IsHostileToMe(self))
         {
+            if (!(self is Centipede && playerModule.ShieldTimer > 0))
+                DeflectEffect(self.room, self.DangerPos);
+
             self.Stun(10);
-
-            //Plugin.Logger.LogWarning("PEARLCAT GRABBED BY " + self.GetType());
-
-            DeflectEffect(self.room, self.mainBodyChunk.pos);
-
             playerModule.ActivateVisualShield();
             return false;
         }

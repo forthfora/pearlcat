@@ -46,7 +46,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     {
         base.Destroy();
 
-        if (ObjectRef.TryGetTarget(out var abstractObject))
+        if (ObjectRef?.TryGetTarget(out var abstractObject) == true)
             ObjectsWithAddon.Remove(abstractObject);
 
         //Plugin.Logger.LogWarning("DESTROY");

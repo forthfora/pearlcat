@@ -124,6 +124,7 @@ public static partial class Hooks
         playerModule.LastGroundedPos = player.firstChunk.pos;
     }
 
+
     public delegate float orig_PlayerVisibilityBonus(Player self);
     public static float GetPlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
     {
@@ -133,6 +134,7 @@ public static partial class Hooks
 
         return orig(self);
     }
+
 
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
@@ -710,29 +712,34 @@ public static partial class Hooks
 
         var AI = creature.abstractCreature.abstractAI?.RealAI;
 
-        if (AI != null && AI.CurrentPlayerAggression(self.abstractCreature) > 0.75f)
-            return true;
-        
+        if (self is Player && AI is LizardAI or ScavengerAI or BigNeedleWormAI or DropBugAI or CicadaAI)
+        {
+            var aggression = AI.CurrentPlayerAggression(self.abstractCreature);
 
-        // all for nothing :AGONY:
-        //if (creature is Lizard lizard && lizard.LizardState.socialMemory.GetLike(self.abstractCreature.ID) == 0.0f)
-        //    return true;
+            var rep = AI.tracker.RepresentationForCreature(self.abstractCreature, false);
 
-        //if (creature is Scavenger scavenger)
-        //    return scavenger.AI.CurrentPlayerAggression(self.abstractCreature);
+            if (rep?.dynamicRelationship == null)
+                return false;
 
-        //var creatureAI = creature.abstractCreature.abstractAI?.RealAI;
-        //var prey = creatureAI?.preyTracker?.currentPrey;
+            Plugin.Logger.LogWarning(aggression);
 
-        //if (creatureAI != null)
-        //    if (prey?.critRep?.representedCreature == self.abstractCreature && creatureAI.DynamicRelationship(prey.critRep).intensity > 0.1f)
-        //        return true;
+            if (AI is LizardAI)
+                return aggression > 0.0f;
 
-        //var preyTracker = creatureAI?.preyTracker;
+            if (AI is ScavengerAI)
+                return aggression > 0.5f;
 
-        //if (creatureAI != null)
-        //    if (preyTracker?.currentPrey?.critRep?.representedCreature == self.abstractCreature && preyTracker.Utility() == 1.0f)
-        //        return true;
+            if (AI is BigNeedleWormAI)
+                return aggression > 0.0f;
+
+            if (AI is CicadaAI)
+                return aggression > 0.0f;
+
+            if (AI is DropBugAI)
+                return true;
+
+            return false;
+        }
 
         var myRelationship = self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
         var creatureRelationship = creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
