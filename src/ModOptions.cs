@@ -40,7 +40,7 @@ public sealed class ModOptions : OptionsTemplate
         "Bad Scav Rep?"));
 
     public static Configurable<int> MaxPearlCount { get; } = Instance.config.Bind(nameof(MaxPearlCount), 9, new ConfigurableInfo(
-        "Maximum number of pearls that can be stored at once, including the active pearl. Default is 11. Hold and drag up or down to change.",
+        "Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.",
         new ConfigAcceptableRange<int>(1, 100), "",
         "Max Pearl Count"));
     

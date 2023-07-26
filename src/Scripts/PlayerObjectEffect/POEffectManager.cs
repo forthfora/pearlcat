@@ -221,6 +221,7 @@ public static class POEffectManager
         RM.CorridorClimbSpeedFac = 0.15f;
         RM.RollSpeedFac = 0.15f;
         RM.SlideSpeedFac = 0.15f;
+        RM.RMSong = true;
 
         SS = None;
         SS.MajorEffect = MajorEffectType.NONE;

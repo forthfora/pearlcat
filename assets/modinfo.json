@@ -6,7 +6,7 @@
 	"description": "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but recommended.",
 	"requirements": ["slime-cubed.slugbase", "crs"],
 	"requirements_names": ["SlugBase", "Custom Regions Support"],
-	"tags": ["Custom Slugcat", "Gameplay Mechanics", "Campaigns"],
+	"tags": ["Custom Slugcat", "Game Mechanics", "Campaigns"],
 	"checksum_override_version": false,
 	"priorities": ["moreslugcats"]
 }

@@ -3,6 +3,7 @@ using SlugBase.Features;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -649,6 +650,36 @@ public static partial class Hooks
 
         UpdateEarSegments(self, earL, playerModule.EarLAttachPos);
         UpdateEarSegments(self, earR, playerModule.EarRAttachPos);
+
+        // pups play with ears
+        if (self.player.slugOnBack?.slugcat is Player slugpup && slugpup.isNPC && !slugpup.dead)
+        {
+            earL[0].vel.x -= 0.05f;
+            earL[1].vel.x -= 0.05f;
+            earL[2].vel.x -= 0.05f;
+
+            earR[0].vel.x += 0.05f;
+            earR[1].vel.x += 0.05f;
+            earR[2].vel.x += 0.05f;
+
+
+            var dir = Random.Range(0, 2) == 0 ? 1 : -1;
+            var mult = Random.Range(0.8f, 1.3f);
+
+            if (Random.Range(0, 400) == 0)
+            {
+                earL[0].vel.x += 2.0f * dir * mult;
+                earL[1].vel.x += 2.0f * dir * mult;
+                earL[2].vel.x += 2.0f * dir * mult;
+            }
+
+            if (Random.Range(0, 400) == 0)
+            {
+                earR[0].vel.x += 2.0f * dir * mult;
+                earR[1].vel.x += 2.0f * dir * mult;
+                earR[2].vel.x += 2.0f * dir * mult;
+            }
+        }
     }
 
     public static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)
@@ -666,8 +697,8 @@ public static partial class Hooks
 
         // Simulate friction
         ear[0].vel.x *= 0.9f;
-        ear[2].vel.x *= 0.7f;
         ear[1].vel.x *= 0.7f;
+        ear[2].vel.x *= 0.7f;
 
 
         if (self.player.dead) return;

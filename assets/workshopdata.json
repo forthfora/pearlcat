@@ -1,8 +1,8 @@
 {
   "Title": "Pearlcat [DEV]",
-  "Description": "A curious scholar with the unusual ability to harness pearls to their advantage.\u003CLINE\u003E\u003CLINE\u003EConfigure inputs, difficulty, cheats and more via the Remix config!\u003CLINE\u003E\u003CLINE\u003EMore Slugcats is optional, but recommended.",
+  "Description": "[h1]IN-DEVELOPMENT VERSION OF PEARLCAT[/h1]\r\n\r\n[b]If you are reading this I really hope you\u0027re a playtester![/b]",
   "ID": "pearlcat",
-  "Version": "0.0.0",
+  "Version": "0.0.1",
   "TargetGameVersion": "v1.9.07",
   "Requirements": "slime-cubed.slugbase,crs",
   "RequirementNames": "SlugBase,Custom Regions Support",
@@ -10,9 +10,8 @@
   "Visibility": "Unlisted",
   "Tags": [
     "Campaigns",
-    "Game Mechanics",
-    "Custom Slugcat"
+    "Game Mechanics"
   ],
-  "WorkshopID": 0,
+  "WorkshopID": 3009145654,
   "UploadFilesOnly": false
 }
