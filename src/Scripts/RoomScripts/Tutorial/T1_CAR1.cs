@@ -67,9 +67,9 @@ public class T1_CAR1 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt($"YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge", 0, 800);
+                game.AddTextPrompt($"YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge", 0, 700);
                 
-                game.AddTextPrompt($"Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time", 100, 800);
+                game.AddTextPrompt($"Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time", 50, 600);
 
                 PhaseTimer = 400;
                 CurrentPhase = Phase.Demo;
@@ -87,7 +87,7 @@ public class T1_CAR1 : UpdatableAndDeletable
                 room.PlaySound(SoundID.Bomb_Explode, room.PlayersInRoom.First().firstChunk, false, 1.1f, 0.4f);
                 room.ScreenMovement(null, Vector2.right * 3.0f, 7.0f);
 
-                PhaseTimer = 600;
+                PhaseTimer = 800;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)
