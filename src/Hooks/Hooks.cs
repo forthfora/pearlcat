@@ -10,6 +10,7 @@ public static partial class Hooks
         // Core
         ApplySaveDataHooks();
         ApplyMenuHooks();
+        ApplySlideShowHooks();
 
         // Player
         ApplyPlayerHooks();
@@ -60,6 +61,8 @@ public static partial class Hooks
             _ = Enums.SSOracle.Pearlcat_SSActionGeneral;
             _ = Enums.Pearls.RM_Pearlcat;
             _ = Enums.Sounds.Pearlcat_PearlScroll;
+
+            _ = Enums.SlideShows.PearlcatIntro;
 
             AssetLoader.LoadAssets();
         }

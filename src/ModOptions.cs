@@ -39,7 +39,7 @@ public sealed class ModOptions : OptionsTemplate
         "When checked, Pearlcat's reputation with the scavengers will be permanently the minimum, like Artificer.", null, "",
         "Bad Scav Rep?"));
 
-    public static Configurable<int> MaxPearlCount { get; } = Instance.config.Bind(nameof(MaxPearlCount), 11, new ConfigurableInfo(
+    public static Configurable<int> MaxPearlCount { get; } = Instance.config.Bind(nameof(MaxPearlCount), 9, new ConfigurableInfo(
         "Maximum number of pearls that can be stored at once, including the active pearl. Default is 11. Hold and drag up or down to change.",
         new ConfigAcceptableRange<int>(1, 100), "",
         "Max Pearl Count"));

@@ -131,7 +131,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         ParentSprite = sLeaser.sprites.FirstOrDefault();
 
         foreach (var sprite in sLeaser.sprites)
-            sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, 0.05f);
+            sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, 0.1f);
     }
 
 

@@ -1,4 +1,6 @@
 ﻿using static DataPearl.AbstractDataPearl;
+using static Menu.MenuScene;
+using static Menu.SlideShow;
 
 namespace Pearlcat;
 
@@ -58,5 +60,14 @@ public static class Enums
         public static DataPearlType AS_PearlGreen = new(nameof(AS_PearlGreen), false);
         public static DataPearlType AS_PearlRed = new(nameof(AS_PearlRed), false);
         public static DataPearlType AS_PearlBlack = new(nameof(AS_PearlBlack), false);
+    }
+
+    public static class SlideShows
+    {
+        public static SlideShowID PearlcatOutro = new(nameof(PearlcatOutro), true);
+        public static SlideShowID PearlcatIntro = new(nameof(PearlcatIntro), true);
+
+        public static SceneID Pearlcat_Outro_1 = new(nameof(Pearlcat_Outro_1), false);
+        public static SceneID Pearlcat_Outro_2 = new(nameof(Pearlcat_Outro_2), false);
     }
 }
