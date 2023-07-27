@@ -26,6 +26,8 @@ public static partial class Hooks
 
         public bool ShownFullInventoryTutorial { get; set; }
         public bool ShownSpearCreationTutorial { get; set; }
+
+        public List<int> PearlpupIDs { get; } = new();
     }
 
     public class SaveDeathPersistent

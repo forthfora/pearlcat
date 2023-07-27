@@ -17,6 +17,8 @@ public static partial class Hooks
         ApplyPlayerGraphicsHooks();
         ApplyPlayerObjectDataHooks();
 
+        ApplyPearlpupGraphicsHooks();
+
         // World
         ApplyWorldHooks();
         ApplySoundHooks();

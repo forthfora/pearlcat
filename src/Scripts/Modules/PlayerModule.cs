@@ -16,7 +16,7 @@ public class PlayerModule
 
     public PlayerModule(Player self)
     {
-        PlayerRef = new WeakReference<Player>(self);
+        PlayerRef = new(self);
 
         PlayerNumber = self.playerState.playerNumber;
         BaseStats = NormalStats;
@@ -130,11 +130,12 @@ public class PlayerModule
 
     public WeakReference<Creature>? RageTarget { get; set; }
 
+    public int AgilityOveruseTimer { get; set; }
+
     public int SpearTimer { get; set; }
     public int SpearDelay { get; set; }
     public bool ForceLockSpearOnBack { get; set; }
     public float SpearLerp { get; set; }
-
     public bool WasSpearOnBack { get; set; }
 
     public Vector2 PrevHeadRotation { get; set; }
@@ -306,12 +307,12 @@ public class PlayerModule
     public Color LastAccentColor { get; set; }
 
     public Color BodyColor { get; set; }
-    public Color EyesColor { get; set; }
+    public Color FaceColor { get; set; }
     public Color AccentColor { get; set; }
     public Color CloakColor { get; set; }
 
     public Color BaseBodyColor { get; set; }
-    public Color BaseEyesColor { get; set; }
+    public Color BaseFaceColor { get; set; }
     public Color BaseAccentColor { get; set; }
     public Color BaseCloakColor { get; set; }
 
@@ -320,7 +321,7 @@ public class PlayerModule
     public void InitColors(PlayerGraphics self)
     {
         BaseBodyColor = PlayerColor.Body.GetColor(self) ?? Color.white;
-        BaseEyesColor = PlayerColor.Eyes.GetColor(self) ?? Color.magenta;
+        BaseFaceColor = PlayerColor.Eyes.GetColor(self) ?? Color.magenta;
 
         BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? Color.magenta;
         BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? Color.red;
@@ -332,7 +333,7 @@ public class PlayerModule
         AccentColor = self.HypothermiaColorBlend(Color.Lerp(BaseAccentColor, CamoColor, CamoLerp));
         CloakColor = self.HypothermiaColorBlend(Color.Lerp(BaseCloakColor, CamoColor, CamoLerp));
 
-        EyesColor = BaseEyesColor;
+        FaceColor = BaseFaceColor;
 
         if (self.malnourished > 0.0f)
         {

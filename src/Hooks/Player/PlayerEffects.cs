@@ -195,16 +195,21 @@ public static partial class Hooks
 
     public static void UpdateAgility(Player self, PlayerModule playerModule, POEffect effect)
     {
+        if (playerModule.AgilityOveruseTimer > 0)
+            playerModule.AgilityOveruseTimer--;
+
         if (ModOptions.DisableAgility.Value || self.inVoidSea) return;
 
-        // really op (meh) but feels weird tbh
-        //var velocityMult = Custom.LerpMap(playerModule.AgilityCount, 1, 5, 1.0f, 2.0f);
-        var velocityMult = 1.0f;
+        var maxOveruse = 120;
+
+        var velocityMult = Custom.LerpMap(playerModule.AgilityCount, 1, 5, 1.0f, 0.75f);
+        velocityMult *= Custom.LerpMap(playerModule.AgilityOveruseTimer, 40, maxOveruse, 1.0f, 0.7f);
+
 
         var abilityInput = self.IsAgilityKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasAgilityInput;
-        
-        bool canUseAbility = playerModule.AgilityCount > 0
+
+        bool canUseAbility = playerModule.AgilityCount > 0 && playerModule.AgilityOveruseTimer < maxOveruse
             && self.canJump <= 0 && !(self.eatMeat >= 20 || self.maulTimer >= 15)
             && self.Consious && self.bodyMode != Player.BodyModeIndex.Crawl
             && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut
@@ -216,7 +221,7 @@ public static partial class Hooks
         if (abilityInput && !wasAbilityInput && canUseAbility)
         {
             var agilityObject = playerModule.SetAgilityCooldown(-1);
-
+            
             self.noGrabCounter = 5;
             var pos = self.firstChunk.pos;
 
@@ -282,6 +287,8 @@ public static partial class Hooks
 
             if (agilityObject != null)
                 self.ConnectEffect(targetPos, GetObjectColor(agilityObject));
+
+            playerModule.AgilityOveruseTimer += (int)Custom.LerpMap(playerModule.AgilityOveruseTimer, 0, 80, 40, 60);
         }
 
         bool isAnim = self.animation == Player.AnimationIndex.HangFromBeam || self.animation == Player.AnimationIndex.ClimbOnBeam
@@ -294,7 +301,28 @@ public static partial class Hooks
             || ((self.bodyMode == Player.BodyModeIndex.ZeroG)
             && (self.wantToJump == 0 || !self.input[0].pckp)))
         {
-            playerModule.ResetAgilityCooldown(40);
+            playerModule.ResetAgilityCooldown(30);
+        }
+
+        var overuse = playerModule.AgilityOveruseTimer;
+        var overuseDisplayCount = overuse < 20 ? 0 : (int)Custom.LerpMap(overuse, 20, maxOveruse, 1, 5, 1.5f);
+
+        for (int i = 0; i < overuseDisplayCount; i++)
+        {
+            if (Random.value < 0.25f)
+                self.room.AddObject(new Explosion.ExplosionSmoke(self.mainBodyChunk.pos, Custom.RNV() * 2f * Random.value, 1f));
+
+            if (Random.value < 0.5f)
+                self.room.AddObject(new Spark(self.mainBodyChunk.pos, Custom.RNV(), Color.white, null, 4, 8));
+
+            if (overuse > 90 && Random.value < 0.03f)
+                self.ConnectEffect(self.mainBodyChunk.pos + Custom.RNV() * 80.0f, playerModule.ActiveColor);
+        }
+
+        if (overuse > maxOveruse && !self.Stunned)
+        {
+            self.room.PlaySound(SoundID.Fire_Spear_Explode, self.mainBodyChunk.pos, 0.3f + Random.value * 0.15f, 0.25f + Random.value * 1.5f);
+            self.Stun(60);
         }
     }
     

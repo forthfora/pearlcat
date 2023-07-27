@@ -70,6 +70,8 @@ public class T1_CAR3 : UpdatableAndDeletable
 
                         slugpup.Stun(40);
                         slugpup.Die();
+
+                        slugpup.MakePearlpup();
                     }
 
 

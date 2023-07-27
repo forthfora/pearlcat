@@ -3,6 +3,8 @@ namespace Pearlcat;
 
 public class PlayerObjectModule
 {
+    private int cooldownTimer;
+
     public bool IsCurrentlyStored { get; set; } = false;
 
     public float Gravity { get; set; } = 1.0f;
@@ -13,7 +15,19 @@ public class PlayerObjectModule
     public float WeaponRotationSpeed { get; set; }
     public bool PlayCollisionSound { get; set; } = true;
 
-    public int CooldownTimer { get; set; }
+    public int CooldownTimer
+    {
+        get => cooldownTimer;
+        set
+        {
+            if (cooldownTimer <= 0)
+                CurrentCooldownTime = value;
+
+            cooldownTimer = value;
+        }
+    }
+    public int CurrentCooldownTime { get; set; }
+
     public bool UsedAgility { get; set; }
 
     public int LaserTimer { get; set; }

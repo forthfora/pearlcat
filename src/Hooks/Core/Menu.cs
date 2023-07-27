@@ -426,7 +426,7 @@ public static partial class Hooks
 
         var angleFrameAddition = 0.0005f;
         var radius = 90.0f;
-        var origin = new Vector2(660, 360);
+        var origin = new Vector2(650, 360);
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
 
@@ -435,7 +435,8 @@ public static partial class Hooks
 
         illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, 0.0f, 0.2f, 0.3f);
         illustration.alpha = 0.8f;
-        illustration.color = pearlColors[i].MenuPearlColorFilter() * Custom.HSL2RGB(1.0f, 0.2f, 1.0f);
+        illustration.color = pearlColors[i].MenuPearlColorFilter();
+        //illustration.color = Color.Lerp(pearlColors[i].MenuPearlColorFilter(), new Color32(207, 187, 101, 255), 0.4f);
     }
 
 

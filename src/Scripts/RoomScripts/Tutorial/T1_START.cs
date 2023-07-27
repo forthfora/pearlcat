@@ -118,12 +118,12 @@ public class T1_START : UpdatableAndDeletable
             else if (CurrentPhase == Phase.StoreTutorial)
             {
                 if (ModOptions.UsesCustomStoreKeybind.Value)
-                    game.AddTextPrompt($"To retrieve pearls, have an empty right hand, and hold ({ModOptions.StoreKeybindKeyboard.Value}) or ({ModOptions.StoreKeybindPlayer1.Value.GetDisplayName()})", 0, 800);
+                    game.AddTextPrompt($"To retrieve pearls, have an empty main hand, and hold ({ModOptions.StoreKeybindKeyboard.Value}) or ({ModOptions.StoreKeybindPlayer1.Value.GetDisplayName()})", 0, 800);
  
                 else
-                    game.AddTextPrompt($"To retrieve pearls, have an empty right hand, and hold (GRAB + UP)", 0, 800);
+                    game.AddTextPrompt($"To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 800);
 
-                game.AddTextPrompt($"To store, hold the same keybind with a pearl in your right hand", 0, 600);
+                game.AddTextPrompt($"To store, hold the same keybind with a pearl in your main hand", 0, 600);
 
                 PhaseTimer = 1400;
                 CurrentPhase = Phase.End;

@@ -350,7 +350,7 @@ public static partial class Hooks
         Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
     
 
-    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, FContainer? newContainer)
+    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, FContainer? newContainer = null)
     {
         var bodySprite = sLeaser.sprites[BODY_SPRITE];
         var armLSprite = sLeaser.sprites[ARM_L_SPRITE];

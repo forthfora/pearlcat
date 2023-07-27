@@ -354,8 +354,10 @@ public static partial class Hooks
         {
             if (playerModule.StoreObjectTimer >= 0)
             {
-                playerModule.BlockInput = true;
                 playerModule.StoreObjectTimer++;
+                
+                playerModule.BlockInput = true;
+                playerModule.ShowHUD(10);
 
                 self.Blink(5);
 

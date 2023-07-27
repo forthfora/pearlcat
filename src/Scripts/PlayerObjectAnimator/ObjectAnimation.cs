@@ -119,8 +119,10 @@ public abstract class ObjectAnimation
                 
                 addon.DrawSymbolCooldown = true;
 
-                var cooldownLerp = poModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(poModule.CooldownTimer, 40, 0, 1.0f, 0.0f);
-                addon.SymbolColor = Color.Lerp(addon.SymbolColor, new Color(189 / 255.0f, 13 / 255.0f, 0.0f), cooldownLerp);
+                var cooldownLerp = poModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(poModule.CooldownTimer, poModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
+                var cooldownColor = new Color32(189, 13, 0, 255);
+
+                addon.SymbolColor = Color.Lerp(Color.Lerp(addon.SymbolColor, cooldownColor, 0.4f), cooldownColor, cooldownLerp);
             }
             else
             {
