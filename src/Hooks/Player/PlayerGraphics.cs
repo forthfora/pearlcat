@@ -190,8 +190,15 @@ public static partial class Hooks
         UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
         UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
 
-        UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
-
+        if (self.RenderAsPup)
+        {
+            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face");
+            UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_head");
+        }
+        else
+        {
+            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
+        }
 
         DrawEars(self, sLeaser, timeStacker, camPos, playerModule);
         DrawTail(self, sLeaser, playerModule);
@@ -223,19 +230,20 @@ public static partial class Hooks
         if (sLeaser.sprites[earSprite] is not TriangleMesh earMesh) return;
 
         // Draw Mesh
-        float earRad = ear[0].rad;
+        var earRad = ear[0].rad;
 
         for (var segment = 0; segment < ear.Length; segment++)
         {
-            Vector2 earPos = Vector2.Lerp(ear[segment].lastPos, ear[segment].pos, timestacker);
+            var earPos = Vector2.Lerp(ear[segment].lastPos, ear[segment].pos, timestacker);
 
 
-            Vector2 normalized = (earPos - attachPos).normalized;
-            Vector2 perpendicularNormalized = Custom.PerpendicularVector(normalized);
+            var normalized = (earPos - attachPos).normalized;
+            var perpendicularNormalized = Custom.PerpendicularVector(normalized);
 
-            float distance = Vector2.Distance(earPos, attachPos) / 5.0f;
+            var distance = Vector2.Distance(earPos, attachPos) / 5.0f;
 
-            if (segment == 0) distance = 0.0f;
+            if (segment == 0)
+                distance = 0.0f;
 
             earMesh.MoveVertice(segment * 4, attachPos - earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
             earMesh.MoveVertice(segment * 4 + 1, attachPos + earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
@@ -269,7 +277,7 @@ public static partial class Hooks
 
         for (int vertex = earMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
         {
-            float interpolation = (vertex / 2.0f) / (earMesh.verticeColors.Length / 2.0f);
+            var interpolation = (vertex / 2.0f) / (earMesh.verticeColors.Length / 2.0f);
             Vector2 uvInterpolation;
 
             // Even vertexes
@@ -348,7 +356,7 @@ public static partial class Hooks
 
     public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PlayerModule playerModule, Vector2 offset) =>
         Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
-    
+
 
     public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, FContainer? newContainer = null)
     {
@@ -698,7 +706,7 @@ public static partial class Hooks
         // Simulate friction
         ear[0].vel.x *= 0.9f;
         ear[1].vel.x *= 0.7f;
-        ear[2].vel.x *= 0.7f;
+        if (ear.Length >= 3) ear[2].vel.x *= 0.7f;
 
 
         if (self.player.dead) return;
@@ -711,13 +719,13 @@ public static partial class Hooks
 
             ear[0].vel += 5.0f * playerRot;
             ear[1].vel += 5.0f * playerRot;
-            ear[2].vel += 5.0f * playerRot;
+            if (ear.Length >= 3) ear[2].vel += 5.0f * playerRot;
         }
         else
         {
             ear[0].vel.y += self.player.EffectiveRoomGravity * 0.5f;
             ear[1].vel.y += self.player.EffectiveRoomGravity * 0.3f;
-            ear[2].vel.y += self.player.EffectiveRoomGravity * 0.3f;
+            if (ear.Length >= 3) ear[2].vel.y += self.player.EffectiveRoomGravity * 0.3f;
 
             if (self.player.bodyMode == Player.BodyModeIndex.Crawl && self.player.input[0].x == 0)
             {
@@ -726,13 +734,13 @@ public static partial class Hooks
                 {
                     ear[0].vel.x += 0.65f * negFlipDir;
                     ear[1].vel.x += 0.65f * negFlipDir;
-                    ear[2].vel.x += 0.65f * negFlipDir;
+                    if (ear.Length >= 3) ear[2].vel.x += 0.65f * negFlipDir;
                 }
                 else
                 {
                     ear[0].vel.x += 0.25f * negFlipDir;
                     ear[1].vel.x += 0.25f * negFlipDir;
-                    ear[2].vel.x += 0.25f * negFlipDir;
+                    if (ear.Length >= 3) ear[2].vel.x += 0.25f * negFlipDir;
                 }
             }
         }

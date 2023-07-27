@@ -3,6 +3,7 @@ using RWCustom;
 using SlugBase.Features;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using static Pearlcat.POEffect;
 using Random = UnityEngine.Random;
@@ -96,6 +97,14 @@ public static partial class Hooks
         UpdateShield(self, playerModule, effect);
         UpdateRage(self, playerModule, effect);
         UpdateCamoflague(self, playerModule, effect);
+
+        if (playerModule.PearlpupRef?.TryGetTarget(out var pup) == true && pup.dangerGraspTime > 0 && !pup.playerState.permaDead)
+        {
+            stats.throwingSkill = 2;
+            stats.runspeedFac *= 1.5f;
+            stats.corridorClimbSpeedFac *= 1.5f;
+            stats.poleClimbSpeedFac *= 1.5f;
+        }
 
         //Plugin.Logger.LogWarning(
         //    "\nThrowSkill " + stats.throwingSkill +
@@ -214,14 +223,14 @@ public static partial class Hooks
             && self.Consious && self.bodyMode != Player.BodyModeIndex.Crawl
             && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut
             && self.animation != Player.AnimationIndex.HangFromBeam && self.animation != Player.AnimationIndex.ClimbOnBeam
-            && self.bodyMode != Player.BodyModeIndex.WallClimb && self.bodyMode != Player.BodyModeIndex.Swimming
+            && self.bodyMode != Player.BodyModeIndex.WallClimb
             && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab
             && self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.onBack == null;
 
         if (abilityInput && !wasAbilityInput && canUseAbility)
         {
             var agilityObject = playerModule.SetAgilityCooldown(-1);
-            
+
             self.noGrabCounter = 5;
             var pos = self.firstChunk.pos;
 
@@ -236,7 +245,7 @@ public static partial class Hooks
             self.room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.15f + Random.value * 0.15f, 0.5f + Random.value * 2f);
 
 
-            if (self.bodyMode == Player.BodyModeIndex.ZeroG || self.room.gravity == 0f || self.gravity == 0f)
+            if (self.bodyMode == Player.BodyModeIndex.ZeroG || self.room.gravity == 0f || self.gravity == 0f || self.bodyMode == Player.BodyModeIndex.Swimming)
             {
                 float inputX = self.input[0].x;
                 float randVariation = self.input[0].y;

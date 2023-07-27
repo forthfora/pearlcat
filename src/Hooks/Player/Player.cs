@@ -267,6 +267,19 @@ public static partial class Hooks
 
         if (self.inVoidSea || playerModule.Inventory.Any(x => x.Room != self.abstractCreature.Room))
             self.AbstractizeInventory();
+    
+        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup) && pup.room != null && pup.InDeathpit() && playerModule.ReviveCount > 0)
+        {
+            pup.SuperHardSetPosition(self.firstChunk.pos);
+            
+            pup.Die();
+            pup.RevivePlayer();
+
+            pup.graphicsModule.Reset();
+            pup.Stun(40);
+
+            playerModule.SetReviveCooldown(-1);
+        }
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)
@@ -299,6 +312,37 @@ public static partial class Hooks
 
         if (self.room != null)
             self.GivePearls(playerModule);
+
+        RefreshPearlpup(self, playerModule);
+    }
+
+    private static void RefreshPearlpup(Player self, PlayerModule playerModule)
+    {
+        if (!self.IsFirstPearlcat()) return;
+
+        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var _)) return;
+
+        if (self.room == null) return;
+
+        foreach (var roomObject in self.room.physicalObjects)
+        {
+            foreach (var physicalobject in roomObject)
+            {
+                if (physicalobject is not Player player) continue;
+
+                if (!player.IsPearlpup()) continue;
+
+                playerModule.PearlpupRef = new(player);
+                return;
+            }
+        }
+
+        playerModule.PearlpupRef = null;
+
+        var save = self.abstractCreature.Room.world.game.GetMiscWorld();
+
+        if (save != null)
+            save.PearlpupID = null;
     }
 
     private static void UpdateTryRevive(Player self, PlayerModule playerModule)
@@ -765,6 +809,6 @@ public static partial class Hooks
     }
 
     // https://github.com/WondaMegapon/pitrespawn/blob/master/PitRespawn.cs
-    public static bool InDeathpit(this Player self) => self.mainBodyChunk.pos.y < -400.0f
+    public static bool InDeathpit(this Player self) => self.mainBodyChunk.pos.y < -300.0f
         && (!self.room.water || self.room.waterInverted || self.room.defaultWaterLevel < -10) && (!self.Template.canFly || self.Stunned || self.dead) && self.room.deathFallGraphic != null;
 }

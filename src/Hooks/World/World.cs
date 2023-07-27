@@ -116,8 +116,15 @@ public partial class Hooks
         var result = orig(self);
 
         if (self.saveStateNumber == Enums.Pearlcat)
+        {
             if (self.saveState.progression.miscProgressionData.beaten_Gourmand_Full || MoreSlugcats.MoreSlugcats.chtUnlockSlugpups.Value)
                 return 2;
+
+            var save = self.saveState.miscWorldSaveData.GetMiscWorld();
+
+            if (save != null && save.PearlpupID == null)
+                return 1;
+        }
 
         return result;
     }

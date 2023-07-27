@@ -80,7 +80,7 @@ public class InventoryHUD : HudPart
                 var mainHand = i == 0;
 
                 symbol.Pos = truePos + new Vector2(30.0f * (mainHand ? -1 : 1), 10.0f);
-                symbol.Scale = mainHand ? 1.25f : 0.5f;
+                symbol.Scale = mainHand ? 1.25f : 0.8f;
             }
 
         }

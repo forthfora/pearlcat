@@ -24,6 +24,9 @@ public class PearlpupModule
     public int ScarfNeckSprite { get; set; }
     public int FeetSprite { get; set; }
 
+    public SharedPhysics.TerrainCollisionData ScratchTerrainCollisionData { get; } = new();
+    public Vector2 PrevHeadRotation { get; set; }
+    public Vector2[,] Scarf { get; } = new Vector2[6, 6];
 
     public Color BodyColor { get; set; }
     public Color AccentColor { get; set; }
@@ -33,7 +36,7 @@ public class PearlpupModule
     public Color BaseBodyColor { get; set; } = new Color32(79, 70, 60, 255);
     public Color BaseAccentColor { get; set; } = Color.white;
     public Color BaseFaceColor { get; set; } = Color.white;
-    public Color BaseScarfColor { get; set; } = new Color32(242, 23, 8, 255);
+    public Color BaseScarfColor { get; set; } = new Color32(145, 34, 26, 255);
 
     public void UpdateColors(PlayerGraphics self)
     {
@@ -63,13 +66,11 @@ public class PearlpupModule
 
         var self = (PlayerGraphics)pup.graphicsModule;
 
-        var newTail = new TailSegment[6];
-        newTail[0] = new TailSegment(self, 8.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-        newTail[1] = new TailSegment(self, 7.0f, 7.0f, newTail[0], 0.85f, 1.0f, 0.5f, true);
-        newTail[2] = new TailSegment(self, 6.0f, 7.0f, newTail[1], 0.85f, 1.0f, 0.5f, true);
-        newTail[3] = new TailSegment(self, 5.0f, 7.0f, newTail[2], 0.85f, 1.0f, 0.5f, true);
-        newTail[4] = new TailSegment(self, 2.5f, 7.0f, newTail[3], 0.85f, 1.0f, 0.5f, true);
-        newTail[5] = new TailSegment(self, 1.0f, 7.0f, newTail[4], 0.85f, 1.0f, 0.5f, true);
+        var newTail = new TailSegment[4];
+        newTail[0] = new TailSegment(self, 6.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+        newTail[1] = new TailSegment(self, 5.0f, 7.0f, newTail[0], 0.85f, 1.0f, 0.5f, true);
+        newTail[2] = new TailSegment(self, 2.5f, 7.0f, newTail[1], 0.85f, 1.0f, 0.5f, true);
+        newTail[3] = new TailSegment(self, 1.0f, 7.0f, newTail[2], 0.85f, 1.0f, 0.5f, true);
 
         for (int i = 0; i < newTail.Length && i < self.tail.Length; i++)
         {
@@ -101,5 +102,97 @@ public class PearlpupModule
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
 
         TailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
+    }
+
+    public TailSegment[]? EarL { get; set; }
+    public TailSegment[]? EarR { get; set; }
+
+    public int EarLSprite { get; set; }
+    public int EarRSprite { get; set; }
+
+    public FAtlas? EarLAtlas { get; set; }
+    public FAtlas? EarRAtlas { get; set; }
+
+    public Vector2 EarLAttachPos { get; set; }
+    public Vector2 EarRAttachPos { get; set; }
+
+    public int EarLFlipDirection { get; set; } = 1;
+    public int EarRFlipDirection { get; set; } = 1;
+
+    public void LoadEarLTexture(string textureName)
+    {
+        var earLTexture = AssetLoader.GetTexture(textureName);
+        if (earLTexture == null) return;
+
+        var atlasName = Plugin.MOD_ID + textureName + ID;
+
+        if (Futile.atlasManager.DoesContainAtlas(atlasName))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+
+        EarLAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earLTexture, false);
+    }
+
+    public void LoadEarRTexture(string textureName)
+    {
+        var earRTexture = AssetLoader.GetTexture(textureName);
+        if (earRTexture == null) return;
+
+        var atlasName = Plugin.MOD_ID + textureName + ID;
+
+        if (Futile.atlasManager.DoesContainAtlas(atlasName))
+            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+
+        EarRAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earRTexture, false);
+    }
+
+    public void RegenerateEars()
+    {
+        if (!PupRef.TryGetTarget(out var player)) return;
+
+        if (player.graphicsModule == null) return;
+
+        var self = (PlayerGraphics)player.graphicsModule;
+
+        var newEarL = new TailSegment[2];
+        newEarL[0] = new(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+        newEarL[1] = new(self, 3.0f, 6.0f, newEarL[0], 0.85f, 1.0f, 0.05f, true);
+
+        if (EarL != null)
+        {
+            for (var i = 0; i < newEarL.Length && i < EarL.Length; i++)
+            {
+                newEarL[i].pos = EarL[i].pos;
+                newEarL[i].lastPos = EarL[i].lastPos;
+                newEarL[i].vel = EarL[i].vel;
+                newEarL[i].terrainContact = EarL[i].terrainContact;
+                newEarL[i].stretched = EarL[i].stretched;
+            }
+        }
+
+        var newEarR = new TailSegment[2];
+        newEarR[0] = new(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+        newEarR[1] = new(self, 3.0f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.05f, true);
+
+        if (EarR != null)
+        {
+            for (var i = 0; i < newEarR.Length && i < EarR.Length; i++)
+            {
+                newEarR[i].pos = EarR[i].pos;
+                newEarR[i].lastPos = EarR[i].lastPos;
+                newEarR[i].vel = EarR[i].vel;
+                newEarR[i].terrainContact = EarR[i].terrainContact;
+                newEarR[i].stretched = EarR[i].stretched;
+            }
+        }
+
+        EarL = newEarL;
+        EarR = newEarR;
+
+        var newBodyParts = self.bodyParts.ToList();
+
+        newBodyParts.AddRange(EarL);
+        newBodyParts.AddRange(EarR);
+
+        self.bodyParts = newBodyParts.ToArray();
     }
 }

@@ -13,6 +13,7 @@ namespace Pearlcat;
 public class PlayerModule
 {
     public WeakReference<Player> PlayerRef { get; private set; }
+    public WeakReference<Player>? PearlpupRef { get; set; }
 
     public PlayerModule(Player self)
     {

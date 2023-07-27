@@ -25,7 +25,7 @@ public static partial class Hooks
         return true;
     }
 
-    public static bool IsPearlpup(this Player pup) => pup.abstractCreature.Room.world.game.GetMiscWorld()?.PearlpupIDs?.Contains(pup.abstractCreature.ID.number) ?? false;
+    public static bool IsPearlpup(this Player pup) => pup.abstractCreature.Room.world.game.GetMiscWorld()?.PearlpupID == pup.abstractCreature.ID.number;
 
     public static void MakePearlpup(this Player pup)
     {
@@ -37,6 +37,8 @@ public static partial class Hooks
 
         if (save == null) return;
 
-        save.PearlpupIDs.Add(pup.abstractCreature.ID.number);
+        if (save.PearlpupID != null) return;
+
+        save.PearlpupID = pup.abstractCreature.ID.number;
     }
 }

@@ -10,8 +10,8 @@
         
         "start_room": ["T1_START", "SS_S04"],
         
-        "food_min": 3,
-        "food_max": 5,
+        "food_min": 6,
+        "food_max": 9,
         
         "throw_skill": [1, 0],
         
@@ -39,8 +39,8 @@
         
         "diet": {
             "base": "White",
-            "corpses": 0.25,
-            "meat": 0.5,
+            "corpses": 1.0,
+            "meat": 1.0,
             "plants": 1.0,
             "overrides": {
                 "Fly" : 1.0
