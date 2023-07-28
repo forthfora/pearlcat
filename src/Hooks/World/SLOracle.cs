@@ -92,6 +92,7 @@ public static partial class Hooks
                     {
                         SayNoLinger("And who is your little friend? They are quite adorable!");
 
+                        SayNoLinger("Ah, I hope you both stay safe out there...");
                     }
                     else
                     {
@@ -106,9 +107,9 @@ public static partial class Hooks
 
                     Wait(10);
 
-                    Say("Given your unique abilities, if you are curious as to the contents of those pearls...", 0, 5);
+                    Say("Given your unique abilities, if you are curious as to the contents of those pearls -", 0, 5);
 
-                    Say("I think I may still have some use left after all!", 0, 5);
+                    Say("I think I may still have some use left after all!~", 0, 5);
                     return;
 
                 default:
@@ -171,7 +172,9 @@ public static partial class Hooks
 
                         if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
                         {
-                            Say("I do enjoy the company though. You and your family are always welcome here.", 0, 5);
+                            Say("I very much enjoy the company though... you and your little friend are always welcome here.", 0, 5);
+
+                            Say("I would guess they will grow up into quite the scholar themself, someday...", 0, 5);
                             return;
                         }
 

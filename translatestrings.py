@@ -24,15 +24,17 @@ for subdir, dirs, files in os.walk(ROOT_DIR):
         f = open(filePath, "r")
 
         contents = f.read()
-        thisFileStrings = re.findall(r'(?<![LogWarning(])(?<![$])"(.*?)"', contents)
+        thisFileStrings = re.findall(r'(?<![LogWarning(])"(.*?)"', contents)
 
         strings += thisFileStrings
 
         f.close()
 
-strings = list(filter(None, strings))
-strings = list(filter(lambda x:  (x[:1].isalpha() or x.startswith("\\n")) and not (x.startswith("_") or x.startswith(".")), strings))
-strings = [x.strip() for x in strings]
+strings = list(filter(None, strings)) # remove empty
+strings = list(filter(lambda x: not (x.startswith("_") or x.startswith(".")), strings)) # trim weird stuff
+strings = [*set(strings)] # remove duplicates
+
+# strings = [x.strip() for x in strings]
 
 f = open(os.path.join(OUTPUT_DIR, "strings.txt"), "w", encoding='utf-8-sig')
 
@@ -42,6 +44,6 @@ for i in range(len(strings)):
     output = string + "|" + translator.translate(string, src=SRC, dest=DEST).text + "\n"
     f.write(output)
 
-    print("[" + str(i) + " / " + str(len(strings)) + "]")
+    print("[" + str(i + 1) + " / " + str(len(strings)) + "]")
 
 f.close()

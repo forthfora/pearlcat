@@ -132,6 +132,8 @@ public static partial class Hooks
             return;
         }
 
+        var save = self.owner.oracle.room.game.GetMiscWorld();
+
         var module = self.owner.GetModule();
         var l = self.owner.rainWorld.inGameTranslator.currentLanguage == InGameTranslator.LanguageID.Chinese ? 1 : 0;
 
@@ -142,40 +144,80 @@ public static partial class Hooks
 
         if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
         {
-            e.Add(new WaitEvent(self, 160));
+            if (save?.PearlpupID != null)
+            {
+                e.Add(new WaitEvent(self, 160));
 
-            e.Add(new TextEvent(self, 0,
-                self.Translate(".  .  ."), 0));
+                e.Add(new TextEvent(self, 0,
+                    self.Translate(".  .  ."), 0));
 
-            e.Add(new TextEvent(self, 0,
-                self.Translate("And just who might you be?"), l * 80));
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("And just who might you two be?"), l * 80));
 
-            e.Add(new TextEvent(self, 0,
-                self.Translate("My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable."), l * 80));
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable."), l * 80));
 
-            e.Add(new WaitEvent(self, 80));
+                e.Add(new WaitEvent(self, 80));
+
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me..."), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("...you can manipulate our storage medium in unforseen ways..."), l * 80));
+
+                e.Add(new WaitEvent(self, 40));
+
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("Clearly artificial creations. But from where? Sent by who?"), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("And why... to me?"), l * 80));
+
+
+                e.Add(new WaitEvent(self, 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("I do not know what to make of this."), l * 80));
+            }
+            else
+            {
+                e.Add(new WaitEvent(self, 160));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate(".  .  ."), 0));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("And just who might you be?"), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable."), l * 80));
+
+                e.Add(new WaitEvent(self, 80));
             
 
-            e.Add(new TextEvent(self, 0,
-                self.Translate("You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me..."), l * 80));
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me..."), l * 80));
 
-            e.Add(new TextEvent(self, 0,
-                self.Translate("...you can manipulate our storage medium in unforseen ways..."), l * 80));
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("...you can manipulate our storage medium in unforseen ways..."), l * 80));
 
-            e.Add(new WaitEvent(self, 40));
-
-
-            e.Add(new TextEvent(self, 0,
-                self.Translate("Clearly an artifical creation. But from where? Sent by who?"), l * 80));
-
-            e.Add(new TextEvent(self, 0,
-                self.Translate("And why... to me?"), l * 80));
+                e.Add(new WaitEvent(self, 40));
 
 
-            e.Add(new WaitEvent(self, 80));
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("Clearly an artifical creation. But from where? Sent by who?"), l * 80));
 
-            e.Add(new TextEvent(self, 0,
-                self.Translate("I do not know what to make of this."), l * 80));
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("And why... to me?"), l * 80));
+
+
+                e.Add(new WaitEvent(self, 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("I do not know what to make of this."), l * 80));
+            }
         }
 
         else if (id == Enums.SSOracle.Pearlcat_SSConvoFirstLeave)
@@ -197,6 +239,24 @@ public static partial class Hooks
 
             e.Add(new TextEvent(self, 0,
                 self.Translate("...and you can gather more of that data you so clearly desire."), l * 80));
+
+
+            if (save?.PearlpupID != null)
+            {
+                e.Add(new WaitEvent(self, 40));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("Oh, and for direction - there is a gate to the far west of here, where the ground fissues..."), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business."), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("If you do not plan to provide me with any meaningful data, that is your best course of action;"), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("The choice is yours."), l * 80));
+            }
 
 
             e.Add(new WaitEvent(self, 120));
@@ -596,12 +656,18 @@ public static partial class Hooks
 
                 case 2:
                     dialogBox.NewMessage(
-                            Translate("Back again? I hope you have brought me something this time."), 0);
+                        Translate("Back again? I hope you have brought me something this time."), 0);
+
+                    dialogBox.NewMessage(
+                        Translate("My own time is limited, after all..."), 0);
                     break;
 
                 case 3:
                     dialogBox.NewMessage(
-                            Translate("Back again? You do visit often..."), 0);
+                        Translate("Back again? You do visit often..."), 0);
+
+                    dialogBox.NewMessage(
+                        Translate("I will tolerate your pressence, so long as you bring me something meaningful."), 0);
                     break;
 
                 default:
