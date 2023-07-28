@@ -67,6 +67,7 @@ public class T1_CAR3 : UpdatableAndDeletable
                         var slugpup = (Player)abstractSlugpup.realizedObject;
                         slugpup.SuperHardSetPosition(TutorialSlugpupPos);
                         slugpup.graphicsModule.Reset();
+                        slugpup.playerState.foodInStomach = 3;
 
                         slugpup.Stun(40);
                         slugpup.Die();

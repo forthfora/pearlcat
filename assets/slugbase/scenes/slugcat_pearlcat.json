@@ -2,7 +2,7 @@
   "id": "Slugcat_Pearlcat",
   "scene_folder": "slugbase/scenes/slugcat_pearlcat",
   "images": [
-    {"name": "flat", "pos": [430, 130], "depth": -1.0, "flatmode": true},
+    {"name": "flat", "pos": [410, 130], "depth": -1.0, "flatmode": true},
 
     
     {"name": "background", "pos": [430, 130], "depth": 6.0,  "shader": "Normal"},

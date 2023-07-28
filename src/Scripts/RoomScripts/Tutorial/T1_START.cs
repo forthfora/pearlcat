@@ -40,7 +40,7 @@ public class T1_START : UpdatableAndDeletable
 
             if (CurrentPhase == Phase.Init)
             {
-                player.playerState.foodInStomach = 3;
+                player.playerState.foodInStomach = 6;
                 room.game.cameras[0].hud.foodMeter.NewShowCount(player.FoodInStomach);
 
                 player.controller = new PearlcatController(new(this, player.playerState.playerNumber));

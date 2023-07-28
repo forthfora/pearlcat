@@ -2,7 +2,7 @@
   "id": "Slugcat_Pearlcat_Ascended",
   "scene_folder": "slugbase/scenes/slugcat_pearlcat_ascended",
   "images": [
-    {"name": "flat", "pos": [560, 200], "depth": -1.0, "flatmode": true},
+    {"name": "flat", "pos": [500, 200], "depth": -1.0, "flatmode": true},
 
     {"name": "glow", "pos": [460, 70], "depth": 4.0,  "shader": "Basic"},
     {"name": "slugcatlower", "pos": [560, 200], "depth": 2.9, "shader": "Basic"},

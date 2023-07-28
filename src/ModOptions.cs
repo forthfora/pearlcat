@@ -34,11 +34,6 @@ public sealed class ModOptions : OptionsTemplate
         "Disable Tutorials?"));
 
 
-
-    public static Configurable<bool> BadScavRep { get; } = Instance.config.Bind(nameof(BadScavRep), false, new ConfigurableInfo(
-        "When checked, Pearlcat's reputation with the scavengers will be permanently the minimum, like Artificer.", null, "",
-        "Bad Scav Rep?"));
-
     public static Configurable<int> MaxPearlCount { get; } = Instance.config.Bind(nameof(MaxPearlCount), 9, new ConfigurableInfo(
         "Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.",
         new ConfigAcceptableRange<int>(1, 100), "",
@@ -405,7 +400,6 @@ public sealed class ModOptions : OptionsTemplate
          
 
         AddCheckBox(DisableMinorEffects);
-        AddCheckBox(BadScavRep);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddNewLine(1);
@@ -439,9 +433,6 @@ public sealed class ModOptions : OptionsTemplate
         if (GetLabel(DisableMinorEffects, out label))
             label.color = WarnRed;
 
-        if (GetLabel(BadScavRep, out label))
-            label.color = WarnRed;
-
         if (GetLabel(DisableAgility, out label))
             label.color = Color.cyan;
 
@@ -462,9 +453,6 @@ public sealed class ModOptions : OptionsTemplate
 
 
         if (GetConfigurable(DisableMinorEffects, out OpCheckBox checkBox))
-            checkBox.colorEdge = WarnRed;
-
-        if (GetConfigurable(BadScavRep, out checkBox))
             checkBox.colorEdge = WarnRed;
 
         if (GetConfigurable(DisableAgility, out checkBox))
