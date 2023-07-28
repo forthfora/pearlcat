@@ -129,8 +129,11 @@ public class InventoryHUD : HudPart
 
     public void UpdateSymbol(AbstractPhysicalObject abstractObject, PlayerModule playerModule, List<PlayerObjectSymbol> updatedSymbols)
     {
-        if (!Symbols.TryGetValue(abstractObject, out var symbol))
+        if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
         {
+            if (symbol != null)
+                Symbols.Remove(abstractObject);
+
             symbol = new PlayerObjectSymbol(this, Vector2.zero, playerModule);
             Symbols.Add(abstractObject, symbol);
             AllSymbols.Add(symbol);

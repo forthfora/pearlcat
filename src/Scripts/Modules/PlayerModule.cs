@@ -145,6 +145,8 @@ public class PlayerModule
     public int GroundedTimer { get; set; }
     public int FlyTimer { get; set; }
 
+    public int MaskCounter { get; set; }
+
     public bool WasSwapLeftInput { get; set; }
     public bool WasSwapRightInput { get; set; }
     public bool WasSwapped { get; set; }

@@ -57,6 +57,37 @@ public partial class Hooks
         On.WormGrass.Worm.Attached += Worm_Attached;
 
         On.RegionGate.customOEGateRequirements += RegionGate_customOEGateRequirements;
+
+        On.VultureMask.DrawSprites += VultureMask_DrawSprites;
+    }
+
+    private static void VultureMask_DrawSprites(On.VultureMask.orig_DrawSprites orig, VultureMask self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        //Vector2 vector = Vector2.Lerp(self.firstChunk.lastPos, self.firstChunk.pos, timeStacker);
+        //Vector2 vector2 = Vector3.Slerp(self.lastRotationA, self.rotationA, timeStacker);
+        //Vector2 vector3 = Vector3.Slerp(self.lastRotationB, self.rotationB, timeStacker);
+        
+        float donnedLerp = Mathf.Lerp(self.lastDonned, self.donned, timeStacker);
+
+        Player? wasPlayer = null;
+        int? wasEatCounter = null;
+        
+        if (donnedLerp > 0f && self.grabbedBy.Count > 0 && self.grabbedBy[0].grabber is Player player && player.TryGetPearlcatModule(out var module))
+        {
+            wasPlayer = player;
+            wasEatCounter = player.eatCounter;
+
+            var isMoving = player.firstChunk.vel.magnitude > 3.0f;
+            var targetCounter = isMoving ? 35 : 0;
+
+            module.MaskCounter = (int)Custom.LerpAndTick(module.MaskCounter, targetCounter, 0.1f, 1.0f);
+            player.eatCounter = module.MaskCounter;
+        }
+
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (wasPlayer != null && wasEatCounter != null)
+            wasPlayer.eatCounter = (int)wasEatCounter;
     }
 
     private static bool RegionGate_customOEGateRequirements(On.RegionGate.orig_customOEGateRequirements orig, RegionGate self)

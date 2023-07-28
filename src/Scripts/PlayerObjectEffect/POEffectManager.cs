@@ -13,7 +13,26 @@ public static class POEffectManager
     public static POEffect GetPOEffect(this AbstractPhysicalObject abstractObject)
     {
         if (abstractObject is DataPearl.AbstractDataPearl abstractPearl)
-            return abstractPearl.GetPOEffect();
+        {    
+            var effect = abstractPearl.GetPOEffect();
+        
+            if ((effect.MajorEffect == MajorEffectType.AGILITY && ModOptions.DisableAgility.Value)
+                || (effect.MajorEffect == MajorEffectType.SPEAR_CREATION && ModOptions.DisableSpear.Value)
+                || (effect.MajorEffect == MajorEffectType.RAGE && ModOptions.DisableRage.Value)
+                || (effect.MajorEffect == MajorEffectType.REVIVE && ModOptions.DisableRevive.Value)
+                || (effect.MajorEffect == MajorEffectType.SHIELD && ModOptions.DisableShield.Value)
+                || (effect.MajorEffect == MajorEffectType.CAMOFLAGUE && ModOptions.DisableCamoflague.Value))
+            {
+                var newEffect = Misc;
+
+                newEffect.MajorEffect = effect.MajorEffect;
+                newEffect.ThreatMusic = effect.ThreatMusic;
+
+                return newEffect;
+            }
+
+            return effect;
+        }
 
         return None;
     }
@@ -55,6 +74,7 @@ public static class POEffectManager
         Misc.RunSpeedFac = 0.05f;
         Misc.PoleClimbSpeedFac = 0.05f;
         Misc.CorridorClimbSpeedFac = 0.05f;
+
         Misc.RollSpeedFac = 0.05f;
         Misc.SlideSpeedFac = 0.05f;
 
@@ -190,9 +210,17 @@ public static class POEffectManager
         Spearmasterpearl.MajorEffect = MajorEffectType.RAGE;
 
         IteratorOrange = Color;
+        IteratorOrange.LungsFac = -0.1f;
+        IteratorOrange.RunSpeedFac = -0.1f;
+        IteratorOrange.PoleClimbSpeedFac = -0.1f;
+        IteratorOrange.CorridorClimbSpeedFac = -0.1f;
         IteratorOrange.MajorEffect = MajorEffectType.SHIELD;
 
         IteratorBlue = Color;
+        IteratorBlue.LungsFac = -0.1f;
+        IteratorBlue.RunSpeedFac = -0.1f;
+        IteratorBlue.PoleClimbSpeedFac = -0.1f;
+        IteratorBlue.CorridorClimbSpeedFac = -0.1f;
         IteratorBlue.MajorEffect = MajorEffectType.AGILITY;
 
 
