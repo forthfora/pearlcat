@@ -45,6 +45,7 @@ public static partial class Hooks
             return;
         }
 
+        var save = self.myBehavior.oracle.room.game.GetMiscWorld();
         var t = self.myBehavior.oracle.room.game.rainWorld.inGameTranslator;
 
         void SayNoLinger(string text) => self.events.Add(new Conversation.TextEvent(self, 0, t.Translate(text), 0));
@@ -82,17 +83,26 @@ public static partial class Hooks
                     SayNoLinger("But... the mark you possess, it is very unusual." +
                         "<LINE>Not something anyone in the local group could bestow...");
 
+        
                     SayNoLinger("You must be very brave to have made it all the way here. Very brave indeed...");
-
+          
                     Wait(10);
 
-                    SayNoLinger("The power you possess, it is fascinating. I have never seen anything quite like it from your kind.");
+                    if (save?.PearlpupID != null)
+                    {
+                        SayNoLinger("And who is your little friend? They are quite adorable!");
 
-                    SayNoLinger("Your biology... it is both familiar and foreign to me. How curious.");
+                    }
+                    else
+                    {
+                        SayNoLinger("The power you possess, it is fascinating. I have never seen anything quite like it from your kind.");
 
-                    Say("If only I had my memories, I might have a clue...", 0, 5);
+                        SayNoLinger("Your biology... it is both familiar and foreign to me. How curious.");
+                        
+                        Say("If only I had my memories, I might have a clue...", 0, 5);
 
-                    Say("But it's best not to dwell on the past, don't you agree <PlayerName>?", 0, 5);
+                        Say("But it's best not to dwell on the past, don't you agree <PlayerName>?", 0, 5);
+                    }
 
                     Wait(10);
 

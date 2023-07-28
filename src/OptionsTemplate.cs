@@ -103,14 +103,14 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void DrawKeybinders(Configurable<KeyCode> configurable, ref OpTab tab)
     {
-        var name = (string)configurable.info.Tags[0];
+        var name = Translate((string)configurable.info.Tags[0]);
 
         tab.AddItems(
             new OpLabel(new Vector2(115.0f, Pos.y), new Vector2(100f, 34f), name)
             {
                 alignment = FLabelAlignment.Right,
                 verticalAlignment = OpLabel.LabelVAlignment.Center,
-                description = configurable.info?.description
+                description = Translate(configurable.info?.description)
             },
             new OpKeyBinder(configurable, new(235.0f, Pos.y), new(146f, 30f), false)
         );
@@ -120,7 +120,7 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void AddCheckBox(Configurable<bool> configurable, string? text=null)
     {
-        text ??= (string)configurable.info.Tags[0];
+        text ??= Translate((string)configurable.info.Tags[0]);
 
         CheckBoxConfigurables.Add(configurable);
         CheckBoxesTextLabels.Add(new(new(), new(), text, FLabelAlignment.Left));
@@ -143,7 +143,7 @@ public abstract class OptionsTemplate : OptionInterface
 
             OpCheckBox checkBox = new(configurable, new Vector2(_posX, Pos.y))
             {
-                description = configurable.info?.description ?? ""
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(checkBox);
 
@@ -178,7 +178,7 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void AddComboBox(Configurable<string> configurable, List<ListItem> list, string text, bool allowEmpty = false)
     {
-        OpLabel opLabel = new(new Vector2(), new Vector2(0.0f, FONT_HEIGHT), text, FLabelAlignment.Center, false);
+        OpLabel opLabel = new(new Vector2(), new Vector2(0.0f, FONT_HEIGHT), Translate(text), FLabelAlignment.Center, false);
 
         ComboBoxesTextLabels.Add(opLabel);
         ComboBoxConfigurables.Add(configurable);
@@ -209,7 +209,7 @@ public abstract class OptionsTemplate : OptionInterface
             OpComboBox comboBox = new(configurable, Pos, width, ComboBoxLists[comboBoxIndex])
             {
                 allowEmpty = ComboBoxAllowEmpty[comboBoxIndex],
-                description = configurable.info?.description ?? ""
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(opLabel, comboBox);
 
@@ -258,7 +258,7 @@ public abstract class OptionsTemplate : OptionInterface
             OpSlider slider = new(configurable, new(sliderCenter - 0.5f * sliderSizeX, Pos.y), (int)sliderSizeX)
             {
                 size = new(sliderSizeX, FONT_HEIGHT),
-                description = configurable.info?.description ?? ""
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(slider);
 
@@ -287,7 +287,7 @@ public abstract class OptionsTemplate : OptionInterface
         if (TextLabels.Count == 0)
             Pos.y -= textHeight;
         
-        OpLabel textLabel = new(new Vector2(), new Vector2(20f, textHeight), text, alignment, bigText) // minimal size.x = 20f
+        OpLabel textLabel = new(new Vector2(), new Vector2(20f, textHeight), Translate(text), alignment, bigText) // minimal size.x = 20f
         {
             autoWrap = true
         };
@@ -345,7 +345,7 @@ public abstract class OptionsTemplate : OptionInterface
             OpFloatSlider slider = new(configurable, new Vector2(sliderCenter - 0.5f * sliderSizeX, Pos.y), (int)sliderSizeX, 1)
             {
                 size = new Vector2(sliderSizeX, FONT_HEIGHT),
-                description = configurable.info?.description ?? ""
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(slider);
 
@@ -371,7 +371,7 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void AddDragger(Configurable<int> configurable, string? text = null)
     {
-        text ??= (string)configurable.info.Tags[0];
+        text ??= Translate((string)configurable.info.Tags[0]);
 
         DraggerConfigurables.Add(configurable);
         DraggerTextLabels.Add(new OpLabel(new Vector2(), new Vector2(), text, FLabelAlignment.Left));
@@ -392,7 +392,7 @@ public abstract class OptionsTemplate : OptionInterface
 
             OpDragger dragger = new(configurable, new Vector2(_posX, Pos.y))
             {
-                description = configurable.info?.description ?? ""
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(dragger);
             _posX += DraggerWithSpacing;
@@ -449,7 +449,7 @@ public abstract class OptionsTemplate : OptionInterface
         {
             if (tab == null) continue;
 
-            if (tab.items.FirstOrDefault(item => item is OpLabel label && label.text == text) is OpLabel search)
+            if (tab.items.FirstOrDefault(item => item is OpLabel label && label.text == Translate(text)) is OpLabel search)
             {
                 label = search;
                 return true;
