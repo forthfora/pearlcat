@@ -57,10 +57,6 @@ public class PlayerObjectSymbol : IDrawable
             RemoveSprites();
             return;
         }
-        
-        if (PlayerModuleRef?.TryGetTarget(out var playerModule) != true) return;
-
-        if (TargetObjectRef?.TryGetTarget(out var targetObject) != true) return;
 
         if (ItemSymbol == null) return;
 
@@ -68,12 +64,26 @@ public class PlayerObjectSymbol : IDrawable
         ItemSymbol.symbolSprite.alpha = Fade * DistFade;
 
         ItemSymbol.showFlash = Mathf.Lerp(ItemSymbol.showFlash, 0f, 0.1f);
-        ItemSymbol.shadowSprite1.alpha = ItemSymbol.symbolSprite.alpha * 0.5f;
-        ItemSymbol.shadowSprite2.alpha = ItemSymbol.symbolSprite.alpha * 0.5f;
+        ItemSymbol.shadowSprite1.alpha = ItemSymbol.symbolSprite.alpha * 0.15f;
+        ItemSymbol.shadowSprite2.alpha = ItemSymbol.symbolSprite.alpha * 0.4f;
 
         ItemSymbol.symbolSprite.scale = Scale;
         ItemSymbol.shadowSprite1.scale = Scale;
-        ItemSymbol.shadowSprite1.scale = Scale;
+        ItemSymbol.shadowSprite2.scale = Scale;
+
+        ItemSymbol.shadowSprite1.element = Futile.atlasManager.GetElementWithName("pearlcat_hudshadow");
+        ItemSymbol.shadowSprite2.element = Futile.atlasManager.GetElementWithName("pearlcat_hudshadow");
+        ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName("pearlcat_hudpearl");
+
+        ItemSymbol.shadowSprite1.SetPosition(ItemSymbol.symbolSprite.GetPosition());
+        ItemSymbol.shadowSprite2.SetPosition(ItemSymbol.symbolSprite.GetPosition());
+
+        ItemSymbol.shadowSprite1.scale *= 0.12f;
+        ItemSymbol.shadowSprite2.scale *= 0.2f;
+        ItemSymbol.symbolSprite.scale *= 0.1f;
+
+        ItemSymbol.shadowSprite1.color = Color.white;
+        ItemSymbol.shadowSprite2.color = Color.black;
     }
 
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam) { }

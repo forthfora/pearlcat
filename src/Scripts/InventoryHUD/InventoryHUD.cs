@@ -46,7 +46,7 @@ public class InventoryHUD : HudPart
 
                 var isActiveObject = playerModule.ActiveObject == abstractObject;
 
-                if (!Symbols.TryGetValue(abstractObject, out var symbol)) continue;
+                if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
 
                 symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.Inventory.Count - 2) / 2, 1.0f, 0.2f);
 
@@ -75,7 +75,7 @@ public class InventoryHUD : HudPart
                 
                 if (grasp?.grabbed is not PhysicalObject physicalObject) continue;
 
-                if (!Symbols.TryGetValue(physicalObject.abstractPhysicalObject, out var symbol)) continue;
+                if (!Symbols.TryGetValue(physicalObject.abstractPhysicalObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
 
                 var mainHand = i == 0;
 
@@ -89,10 +89,10 @@ public class InventoryHUD : HudPart
         {
             var symbol = AllSymbols[i];
             
-            symbol?.Draw(timeStacker);            
-            
             if (symbol == null || symbol.SlatedForDeletion)
                 AllSymbols.RemoveAt(i);
+
+            symbol?.Draw(timeStacker);
         }
     }
 

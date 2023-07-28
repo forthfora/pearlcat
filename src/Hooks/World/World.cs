@@ -55,6 +55,18 @@ public partial class Hooks
 
         On.WormGrass.WormGrassPatch.Update += WormGrassPatch_Update;
         On.WormGrass.Worm.Attached += Worm_Attached;
+
+        On.RegionGate.customOEGateRequirements += RegionGate_customOEGateRequirements;
+    }
+
+    private static bool RegionGate_customOEGateRequirements(On.RegionGate.orig_customOEGateRequirements orig, RegionGate self)
+    {
+        var result = orig(self);
+
+        if (self.room.game.IsPearlcatStory())
+            return true;
+
+        return result;
     }
 
     private static void WormGrassPatch_Update(On.WormGrass.WormGrassPatch.orig_Update orig, WormGrass.WormGrassPatch self)

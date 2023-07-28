@@ -290,7 +290,7 @@ public static partial class Hooks
             self.GivePearls(playerModule);
             playerModule.LoadSaveData(self);
 
-            Plugin.Logger.LogWarning("PEARLCAT WARP EMD");
+            Plugin.Logger.LogWarning("PEARLCAT WARP END");
             playerModule.JustWarped = false;
         }
 

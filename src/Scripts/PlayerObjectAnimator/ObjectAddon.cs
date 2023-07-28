@@ -241,7 +241,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.SetPosition(ParentSprite.GetPosition() + offset);
         sprite.scale = SymbolScale;
         sprite.alpha = SymbolAlpha;
-        sprite.color = ShieldCounter == 0 ? Color.red : new Color32(230, 203, 85, 255);
+
+        var shieldCounterColor = new Color32(230, 203, 85, 255);
+        sprite.color = ShieldCounter == 0 ? Color.Lerp(shieldCounterColor, Color.red, 1.0f) : shieldCounterColor;
 
 
         sprite = sLeaser.sprites[ReviveCounterSprite];
@@ -257,7 +259,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.SetPosition(ParentSprite.GetPosition() + offset);
         sprite.scale = SymbolScale;
         sprite.alpha = SymbolAlpha;
-        sprite.color = ReviveCounter == 0 ? Color.red : new Color32(115, 209, 96, 255);
+
+        var reviveCounterColor = new Color32(115, 209, 96, 255);
+        sprite.color = ReviveCounter == 0 ? Color.Lerp(reviveCounterColor, Color.red, 1.0f) : reviveCounterColor;
 
 
         sprite = sLeaser.sprites[LaserSprite];

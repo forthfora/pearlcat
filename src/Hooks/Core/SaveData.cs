@@ -103,9 +103,6 @@ public static partial class Hooks
 
                     var split = item.Split(new string[] { "<oA>" }, StringSplitOptions.None);
 
-                    foreach (var a in split)
-                        Plugin.Logger.LogWarning(a);
-
                     if (split.Length < 5) continue;
 
                     var potentialType = split[5];
