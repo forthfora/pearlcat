@@ -747,6 +747,11 @@ public static partial class Hooks
 
         self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
         self.playerState.permaDead = false;
+        self.playerState.alive = true;
+
+        self.exhausted = false;
+        self.airInLungs = 1.0f;
+        self.aerobicLevel = 0.0f;
         
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 

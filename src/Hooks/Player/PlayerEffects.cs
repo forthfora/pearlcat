@@ -97,13 +97,13 @@ public static partial class Hooks
         UpdateRage(self, playerModule, effect);
         UpdateCamoflague(self, playerModule, effect);
 
-        if (playerModule.PearlpupRef?.TryGetTarget(out var pup) == true && pup.dangerGrasp != null && pup.graphicsModule != null)
-        {
-            stats.throwingSkill = 2;
-            stats.runspeedFac *= 1.5f;
-            stats.corridorClimbSpeedFac *= 1.7f;
-            stats.poleClimbSpeedFac *= 1.7f;
-        }
+        //if (playerModule.PearlpupRef?.TryGetTarget(out var pup) == true && pup.dangerGrasp != null && pup.graphicsModule != null)
+        //{
+        //    stats.throwingSkill = 2;
+        //    stats.runspeedFac *= 1.5f;
+        //    stats.corridorClimbSpeedFac *= 1.7f;
+        //    stats.poleClimbSpeedFac *= 1.7f;
+        //}
 
         //Plugin.Logger.LogWarning(
         //    "\nThrowSkill " + stats.throwingSkill +

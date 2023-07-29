@@ -7,6 +7,8 @@
     {"name": "sleep5", "pos": [683, 265], "depth": 5.0, "shader": "Normal"},
     {"name": "sleep4", "pos": [678, 188], "depth": 4.5, "shader": "Normal"},
     {"name": "sleep3", "pos": [735, 179], "depth": 4.0, "shader": "Normal"},
+    
+    {"name": "pup", "pos": [690, 220], "depth": 4.0, "shader": "Basic"},
 
     {"name": "pearl0", "pos": [789, 472], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl1", "pos": [870, 558], "depth": 2.3, "shader": "Basic"},
@@ -14,7 +16,6 @@
     {"name": "pearl3", "pos": [1077, 648], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl4", "pos": [952, 647], "depth": 2.3, "shader": "Basic"},
 
-    {"name": "pup", "pos": [690, 220], "depth": 4.0, "shader": "Basic"},
 
     {"name": "slugcat", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},
     {"name": "sweat", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},

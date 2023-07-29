@@ -3,6 +3,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using RWCustom;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -157,14 +158,16 @@ public static partial class Hooks
             if (!MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
 
             if (self.sceneID.value == "Slugcat_Pearlcat")
-                UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);                
-            
+                UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);
+
             else if (self.sceneID.value == "Slugcat_Pearlcat_Sleep")
                 UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
 
             else if (self.sceneID.value == "Slugcat_Pearlcat_Ascended")
                 UpdateAscendedScreen(self, illustration, menuSceneModule, illustrationModule);
 
+            else if (self.sceneID == SlideShows.Pearlcat_Outro_2)
+                UpdateOutro2Screen(self, illustration, menuSceneModule, illustrationModule);
 
             //if (Input.GetKey("-"))
             //{
@@ -179,6 +182,20 @@ public static partial class Hooks
 
         // without MSC the main menu updates at a lower speed?
         MenuPearlAnimStacker += !ModManager.MSC && self.sceneID.value == "Slugcat_Pearlcat" ? 3 : 1;
+    }
+
+    private static void UpdateOutro2Screen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    {
+        var save = self.menu.manager.rainWorld.GetMiscProgression();
+        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+        illustration.alpha = 1.0f;
+
+        if (fileName == "pup")
+            illustration.visible = save.HasPearlpup;
+
+        else
+            illustration.visible = !save.HasPearlpup;
     }
 
     private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)

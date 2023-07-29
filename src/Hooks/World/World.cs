@@ -1,9 +1,13 @@
-﻿using MonoMod.RuntimeDetour;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using MonoMod.RuntimeDetour;
 using RWCustom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -59,6 +63,34 @@ public partial class Hooks
         On.RegionGate.customOEGateRequirements += RegionGate_customOEGateRequirements;
 
         On.VultureMask.DrawSprites += VultureMask_DrawSprites;
+
+        IL.AbstractRoom.RealizeRoom += AbstractRoom_RealizeRoom;
+    }
+
+    private static void AbstractRoom_RealizeRoom(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchStloc(0));
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.Emit(OpCodes.Ldarg_2);
+        c.Emit(OpCodes.Ldloc_0);
+        c.EmitDelegate<Func<AbstractRoom, RainWorldGame, int, int>>((self, game, num) =>
+        {
+            if (game.IsStorySession && game.StoryCharacter == Enums.Pearlcat)
+            {
+                var save = game.GetMiscWorld();
+
+                if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value)
+                    return 0;
+            }
+
+            return num;
+        });
+
+        c.Emit(OpCodes.Stloc_0);
     }
 
     private static void VultureMask_DrawSprites(On.VultureMask.orig_DrawSprites orig, VultureMask self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -160,9 +192,6 @@ public partial class Hooks
 
         if (self.saveStateNumber == Enums.Pearlcat)
         {
-            if (self.saveState.progression.miscProgressionData.beaten_Gourmand_Full || MoreSlugcats.MoreSlugcats.chtUnlockSlugpups.Value)
-                return 2;
-
             var save = self.saveState.miscWorldSaveData.GetMiscWorld();
 
             if (save != null && save.PearlpupID == null)

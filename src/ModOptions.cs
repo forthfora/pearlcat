@@ -32,6 +32,9 @@ public sealed class ModOptions : OptionsTemplate
         "When checked, all tutorials will be disabled.", null, "",
         "Disable Tutorials?"));
 
+    public static Configurable<bool> PearlpupRespawn { get; } = Instance.config.Bind(nameof(PearlpupRespawn), false, new ConfigurableInfo(
+        "When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.", null, "",
+        "Pearlpup Respawn?"));
 
     public static Configurable<int> MaxPearlCount { get; } = Instance.config.Bind(nameof(MaxPearlCount), 9, new ConfigurableInfo(
         "Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.",
@@ -237,10 +240,30 @@ public sealed class ModOptions : OptionsTemplate
 
         AddNewLine(1);
 
-        AddTextLabel("NoirCatto - Floppy Ears");
+        AddTextLabel("Geahgeah - Artwork");
+        AddTextLabel("Sidera - Dialogue, SFX");
+        AddTextLabel("Noir - Floppy Ears, Scarf");
         DrawTextLabels(ref Tabs[tabIndex]);
 
-        AddNewLine(9);
+        AddNewLine(1);
+
+        AddTextLabel("PLAYTESTERS", bigText: true);
+        DrawTextLabels(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+
+        AddTextLabel("TurtleMan27");
+        AddTextLabel("Elliot");
+        AddTextLabel("Balagaga");
+        DrawTextLabels(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+
+        AddTextLabel("Efi");
+        DrawTextLabels(ref Tabs[tabIndex]);
+
+
+        AddNewLine(2);
         DrawBox(ref Tabs[tabIndex]);
 
         if (GetConfigurable(DisableCosmetics, out OpCheckBox checkBox))
@@ -271,7 +294,6 @@ public sealed class ModOptions : OptionsTemplate
         AddDragger(MaxPearlCount);
         DrawDraggers(ref Tabs[tabIndex]);
 
-
         var offset = new Vector2(100.0f, 109.0f);
 
         var startShelterOverride = new OpTextBox(StartShelterOverride, new Vector2(165.0f, 259.0f) + offset, 90.0f)
@@ -288,13 +310,12 @@ public sealed class ModOptions : OptionsTemplate
         Tabs[tabIndex].AddItems(startShelterOverride, startShelterOverrideLabel);
 
 
-        AddNewLine(1);
+        AddCheckBox(PearlpupRespawn);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(InventoryOverride);
         AddCheckBox(StartingInventoryOverride);
         DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        AddNewLine(1);
 
         AddDragger(AgilityPearlCount);
         AddDragger(CamoPearlCount);
@@ -308,7 +329,7 @@ public sealed class ModOptions : OptionsTemplate
         AddDragger(SpearPearlCount);
         DrawDraggers(ref Tabs[tabIndex]);
 
-        AddNewLine(2);
+        AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
 
 
@@ -324,6 +345,8 @@ public sealed class ModOptions : OptionsTemplate
         if (GetLabel(MaxPearlCount, out label))
             label.color = WarnRed;
 
+        if (GetLabel(PearlpupRespawn, out label))
+            label.color = WarnRed;
 
         if (GetLabel(AgilityPearlCount, out label))
             label.color = Color.cyan;
@@ -348,6 +371,9 @@ public sealed class ModOptions : OptionsTemplate
             checkBox.colorEdge = WarnRed;
 
         if (GetConfigurable(StartingInventoryOverride, out checkBox))
+            checkBox.colorEdge = WarnRed;
+
+        if (GetConfigurable(PearlpupRespawn, out checkBox))
             checkBox.colorEdge = WarnRed;
 
 
