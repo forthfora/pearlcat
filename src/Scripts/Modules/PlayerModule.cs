@@ -7,6 +7,7 @@ using RWCustom;
 using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
 using static Pearlcat.POEffect;
+using System.Runtime.CompilerServices;
 
 namespace Pearlcat;
 
@@ -40,7 +41,6 @@ public class PlayerModule
     public int FeetSprite { get; set; }
     public int ShieldSprite { get; set; }
 
-
     public int AgilityCount => MajorEffectCount(MajorEffectType.AGILITY);
     public int CamoCount => MajorEffectCount(MajorEffectType.CAMOFLAGUE);
     public int RageCount => MajorEffectCount(MajorEffectType.RAGE);
@@ -73,7 +73,18 @@ public class PlayerModule
     public AbstractPhysicalObject? SetAgilityCooldown(int cooldown) => PutOnCooldown(MajorEffectType.AGILITY, cooldown);
     public AbstractPhysicalObject? SetCamoCooldown (int cooldown) => PutOnCooldown(MajorEffectType.CAMOFLAGUE, cooldown);
     public AbstractPhysicalObject? SetRageCooldown(int cooldown) => PutOnCooldown(MajorEffectType.RAGE, cooldown);
-    public AbstractPhysicalObject? SetReviveCooldown(int cooldown) => PutOnCooldown(MajorEffectType.REVIVE, cooldown);
+    public AbstractPhysicalObject? SetReviveCooldown(int cooldown)
+    {
+        var result = PutOnCooldown(MajorEffectType.REVIVE, cooldown);
+
+        if (result?.TryGetModule(out var module) == true)
+            module.InventoryFlash = true;
+
+        if (ModOptions.InventoryPings.Value)
+            ShowHUD(80);
+
+        return result;
+    }
     public AbstractPhysicalObject? SetSpearCooldown(int cooldown) => PutOnCooldown(MajorEffectType.SPEAR_CREATION, cooldown);
     public AbstractPhysicalObject? SetShieldCooldown(int cooldown) => PutOnCooldown(MajorEffectType.SHIELD, cooldown);
 
@@ -122,11 +133,18 @@ public class PlayerModule
     {
         if (ShieldTimer > 0) return;
 
-        SetShieldCooldown(1200);
+        var obj = SetShieldCooldown(100);
+
+        if (obj?.TryGetModule(out var module) == true)
+            module.InventoryFlash = true;
+        
         ShieldTimer = 60;
 
         if (PlayerRef.TryGetTarget(out var player))
             player.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, player.firstChunk);
+
+        if (ModOptions.InventoryPings.Value)
+            ShowHUD(60);
     }
 
     public WeakReference<Creature>? RageTarget { get; set; }

@@ -14,10 +14,21 @@ public class InventoryHUD : HudPart
     public List<PlayerObjectSymbol> AllSymbols { get; } = new();
 
     public FContainer HUDFContainer { get; }
+    public List<FSprite> InventoryCircles { get; } = new();
 
     public InventoryHUD(HUD.HUD hud, FContainer fContainer) : base(hud)
     {
         HUDFContainer = fContainer;
+
+        if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game) return;
+
+        for (int i = 0; i < game.Players.Count; i++)
+        {
+            var circle = new FSprite("pearlcat_hudcircle");
+
+            fContainer.AddChild(circle);
+            InventoryCircles.Add(circle);
+        }
     }
 
 
@@ -29,45 +40,76 @@ public class InventoryHUD : HudPart
         {
             if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
 
-            if (playerModule.ActiveObjectIndex == null) continue;
-
             var playerChunkPos = Vector2.Lerp(player.firstChunk.lastPos, player.firstChunk.pos, timeStacker);
             var playerPos = player.abstractCreature.world.RoomToWorldPos(playerChunkPos, player.abstractCreature.Room.index);
             var roomPos = player.abstractCreature.world.RoomToWorldPos(player.abstractCreature.world.game.cameras[0].pos, player.abstractCreature.world.game.cameras[0].room.abstractRoom.index);
             var truePos = playerPos - roomPos;
 
-            var activeIndex = (int)playerModule.ActiveObjectIndex;
+            var activeIndex = playerModule.ActiveObjectIndex;
 
-            for (int i = 0; i < playerModule.Inventory.Count; i++)
+            if (!ModOptions.CompactInventoryHUD.Value)
             {
-                var abstractObject = playerModule.Inventory[i];
-                var diff = i - activeIndex;
-                var absDiff = Mathf.Abs(diff);
+                for (int i = 0; i < playerModule.Inventory.Count; i++)
+                {
+                    var abstractObject = playerModule.Inventory[i];
+                    var diff = i - activeIndex;
 
-                var isActiveObject = playerModule.ActiveObject == abstractObject;
+                    var isActiveObject = playerModule.ActiveObject == abstractObject;
 
-                if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
+                    if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
 
-                symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.Inventory.Count - 2) / 2, 1.0f, 0.2f);
+                    symbol.DistFade = isActiveObject ? 1.0f : 0.4f;
 
-                const float GAP = 17.5f;
-                float spacing = GAP * i;
+                    var origin = truePos;
+                    var angle = (diff ?? i) * Mathf.PI * 2.0f / playerModule.Inventory.Count + Mathf.Deg2Rad * 90.0f;
 
-                if (!Hooks.InventoryUIOffset.TryGet(player, out var offset)) continue;
+                    float radius = Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 65.0f, 80.0f);
+                    var invPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
-                var invPos = truePos + offset;
-                
-                invPos.x += spacing;
-                invPos.x -= activeIndex * GAP;
+                    symbol.Pos = Custom.Dist(symbol.Pos, invPos) > 300.0f ? invPos : Vector2.Lerp(symbol.Pos, invPos, 0.1f);
+                    symbol.Scale = isActiveObject ? 1.5f : 0.8f;
+                }
 
-                if (player.onBack != null)
-                    invPos.y += 30.0f;
+                var circle = InventoryCircles[playerModule.PlayerNumber];
 
-                // lazy fix
-                symbol.Pos = Custom.Dist(symbol.Pos, invPos) > 300.0f ? invPos : Vector2.Lerp(symbol.Pos, invPos, 0.1f);
-                symbol.Scale = isActiveObject ? 1.5f : 0.8f;
+                circle.SetPosition(Custom.Dist(circle.GetPosition(), truePos) > 300.0f ? truePos : Vector2.Lerp(circle.GetPosition(), truePos, 0.1f));
+                circle.scale = Custom.LerpMap(playerModule.HudFade, 0.0f, 1.0f, 0.75f, 1.05f);
+                circle.alpha = player.room == null ? 0.0f : Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 0.0f, 0.4f);
             }
+            else
+            {
+                InventoryCircles.ForEach(x => x.alpha = 0.0f);
 
+                for (int i = 0; i < playerModule.Inventory.Count; i++)
+                {
+                    var abstractObject = playerModule.Inventory[i];
+                    var diff = i - activeIndex;
+                    var absDiff = Mathf.Abs(diff ?? 0.0f);
+
+                    var isActiveObject = playerModule.ActiveObject == abstractObject;
+
+                    if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
+
+                    symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.Inventory.Count - 2) / 2, 1.0f, 0.2f);
+
+                    const float GAP = 17.5f;
+                    float spacing = GAP * i;
+
+                    if (!Hooks.InventoryUIOffset.TryGet(player, out var offset)) continue;
+
+                    var itemPos = truePos + offset;
+                
+                    itemPos.x += spacing;
+                    itemPos.x -= (activeIndex ?? 0.0f) * GAP;
+
+                    if (player.onBack != null)
+                        itemPos.y += 30.0f;
+
+                    // lazy fix
+                    symbol.Pos = Custom.Dist(symbol.Pos, itemPos) > 300.0f ? itemPos : Vector2.Lerp(symbol.Pos, itemPos, 0.1f);
+                    symbol.Scale = isActiveObject ? 1.5f : 0.8f;
+                }
+            }
 
             for (int i = 0; i < player.grasps.Length; i++)
             {
@@ -82,7 +124,6 @@ public class InventoryHUD : HudPart
                 symbol.Pos = truePos + new Vector2(30.0f * (mainHand ? -1 : 1), 10.0f);
                 symbol.Scale = mainHand ? 1.25f : 0.8f;
             }
-
         }
 
         for (int i = AllSymbols.Count - 1; i >= 0; i--)
@@ -95,6 +136,8 @@ public class InventoryHUD : HudPart
             symbol?.Draw(timeStacker);
         }
     }
+
+    public override void ClearSprites() => InventoryCircles.ForEach(x => x.RemoveFromContainer());
 
     public override void Update()
     {

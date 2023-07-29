@@ -215,7 +215,7 @@ public static partial class Hooks
         self.ActivateObjectInStorage(targetIndex);
         
         playerModule.PickObjectAnimation(self);
-        playerModule.ShowHUD(40);
+        playerModule.ShowHUD(30);
 
         self.UpdateInventorySaveData(playerModule);
 
@@ -259,7 +259,7 @@ public static partial class Hooks
         self.SlugcatGrab(activeObject.realizedObject, self.FreeHand());
 
         playerModule.PickObjectAnimation(self);
-        playerModule.ShowHUD(40);
+        playerModule.ShowHUD(30);
 
         if (playerModule.ActiveObject == null && playerModule.Inventory.Count > 0)
         {
@@ -371,7 +371,7 @@ public static partial class Hooks
 
         oldObject.SwapEffect(newObject);
 
-        playerModule.ShowHUD(80);
+        playerModule.ShowHUD(60);
         self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
         
         var save = self.room.game.GetMiscWorld();

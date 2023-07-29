@@ -188,7 +188,7 @@ public static partial class Hooks
             else if (swapInput)
             {
                 playerModule.BlockInput = true;
-
+                playerModule.ShowHUD(10);
 
                 if (!playerModule.WasSwapped)
                 {

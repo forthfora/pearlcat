@@ -366,7 +366,7 @@ public static partial class Hooks
 
             if (playerModule.ReviveTimer > 200)
             {
-                poModule.CooldownTimer = -1;
+                playerModule.SetReviveCooldown(-1);
 
                 if (creature is Player player)
                     player.RevivePlayer();

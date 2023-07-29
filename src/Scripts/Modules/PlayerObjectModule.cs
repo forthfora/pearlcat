@@ -28,8 +28,8 @@ public class PlayerObjectModule
     }
     public int CurrentCooldownTime { get; set; }
 
-    public bool UsedAgility { get; set; }
-
     public int LaserTimer { get; set; }
     public float LaserLerp { get; set; }
+
+    public bool InventoryFlash { get; set; }
 }

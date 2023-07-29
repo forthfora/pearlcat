@@ -166,7 +166,16 @@ public static partial class Hooks
             var effect = self.abstractPhysicalObject.GetPOEffect();
 
             if (module.CooldownTimer == 0 && effect.MajorEffect == POEffect.MajorEffectType.SHIELD)
+            {
+                var playerModule = self.room.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
+                
+                if (ModOptions.InventoryPings.Value)
+                    playerModule.ShowHUD(80);
+                
+                module.InventoryFlash = true;
+
                 self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.0f);
+            }
         }
 
         if (!module.IsCurrentlyStored) return;

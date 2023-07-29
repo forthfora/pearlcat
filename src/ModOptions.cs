@@ -24,6 +24,14 @@ public sealed class ModOptions : OptionsTemplate
         "When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.", null, "",
         "Pearl Threat Music?"));
 
+    public static Configurable<bool> CompactInventoryHUD { get; } = Instance.config.Bind(nameof(CompactInventoryHUD), false, new ConfigurableInfo(
+        "When checked, the inventory HUD will be replaced with a more compact version.", null, "",
+        "Compact Inventory HUD?"));
+
+    public static Configurable<bool> InventoryPings { get; } = Instance.config.Bind(nameof(InventoryPings), true, new ConfigurableInfo(
+        "When checked, some abilties will show the inventory when recharged or depleted.", null, "",
+        "Inventory Pings?"));
+
     public static Configurable<bool> DisableCosmetics { get; } = Instance.config.Bind(nameof(DisableCosmetics), false, new ConfigurableInfo(
         "When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.", null, "",
         "Disable Cosmetics?"));
@@ -227,6 +235,7 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "General");
 
         AddCheckBox(PearlThreatMusic);
+        AddCheckBox(CompactInventoryHUD);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableTutorials);
@@ -425,6 +434,7 @@ public sealed class ModOptions : OptionsTemplate
          
 
         AddCheckBox(DisableMinorEffects);
+        AddCheckBox(InventoryPings);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddNewLine(1);
