@@ -133,7 +133,7 @@ public class PlayerModule
     {
         if (ShieldTimer > 0) return;
 
-        var obj = SetShieldCooldown(100);
+        var obj = SetShieldCooldown(1200);
 
         if (obj?.TryGetModule(out var module) == true)
             module.InventoryFlash = true;

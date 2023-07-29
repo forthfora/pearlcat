@@ -76,8 +76,8 @@ public class PlayerObjectSymbol
         ItemSymbol.Draw(timeStacker, Pos);
         ItemSymbol.symbolSprite.alpha = Fade * DistFade;
 
-        ItemSymbol.symbolSprite.color = Color.Lerp(ItemSymbol.symbolSprite.color, Color.white, Flash);
-        Flash = Mathf.Lerp(Flash, 0.0f, 0.01f);
+        ItemSymbol.symbolSprite.color = Color.Lerp(ItemSymbol.symbolSprite.color, Color.white, Custom.LerpMap(Flash, 2.5f, 5.0f, 0.0f, 1.0f));
+        //ItemSymbol.symbolSprite.color = ItemSymbol.symbolSprite.color;
 
         ItemSymbol.showFlash = Mathf.Lerp(ItemSymbol.showFlash, 0f, 0.1f);
         ItemSymbol.shadowSprite1.alpha = ItemSymbol.symbolSprite.alpha * 0.15f;
@@ -101,7 +101,7 @@ public class PlayerObjectSymbol
         ItemSymbol.symbolSprite.scale *= 0.1f;
 
         ItemSymbol.shadowSprite1.color = Color.white;
-        ItemSymbol.shadowSprite2.color = ModOptions.CompactInventoryHUD.Value ? Color.grey : Color.black;
+        ItemSymbol.shadowSprite2.color = Color.black;
 
 
         CooldownSprite.isVisible = false;
@@ -109,6 +109,8 @@ public class PlayerObjectSymbol
         CooldownSprite.scale = 0.2f;
 
         CooldownSprite.MoveInFrontOfOtherNode(ItemSymbol.symbolSprite);
+
+        Flash = Mathf.Lerp(Flash, 0.0f, 0.01f);
 
 
         if (TargetObjectRef == null || !TargetObjectRef.TryGetTarget(out var obj)) return;
