@@ -65,6 +65,86 @@ public partial class Hooks
         On.VultureMask.DrawSprites += VultureMask_DrawSprites;
 
         IL.AbstractRoom.RealizeRoom += AbstractRoom_RealizeRoom;
+
+        On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.Update += OE_GourmandEnding_Update;
+
+        IL.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
+
+        On.RegionState.AdaptWorldToRegionState += RegionState_AdaptWorldToRegionState;
+    }
+
+    private static void RegionState_AdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
+    {
+        //var save = self.world.game.GetMiscWorld();
+ 
+        //if (save != null && save.JustBeatAltEnd)
+        //{
+        //    save.JustBeatAltEnd = false;
+
+        //    foreach (var item in self.unrecognizedPopulation)
+        //    {
+        //        Plugin.Logger.LogWarning(item);
+        //        //var obj = SaveState.AbstractPhysicalObjectFromString(self.world, item);
+
+        //        //if (obj.ID.number != save.PearlpupID) continue;
+                
+        //        //self.savedPopulation.Remove(item);
+        //        //Plugin.Logger.LogWarning("ACK");
+        //        //break;
+        //    }
+
+        //    Plugin.Logger.LogWarning("-------------------");
+        //}
+
+        orig(self);
+    }
+
+    private static void RainWorldGame_BeatGameMode(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdstr("OE_SEXTRA"),
+            x => x.MatchStloc(0));
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchStloc(1));
+
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.Emit(OpCodes.Ldloc_0);
+        c.EmitDelegate<Func<RainWorldGame, string, string>>((game, roomName) =>
+        {
+            if (game.GetStorySession.saveStateNumber == Enums.Pearlcat)
+            {   
+                var deathSave = game.GetStorySession.saveState.deathPersistentSaveData;
+                deathSave.karma = deathSave.karmaCap;
+                
+                var miscProg = game.GetMiscProgression();
+                miscProg.AltEnd = true;
+
+                var miscWorld = game.GetMiscWorld();
+
+                if (miscWorld != null)
+                    miscWorld.JustBeatAltEnd = true;
+
+                return "OE_SEXTRA";
+            }
+
+            return roomName;
+        });
+
+        c.Emit(OpCodes.Stloc_0);
+    }
+
+    private static void OE_GourmandEnding_Update(On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.orig_Update orig, MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding self, bool eu)
+    {
+        var miscWorld = self.room.world.game.GetMiscWorld();
+        var miscProg = self.room.world.game.GetMiscProgression();
+
+        if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.AltEnd) return;
+
+        orig(self, eu);
     }
 
     private static void AbstractRoom_RealizeRoom(ILContext il)
@@ -85,6 +165,8 @@ public partial class Hooks
 
                 if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value)
                     return 0;
+
+                return int.MaxValue;
             }
 
             return num;
@@ -196,6 +278,8 @@ public partial class Hooks
 
             if (save != null && save.PearlpupID == null)
                 return 1;
+
+            return 0;
         }
 
         return result;

@@ -28,6 +28,8 @@ public static partial class Hooks
 
         public int? PearlpupID { get; set; }
         public bool HasPearlpupWithPlayer { get; set; }
+        
+        public bool JustBeatAltEnd { get; set; }
     }
 
     public class SaveDeathPersistent
@@ -46,6 +48,8 @@ public static partial class Hooks
         public Color? ActivePearlColor { get; set; }
 
         public bool HasPearlpup { get; set; }
+
+        public bool AltEnd { get; set; }
     }
 
 
@@ -159,6 +163,9 @@ public static partial class Hooks
         if (miscWorld.IsPearlcatStory)
         {
             miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
+
+            if (miscWorld.IsNewGame)
+                miscProg.AltEnd = false;
         }
     }
 }
