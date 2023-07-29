@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine;
-using static Pearlcat.Hooks;
 
 namespace Pearlcat;
 

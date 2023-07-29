@@ -3,7 +3,6 @@ using RWCustom;
 using SlugBase.Features;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using static Pearlcat.POEffect;
 using Random = UnityEngine.Random;
@@ -98,12 +97,12 @@ public static partial class Hooks
         UpdateRage(self, playerModule, effect);
         UpdateCamoflague(self, playerModule, effect);
 
-        if (playerModule.PearlpupRef?.TryGetTarget(out var pup) == true && pup.dangerGraspTime > 0 && !pup.playerState.permaDead)
+        if (playerModule.PearlpupRef?.TryGetTarget(out var pup) == true && pup.dangerGrasp != null && pup.graphicsModule != null)
         {
             stats.throwingSkill = 2;
             stats.runspeedFac *= 1.5f;
-            stats.corridorClimbSpeedFac *= 1.5f;
-            stats.poleClimbSpeedFac *= 1.5f;
+            stats.corridorClimbSpeedFac *= 1.7f;
+            stats.poleClimbSpeedFac *= 1.7f;
         }
 
         //Plugin.Logger.LogWarning(

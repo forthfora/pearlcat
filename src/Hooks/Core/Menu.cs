@@ -42,7 +42,6 @@ public static partial class Hooks
         IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
     }
 
-
     public delegate bool orig_SlugcatPageHasMark(SlugcatSelectMenu.SlugcatPage self);
     public static bool GetSlugcatPageHasMark(orig_SlugcatPageHasMark orig, SlugcatSelectMenu.SlugcatPage self)
     {
@@ -184,14 +183,18 @@ public static partial class Hooks
 
     private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
+        var save = self.menu.manager.rainWorld.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-        illustration.alpha = 1.0f;
 
+        illustration.alpha = 1.0f;
 
         if (illustrationModule.Index == -2)
         {
             if (fileName == "sweat")
                 illustration.visible = menuSceneModule.ActivePearlColor == null;
+
+            if (fileName == "pup")
+                illustration.visible = save.HasPearlpup;
 
             return;
         }
@@ -281,7 +284,20 @@ public static partial class Hooks
 
     private static void UpdateSelectScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
-        if (illustrationModule.Index == -2) return;
+        var save = self.menu.manager.rainWorld.GetMiscProgression();
+        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+        if (illustrationModule.Index == -2)
+        {
+            if (fileName == "pup")
+                illustration.visible = save.HasPearlpup;
+
+            if (save.HasPearlpup)
+                if (fileName == "body" || fileName == "tail" || fileName == "legs")
+                    illustration.pos.x = illustrationModule.InitialPos.x - 20.0f;
+
+            return;
+        }
 
         if (illustrationModule.Index == -1)
         {
@@ -290,8 +306,6 @@ public static partial class Hooks
                 illustration.visible = false;
                 return;
             }
-
-            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
             if (fileName == "pearlactivehalo")
             {
@@ -315,12 +329,14 @@ public static partial class Hooks
             // var mouseVel = (self.menu.mousePosition - self.menu.lastMousePos).magnitude;
             // Custom.LerpMap(mouseVel, 0.0f, 100.0f, 1.0f, 6.0f);
 
-            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 120.0f)
+            var setPos = illustrationModule.setPos - Vector2.right * (save.HasPearlpup ? 30.0f : 0.0f);
+
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
                 illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
 
 
-            var dir = (illustrationModule.setPos - pos).normalized;
-            var dist = Custom.Dist(illustrationModule.setPos, pos);
+            var dir = (setPos - pos).normalized;
+            var dist = Custom.Dist(setPos, pos);
             var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
 
             illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
@@ -349,6 +365,9 @@ public static partial class Hooks
         var angleFrameAddition = 0.00075f;
         var radius = 120.0f;
         var origin = new Vector2(680, 400);
+
+        if (save.HasPearlpup)
+            origin.x -= 20.0f;
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
 
@@ -451,6 +470,8 @@ public static partial class Hooks
 
         // screw pebbles pearls you get ORANGE    
         self.effectColor = color ?? Color.white;
+
+        self.markOffset = save.HasPearlpup ? new(0.0f, 50.0f) : new(20.0f, 50.0f);
     }
 
     private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)

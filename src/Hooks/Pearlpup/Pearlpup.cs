@@ -1,5 +1,6 @@
 ﻿
 using System.Linq;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -47,7 +48,7 @@ public static partial class Hooks
 
         var stats = self.slugcatStats;
 
-        stats.throwingSkill = 1;
+        stats.throwingSkill = 2;
         stats.runspeedFac = self.grabbedBy.Count > 0 ? 0.9f : 1.1f;
         stats.corridorClimbSpeedFac = 1.1f;
         stats.poleClimbSpeedFac = 1.15f;
@@ -56,6 +57,9 @@ public static partial class Hooks
         stats.generalVisibilityBonus = 0.1f;
         stats.visualStealthInSneakMode = 0.3f;
         stats.loudnessFac = 1.35f;
+
+        if (self.abstractCreature.Room.world.game.devToolsActive && Input.GetKey("q"))
+            self.AddFood(1);
     }
 
     private static bool Weapon_HitThisObject(On.Weapon.orig_HitThisObject orig, Weapon self, PhysicalObject obj)

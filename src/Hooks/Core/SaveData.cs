@@ -2,7 +2,6 @@
 using SlugBase.SaveData;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using static DataPearl.AbstractDataPearl;
 
@@ -44,6 +43,8 @@ public static partial class Hooks
 
         [JsonConverter(typeof(ColorHandler))]
         public Color? ActivePearlColor { get; set; }
+
+        public bool HasPearlpup { get; set; }
     }
 
 
@@ -125,6 +126,8 @@ public static partial class Hooks
                         miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
                 }
             }
+
+            //miscProg.HasPearlpup = miscWorld.PearlpupID != null;
         }
 
         return orig(self, saveCurrentState, saveMaps, saveMiscProg);

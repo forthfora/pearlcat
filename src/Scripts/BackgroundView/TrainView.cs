@@ -1,11 +1,6 @@
-﻿using RWCustom;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Linq;
 using UnityEngine;
 using static Pearlcat.CustomBgElement;
-using static SlugBase.JsonAny;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;

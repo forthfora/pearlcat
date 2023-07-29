@@ -1,7 +1,6 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
-using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Collections.Generic;
@@ -251,9 +250,8 @@ public static partial class Hooks
         {
             self.Die();
             self.SuperHardSetPosition(playerModule.LastGroundedPos);
-
+            
             self.graphicsModule.Reset();
-            self.Stun(5);
             playerModule.FlyTimer = 60;
         }
 
@@ -319,8 +317,15 @@ public static partial class Hooks
     private static void RefreshPearlpup(Player self, PlayerModule playerModule)
     {
         if (!self.IsFirstPearlcat()) return;
+        
+        var miscProg = self.abstractCreature.Room.world.game.GetMiscProgression();
+        miscProg.HasPearlpup = false;
 
-        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var _)) return;
+        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup))
+        {
+            miscProg.HasPearlpup = !pup.dead;
+            return;
+        }
 
         if (self.room == null) return;
 

@@ -1,8 +1,6 @@
 ﻿using RWCustom;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
@@ -124,7 +122,7 @@ public static partial class Hooks
 
     public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null)
     {
-        if (physicalObject == null) return;
+        if (physicalObject?.room == null) return;
 
         var color = overrideColor ?? GetObjectColor(physicalObject.abstractPhysicalObject);
 

@@ -8,6 +8,8 @@
     {"name": "background", "pos": [430, 130], "depth": 6.0,  "shader": "Normal"},
     {"name": "clouds", "pos": [430, 130], "depth": 3.5, "shader": "Normal"},
 
+    {"name": "pup", "pos": [720, 380], "depth": 3.0, "shader": "Basic"},
+
     {"name": "tail", "pos": [430, 130], "depth": 2.9, "shader": "Normal"},
     
     {"name": "pearl0", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
@@ -28,8 +30,8 @@
     
     
     {"name": "popcorn", "pos": [430, 130], "depth": 2.2, "shader": "Normal"},
-    {"name": "topgrass", "pos": [430, 130], "depth": 1.7, "shader": "Normal"},
-    {"name": "bottomgrass", "pos": [430, 130], "depth": 1.7,  "shader": "Normal"},
+    {"name": "topgrass", "pos": [435, 130], "depth": 1.7, "shader": "Normal"},
+    {"name": "bottomgrass", "pos": [435, 130], "depth": 1.7,  "shader": "Normal"},
 
     {"name": "pearlactive", "pos": [690, 380], "depth": 2.3, "shader": "Basic"},
     {"name": "pearlactivehalo", "pos": [690, 380], "depth": 2.0, "shader": "Basic"}  
@@ -37,7 +39,6 @@
   
   "idle_depths": [2.4],
   "glow_pos": [430, 130],
-  "mark_pos": [20, 50],
   
   "select_menu_pos": [0, 100],
   "slugcat_depth": 2.6
