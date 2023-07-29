@@ -7,7 +7,7 @@ This is just a useless diamond sphere. Regardless of that, the dim light of my c
 
 This is an examination on various dilutions and chemical ratios for liquid mediums, and their<LINE>resulting operating efficiencies when utilized to drive fluid-powered machinery. Not of interest to you at all I'm sure.
 
-This is damaged and cannot be read. Much less so in my current state.
+This is damaged and cannot be read.
 
 It is a historical document containing information on various swords and other weaponry. These were not<LINE>used in combat, but were rather utilized in a variety of routine rituals and spiritual festivals.
 
@@ -21,15 +21,15 @@ Such savagery. This pearl has been carved through as decoration. While the infor
 
 This is blank. Most likely. I think.
 
-It is empty. Or my scanners are failing. Whichever you'd prefer to believe.
+It is empty.
 
-There is nothing here. At least that I can still see.
+There is nothing here.
 
-It has faded, and is unreadable. Time does this to more than just pearls, it seems.
+It has faded, and is unreadable.
 
 ...Why did you bring this to me? It is completely blank.
 
-This one has been cracked. I cannot hope to read it nor repair it.
+This one has been cracked.
 
 It is damaged and completely unreadable. You should check the damage before going through the effort, no?
 
@@ -41,13 +41,13 @@ The surface of this pearl has been scratched thousands of times over by some sha
 
 There is an image of banners on this, but it has been faded to the point of corruption.
 
-Nothing is left, it is too faded to read. In my current state, no less.
+Nothing is left, it is too faded to read.
 
 It is growing instructions for the skeleton of a creature, surely used for some mundane purpose, nothing you would understand.
 
 This one contains a numerical sequence encoding all of the registered<LINE>identification numbers for those who dwelled in my city. I don't remember a single one.
 
-Part of a number series, likely used as a cipher. You can keep it, I suppose. There are no secrets for me to hide anymore.
+Part of a number series, likely used as a cipher. You can keep it, I suppose.
 
 This pearl is filled to capacity, a tremendous feat. However, it only appears to<LINE>contain a single excessively large image, which happens to be completely blank.
 
@@ -63,17 +63,17 @@ This is incomplete source code for a complex simulation of our world, known as T
 
 It is a drawing by a young child, depicting the likeness of an iterator puppet. Specifically, I presume<LINE>this is meant to represent my puppet, but the drawing is too crude to tell for sure. How amusing.
 
-This reads like someone attempting to copy a book from their memory alone.<LINE>Many chapters are only partially written, and some do not exist. Or my scanner is faulty again, your choice.
+This reads like someone attempting to copy a book from their memory alone.<LINE>Many chapters are only partially written, and some do not exist.
 
-A classical hymn from an early dynasty. It is very short and repetitive,<LINE>but it would have meant a lot to a younger me, and means even more to me now.
+A classical hymn from an early dynasty. It is very short and repetitive,<LINE>but I enjoy its simplicity.
 
 It's a log from a sensor monitoring conditions on the surface. The log ends abruptly<LINE>after some time, as the sensor suffered irreparable damage from the heavy rainfall.
 
-There are 71 numbers listed on this pearl, and they are some of the most unlucky numbers I have ever seen. I'm not worried about things getting much worse.
+There are 71 numbers listed on this pearl, and they are some of the most unlucky numbers I have ever seen.
 
 "Dear diary..." and then nothing. I am not interested in finishing this.
 
-A model of a fluid carrying pipe section. The joints are designed to promote self-sealing. Everything was built too last.
+A model of a fluid carrying pipe section. The joints are designed to promote self-sealing. Everything was built to last.
 
 It is a catalog of many types of teas, and their brewing techniques. I do not<LINE>possess the ability to drink tea, so this is of no use to me. You can keep it.
 
@@ -85,12 +85,10 @@ I would prefer not to speak of the contents recorded in this pearl.<LINE>Some th
 
 Old schematics for a gas filtration machine, very rough and unoptimized. Just what I needed.
 
-This pearl contains a series of puzzles designed to exercise the mind. However, I've already<LINE>solved them all in the time it took me to say these sentences aloud to you. I am not quite gone yet.
+This pearl contains a series of puzzles designed to exercise the mind. However, I've already<LINE>solved them all in the time it took me to say these sentences aloud to you.
 
 This is a malicious pearl. The data is meaningless, but the way it is formatted would cause older machinery<LINE>to get stuck in an infinite recursion trying to read it. Luckily, even in my current state, I am more sophisticated than that.
 
 This contains the image of a pearl... and within that the same image. This is either<LINE>a joke, or a method of testing a pearl's recursive density. Neither are worth my time.
-
-This pearl is blank? No, my scanner is being faulty again. I’m afraid I cannot read this to you.
 
 Curious. While this pearl is cracked and unintelligble, a small plant has grown inside.

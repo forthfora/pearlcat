@@ -4,7 +4,7 @@ import re
 from googletrans import Translator
 
 ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/src') 
-OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat') 
+OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text') 
 
 EXCLUDE = ["PlayerObjectEffect", "PlayerObjectAnimator", "InventoryHUD", "BackgroundView", "Modules"]
 
@@ -36,7 +36,10 @@ strings = [*set(strings)] # remove duplicates
 
 # strings = [x.strip() for x in strings]
 
-f = open(os.path.join(OUTPUT_DIR, "strings.txt"), "w", encoding='utf-8-sig')
+output = os.path.join(OUTPUT_DIR, "text_{dest}/strings.txt".format(dest = DEST))
+os.makedirs(os.path.dirname(output), exist_ok=True)
+
+f = open(output, "w", encoding='utf-8-sig')
 
 for i in range(len(strings)):
     string = strings[i]
