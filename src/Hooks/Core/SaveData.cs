@@ -27,6 +27,7 @@ public static partial class Hooks
         public bool ShownSpearCreationTutorial { get; set; }
 
         public int? PearlpupID { get; set; }
+        public bool HasPearlpupWithPlayer { get; set; }
     }
 
     public class SaveDeathPersistent

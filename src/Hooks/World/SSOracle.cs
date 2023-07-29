@@ -144,7 +144,7 @@ public static partial class Hooks
 
         if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
         {
-            if (save?.PearlpupID != null)
+            if (save?.HasPearlpupWithPlayer == true)
             {
                 e.Add(new WaitEvent(self, 160));
 
@@ -241,7 +241,7 @@ public static partial class Hooks
                 self.Translate("...and you can gather more of that data you so clearly desire."), l * 80));
 
 
-            if (save?.PearlpupID != null)
+            if (save?.HasPearlpupWithPlayer == true)
             {
                 e.Add(new WaitEvent(self, 40));
 

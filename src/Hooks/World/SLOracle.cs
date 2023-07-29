@@ -88,7 +88,7 @@ public static partial class Hooks
           
                     Wait(10);
 
-                    if (save?.PearlpupID != null)
+                    if (save?.HasPearlpupWithPlayer == true)
                     {
                         SayNoLinger("And who is your little friend? They are quite adorable!");
 
