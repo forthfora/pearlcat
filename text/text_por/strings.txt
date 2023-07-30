@@ -1,0 +1,180 @@
+﻿Swap Left|Trocar Esquerda
+Starting Inventory Override?|Iniciando Substituição de Estoque?
+The Gutter|A sarjeta
+Button South|Botão Sul
+hips|quadris
+CC|CC
+Software|Programas
+Disable Camoflague Effect?|Desativar o efeito de camuflagem?
+Keybind for Player 4.|Tecla de atalho para o jogador 4.
+Disable Revive Effect?|Desativar o efeito Revive?
+Keybind for Player 2.|Tecla de atalho para o jogador 2.
+T1_S01|T1_S01
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|Número de pérolas reviver (verde). Efetivo somente quando Substituição de estoque? está checado.
+tail|cauda
+legs|pernas
+MSC|MSC
+When checked, the inventory HUD will be replaced with a more compact version.|Quando marcado, o HUD do inventário será substituído por uma versão mais compacta.
+When checked, disables the agility effect granted by an active pearl.|Quando marcado, desativa o efeito de agilidade concedido por uma pérola ativa.
+SPECEVENT|EVENTO ESPECIAL
+<oA>|<oA>
+GravityDisruptor|Disruptor de gravidade
+\nDoes not save over the current inventory - it is returned to when unchecked.|\Não salva sobre o inventário atual - ele é retornado quando desmarcado.
+Disable Tutorials?|Desativar tutoriais?
+body|corpo
+pup|cachorrinho
+Player 2|Jogador 2
+Prefer to use the custom keybinds below for agility double jump.|Prefira usar os atalhos de teclado personalizados abaixo para salto duplo de agilidade.
+Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep
+Disable Rage Effect?|Desativar o efeito de raiva?
+feet|pés
+pearlactivehalo|halo perolado
+ - |-
+sweat|suor
+CANNOT PLAY\n|NÃO PODE JOGAR\n
+T1_CAREND|T1_CAREND
+Scarf|Lenço
+T1_CAR2|T1_CAR2
+\r\n|\r\n
+Player 3|jogador 3
+Feet|Pés
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Número de pérolas de criação de lança (brancas). Efetivo somente quando Substituição de estoque? está checado.
+Revive Pearl Count|Revive a Contagem de Pérolas
+Trigger Player|Acionar jogador
+Slugcat_Pearlcat|Slugcat_Pearlcat
+When checked, some abilties will show the inventory when recharged or depleted.|Quando marcadas, algumas habilidades mostrarão o inventário quando carregadas ou esgotadas.
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|Quando marcado, define o inventário para os números especificados de pérolas coloridas abaixo de cada ciclo.
+Start Shelter Override|Iniciar Substituição de Abrigo
+T1_CAR0|T1_CAR0
+Keybind for Player 3.|Tecla de atalho para o jogador 3.
+Cheats|Fraudes
+Hips|Quadris
+head|cabeça
+ SAVE|SALVAR
+face|face
+When checked, all tutorials will be disabled.|Quando marcada, todos os tutoriais serão desativados.
+)|)
+SS_S04|SS_S04
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|A qual troca de gatilho do controlador de jogador será aplicada. 0 desativa a troca de gatilho. Segure e arraste para cima ou para baixo para alterar.
+TEXT ERROR|ERRO DE TEXTO
+1.0.0|1.0.0
+, |,
+Disable Shield Effect?|Desativar efeito de escudo?
+Keybind for Player 1.|Tecla de atalho para o jogador 1.
+Failed to parse color {objectType} : {ex.Message}|Falha ao analisar a cor {objectType}: {ex.Message}
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|Número de pérolas de raiva (vermelhas). Efetivo somente quando Substituição de estoque? está checado.
+Button East|Botão leste
+T1_CAR3|T1_CAR3
+NON-MSC|NÃO-MSC
+Prefer to use the custom keybinds below for spear creation.|Prefira usar os atalhos de teclado personalizados abaixo para a criação da lança.
+Swap Right|Trocar Direito
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Número de pérolas de escudo (amarelo). Efetivo somente quando Substituição de estoque? está checado.
+pearlpup_scarf|pearlpup_scarf
+When checked, disables the camoflague effect granted by an active pearl.|Quando marcado, desativa o efeito de camuflagem concedido por uma pérola ativa.
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Ativa combinações de teclas personalizadas abaixo, em oposição ao padrão (UP + PICKUP).
+\nPoleClimb |\nPoleClimb
+scarf|lenço
+When checked, disables the revive effect granted by an active pearl.|Quando marcada, desativa o efeito de reviver concedido por uma pérola ativa.
+Pearlcat|Pearlcat
+Player 4|jogador 4
+\nCorridorClimb |\nCorridorClimb
+When checked, disables the shield effect granted by an active pearl.|Quando marcada, desativa o efeito de escudo concedido por uma pérola ativa.
+Slugcat_Pearlcat_Ascended|Slugcat_Pearlcat_Ascended
+Shield Pearl Count|Contagem de pérolas de escudo
+pearlpup_face|pearlpup_face
+L-Stick|L-stick
+AS IS|COMO É
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|Sua curiosidade insaciável, Pearlcat se aventura mais uma vez em <LINE>em busca de expandir sua coleção
+Intended to make gameplay more challenging, may change gameplay significantly!|Destina-se a tornar a jogabilidade mais desafiadora, pode mudar significativamente a jogabilidade!
+Camo Pearl Count|contagem de pérolas camufladas
+When checked, disables the spear creation effect granted by an active pearl.|Quando marcado, desativa o efeito de criação de lança concedido por uma pérola ativa.
+pearlcat|pérola
+Disable Agility Effect?|Desativar o efeito de agilidade?
+Custom Spear Keybind?|Teclado Spear personalizado?
+RW_Outro_Theme|RW_Outro_Tema
+PEBBLESWAIT|PEBBLESWAIT
+) & (|) & (
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|Keybind para trocar para a pérola armazenada à direita. Limitado ao Jogador 1.
+Face|Face
+GATE_UW_LC|GATE_UW_LC
+arm|braço
+Difficulty|Dificuldade
+Keyboard|Teclado
+Agility Pearl Count|Contagem de pérolas de agilidade
+Input a shelter name to have it override where Pearlcat starts a new game.|Insira um nome de abrigo para substituí-lo onde Pearlcat inicia um novo jogo.
+Keybind for Keyboard.|Teclado para teclado.
+OE_SEXTRA|OE_SEXTRA
+ + Path.DirectorySeparatorChar.ToString() + |+ Path.DirectorySeparatorChar.ToString() +
+Left Bumper|Pára-choques Esquerdo
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|Quando marcadas, as pérolas não concedem mais alterações de estatísticas, ativas ou não, e as estatísticas básicas são definidas para serem semelhantes a Hunter.
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|Quando marcada, Pearlpup reaparecerá no próximo abrigo no ciclo seguinte sempre que forem perdidos.
+\nRunspeedFac |\nRunspeedFac
+ruffian|rufião
+View|Visualizar
+T1_CAR1|T1_CAR1
+Compact Inventory HUD?|HUD de inventário compacto?
+Ability Input|Entrada de habilidade
+Visibility Multiplier|Multiplicador de Visibilidade
+Disable Minor Effects?|Desativar efeitos menores?
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|Quantidade de pérolas camufladas (pretas). Efetivo somente quando Substituição de estoque? está checado.
+Button West|Botão Oeste
+PlayerArm|PlayerArm
+Inventory Override?|Sobreposição de estoque?
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|O multiplicador de porcentagem na visibilidade geral do Pearlcat influencia a atração do predador. Por padrão, Pearlcat é significativamente mais visível do que Hunter.
+Atlas not found! ({uniqueName})|Atlas não encontrado! ({Nome único})
+Sleeve|Manga
+Chimney Canopy|Cobertura de chaminé
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Um estudioso curioso com a habilidade incomum de aproveitar as pérolas a seu favor.<LINE><LINE>Configurar entradas, dificuldade, truques e muito mais através da configuração do Remix!<LINE><LINE>Mais Slugcats é opcional, mas fortemente recomendado.
+Inventory Pings?|Pings de inventário?
+Transit System|Sistema de trânsito
+T1_END|T1_END
+Pearl Threat Music?|Música de ameaça de pérola?
+Max Pearl Count|Contagem Máxima de Pérolas
+pearlactiveplaceholder|marcador de posição pearlactive
+\nLungsFac |\nLungsFac
+Body|Corpo
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|Quando marcada, a maioria das pérolas (quando ativas) forçará o tema de ameaça para todas as regiões ao tema da região de origem.
+BM_SS_DOOR|BM_SS_DOOR
+sleeve|manga
+moreslugcats|mais lesmas
+Rage Pearl Count|Contagem de pérolas de raiva
+Spear Pearl Count|Contagem de pérolas de lança
+Button North|Botão Norte
+SS_AI|SS_AI
+R-Stick|R-stick
+-|-
+Menu|Cardápio
+PFace|Face
+Pearlpup Respawn?|Ressurgimento do Pearlpup?
+, FrameworkDisplayName = |, FrameworkDisplayName =
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Quando marcado, os cosméticos de Pearlcat serão desativados, destinados a permitir sprites personalizados via DMS. Isso não inclui as próprias pérolas.
+JaggedSquare|Quadrado Denteado
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Número de pérolas de agilidade (azul). Efetivo somente quando Substituição de estoque? está checado.
+General|Em geral
+Head|Cabeça
+scholar|estudioso
+Disable Spear Effect?|Desativar o efeito de lança?
+Custom Keybind?|Tecla de atalho personalizada?
+Swap Input|Trocar entrada
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|Keybind para trocar para a pérola armazenada à esquerda. Limitado ao Jogador 1.
+Joystick[0-9]Button|Joystick[0-9]Botão
+Store Input|Armazenar entrada
+pearlactive|perolado
+The Pearlcat|o Pearlcat
+pearlpup_head|pearlpup_head
+When checked, disables the rage effect granted by an active pearl.|Quando marcado, desativa o efeito de raiva concedido por uma pérola ativa.
+Player 1|Jogador 1
+LC_T1_S01|LC_T1_S01
+Legs|pernas
+Disable Cosmetics?|Desativar cosméticos?
+Intended for fun,\nmay change gameplay significantly!|Destinado à diversão,\npode alterar significativamente a jogabilidade!
+T1_START|T1_START
+\nThrowSkill |\nThrowSkill
+Custom Agility Keybind?|Atalho de teclado Agility personalizado?
+RW_Outro_Theme_B|RW_Outro_Tema_B
+Right Bumper|Pára-choques direito
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Quando marcada, substitui as pérolas iniciais pela opção abaixo. Eficaz apenas no início de um novo jogo, ao contrário do Inventory Override?
+loadedsoundeffects/ambient|efeitos sonoros/ambientes carregados
+GhostDistortion|Distorção Fantasma
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Número máximo de pérolas que podem ser armazenadas de uma só vez, incluindo a pérola ativa. O padrão é 9. Segure e arraste para cima ou para baixo para alterar.
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Um estudioso de origem obscura, armado com uma energia enigmática e uma sede de conhecimento.<LINE>Fisicamente frágil, mas com as pérolas como aliadas - o que você descobrirá em suas viagens?

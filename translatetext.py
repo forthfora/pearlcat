@@ -1,5 +1,4 @@
 import os
-import re
 
 from googletrans import Translator
 
@@ -7,38 +6,59 @@ ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlc
 OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text') 
 
 translator = Translator()
-strings = []
 
 SRC = "en"
 DEST = "es"
 
 langMap = {
     "fr": "fre",
-    "cn-zh": "chi",
+    "zh-CN": "chi",
     "es": "spa",
     "ru": "rus",
     "pt": "por",
     "ko": "kor",
     "it": "ita",
     "de": "ger",
-    "jp": "jap"
+    "ja": "jap"
 }
 
-output = os.path.join(OUTPUT_DIR, "text_{dest}".format(dest = langMap[DEST]))
-os.makedirs(os.path.dirname(output))
+def Translate(targetLang):
+    print("TRANSLATING: " + targetLang)
 
-for subdir, dirs, files in os.walk(ROOT_DIR):
-    for fileName in files:
-        if not fileName.endswith(".txt"): continue
+    output = os.path.join(OUTPUT_DIR, "text_{dest}".format(dest = langMap[targetLang]))
+    os.makedirs(output, exist_ok=True)
 
-        filePath = os.path.join(subdir, fileName)
-        f = open(filePath, "r")
+    for subdir, dirs, files in os.walk(ROOT_DIR):
+        for i in range(len(files)):
+            fileName = files[i]
+            if not fileName.endswith(".txt"): continue
 
-        contents = f.read()
-        f.close()
+            print("[" + str(i + 1) + " / " + str(len(files)) + "]" + " (" + fileName + ")")
 
-        f = open(os.path.join(output, fileName), "w", encoding='utf-8-sig')
+            try:
+                filePath = os.path.join(subdir, fileName)
+                f = open(filePath, "r")
 
-        f.write(translator.translate(contents, src=SRC, dest=DEST).text)
-        f.close()
-        break
+                contents = f.readlines()
+                f.close()
+
+                firstLine = contents[0]
+                contents.pop(0)
+
+                contents = ''.join(contents)
+                translated = translator.translate(contents, src=SRC, dest=targetLang).text
+
+                text = firstLine + translated
+
+                f = open(os.path.join(output, fileName), "w", encoding='utf-8-sig')
+                
+                f.write(text)
+                f.close()
+            
+            except:
+                print("TRANSLATION ERROR")
+
+Translate("ja")
+
+# for lang in langMap.keys():
+#     Translate(lang)

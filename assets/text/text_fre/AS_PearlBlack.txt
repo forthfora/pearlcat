@@ -1,0 +1,12 @@
+﻿0-1
+Oh? Cette perle est très étrange.
+
+C'est vide, mais pas simplement vide.
+
+Toute tentative d'accès serait des retours de données, rien...
+
+Pas de démenti, pas de confirmation, pas d'erreur. Rien.
+
+J'aimerais expérimenter davantage, mais dans mon état actuel... ?
+
+Vous feriez mieux de garder ceci, <PlayerName> - il serait imprudent pour moi de jouer avec ce que je ne comprends pas.

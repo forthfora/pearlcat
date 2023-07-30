@@ -1,0 +1,180 @@
+﻿Swap Left|Links tauschen
+Starting Inventory Override?|Bestandsüberschreibung starten?
+The Gutter|Die Dachrinne
+Button South|Knopf Süd
+hips|Hüften
+CC|CC
+Software|Software
+Disable Camoflague Effect?|Camoflague-Effekt deaktivieren?
+Keybind for Player 4.|Tastenkombination für Spieler 4.
+Disable Revive Effect?|Wiederbelebungseffekt deaktivieren?
+Keybind for Player 2.|Tastenkombination für Spieler 2.
+T1_S01|T1_S01
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|Anzahl der Wiederbelebungsperlen (grün). Nur wirksam, wenn Bestandsüberschreibung? wird geprüft.
+tail|Schwanz
+legs|Beine
+MSC|MSC
+When checked, the inventory HUD will be replaced with a more compact version.|Wenn diese Option aktiviert ist, wird das Inventar-HUD durch eine kompaktere Version ersetzt.
+When checked, disables the agility effect granted by an active pearl.|Wenn diese Option aktiviert ist, wird der durch eine aktive Perle gewährte Beweglichkeitseffekt deaktiviert.
+SPECEVENT|SPECEVENT
+<oA>|<oA>
+GravityDisruptor|Schwerkraftdisruptor
+\nDoes not save over the current inventory - it is returned to when unchecked.|\Speichert nicht über dem aktuellen Inventar – es wird dorthin zurückgekehrt, wenn es nicht aktiviert ist.
+Disable Tutorials?|Tutorials deaktivieren?
+body|Körper
+pup|Welpe
+Player 2|Spieler 2
+Prefer to use the custom keybinds below for agility double jump.|Verwenden Sie für den Agilitäts-Doppelsprung lieber die unten aufgeführten benutzerdefinierten Tastenkombinationen.
+Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep
+Disable Rage Effect?|Wuteffekt deaktivieren?
+feet|Füße
+pearlactivehalo|perlaktivhalo
+ - |-
+sweat|Schweiß
+CANNOT PLAY\n|KANN NICHT SPIELEN\n
+T1_CAREND|T1_CAREND
+Scarf|Schal
+T1_CAR2|T1_CAR2
+\r\n|\r\n
+Player 3|Spieler 3
+Feet|Füße
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Anzahl der Speer-Erschaffungsperlen (weiß). Nur wirksam, wenn Bestandsüberschreibung? wird geprüft.
+Revive Pearl Count|Belebe Pearl Count wieder
+Trigger Player|Trigger-Spieler
+Slugcat_Pearlcat|Slugcat_Pearlcat
+When checked, some abilties will show the inventory when recharged or depleted.|Wenn diese Option aktiviert ist, wird bei einigen Fähigkeiten das Inventar angezeigt, wenn es aufgeladen oder erschöpft ist.
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|Wenn diese Option aktiviert ist, wird der Bestand auf die angegebene Anzahl farbiger Perlen unter jedem Zyklus gesetzt.
+Start Shelter Override|Starten Sie Shelter Override
+T1_CAR0|T1_CAR0
+Keybind for Player 3.|Tastenkombination für Spieler 3.
+Cheats|Betrüger
+Hips|Hüften
+head|Kopf
+ SAVE|SPEICHERN
+face|Gesicht
+When checked, all tutorials will be disabled.|Wenn diese Option aktiviert ist, werden alle Tutorials deaktiviert.
+)|)
+SS_S04|SS_S04
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|Für welchen Player-Controller-Trigger-Austausch gilt? 0 deaktiviert den Triggeraustausch. Zum Ändern gedrückt halten und nach oben oder unten ziehen.
+TEXT ERROR|TEXTFEHLER
+1.0.0|1.0.0
+, |,
+Disable Shield Effect?|Schildeffekt deaktivieren?
+Keybind for Player 1.|Tastenkombination für Spieler 1.
+Failed to parse color {objectType} : {ex.Message}|Farbe {objectType} konnte nicht analysiert werden: {ex.Message}
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|Anzahl der Wutperlen (rot). Nur wirksam, wenn Bestandsüberschreibung? wird geprüft.
+Button East|Knopf Ost
+T1_CAR3|T1_CAR3
+NON-MSC|NICHT-MSC
+Prefer to use the custom keybinds below for spear creation.|Verwenden Sie für die Speererstellung lieber die unten aufgeführten benutzerdefinierten Tastenkombinationen.
+Swap Right|Rechts tauschen
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Anzahl der Schildperlen (gelb). Nur wirksam, wenn Bestandsüberschreibung? wird geprüft.
+pearlpup_scarf|pearlpup_scarf
+When checked, disables the camoflague effect granted by an active pearl.|Wenn diese Option aktiviert ist, wird der Tarneffekt deaktiviert, der durch eine aktive Perle gewährt wird.
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Aktiviert unten benutzerdefinierte Tastenkombinationen im Gegensatz zur Standardeinstellung (AUF + PICKUP).
+\nPoleClimb |\nPoleClimb
+scarf|Schal
+When checked, disables the revive effect granted by an active pearl.|Wenn diese Option aktiviert ist, wird der Wiederbelebungseffekt deaktiviert, der durch eine aktive Perle gewährt wird.
+Pearlcat|Perlenkatze
+Player 4|Spieler 4
+\nCorridorClimb |\nKorridorAufstieg
+When checked, disables the shield effect granted by an active pearl.|Wenn diese Option aktiviert ist, wird der durch eine aktive Perle gewährte Schildeffekt deaktiviert.
+Slugcat_Pearlcat_Ascended|Slugcat_Pearlcat_Ascended
+Shield Pearl Count|Anzahl der Schildperlen
+pearlpup_face|pearlpup_face
+L-Stick|L-Stick
+AS IS|WIE ES IST
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|Mit ihrer unstillbaren Neugier wagt sich Pearlcat erneut daran, ihre Sammlung zu erweitern
+Intended to make gameplay more challenging, may change gameplay significantly!|Soll das Gameplay anspruchsvoller machen, kann das Gameplay jedoch erheblich verändern!
+Camo Pearl Count|Camo Pearl Count
+When checked, disables the spear creation effect granted by an active pearl.|Wenn diese Option aktiviert ist, wird der durch eine aktive Perle gewährte Speererstellungseffekt deaktiviert.
+pearlcat|Perlkatze
+Disable Agility Effect?|Agilitätseffekt deaktivieren?
+Custom Spear Keybind?|Benutzerdefinierte Speer-Tastenkombination?
+RW_Outro_Theme|RW_Outro_Theme
+PEBBLESWAIT|PEBBLESWAIT
+) & (|) & (
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|Mit einer Tastenkombination können Sie zur gespeicherten Perle rechts wechseln. Beschränkt auf Spieler 1.
+Face|Gesicht
+GATE_UW_LC|GATE_UW_LC
+arm|Arm
+Difficulty|Schwierigkeit
+Keyboard|Klaviatur
+Agility Pearl Count|Anzahl der Agilitätsperlen
+Input a shelter name to have it override where Pearlcat starts a new game.|Geben Sie einen Tierheimnamen ein, damit dieser überschreibt, wo Pearlcat ein neues Spiel startet.
+Keybind for Keyboard.|Tastenkombination für Tastatur.
+OE_SEXTRA|OE_SEXTRA
+ + Path.DirectorySeparatorChar.ToString() + |+ Path.DirectorySeparatorChar.ToString() +
+Left Bumper|Linke Stoßstange
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|Wenn diese Option aktiviert ist, gewähren Perlen keine aktiven oder sonstigen Statusänderungen mehr und die Basisstatistiken ähneln denen von Jäger.
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|Wenn diese Option aktiviert ist, erscheint Pearlpup im nächsten Zyklus im nächsten Tierheim wieder, wenn es verloren geht.
+\nRunspeedFac |\nRunspeedFac
+ruffian|Grobian
+View|Sicht
+T1_CAR1|T1_CAR1
+Compact Inventory HUD?|Kompaktes Inventar-HUD?
+Ability Input|Fähigkeitseingabe
+Visibility Multiplier|Sichtbarkeitsmultiplikator
+Disable Minor Effects?|Kleinere Effekte deaktivieren?
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|Anzahl der Tarnperlen (schwarz). Nur wirksam, wenn Bestandsüberschreibung? wird geprüft.
+Button West|Knopf West
+PlayerArm|PlayerArm
+Inventory Override?|Bestandsüberschreibung?
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Der prozentuale Multiplikator der allgemeinen Sichtbarkeit von Pearlcat beeinflusst die Anziehungskraft auf Raubtiere. Standardmäßig ist Pearlcat deutlich besser sichtbar als Hunter.
+Atlas not found! ({uniqueName})|Atlas nicht gefunden! ({einzigartiger Name})
+Sleeve|Ärmel
+Chimney Canopy|Kaminüberdachung
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Ein neugieriger Gelehrter mit der ungewöhnlichen Fähigkeit, Perlen zu seinem Vorteil zu nutzen.<LINE><LINE>Konfigurieren Sie Eingaben, Schwierigkeitsgrad, Cheats und mehr über die Remix-Konfiguration!<LINE><LINE>Mehr Slugcats ist optional, wird aber dringend empfohlen.
+Inventory Pings?|Inventar-Pings?
+Transit System|Transportsystem
+T1_END|T1_END
+Pearl Threat Music?|Pearl Threat Music?
+Max Pearl Count|Max Pearl Count
+pearlactiveplaceholder|perlaktiver Platzhalter
+\nLungsFac |\nLungsFac
+Body|Körper
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|Wenn diese Option aktiviert ist, erzwingen die meisten Perlen (sofern sie aktiv sind) das Bedrohungsthema für alle Regionen auf das Thema der Region, aus der sie ursprünglich stammen.
+BM_SS_DOOR|BM_SS_DOOR
+sleeve|Ärmel
+moreslugcats|noch mehr Schnecken
+Rage Pearl Count|Rage Pearl Count
+Spear Pearl Count|Speerperlenanzahl
+Button North|Knopf Nord
+SS_AI|SS_AI
+R-Stick|R-Stick
+-|-
+Menu|Speisekarte
+PFace|PGesicht
+Pearlpup Respawn?|Perlwelpen-Respawn?
+, FrameworkDisplayName = |, FrameworkDisplayName =
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Wenn diese Option aktiviert ist, werden die Kosmetika von Pearlcat deaktiviert, um benutzerdefinierte Sprites über DMS zu ermöglichen. Die Perlen selbst sind hiervon nicht betroffen.
+JaggedSquare|JaggedSquare
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Anzahl der Agility-Perlen (blau). Nur wirksam, wenn Bestandsüberschreibung? wird geprüft.
+General|Allgemein
+Head|Kopf
+scholar|Gelehrte
+Disable Spear Effect?|Speereffekt deaktivieren?
+Custom Keybind?|Benutzerdefinierte Tastenkombination?
+Swap Input|Eingabe vertauschen
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|Mit einer Tastenkombination können Sie zur gespeicherten Perle auf der linken Seite wechseln. Beschränkt auf Spieler 1.
+Joystick[0-9]Button|Joystick[0-9]Taste
+Store Input|Eingabe speichern
+pearlactive|perlaktiv
+The Pearlcat|Die Perlenkatze
+pearlpup_head|Pearlpup_head
+When checked, disables the rage effect granted by an active pearl.|Wenn diese Option aktiviert ist, wird der Wuteffekt deaktiviert, der durch eine aktive Perle gewährt wird.
+Player 1|Spieler 1
+LC_T1_S01|LC_T1_S01
+Legs|Beine
+Disable Cosmetics?|Kosmetik deaktivieren?
+Intended for fun,\nmay change gameplay significantly!|Zum Spaß gedacht,\nkann das Gameplay erheblich verändern!
+T1_START|T1_START
+\nThrowSkill |\nWurffähigkeit
+Custom Agility Keybind?|Benutzerdefinierte Agilitäts-Tastenkombination?
+RW_Outro_Theme_B|RW_Outro_Theme_B
+Right Bumper|Rechte Stoßstange
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Wenn diese Option aktiviert ist, werden die Startperlen mit der folgenden Option überschrieben. Im Gegensatz zur Inventarüberschreibung nur zu Beginn eines neuen Spiels wirksam?
+loadedsoundeffects/ambient|geladene Soundeffekte/Ambien
+GhostDistortion|GhostDistortion
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Maximale Anzahl Perlen, die gleichzeitig gespeichert werden können, einschließlich der aktiven Perle. Der Standardwert ist 9. Halten Sie gedrückt und ziehen Sie zum Ändern nach oben oder unten.
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Ein Gelehrter unbekannter Herkunft, bewaffnet mit einer rätselhaften Energie und einem Wissensdurst.<LINE>Körperlich gebrechlich, aber mit Perlen als Verbündeten – was werden Sie auf Ihren Reisen entdecken?

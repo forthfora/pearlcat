@@ -658,15 +658,15 @@ public static partial class Hooks
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
         var save = self.room.game.GetMiscWorld();
-        bool isNewGame = true;
+        bool shouldGivePearls = true;
 
         if (save != null)
-            isNewGame = save.IsNewGame;
+            shouldGivePearls = !save.PlayersGivenPearls.Contains(self.playerState.playerNumber);
 
         if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
             playerModule.GivenPearls = false;
 
-        if (!(isNewGame || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
+        if (!(shouldGivePearls || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
 
 
         List<DataPearlType> pearls;
@@ -696,6 +696,9 @@ public static partial class Hooks
         }
 
         playerModule.GivenPearls = true;
+
+        if (save != null && !save.PlayersGivenPearls.Contains(self.playerState.playerNumber))
+            save.PlayersGivenPearls.Add(self.playerState.playerNumber);
     }
     
     public static int GraspsHasType(this Player self, AbstractObjectType type)

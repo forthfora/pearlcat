@@ -1,0 +1,6 @@
+﻿0-121-pearlcatpebbles
+Questo è un progetto per una cellula di blocco vivente. Stocca e tratta i rifiuti organici.
+
+Non c'è niente di troppo interessante qui. I blocchi urbani modulari sono in produzione da molto tempo e probabilmente saranno abbandonati ancora di più ora che i miei creatori se ne sono andati.
+
+A meno che un roditore troppo cresciuto come te non abbia un interesse acquisito nella progettazione del sistema settico, <LINE> ci sono pochissime informazioni qui che a entrambi piacerebbe leggere.

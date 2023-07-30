@@ -1,0 +1,180 @@
+﻿Swap Left|왼쪽 바꾸기
+Starting Inventory Override?|재고 무시를 시작하시겠습니까?
+The Gutter|거터
+Button South|버튼 사우스
+hips|엉덩이
+CC|CC
+Software|소프트웨어
+Disable Camoflague Effect?|위장 효과를 비활성화하시겠습니까?
+Keybind for Player 4.|플레이어 4용 단축키.
+Disable Revive Effect?|부활 효과를 비활성화하시겠습니까?
+Keybind for Player 2.|플레이어 2용 단축키.
+T1_S01|T1_S01
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|소생 진주의 수(녹색). 재고 무시 시에만 유효합니까? 확인됩니다.
+tail|꼬리
+legs|다리
+MSC|MSC
+When checked, the inventory HUD will be replaced with a more compact version.|선택하면 인벤토리 HUD가 더 작은 버전으로 대체됩니다.
+When checked, disables the agility effect granted by an active pearl.|체크하면 활성화된 진주가 부여하는 민첩성 효과를 비활성화합니다.
+SPECEVENT|사양
+<oA>|<아>
+GravityDisruptor|중력 교란기
+\nDoes not save over the current inventory - it is returned to when unchecked.|\현재 재고를 저장하지 않습니다. 선택하지 않으면 반환됩니다.
+Disable Tutorials?|튜토리얼을 비활성화하시겠습니까?
+body|몸
+pup|새끼
+Player 2|플레이어 2
+Prefer to use the custom keybinds below for agility double jump.|민첩성 이중 점프를 위해 아래의 사용자 지정 키 바인딩을 사용하는 것이 좋습니다.
+Slugcat_Pearlcat_Sleep|슬러그캣_펄캣_잠
+Disable Rage Effect?|분노 효과를 비활성화하시겠습니까?
+feet|피트
+pearlactivehalo|펄액티브할로
+ - |-
+sweat|땀
+CANNOT PLAY\n|재생할 수 없습니다.\n
+T1_CAREND|T1_CAREND
+Scarf|스카프
+T1_CAR2|T1_CAR2
+\r\n|\r\n
+Player 3|플레이어 3
+Feet|피트
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|창 생성 진주의 수(흰색). 재고 무시 시에만 유효합니까? 확인됩니다.
+Revive Pearl Count|리바이브 펄 카운트
+Trigger Player|트리거 플레이어
+Slugcat_Pearlcat|슬러그캣_펄캣
+When checked, some abilties will show the inventory when recharged or depleted.|선택하면 일부 능력이 충전되거나 고갈될 때 인벤토리가 표시됩니다.
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|체크하면 인벤토리를 주기마다 지정된 수의 유색 진주로 설정합니다.
+Start Shelter Override|쉘터 오버라이드 시작
+T1_CAR0|T1_CAR0
+Keybind for Player 3.|플레이어 3용 단축키.
+Cheats|치트
+Hips|엉덩이
+head|머리
+ SAVE|구하다
+face|얼굴
+When checked, all tutorials will be disabled.|선택하면 모든 튜토리얼이 비활성화됩니다.
+)|)
+SS_S04|SS_S04
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|어떤 플레이어 컨트롤러 트리거 스와핑이 적용될지. 0은 트리거 스와핑을 비활성화합니다. 누른 상태에서 위 또는 아래로 드래그하여 변경합니다.
+TEXT ERROR|텍스트 오류
+1.0.0|1.0.0
+, |,
+Disable Shield Effect?|실드 효과를 비활성화하시겠습니까?
+Keybind for Player 1.|플레이어 1의 단축키.
+Failed to parse color {objectType} : {ex.Message}|색상 {objectType} 구문 분석 실패: {ex.Message}
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|분노 진주의 수(빨간색). 재고 무시 시에만 유효합니까? 확인됩니다.
+Button East|버튼 이스트
+T1_CAR3|T1_CAR3
+NON-MSC|비 MSC
+Prefer to use the custom keybinds below for spear creation.|창 생성을 위해 아래의 사용자 지정 키 바인딩을 사용하는 것을 선호합니다.
+Swap Right|오른쪽으로 바꾸기
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|방패 진주의 수(노란색). 재고 무시 시에만 유효합니까? 확인됩니다.
+pearlpup_scarf|pearlpup_스카프
+When checked, disables the camoflague effect granted by an active pearl.|체크하면 활성 진주가 부여하는 위장 효과를 비활성화합니다.
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|기본값(UP + PICKUP)과 달리 아래의 사용자 지정 키 바인딩을 활성화합니다.
+\nPoleClimb |\n폴 클라이밍
+scarf|스카프
+When checked, disables the revive effect granted by an active pearl.|체크 시 활성 진주가 부여하는 소생 효과를 비활성화합니다.
+Pearlcat|펄캣
+Player 4|플레이어 4
+\nCorridorClimb |\n복도 오르기
+When checked, disables the shield effect granted by an active pearl.|체크 시 활성 진주가 부여하는 보호막 효과를 비활성화합니다.
+Slugcat_Pearlcat_Ascended|슬러그캣_펄캣_어센디드
+Shield Pearl Count|방패 진주 수
+pearlpup_face|pearlpup_face
+L-Stick|엘스틱
+AS IS|있는 그대로
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|채울 수 없는 호기심, 펄캣은 컬렉션 확장을 위해<LINE>다시 한 번 모험을 떠납니다.
+Intended to make gameplay more challenging, may change gameplay significantly!|게임 플레이를 더욱 어렵게 만들기 위해 게임 플레이를 크게 변경할 수 있습니다!
+Camo Pearl Count|카모 진주 수
+When checked, disables the spear creation effect granted by an active pearl.|체크 시 활성 진주가 부여하는 창 생성 효과를 비활성화합니다.
+pearlcat|펄캣
+Disable Agility Effect?|민첩성 효과를 비활성화하시겠습니까?
+Custom Spear Keybind?|커스텀 스피어 키바인드?
+RW_Outro_Theme|RW_Outro_Theme
+PEBBLESWAIT|페블스웨이트
+) & (|) & (
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|오른쪽에 저장된 진주로 교체하려면 키바인드하십시오. 플레이어 1로 제한됩니다.
+Face|얼굴
+GATE_UW_LC|GATE_UW_LC
+arm|팔
+Difficulty|어려움
+Keyboard|건반
+Agility Pearl Count|민첩성 진주 수
+Input a shelter name to have it override where Pearlcat starts a new game.|Pearlcat이 새 게임을 시작하는 위치를 재정의하려면 대피소 이름을 입력하세요.
+Keybind for Keyboard.|키보드용 키바인드.
+OE_SEXTRA|OE_SEXTRA
+ + Path.DirectorySeparatorChar.ToString() + |+ Path.DirectorySeparatorChar.ToString() +
+Left Bumper|왼쪽 범퍼
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|선택하면 진주는 더 이상 활성 여부에 관계없이 능력치 변경을 부여하지 않으며 기본 능력치는 헌터와 유사하게 설정됩니다.
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|체크하면 Pearlpup은 길을 잃을 때마다 다음 주기의 다음 대피소에서 다시 생성됩니다.
+\nRunspeedFac |\nRunspeedFac
+ruffian|악당
+View|보다
+T1_CAR1|T1_CAR1
+Compact Inventory HUD?|컴팩트 인벤토리 HUD?
+Ability Input|어빌리티 입력
+Visibility Multiplier|가시성 승수
+Disable Minor Effects?|사소한 효과를 비활성화하시겠습니까?
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|카모 진주 수(검은색). 재고 무시 시에만 유효합니까? 확인됩니다.
+Button West|버튼 웨스트
+PlayerArm|PlayerArm
+Inventory Override?|재고 무시?
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Pearlcat의 일반적인 가시성에 대한 백분율 승수는 포식자 유인에 영향을 미칩니다. 기본적으로 Pearlcat은 Hunter보다 훨씬 더 잘 보입니다.
+Atlas not found! ({uniqueName})|아틀라스를 찾을 수 없습니다! ({고유 이름})
+Sleeve|소매
+Chimney Canopy|굴뚝 캐노피
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|진주를 유리하게 활용하는 특이한 능력을 가진 호기심 많은 학자입니다.<LINE><LINE>Remix 구성을 통해 입력, 난이도, 치트 등을 구성하세요!<LINE><LINE>더 많은 Slugcats는 선택 사항이지만 강력하게 권장합니다.
+Inventory Pings?|인벤토리 핑?
+Transit System|환승 시스템
+T1_END|T1_END
+Pearl Threat Music?|진주 위협 음악?
+Max Pearl Count|최대 진주 수
+pearlactiveplaceholder|진주 활성 자리 표시자
+\nLungsFac |\nLungsFac
+Body|몸
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|선택하면 대부분의 진주(활성화 시)는 모든 지역의 위협 테마를 원래 있던 지역의 테마로 강제 설정합니다.
+BM_SS_DOOR|BM_SS_DOOR
+sleeve|소매
+moreslugcats|더 많은 슬러그캣
+Rage Pearl Count|레이지 펄 카운트
+Spear Pearl Count|스피어 펄 카운트
+Button North|버튼 노스
+SS_AI|SS_AI
+R-Stick|R-스틱
+-|-
+Menu|메뉴
+PFace|피페이스
+Pearlpup Respawn?|펄프 리스폰?
+, FrameworkDisplayName = |, FrameworkDisplayName =
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|선택하면 Pearlcat의 화장품이 비활성화되어 DMS를 통해 사용자 정의 스프라이트를 허용합니다. 이것은 진주 자체를 포함하지 않습니다.
+JaggedSquare|들쭉날쭉한 사각형
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|민첩성 진주의 수(파란색). 재고 무시 시에만 유효합니까? 확인됩니다.
+General|일반적인
+Head|머리
+scholar|학자
+Disable Spear Effect?|창 효과를 비활성화하시겠습니까?
+Custom Keybind?|커스텀 키바인드?
+Swap Input|입력 바꾸기
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|왼쪽에 저장된 진주로 교체할 키바인드. 플레이어 1로 제한됩니다.
+Joystick[0-9]Button|조이스틱[0-9]버튼
+Store Input|입력 저장
+pearlactive|펄액티브
+The Pearlcat|펄캣
+pearlpup_head|pearlpup_head
+When checked, disables the rage effect granted by an active pearl.|체크하면 활성화된 진주가 부여하는 분노 효과를 비활성화합니다.
+Player 1|플레이어 1
+LC_T1_S01|LC_T1_S01
+Legs|다리
+Disable Cosmetics?|화장품을 비활성화하시겠습니까?
+Intended for fun,\nmay change gameplay significantly!|재미를 위한 것이므로\n게임 플레이가 크게 바뀔 수 있습니다!
+T1_START|T1_START
+\nThrowSkill |\n스킬 던지기
+Custom Agility Keybind?|커스텀 민첩성 키바인드?
+RW_Outro_Theme_B|RW_Outro_Theme_B
+Right Bumper|오른쪽 범퍼
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|선택하면 시작 진주를 아래 옵션으로 재정의합니다. Inventory Override와 달리 새 게임을 시작할 때만 효과적입니까?
+loadedsoundeffects/ambient|로드된 음향 효과/주변
+GhostDistortion|유령 왜곡
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|활성 진주를 포함하여 한 번에 저장할 수 있는 최대 진주 수입니다. 기본값은 9입니다. 변경하려면 누른 상태에서 위 또는 아래로 끕니다.
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|수수께끼 같은 에너지와 지식에 대한 갈증으로 무장한 모호한 출신의 학자입니다.<LINE>신체는 약하지만 진주를 아군으로 삼고 있습니다. 여행 중에 무엇을 발견하게 될까요?

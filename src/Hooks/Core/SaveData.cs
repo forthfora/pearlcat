@@ -14,6 +14,8 @@ public static partial class Hooks
         public bool IsNewGame { get; set; } = true;
         public bool IsPearlcatStory { get; set; }
 
+        public List<int> PlayersGivenPearls { get; } = new();
+
         public Dictionary<int, List<string>> Inventory { get; } = new();
         public Dictionary<int, int?> ActiveObjectIndex { get; } = new();
 

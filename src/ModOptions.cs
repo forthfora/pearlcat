@@ -294,8 +294,7 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "Cheats");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var warningText = "Intended for fun," +
-            "\nmay change gameplay significantly!";
+        var warningText = "Intended for fun,\nmay change gameplay significantly!";
         
         AddTextLabel(warningText, bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);

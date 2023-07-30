@@ -67,9 +67,9 @@ public class T1_CAR1 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt($"YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge", 0, 700);
+                game.AddTextPrompt("YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge", 0, 700);
                 
-                game.AddTextPrompt($"Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time", 50, 600);
+                game.AddTextPrompt("Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time", 50, 600);
 
                 PhaseTimer = 400;
                 CurrentPhase = Phase.Demo;

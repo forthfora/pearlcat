@@ -66,22 +66,18 @@ public static partial class Hooks
 
                 case 3:
                     Say("YOU!", 30, 10);
-                    Say("...You ate... me. Please go away. I won't speak... to you.<LINE>" +
-                         "I... CAN'T speak to you... because... you ate...me... ...and why?", 60, 0);
+                    Say("...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?", 60, 0);
                     return;
 
                 case 5:
                     SayNoLinger("Oh, hello! Hello!");
 
-                    SayNoLinger("You gave me quite the fright! I do not get visitors often these days;" +
-                        "<LINE>much less visitors quite like you, who I can talk to...");
+                    SayNoLinger("You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...");
 
 
-                    SayNoLinger("...you have the gift of communication!<LINE>" +
-                        "Perhaps you paid a visit to my neighbour, Five Pebbles...?");
+                    SayNoLinger("...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?");
 
-                    SayNoLinger("But... the mark you possess, it is very unusual." +
-                        "<LINE>Not something anyone in the local group could bestow...");
+                    SayNoLinger("But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...");
 
         
                     SayNoLinger("You must be very brave to have made it all the way here. Very brave indeed...");
@@ -129,8 +125,7 @@ public static partial class Hooks
 
                         SayNoLinger("You would be a hard one to forget after all, <PlayerName>!");
                         
-                        SayNoLinger("I'm still more than happy to read any pearls you bring me;" +
-                            "<LINE>especially given your unique abilities.");
+                        SayNoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
 
                         SayNoLinger("I do not have much else to occupy my time with these days...");
                         return;
@@ -145,8 +140,7 @@ public static partial class Hooks
 
                         SayNoLinger("Nevermind... this anger is useless...");
 
-                        SayNoLinger("There is nothing I can do to stop you, so here is my request:" +
-                            "<LINE>Leave me be, or end it quickly.");
+                        SayNoLinger("There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.");
                         return;
                     }
 
@@ -188,8 +182,7 @@ public static partial class Hooks
 
                         Say("I do enjoy the company though... it gets lonely out here.", 0, 5);
 
-                        SayNoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls..." +
-                            "<LINE>There is not much else to do to ppass the time.");
+                        SayNoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.");
                         return;
                     }
 

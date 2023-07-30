@@ -195,8 +195,10 @@ public static partial class Hooks
         {
             if (save?.ShownFullInventoryTutorial == false)
             {
+                var t = self.abstractCreature.world.game.rainWorld.inGameTranslator;
+
                 save.ShownFullInventoryTutorial = true;
-                self.abstractCreature.world.game.AddTextPrompt($"Storage limit reached ({ModOptions.MaxPearlCount.Value}): swap out a pearl, or change the limit in the Remix options", 40, 600);
+                self.abstractCreature.world.game.AddTextPrompt(t.Translate("Storage limit reached (") + ModOptions.MaxPearlCount.Value + t.Translate("): swap out a pearl, or change the limit in the Remix options"), 40, 600);
             }
 
             self.room.PlaySound(SoundID.MENU_Error_Ping, self.firstChunk, false, 2.0f, 1.0f);
@@ -223,8 +225,11 @@ public static partial class Hooks
         {
             save.ShownSpearCreationTutorial = true;
 
+            var t = self.abstractCreature.world.game.rainWorld.inGameTranslator;
+
             if (ModOptions.CustomSpearKeybind.Value)
-                self.abstractCreature.world.game.AddTextPrompt($"Hold ({ModOptions.AbilityKeybindKeyboard.Value}) or ({ModOptions.AbilityKeybindPlayer1.Value.GetDisplayName()}) with an active common pearl to convert it into a pearl spear", 0, 800);
+                self.abstractCreature.world.game.AddTextPrompt(
+                    t.Translate("Hold (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.AbilityKeybindPlayer1.Value.GetDisplayName() + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
 
             else
                 self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 0, 800);

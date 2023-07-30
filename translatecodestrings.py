@@ -9,44 +9,75 @@ OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pear
 EXCLUDE = ["PlayerObjectEffect", "PlayerObjectAnimator", "InventoryHUD", "BackgroundView", "Modules"]
 
 translator = Translator()
-strings = []
 
 SRC = "en"
 DEST = "es"
 
-for subdir, dirs, files in os.walk(ROOT_DIR):
-    for fileName in files:
-        if not fileName.endswith(".cs"): continue
+langMap = {
+    "fr": "fre",
+    "zh-CN": "chi",
+    "es": "spa",
+    "ru": "rus",
+    "pt": "por",
+    "ko": "kor",
+    "it": "ita",
+    "de": "ger",
+    "ja": "jap"
+}
 
-        filePath = os.path.join(subdir, fileName)
-        if any(x in filePath for x in EXCLUDE): continue
+def Translate(targetLang):
+    print("TRANSLATING: " + targetLang)
 
-        f = open(filePath, "r")
+    strings = [
+        "Pearlcat",
+        "The Pearlcat",
+        "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.",
+        "A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?",
+        "Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection",
+        "Transit System"
+    ]
 
-        contents = f.read()
-        thisFileStrings = re.findall(r'(?<![LogWarning(])"(.*?)"', contents)
+    for subdir, dirs, files in os.walk(ROOT_DIR):
+        for fileName in files:
+            if not fileName.endswith(".cs"): continue
 
-        strings += thisFileStrings
+            filePath = os.path.join(subdir, fileName)
+            if any(x in filePath for x in EXCLUDE): continue
 
-        f.close()
+            f = open(filePath, "r")
 
-strings = list(filter(None, strings)) # remove empty
-strings = list(filter(lambda x: not (x.startswith("_") or x.startswith(".")), strings)) # trim weird stuff
-strings = [*set(strings)] # remove duplicates
+            contents = f.read()
+            thisFileStrings = re.findall(r'(?<![LogWarning(])"(.*?)"', contents)
 
-# strings = [x.strip() for x in strings]
+            strings += thisFileStrings
 
-output = os.path.join(OUTPUT_DIR, "text_{dest}/strings.txt".format(dest = DEST))
-os.makedirs(os.path.dirname(output), exist_ok=True)
+            f.close()
 
-f = open(output, "w", encoding='utf-8-sig')
+    strings = list(filter(None, strings)) # remove empty
+    strings = list(filter(lambda x: not (x.startswith("_") or x.startswith(".")), strings)) # trim weird stuff
+    strings = [*set(strings)] # remove duplicates
 
-for i in range(len(strings)):
-    string = strings[i]
-    
-    output = string + "|" + translator.translate(string, src=SRC, dest=DEST).text + "\n"
-    f.write(output)
+    # strings = [x.strip() for x in strings]
 
-    print("[" + str(i + 1) + " / " + str(len(strings)) + "]")
+    output = os.path.join(OUTPUT_DIR, "text_{dest}/strings.txt".format(dest = langMap[targetLang]))
+    os.makedirs(os.path.dirname(output), exist_ok=True)
 
-f.close()
+    f = open(output, "w", encoding='utf-8-sig')
+
+    for i in range(len(strings)):
+        print("[" + str(i + 1) + " / " + str(len(strings)) + "]")
+        try:
+            string = strings[i]
+            
+            output = string + "|" + translator.translate(string, src=SRC, dest=targetLang).text + "\n"
+            f.write(output)
+        
+        except:
+            print("TRANSLATION ERROR")
+
+    f.close()
+
+Translate("ja")
+
+# for lang in langMap.keys():
+#     Translate(lang)

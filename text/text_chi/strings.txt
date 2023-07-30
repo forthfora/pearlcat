@@ -1,0 +1,180 @@
+﻿Swap Left|向左交换
+Starting Inventory Override?|开始库存覆盖？
+The Gutter|天沟
+Button South|巴顿南
+hips|臀部
+CC|抄送
+Software|软件
+Disable Camoflague Effect?|禁用迷彩效果？
+Keybind for Player 4.|玩家 4 的按键绑定。
+Disable Revive Effect?|禁用复活效果？
+Keybind for Player 2.|玩家 2 的按键绑定。
+T1_S01|T1_S01
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|复活珍珠数量（绿色）。仅在库存覆盖时有效？已检查。
+tail|尾巴
+legs|腿
+MSC|MSC
+When checked, the inventory HUD will be replaced with a more compact version.|选中后，库存 HUD 将替换为更紧凑的版本。
+When checked, disables the agility effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的敏捷效果。
+SPECEVENT|特殊事件
+<oA>|<oA>
+GravityDisruptor|重力干扰者
+\nDoes not save over the current inventory - it is returned to when unchecked.|\不保存当前库存 - 未选中时返回。
+Disable Tutorials?|禁用教程？
+body|身体
+pup|小狗
+Player 2|玩家2
+Prefer to use the custom keybinds below for agility double jump.|更喜欢使用下面的自定义键绑定来实现敏捷二段跳。
+Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep
+Disable Rage Effect?|禁用愤怒效果？
+feet|脚
+pearlactivehalo|珍珠活性光环
+ - |-
+sweat|汗
+CANNOT PLAY\n|无法播放\n
+T1_CAREND|T1_CAREND
+Scarf|围巾
+T1_CAR2|T1_CAR2
+\r\n|\r\n
+Player 3|玩家3
+Feet|脚
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|矛创造珍珠的数量（白色）。仅在库存覆盖时有效？已检查。
+Revive Pearl Count|复活珍珠伯爵
+Trigger Player|触发播放器
+Slugcat_Pearlcat|鼻涕虫_珍珠猫
+When checked, some abilties will show the inventory when recharged or depleted.|选中后，某些技能会在充电或耗尽时显示库存。
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|选中后，将库存设置为每个周期下方指定的彩色珍珠数量。
+Start Shelter Override|开始避难所覆盖
+T1_CAR0|T1_CAR0
+Keybind for Player 3.|玩家 3 的按键绑定。
+Cheats|秘籍
+Hips|臀部
+head|头
+ SAVE|节省
+face|脸
+When checked, all tutorials will be disabled.|选中后，所有教程都将被禁用。
+)|）
+SS_S04|SS_S04
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|哪个玩家控制器触发交换将适用。 0 禁用触发器交换。按住并向上或向下拖动进行更改。
+TEXT ERROR|文本错误
+1.0.0|1.0.0
+, |,
+Disable Shield Effect?|解除护盾效果？
+Keybind for Player 1.|玩家 1 的按键绑定。
+Failed to parse color {objectType} : {ex.Message}|无法解析颜色 {objectType}：{ex.Message}
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|愤怒珍珠的数量（红色）。仅在库存覆盖时有效？已检查。
+Button East|巴顿东
+T1_CAR3|T1_CAR3
+NON-MSC|非MSC
+Prefer to use the custom keybinds below for spear creation.|更喜欢使用下面的自定义键绑定来创建矛。
+Swap Right|右交换
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|盾珍珠数量（黄色）。仅在库存覆盖时有效？已检查。
+pearlpup_scarf|珍珠小狗围巾
+When checked, disables the camoflague effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的迷彩效果。
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|启用下面的自定义按键绑定，而不是默认的（UP + PICKUP）。
+\nPoleClimb |\n爬杆
+scarf|围巾
+When checked, disables the revive effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的复活效果。
+Pearlcat|珍珠猫
+Player 4|玩家 4
+\nCorridorClimb |\n爬廊
+When checked, disables the shield effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的护盾效果。
+Slugcat_Pearlcat_Ascended|Slugcat_Pearlcat_Ascended
+Shield Pearl Count|盾珍珠数
+pearlpup_face|珍珠小狗脸
+L-Stick|L 形棒
+AS IS|按原样
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|珍珠猫的好奇心永无止境，他们再次冒险<LINE>追求扩大他们的收藏
+Intended to make gameplay more challenging, may change gameplay significantly!|旨在使游戏玩法更具挑战性，可能会显着改变游戏玩法！
+Camo Pearl Count|迷彩珍珠计数
+When checked, disables the spear creation effect granted by an active pearl.|选中后，禁用活跃珍珠所赋予的矛创造效果。
+pearlcat|珍珠猫
+Disable Agility Effect?|禁用敏捷效果？
+Custom Spear Keybind?|定制矛键绑定？
+RW_Outro_Theme|RW_尾奏_主题
+PEBBLESWAIT|卵石等待
+) & (|) & (
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|按键绑定以交换到右侧存储的珍珠。仅限玩家 1。
+Face|脸
+GATE_UW_LC|GATE_UW_LC
+arm|手臂
+Difficulty|困难
+Keyboard|键盘
+Agility Pearl Count|敏捷珍珠数
+Input a shelter name to have it override where Pearlcat starts a new game.|输入庇护所名称以覆盖 Pearlcat 开始新游戏的位置。
+Keybind for Keyboard.|键盘的按键绑定。
+OE_SEXTRA|OE_SEXTRA
+ + Path.DirectorySeparatorChar.ToString() + |+ Path.DirectorySeparatorChar.ToString() +
+Left Bumper|左保险杠
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|选中后，珍珠将不再授予统计数据更改（无论是主动还是其他），并且基本统计数据设置为与猎人类似。
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|选中后，每当珍珠幼崽迷路时，它们都会在下一个周期中在下一个庇护所重生。
+\nRunspeedFac |\n运行速度Fac
+ruffian|痞子
+View|看法
+T1_CAR1|T1_CAR1
+Compact Inventory HUD?|紧凑库存 HUD？
+Ability Input|能力输入
+Visibility Multiplier|可见度乘数
+Disable Minor Effects?|禁用次要效果？
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|迷彩珍珠数量（黑色）。仅在库存覆盖时有效？已检查。
+Button West|巴顿·韦斯特
+PlayerArm|玩家手臂
+Inventory Override?|库存覆盖？
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|珍珠猫总体能见度的百分比乘数会影响捕食者的吸引力。默认情况下，Pearlcat 甚至比 Hunter 更显眼。
+Atlas not found! ({uniqueName})|找不到图集！ ({唯一名称})
+Sleeve|袖子
+Chimney Canopy|烟囱顶篷
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|一位好奇的学者，拥有利用珍珠发挥优势的非凡能力。<LINE><LINE>通过 Remix 配置来配置输入、难度、作弊等！<LINE><LINE>更多 Slugcats 是可选的，但强烈推荐。
+Inventory Pings?|库存 ping 值？
+Transit System|交通系统
+T1_END|T1_END
+Pearl Threat Music?|珍珠威胁音乐？
+Max Pearl Count|最大珍珠数
+pearlactiveplaceholder|珍珠活性占位符
+\nLungsFac |\n肺Fac
+Body|身体
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|选中后，大多数珍珠（激活时）会将所有区域的威胁主题强制为它们原来所在区域的主题。
+BM_SS_DOOR|BM_SS_DOOR
+sleeve|袖子
+moreslugcats|更多鼻涕虫
+Rage Pearl Count|愤怒珍珠伯爵
+Spear Pearl Count|矛珍珠计数
+Button North|巴顿北
+SS_AI|SS_AI
+R-Stick|R-棒
+-|-
+Menu|菜单
+PFace|人脸
+Pearlpup Respawn?|珍珠幼崽重生？
+, FrameworkDisplayName = |, 框架显示名称 =
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|选中后，Pearlcat 的外观将被禁用，旨在允许通过 DMS 自定义精灵。这不包括珍珠本身。
+JaggedSquare|锯齿方形
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|敏捷珍珠数量（蓝色）。仅在库存覆盖时有效？已检查。
+General|一般的
+Head|头
+scholar|学者
+Disable Spear Effect?|禁用长矛效果？
+Custom Keybind?|自定义按键绑定？
+Swap Input|交换输入
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|按键绑定以交换到左侧存储的珍珠。仅限玩家 1。
+Joystick[0-9]Button|摇杆[0-9]按钮
+Store Input|存储输入
+pearlactive|珠光活性
+The Pearlcat|珍珠猫
+pearlpup_head|珍珠小狗头
+When checked, disables the rage effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的愤怒效果。
+Player 1|玩家1
+LC_T1_S01|LC_T1_S01
+Legs|腿
+Disable Cosmetics?|禁用化妆品？
+Intended for fun,\nmay change gameplay significantly!|旨在娱乐，\n可能会显着改变游戏玩法！
+T1_START|T1_START
+\nThrowSkill |\n投掷技能
+Custom Agility Keybind?|自定义敏捷键绑定？
+RW_Outro_Theme_B|RW_Outro_Theme_B
+Right Bumper|右保险杠
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|选中后，将使用以下选项覆盖起始珍珠。与库存覆盖不同，仅在新游戏开始时有效？
+loadedsoundeffects/ambient|加载音效/ambien
+GhostDistortion|鬼影扭曲
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|一次可以存储的最大珍珠数量，包括活跃珍珠。默认值为 9。按住并向上或向下拖动进行更改。
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|出身不明的学者，拥有神秘的能量和对知识的渴望。<LINE>身体虚弱，但有珍珠作为你的盟友 - 你会在旅途中发现什么？

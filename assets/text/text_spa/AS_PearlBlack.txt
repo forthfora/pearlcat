@@ -1,0 +1,12 @@
+﻿0-1
+¿Oh? Esta perla es muy extraña.
+
+Está en blanco, pero no simplemente en blanco.
+
+Cualquier intento de acceso serían devoluciones de datos, nada...
+
+Sin negación, sin confirmación, sin error. Nada.
+
+Me gustaría experimentar más con esto, pero en mi estado actual...?
+
+Será mejor que te quedes con esto, <PlayerName>; no sería prudente que jugara con lo que no entiendo.

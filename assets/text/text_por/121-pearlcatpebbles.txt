@@ -1,0 +1,6 @@
+﻿0-121-pearlcatpebbles
+Este é um projeto para uma célula de bloco vivo. Armazena e processa resíduos orgânicos.
+
+Não há nada muito interessante aqui. Os blocos de células modulares da cidade estão em produção há muito tempo e provavelmente serão abandonados por mais tempo agora que meus criadores partiram.
+
+A menos que um roedor crescido demais como você tenha interesse em projetos de sistemas sépticos,<LINE>há muito pouca informação aqui que qualquer um de nós gostaria de ler.
