@@ -135,7 +135,8 @@ public static partial class Hooks
         var save = self.owner.oracle.room.game.GetMiscWorld();
 
         var module = self.owner.GetModule();
-        var l = self.owner.rainWorld.inGameTranslator.currentLanguage == InGameTranslator.LanguageID.Chinese ? 1 : 0;
+        var currentLang = self.owner.rainWorld.inGameTranslator.currentLanguage;
+        var l = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean ? 8 : 0;
 
         var id = self.id;
         var e = self.events;
@@ -1028,6 +1029,7 @@ public static partial class Hooks
                             }
 
                             player.RemoveFromInventory(item);
+                            playerModule.ShowHUD(120);
                             //item.tracker.UninitializeTracker();
 
                             item.destroyOnAbstraction = true;
@@ -1047,7 +1049,7 @@ public static partial class Hooks
 
 
                     physicalObject.AbstractedEffect();
-                    oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 1.0f, 1.0f);
+                    oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 0.9f, 2.0f);
 
                     //physicalObject.abstractPhysicalObject.tracker.UninitializeTracker();
 
@@ -1084,7 +1086,10 @@ public static partial class Hooks
                     else
                     {
                         player.StoreObject(abstractPearl);
+                        playerModule.ShowHUD(120);
                     }
+
+                    oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 1.5f, 0.5f);
                 }
             }
         }

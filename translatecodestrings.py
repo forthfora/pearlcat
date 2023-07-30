@@ -6,18 +6,16 @@ from googletrans import Translator
 ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/src') 
 OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text') 
 
-EXCLUDE = ["PlayerObjectEffect", "PlayerObjectAnimator", "InventoryHUD", "BackgroundView", "Modules"]
-
 translator = Translator()
 
 SRC = "en"
 DEST = "es"
 
 langMap = {
-    "fr": "fre",
-    "zh-CN": "chi",
-    "es": "spa",
-    "ru": "rus",
+    #"fr": "fre",
+    #"zh-CN": "chi",
+    #"es": "spa",
+    #"ru": "rus",
     "pt": "por",
     "ko": "kor",
     "it": "ita",
@@ -42,19 +40,18 @@ def Translate(targetLang):
             if not fileName.endswith(".cs"): continue
 
             filePath = os.path.join(subdir, fileName)
-            if any(x in filePath for x in EXCLUDE): continue
 
             f = open(filePath, "r")
 
             contents = f.read()
-            thisFileStrings = re.findall(r'(?<![LogWarning(])"(.*?)"', contents)
+            thisFileStrings = re.findall('"(.*?)"', contents)
 
             strings += thisFileStrings
 
             f.close()
 
-    strings = list(filter(None, strings)) # remove empty
-    strings = list(filter(lambda x: not (x.startswith("_") or x.startswith(".")), strings)) # trim weird stuff
+    # strings = list(filter(None, strings)) # remove empty
+    # strings = list(filter(lambda x: not (x.startswith("_") or x.startswith(".")), strings)) # trim weird stuff
     strings = [*set(strings)] # remove duplicates
 
     # strings = [x.strip() for x in strings]
@@ -77,7 +74,5 @@ def Translate(targetLang):
 
     f.close()
 
-Translate("ja")
-
-# for lang in langMap.keys():
-#     Translate(lang)
+for lang in langMap.keys():
+    Translate(lang)

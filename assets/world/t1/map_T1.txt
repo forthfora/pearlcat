@@ -1,16 +1,16 @@
-T1_END: 120><-42><4><-66><0><Transit System
-T1_START: 1368><-156><846><-142><0><Transit System
-T1_S01: 108><-153><6><-140><0><Transit System
-T1_CAR1: 876><-156><518><-142><0><Transit System
-T1_CAREND: 132><-153><22><-140><0><Transit System
-T1_CAR0: 1119><-156><680><-142><0><Transit System
-T1_CAR2: 621><-156><348><-142><0><Transit System
-T1_CAR3: 378><-154.5><186><-141><0><Transit System
-OffScreenDen_T1: 429><66><222><34><0><
-Connection: T1_END,T1_S01,18,7,16,18,3,1
-Connection: T1_END,T1_CAREND,57,7,50,18,3,1
-Connection: T1_START,T1_CAR0,7,9,58,9,2,0
+T1_CAR0: 627><58.5><352><3><0><Transit System
+T1_CAR1: 381><58.5><188><3><0><Transit System
+T1_CAR2: 144><58.5><30><3><0><Transit System
+T1_CAR3: -87><58.5><-124><3><0><Transit System
+T1_CAREND: -318><58.5><-278><3><0><Transit System
+T1_END: -324><117><-292><42><0><Transit System
+T1_S01: -333><58.5><-288><3><0><Transit System
+T1_START: 876><58.5><518><3><0><Transit System
+OffScreenDen_T1: 96><-15><0><-20><0><
+Connection: T1_CAR0,T1_CAR1,7,9,58,9,2,0
+Connection: T1_CAR0,T1_START,58,9,7,9,0,2
 Connection: T1_CAR1,T1_CAR2,7,9,58,9,2,0
-Connection: T1_CAR1,T1_CAR0,58,9,7,9,0,2
-Connection: T1_CAREND,T1_CAR3,58,9,7,9,0,2
 Connection: T1_CAR2,T1_CAR3,7,9,58,9,2,0
+Connection: T1_CAR3,T1_CAREND,7,9,58,9,2,0
+Connection: T1_CAREND,T1_END,50,18,57,7,1,3
+Connection: T1_END,T1_S01,18,7,16,18,3,1

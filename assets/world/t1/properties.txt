@@ -1,7 +1,2 @@
 
 Subregion: Transit System
-Room_Attr: T1_END: Overseer-Forbidden,
-Room_Attr: T1_START: Overseer-Forbidden,
-Room_Attr: T1_S01: Overseer-Forbidden,
-Room_Attr: T1_CAR1: Overseer-Forbidden,
-Room_Attr: T1_CAREND: Overseer-Forbidden,

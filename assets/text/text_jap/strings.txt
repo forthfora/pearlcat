@@ -1,180 +1,469 @@
-﻿Keybind to swap to the stored pearl to the left. Limited to Player 1.|キーバインドして、左側に保存されているパールに切り替えます。プレイヤー 1 に限定されます。
-Prefer to use the custom keybinds below for agility double jump.|敏捷性のダブル ジャンプには、以下のカスタム キーバインドを使用することをお勧めします。
-When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|チェックすると、Pearlcat のコスメティクスが無効になり、DMS 経由でカスタム スプライトを許可するようになります。これには真珠そのものは含まれません。
-When checked, disables the rage effect granted by an active pearl.|チェックすると、アクティブなパールによって与えられる怒りの効果が無効になります。
-Custom Keybind?|カスタムキーバインド?
-View|意見
-pearlactive|パールアクティブ
-legs|足
-T1_S01|T1_S01
-Disable Rage Effect?|激怒効果を無効にしますか?
-tail|しっぽ
-L-Stick|Lスティック
- SAVE|保存
-When checked, disables the camoflague effect granted by an active pearl.|チェックすると、アクティブなパールによって与えられるカモフラージュ効果が無効になります。
-Player 4|プレイヤー 4
-Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|どのプレーヤー コントローラー トリガーの切り替えが適用されるか。 0 はトリガーのスワップを無効にします。押したまま上下にドラッグして変更します。
-Legs|脚
-Custom Agility Keybind?|カスタムアジリティキーバインド?
-Software|ソフトウェア
-Face|顔
-Enables custom keybinds below, as opposed to the default (UP + PICKUP).|デフォルト (UP + PICKUP) ではなく、以下のカスタム キーバインドを有効にします。
-\nPoleClimb |\nポールクライム
-Camo Pearl Count|迷彩パールの数
-PFace|PFフェイス
-scarf|スカーフ
-Feet|フィート
-Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|アクティブなパールを含め、一度に保管できるパールの最大数。デフォルトは 9 です。変更するには、押したまま上下にドラッグします。
-The Pearlcat|パールキャット
-Keybind for Player 3.|プレイヤー 3 のキーバインド。
-head|頭
-AS IS|そのまま
-When checked, disables the spear creation effect granted by an active pearl.|チェックすると、アクティブな真珠によって付与される槍作成効果が無効になります。
-PlayerArm|プレイヤーアーム
-Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep
-Button North|ボタンノース
-Disable Minor Effects?|マイナーエフェクトを無効にしますか?
-Pearlpup Respawn?|パールパップが復活する？
-\nThrowSkill |\n投げスキル
-Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|シールドパール（黄色）の数。インベントリ上書き時のみ有効?にチェックが入っています。
-When checked, disables the shield effect granted by an active pearl.|チェックすると、アクティブなパールによって付与されるシールド効果が無効になります。
+﻿When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|チェックすると、パールはアクティブかどうかにかかわらずステータスの変更を許可しなくなり、基本ステータスはハンターと同様に設定されます。
 Number of revive pearls (green). Effective only when Inventory Override? is checked.|復活パール(緑)の数。インベントリ上書き時のみ有効?にチェックが入っています。
-Joystick[0-9]Button|ジョイスティック[0-9]ボタン
-General|全般的
-Keybind for Player 1.|プレイヤー 1 のキーバインド。
-Revive Pearl Count|復活パール数
-R-Stick|Rスティック
-Disable Cosmetics?|化粧品を無効にしますか？
-RW_Outro_Theme_B|RW_アウトロ_テーマ_B
-GravityDisruptor|グラビティ・ディスラプター
-CANNOT PLAY\n|プレイできません\n
-pearlactivehalo|パールアクティブハロー
-Max Pearl Count|最大パール数
-Keybind for Player 4.|プレイヤー 4 のキーバインド。
-pearlpup_face|パールパップフェイス
-Pearl Threat Music?|パール脅威音楽?
-BM_SS_DOOR|BM_SS_ドア
- + Path.DirectorySeparatorChar.ToString() + |+ Path.DirectorySeparatorChar.ToString() +
+SH|SH
+...and you can gather more of that data you so clearly desire.|...そして、あなたが明らかに望んでいるデータをさらに収集することができます。
+Disable Spear Effect?|スピアエフェクトを無効にしますか?
 The Gutter|側溝
-Starting Inventory Override?|インベントリの上書きを開始しますか?
-T1_CAREND|T1_CAREND
-When checked, the inventory HUD will be replaced with a more compact version.|チェックすると、インベントリの HUD がよりコンパクトなバージョンに置き換えられます。
-JaggedSquare|ギザギザ正方形
-Difficulty|困難
-Rage Pearl Count|レイジパールの数
-ruffian|悪党
-When checked, some abilties will show the inventory when recharged or depleted.|チェックすると、一部の能力は充電または消耗したときにインベントリを表示します。
-pearlcat|パールキャット
-, FrameworkDisplayName = |、フレームワーク表示名 =
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|チェックすると、各サイクルの下に指定された数のカラー パールが在庫に設定されます。
-Intended for fun,\nmay change gameplay significantly!|楽しむことを目的としていますが、\nゲームプレイが大きく変わる可能性があります。
-Pearlcat|パールキャット
-Left Bumper|左バンパー
-GATE_UW_LC|GATE_UW_LC
-moreslugcats|もっとナメクジ
-Keyboard|キーボード
-SPECEVENT|特別な出来事
-LC_T1_S01|LC_T1_S01
- - |-
-PEBBLESWAIT|ペブルズウェイト
-pup|子犬
-Swap Input|スワップ入力
-When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|チェックすると、開始パールを以下のオプションで上書きします。インベントリオーバーライドと違って新規ゲーム開始時のみ有効？
-\nCorridorClimb |\n廊下を登る
-pearlpup_head|パールパップヘッド
-<oA>|<oA>
-When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|チェックすると、ほとんどのパール (アクティブな場合) は、すべての地域の脅威テーマを元の地域のテーマに強制します。
-Keybind for Keyboard.|キーボードのキーバインド。
-Player 1|プレイヤー 1
-Chimney Canopy|煙突キャノピー
-T1_CAR0|T1_CAR0
-T1_CAR1|T1_CAR1
-Disable Camoflague Effect?|カモフラージュ効果を無効にしますか?
-face|顔
-Swap Right|右に入れ替える
-Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|パールキャットの一般的な視認性に対する割合の乗数は、捕食者の魅力に影響します。デフォルトでは、Pearlcat は Hunter よりもはるかに目立つようになります。
-hips|ヒップ
-Player 2|プレイヤー2
-A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|謎めいたエネルギーと知識欲を備えた、出自不明の学者。<LINE>体は弱いけど、真珠が味方 - 旅の途中で何を発見しますか?
-Body|体
-Head|頭
-Transit System|交通システム
-feet|フィート
-arm|腕
-Visibility Multiplier|可視性乗数
-Store Input|入力を保存する
-pearlactiveplaceholder|パールアクティブプレースホルダー
-pearlpup_scarf|パールパップ_スカーフ
-sleeve|スリーブ
-Number of rage pearls (red). Effective only when Inventory Override? is checked.|レイジパール（赤）の数。インベントリ上書き時のみ有効?にチェックが入っています。
-Disable Tutorials?|チュートリアルを無効にしますか?
-Failed to parse color {objectType} : {ex.Message}|カラー {objectType} の解析に失敗しました: {ex.Message}
+haloGlyph6|ハローグリフ6
 Ability Input|アビリティ入力
-sweat|汗
-Number of agility pearls (blue). Effective only when Inventory Override? is checked.|アジリティーパール（青）の数。インベントリ上書き時のみ有効?にチェックが入っています。
-Keybind to swap to the stored pearl to the right. Limited to Player 1.|キーバインドして、右側に保存されているパールに切り替えます。プレイヤー 1 に限定されます。
-body|体
-\nRunspeedFac |\nRunspeedFac
-When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|チェックすると、パールパップは迷子になるたびに次のサイクルで次のシェルターにリスポーンします。
-Number of camo pearls (black). Effective only when Inventory Override? is checked.|迷彩パール（ブラック）の数。インベントリ上書き時のみ有効?にチェックが入っています。
-Scarf|スカーフ
+Sidera - Dialogue, SFX|Sidera - ダイアログ、SFX
+Your biology... it is both familiar and foreign to me. How curious.|あなたの生態は...私にとっては馴染みのあるものでもあり、異質なものでもあります。なんて好奇心旺盛なんだろう。
+You have a knack for finding these pearls, yes?|あなたはこの真珠を見つける才能をお持ちですね?
+pearlactivehalo|パールアクティブハロー
+pearlcatFeetA0|パールキャット足A0
+I remember this one... don't you? Well...|私はこれを覚えています...そうでしょう？良い...
+I have nothing for you, I'm afraid... but I hope you find the answers you seek.|申し訳ありませんが、私からは何もできません...しかし、あなたが探している答えが見つかることを願っています。
+LC_T1_S01|LC_T1_S01
+pearlcat_light1|パールキャットライト1
+pearlcatScarfA0|パールキャットスカーフA0
+Hello again, <PlayerName>!|こんにちは、<プレイヤー名>!
+oa_max_speed|oa_max_speed
+T1_END|T1_END
+JaggedSquare|ギザギザ正方形
+) with an active common pearl to convert it into a pearl spear|) アクティブなコモンパールを使用してパールスピアに変換します
+moreslugcats|もっとナメクジ
+Cloud|雲
+AS IS|そのまま
+Keybind for Player 1.|プレイヤー 1 のキーバインド。
+When checked, disables the shield effect granted by an active pearl.|チェックすると、アクティブなパールによって付与されるシールド効果が無効になります。
+GW|GW
+You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|かなり遠くから来たんですか？あなたは私たちとコミュニケーションをとることができますが、あなたが持っているマークは私にとって異質なものです...
+hips|ヒップ
+pearlcat_hudshadow|パールキャット_ハドシャドウ
+Swap Left|左と入れ替える
+TheSacrifice|犠牲
+pearlactiveplaceholder|パールアクティブプレースホルダー
+Assembly-CSharp|アセンブリ-Cシャープ
+LizardBubble6|トカゲバブル6
+...there.|...そこには。
+ - |-
+Disable Camoflague Effect?|カモフラージュ効果を無効にしますか?
+When checked, disables the rage effect granted by an active pearl.|チェックすると、アクティブなパールによって与えられる怒りの効果が無効になります。
+DistantBkgObject|遠いBkgオブジェクト
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|レイジパール（赤）の数。インベントリ上書き時のみ有効?にチェックが入っています。
+HI|やあ
+...one which still means a lot to me.|...それは私にとって今でも大きな意味を持っています。
+MS|MS
+pearlpup_head|パールパップヘッド
+I do enjoy the company though... it gets lonely out here.|でも、会社は楽しいです...ここにいると寂しいです。
+Joystick[0-9]Button|ジョイスティック[0-9]ボタン
+pearlcat_spire8|パールキャット_スパイア8
+Water|水
+YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|黄色は保護を象徴します。保存されている各イエロー パールはシールド チャージを提供します
+Let us see what- oh, again?|何を見てみましょう - ああ、また？
+\nCorridorClimb |\n廊下を登る
+T1_CAR1|T1_CAR1
+I assure you it will be a more than suitable replacement for your primitive needs.|あなたの基本的なニーズに十分以上に適した代替品となることを保証します。
+To store, hold the same keybind with a pearl in your main hand|保存するには、同じキーバインドとパールをメインの手に持ちます。
+Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep
+Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
+I see you've returned, yet again.|またまた戻ってきたようですね。
+But it's best not to dwell on the past, don't you agree <PlayerName>?|でも、過去にこだわらないのが一番です、<PlayerName> さんもそう思いませんか？
+_MultiplyColor|_乗算カラー
+PostModsInit:\n|PostModsInit:\n
+... |...
+Prefer to use the custom keybinds below for spear creation.|スピアの作成には、以下のカスタム キーバインドを使用することをお勧めします。
+Hold (|所有 （
+oa_min_fric_mult|oa_min_fric_mult
+The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|あなたが持っている力、それは魅力的です。あなた方のようなものを私は見たことがありません。
+pearlcat_spire5|パールキャットスパイア5
+If you do not plan to provide me with any meaningful data, that is your best course of action;|意味のあるデータを私に提供するつもりがないのであれば、それが最善の行動です。
+MSC|MSC
+T1_S01|T1_S01
+face|顔
 Atlas not found! ({uniqueName})|アトラスが見つかりません! （{ユニークな名前}）
-Button West|ボタンウェスト
-CC|CC
-)|)
+pearlcat_dusksky|パールキャット_ダスクスキー
+And just who might you be?|そして、あなたは一体何者なのでしょうか？
+.NETFramework,Version=v4.8|.NETFramework、バージョン=v4.8
+Keybind for Player 3.|プレイヤー 3 のキーバインド。
+Hello! I remember you! I remember...|こんにちは！私はあなたのことを覚えています！私は覚えています...
+pearlcat_structure5|パールキャットの構造5
+ SAVE|保存
+\nPoleClimb |\nポールクライム
+ear_l|伯爵
+\r\n|\r\n
+Noir - Floppy Ears, Scarf|ノワール - 垂れ耳、スカーフ
+-----------------------------------------|--------------------------------------
+pearlcat_bottomshutter|パールキャット_ボトムシャッター
+pearlcat_0|パールキャット_0
+Clearly an artifical creation. But from where? Sent by who?|明らかに人為的な創作物。しかし、どこから？誰から送信されましたか?
+), or the triggers on controller|)、またはコントローラーのトリガー
+Shield Pearl Count|シールドパール数
+General|全般的
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|キーバインドして、左側に保存されているパールに切り替えます。プレイヤー 1 に限定されます。
+Clearly artificial creations. But from where? Sent by who?|明らかに人工的な創作物。しかし、どこから？誰から送信されましたか?
+HologramBehindTerrain|地形の背後にあるホログラム
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|アクティブなパールを含め、一度に保管できるパールの最大数。デフォルトは 9 です。変更するには、押したまま上下にドラッグします。
+Geahgeah - Artwork|ゲアゲア - アートワーク
+.  .  .|。 。 。
+RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|赤は力を象徴します。赤い真珠がアクティブな場合、最も近い敵対的な生き物がターゲットになります
+pupear_l|pupear_l
+tail_segment_velocities|尾部セグメント速度
+Player 2|プレイヤー2
+\nLungsFac |\n肺ファック
+\nRunspeedFac |\nRunspeedFac
+Slugcat_Pearlcat|Slugcat_Pearlcat
+tail|しっぽ
+Ah. So you've returned.|ああ。それで、あなたは戻ってきました。
+Legs|脚
+pearlcat_flyingclouds|パールキャット_フライングクラウド
+Head|頭
 Input a shelter name to have it override where Pearlcat starts a new game.|シェルター名を入力すると、Pearlcat が新しいゲームを開始する場所が上書きされます。
+You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|あなたは私にかなりの恐怖を与えました！最近は訪問者があまり来ません。<LINE>ましてや、あなたと話ができるような訪問者はほとんどいません...
+Pearlpup Respawn?|パールパップが復活する？
+Pebbles_AS_PearlYellow|小石_AS_パールイエロー
+pearlcat_5|パールキャット_5
+GateHologram|ゲートホログラム
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|チェックすると、パールパップは迷子になるたびに次のサイクルで次のシェルターにリスポーンします。
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|飽くなき好奇心を持つパールキャットは、<LINE>コレクションの拡大を目指して再び冒険を始めます。
+pearlactive|パールアクティブ
+It appears to contain a hymn that once meant a lot to the inhabitants of my city...|そこには、かつて私の街の住民にとって大きな意味を持った賛美歌が含まれているようです...
+-------------------|-------------------
+Oh, and for direction - there is a gate to the far west of here, where the ground fissues...|ああ、そして方向についてですが、ここのはるか西にゲートがあり、地面が裂ける場所です...
+Revive Pearl Count|復活パール数
+T1_CAR2|T1_CAR2
+Intended for fun,\nmay change gameplay significantly!|楽しむことを目的としていますが、\nゲームプレイが大きく変わる可能性があります。
+I have tried to reconstruct it from memory many times, fruitlessly.|私は何度も記憶から再構成しようと試みましたが、無駄でした。
+CC|CC
+pearlcat_spire4|パールキャットスパイア4
+Start Shelter Override|シェルターオーバーライドの開始
+\nThrowSkill |\n投げスキル
+You would be a hard one to forget after all, <PlayerName>!|結局のところ、<プレイヤー名>、あなたは忘れられない人になるでしょう！
+You. Again. I still remember what you did...|あなた。また。あなたがしたことは今でも覚えています...
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|シールドパール（黄色）の数。インベントリ上書き時のみ有効?にチェックが入っています。
+Another one? I shouldn't be surprised. Let's see...|もう一つ？驚くべきではありません。どれどれ...
+pearlcat_daysky|パールキャットデイスカイ
+And a third? So it is...|そして3番目は？それは...
+max_tail_offset|max_tail_offset
+What do you want? To take away more of my life...?|なんでしょう？私の命をさらに奪うために…？
+...that pearl you carry, the purple one, where did you find it?|...あなたが持っているその真珠、紫の真珠、どこで見つけたのですか?
+) or (|） また （
+To cycle between pearls, use (|パール間を循環するには、(
+When checked, disables the camoflague effect granted by an active pearl.|チェックすると、アクティブなパールによって与えられるカモフラージュ効果が無効になります。
+_textures|_テクスチャ
+Failed to parse color {objectType} : {ex.Message}|カラー {objectType} の解析に失敗しました: {ex.Message}
+When checked, some abilties will show the inventory when recharged or depleted.|チェックすると、一部の能力は充電または消耗したときにインベントリを表示します。
+pearlcat_hudcooldown|Pearlcat_hudcooldown
+ear_r|耳
+by |に
+Prefer to use the custom keybinds below for agility double jump.|敏捷性のダブル ジャンプには、以下のカスタム キーバインドを使用することをお勧めします。
+Sound Hooks Error:\n|サウンドフックエラー:\n
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|キーバインドして、右側に保存されているパールに切り替えます。プレイヤー 1 に限定されます。
+2: |2:
+min_tail_offset|min_tail_offset
+strange|変
+Yes, help yourself. They are not edible.|はい、自分自身を助けてください。食用ではありません。
+pearlcat_support|パールキャットサポート
+UW|ウィスコンシン州
+body|体
+ruffian|悪党
+pearlcat_hudpearl|Pearlcat_hudpearl
+Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|保護を提供するために料金が消費されます。各パールはしばらくすると個別にチャージを補充します
+And who is your little friend? They are quite adorable!|そして、あなたの小さな友達は誰ですか？とても愛らしいですね！
+soundeffects/ambient|効果音/アンビエント
+) while in the air to perform a double jump|) 空中で二段ジャンプを実行します
+Visibility Multiplier|可視性乗数
+I can only hope you have not come... to hurt me more.|あなたが来ないことを祈るばかりです...私をさらに傷つけるために。
+Slugcat_Pearlcat_Ascended|Slugcat_Pearlcat_Ascended
+Button West|ボタンウェスト
+Menu|メニュー
+Debug|デバッグ
+I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|あなたがそれらに保存されている情報を読み取ることはできないので、ご希望であれば、私が代わりにそれらを読むことができると思います。
+pearlcat_7|パールキャット_7
+ear_r_offset|耳のオフセット
+ACK|確認応答
+OnModsInit:\n|ModsInit 時:\n
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|謎めいたエネルギーと知識欲を備えた、出自不明の学者。<LINE>体は弱いけど、真珠が味方 - 旅の途中で何を発見しますか?
+)|)
+_atlases|_アトラス
+pearlcat_spire1|パールキャット_スパイア1
+Press (|プレス （
+OE|OE
+_windDir|ウィンザー
+pearlpup_face|パールパップフェイス
+T1_START|T1_START
+.png|.png
+I already read this one. I can read it again, I suppose.|これはもう読みました。もう一度読むこともできると思います。
+Trigger Player|トリガープレイヤー
+pixel|ピクセル
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|...あなたにはコミュニケーションの才能があります!<LINE>おそらく私の隣人、ファイブ ペブルズを訪問しました...?
+oa_max_time|oa_max_time
+LF|LF
+Disable Agility Effect?|敏捷効果を無効にしますか?
+legs|足
+q|q
+pearlcat_2|パールキャット_2
+BigGlyph2|ビッググリフ2
+Pebbles_AS_PearlRed|小石_AS_パールレッド
+Player 3|プレイヤー3
+<oA>|<oA>
+pearlcat_6|パールキャット_6
+oa_min_speed|oa_min_speed
+Disable Revive Effect?|リバイブ効果を無効にしますか?
+My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|私の監督たちはあなたの到着に対して何の和解もしませんでした - 私は交通システムがほとんど機能していないという印象を持っていました。
+GravityDisruptor|グラビティ・ディスラプター
+DistantBkgObjectAlpha|DistantBkgObjectAlpha
+I do not have much else to occupy my time with these days...|最近は他に時間を費やすことがあまりありません...
+TurtleMan27|タートルマン27
+oa_max_fric_speed|oa_max_fric_speed
+_AboveCloudsAtmosphereColor|_雲の上大気色
+Four! Well, if you insist...|四！まあ、強いて言うなら…
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|アジリティーパール（青）の数。インベントリ上書き時のみ有効?にチェックが入っています。
+#|#
+My own time is limited, after all...|自分の時間は有限ですからね…。
+pearlcatSleeve0|パールキャットスリーブ0
+SI|SI
+pearlcat|パールキャット
+Something else new? Allow me to see...|他に何か新しいことはありますか？見せてください...
+Think of this mutually, I can 'see' a little further outside this can...|これをよく考えてみると、この缶の外側のもう少し先が「見える」のです...
+SB|SB
+oa_cutoff_dist|oa_cutoff_dist
+LOAD SAVE DATA IN PLAYER MODULE|プレーヤーモジュールにセーブデータをロード
+pearl|パール
+VS|VS
+pearlcat_spire2|パールキャットスパイア2
+oa_max_fric_mult|oa_max_fric_mult
+Futile_White|無駄な白
+arm|腕
+Foreground|前景
+Back again? I hope you have brought me something this time.|再び？今度は何か持ってきてくれるといいですね。
+When checked, the inventory HUD will be replaced with a more compact version.|チェックすると、インベントリの HUD がよりコンパクトなバージョンに置き換えられます。
+Pebbles_AS_PearlGreen|小石_AS_パールグリーン
+-|-
+.NET Framework 4.8|.NET フレームワーク 4.8
+Press (JUMP + GRAB) while in the air to perform a double jump|空中で (JUMP + GRAB) を押して 2 段ジャンプを実行します。
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|どのプレーヤー コントローラー トリガーの切り替えが適用されるか。 0 はトリガーのスワップを無効にします。押したまま上下にドラッグして変更します。
+Keybind for Player 4.|プレイヤー 4 のキーバインド。
+4: |4:
+Release|リリース
+Storage limit reached (|ストレージ制限に達しました (
+I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|あなたが持ってきた真珠を読むのは今でもとてもうれしいです。<LINE>特にあなたのユニークな能力を考えると。
+RW_Outro_Theme_B|RW_アウトロ_テーマ_B
+CloudDistant|クラウドディスタント
+NA_19 - Halcyon Memories|NA_19 - ハルシオン メモリーズ
+Inventory Override?|インベントリの上書き?
+3: |3:
+oa_max_dist|oa_max_dist
+ear_l_offset|耳_l_オフセット
+pearlcat_structure1|パールキャットの構造1
+Accent|アクセント
+Disable Minor Effects?|マイナーエフェクトを無効にしますか?
+train_view_yshift|train_view_yshift
+Chimney Canopy|煙突キャノピー
+Cheats|チート
+pearlcat_3|パールキャット_3
+Rage Pearl Count|レイジパールの数
+Player 4|プレイヤー 4
+Camo Pearl Count|迷彩パールの数
+Hello, again. You are very curious. Very curious indeed.|またあったね。あなたはとても好奇心旺盛です。確かにとても好奇心旺盛です。
+pearlcat_topshutter|パールキャット_トップシャッター
+oa_cutoff_min_speed|oa_cutoff_min_speed
+Brought me something to read? Or just wasting my time, as per usual?|何か読むものを持ってきましたか？それともいつものように時間を無駄にしているだけですか？
+When checked, disables the agility effect granted by an active pearl.|チェックすると、アクティブなパールによって付与される敏捷性の効果が無効になります。
+PEARLCAT PEBBLES MEETING: |パールキャットペブルズミーティング:
+pearlcat_spire3|パールキャットスパイア3
+Disable Rage Effect?|激怒効果を無効にしますか?
+oa_cutoff_max_speed|oa_cutoff_max_speed
+BigGlyph6|BigGlyph6
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|チェックすると、開始パールを以下のオプションで上書きします。インベントリオーバーライドと違って新規ゲーム開始時のみ有効？
+View|意見
+Pebbles_AS_PearlBlue|小石_AS_パールブルー
+There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|あなたを止めることは何もできないので、私のお願いです。<LINE>放っておいてください、さもなくば早く終わらせてください。
+SS_AI|SS_AI
+Cloak|マント
+.meta|.meta
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|チェックすると、各サイクルの下に指定された数のカラー パールが在庫に設定されます。
+Songs|曲
+I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|あなたがこれらの真珠で評価する唯一のことは、その格子がどれほど純粋であるかということだと思いますか？これよりもはるかに洗練されたものに置き換えます。
+Disable Cosmetics?|化粧品を無効にしますか？
+Spear Pearl Count|槍の真珠の数
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|真珠を有利に利用する珍しい能力を持つ好奇心旺盛な学者です。<LINE><LINE>Remix config 経由で入力、難易度、チートなどを設定します!<LINE><LINE>Slugcat の追加はオプションですが、強くお勧めします。
+ModManager.RefreshModsLists:\n|ModManager.RefreshModsLists:\n
+warp|ワープ
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|デフォルト (UP + PICKUP) ではなく、以下のカスタム キーバインドを有効にします。
+feet|フィート
+Inventory Pings?|インベントリのping?
+This one again? I have better things to do... but...|これまた？もっとやるべきことがあるのに...
+The Pearlcat|パールキャット
+If only I had my memories, I might have a clue...|記憶があれば何か手がかりが見つかるかも知れませんが…
+SL|SL
+Keybind for Player 2.|プレイヤー 2 のキーバインド。
+Oracle Hooks Error:\n|Oracle フック エラー:\n
+I would guess they will grow up into quite the scholar themself, someday...|きっといつか彼らも立派な学者に成長するだろうな…
+L-Stick|Lスティック
+...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|...あなたは...私を食べました。あっちへ行ってください。 <LINE>私は... あなたとは話せません... なぜなら... あなたが... 私を食べた... ...そしてなぜですか?
+T1_CAR0|T1_CAR0
+_|_
+BigGlyph12|ビッググリフ12
+Right Bumper|右バンパー
+pearlcat_light0|パールキャット_ライト0
+Ah, yet another one? You are even better at finding these than I imagined...|ああ、もう一つ？あなたは私が想像していたよりもさらにこれらを見つけるのが上手です...
+pearlcat_over9|パールキャット_over9
+pearlcat_8|パールキャット_8
+pearlcatScarfC0|パールキャットスカーフC0
+pearlcat_glyphcooldown|Pearlcat_glyphcooldown
+sleeve|スリーブ
+Agility Pearl Count|敏捷パール数
+Keyboard|キーボード
+And just who might you two be?|そして、あなたたち二人は一体何者なのでしょうか？
+Keybind for Keyboard.|キーボードのキーバインド。
+pearlcat_9|パールキャット_9
+Scarf|スカーフ
+To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|真珠を取得するには、メインハンドを空にし、(GRAB + UP) を押します。
+slime-cubed.slugbase|スライムキューブ.slugbase
+oa_daze_max_speed|oa_daze_max_speed
+1.0.0.0|1.0.0.0
+Hold (GRAB) with an active common pearl to convert it into a pearl spear|アクティブなコモンパールを長押し(掴む)してパールスピアに変換します
+Player 1|プレイヤー 1
+pearlcat_structure3|パールキャットの構造3
+active_object_offset|アクティブオブジェクトオフセット
+YOU!|あなた！
+So curious... I wonder what it is you're searching for?|すごく気になる…何を探しているんだろう？
+GhostDistortion|ゴーストディストーション
+puptail|子犬
+The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|その向こうの広大な場所は、あなたにとって家族を育てる安全な場所であり、私の仕事から遠く離れていてもよいでしょう。
+PEARLCAT WARP|パールキャットワープ
+Midground|ミッドグラウンド
+Each red pearl provides an additional laser.|それぞれの赤いパールは追加のレーザーを提供します。
+Version |バージョン
+DM|DM
+But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|でも…あなたの持っているマークはとても珍しいものです。<LINE>地元のグループの誰もが授けるものではありません…
+Store Input|入力を保存する
+You must be very brave to have made it all the way here. Very brave indeed...|ここまでたどり着いたのはとても勇気がいるはずです。確かにとても勇敢です...
+Button South|ボタンサウス
+PEBBLESWAIT|ペブルズウェイト
+pearlpup_scarf|パールパップ_スカーフ
+You... I didn't forget...|あなたは...忘れていませんでした...
+You're welcome to stay a while... your ability is fascinating.|しばらく滞在しても構いません...あなたの能力は魅力的です。
+.txt|。TXT
+TEXT ERROR|テキストエラー
+pup|子犬
+scholar|学者
+1: |1:
+Custom Spear Keybind?|カスタムスピアキーバインド?
+---------------------------------------------------------------|-------------------------------------------------- -------------
+Difficulty|困難
+Grab a creature and hold (GRAB) with an active green pearl to revive them|クリーチャーを掴み、アクティブなグリーンパールを押し続ける(GRAB)とそれらを復活させます
+Welcome back, I suppose.|おかえりなさい、たぶん。
+oa_min_fric_speed|oa_min_fric_speed
+Given your unique abilities, if you are curious as to the contents of those pearls -|あなたのユニークな能力を考えると、その真珠の中身が気になるなら -
+) & (|) & (
+Balagaga|バラガガ
+DschockHorizontalRight|Dchock水平右
+BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|ブルーは敏捷性を象徴します。保存された青いパールごとに追加のダブルジャンプが可能になります
+Compact Inventory HUD?|コンパクトなインベントリ HUD?
+I very much enjoy the company though... you and your little friend are always welcome here.|でも、私はこの会社がとても楽しいです...あなたとあなたの小さな友達はいつでもここに歓迎されます。
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|チェックすると、ほとんどのパール (アクティブな場合) は、すべての地域の脅威テーマを元の地域のテーマに強制します。
+So curious...|とても好奇心が強い...
+Oh, hello <PlayerName>!|ああ、こんにちは <プレイヤー名>!
+Button North|ボタンノース
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|槍作成パール（白）の数。インベントリ上書き時のみ有効?にチェックが入っています。
+Back again? You do visit often...|再び？よく訪れるんですね…
+Background|バックグラウンド
+To retrieve pearls, have an empty main hand, and hold (|真珠を取り出すには、メインの手を空にして (
+...you can manipulate our storage medium in unforseen ways...|...ストレージ メディアを予期しない方法で操作する可能性があります...
+Face|顔
+pearlcat_clouds|パールキャットクラウド
+GATE_UW_LC|GATE_UW_LC
+BigGlyph8|BigGlyph8
+Custom Keybind?|カスタムキーバインド?
+LC|LC
 Disable Shield Effect?|シールド効果を無効にしますか?
+Starting Inventory Override?|インベントリの上書きを開始しますか?
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|チェックすると、Pearlcat のコスメティクスが無効になり、DMS 経由でカスタム スプライトを許可するようになります。これには真珠そのものは含まれません。
+GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|緑は活力を象徴します。保存されている緑の真珠ごとに、サイクルごとにあなたを含む 1 匹のクリーチャーを復活させることができます。
+Another? And I shall read this one to you as well...|別？そして、これも読んであげます…
+haloGlyph5|ハローグリフ5
+inventory_ui_offset|在庫_ui_オフセット
+Pearl Threat Music?|パール脅威音楽?
+Ah, I hope you both stay safe out there...|ああ、二人とも外で安全でいられることを願っています...
+RW_Outro_Theme|RW_アウトロ_テーマ
+Button East|ボタンイースト
+PLAYTESTERS|プレイテスター
+Oh, hello! Hello!|あ、こんにちは！こんにちは！
+BM_SS_DOOR|BM_SS_ドア
+And now here you are, with a perfect copy.|そして今、完璧なコピーが完成しました。
+pearlcat_structure2|パールキャット_構造2
+pearlcat_structure4|パールキャット構造4
+Feet|フィート
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|迷彩パール（ブラック）の数。インベントリ上書き時のみ有効?にチェックが入っています。
+When checked, disables the spear creation effect granted by an active pearl.|チェックすると、アクティブな真珠によって付与される槍作成効果が無効になります。
+When checked, disables the revive effect granted by an active pearl.|チェックすると、アクティブなパールによって与えられる蘇生効果が無効になります。
+And why... to me?|そしてなぜ...私に?
+Swap Right|右に入れ替える
+Please... this all I have left... you have so much... ...why take mine?|お願いします...私に残っているのはこれだけです...あなたにはたくさんあります... ...なぜ私のものを取るのですか？
+DESTROY|破壊
+daze_duration|daze_duration
+\nDoes not save over the current inventory - it is returned to when unchecked.|\現在のインベントリを上書き保存しません - チェックを外すと元に戻ります。
+Swap Input|スワップ入力
+You. I didn't forget...|あなた。忘れてなかった…
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|パールキャットの一般的な視認性に対する割合の乗数は、捕食者の魅力に影響します。デフォルトでは、Pearlcat は Hunter よりもはるかに目立つようになります。
+BigGlyph10|ビッググリフ10
+I must resume my work. I will be waiting here, as always.|仕事を再開しなければなりません。いつものようにここで待っています。
+Pebbles_AS_PearlBlack|小石_AS_パールブラック
+store_object_delay|ストアオブジェクト遅延
+_sprites|_スプライト
+T1_CAR3|T1_CAR3
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|もしお暇がございましたら、喜んでこれらの真珠を読んでいただければ幸いです...<LINE>時間を潰すために他にやることはあまりありません。
+Nevermind... this anger is useless...|気にしないでください...この怒りは無駄です...
+Elliot|エリオット
+pupear_r|pupear_r
+PlayerArm|プレイヤーアーム
+T1_CAREND|T1_CAREND
+Software|ソフトウェア
+Left Bumper|左バンパー
+I do enjoy the company of you and your friend though, <PlayerName>.|<プレイヤー名>、私はあなたとあなたの友人と一緒にいるのをとても楽しみにしています。
+HUD|HUD
+Read this one too? Yes, yes, here it is...|これも読んでみては？はい、はい、ここです...
+SU|SU
+The choice is yours.|選択はあなた次第です。
+pearlcat_hudcircle|パールキャット_ハドサークル
+pearlcat_1|パールキャット_1
+Efi|エフィ
 OE_SEXTRA|OE_SEXTRA
+com.rainworldgame.garrakx.crs.mod|com.rainworldgame.garrakx.crs.mod
+pearlcat_light2|パールキャットライト2
+I think I may still have some use left after all!~|やっぱりまだ使い道が残ってるかも知れませんよ！
+Special thanks to the following people!|以下の方々に心より感謝申し上げます。
+Music|音楽
+oa_min_time|oa_min_time
+PFace|PFフェイス
+pearlcat_cloak|パールキャットマント
 Hips|ヒップ
 Intended to make gameplay more challenging, may change gameplay significantly!|ゲームプレイをより挑戦的にすることを目的としており、ゲームプレイが大幅に変わる可能性があります。
-Start Shelter Override|シェルターオーバーライドの開始
-\nLungsFac |\n肺ファック
-TEXT ERROR|テキストエラー
-Right Bumper|右バンパー
-\nDoes not save over the current inventory - it is returned to when unchecked.|\現在のインベントリを上書き保存しません - チェックを外すと元に戻ります。
-T1_END|T1_END
-Disable Agility Effect?|敏捷効果を無効にしますか?
-Cheats|チート
-When checked, disables the revive effect granted by an active pearl.|チェックすると、アクティブなパールによって与えられる蘇生効果が無効になります。
-T1_CAR3|T1_CAR3
-T1_CAR2|T1_CAR2
-Prefer to use the custom keybinds below for spear creation.|スピアの作成には、以下のカスタム キーバインドを使用することをお勧めします。
-SS_S04|SS_S04
-Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|槍作成パール（白）の数。インベントリ上書き時のみ有効?にチェックが入っています。
-scholar|学者
-Button East|ボタンイースト
-When checked, disables the agility effect granted by an active pearl.|チェックすると、アクティブなパールによって付与される敏捷性の効果が無効になります。
-Inventory Override?|インベントリの上書き?
-SS_AI|SS_AI
-) & (|) & (
-Shield Pearl Count|シールドパール数
-, |、
-Disable Spear Effect?|スピアエフェクトを無効にしますか?
-loadedsoundeffects/ambient|ロードされたサウンドエフェクト/アンビエンス
-Compact Inventory HUD?|コンパクトなインベントリ HUD?
-Custom Spear Keybind?|カスタムスピアキーバインド?
-Button South|ボタンサウス
-Menu|メニュー
-Sleeve|スリーブ
-Agility Pearl Count|敏捷パール数
-NON-MSC|非MSC
-RW_Outro_Theme|RW_アウトロ_テーマ
-Spear Pearl Count|槍の真珠の数
-Swap Left|左と入れ替える
--|-
-Inventory Pings?|インベントリのping?
-\r\n|\r\n
-Disable Revive Effect?|リバイブ効果を無効にしますか?
-Slugcat_Pearlcat_Ascended|Slugcat_Pearlcat_Ascended
-When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|チェックすると、パールはアクティブかどうかにかかわらずステータスの変更を許可しなくなり、基本ステータスはハンターと同様に設定されます。
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|真珠を有利に利用する珍しい能力を持つ好奇心旺盛な学者です。<LINE><LINE>Remix config 経由で入力、難易度、チートなどを設定します!<LINE><LINE>Slugcat の追加はオプションですが、強くお勧めします。
-Slugcat_Pearlcat|Slugcat_Pearlcat
+Body|体
+Something new to read... it has been too long...|新しく読みたいものがある...長すぎた...
+head|頭
+CANNOT PLAY\n|プレイできません\n
+pearlcat_structure6|パールキャット構造6
 When checked, all tutorials will be disabled.|チェックすると、すべてのチュートリアルが無効になります。
+...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...おお？たとえば、そこに含まれるデータは私にとって無価値です。そちらのほうがあなたにとってはずっと役に立つと思います...
+pearlcat_spear|パールキャットスピア
+I do not know what to make of this.|これをどう判断すればいいのかわかりません。
+Get... get away... strange... thing.|離れて…離れて…奇妙な…もの。
+AS|として
+PEARLCAT WARP END|パールキャットワープエンド
+) & use the (LEFT) & (RIGHT) directional inputs|) & (LEFT) および (RIGHT) 方向入力を使用します
+Disable Tutorials?|チュートリアルを無効にしますか?
+SS_S04|SS_S04
+pearlcat_4|パールキャット_4
+): swap out a pearl, or change the limit in the Remix options|): パールを交換するか、リミックス オプションで制限を変更します
+R-Stick|Rスティック
 1.0.0|1.0.0
-Player 3|プレイヤー3
-Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|飽くなき好奇心を持つパールキャットは、<LINE>コレクションの拡大を目指して再び冒険を始めます。
-T1_START|T1_START
-Keybind for Player 2.|プレイヤー 2 のキーバインド。
-MSC|MSC
-GhostDistortion|ゴーストディストーション
-Trigger Player|トリガープレイヤー
+Sleeve|スリーブ
+Alternatively, hold (|または、(
+Hello again.|またあったね。
+Transit System|交通システム
+SPECEVENT|特別な出来事
+BigGlyph11|ビッググリフ11
+Pearlcat|パールキャット
+pearlcat_spire9|パールキャットスパイア9
+loadedsoundeffects/ambient|ロードされたサウンドエフェクト/アンビエンス
+I will tolerate your pressence, so long as you bring me something meaningful.|あなたが私に意味のあるものを持ってくる限り、私はあなたの存在を容認します。
+Basic|基本
+DS|DS
+sweat|汗
+NON-MSC|非MSC
+Custom Agility Keybind?|カスタムアジリティキーバインド?
+scarf|スカーフ
+Max Pearl Count|最大パール数
