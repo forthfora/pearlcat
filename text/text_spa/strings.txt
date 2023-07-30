@@ -5,10 +5,10 @@ Start Shelter Override|Iniciar anulación de refugio
 Pearlpup Respawn?|¿Reaparición de Pearlpup?
 pearlcat_light2|gatoperla_luz2
 ...one which still means a lot to me.|... uno que todavía significa mucho para mí.
-Elliot|eliot
+Elliot|Elliot
 Player 4|jugador 4
 Transit System|Sistema de tránsito
-Efi|efi
+Efi|Efi
 pearlactive|perlaactiva
 Cloak|Capa
 CloudDistant|NubeDistante

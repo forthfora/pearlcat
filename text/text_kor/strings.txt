@@ -204,7 +204,7 @@ My overseers have made no peace over your arrival - I was under the impression t
 GravityDisruptor|중력 교란기
 DistantBkgObjectAlpha|DistantBkg객체알파
 I do not have much else to occupy my time with these days...|요즘 다른 시간을 할애할 일이 별로 없네요...
-TurtleMan27|터틀맨27
+TurtleMan27|TurtleMan27
 oa_max_fric_speed|oa_max_fric_speed
 _AboveCloudsAtmosphereColor|_AboveCloudsAtmosphereColor
 Four! Well, if you insist...|넷! 글쎄, 당신이 주장한다면 ...
@@ -406,7 +406,7 @@ _sprites|_sprites
 T1_CAR3|T1_CAR3
 If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|시간이 있으시다면 기꺼이 그 진주를 읽어 드리겠습니다...<LINE>시간을 보내기 위해 할 일이 많지 않습니다.
 Nevermind... this anger is useless...|신경쓰지마라... 이 분노는 소용없다...
-Elliot|엘리엇
+Elliot|Elliot
 pupear_r|pupear_r
 PlayerArm|PlayerArm
 T1_CAREND|T1_CAREND
@@ -419,7 +419,7 @@ SU|수
 The choice is yours.|선택은 당신의 것입니다.
 pearlcat_hudcircle|pearlcat_hudcircle
 pearlcat_1|pearlcat_1
-Efi|에피
+Efi|Efi
 OE_SEXTRA|OE_SEXTRA
 com.rainworldgame.garrakx.crs.mod|com.rainworldgame.garrakx.crs.mod
 pearlcat_light2|pearlcat_light2

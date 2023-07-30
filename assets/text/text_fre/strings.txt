@@ -65,7 +65,7 @@ Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of e
 pearlcat_light1|pearlcat_light1
 Left Bumper|Pare-chocs gauche
 When checked, disables the camoflague effect granted by an active pearl.|Lorsqu'elle est cochée, désactive l'effet camoflague accordé par une perle active.
-TurtleMan27|TortueMan27
+TurtleMan27|TurtleMan27
 Disable Cosmetics?|Désactiver les cosmétiques ?
 pearlcat_spear|pearlcat_spear
 LC_T1_S01|LC_T1_S01

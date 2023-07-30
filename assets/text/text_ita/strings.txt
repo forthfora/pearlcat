@@ -204,7 +204,7 @@ My overseers have made no peace over your arrival - I was under the impression t
 GravityDisruptor|Disgregatore Gravitazionale
 DistantBkgObjectAlpha|DistantBkgObjectAlpha
 I do not have much else to occupy my time with these days...|Non ho molto altro con cui occupare il mio tempo in questi giorni...
-TurtleMan27|Tartaruga27
+TurtleMan27|TurtleMan27
 oa_max_fric_speed|oa_max_fric_speed
 _AboveCloudsAtmosphereColor|_AboveCloudsAtmosphereColor
 Four! Well, if you insist...|Quattro! Beh, se insisti...
@@ -406,7 +406,7 @@ _sprites|_sprite
 T1_CAR3|T1_CAR3
 If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|Se ti capita di avere un momento libero, sarei più che felice di leggere quelle perle...<LINE>Non c'è molto altro da fare per ppassare il tempo.
 Nevermind... this anger is useless...|Non importa... questa rabbia è inutile...
-Elliot|Eliot
+Elliot|Elliot
 pupear_r|pupear_r
 PlayerArm|GiocatoreArm
 T1_CAREND|T1_CAREND

@@ -5,10 +5,10 @@ Start Shelter Override|开始避难所覆盖
 Pearlpup Respawn?|珍珠幼崽重生？
 pearlcat_light2|珍珠猫_light2
 ...one which still means a lot to me.|...对我来说仍然意义重大。
-Elliot|艾略特
+Elliot|Elliot
 Player 4|玩家 4
 Transit System|交通系统
-Efi|埃菲
+Efi|Efi
 pearlactive|珠光活性
 Cloak|披风
 CloudDistant|云远方
@@ -29,7 +29,7 @@ Debug|调试
 _textures|_纹理
 T1_START|T1_START
 TEXT ERROR|文本错误
-Balagaga|巴拉加加
+Balagaga|Balagaga
 T1_END|T1_END
 Ability Input|能力输入
 I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|我仍然非常乐意阅读你带给我的任何珍珠；<LINE>尤其是考虑到你独特的能力。
@@ -88,7 +88,7 @@ To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|要取回珍�
 Futile_White|徒劳_白色
 View|看法
 min_tail_offset|最小尾部偏移量
-TurtleMan27|龟人27
+TurtleMan27|TurtleMan27
 PEARLCAT WARP|珍珠猫经纱
 The Pearlcat|珍珠猫
 Pebbles_AS_PearlGreen|卵石_AS_珍珠绿
@@ -201,7 +201,7 @@ GREEN symbolizes vitality. Each green pearl stored may revive one creature per c
 T1_CAREND|T1_CAREND
 When checked, disables the spear creation effect granted by an active pearl.|选中后，禁用活跃珍珠所赋予的矛创造效果。
 Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|消耗电荷以提供保护。一段时间后，每颗珍珠都会单独补充电量
-Noir - Floppy Ears, Scarf|黑色 - 软耳朵、围巾
+Noir - Floppy Ears, Scarf|Noir - 软耳朵、围巾
 Number of rage pearls (red). Effective only when Inventory Override? is checked.|愤怒珍珠的数量（红色）。仅在库存覆盖时有效？已检查。
 MS|多发性硬化症
 Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep

@@ -5,10 +5,10 @@ Start Shelter Override|Начать переопределение убежищ�
 Pearlpup Respawn?|Жемчужный респаун?
 pearlcat_light2|Pearlcat_light2
 ...one which still means a lot to me.|... тот, который до сих пор много значит для меня.
-Elliot|Эллиот
+Elliot|Elliot
 Player 4|Игрок 4
 Transit System|Транзитная система
-Efi|Эфи
+Efi|Efi
 pearlactive|жемчужноактивный
 Cloak|Плащ
 CloudDistant|Облакодалеко
@@ -29,7 +29,7 @@ Debug|Отлаживать
 _textures|_текстуры
 T1_START|T1_START
 TEXT ERROR|ТЕКСТОВАЯ ОШИБКА
-Balagaga|Балагага
+Balagaga|Balagaga
 T1_END|T1_END
 Ability Input|Ввод способностей
 I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Я все еще более чем счастлив читать любые жемчужины, которые вы мне приносите,<LINE>особенно учитывая ваши уникальные способности.
@@ -88,7 +88,7 @@ To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Чтобы д�
 Futile_White|бесполезный_белый
 View|Вид
 min_tail_offset|min_tail_offset
-TurtleMan27|Черепаха27
+TurtleMan27|TurtleMan27
 PEARLCAT WARP|ЖЕМЧУЖНАЯ КОШКА ДЕФОРМАЦИЯ
 The Pearlcat|Жемчужная кошка
 Pebbles_AS_PearlGreen|Галька_AS_PearlGreen
@@ -201,7 +201,7 @@ GREEN symbolizes vitality. Each green pearl stored may revive one creature per c
 T1_CAREND|T1_CAREND
 When checked, disables the spear creation effect granted by an active pearl.|Если флажок установлен, отключает эффект создания копья, предоставляемый активной жемчужиной.
 Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|Заряды потребляются для обеспечения защиты. Каждая жемчужина по отдельности восполняет свой заряд через некоторое время
-Noir - Floppy Ears, Scarf|Нуар - Висячие уши, Шарф
+Noir - Floppy Ears, Scarf|Noir - Висячие уши, Шарф
 Number of rage pearls (red). Effective only when Inventory Override? is checked.|Количество жемчужин ярости (красных). Действует только при переопределении инвентаря? проверено.
 MS|РС
 Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep

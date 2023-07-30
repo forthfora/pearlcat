@@ -204,7 +204,7 @@ My overseers have made no peace over your arrival - I was under the impression t
 GravityDisruptor|グラビティ・ディスラプター
 DistantBkgObjectAlpha|DistantBkgObjectAlpha
 I do not have much else to occupy my time with these days...|最近は他に時間を費やすことがあまりありません...
-TurtleMan27|タートルマン27
+TurtleMan27|TurtleMan27
 oa_max_fric_speed|oa_max_fric_speed
 _AboveCloudsAtmosphereColor|_雲の上大気色
 Four! Well, if you insist...|四！まあ、強いて言うなら…
@@ -348,7 +348,7 @@ Welcome back, I suppose.|おかえりなさい、たぶん。
 oa_min_fric_speed|oa_min_fric_speed
 Given your unique abilities, if you are curious as to the contents of those pearls -|あなたのユニークな能力を考えると、その真珠の中身が気になるなら -
 ) & (|) & (
-Balagaga|バラガガ
+Balagaga|Balagaga
 DschockHorizontalRight|Dchock水平右
 BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|ブルーは敏捷性を象徴します。保存された青いパールごとに追加のダブルジャンプが可能になります
 Compact Inventory HUD?|コンパクトなインベントリ HUD?
@@ -406,7 +406,7 @@ _sprites|_スプライト
 T1_CAR3|T1_CAR3
 If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|もしお暇がございましたら、喜んでこれらの真珠を読んでいただければ幸いです...<LINE>時間を潰すために他にやることはあまりありません。
 Nevermind... this anger is useless...|気にしないでください...この怒りは無駄です...
-Elliot|エリオット
+Elliot|Elliot
 pupear_r|pupear_r
 PlayerArm|プレイヤーアーム
 T1_CAREND|T1_CAREND
@@ -419,7 +419,7 @@ SU|SU
 The choice is yours.|選択はあなた次第です。
 pearlcat_hudcircle|パールキャット_ハドサークル
 pearlcat_1|パールキャット_1
-Efi|エフィ
+Efi|Efi
 OE_SEXTRA|OE_SEXTRA
 com.rainworldgame.garrakx.crs.mod|com.rainworldgame.garrakx.crs.mod
 pearlcat_light2|パールキャットライト2

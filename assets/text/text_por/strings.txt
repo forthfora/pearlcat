@@ -348,7 +348,7 @@ Welcome back, I suppose.|Bem-vindo de volta, suponho.
 oa_min_fric_speed|oa_min_fric_speed
 Given your unique abilities, if you are curious as to the contents of those pearls -|Dadas as suas habilidades únicas, se você está curioso sobre o conteúdo dessas pérolas -
 ) & (|) & (
-Balagaga|balagaga
+Balagaga|Balagaga
 DschockHorizontalRight|DschockHorizontalDireita
 BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|AZUL simboliza agilidade. Cada pérola azul armazenada fornecerá um salto duplo adicional
 Compact Inventory HUD?|HUD de inventário compacto?
