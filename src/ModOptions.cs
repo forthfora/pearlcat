@@ -28,7 +28,7 @@ public sealed class ModOptions : OptionsTemplate
         "When checked, the inventory HUD will be replaced with a more compact version.", null, "",
         "Compact Inventory HUD?"));
 
-    public static Configurable<bool> InventoryPings { get; } = Instance.config.Bind(nameof(InventoryPings), true, new ConfigurableInfo(
+    public static Configurable<bool> InventoryPings { get; } = Instance.config.Bind(nameof(InventoryPings), false, new ConfigurableInfo(
         "When checked, some abilties will show the inventory when recharged or depleted.", null, "",
         "Inventory Pings?"));
 
