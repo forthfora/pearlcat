@@ -207,7 +207,7 @@ MS|多发性硬化症
 Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep
 When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|选中后，将使用以下选项覆盖起始珍珠。与库存覆盖不同，仅在新游戏开始时有效？
 Another one? I shouldn't be surprised. Let's see...|另一个？我不应该感到惊讶。让我们来看看...
-Each red pearl provides an additional laser.|每颗红色珍珠都提供额外的激光。
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|每颗红色珍珠都会提供额外的激光 - 是的，这些蝙蝠蝇非常敌对！
 pearlcat_structure6|珍珠猫_结构6
  - |-
 I remember this one... don't you? Well...|我记得这个……你不记得吗？出色地...

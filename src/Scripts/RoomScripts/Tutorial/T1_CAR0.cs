@@ -69,11 +69,11 @@ public class T1_CAR0 : UpdatableAndDeletable
                 var t = game.rainWorld.inGameTranslator;
 
                 if (ModOptions.CustomAgilityKeybind.Value)
-                    game.AddTextPrompt(t.Translate("Press (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + t.Translate(") while in the air to perform a double jump"), 0, 800);
+                    game.AddTextPrompt(t.Translate("Press (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + t.Translate(") while in the air to perform a double jump"), 0, 600);
 
-                game.AddTextPrompt("Press (JUMP + GRAB) while in the air to perform a double jump", 0, 800);
+                game.AddTextPrompt("Press (JUMP + GRAB) while in the air to perform a double jump", 0, 600);
 
-                PhaseTimer = 1300;
+                PhaseTimer = 1000;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

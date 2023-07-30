@@ -250,11 +250,18 @@ public static partial class Hooks
         {
             self.Die();
             self.SuperHardSetPosition(playerModule.LastGroundedPos);
-            
-            self.graphicsModule.Reset();
-            playerModule.FlyTimer = 60;
-        }
 
+            self.graphicsModule?.Reset();
+            playerModule.FlyTimer = 60;
+
+            var slugOnBack = self.slugOnBack?.slugcat;
+
+            if (slugOnBack != null)
+            {
+                slugOnBack.SuperHardSetPosition(playerModule.LastGroundedPos);
+                slugOnBack.graphicsModule?.Reset();
+            }
+        }
         if (playerModule.FlyTimer > 0)
         {
             playerModule.FlyTimer--;

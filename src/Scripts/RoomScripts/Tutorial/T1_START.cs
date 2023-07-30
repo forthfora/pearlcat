@@ -110,12 +110,12 @@ public class T1_START : UpdatableAndDeletable
             {
                 var t = room.game.rainWorld.inGameTranslator;
 
-                game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + ModOptions.SwapLeftKeybind.Value + ") & (" + ModOptions.SwapRightKeybind.Value + t.Translate("), or the triggers on controller"), 0, 800);
+                game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + ModOptions.SwapLeftKeybind.Value + ") & (" + ModOptions.SwapRightKeybind.Value + t.Translate("), or the triggers on controller"), 0, 600);
 
                 game.AddTextPrompt(
-                    t.Translate("Alternatively, hold (") + ModOptions.SwapKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 600);
+                    t.Translate("Alternatively, hold (") + ModOptions.SwapKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
 
-                PhaseTimer = 1400;
+                PhaseTimer = 1100;
                 CurrentPhase = Phase.StoreTutorial;
             }
             else if (CurrentPhase == Phase.StoreTutorial)
@@ -126,11 +126,11 @@ public class T1_START : UpdatableAndDeletable
                     game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + ModOptions.StoreKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + ")", 0, 800);
  
                 else
-                    game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 800);
+                    game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 600);
 
-                game.AddTextPrompt("To store, hold the same keybind with a pearl in your main hand", 0, 600);
+                game.AddTextPrompt("To store, hold the same keybind with a pearl in your main hand", 0, 400);
 
-                PhaseTimer = 1400;
+                PhaseTimer = 1000;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

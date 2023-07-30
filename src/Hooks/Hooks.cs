@@ -34,8 +34,8 @@ public static partial class Hooks
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         On.RainWorld.PostModsInit += RainWorld_PostModsInit;
 
-        // deprecated
-        //On.ModManager.RefreshModsLists += ModManager_RefreshModsLists;
+        // undeprecated, better pray to the remix gods this works
+        On.ModManager.RefreshModsLists += ModManager_RefreshModsLists;
     }
 
     public static bool IsInit { get; private set; } = false;
@@ -95,7 +95,7 @@ public static partial class Hooks
         }
     }
 
-    // fix the stupid remix load order issues
+    // 'fix' the stupid remix load order issues
     private static void ModManager_RefreshModsLists(On.ModManager.orig_RefreshModsLists orig, RainWorld rainWorld)
     {
         orig(rainWorld);

@@ -69,12 +69,12 @@ public class T1_CAR2 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt("RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 700);
+                game.AddTextPrompt("RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 600);
                 
-                game.AddTextPrompt("Each red pearl provides an additional laser.", 0, 600);
+                game.AddTextPrompt("Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 500);
 
 
-                PhaseTimer = 1100;
+                PhaseTimer = 900;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

@@ -324,7 +324,7 @@ puptail|rabo de cachorro
 The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|A vastidão além seria um lugar seguro para você criar sua família - e ficar longe dos meus negócios.
 PEARLCAT WARP|PEARLCAT WARP
 Midground|meio-campo
-Each red pearl provides an additional laser.|Cada pérola vermelha fornece um laser adicional.
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Cada pérola vermelha fornece um laser adicional.
 Version |Versão
 DM|DM
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Mas... a marca que você possui, é muito incomum.<LINE>Não é algo que alguém do grupo local possa conceder...

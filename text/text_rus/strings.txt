@@ -207,7 +207,7 @@ MS|РС
 Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sleep
 When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Если флажок установлен, заменяет начальные жемчужины параметром ниже. Действует только в начале новой игры, в отличие от переопределения инвентаря?
 Another one? I shouldn't be surprised. Let's see...|Другой? Я не должен удивляться. Давайте посмотрим...
-Each red pearl provides an additional laser.|Каждая красная жемчужина дает дополнительный лазер.
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Каждая красная жемчужина дает дополнительный лазер.
 pearlcat_structure6|жемчужная кошка_структура6
  - |-
 I remember this one... don't you? Well...|Я помню это... а ты? Хорошо...

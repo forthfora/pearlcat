@@ -94,12 +94,12 @@ public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModul
 
 
     public static bool IsSwapLeftInput(this Player player)
-        => player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer &&
-        (Input.GetKey(ModOptions.SwapLeftKeybind.Value) || Input.GetAxis("DschockHorizontalRight") < -0.5f);
+        => (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapLeftKeybind.Value))
+        || (Input.GetAxis("DschockHorizontalRight") < -0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1);
 
     public static bool IsSwapRightInput(this Player player)
-        => player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer &&
-        (Input.GetKey(ModOptions.SwapRightKeybind.Value) || Input.GetAxis("DschockHorizontalRight") > 0.5f);
+        => (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapRightKeybind.Value))
+        || (Input.GetAxis("DschockHorizontalRight") > 0.5f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1);
 
 
     public static string GetDisplayName(this KeyCode keyCode)

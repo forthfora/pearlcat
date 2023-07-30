@@ -87,7 +87,7 @@ public class T1_CAR1 : UpdatableAndDeletable
                 room.PlaySound(SoundID.Bomb_Explode, room.PlayersInRoom.First().firstChunk, false, 1.1f, 0.4f);
                 room.ScreenMovement(null, Vector2.right * 3.0f, 7.0f);
 
-                PhaseTimer = 800;
+                PhaseTimer = 600;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

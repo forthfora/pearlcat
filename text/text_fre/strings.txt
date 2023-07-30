@@ -283,7 +283,7 @@ PEARLCAT WARP END|FIN DE CHAÎNE PEARLCAT
 BM_SS_DOOR|BM_SS_DOOR
 ear_r|oreille_r
 OE|équipement d'origine
-Each red pearl provides an additional laser.|Chaque perle rouge fournit un laser supplémentaire.
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Chaque perle rouge fournit un laser supplémentaire.
 Legs|Jambes
 sleeve|manche
 Pearlcat|Perlecat

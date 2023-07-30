@@ -324,7 +324,7 @@ puptail|子犬
 The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|その向こうの広大な場所は、あなたにとって家族を育てる安全な場所であり、私の仕事から遠く離れていてもよいでしょう。
 PEARLCAT WARP|パールキャットワープ
 Midground|ミッドグラウンド
-Each red pearl provides an additional laser.|それぞれの赤いパールは追加のレーザーを提供します。
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|それぞれの赤いパールは追加のレーザーを提供します。
 Version |バージョン
 DM|DM
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|でも…あなたの持っているマークはとても珍しいものです。<LINE>地元のグループの誰もが授けるものではありません…

@@ -324,7 +324,7 @@ puptail|Puppenschwanz
 The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|Die Weite dahinter wäre ein sicherer Ort für Sie, um Ihre Familie großzuziehen – und sich von meinem Geschäft fernzuhalten.
 PEARLCAT WARP|PEARLCAT WARP
 Midground|Mittelgrund
-Each red pearl provides an additional laser.|Jede rote Perle sorgt für einen zusätzlichen Laser.
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Jede rote Perle sorgt für einen zusätzlichen Laser.
 Version |Ausführung
 DM|DM
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Aber ... das Zeichen, das Sie besitzen, ist sehr ungewöhnlich.<LINE>Nichts, was irgendjemand in der lokalen Gruppe verleihen könnte ...

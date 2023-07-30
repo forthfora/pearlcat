@@ -207,7 +207,7 @@ MS|EM
 Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sueño
 When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Cuando está marcada, anula las perlas iniciales con la opción a continuación. ¿Solo es efectivo al comienzo de un nuevo juego, a diferencia de Inventory Override?
 Another one? I shouldn't be surprised. Let's see...|¿Otro? No debería sorprenderme. Vamos a ver...
-Each red pearl provides an additional laser.|Cada perla roja proporciona un láser adicional.
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Cada perla roja proporciona un láser adicional.
 pearlcat_structure6|perlacat_estructura6
  - |-
 I remember this one... don't you? Well...|Me acuerdo de este... ¿tú no? Bien...

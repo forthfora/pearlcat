@@ -324,7 +324,7 @@ puptail|새끼 꼬리
 The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|그 너머는 당신이 가족을 키우고 내 사업에서 멀리 떨어져 있을 수 있는 안전한 장소가 될 것입니다.
 PEARLCAT WARP|펄캣 워프
 Midground|미드그라운드
-Each red pearl provides an additional laser.|각 레드 펄은 추가 레이저를 제공합니다.
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|각 레드 펄은 추가 레이저를 제공합니다.
 Version |버전
 DM|DM
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|하지만... 당신이 가지고 있는 표식은, 매우 이례적입니다.<LINE>현지 그룹의 누구도 부여할 수 없는 것입니다...
