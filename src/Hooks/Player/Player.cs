@@ -328,6 +328,7 @@ public static partial class Hooks
         var save = self.abstractCreature.Room.world.game.GetMiscWorld();
         var miscProg = self.abstractCreature.Room.world.game.GetMiscProgression();
 
+
         miscProg.HasPearlpup = false;
         if (save != null) save.HasPearlpupWithPlayer = false;
 
@@ -590,13 +591,13 @@ public static partial class Hooks
 
         playerModule.PostDeathActiveObjectIndex = playerModule.ActiveObjectIndex;
 
-        self.room.PlaySound(SoundID.Zapper_Zap, self.firstChunk.pos, 0.4f, 0.6f);
-        self.room.PlaySound(SoundID.Fire_Spear_Explode, self.firstChunk.pos, 0.7f, 0.6f);
+        self.room?.PlaySound(SoundID.Zapper_Zap, self.firstChunk.pos, 0.4f, 0.6f);
+        self.room?.PlaySound(SoundID.Fire_Spear_Explode, self.firstChunk.pos, 0.7f, 0.6f);
 
         if (playerModule.ReviveCount <= 0 && playerModule.Inventory.Count > 0)
         {
-            self.room.AddObject(new ShockWave(self.firstChunk.pos, 30.0f, 0.4f, 5, false));
-            self.room.AddObject(new ExplosionSpikes(self.room, self.firstChunk.pos, 5, 20.0f, 10, 20.0f, 20.0f, Color.red));
+            self.room?.AddObject(new ShockWave(self.firstChunk.pos, 30.0f, 0.4f, 5, false));
+            self.room?.AddObject(new ExplosionSpikes(self.room, self.firstChunk.pos, 5, 20.0f, 10, 20.0f, 20.0f, Color.red));
         }
 
         for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
@@ -610,7 +611,7 @@ public static partial class Hooks
             if (playerModule.ReviveCount <= 0)
             {
                 var randVec = Custom.RNV() * 150.0f;
-                self.room.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80);
+                self.room?.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80);
 
                 DeathEffect(abstractObject.realizedObject);
             }
@@ -648,7 +649,7 @@ public static partial class Hooks
         {
             bool shouldShield = playerModule.ShieldActive;
 
-            if (self is JetFish)
+            if (self is JetFish or Cicada || (self is Centipede centipede && centipede.Small))
                 shouldShield = false;
 
             if (shouldShield)

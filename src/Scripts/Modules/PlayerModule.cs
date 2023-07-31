@@ -41,12 +41,12 @@ public class PlayerModule
     public int FeetSprite { get; set; }
     public int ShieldSprite { get; set; }
 
-    public int AgilityCount => MajorEffectCount(MajorEffectType.AGILITY);
-    public int CamoCount => MajorEffectCount(MajorEffectType.CAMOFLAGUE);
-    public int RageCount => MajorEffectCount(MajorEffectType.RAGE);
-    public int ReviveCount => MajorEffectCount(MajorEffectType.REVIVE);
-    public int SpearCount => MajorEffectCount(MajorEffectType.SPEAR_CREATION);
-    public int ShieldCount => MajorEffectCount(MajorEffectType.SHIELD);
+    public int AgilityCount => ModOptions.DisableAgility.Value ? 0 : MajorEffectCount(MajorEffectType.AGILITY);
+    public int CamoCount => ModOptions.DisableCamoflague.Value ? 0 : MajorEffectCount(MajorEffectType.CAMOFLAGUE);
+    public int RageCount => ModOptions.DisableRage.Value ? 0 : MajorEffectCount(MajorEffectType.RAGE);
+    public int ReviveCount => ModOptions.DisableRevive.Value ? 0 : MajorEffectCount(MajorEffectType.REVIVE);
+    public int SpearCount => ModOptions.DisableSpear.Value ? 0 : MajorEffectCount(MajorEffectType.SPEAR_CREATION);
+    public int ShieldCount => ModOptions.DisableShield.Value ? 0 : MajorEffectCount(MajorEffectType.SHIELD);
 
     public int MajorEffectCount(MajorEffectType type)
     {

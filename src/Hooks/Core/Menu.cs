@@ -25,8 +25,6 @@ public static partial class Hooks
 
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
-        On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
-
         On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
 
         new Hook(
@@ -41,7 +39,35 @@ public static partial class Hooks
 
         // uses trygoto
         IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
+
+        On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
+        On.HUD.HUD.InitSafariHud += HUD_InitSafariHud;
+        On.ArenaGameSession.AddHUD += ArenaGameSession_AddHUD;
     }
+
+    private static void ArenaGameSession_AddHUD(On.ArenaGameSession.orig_AddHUD orig, ArenaGameSession self)
+    {
+        orig(self);
+
+        var hud = self.game.cameras[0].hud;
+
+        hud.AddPart(new InventoryHUD(hud, hud.fContainers[1]));
+    }
+
+    private static void HUD_InitSafariHud(On.HUD.HUD.orig_InitSafariHud orig, HUD.HUD self, RoomCamera cam)
+    {
+        orig(self, cam);
+
+        self.AddPart(new InventoryHUD(self, self.fContainers[1]));
+    }
+
+    private static void HUD_InitSinglePlayerHud(On.HUD.HUD.orig_InitSinglePlayerHud orig, HUD.HUD self, RoomCamera cam)
+    {
+        orig(self, cam);
+
+        self.AddPart(new InventoryHUD(self, self.fContainers[1]));
+    }
+
 
     public delegate bool orig_SlugcatPageHasMark(SlugcatSelectMenu.SlugcatPage self);
     public static bool GetSlugcatPageHasMark(orig_SlugcatPageHasMark orig, SlugcatSelectMenu.SlugcatPage self)
@@ -63,14 +89,6 @@ public static partial class Hooks
             return true;
 
         return result;
-    }
-
-
-    private static void HUD_InitSinglePlayerHud(On.HUD.HUD.orig_InitSinglePlayerHud orig, HUD.HUD self, RoomCamera cam)
-    {
-        orig(self, cam);
-
-        self.AddPart(new InventoryHUD(self, self.fContainers[1]));
     }
 
 

@@ -395,6 +395,8 @@ public static partial class Hooks
             self.AllGraspsLetGoOfThisObject(false);
             playerModule.ShieldTimer--;
 
+            self.airInLungs = 1.0f;
+
             playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 1.0f, 0.25f);
             playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 6.0f, 0.4f);
             
@@ -421,6 +423,9 @@ public static partial class Hooks
             playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 0.0f, 0.25f);
             playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 0.0f, 0.4f);
         }
+
+        if (self.airInLungs < 0.1f && playerModule.ShieldActive)
+            playerModule.ActivateVisualShield();
 
         if (self.room == null) return;
         

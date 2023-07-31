@@ -74,7 +74,7 @@ public static partial class Hooks
     }
 
     public static SaveMiscProgression GetMiscProgression(this RainWorld rainWorld) => GetMiscProgression(rainWorld.progression.miscProgressionData);
-    public static SaveMiscProgression GetMiscProgression(this RainWorldGame game) => GetMiscProgression(game.GetStorySession.saveState.progression.miscProgressionData);
+    public static SaveMiscProgression GetMiscProgression(this RainWorldGame game) => GetMiscProgression(game.rainWorld.progression.miscProgressionData);
     public static SaveMiscProgression GetMiscProgression(this PlayerProgression.MiscProgressionData data)
     {
         if (!data.GetSlugBaseData().TryGet(Plugin.MOD_ID, out SaveMiscProgression save))
