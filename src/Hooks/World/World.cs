@@ -71,6 +71,28 @@ public partial class Hooks
         IL.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
 
         On.RegionState.AdaptWorldToRegionState += RegionState_AdaptWorldToRegionState;
+
+        On.DaddyTentacle.Update += DaddyTentacle_Update;
+    }
+
+    private static void DaddyTentacle_Update(On.DaddyTentacle.orig_Update orig, DaddyTentacle self)
+    {
+        orig(self);
+
+        var grabbedPlayer = self.grabChunk?.owner as Player;
+
+        if ((grabbedPlayer != null || self.grabChunk?.owner == grabbedPlayer?.slugOnBack?.slugcat) && grabbedPlayer?.TryGetPearlcatModule(out var playerModule) == true && playerModule.ShieldActive)
+        {
+            playerModule.ActivateVisualShield();
+
+            if (playerModule.ShieldTimer > 0)
+            {
+                if (self.grabChunk != null)
+                    self.room.DeflectEffect(self.grabChunk.pos);
+                
+                self.stun = 100;
+            }
+        }
     }
 
     private static void RegionState_AdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
@@ -244,6 +266,8 @@ public partial class Hooks
         var playerPull = self.patch.trackedCreatures.FirstOrDefault(x => x.creature == self.attachedChunk.owner);
 
         if (playerPull == null) return;
+
+        if (!playerModule.ShieldActive) return;
 
         DeflectEffect(self.room, self.pos);
         playerModule.ActivateVisualShield();

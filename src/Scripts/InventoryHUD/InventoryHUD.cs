@@ -24,7 +24,10 @@ public class InventoryHUD : HudPart
 
         for (int i = 0; i < game.Players.Count; i++)
         {
-            var circle = new FSprite("pearlcat_hudcircle");
+            var circle = new FSprite("pearlcat_hudcircle")
+            {
+                alpha = 0.0f,
+            };
 
             fContainer.AddChild(circle);
             InventoryCircles.Add(circle);
@@ -58,7 +61,7 @@ public class InventoryHUD : HudPart
 
                     if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
 
-                    symbol.DistFade = isActiveObject ? 1.0f : 0.4f;
+                    symbol.DistFade = isActiveObject ? 1.0f : 0.8f;
 
                     var origin = truePos;
                     var angle = (diff ?? i) * Mathf.PI * 2.0f / playerModule.Inventory.Count + Mathf.Deg2Rad * 90.0f;

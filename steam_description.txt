@@ -1,32 +1,30 @@
-[h1][b]An enigmatic scholar from a faraway land, gifted with the unusual ability to harness pearls!
+[h1][b]An enigmatic scholar from a faraway land, gifted with the unusual ability to harness pearls![/b][/h1]
 
-Armed with this knowledge, face peril and protect your pup - all on your journey to discover the world and its mysteries...[/b][/h1]
+[h1][b]Armed with this knowledge, face peril and protect your pup - all on your journey to discover the world and its mysteries...[/b][/h1]
 
 [h1][b]FEATURES:[/b][/h1]
 [b][list]
-    [*]Carry and store many pearls at once...
+    [*]Carry and store many pearls at once
     
     [*]Unique interactions with Pebbles and Moon!
-Pebbles sees a use for Pearlcat, and now will read your pearls too...
+Pebbles sees a use for Pearlcat, and now will read your pearls too
     
-    [*]Unique cutscenes, and 2 endings...
+    [*]New cutscenes, and 2 endings
 [/list][/b]
 [h1][b]+ Unique abilities for each pearl you store, depending on the color![/b][/h1]
+
+[b][u]Pearlcat does NOT require MSC, however it is strongly recommended[/u]
+
+[b]CREDITS:[/b]
 [b][list]
-    [*]WHITE, SPEAR CREATION - convert pearls into incredibly powerful and volatile spears that explode on impact
-    
-    [*]YELLOW, SHIELD - each pearl provides temporary protection from impending harm, with a lengthy cooldown
-    
-    [*]GREEN, REVIVE - each pearl may revive any dead creature, friend or foe, including yourself; but only once per cycle!
-
-    [*]RED, RAGE - fire deadly lasers at your opponents, each pearl bringing an additional laser to the party
-
-    [*]BLUE, AGILITY - fly through the air with a powerful double jump, each pearl providing an additional boost!
-
-    [*]BLACK, CAMOFLAGUE - blend into the background and fade from the sight of any would-be predators...
+    [*]Geahgeah - Art & Design   
+    [*]Sidera - SFX & Dialogue
+    [*]Noir - Ear & Scarf Code
 [/list][/b]
-[b][u]A list of pearls, colors, and their locations:[/u][/b] https://docs.google.com/spreadsheets/d/1OanAHTU9rHI81HdgI_YFl9kR5WW6IsqpazSnkeTbguA/edit#gid=0
-
-[b][u]Pearlcat does NOT require the DLC or MSC, however it is strongly recommended to play with MSC enabled if possible
-
-[spoiler]Pearlpup, the OE ending, and Metropolis rooms[/spoiler] will be absent without MSC
+[b]PLAYTESTERS:[/b]
+[b][list]
+    [*] TurtleMan27
+    [*] Balagaga
+    [*] Elliot
+    [*] Efi
+[/list][/b]

@@ -11,6 +11,7 @@ public static partial class Hooks
         ApplySaveDataHooks();
         ApplyMenuHooks();
         ApplySlideShowHooks();
+        ApplyMergeFixHooks();
 
         // Player
         ApplyPlayerHooks();
@@ -34,8 +35,8 @@ public static partial class Hooks
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         On.RainWorld.PostModsInit += RainWorld_PostModsInit;
 
-        // undeprecated, better pray to the remix gods this works
-        On.ModManager.RefreshModsLists += ModManager_RefreshModsLists;
+        // deprecated
+        //On.ModManager.RefreshModsLists += ModManager_RefreshModsLists;
     }
 
     public static bool IsInit { get; private set; } = false;
@@ -95,6 +96,7 @@ public static partial class Hooks
         }
     }
 
+    // DEPRECATED
     // 'fix' the stupid remix load order issues
     private static void ModManager_RefreshModsLists(On.ModManager.orig_RefreshModsLists orig, RainWorld rainWorld)
     {
@@ -116,6 +118,11 @@ public static partial class Hooks
 
             ModManager.ActiveMods.Remove(mod);
             ModManager.ActiveMods.Insert(mscIndex, mod);
+
+            Plugin.Logger.LogWarning("OVERRODE MSC LOAD ORDER - MOD LOAD ORDER:");
+
+            foreach (var activeMod in ModManager.ActiveMods)
+                Plugin.Logger.LogWarning(activeMod.id);
         }
         catch (Exception e)
         {

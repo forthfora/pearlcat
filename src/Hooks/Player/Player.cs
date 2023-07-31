@@ -739,6 +739,10 @@ public static partial class Hooks
 
         if (self.room == null) return;
 
+        if (self.killTag?.creatureTemplate is CreatureTemplate template
+            && (template.type == CreatureTemplate.Type.DaddyLongLegs || template.type == CreatureTemplate.Type.BrotherLongLegs
+            || template.type == CreatureTemplate.Type.BigEel || template.type == MoreSlugcats.MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs)) return;
+
         self.AllGraspsLetGoOfThisObject(true);
 
         DeflectEffect(self.room, self.firstChunk.pos);
