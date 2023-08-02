@@ -9,7 +9,7 @@
     [*]Unique interactions with Pebbles and Moon!
 Pebbles sees a use for Pearlcat, and now will read your pearls too
     
-    [*]New cutscenes, and 2 endings
+    [*]New cutscenes
 [/list][/b]
 [h1][b]+ Unique abilities for each pearl you store, depending on the color![/b][/h1]
 
@@ -27,4 +27,7 @@ Pebbles sees a use for Pearlcat, and now will read your pearls too
     [*] Balagaga
     [*] Elliot
     [*] Efi
+    [*] WillowWisp
+    [*] Lolight2
 [/list][/b]
+[b]Direct: [/b]https://github.com/forthbridge/pearlcat/releases

@@ -1,0 +1,33 @@
+[h1][b]来自遥远国度的神秘学者，拥有非凡的驾驭珍珠的能力！[/b][/h1]
+
+[h1][b]有了这些知识，面对危险并保护你的小狗 - 一切都在你探索世界及其奥秘的旅程中...[/b][/h1]
+
+[h1][b]特点：[/b][/h1]
+[b][list]
+    [*]同时携带和储存许多珍珠
+    
+    [*]与卵石和月亮的独特互动！
+Pebbles 看到了珍珠猫的用处，现在也会读取你的珍珠
+    
+    [*]新的过场动画
+[/list][/b]
+[h1][b]+ 您存储的每颗珍珠都有独特的能力，具体取决于颜色！[/b][/h1]
+
+[b][u]Pearlcat 不需要 MSC，但强烈建议使用[/u]
+
+[b]鸣谢：[/b]
+[b][list]
+    [*]Geahgeah - 艺术与设计
+    [*]Sidera - 特效和对话
+    [*]Noir - 耳朵和围巾代码
+[/list][/b]
+[b]游戏测试人员：[/b]
+[b][list]
+    [*] TurtleMan27
+    [*] Balagaga
+    [*] Elliot
+    [*] Efi
+    [*] WillowWisp
+    [*] Lolight2
+[/list][/b]
+[b]Direct: [/b]https://github.com/forthbridge/pearlcat/releases
