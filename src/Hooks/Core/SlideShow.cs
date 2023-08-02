@@ -11,11 +11,39 @@ public static partial class Hooks
 {
     public static void ApplySlideShowHooks()
     {
-        IL.RainWorldGame.ExitToVoidSeaSlideShow += RainWorldGame_ExitToVoidSeaSlideShow;
-        IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
-
         IL.Menu.SlideShow.ctor += SlideShow_ctor;
+
+        IL.RainWorldGame.ExitToVoidSeaSlideShow += RainWorldGame_ExitToVoidSeaSlideShow;
+        //IL.Menu.IntroRoll.ctor += IntroRoll_ctor;
+
+        // REENABLE LATER
+        IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
         IL.RainWorldGame.GoToRedsGameOver += RainWorldGame_GoToRedsGameOver;
+    }
+
+    // misc prog isn't init yet, so no go
+    private static void IntroRoll_ctor(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdstr("Intro_Roll_C_")
+        );
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchCallOrCallvirt<string>(nameof(string.Concat))
+        );
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Func<string, IntroRoll, string>>((origTitle, self) =>
+        {
+            var save = self.manager.rainWorld.GetMiscProgression();
+
+            if (save.IsNewPearlcatSave)
+                return "TitleCard_Pearlcat";
+
+            return origTitle;        
+        });
     }
 
     private static void RainWorldGame_GoToRedsGameOver(ILContext il)
@@ -50,13 +78,13 @@ public static partial class Hooks
             {            
                 if (self.manager.musicPlayer != null)
                 {
-                    self.waitForMusic = "BM_SS_DOOR";
+                    self.waitForMusic = "BM_SB_SUBWAY";
                     self.stall = true;
                     self.manager.musicPlayer.MenuRequestsSong(self.waitForMusic, 1.5f, 10f);
                 }
 
-                self.playList.Add(new SlideShow.Scene(Enums.SlideShows.Pearlcat_Outro_1, self.ConvertTime(0, 2, 0), self.ConvertTime(0, 4, 0), self.ConvertTime(0, 12, 0)));
-                self.playList.Add(new SlideShow.Scene(Enums.SlideShows.Pearlcat_Outro_2, self.ConvertTime(0, 15, 0), self.ConvertTime(0, 17, 0), self.ConvertTime(0, 25, 0)));
+                self.playList.Add(new SlideShow.Scene(Enums.SlideShows.Pearlcat_Intro_1, self.ConvertTime(0, 2, 0), self.ConvertTime(0, 4, 0), self.ConvertTime(0, 8, 0)));
+                self.playList.Add(new SlideShow.Scene(Enums.SlideShows.Pearlcat_Intro_2, self.ConvertTime(0, 10, 0), self.ConvertTime(0, 12, 0), self.ConvertTime(0, 17, 0)));
 
                 foreach (var scene in self.playList)
                 {

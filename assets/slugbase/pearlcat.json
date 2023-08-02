@@ -71,7 +71,7 @@
         "select_menu_scene": "Slugcat_Pearlcat",
         "sleep_scene": "Slugcat_Pearlcat_Sleep",
         "select_menu_scene_ascended": "Slugcat_Pearlcat_Ascended",
-
+        "title_card": "TitleCard_Pearlcat",
 
         "min_tail_offset": -15.0,
         "max_tail_offset": 15.0,
