@@ -52,7 +52,7 @@ public static partial class Hooks
         stats.runspeedFac = self.grabbedBy.Count > 0 ? 0.9f : 1.1f;
         stats.corridorClimbSpeedFac = 1.1f;
         stats.poleClimbSpeedFac = 1.15f;
-        stats.lungsFac = 2.0f;
+        stats.lungsFac = 0.5f;
         
         stats.generalVisibilityBonus = 0.1f;
         stats.visualStealthInSneakMode = 0.3f;

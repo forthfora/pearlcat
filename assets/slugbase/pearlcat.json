@@ -34,9 +34,6 @@
         "has_dreams": false,
         "perma_unlock_gates": false,
         
-        "cycle_length_min": 6,
-        "cycle_length_max": 13,
-        
         "diet": {
             "base": "White",
             "corpses": 1.0,

@@ -447,23 +447,31 @@ public static partial class Hooks
 
     private static void UpdateSFX(Player self, PlayerModule playerModule)
     {
-        playerModule.MenuCrackleLoop.Update();
-        playerModule.MenuCrackleLoop.Volume = playerModule.HudFade;
+        // Outsider breaks looping SFX sometimes, this is safety
+        try
+        {
+            playerModule.MenuCrackleLoop.Update();
+            playerModule.MenuCrackleLoop.Volume = playerModule.HudFade;
 
-        playerModule.ShieldHoldLoop.Update();
-        playerModule.ShieldHoldLoop.Volume = playerModule.ShieldTimer > 0 ? 1.0f : 0.0f;
+            playerModule.ShieldHoldLoop.Update();
+            playerModule.ShieldHoldLoop.Volume = playerModule.ShieldTimer > 0 ? 1.0f : 0.0f;
 
-        // forced to fade out for some reason
-        //if (playerModule.ActiveObject?.GetPOEffect().RMSong == true && self.firstChunk.vel.magnitude < 3.0f)
-        //{
-        //    if (self.room.game.manager.musicPlayer.song == null || self.room.game.manager.musicPlayer.song is not HalcyonSong)
-        //        self.room.game.manager.musicPlayer.RequestHalcyonSong("NA_19 - Halcyon Memories");
-        //}
-        //else
-        //{
-        //    if (self.room.game.manager.musicPlayer != null && self.room.game.manager.musicPlayer.song != null && self.room.game.manager.musicPlayer.song is HalcyonSong)
-        //        self.room.game.manager.musicPlayer.song.FadeOut(20f);
-        //}
+            // forced to fade out for some reason
+            //if (playerModule.ActiveObject?.GetPOEffect().RMSong == true && self.firstChunk.vel.magnitude < 3.0f)
+            //{
+            //    if (self.room.game.manager.musicPlayer.song == null || self.room.game.manager.musicPlayer.song is not HalcyonSong)
+            //        self.room.game.manager.musicPlayer.RequestHalcyonSong("NA_19 - Halcyon Memories");
+            //}
+            //else
+            //{
+            //    if (self.room.game.manager.musicPlayer != null && self.room.game.manager.musicPlayer.song != null && self.room.game.manager.musicPlayer.song is HalcyonSong)
+            //        self.room.game.manager.musicPlayer.song.FadeOut(20f);
+            //}
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("Looping SFX Error, Outsider often likes to cause this:\n" + e);
+        }
     }
 
     private static void UpdateHUD(Player self, PlayerModule playerModule)

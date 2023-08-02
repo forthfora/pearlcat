@@ -76,7 +76,7 @@ public static partial class Hooks
 
 
         if (!self.oracle.room.game.IsPearlcatStory()) return;
-        
+
         if (self.oracle.oracleBehavior is SSOracleBehavior behavior && behavior.timeSinceSeenPlayer < 0) return;
 
         if (self.room.gravity == 1.0f) return;
@@ -196,7 +196,7 @@ public static partial class Hooks
                     self.Translate("My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable."), l * 80));
 
                 e.Add(new WaitEvent(self, 80));
-            
+
 
                 e.Add(new TextEvent(self, 0,
                     self.Translate("You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me..."), l * 80));
@@ -267,7 +267,7 @@ public static partial class Hooks
 
             e.Add(new WaitEvent(self, 40));
         }
-        
+
         else if (id == Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect)
         {
             module.TakeRMTimer = 120;
@@ -944,7 +944,7 @@ public static partial class Hooks
             module.Rand = rand;
             var type = pearl.AbstractPearl.dataPearlType;
 
-            if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1)
+            if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1 || type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc) // temp broadcast fix
                 owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc, this);
 
             else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc2)
@@ -1052,6 +1052,8 @@ public static partial class Hooks
                     oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 0.9f, 2.0f);
 
                     //physicalObject.abstractPhysicalObject.tracker.UninitializeTracker();
+
+                    oracle.room.game.GetStorySession.RemovePersistentTracker(physicalObject.abstractPhysicalObject);
 
                     physicalObject.abstractPhysicalObject.destroyOnAbstraction = true;
                     physicalObject.abstractPhysicalObject.Abstractize(physicalObject.abstractPhysicalObject.pos);

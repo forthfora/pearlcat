@@ -271,6 +271,7 @@ public sealed class ModOptions : OptionsTemplate
         AddTextLabel("Efi");
         AddTextLabel("WillowWisp");
         AddTextLabel("Lolight2");
+        AddTextLabel("mayhemmm");
         DrawTextLabels(ref Tabs[tabIndex]);
 
 
