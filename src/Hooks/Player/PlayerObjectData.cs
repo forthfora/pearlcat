@@ -323,8 +323,8 @@ public static partial class Hooks
         var pos = playerGraphics.head.pos + activeObjectOffset;
         pos.x += self.mainBodyChunk.vel.x * 1.0f;
 
-        if (self.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0 || self.onBack != null)
-            pos.y += self.onBack != null ? 40.0f : 30.0f;
+        if (self.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0 || self.onBack?.IsPearlcat() == true)
+            pos.y += self.onBack?.IsPearlcat() == true ? 40.0f : 30.0f;
 
         return pos;
     }
