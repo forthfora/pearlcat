@@ -186,15 +186,15 @@ public static partial class Hooks
 
 
 
-    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false)
+    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false, bool overrideLimit = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         var save = self.abstractCreature.world.game.GetMiscWorld();
     
-        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value && !ModOptions.DisableTutorials.Value)
+        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value && !overrideLimit)
         {
-            if (save?.ShownFullInventoryTutorial == false)
+            if (save?.ShownFullInventoryTutorial == false && !ModOptions.DisableTutorials.Value)
             {
                 var t = self.abstractCreature.world.game.rainWorld.inGameTranslator;
 

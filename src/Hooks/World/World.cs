@@ -178,7 +178,7 @@ public partial class Hooks
     {
         var result = orig(self, obj, weaponFiltered);
 
-        if (obj.abstractPhysicalObject is AbstractSpear spear && spear.TryGetSpearModule(out _))
+        if (obj?.abstractPhysicalObject is AbstractSpear spear && spear.TryGetSpearModule(out _))
             return 12;
 
         return result;

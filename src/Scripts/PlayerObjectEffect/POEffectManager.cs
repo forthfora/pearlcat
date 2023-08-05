@@ -295,6 +295,7 @@ public static class POEffectManager
     public static void RegisterEffects()
     {
         PearlEffects.Clear();
+        CustomPearlEffects.Clear();
 
         SetEffects();
 

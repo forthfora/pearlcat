@@ -138,7 +138,7 @@ public sealed class ModOptions : OptionsTemplate
 
 
     public static Configurable<bool> HidePearls { get; } = Instance.config.Bind(nameof(HidePearls), false, new ConfigurableInfo(
-        "Hides the visuals of inactive peparls and turns you into... cat.", null, "",
+        "Hides the visuals of inactive pearls and turns you into... cat.", null, "",
         "Hide Pearls?"));
 
 
@@ -273,7 +273,7 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "Extra Cheats");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var text = "All times here are in frames.\n40 frames = 1 second.";
+        var text = Translate("All times here are in frames.\n40 frames = 1 second.");
         AddTextLabel(text);
         DrawTextLabels(ref Tabs[tabIndex]);
 
@@ -380,7 +380,7 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "Cheats");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var warningText = "Intended for fun,\nmay change gameplay significantly!";
+        var warningText = Translate("Intended for fun,\nmay change gameplay significantly!");
         
         AddTextLabel(warningText, bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
@@ -525,11 +525,11 @@ public sealed class ModOptions : OptionsTemplate
         DrawTextLabels(ref Tabs[tabIndex]);
          
 
-        AddCheckBox(DisableMinorEffects);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
         AddCheckBox(InventoryPings);
         AddCheckBox(HidePearls);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddCheckBox(DisableMinorEffects);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableAgility);

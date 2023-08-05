@@ -709,6 +709,7 @@ public static partial class Hooks
 
 
         List<DataPearlType> pearls;
+        bool overrideLimit = false;
 
         if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
         {
@@ -726,12 +727,17 @@ public static partial class Hooks
                 Enums.Pearls.AS_PearlRed,
                 self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc,
             };
+
+            if (ModOptions.MaxPearlCount.Value <= 1)
+                pearls.Remove(Enums.Pearls.AS_PearlBlack);
+
+            overrideLimit = true;
         }
 
         foreach (var pearlType in pearls)
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
-            self.StoreObject(pearl);
+            self.StoreObject(pearl, overrideLimit: overrideLimit);
         }
 
         playerModule.GivenPearls = true;
