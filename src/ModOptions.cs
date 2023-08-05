@@ -1,4 +1,5 @@
 ﻿using Menu.Remix.MixedUI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static DataPearl.AbstractDataPearl;
@@ -23,6 +24,11 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<bool> PearlThreatMusic { get; } = Instance.config.Bind(nameof(PearlThreatMusic), false, new ConfigurableInfo(
         "When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.", null, "",
         "Pearl Threat Music?"));
+
+    public static Configurable<bool> EnableBackSpear { get; } = Instance.config.Bind(nameof(EnableBackSpear), false, new ConfigurableInfo(
+        "When checked, enables Pearlcat to carry a backspear.", null, "",
+        "Enable Backspear?"));
+
 
     public static Configurable<bool> CompactInventoryHUD { get; } = Instance.config.Bind(nameof(CompactInventoryHUD), false, new ConfigurableInfo(
         "When checked, the inventory HUD will be replaced with a more compact version.", null, "",
@@ -129,6 +135,38 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<string> StartShelterOverride { get; } = Instance.config.Bind(nameof(StartShelterOverride), "", new ConfigurableInfo(
         "Input a shelter name to have it override where Pearlcat starts a new game.", null, "", "Start Shelter Override"));
 
+
+
+    public static Configurable<bool> HidePearls { get; } = Instance.config.Bind(nameof(HidePearls), false, new ConfigurableInfo(
+        "Hides the visuals of inactive peparls and turns you into... cat.", null, "",
+        "Hide Pearls?"));
+
+
+    public static Configurable<int> ShieldRechargeTime { get; } = Instance.config.Bind(nameof(ShieldRechargeTime), 1600, new ConfigurableInfo(
+        "Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.",
+        new ConfigAcceptableRange<int>(40, 3200), "",
+        "Shield Recharge Time"));
+
+    public static Configurable<int> ShieldDuration { get; } = Instance.config.Bind(nameof(ShieldDuration), 60, new ConfigurableInfo(
+        "Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.",
+        new ConfigAcceptableRange<int>(5, 300), "",
+        "Shield Duration"));
+
+    public static Configurable<float> LaserDamage { get; } = Instance.config.Bind(nameof(LaserDamage), 0.2f, new ConfigurableInfo(
+        "Damage each red pearl's laser does per shot. Survivor spear damage = 1.0",
+        new ConfigAcceptableRange<float>(0.0f, 3.0f), "",
+        "Laser Damage"));
+
+    public static Configurable<int> LaserWindupTime { get; } = Instance.config.Bind(nameof(LaserWindupTime), 60, new ConfigurableInfo(
+        "Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.",
+        new ConfigAcceptableRange<int>(5, 300), "",
+        "Laser Windup TIme"));
+
+    public static Configurable<int> LaserRechargeTime { get; } = Instance.config.Bind(nameof(LaserRechargeTime), 60, new ConfigurableInfo(
+        "Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.",
+        new ConfigAcceptableRange<int>(5, 300), "",
+        "Laser Recharge Time"));
+
     #endregion
 
     #region Keybind Options
@@ -210,7 +248,7 @@ public sealed class ModOptions : OptionsTemplate
 
     #endregion
 
-    public const int TAB_COUNT = 6;
+    public const int TAB_COUNT = 7;
 
     public override void Initialize()
     {
@@ -227,8 +265,53 @@ public sealed class ModOptions : OptionsTemplate
 
         InitDifficulty(ref tabIndex);
         InitCheats(ref tabIndex);
+        InitExtraCheats(ref tabIndex);
     }
 
+    private void InitExtraCheats(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Extra Cheats");
+        Tabs[tabIndex].colorButton = WarnRed;
+
+        var text = "All times here are in frames.\n40 frames = 1 second.";
+        AddTextLabel(text);
+        DrawTextLabels(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+
+        AddSlider(ShieldRechargeTime, sliderTextLeft: "40", sliderTextRight: "3600");
+        AddSlider(ShieldDuration, sliderTextLeft: "5", sliderTextRight: "300");
+        
+        AddSlider(LaserWindupTime, sliderTextLeft: "5", sliderTextRight: "300");
+        AddSlider(LaserRechargeTime, sliderTextLeft: "5", sliderTextRight: "300");
+        AddFloatSlider(LaserDamage, sliderTextLeft: "0.0", sliderTextRight: "3.0");
+
+        DrawSliders(ref Tabs[tabIndex]);
+        DrawFloatSliders(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+
+        if (GetLabel(text, out var label))
+            label.color = WarnRed;
+
+        if (GetConfigurable(ShieldRechargeTime, out OpSlider slider))
+            slider.colorEdge = slider.colorLine = Color.yellow;
+
+        if (GetConfigurable(ShieldDuration, out slider))
+            slider.colorEdge = slider.colorLine = Color.yellow;
+
+
+        if (GetConfigurable(LaserWindupTime, out slider))
+            slider.colorEdge = slider.colorLine = Color.red;
+
+        if (GetConfigurable(LaserRechargeTime, out slider))
+            slider.colorEdge = slider.colorLine = Color.red;
+
+        if (GetConfigurable(LaserDamage, out OpFloatSlider floatSlider))
+            floatSlider.colorEdge = floatSlider.colorLine = Color.red;
+
+        DrawBox(ref Tabs[tabIndex]);
+    }
 
     private void InitGeneral(ref int tabIndex)
     {
@@ -249,9 +332,9 @@ public sealed class ModOptions : OptionsTemplate
 
         AddNewLine(1);
 
-        AddTextLabel("Geahgeah - Artwork");
-        AddTextLabel("Sidera - Dialogue, SFX");
-        AddTextLabel("Noir - Floppy Ears, Scarf");
+        AddTextLabel("Geahgeah " + Translate("- Artwork"), translate: false);
+        AddTextLabel("Sidera " + Translate("- Dialogue, SFX"), translate: false);
+        AddTextLabel("Noir " + Translate("- Floppy Ears, Scarf"), translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine(1);
@@ -261,17 +344,17 @@ public sealed class ModOptions : OptionsTemplate
 
         AddNewLine(1);
 
-        AddTextLabel("TurtleMan27");
-        AddTextLabel("Elliot");
-        AddTextLabel("Balagaga");
+        AddTextLabel("TurtleMan27", translate: false);
+        AddTextLabel("Elliot", translate: false);
+        AddTextLabel("Balagaga", translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine(1);
 
-        AddTextLabel("Efi");
-        AddTextLabel("WillowWisp");
-        AddTextLabel("Lolight2");
-        AddTextLabel("mayhemmm");
+        AddTextLabel("Efi", translate: false);
+        AddTextLabel("WillowWisp", translate: false);
+        AddTextLabel("Lolight2", translate: false);
+        AddTextLabel("mayhemmm", translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
 
@@ -322,6 +405,7 @@ public sealed class ModOptions : OptionsTemplate
 
 
         AddCheckBox(PearlpupRespawn);
+        AddCheckBox(EnableBackSpear);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(InventoryOverride);
@@ -359,6 +443,9 @@ public sealed class ModOptions : OptionsTemplate
         if (GetLabel(PearlpupRespawn, out label))
             label.color = WarnRed;
 
+        if (GetLabel(EnableBackSpear, out label))
+            label.color = WarnRed;
+
         if (GetLabel(AgilityPearlCount, out label))
             label.color = Color.cyan;
 
@@ -385,6 +472,9 @@ public sealed class ModOptions : OptionsTemplate
             checkBox.colorEdge = WarnRed;
 
         if (GetConfigurable(PearlpupRespawn, out checkBox))
+            checkBox.colorEdge = WarnRed;
+
+        if (GetConfigurable(EnableBackSpear, out checkBox))
             checkBox.colorEdge = WarnRed;
 
 
@@ -436,10 +526,11 @@ public sealed class ModOptions : OptionsTemplate
          
 
         AddCheckBox(DisableMinorEffects);
-        AddCheckBox(InventoryPings);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddCheckBox(InventoryPings);
+        AddCheckBox(HidePearls);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableAgility);
         AddCheckBox(DisableCamoflague);
@@ -453,12 +544,10 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(DisableSpear);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
-
         AddDragger(VisibilityMultiplier);
         DrawDraggers(ref Tabs[tabIndex]);
 
-        AddNewLine(2);
+        AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
 
         #region Color Changes
@@ -509,7 +598,6 @@ public sealed class ModOptions : OptionsTemplate
 
         if (GetConfigurable(DisableSpear, out checkBox))
             checkBox.colorEdge = Color.white;
-
 
         if (GetLabel(VisibilityMultiplier, out label))
             label.color = WarnRed;

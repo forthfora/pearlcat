@@ -51,6 +51,7 @@ public static partial class Hooks
     public static bool IsPearlcat(this Player player) => player.SlugCatClass == Enums.Pearlcat;
     public static bool IsFirstPearlcat(this Player player) => player.playerState.playerNumber == GetFirstPearlcatIndex(player.room?.game);
     public static bool IsPearlcatStory(this RainWorldGame game) => game.StoryCharacter == Enums.Pearlcat;
+    public static bool IsSingleplayer(this Player player) => player.abstractCreature.world.game.Players.Count == 0;
 
     public static bool TryGetPearlcatModule(this Player player, out PlayerModule playerModule)
     {
@@ -74,7 +75,7 @@ public static partial class Hooks
     public static List<PlayerModule> GetAllPlayerData(this RainWorldGame game)
     {
         List<PlayerModule> allPlayerData = new();
-        List<AbstractCreature> players = game.Players;
+        var players = game.Players;
 
         if (players == null)
             return allPlayerData;

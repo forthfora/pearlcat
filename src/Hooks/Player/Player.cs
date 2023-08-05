@@ -36,6 +36,27 @@ public static partial class Hooks
             typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
         );
+
+        On.Player.ctor += Player_ctor;
+        On.Player.CanEatMeat += Player_CanEatMeat;
+    }
+
+    private static bool Player_CanEatMeat(On.Player.orig_CanEatMeat orig, Player self, Creature crit)
+    {
+        var result = orig(self, crit);
+
+        if (crit is Player player && player.TryGetPearlpupModule(out _))
+            return false;
+
+        return result;
+    }
+
+    private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
+    {
+        orig(self, abstractCreature, world);
+
+        if (ModOptions.EnableBackSpear.Value)
+            self.spearOnBack ??= new Player.SpearOnBack(self);
     }
 
     // yucky
@@ -128,7 +149,8 @@ public static partial class Hooks
     public delegate float orig_PlayerVisibilityBonus(Player self);
     public static float GetPlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
     {
-        if (self.TryGetPearlcatModule(out var playerModule))
+        if (self.TryGetPearlcatModule(out var playerModule) || self.onBack?.TryGetPearlcatModule(out playerModule) == true
+            || (self.grabbedBy.FirstOrDefault(x => x.grabber is Player)?.grabber as Player)?.TryGetPearlcatModule(out playerModule) == true)
             if (playerModule.CamoLerp > 0.5f)
                 return -playerModule.CamoLerp;
 
@@ -138,7 +160,7 @@ public static partial class Hooks
 
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
-        if (self.TryGetPearlcatModule(out var playerModule))
+        if (self.TryGetPearlcatModule(out var playerModule) && self.spearOnBack != null)
             playerModule.WasSpearOnBack = self.spearOnBack.HasASpear;
 
         orig(self, eu);
@@ -494,7 +516,7 @@ public static partial class Hooks
 
         for (int i = playerModule.PostDeathInventory.Count - 1; i >= 0; i--)
         {
-            AbstractPhysicalObject? item = playerModule.PostDeathInventory[i];
+            var item = playerModule.PostDeathInventory[i];
             playerModule.PostDeathInventory.RemoveAt(i);
 
             if (item.realizedObject == null) continue;
@@ -587,9 +609,13 @@ public static partial class Hooks
 
     private static void Player_Die(On.Player.orig_Die orig, Player self)
     {
+        var wasDead = self.dead;
+
         orig(self);
 
         //Plugin.Logger.LogWarning(self.mainBodyChunk.pos);
+
+        if (wasDead) return;
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
@@ -638,14 +664,11 @@ public static partial class Hooks
 
     private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
     {
-        if (self is Player player && player.TryGetPearlcatModule(out _))
+        if (self is Player player)
         {
             player.AbstractizeInventory();
-
-            if (player.slugOnBack?.slugcat?.TryGetPearlcatModule(out _) == true)
-                player.slugOnBack.slugcat.AbstractizeInventory();
+            player.slugOnBack?.slugcat?.AbstractizeInventory();
         }
-
 
         orig(self, entrancePos, carriedByOther);
     }
@@ -689,7 +712,7 @@ public static partial class Hooks
 
         if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
         {
-            pearls = ModOptions.GetOverridenInventory(self.IsFirstPearlcat());
+            pearls = ModOptions.GetOverridenInventory(self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession);
         }
         else
         {
@@ -701,7 +724,7 @@ public static partial class Hooks
                 Enums.Pearls.AS_PearlGreen,
                 Enums.Pearls.AS_PearlBlack,
                 Enums.Pearls.AS_PearlRed,
-                self.IsFirstPearlcat() ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc,
+                self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc,
             };
         }
 
@@ -748,9 +771,11 @@ public static partial class Hooks
 
         if (self.room == null) return;
 
-        if (self.killTag?.creatureTemplate is CreatureTemplate template
-            && (template.type == CreatureTemplate.Type.DaddyLongLegs || template.type == CreatureTemplate.Type.BrotherLongLegs
-            || template.type == CreatureTemplate.Type.BigEel || template.type == MoreSlugcats.MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs)) return;
+        //if (self.room == null || self.graphicsModule == null) return;
+
+        //if (self.killTag?.creatureTemplate is CreatureTemplate template
+        //    && (template.type == CreatureTemplate.Type.DaddyLongLegs || template.type == CreatureTemplate.Type.BrotherLongLegs
+        //    || template.type == CreatureTemplate.Type.BigEel || template.type == MoreSlugcats.MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs)) return;
 
         self.AllGraspsLetGoOfThisObject(true);
 
@@ -785,6 +810,8 @@ public static partial class Hooks
     
     public static void Revive(this Creature self)
     {
+        //self.graphicsModule?.ReleaseAllInternallyContainedSprites();
+
         if (self.State is HealthState healthState)
             healthState.health = 1.0f;
 
@@ -835,6 +862,14 @@ public static partial class Hooks
                 return true;
 
             return false;
+        }
+
+        if (self is Player && creature is Player player && !player.isSlugpup)
+        {
+            var game = self.abstractCreature.world.game;
+
+            if (game.IsArenaSession && game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers)
+                return true;
         }
 
         var myRelationship = self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);

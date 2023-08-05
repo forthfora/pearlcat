@@ -132,16 +132,20 @@ public static partial class Hooks
 
         if (playerModule.SpearCount <= 0) return;
 
-        playerModule.ForceLockSpearOnBack = self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20;
+        playerModule.ForceLockSpearOnBack = self.spearOnBack != null && (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20);
 
         var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule)
-            && !self.grasps.Any(x => x?.grabbed is Creature creature && creature.dead && PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(creature) > 0) ;
+            && !self.grasps.Any(x => x?.grabbed is Creature creature && 
+            ((creature.dead && PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(creature) > 0)
+            || (creature is Player player))
+        );
 
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
 
         //Plugin.Logger.LogWarning(self.eatCounter);
 
-        if (abilityInput && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear) && !(self.spearOnBack.HasASpear && self.onBack != null))
+        if (abilityInput && ((self.spearOnBack == null && !holdingSpear) || 
+            (self.spearOnBack != null && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear) && !(self.spearOnBack.HasASpear && self.onBack != null))))
         {
             playerModule.ForceLockSpearOnBack = true;
 
@@ -160,12 +164,14 @@ public static partial class Hooks
                     abstractSpear.pos = self.abstractCreature.pos;
                     abstractSpear.RealizeInRoom();
 
+                    var dataPearlType = (playerModule.ActiveObject as DataPearl.AbstractDataPearl)?.dataPearlType.value;
+
                     var save = self.abstractCreature.Room.world.game.GetMiscWorld();
-                    var spearModule = new SpearModule(playerModule.ActiveColor);
+                    var spearModule = new SpearModule(playerModule.ActiveColor, dataPearlType ?? "");
 
                     save?.PearlSpears.Add(abstractSpear.ID.number, spearModule);
 
-                    if (holdingSpear || self.onBack != null)
+                    if (self.spearOnBack != null && (holdingSpear || self.onBack != null))
                         self.spearOnBack.SpearToBack((Spear)abstractSpear.realizedObject);
 
                     else
@@ -233,18 +239,18 @@ public static partial class Hooks
             self.noGrabCounter = 5;
             var pos = self.firstChunk.pos;
 
-            self.room.AddObject(new Explosion.ExplosionLight(pos, 160f, 1f, 3, Color.white));
+            self.room?.AddObject(new Explosion.ExplosionLight(pos, 160f, 1f, 3, Color.white));
 
             for (int j = 0; j < 10; j++)
             {
                 var randVec = Custom.RNV();
-                self.room.AddObject(new Spark(pos + randVec * Random.value * 40f, randVec * Mathf.Lerp(4f, 30f, Random.value), Color.white, null, 4, 18));
+                self.room?.AddObject(new Spark(pos + randVec * Random.value * 40f, randVec * Mathf.Lerp(4f, 30f, Random.value), Color.white, null, 4, 18));
             }
 
-            self.room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.15f + Random.value * 0.15f, 0.5f + Random.value * 2f);
+            self.room?.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.15f + Random.value * 0.15f, 0.5f + Random.value * 2f);
 
 
-            if (self.bodyMode == Player.BodyModeIndex.ZeroG || self.room.gravity == 0f || self.gravity == 0f || self.bodyMode == Player.BodyModeIndex.Swimming)
+            if (self.bodyMode == Player.BodyModeIndex.ZeroG || self.room?.gravity == 0f || self.gravity == 0f || self.bodyMode == Player.BodyModeIndex.Swimming)
             {
                 float inputX = self.input[0].x;
                 float randVariation = self.input[0].y;
@@ -318,10 +324,10 @@ public static partial class Hooks
         for (int i = 0; i < overuseDisplayCount; i++)
         {
             if (Random.value < 0.25f)
-                self.room.AddObject(new Explosion.ExplosionSmoke(self.mainBodyChunk.pos, Custom.RNV() * 2f * Random.value, 1f));
+                self.room?.AddObject(new Explosion.ExplosionSmoke(self.mainBodyChunk.pos, Custom.RNV() * 2f * Random.value, 1f));
 
             if (Random.value < 0.5f)
-                self.room.AddObject(new Spark(self.mainBodyChunk.pos, Custom.RNV(), Color.white, null, 4, 8));
+                self.room?.AddObject(new Spark(self.mainBodyChunk.pos, Custom.RNV(), Color.white, null, 4, 8));
 
             if (overuse > 90 && Random.value < 0.03f)
                 self.ConnectEffect(self.mainBodyChunk.pos + Custom.RNV() * 80.0f, playerModule.ActiveColor);
@@ -329,7 +335,7 @@ public static partial class Hooks
 
         if (overuse > maxOveruse && !self.Stunned)
         {
-            self.room.PlaySound(SoundID.Fire_Spear_Explode, self.mainBodyChunk.pos, 0.3f + Random.value * 0.15f, 0.25f + Random.value * 1.5f);
+            self.room?.PlaySound(SoundID.Fire_Spear_Explode, self.mainBodyChunk.pos, 0.3f + Random.value * 0.15f, 0.25f + Random.value * 1.5f);
             self.Stun(60);
         }
     }
@@ -448,7 +454,7 @@ public static partial class Hooks
 
                     if (weapon.thrownBy is Player playerThrownBy && (!self.room.game.rainWorld.options.friendlyFire || playerThrownBy.onBack == self)) continue;
 
-                    if (weapon.mode == Weapon.Mode.Thrown && Custom.Dist(weapon.firstChunk.pos, self.firstChunk.pos) < 50.0f)
+                    if (weapon.mode == Weapon.Mode.Thrown && Custom.Dist(weapon.firstChunk.pos, self.firstChunk.pos) < 75.0f)
                     {
                         weapon.ChangeMode(Weapon.Mode.Free);
                         weapon.SetRandomSpin();
@@ -467,8 +473,9 @@ public static partial class Hooks
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
-        var shootTime = 60;
-        var shootDamage = 0.2f;
+        var shootTime = ModOptions.LaserWindupTime.Value;
+        var cooldownTime = ModOptions.LaserRechargeTime.Value;
+        var shootDamage = ModOptions.LaserDamage.Value;
 
         var ragePearlCounter = 0;
 
@@ -520,7 +527,7 @@ public static partial class Hooks
 
                     if (creature.dead) continue;
 
-                    if (creature.VisibilityBonus < 0.0f) continue;
+                    if (creature.VisibilityBonus < -0.5f) continue;
 
 
                     var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
@@ -604,7 +611,7 @@ public static partial class Hooks
 
             if (module.LaserTimer <= 0)
             {
-                module.CooldownTimer = shootTime;
+                module.CooldownTimer = cooldownTime;
 
                 var targetPos = target.mainBodyChunk.pos;
 
@@ -615,7 +622,7 @@ public static partial class Hooks
                 self.room.AddObject(new ShockWave(targetPos, 30.0f, 0.4f, 5, false));
                 self.room.AddObject(new ExplosionSpikes(self.room, targetPos, 5, 20.0f, 10, 20.0f, 20.0f, addon.SymbolColor));
 
-                target.Violence(self.firstChunk, null, self.mainBodyChunk, null, Creature.DamageType.Explosion, shootDamage, 5.0f);
+                target.Violence(self.mainBodyChunk, null, target.mainBodyChunk, null, Creature.DamageType.Explosion, shootDamage, 5.0f);
             }
             else
             {

@@ -131,7 +131,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         ParentSprite = sLeaser.sprites.FirstOrDefault();
 
         foreach (var sprite in sLeaser.sprites)
-            sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, 0.1f);
+            sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, ModOptions.HidePearls.Value ? 0.0f : 0.1f);
     }
 
 
@@ -141,7 +141,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public int HaloSprite { get; set; }
 
     public float HaloScale { get; set; } = 0.75f;
-    public float HaloAlpha { get; set; } = 0.5f;
+    public float HaloAlpha { get; set; } = ModOptions.HidePearls.Value ? 0.0f : 0.5f;
     public Color HaloColor { get; set; } = Color.white;
 
     public int LaserSprite { get; set; }
@@ -188,6 +188,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.scale = HaloScale;
         sprite.alpha = HaloAlpha;
         sprite.color = HaloColor;
+        sprite.isVisible = !ModOptions.HidePearls.Value || IsActiveObject;
 
         sprite = sLeaser.sprites[SpearSprite];
         sprite.isVisible = IsActiveObject;

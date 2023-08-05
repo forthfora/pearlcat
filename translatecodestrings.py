@@ -12,12 +12,12 @@ SRC = "en"
 DEST = "es"
 
 langMap = {
-    "fr": "fre",
     "zh-CN": "chi",
-    "es": "spa",
     "ru": "rus",
-    "pt": "por",
     "ko": "kor",
+    "fr": "fre",
+    "es": "spa",
+    "pt": "por",
     "it": "ita",
     "de": "ger",
     "ja": "jap"

@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
+using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,148 @@ public partial class Hooks
         On.RegionState.AdaptWorldToRegionState += RegionState_AdaptWorldToRegionState;
 
         On.DaddyTentacle.Update += DaddyTentacle_Update;
+        On.DaddyLongLegs.Update += DaddyLongLegs_Update;
+
+        On.ScavengerAI.CollectScore_PhysicalObject_bool += ScavengerAI_CollectScore_PhysicalObject_bool1;
+
+        IL.BigEel.JawsSnap += BigEel_JawsSnap;
+
+        On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
+
+        On.Leech.Attached += Leech_Attached;
+    }
+
+    private static void Leech_Attached(On.Leech.orig_Attached orig, Leech self)
+    {
+        orig(self);
+
+        if (self.grasps.FirstOrDefault()?.grabbed is not Player player) return;
+
+        if (!player.TryGetPearlcatModule(out var module)) return;
+
+
+        if (module.ShieldActive)
+            module.ActivateVisualShield();
+                
+        if (module.ShieldTimer > 0)
+        {
+            self.Stun(80);
+            self.LoseAllGrasps();
+        }
+    }
+
+    private static float TempleGuardAI_ThrowOutScore(On.TempleGuardAI.orig_ThrowOutScore orig, TempleGuardAI self, Tracker.CreatureRepresentation crit)
+    {
+        var result = orig(self, crit);
+
+        if (crit.representedCreature?.realizedCreature is Player player && player.IsPearlpup())
+            return 0.0f;
+
+        return result;
+    }
+
+    private static void BigEel_JawsSnap(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdsfld<SoundID>(nameof(SoundID.Leviathan_Crush_NPC)));
+
+        c.GotoPrev(MoveType.After,
+            x => x.MatchConvI4(),
+            x => x.MatchBlt(out _));
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Action<BigEel>>((self) =>
+        {
+            var didRevive = false;
+
+            for (int i = self.clampedObjects.Count - 1; i >= 0; i--)
+            {
+                var clampedObj = self.clampedObjects[i];
+                var obj = clampedObj.chunk?.owner;
+
+                if (obj == null) continue;
+
+                if (obj is not Player player) continue;
+
+                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+
+                if (playerModule.ReviveCount <= 0) continue;
+
+                if (player.graphicsModule != null)
+                    self.graphicsModule.ReleaseSpecificInternallyContainedObjectSprites(player);
+
+                foreach (var item in playerModule.PostDeathInventory)
+                {
+                    if (item == obj.abstractPhysicalObject)
+                        self.clampedObjects.Remove(clampedObj);
+
+                    var graphics = item.realizedObject?.graphicsModule;
+                    
+                    if (graphics == null) continue;
+
+                    self.graphicsModule.ReleaseSpecificInternallyContainedObjectSprites(graphics);
+                }
+                
+                self.Stun(100);
+
+                self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, player.firstChunk, false, 2.0f, 0.5f);
+                self.room.AddObject(new ShockWave(player.firstChunk.pos, 700f, 0.6f, 90, false));
+
+                didRevive = true;
+            }
+
+            if (didRevive)
+                self.clampedObjects.Clear();
+
+            //foreach (var item in self.clampedObjects)
+            //    Plugin.Logger.LogWarning(item?.chunk?.owner?.GetType());
+        });
+    }
+
+    private static int ScavengerAI_CollectScore_PhysicalObject_bool1(On.ScavengerAI.orig_CollectScore_PhysicalObject_bool orig, ScavengerAI self, PhysicalObject obj, bool weaponFiltered)
+    {
+        var result = orig(self, obj, weaponFiltered);
+
+        if (obj.abstractPhysicalObject is AbstractSpear spear && spear.TryGetSpearModule(out _))
+            return 12;
+
+        return result;
+    }
+
+    private static void DaddyLongLegs_Update(On.DaddyLongLegs.orig_Update orig, DaddyLongLegs self, bool eu)
+    {
+        orig(self, eu);
+
+        var killedPlayers = new List<Player>();
+
+        for (int i = self.eatObjects.Count - 1; i >= 0; i--)
+        {
+            var eatObj = self.eatObjects[i];
+
+            if (eatObj.chunk.owner is not Player player) continue;
+
+            if (!player.TryGetPearlcatModule(out var module)) continue;
+
+            if (module.ReviveCount <= 0 && module.ShieldTimer <= 0) continue;
+
+            if (eatObj.progression < 0.25f) continue;
+
+            if (module.ShieldTimer <= 0 && !killedPlayers.Contains(player))
+            {
+                killedPlayers.Add(player);
+                player.Die();
+            }
+
+            eatObj.progression = 0.0f;
+
+            self.digestingCounter = 0;
+            self.Stun(20);
+
+            player.ChangeCollisionLayer(1);
+            self.eatObjects.Remove(eatObj);
+        }
     }
 
     private static void DaddyTentacle_Update(On.DaddyTentacle.orig_Update orig, DaddyTentacle self)
@@ -230,8 +373,12 @@ public partial class Hooks
     {
         var result = orig(self);
 
-        if (self.room.game.IsPearlcatStory())
+        if (self.room.game.IsPearlcatStory() && self.room.game.IsStorySession && self.room.game.GetStorySession.saveState.denPosition.Contains("OE_"))
             return true;
+
+        // RESTORE LATER
+        //if (self.room.game.IsPearlcatStory())
+        //    return true;
 
         return result;
     }
@@ -366,32 +513,42 @@ public partial class Hooks
     {
         var result = orig(self);
 
-        var roomName = self.room.roomSettings.name;
+        if (self.IsGateOpenForPearlcat())
+            return true;
 
-        if (roomName != "GATE_UW_LC")
-            return result;
-
-        if (!self.room.game.IsPearlcatStory())
-            return result;
-
-        return true;
+        return result;
     }
-
 
     private static void GateKarmaGlyph_ctor(On.GateKarmaGlyph.orig_ctor orig, GateKarmaGlyph self, bool side, RegionGate gate, RegionGate.GateRequirement requirement)
     {
         orig(self, side, gate, requirement);
 
-        if (gate.room == null) return;
-        
-        var roomName = gate.room.roomSettings.name;
-
-        if (roomName != "GATE_UW_LC") return;
-
-        if (!gate.room.game.IsPearlcatStory()) return;
+        if (!gate.IsGateOpenForPearlcat()) return;
 
         self.requirement = RegionGate.GateRequirement.OneKarma;
     }
+
+    public static bool IsGateOpenForPearlcat(this RegionGate gate)
+    {
+        var roomName = gate.room?.roomSettings?.name;
+
+        if (gate.room == null || roomName == null)
+            return false;
+
+        if (!gate.room.game.IsPearlcatStory())
+            return false;
+
+
+        if (roomName == "GATE_UW_LC")
+            return true;
+
+        if (roomName == "GATE_SL_MS")
+            return true;
+
+
+        return false;
+    }
+
 
     private static bool SlugcatStats_HiddenOrUnplayableSlugcat(On.SlugcatStats.orig_HiddenOrUnplayableSlugcat orig, SlugcatStats.Name i)
     {
@@ -421,7 +578,7 @@ public partial class Hooks
     {
         orig(self, eu);
 
-        if (!self.abstractSpear.TryGetModule(out var module)) return;
+        if (!self.abstractSpear.TryGetSpearModule(out var module)) return;
 
         if (self.mode == Weapon.Mode.Thrown)
         {
@@ -488,7 +645,7 @@ public partial class Hooks
             module.DecayTimer++;
     }
 
-    public static bool TryGetModule(this AbstractSpear spear, out SpearModule module)
+    public static bool TryGetSpearModule(this AbstractSpear spear, out SpearModule module)
     {
         var save = spear.Room.world.game.GetMiscWorld();
 
@@ -508,7 +665,7 @@ public partial class Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!self.abstractSpear.TryGetModule(out var module)) return;
+        if (!self.abstractSpear.TryGetSpearModule(out var module)) return;
 
         var color =  module.Color * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.DecayTimer, 0, 1200, 1.0f, 0.5f), Custom.LerpMap(module.DecayTimer, 0, 1200, 1.0f, 0.2f));
 

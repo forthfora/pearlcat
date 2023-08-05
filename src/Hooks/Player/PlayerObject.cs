@@ -1,6 +1,7 @@
 ﻿using RWCustom;
 using System.Collections.Generic;
 using UnityEngine;
+using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
@@ -201,14 +202,28 @@ public static partial class Hooks
                 self.abstractCreature.world.game.AddTextPrompt(t.Translate("Storage limit reached (") + ModOptions.MaxPearlCount.Value + t.Translate("): swap out a pearl, or change the limit in the Remix options"), 40, 600);
             }
 
-            self.room.PlaySound(SoundID.MENU_Error_Ping, self.firstChunk, false, 2.0f, 1.0f);
+            self.room?.PlaySound(SoundID.MENU_Error_Ping, self.firstChunk, false, 2.0f, 1.0f);
             return;
         }
 
         if (fromGrasp)
         {
-            self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, abstractObject.realizedObject.firstChunk);
+            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk);
             self.ReleaseGrasp(0);
+        }
+
+        if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out var spearModule))
+        {
+            abstractObject.destroyOnAbstraction = true;
+            abstractObject.Abstractize(abstractObject.pos);
+
+            ExtEnumBase.TryParse(typeof(DataPearlType), spearModule.PearlType, false, out var type);
+
+            abstractObject = new DataPearl.AbstractDataPearl(self.abstractCreature.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null,
+                new(self.abstractCreature.Room.index, -1, -1, 0), self.abstractCreature.world.game.GetNewID(), -1, -1, null, type as DataPearlType ?? DataPearlType.Misc);
+
+            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk, false, 1.0f, 0.5f);
+            self.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.5f);
         }
 
         self.AddToInventory(abstractObject);

@@ -242,22 +242,23 @@ public static partial class Hooks
                 self.Translate("...and you can gather more of that data you so clearly desire."), l * 80));
 
 
-            if (save?.HasPearlpupWithPlayer == true)
-            {
-                e.Add(new WaitEvent(self, 40));
+            // restore later
+            //if (save?.HasPearlpupWithPlayer == true)
+            //{
+            //    e.Add(new WaitEvent(self, 40));
 
-                e.Add(new TextEvent(self, 0,
-                    self.Translate("Oh, and for direction - there is a gate to the far west of here, where the ground fissues..."), l * 80));
+            //    e.Add(new TextEvent(self, 0,
+            //        self.Translate("Oh, and for direction - there is a gate to the far west of here, where the ground fissues..."), l * 80));
 
-                e.Add(new TextEvent(self, 0,
-                    self.Translate("The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business."), l * 80));
+            //    e.Add(new TextEvent(self, 0,
+            //        self.Translate("The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business."), l * 80));
 
-                e.Add(new TextEvent(self, 0,
-                    self.Translate("If you do not plan to provide me with any meaningful data, that is your best course of action;"), l * 80));
+            //    e.Add(new TextEvent(self, 0,
+            //        self.Translate("If you do not plan to provide me with any meaningful data, that is your best course of action;"), l * 80));
 
-                e.Add(new TextEvent(self, 0,
-                    self.Translate("The choice is yours."), l * 80));
-            }
+            //    e.Add(new TextEvent(self, 0,
+            //        self.Translate("The choice is yours."), l * 80));
+            //}
 
 
             e.Add(new WaitEvent(self, 120));

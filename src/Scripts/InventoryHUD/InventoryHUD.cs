@@ -22,7 +22,7 @@ public class InventoryHUD : HudPart
 
         if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game) return;
 
-        for (int i = 0; i < game.Players.Count; i++)
+        for (int i = 0; i < Mathf.Max(4, game.Players.Count); i++)
         {
             var circle = new FSprite("pearlcat_hudcircle")
             {

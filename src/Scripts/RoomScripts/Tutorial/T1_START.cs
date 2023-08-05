@@ -4,7 +4,7 @@ namespace Pearlcat;
 public class T1_START : UpdatableAndDeletable
 {
     public Phase CurrentPhase { get; set; } = Phase.Init;
-    public int HardsetPosTimer { get; set; } = 4;
+    public int HardsetPosTimer { get; set; } = 8;
 
     public int PhaseTimer { get; set; }
 
@@ -113,7 +113,7 @@ public class T1_START : UpdatableAndDeletable
                 game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + ModOptions.SwapLeftKeybind.Value + ") & (" + ModOptions.SwapRightKeybind.Value + t.Translate("), or the triggers on controller"), 0, 600);
 
                 game.AddTextPrompt(
-                    t.Translate("Alternatively, hold (") + ModOptions.SwapKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
+                    t.Translate("Alternatively, hold (") + ModOptions.SwapKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.SwapKeybindPlayer1.Value.GetDisplayName() + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
 
                 PhaseTimer = 1100;
                 CurrentPhase = Phase.StoreTutorial;

@@ -123,7 +123,7 @@ public static class POEffectManager
         HI.ThreatMusic = "HI";
 
         GW = Color;
-        GW.MajorEffect = MajorEffectType.AGILITY;
+        GW.MajorEffect = MajorEffectType.REVIVE;
         GW.ThreatMusic = "GW";
 
         DS = Color;
@@ -155,7 +155,7 @@ public static class POEffectManager
         SI_west.ThreatMusic = "SI";
 
         SI_top  = Color;
-        SI_top.MajorEffect = MajorEffectType.RAGE;
+        SI_top.MajorEffect = MajorEffectType.AGILITY;
         SI_top.ThreatMusic = "SI";
 
 
@@ -268,6 +268,28 @@ public static class POEffectManager
         //AS_PearlRed.ThreatMusic = "AS";
         //AS_PearlYellow.ThreatMusic = "AS";
         //AS_PearlBlack.ThreatMusic = "AS";
+
+
+        HowlingRift = Color;
+        HowlingRift.MajorEffect = MajorEffectType.RAGE;
+
+        DrainageSystemPlus = Color;
+        DrainageSystemPlus.MajorEffect = MajorEffectType.REVIVE;
+
+        LW_Tower = Color;
+        LW_Tower.MajorEffect = MajorEffectType.REVIVE;
+
+        LW_Grotto = Color;
+        LW_Grotto.MajorEffect = MajorEffectType.AGILITY;
+
+        LW_Coast = Color;
+        LW_Coast.MajorEffect = MajorEffectType.RAGE;
+
+        US_Tower = Color;
+        US_Tower.MajorEffect = MajorEffectType.RAGE;
+
+        US_Undertower = Color;
+        US_Undertower.MajorEffect = MajorEffectType.RAGE;
     }
 
     public static void RegisterEffects()
@@ -330,6 +352,17 @@ public static class POEffectManager
         PearlEffects.Add(Enums.Pearls.AS_PearlGreen, AS_PearlGreen);
         PearlEffects.Add(Enums.Pearls.AS_PearlYellow, AS_PearlYellow);
         PearlEffects.Add(Enums.Pearls.AS_PearlBlack, AS_PearlBlack);
+
+
+        CustomPearlEffects.Add("HowlingRift", HowlingRift);
+        CustomPearlEffects.Add("DrainageSystemPlus", DrainageSystemPlus);
+
+        CustomPearlEffects.Add("LW_Tower", LW_Tower);
+        CustomPearlEffects.Add("LW_Grotto", LW_Grotto);
+        CustomPearlEffects.Add("LW_Coast", LW_Coast);
+
+        CustomPearlEffects.Add("US_Tower", US_Tower);
+        CustomPearlEffects.Add("US_Undertower", US_Undertower);
     }
 
 
@@ -385,4 +418,15 @@ public static class POEffectManager
     public static POEffect AS_PearlRed;
     public static POEffect AS_PearlYellow;
     public static POEffect AS_PearlBlack;
+
+
+    public static POEffect HowlingRift;
+    public static POEffect DrainageSystemPlus;
+
+    public static POEffect LW_Tower;
+    public static POEffect LW_Grotto;
+    public static POEffect LW_Coast;
+
+    public static POEffect US_Tower;
+    public static POEffect US_Undertower;
 }

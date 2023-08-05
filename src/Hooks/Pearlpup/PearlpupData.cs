@@ -25,7 +25,7 @@ public static partial class Hooks
         return true;
     }
 
-    public static bool IsPearlpup(this Player pup) => pup.abstractCreature.Room.world.game.GetMiscWorld()?.PearlpupID == pup.abstractCreature.ID.number;
+    public static bool IsPearlpup(this Player pup) => pup.abstractCreature.Room.world.game.IsPearlcatStory() && pup.abstractCreature.Room.world.game.GetMiscWorld()?.PearlpupID == pup.abstractCreature.ID.number;
 
     public static void MakePearlpup(this Player pup)
     {

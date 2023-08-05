@@ -97,7 +97,9 @@ public static partial class Hooks
         if (physicalObject == null) return;
 
         module.IsCurrentlyStored = false;
-        physicalObject.gravity = module.Gravity;
+
+        //physicalObject.gravity = module.Gravity;
+        physicalObject.gravity = 1.0f; // yem
 
         physicalObject.CollideWithObjects = module.CollideWithObjects;
         physicalObject.CollideWithSlopes = module.CollideWithSlopes;
@@ -124,6 +126,8 @@ public static partial class Hooks
                 DeflectEffect(self.room, self.DangerPos);
 
             self.Stun(10);
+            self.ReleaseGrasp(graspUsed);
+
             playerModule.ActivateVisualShield();
             return false;
         }
@@ -161,16 +165,16 @@ public static partial class Hooks
 
         if (module.CooldownTimer > 0)
         {
-            module.CooldownTimer--;
-
+            var playerModule = self.room.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
             var effect = self.abstractPhysicalObject.GetPOEffect();
+            
+            if (effect.MajorEffect != POEffect.MajorEffectType.SHIELD || (playerModule != null && module.CooldownTimer != 0 && playerModule.PlayerRef.TryGetTarget(out var player) && player.airInLungs == 1.0f))
+                module.CooldownTimer--;
 
             if (module.CooldownTimer == 0 && effect.MajorEffect == POEffect.MajorEffectType.SHIELD)
             {
-                var playerModule = self.room.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
-                
                 if (ModOptions.InventoryPings.Value)
-                    playerModule.ShowHUD(80);
+                    playerModule?.ShowHUD(80);
                 
                 module.InventoryFlash = true;
 
@@ -222,6 +226,9 @@ public static partial class Hooks
 
     private static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
+        foreach (var sprite in sLeaser.sprites)
+            sprite.alpha = 1.0f;
+
         if (!self.abstractPhysicalObject.TryGetAddon(out var addon)) return;
 
         addon.ParentGraphics_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
@@ -249,6 +256,9 @@ public static partial class Hooks
         
         if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl) return true;
 
+        
+        if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out _)) return true;
+
         return false;
     }
 
@@ -272,6 +282,9 @@ public static partial class Hooks
 
     public static Color GetDataPearlColor(this DataPearl.AbstractDataPearl.DataPearlType type, int pebblesPearlColor = 0)
     {
+        if (type == null)
+            return Color.white;
+
         if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
         {
             switch (Mathf.Abs(pebblesPearlColor))

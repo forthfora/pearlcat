@@ -10,7 +10,7 @@ public static partial class Hooks
     {
         On.Weapon.HitThisObject += Weapon_HitThisObject;
 
-        On.Player.ctor += Player_ctor;
+        On.Player.ctor += Player_ctorPearlpup;
         On.Player.Update += Player_UpdatePearlpup;
 
         On.Player.CanIPickThisUp += Player_CanIPickThisUp;
@@ -27,7 +27,7 @@ public static partial class Hooks
         return result;
     }
 
-    private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
+    private static void Player_ctorPearlpup(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
         orig(self, abstractCreature, world);
 

@@ -116,7 +116,7 @@ public static partial class Hooks
             foreach (var pearl in pearls)
                 pearlColors.Add(pearl.GetDataPearlColor());
 
-            MenuSceneData.Add(self, new(pearlColors, activePearl.GetDataPearlColor()));
+            MenuSceneData.Add(self, new(pearlColors, activePearl?.GetDataPearlColor()));
         }
         else if (save.IsNewPearlcatSave)
         {

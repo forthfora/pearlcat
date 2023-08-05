@@ -133,12 +133,12 @@ public class PlayerModule
     {
         if (ShieldTimer > 0) return;
 
-        var obj = SetShieldCooldown(1200);
+        var obj = SetShieldCooldown(ModOptions.ShieldRechargeTime.Value);
 
         if (obj?.TryGetModule(out var module) == true)
             module.InventoryFlash = true;
         
-        ShieldTimer = 60;
+        ShieldTimer = ModOptions.ShieldDuration.Value;
 
         if (PlayerRef.TryGetTarget(out var player))
             player.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, player.firstChunk);
@@ -341,11 +341,11 @@ public class PlayerModule
 
     public void InitColors(PlayerGraphics self)
     {
-        BaseBodyColor = PlayerColor.Body.GetColor(self) ?? Color.white;
-        BaseFaceColor = PlayerColor.Eyes.GetColor(self) ?? Color.magenta;
+        BaseBodyColor = PlayerColor.Body.GetColor(self) ?? Custom.hexToColor("122626");
+        BaseFaceColor = PlayerColor.Eyes.GetColor(self) ?? Color.white;
 
-        BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? Color.magenta;
-        BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? Color.red;
+        BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? Color.white;
+        BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? Custom.hexToColor("ad2424");
     }
 
     public void UpdateColors(PlayerGraphics self)

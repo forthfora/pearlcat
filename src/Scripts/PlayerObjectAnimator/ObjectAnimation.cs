@@ -105,7 +105,7 @@ public abstract class ObjectAnimation
             if (!abstractObject.TryGetAddon(out var addon)) continue;
 
             if (!abstractObject.TryGetModule(out var poModule)) continue;
-            
+
 
             var effect = abstractObject.GetPOEffect();
 
@@ -116,7 +116,7 @@ public abstract class ObjectAnimation
             {
                 if (poModule.CooldownTimer == 1)
                     abstractObject.realizedObject.room.AddObject(new ShockWave(abstractObject.realizedObject.firstChunk.pos, 10.0f, 1.0f, 5, true));
-                
+
                 addon.DrawSymbolCooldown = true;
 
                 var cooldownLerp = poModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(poModule.CooldownTimer, poModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
@@ -143,7 +143,11 @@ public abstract class ObjectAnimation
                     addon.OverrideSymbol = "haloGlyph6";
             }
 
-            addon.CamoLerp = playerModule.CamoLerp;
+            addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject ? 1.0f : playerModule.CamoLerp;
+
+            if ((!ModOptions.HidePearls.Value || addon.IsActiveObject) && effect.MajorEffect == POEffect.MajorEffectType.CAMOFLAGUE)
+                addon.CamoLerp = 0.0f;
+
             addon.DrawSpearLerp = playerModule.SpearLerp;
 
             addon.ShieldCounter = playerModule.ShieldCount;

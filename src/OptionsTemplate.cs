@@ -53,7 +53,7 @@ public abstract class OptionsTemplate : OptionInterface
     protected void AddTab(ref int tabIndex, string tabName)
     {
         tabIndex++;
-        Tabs[tabIndex] = new OpTab(this, tabName);
+        Tabs[tabIndex] = new OpTab(this, Translate(tabName));
         InitializeMarginAndPos();
 
         AddNewLine();
@@ -61,8 +61,8 @@ public abstract class OptionsTemplate : OptionInterface
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine(0.5f);
-        AddTextLabel(Translate("Version ") + Plugin.VERSION, FLabelAlignment.Left);
-        AddTextLabel(Translate("by ") + Plugin.AUTHORS, FLabelAlignment.Right);
+        AddTextLabel(Translate("Version") + " " + Plugin.VERSION, FLabelAlignment.Left);
+        AddTextLabel(Translate("by") + " " + Plugin.AUTHORS, FLabelAlignment.Right);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine();
@@ -176,8 +176,10 @@ public abstract class OptionsTemplate : OptionInterface
         CheckBoxesTextLabels.Clear();
     }
 
-    protected void AddComboBox(Configurable<string> configurable, List<ListItem> list, string text, bool allowEmpty = false)
+    protected void AddComboBox(Configurable<string> configurable, List<ListItem> list, string? text = null, bool allowEmpty = false)
     {
+        text ??= Translate((string)configurable.info.Tags[0]);
+
         OpLabel opLabel = new(new Vector2(), new Vector2(0.0f, FONT_HEIGHT), Translate(text), FLabelAlignment.Center, false);
 
         ComboBoxesTextLabels.Add(opLabel);
@@ -226,8 +228,10 @@ public abstract class OptionsTemplate : OptionInterface
         ComboBoxAllowEmpty.Clear();
     }
 
-    protected void AddSlider(Configurable<int> configurable, string text, string sliderTextLeft = "", string sliderTextRight = "")
+    protected void AddSlider(Configurable<int> configurable, string? text = null, string sliderTextLeft = "", string sliderTextRight = "")
     {
+        text ??= Translate((string)configurable.info.Tags[0]);
+
         SliderConfigurables.Add(configurable);
         SliderMainTextLabels.Add(text);
         SliderTextLabelsLeft.Add(new(new(), new(), sliderTextLeft, alignment: FLabelAlignment.Right)); // set pos and size when drawing
@@ -280,14 +284,14 @@ public abstract class OptionsTemplate : OptionInterface
         SliderTextLabelsRight.Clear();
     }
 
-    protected void AddTextLabel(string text, FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false)
+    protected void AddTextLabel(string text, FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false, bool translate = true)
     {
         float textHeight = (bigText ? 2f : 1f) * FONT_HEIGHT;
 
         if (TextLabels.Count == 0)
             Pos.y -= textHeight;
         
-        OpLabel textLabel = new(new Vector2(), new Vector2(20f, textHeight), Translate(text), alignment, bigText) // minimal size.x = 20f
+        OpLabel textLabel = new(new Vector2(), new Vector2(20f, textHeight), translate ? Translate(text) : text, alignment, bigText) // minimal size.x = 20f
         {
             autoWrap = true
         };
@@ -313,8 +317,10 @@ public abstract class OptionsTemplate : OptionInterface
         TextLabels.Clear();
     }
 
-    protected void AddFloatSlider(Configurable<float> configurable, string text, string sliderTextLeft = "", string sliderTextRight = "")
+    protected void AddFloatSlider(Configurable<float> configurable, string? text = null, string sliderTextLeft = "", string sliderTextRight = "")
     {
+        text ??= Translate((string)configurable.info.Tags[0]);
+
         FloatSliderConfigurables.Add(configurable);
         FloatSliderMainTextLabels.Add(text);
         FloatSliderTextLabelsLeft.Add(new OpLabel(new Vector2(), new Vector2(), sliderTextLeft, alignment: FLabelAlignment.Right)); // set pos and size when drawing

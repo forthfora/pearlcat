@@ -26,7 +26,7 @@
         "karma": 3,
         "karma_cap": 4,
         
-        "back_spear": true,
+        "back_spear": false,
         "the_mark": true,
         "the_glow": true,
         
