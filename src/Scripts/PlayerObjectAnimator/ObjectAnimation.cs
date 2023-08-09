@@ -1,4 +1,5 @@
-﻿using RWCustom;
+﻿using MoreSlugcats;
+using RWCustom;
 using System.Collections.Generic;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -106,6 +107,14 @@ public abstract class ObjectAnimation
 
             if (!abstractObject.TryGetModule(out var poModule)) continue;
 
+            if (player.room == null)
+            {
+                addon.AllVisible = false;
+                continue;
+            }
+
+            addon.AllVisible = true;
+
 
             var effect = abstractObject.GetPOEffect();
 
@@ -154,16 +163,46 @@ public abstract class ObjectAnimation
             addon.ReviveCounter = playerModule.ReviveCount;
 
 
-            var hasTarget = false;
+            
+            addon.IsSentry = poModule.IsSentry || poModule.IsReturningSentry;
 
-            if (playerModule.RageTarget?.TryGetTarget(out var target) == true)
+            if (addon.IsSentry)
+            {
+                addon.CamoLerp = 0.0f;
+                addon.OverrideSymbol = "pearlcat_glyphsentry";
+
+                Hooks.TargetPositions.TryGetValue(abstractObject, out var targetPos);
+
+                // hacks engaged
+                addon.OverrideLastPos = addon.IsActiveObject ? player.GetActiveObjectPos(timeStacker: 0.0f) : targetPos?.Value; 
+                addon.OverridePos = addon.IsActiveObject ? player.GetActiveObjectPos(timeStacker: 1.0f) : targetPos?.Value;
+            }
+            else
+            {
+                addon.OverrideLastPos = null;
+                addon.OverridePos = null;
+            }
+
+
+            if (poModule.IsReturningSentry && Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, Hooks.TargetPositions.TryGetValue(abstractObject, out var pos) ? pos.Value : player.GetActiveObjectPos(), 8.0f))
+            {
+                abstractObject.realizedObject.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, abstractObject.realizedObject.firstChunk.pos, 0.5f, 3.0f);
+                abstractObject.realizedObject.room.AddObject(new LightningMachine.Impact(abstractObject.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
+
+                poModule.IsReturningSentry = false;
+            }
+            
+            var hasTarget = false;
+            
+            if (!addon.IsSentry && playerModule.RageTarget?.TryGetTarget(out var target) == true)
             {
                 hasTarget = true;
                 addon.LaserTarget = target.mainBodyChunk.pos;
             }
-            
+
             addon.IsLaserVisible = hasTarget && effect.MajorEffect == POEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPOEffect().MajorEffect == POEffect.MajorEffectType.RAGE;
             addon.LaserLerp = poModule.LaserLerp;
+
         }
     }
 

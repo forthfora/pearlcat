@@ -66,6 +66,15 @@ public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModul
         return input.pckp;
     }
 
+    public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
+    {
+        if (ModOptions.CustomSentryKeybind.Value)
+            return IsCustomAbilityKeybindPressed(player, playerModule);
+
+        var input = playerModule.UnblockedInput;
+        return input.jmp && input.pckp && input.y == -1;
+    }
+
 
     public static bool IsSwapKeybindPressed(this Player player)
     {

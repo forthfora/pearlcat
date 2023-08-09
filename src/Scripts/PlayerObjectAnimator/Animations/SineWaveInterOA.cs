@@ -9,7 +9,6 @@ public class SineWaveInterOA : ObjectAnimation
 
     public SineWaveInterOA(Player player) : base(player)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
     }
 
     public override void Update(Player player)

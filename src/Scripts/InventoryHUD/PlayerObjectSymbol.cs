@@ -17,6 +17,7 @@ public class PlayerObjectSymbol
     public Vector2 Pos;
 
     public FSprite CooldownSprite { get; }
+    public FSprite SentrySprite { get; }
 
     public float Scale { get; set; } = 1.0f;
     public float Fade { get; set; } = 1.0f;
@@ -32,8 +33,11 @@ public class PlayerObjectSymbol
         Pos = pos;
         Owner = owner;
 
-        CooldownSprite = new FSprite("pearlcat_hudcooldown");
+        CooldownSprite = new FSprite("pearlcat_hudcooldown") { isVisible = false };
+        SentrySprite = new FSprite("pearlcat_hudsentry") { isVisible = false };
+
         owner.HUDFContainer.AddChild(CooldownSprite);
+        owner.HUDFContainer.AddChild(SentrySprite);
     }
 
     public void UpdateIcon(AbstractPhysicalObject abstractObject)
@@ -57,6 +61,7 @@ public class PlayerObjectSymbol
     public void RemoveSprites()
     {
         CooldownSprite.RemoveFromContainer();
+        SentrySprite.RemoveFromContainer();
 
         ItemSymbol?.RemoveSprites();
     }
@@ -117,7 +122,6 @@ public class PlayerObjectSymbol
 
         if (!obj.TryGetModule(out var poModule)) return;
 
-
         if (poModule.InventoryFlash)
         {
             poModule.InventoryFlash = false;
@@ -133,6 +137,15 @@ public class PlayerObjectSymbol
         CooldownSprite.color = Color.Lerp(ItemSymbol.symbolSprite.color, cooldownColor, cooldownLerp);
 
         CooldownSprite.isVisible = poModule.CooldownTimer != 0;
+
+
+        SentrySprite.isVisible = poModule.IsSentry || poModule.IsReturningSentry;
+        SentrySprite.alpha = ItemSymbol.symbolSprite.alpha * 0.75f;
+        SentrySprite.scale = 0.2f;
+        SentrySprite.color = cooldownColor;
+
+        SentrySprite.MoveInFrontOfOtherNode(ItemSymbol.symbolSprite);
+        SentrySprite.SetPosition(ItemSymbol.symbolSprite.GetPosition());
     }
 
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam) { }

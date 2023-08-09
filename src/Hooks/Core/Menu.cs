@@ -184,9 +184,6 @@ public static partial class Hooks
             else if (self.sceneID.value == "Slugcat_Pearlcat_Ascended")
                 UpdateAscendedScreen(self, illustration, menuSceneModule, illustrationModule);
 
-            else if (self.sceneID == SlideShows.Pearlcat_Outro_2)
-                UpdateOutro2Screen(self, illustration, menuSceneModule, illustrationModule);
-
             //if (Input.GetKey("-"))
             //{
             //    var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
@@ -200,20 +197,6 @@ public static partial class Hooks
 
         // without MSC the main menu updates at a lower speed?
         MenuPearlAnimStacker += !ModManager.MSC && self.sceneID.value == "Slugcat_Pearlcat" ? 3 : 1;
-    }
-
-    private static void UpdateOutro2Screen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
-    {
-        var save = self.menu.manager.rainWorld.GetMiscProgression();
-        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-
-        illustration.alpha = 1.0f;
-
-        if (fileName == "pup")
-            illustration.visible = save.HasPearlpup;
-
-        else
-            illustration.visible = !save.HasPearlpup;
     }
 
     private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)

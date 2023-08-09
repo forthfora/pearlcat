@@ -200,7 +200,6 @@ public sealed class ModOptions : OptionsTemplate
         "Trigger Player"));
 
 
-
     public static Configurable<bool> CustomSpearKeybind = Instance.config.Bind(nameof(CustomSpearKeybind), false, new ConfigurableInfo(
         "Prefer to use the custom keybinds below for spear creation.",
         null, "", "Custom Spear Keybind?"));
@@ -208,6 +207,10 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<bool> CustomAgilityKeybind = Instance.config.Bind(nameof(CustomAgilityKeybind), false, new ConfigurableInfo(
         "Prefer to use the custom keybinds below for agility double jump.",
         null, "", "Custom Agility Keybind?"));
+
+    public static Configurable<bool> CustomSentryKeybind = Instance.config.Bind(nameof(CustomSentryKeybind), true, new ConfigurableInfo(
+        "Prefer to use the custom keybinds for deploying sentry pearls.",
+        null, "", "Custom Sentry Keybind?"));
 
 
     public static Configurable<KeyCode> AbilityKeybindKeyboard = Instance.config.Bind(nameof(AbilityKeybindKeyboard), KeyCode.C, new ConfigurableInfo(

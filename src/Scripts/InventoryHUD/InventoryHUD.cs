@@ -35,6 +35,8 @@ public class InventoryHUD : HudPart
     }
 
 
+    public static bool IsSplitScreenCoopActive => ModManager.ActiveMods.Any(x => x.id == "henpemaz_splitscreencoop");
+
     public override void Draw(float timeStacker)
     {
         if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game) return;
@@ -43,9 +45,20 @@ public class InventoryHUD : HudPart
         {
             if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
 
+            var camNum = 0;
+
+            //if (IsSplitScreenCoopActive)
+            //{
+            //    var playerNum = playerModule.PlayerNumber;
+
+            //    if (playerNum >= 1)
+            //        camNum = 1;
+            //}
+
+
             var playerChunkPos = Vector2.Lerp(player.firstChunk.lastPos, player.firstChunk.pos, timeStacker);
             var playerPos = player.abstractCreature.world.RoomToWorldPos(playerChunkPos, player.abstractCreature.Room.index);
-            var roomPos = player.abstractCreature.world.RoomToWorldPos(player.abstractCreature.world.game.cameras[0].pos, player.abstractCreature.world.game.cameras[0].room.abstractRoom.index);
+            var roomPos = player.abstractCreature.world.RoomToWorldPos(player.abstractCreature.world.game.cameras[camNum].pos, player.abstractCreature.world.game.cameras[camNum].room.abstractRoom.index);
             var truePos = playerPos - roomPos;
 
             var activeIndex = playerModule.ActiveObjectIndex;
@@ -70,7 +83,7 @@ public class InventoryHUD : HudPart
                     var invPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
                     symbol.Pos = Custom.Dist(symbol.Pos, invPos) > 300.0f ? invPos : Vector2.Lerp(symbol.Pos, invPos, 0.1f);
-                    symbol.Scale = isActiveObject ? 1.5f : 0.8f;
+                    symbol.Scale = isActiveObject ? 2.0f : 0.8f;
                 }
 
                 var circle = InventoryCircles[playerModule.PlayerNumber];

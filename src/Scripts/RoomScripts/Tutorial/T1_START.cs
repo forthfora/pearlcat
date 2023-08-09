@@ -130,7 +130,17 @@ public class T1_START : UpdatableAndDeletable
 
                 game.AddTextPrompt("To store, hold the same keybind with a pearl in your main hand", 0, 400);
 
-                PhaseTimer = 1000;
+
+                if (ModOptions.CustomSentryKeybind.Value)
+                    game.AddTextPrompt("Some pearls may be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.", 0, 400);
+                
+                else
+                    game.AddTextPrompt(t.Translate("Some pearls may be deployed as temporary sentries. Press (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (")
+                        + ModOptions.AbilityKeybindPlayer1.Value.GetDisplayName() + t.Translate(") to deploy, and again to return."), 0, 400);
+
+                game.AddTextPrompt("Play around with sentries to see what they do!", 0, 200);
+
+                PhaseTimer = 1200;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

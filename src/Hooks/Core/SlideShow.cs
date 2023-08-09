@@ -1,9 +1,6 @@
-﻿using Menu;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using MoreSlugcats;
 using System;
-using static Menu.MenuScene;
 
 namespace Pearlcat;
 
@@ -11,16 +8,34 @@ public static partial class Hooks
 {
     public static void ApplySlideShowHooks()
     {
-        IL.Menu.SlideShow.ctor += SlideShow_ctor;
-
-        IL.RainWorldGame.ExitToVoidSeaSlideShow += RainWorldGame_ExitToVoidSeaSlideShow;
-        //IL.Menu.IntroRoll.ctor += IntroRoll_ctor;
-
-        // REENABLE LATER
-        IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
         IL.RainWorldGame.GoToRedsGameOver += RainWorldGame_GoToRedsGameOver;
+
+        // DEPRECATED
+        //IL.Menu.SlideShow.ctor += SlideShow_ctor;
+        //IL.RainWorldGame.ExitToVoidSeaSlideShow += RainWorldGame_ExitToVoidSeaSlideShow;
+        //IL.Menu.IntroRoll.ctor += IntroRoll_ctor;
+        //IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
     }
 
+    private static void RainWorldGame_GoToRedsGameOver(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchCallOrCallvirt<PlayerProgression>(nameof(PlayerProgression.SaveWorldStateAndProgression)),
+            x => x.MatchPop());
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Action<RainWorldGame>>((self) =>
+        {
+            self.manager.statsAfterCredits = true;
+            self.manager.nextSlideshow = Enums.SlideShows.PearlcatTreeOutro;
+            self.manager.RequestMainProcessSwitch(ProcessManager.ProcessID.SlideShow);
+        });
+    }
+    
+    // DEPRECATED
+    /*
     // misc prog isn't init yet, so no go
     private static void IntroRoll_ctor(ILContext il)
     {
@@ -43,23 +58,6 @@ public static partial class Hooks
                 return "TitleCard_Pearlcat";
 
             return origTitle;        
-        });
-    }
-
-    private static void RainWorldGame_GoToRedsGameOver(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchCallOrCallvirt<PlayerProgression>(nameof(PlayerProgression.SaveWorldStateAndProgression)),
-            x => x.MatchPop());
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Action<RainWorldGame>>((self) =>
-        {
-            self.manager.statsAfterCredits = true;
-            self.manager.nextSlideshow = Enums.SlideShows.PearlcatAltOutro;
-            self.manager.RequestMainProcessSwitch(ProcessManager.ProcessID.SlideShow);
         });
     }
 
@@ -119,7 +117,7 @@ public static partial class Hooks
                 }
                 self.processAfterSlideShow = ProcessManager.ProcessID.Credits;
             }
-            else if (id == Enums.SlideShows.PearlcatAltOutro)
+            else if (id == Enums.SlideShows.PearlcatTreeOutro)
             {
                 if (self.manager.musicPlayer != null)
                 {
@@ -144,7 +142,6 @@ public static partial class Hooks
             }
         });
     }
-
 
     private static void SlugcatSelectMenu_StartGame(ILContext il)
     {
@@ -186,4 +183,5 @@ public static partial class Hooks
             return id;
         });
     }
+    */
 }

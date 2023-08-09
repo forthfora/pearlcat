@@ -63,6 +63,8 @@ public static partial class Hooks
         return false;
     }
 
+    public static bool TryGetSentry(this AbstractPhysicalObject self, out POSentry sentry) => POSentry.SentryData.TryGetValue(self, out sentry);
+
 
     public static void MarkAsPlayerObject(this AbstractPhysicalObject abstractObject)
     {
@@ -310,7 +312,7 @@ public static partial class Hooks
     }
 
 
-    public static Vector2 GetActiveObjectPos(this Player self, Vector2? overrideOffset = null)
+    public static Vector2 GetActiveObjectPos(this Player self, Vector2? overrideOffset = null, float timeStacker = 1.0f)
     {
         if (!ActiveObjectOffset.TryGet(self, out var activeObjectOffset))
             activeObjectOffset = Vector2.zero;
@@ -320,7 +322,7 @@ public static partial class Hooks
 
         var playerGraphics = (PlayerGraphics)self.graphicsModule;
 
-        var pos = playerGraphics.head.pos + activeObjectOffset;
+        var pos = Vector2.Lerp(playerGraphics.head.lastPos, playerGraphics.head.pos, timeStacker) + activeObjectOffset;
         pos.x += self.mainBodyChunk.vel.x * 1.0f;
 
         if (self.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0 || self.onBack?.IsPearlcat() == true)
@@ -329,8 +331,13 @@ public static partial class Hooks
         return pos;
     }
 
+    public static ConditionalWeakTable<AbstractPhysicalObject, StrongBox<Vector2>> TargetPositions { get; } = new();
+
     public static void MoveToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
     {
+        var pos = TargetPositions.GetValue(abstractObject, x => new StrongBox<Vector2>());
+        pos.Value = targetPos;
+
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
         if (abstractObject.realizedObject == null) return;

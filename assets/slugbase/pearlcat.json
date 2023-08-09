@@ -70,6 +70,9 @@
         "select_menu_scene_ascended": "Slugcat_Pearlcat_Ascended",
         "title_card": "TitleCard_Pearlcat",
 
+        "intro_slideshow": "Pearlcat_Intro",
+        "outro_slideshow": "Pearlcat_Outro",
+
         "min_tail_offset": -15.0,
         "max_tail_offset": 15.0,
         

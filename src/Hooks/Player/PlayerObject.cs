@@ -38,7 +38,7 @@ public static partial class Hooks
         //self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk.pos);
     }
 
-    public static void AbstractizeInventory(this Player self)
+    public static void AbstractizeInventory(this Player self, bool excludeSentries = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
@@ -47,8 +47,14 @@ public static partial class Hooks
         {
             if (abstractObject.realizedObject == null) continue;
 
+            if (abstractObject.TryGetSentry(out _) && excludeSentries) continue;
+
+            if (abstractObject.TryGetModule(out var module))
+                module.RemoveSentry(abstractObject);
+
             AbstractedEffect(abstractObject.realizedObject);
             abstractObject.Abstractize(abstractObject.pos);
+
         }
 
         //if (playerModule.Inventory.Count > 0)
@@ -58,7 +64,7 @@ public static partial class Hooks
 
     public static void RealizedEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject == null) return;
+        if (physicalObject?.room == null) return;
 
         physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectColor(physicalObject.abstractPhysicalObject)));
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 15.0f, 0.07f, 10, false));
@@ -66,7 +72,7 @@ public static partial class Hooks
 
     public static void AbstractedEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject == null) return;
+        if (physicalObject?.room == null) return;
 
         physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectColor(physicalObject.abstractPhysicalObject)));
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 25.0f, 0.07f, 10, false));
@@ -74,14 +80,16 @@ public static partial class Hooks
 
     public static void DeathEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject == null) return;
+        if (physicalObject?.room == null) return;
 
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 150.0f, 0.8f, 10, false));
     }
 
     public static void SwapEffect(this PhysicalObject? physicalObject, PhysicalObject? newObject)
     {
-        if (physicalObject == null || newObject == null) return;
+        if (physicalObject?.room == null || newObject == null) return;
+
+        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _) || newObject.abstractPhysicalObject.TryGetSentry(out _)) return;
 
         var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, newObject.firstChunk.pos, 0, Mathf.Lerp(0.8f, 1.0f, Random.value))
         {
@@ -102,7 +110,9 @@ public static partial class Hooks
 
     public static void SwapEffect(this PhysicalObject? physicalObject, Vector2 nextPos)
     {
-        if (physicalObject == null) return;
+        if (physicalObject?.room == null) return;
+
+        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _)) return;
 
         var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, nextPos, 0, Mathf.Lerp(0.8f, 1.0f, Random.value))
         {
@@ -124,6 +134,8 @@ public static partial class Hooks
     public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null)
     {
         if (physicalObject?.room == null) return;
+
+        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _)) return;
 
         var color = overrideColor ?? GetObjectColor(physicalObject.abstractPhysicalObject);
 
@@ -308,8 +320,11 @@ public static partial class Hooks
         playerModule.Inventory.Remove(abstractObject);
         abstractObject.ClearAsPlayerObject();
 
-        if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon))
+        if (abstractObject.TryGetAddon(out var addon))
             addon.Destroy();
+
+        if (abstractObject.TryGetModule(out var module))
+            module.RemoveSentry(abstractObject);
 
         if (playerModule.Inventory.Count == 0)
             playerModule.ActiveObjectIndex = null;

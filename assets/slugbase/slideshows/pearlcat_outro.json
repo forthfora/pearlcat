@@ -1,0 +1,88 @@
+{
+  "id": "Pearlcat_Outro",
+  "slideshow_folder": "slugbase/slideshows/pearlcat_outro",
+  "next_process": "Credits",
+  "scenes": [
+    {
+      "name": "Scene1",
+      "fade_in_start": 2.0,
+      "fade_out_start": 8.0,
+      "images": [
+        {"name": "Intro1_1", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 0] ]
+    },
+    {
+      "name": "Scene2",
+      "fade_in_start": 10.0,
+      "fade_out_start": 16.0,
+      "images": [
+        {"name": "Intro2_2", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
+        {"name": "Intro2_1", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 0] ]
+    },
+    {
+      "name": "Scene3",
+      "fade_in_start": 18.0,
+      "fade_out_start": 24.0,
+      "images": [
+        {"name": "Intro3_3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro3_2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "Intro3_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [-200, 0] ]
+    },
+    {
+      "name": "Scene4",
+      "fade_in_start": 26.0,
+      "fade_out_start": 32.0,
+      "images": [
+        {"name": "Intro4_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro4_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [100, 100] ]
+    },
+    {
+      "name": "Scene5",
+      "fade_in_start": 34.0,
+      "fade_out_start": 40.0,
+      "images": [
+        {"name": "Intro5_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro5_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, -200] ]
+    },
+    {
+      "name": "Scene6",
+      "fade_in_start": 42.0,
+      "fade_out_start": 48.0,
+      "images": [
+        {"name": "Intro6_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro6_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [150, 100] ]
+    },
+    {
+      "name": "Scene7",
+      "fade_in_start": 50.0,
+      "fade_out_start": 60.0,
+      "images": [
+        {"name": "Intro7_4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro7_3", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
+        {"name": "Intro7_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro7_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, -200] ]
+    },
+    {
+      "name": "Black",
+      "fade_in_start": 62.0,
+      "fade_out_start": 63.0,
+      "images": [
+        {"name": "Black", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 0] ]
+    }
+  ]
+}

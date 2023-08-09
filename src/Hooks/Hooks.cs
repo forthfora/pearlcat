@@ -66,7 +66,7 @@ public static partial class Hooks
             _ = Enums.Pearls.RM_Pearlcat;
             _ = Enums.Sounds.Pearlcat_PearlScroll;
 
-            _ = Enums.SlideShows.PearlcatIntro;
+            _ = Enums.SlideShows.PearlcatTreeOutro;
 
             AssetLoader.LoadAssets();
         }

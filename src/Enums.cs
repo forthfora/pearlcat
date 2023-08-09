@@ -64,17 +64,19 @@ public static class Enums
 
     public static class SlideShows
     {
-        public static SlideShowID PearlcatIntro = new(nameof(PearlcatIntro), true);
-        public static SlideShowID PearlcatOutro = new(nameof(PearlcatOutro), true);
-        public static SlideShowID PearlcatAltOutro = new(nameof(PearlcatAltOutro), true);
+        public static SlideShowID PearlcatTreeOutro = new(nameof(PearlcatTreeOutro), true);
 
-        public static SceneID Pearlcat_Intro_1 = new(nameof(Pearlcat_Intro_1), false);
-        public static SceneID Pearlcat_Intro_2 = new(nameof(Pearlcat_Intro_2), false);
+        // DEPRECATED
+        //public static SlideShowID PearlcatIntro = new(nameof(PearlcatIntro), true);
+        //public static SlideShowID PearlcatOutro = new(nameof(PearlcatOutro), true);
 
-        public static SceneID Pearlcat_Outro_1 = new(nameof(Pearlcat_Outro_1), false);
-        public static SceneID Pearlcat_Outro_2 = new(nameof(Pearlcat_Outro_2), false);
+        //public static SceneID Pearlcat_Intro_1 = new(nameof(Pearlcat_Intro_1), false);
+        //public static SceneID Pearlcat_Intro_2 = new(nameof(Pearlcat_Intro_2), false);
 
-        public static SceneID Pearlcat_AltOutro_1 = new(nameof(Pearlcat_AltOutro_1), false);
-        public static SceneID Pearlcat_AltOutro_2 = new(nameof(Pearlcat_AltOutro_2), false);
+        //public static SceneID Pearlcat_Outro_1 = new(nameof(Pearlcat_Outro_1), false);
+        //public static SceneID Pearlcat_Outro_2 = new(nameof(Pearlcat_Outro_2), false);
+
+        //public static SceneID Pearlcat_AltOutro_1 = new(nameof(Pearlcat_AltOutro_1), false);
+        //public static SceneID Pearlcat_AltOutro_2 = new(nameof(Pearlcat_AltOutro_2), false);
     }
 }

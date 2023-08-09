@@ -3,8 +3,6 @@ namespace Pearlcat;
 
 public class PlayerObjectModule
 {
-    private int cooldownTimer;
-
     public bool IsCurrentlyStored { get; set; } = false;
 
     public float Gravity { get; set; } = 1.0f;
@@ -15,6 +13,7 @@ public class PlayerObjectModule
     public float WeaponRotationSpeed { get; set; }
     public bool PlayCollisionSound { get; set; } = true;
 
+    private int cooldownTimer;
     public int CooldownTimer
     {
         get => cooldownTimer;
@@ -32,4 +31,18 @@ public class PlayerObjectModule
     public float LaserLerp { get; set; }
 
     public bool InventoryFlash { get; set; }
+
+    public bool IsSentry { get; set; }
+    public void RemoveSentry(AbstractPhysicalObject obj)
+    {
+        if (IsSentry)
+            IsReturningSentry = true;
+
+        IsSentry = false;
+
+        if (POSentry.SentryData.TryGetValue(obj, out var sentry))
+            sentry.Destroy();
+    }
+
+    public bool IsReturningSentry { get; set; }
 }

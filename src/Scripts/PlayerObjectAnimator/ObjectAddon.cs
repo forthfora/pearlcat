@@ -63,6 +63,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         SymbolSprite = spriteIndex++;
         SpearSprite = spriteIndex++;
 
+        SentrySprite = spriteIndex++;
+
         LaserSprite = spriteIndex++;
 
         ReviveCounterSprite = spriteIndex++;
@@ -96,6 +98,10 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
             shader = shaders["HologramBehindTerrain"],
         };
 
+        sLeaser.sprites[SentrySprite] = new("JetFishEyeA")
+        {
+        };
+
         foreach (var sprite in sLeaser.sprites)
             sprite.isVisible = false;
 
@@ -120,22 +126,24 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
     public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) { }
 
-
-    public PhysicalObject? Parent { get; private set; }
-    public FSprite? ParentSprite { get; private set; }
-    public float CamoLerp { get; set; }
-
     public void ParentGraphics_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        Parent = self;
-        ParentSprite = sLeaser.sprites.FirstOrDefault();
+        var ParentSprite = sLeaser.sprites.FirstOrDefault();
 
         foreach (var sprite in sLeaser.sprites)
             sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, ModOptions.HidePearls.Value ? 0.0f : 0.1f);
+
+        Pos = ParentSprite.GetPosition();
     }
 
 
     public bool IsActiveObject { get; set; }
+    public Vector2 Pos { get; set; }
+
+    public Vector2? OverrideLastPos { get; set; }
+    public Vector2? OverridePos { get; set; }
+
+    public bool AllVisible { get; set; }
 
     public bool DrawHalo { get; set; }
     public int HaloSprite { get; set; }
@@ -143,6 +151,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public float HaloScale { get; set; } = 0.75f;
     public float HaloAlpha { get; set; } = ModOptions.HidePearls.Value ? 0.0f : 0.5f;
     public Color HaloColor { get; set; } = Color.white;
+
+    public float CamoLerp { get; set; }
 
     public int LaserSprite { get; set; }
 
@@ -159,6 +169,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
     public int ShieldCounter { get; set; }
     public int ReviveCounter { get; set; }
+
+    public int SentrySprite { get; set; }
+    public bool IsSentry { get; set; }
 
     public bool IsLaserVisible { get; set; }
     public Vector2 LaserTarget { get; set; }
@@ -179,12 +192,23 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (Parent == null || ParentSprite == null) return;
+        if (!AllVisible)
+        {
+            foreach (var i in sLeaser.sprites)
+                i.isVisible = false;
 
+            return;
+        }
+
+        foreach (var i in sLeaser.sprites)
+            i.isVisible = true;
+
+
+        var pos = Vector2.Lerp(OverrideLastPos - camPos ?? Pos, OverridePos - camPos ?? Pos, timeStacker);
 
         var sprite = sLeaser.sprites[HaloSprite];
         sprite.isVisible = DrawHalo;
-        sprite.SetPosition(ParentSprite.GetPosition());
+        sprite.SetPosition(pos);
         sprite.scale = HaloScale;
         sprite.alpha = HaloAlpha;
         sprite.color = HaloColor;
@@ -192,28 +216,22 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         sprite = sLeaser.sprites[SpearSprite];
         sprite.isVisible = IsActiveObject;
-        sprite.SetPosition(ParentSprite.GetPosition());
+        sprite.SetPosition(pos);
         sprite.scaleY = IsActiveObject ? DrawSpearLerp : 0.0f;
         sprite.color = SymbolColor;
         sprite.rotation = Mathf.Lerp(0.0f, 360.0f, DrawSpearLerp);
 
-
+        sprite = sLeaser.sprites[SentrySprite];
+        sprite.isVisible = IsSentry;
+        sprite.SetPosition(pos);
+        sprite.color = SymbolColor;
+        sprite.alpha = 0.15f;
 
         sprite = sLeaser.sprites[SymbolSprite];
         var offset = IsActiveObject ? ActiveOffset : InactiveOffset;
 
-        var spriteName = !IsActiveObject ? null : OverrideSymbol ?? SymbolType switch
-        {
-            POEffect.MajorEffectType.SPEAR_CREATION => "BigGlyph2",
-            POEffect.MajorEffectType.AGILITY => "BigGlyph8",
-            POEffect.MajorEffectType.REVIVE => "BigGlyph10",
-            POEffect.MajorEffectType.SHIELD => "BigGlyph11",
-            POEffect.MajorEffectType.RAGE => "BigGlyph6",
-            POEffect.MajorEffectType.CAMOFLAGUE => "BigGlyph12",
-
-            _ => null,
-        };
-
+        var spriteName = !IsActiveObject ? null : OverrideSymbol ?? SpriteFromMajorEffect(SymbolType);
+        
         if (DrawSymbolCooldown)
             spriteName = "pearlcat_glyphcooldown";
 
@@ -222,7 +240,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         sprite.isVisible = spriteName != null;
 
-        sprite.SetPosition(ParentSprite.GetPosition() + offset);
+        sprite.SetPosition(pos + offset);
         sprite.scale = SymbolScale;
         sprite.alpha = spriteName == "pearlcat_glyphcooldown" ? 1.0f : SymbolAlpha;
         sprite.color = SymbolColor;
@@ -239,7 +257,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         sprite.isVisible = spriteName != null;
 
-        sprite.SetPosition(ParentSprite.GetPosition() + offset);
+        sprite.SetPosition(pos + offset);
         sprite.scale = SymbolScale;
         sprite.alpha = SymbolAlpha;
 
@@ -257,7 +275,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         sprite.isVisible = spriteName != null;
 
-        sprite.SetPosition(ParentSprite.GetPosition() + offset);
+        sprite.SetPosition(pos + offset);
         sprite.scale = SymbolScale;
         sprite.alpha = SymbolAlpha;
 
@@ -272,7 +290,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.alpha = Custom.LerpMap(LaserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
         sprite.color = LaserLerp > 0.97f || LaserLerp == 0.0 ? Color.white : SymbolColor;
 
-        var startPos = ParentSprite.GetPosition();
+        var startPos = pos;
         var targetPos = LaserTarget - camPos;
 
         var dir = Custom.DirVec(startPos, targetPos);
@@ -296,7 +314,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.SetPosition(startPos + dir * laserLength / 2.0f);
     }
 
-    public string? SpriteFromNumber(int num)
+    public static string? SpriteFromNumber(int num)
     {
         // it's dumb but i'm lazy shut up
         return num switch
@@ -314,6 +332,21 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
             9 => "pearlcat_9",
 
             _ => "pearlcat_over9",
+        };
+    }
+
+    public static string SpriteFromMajorEffect(POEffect.MajorEffectType effect)
+    {
+        return effect switch
+        {
+            POEffect.MajorEffectType.SPEAR_CREATION => "BigGlyph2",
+            POEffect.MajorEffectType.AGILITY => "BigGlyph8",
+            POEffect.MajorEffectType.REVIVE => "BigGlyph10",
+            POEffect.MajorEffectType.SHIELD => "BigGlyph11",
+            POEffect.MajorEffectType.RAGE => "BigGlyph6",
+            POEffect.MajorEffectType.CAMOFLAGUE => "BigGlyph12",
+
+            _ => "pearlcat_glyphcooldown",
         };
     }
 }

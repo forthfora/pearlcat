@@ -416,7 +416,7 @@ public static partial class Hooks
 
                     if (module.CooldownTimer != 0) continue;
 
-                    if (itemEffect.MajorEffect == MajorEffectType.SHIELD)
+                    if (itemEffect.MajorEffect == MajorEffectType.SHIELD && !item.TryGetSentry(out _))
                         item.realizedObject.ConnectEffect(self.firstChunk.pos);
                 }
             }
@@ -469,6 +469,32 @@ public static partial class Hooks
 
         if (didDeflect)
             playerModule.ActivateVisualShield();
+
+
+        if (ModOptions.DisableShield.Value || self.inVoidSea) return;
+
+        if (effect.MajorEffect != MajorEffectType.SHIELD || playerModule.ActiveObject is not AbstractPhysicalObject activeObj) return;
+
+        if (!activeObj.TryGetModule(out var poModule)) return;
+
+        var abilityInput = self.IsSentryKeybindPressed(playerModule);
+        var wasAbilityInput = playerModule.WasSentryInput;
+
+        if (abilityInput && !wasAbilityInput)
+        {
+            if (!poModule.IsReturningSentry)
+            {
+                if (!poModule.IsSentry)
+                {
+                    poModule.IsSentry = true;
+                    self.room.AddObject(new POSentry(activeObj));
+                }
+                else
+                {
+                    poModule.RemoveSentry(activeObj);
+                }
+            }
+        }
     }
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
@@ -487,6 +513,8 @@ public static partial class Hooks
 
             if (itemEffect.MajorEffect != MajorEffectType.RAGE) continue;
 
+            if (item.TryGetSentry(out _)) continue;
+
             module.LaserLerp = 0.0f;
 
             if (effect.MajorEffect != MajorEffectType.RAGE || playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out _))
@@ -498,6 +526,29 @@ public static partial class Hooks
         if (ModOptions.DisableRage.Value || self.inVoidSea) return;
 
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
+
+        if (playerModule.ActiveObject is not AbstractPhysicalObject activePearl) return;
+
+        if (!activePearl.TryGetModule(out var poModule)) return;
+
+        var abilityInput = self.IsSentryKeybindPressed(playerModule);
+        var wasAbilityInput = playerModule.WasSentryInput;
+
+        if (abilityInput && !wasAbilityInput)
+        {
+            if (!poModule.IsReturningSentry)
+            {
+                if (!poModule.IsSentry)
+                {
+                    poModule.IsSentry = true;
+                    self.room.AddObject(new POSentry(activePearl));
+                }
+                else
+                {
+                    poModule.RemoveSentry(activePearl);
+                }
+            }
+        }
 
         if (self.room == null) return;
 
@@ -603,6 +654,8 @@ public static partial class Hooks
 
             if (itemEffect.MajorEffect != MajorEffectType.RAGE) continue;
 
+            if (item.TryGetSentry(out _)) continue;
+
             if (module.CooldownTimer > 0)
             {
                 module.LaserTimer = shootTime;
@@ -666,7 +719,7 @@ public static partial class Hooks
 
         bool shouldCamo = (((self.canJump > 0  || self.bodyMode == Player.BodyModeIndex.ClimbingOnBeam || self.bodyMode == Player.BodyModeIndex.CorridorClimb) 
             && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) || self.bodyMode == Player.BodyModeIndex.Crawl)
-            && effect.MajorEffect == MajorEffectType.CAMOFLAGUE && playerModule.StoreObjectTimer <= 0;
+            && effect.MajorEffect == MajorEffectType.CAMOFLAGUE && playerModule.StoreObjectTimer <= 0 && playerModule.CamoCount > 0;
 
         var prevCamo = playerModule.CamoLerp;
 
@@ -679,6 +732,32 @@ public static partial class Hooks
         else if (!shouldCamo && prevCamo > 0.9 && playerModule.CamoLerp < 0.9f)
         {
             self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk, false, 0.7f, Random.Range(0.8f, 1.2f));
+        }
+
+
+        if (self.room == null) return;
+
+        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE || playerModule.ActiveObject is not AbstractPhysicalObject activeObj) return;
+
+        if (!activeObj.TryGetModule(out var poModule)) return;
+
+        var abilityInput = self.IsSentryKeybindPressed(playerModule);
+        var wasAbilityInput = playerModule.WasSentryInput;
+
+        if (abilityInput && !wasAbilityInput)
+        {
+            if (!poModule.IsReturningSentry)
+            {
+                if (!poModule.IsSentry)
+                {
+                    poModule.IsSentry = true;
+                    self.room.AddObject(new POSentry(activeObj));
+                }
+                else
+                {
+                    poModule.RemoveSentry(activeObj);
+                }
+            }
         }
     }
 }

@@ -55,7 +55,9 @@ public static partial class Hooks
     {
         orig(self, abstractCreature, world);
 
-        if (ModOptions.EnableBackSpear.Value)
+        if (self.SlugCatClass != Enums.Pearlcat) return;
+
+        if (ModOptions.EnableBackSpear.Value )
             self.spearOnBack ??= new Player.SpearOnBack(self);
     }
 
@@ -138,11 +140,37 @@ public static partial class Hooks
     {
         orig(self, pos, newRoom, spitOutAllSticks);
 
-        if (self is not Player player) return;
+        if (self is Player p && p.TryGetPearlcatModule(out var mod))
+            mod.LastGroundedPos = p.firstChunk.pos;
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPlayerData())
+        {
+            foreach (var item in playerModule.Inventory) 
+            {
+                if (!item.TryGetSentry(out var sentry)) continue;
 
-        playerModule.LastGroundedPos = player.firstChunk.pos;
+                if (!item.TryGetModule(out var module)) continue;
+
+                if (module.CooldownTimer != 0 && sentry.ShieldTimer <= 0) continue;
+
+                var effect = item.GetPOEffect();
+                if (effect.MajorEffect != POEffect.MajorEffectType.SHIELD) continue;
+                
+                if (!sentry.OwnerRef.TryGetTarget(out var owner)) continue;
+                
+                if (owner.realizedObject == null) continue;
+
+                if (!Custom.DistLess(owner.realizedObject.firstChunk.pos, newRoom.MiddleOfTile(pos), 75.0f)) continue;
+
+                if (sentry.ShieldTimer <= 0)
+                    sentry.ShieldTimer = ModOptions.ShieldDuration.Value * 3.0f;
+                
+                owner.realizedObject.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.7f);
+                owner.realizedObject.room?.DeflectEffect(newRoom.MiddleOfTile(pos));
+                
+                self.SuckedIntoShortCut(pos, false);
+            }
+        }
     }
 
 
@@ -188,6 +216,7 @@ public static partial class Hooks
         bool storeInput = self.IsStoreKeybindPressed(playerModule);
 
         bool agilityInput = self.IsAgilityKeybindPressed(playerModule);
+        bool sentryInput = self.IsSentryKeybindPressed(playerModule);
 
         int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
 
@@ -238,6 +267,7 @@ public static partial class Hooks
         playerModule.WasSwapRightInput = swapRightInput;
         playerModule.WasStoreInput = storeInput;
         playerModule.WasAgilityInput = agilityInput;
+        playerModule.WasSentryInput = sentryInput;
 
         // LAG CAUSER
         if (playerModule.TextureUpdateTimer % 5 == 0 && (playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor))
@@ -307,6 +337,8 @@ public static partial class Hooks
 
             playerModule.SetReviveCooldown(-1);
         }
+
+        playerModule.LastRoom = self.abstractCreature.Room;
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)
@@ -435,7 +467,8 @@ public static partial class Hooks
         {
             if (playerModule.StoreObjectTimer >= 0)
             {
-                playerModule.StoreObjectTimer++;
+                if (playerModule.ActiveObject != null && playerModule.ActiveObject.TryGetModule(out var module) && !module.IsReturningSentry)
+                    playerModule.StoreObjectTimer++;
                 
                 playerModule.BlockInput = true;
                 playerModule.ShowHUD(10);
@@ -456,7 +489,18 @@ public static partial class Hooks
                     else
                     {
                         var activeObj = playerModule.ActiveObject?.realizedObject;
-                        activeObj.ConnectEffect(self.firstChunk.pos);
+                    
+                        if (playerModule.ActiveObject?.TryGetModule(out module) == true)
+                        {
+                            if (!module.IsReturningSentry)
+                                activeObj.ConnectEffect(self.firstChunk.pos);
+
+                            module.RemoveSentry(playerModule.ActiveObject);
+                        }
+                        else
+                        {
+                            activeObj.ConnectEffect(self.firstChunk.pos);
+                        }
                     }
                 }
             }
@@ -525,6 +569,7 @@ public static partial class Hooks
 
             if (item.realizedObject.grabbedBy.Count > 0) continue;
 
+            if (item.IsPlayerObject()) return;
 
             if (ObjectAddon.ObjectsWithAddon.TryGetValue(item, out var _))
                 ObjectAddon.ObjectsWithAddon.Remove(item);
@@ -563,6 +608,8 @@ public static partial class Hooks
         {
             foreach (var abstractObject in playerModule.Inventory)
             {
+                if (abstractObject.TryGetSentry(out _)) continue;
+                
                 abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
             }
 
@@ -664,10 +711,13 @@ public static partial class Hooks
 
     private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
     {
-        if (self is Player player)
+        if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
         {
-            player.AbstractizeInventory();
-            player.slugOnBack?.slugcat?.AbstractizeInventory();
+            var sameRoom = player.abstractCreature.Room == playerModule.LastRoom;
+            //var sameRoom = false;
+
+            player.AbstractizeInventory(sameRoom);
+            player.slugOnBack?.slugcat?.AbstractizeInventory(sameRoom);
         }
 
         orig(self, entrancePos, carriedByOther);
@@ -839,6 +889,9 @@ public static partial class Hooks
     {
         // trust no one, not even yourself?
         if (creature == self)
+            return false;
+
+        if (creature is Player pup && pup.IsPearlpup())
             return false;
 
         var AI = creature.abstractCreature.abstractAI?.RealAI;

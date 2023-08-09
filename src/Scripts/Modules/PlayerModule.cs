@@ -31,7 +31,7 @@ public class PlayerModule
     public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.Pearlcat, true);
 
     public bool JustWarped { get; set; }
-
+    public AbstractRoom LastRoom { get; set; }
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }
 
@@ -57,6 +57,8 @@ public class PlayerModule
         foreach (var pearl in inventory)
         {
             if (!pearl.TryGetModule(out var module)) continue;
+
+            if (pearl.TryGetSentry(out _)) continue;
 
             if (pearl.GetPOEffect().MajorEffect != type) continue;
 
@@ -128,7 +130,7 @@ public class PlayerModule
     public float ShieldAlpha { get; set; }
     public float ShieldScale { get; set; }
 
-    public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value;
+    public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value && PlayerRef.TryGetTarget(out var player) && !player.dead;
     public void ActivateVisualShield()
     {
         if (ShieldTimer > 0) return;
@@ -170,6 +172,7 @@ public class PlayerModule
     public bool WasSwapped { get; set; }
     public bool WasStoreInput { get; set; }
     public bool WasAgilityInput { get; set; }
+    public bool WasSentryInput { get; set; }
 
     public Player.InputPackage UnblockedInput { get; set; }
     public bool BlockInput { get; set; }

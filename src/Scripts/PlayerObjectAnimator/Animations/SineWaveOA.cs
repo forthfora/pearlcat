@@ -6,10 +6,9 @@ namespace Pearlcat;
 public class SineWaveOA : ObjectAnimation
 {
     public readonly List<float> floatOffsets = new(); 
-
+     
     public SineWaveOA(Player player) : base(player)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
     }
 
     public override void Update(Player player)
