@@ -14,7 +14,7 @@ public class PlayerObjectSymbol
     public WeakReference<PlayerModule> PlayerModuleRef { get; }
     public WeakReference<AbstractPhysicalObject>? TargetObjectRef { get; set; }
 
-    public Vector2 Pos;
+    public Vector2 Pos { get; set; }
 
     public FSprite CooldownSprite { get; }
     public FSprite SentrySprite { get; }

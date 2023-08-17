@@ -93,7 +93,7 @@ public sealed class ModOptions : OptionsTemplate
 
     public static Configurable<bool> InventoryOverride { get; } = Instance.config.Bind(nameof(InventoryOverride), false, new ConfigurableInfo(
         "When checked, sets the inventory to the specified numbers of coloured pearls below every cycle." +
-        "\nDoes not save over the current inventory - it is returned to when unchecked.", null, "",
+        "<LINE>Does not save over the current inventory - it is returned to when unchecked.", null, "",
         "Inventory Override?"));
 
     public static Configurable<bool> StartingInventoryOverride { get; } = Instance.config.Bind(nameof(StartingInventoryOverride), false, new ConfigurableInfo(
@@ -201,15 +201,15 @@ public sealed class ModOptions : OptionsTemplate
 
 
     public static Configurable<bool> CustomSpearKeybind = Instance.config.Bind(nameof(CustomSpearKeybind), false, new ConfigurableInfo(
-        "Prefer to use the custom keybinds below for spear creation.",
+        "Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)",
         null, "", "Custom Spear Keybind?"));
 
     public static Configurable<bool> CustomAgilityKeybind = Instance.config.Bind(nameof(CustomAgilityKeybind), false, new ConfigurableInfo(
-        "Prefer to use the custom keybinds below for agility double jump.",
+        "Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)",
         null, "", "Custom Agility Keybind?"));
 
     public static Configurable<bool> CustomSentryKeybind = Instance.config.Bind(nameof(CustomSentryKeybind), true, new ConfigurableInfo(
-        "Prefer to use the custom keybinds for deploying sentry pearls.",
+        "Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)",
         null, "", "Custom Sentry Keybind?"));
 
 
@@ -276,7 +276,7 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "Extra Cheats");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var text = Translate("All times here are in frames.\n40 frames = 1 second.");
+        var text = Translate("All times here are in frames.<LINE>40 frames = 1 second.");
         AddTextLabel(text);
         DrawTextLabels(ref Tabs[tabIndex]);
 
@@ -383,7 +383,7 @@ public sealed class ModOptions : OptionsTemplate
         AddTab(ref tabIndex, "Cheats");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var warningText = Translate("Intended for fun,\nmay change gameplay significantly!");
+        var warningText = Translate("Intended for fun, may change gameplay significantly!");
         
         AddTextLabel(warningText, bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
@@ -399,7 +399,7 @@ public sealed class ModOptions : OptionsTemplate
             colorText = WarnRed,
         };
 
-        var startShelterOverrideLabel = new OpLabel(new Vector2(230.0f, 210.0f) + offset, new Vector2(150f, 16.0f) + offset, StartShelterOverride.info.Tags[0].ToString())
+        var startShelterOverrideLabel = new OpLabel(new Vector2(230.0f, 210.0f) + offset, new Vector2(150f, 16.0f) + offset, Translate(StartShelterOverride.info.Tags[0].ToString()))
         {
             color = WarnRed,
         };
@@ -689,7 +689,10 @@ public sealed class ModOptions : OptionsTemplate
 
         DrawKeybinders(AbilityKeybindPlayer4, ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine(-2);
+        AddCheckBox(CustomSentryKeybind);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
         DrawBox(ref Tabs[tabIndex]);
     }
 

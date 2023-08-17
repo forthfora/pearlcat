@@ -7,7 +7,8 @@ public static partial class Hooks
 {
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (player.bodyMode != Player.BodyModeIndex.Stand && player.bodyMode != Player.BodyModeIndex.ZeroG && player.bodyMode != Player.BodyModeIndex.Swimming)
+        if (player.bodyMode != Player.BodyModeIndex.Stand && player.bodyMode != Player.BodyModeIndex.ZeroG && player.bodyMode != Player.BodyModeIndex.Swimming
+            && player.animation != Player.AnimationIndex.StandOnBeam && player.animation != Player.AnimationIndex.BeamTip)
             return false;
 
         var input = playerModule.UnblockedInput;

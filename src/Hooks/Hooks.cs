@@ -11,7 +11,7 @@ public static partial class Hooks
         ApplySaveDataHooks();
         ApplyMenuHooks();
         ApplySlideShowHooks();
-        ApplyMergeFixHooks();
+        ApplyFixesHooks();
 
         // Player
         ApplyPlayerHooks();
@@ -24,7 +24,6 @@ public static partial class Hooks
         // World
         ApplyWorldHooks();
         ApplySoundHooks();
-        ApplyWarpHooks();
 
         ApplySSOracleHooks();
         ApplySLOracleHooks();
@@ -66,9 +65,11 @@ public static partial class Hooks
             _ = Enums.Pearls.RM_Pearlcat;
             _ = Enums.Sounds.Pearlcat_PearlScroll;
 
-            _ = Enums.SlideShows.PearlcatTreeOutro;
+            _ = Enums.Scenes.Slugcat_Pearlcat;
 
             AssetLoader.LoadAssets();
+
+            Plugin.Logger.LogInfo("PEARLCAT INIT: VERSION " +  Plugin.VERSION);
         }
         catch (Exception e)
         {

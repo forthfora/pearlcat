@@ -37,7 +37,7 @@ public partial class Hooks
         On.Spear.DrawSprites += Spear_DrawSprites;
         On.Spear.Update += Spear_Update;
 
-        On.DartMaggot.ShotUpdate += DartMaggot_ShotUpdate;
+        //On.DartMaggot.ShotUpdate += DartMaggot_ShotUpdate;
         On.BigNeedleWorm.Swish += BigNeedleWorm_Swish;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
@@ -83,6 +83,17 @@ public partial class Hooks
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
         On.Leech.Attached += Leech_Attached;
+        On.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode1;
+    }
+
+    private static void RainWorldGame_BeatGameMode1(On.RainWorldGame.orig_BeatGameMode orig, RainWorldGame game, bool standardVoidSea)
+    {
+        orig(game, standardVoidSea);
+
+        if (standardVoidSea && game.IsPearlcatStory())
+        {
+            Plugin.Logger.LogInfo("PEARLCAT VOID SEA ENDING");
+        }
     }
 
     private static void Leech_Attached(On.Leech.orig_Attached orig, Leech self)
@@ -286,12 +297,16 @@ public partial class Hooks
                 deathSave.karma = deathSave.karmaCap;
                 
                 var miscProg = game.GetMiscProgression();
-                miscProg.AltEnd = true;
+
+                miscProg.IsPearlpupSick = true;
+                miscProg.HasOEEnding = true;
 
                 var miscWorld = game.GetMiscWorld();
 
                 if (miscWorld != null)
                     miscWorld.JustBeatAltEnd = true;
+
+                Plugin.Logger.LogInfo("PEARLCAT OE ENDING");
 
                 return "OE_SEXTRA";
             }
@@ -307,7 +322,7 @@ public partial class Hooks
         var miscWorld = self.room.world.game.GetMiscWorld();
         var miscProg = self.room.world.game.GetMiscProgression();
 
-        if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.AltEnd) return;
+        if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.HasOEEnding) return;
 
         orig(self, eu);
     }
@@ -373,12 +388,11 @@ public partial class Hooks
     {
         var result = orig(self);
 
-        if (self.room.game.IsPearlcatStory() && self.room.game.IsStorySession && self.room.game.GetStorySession.saveState.denPosition.Contains("OE_"))
-            return true;
-
-        // RESTORE LATER
-        //if (self.room.game.IsPearlcatStory())
+        //if (self.room.game.IsPearlcatStory() && self.room.game.IsStorySession && self.room.game.GetStorySession.saveState.denPosition.Contains("OE_"))
         //    return true;
+
+        if (self.room.game.IsPearlcatStory())
+            return true;
 
         return result;
     }

@@ -2,6 +2,10 @@
   "id": "Pearlcat_Intro",
   "slideshow_folder": "slugbase/slideshows/pearlcat_intro",
   "next_process": "Game",
+  "music": {
+    "name": "Pearlcat_Intro",
+    "fade_in": 40
+  },
   "scenes": [
     {
       "name": "Scene1",
@@ -42,20 +46,10 @@
       "camera_path": [ [200, 500] ]
     },
     {
-      "name": "Black1",
-      "fade_in_start": 28.0,
-      "fade_in_end": 28.0,
-      "fade_out_start": 33.0,
-      "images": [
-        {"name": "Black", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-      ],
-      "camera_path": [ [0, -100]]
-    },
-    {
       "name": "Scene4",
-      "fade_in_start": 33.0,
-      "fade_in_end": 33.5,
-      "fade_out_start": 34.5,
+      "fade_in_start": 25.0,
+      "fade_in_end": 26.0,
+      "fade_out_start": 28.0,
       "images": [
         {"name": "Intro4_4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "Intro4_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
@@ -66,9 +60,9 @@
     },
     {
       "name": "Scene5",
-      "fade_in_start": 35.0,
-      "fade_in_end": 35.5,
-      "fade_out_start": 37.0,
+      "fade_in_start": 30.0,
+      "fade_in_end": 30.5,
+      "fade_out_start": 31.5,
       "images": [
         {"name": "Intro5_4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "Intro5_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
@@ -79,18 +73,18 @@
     },
     {
       "name": "Scene6",
-      "fade_in_start": 39.0,
-      "fade_in_end": 41.0,
-      "fade_out_start": 45.0,
+      "fade_in_start": 33.0,
+      "fade_in_end": 35.0,
+      "fade_out_start": 39.0,
       "images": [
         {"name": "Intro6", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
       ]
     },
     {
-      "name": "Black2",
-      "fade_in_start": 47.0,
-      "fade_in_end": 47.0,
-      "fade_out_start": 48.0,
+      "name": "Black3",
+      "fade_in_start": 41.0,
+      "fade_in_end": 41.0,
+      "fade_out_start": 43.0,
       "images": [
         {"name": "Black", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
       ]

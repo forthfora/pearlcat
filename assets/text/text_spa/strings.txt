@@ -1,524 +1,575 @@
-﻿CANNOT PLAY\n|NO SE PUEDE JUGAR\n
-PLAYTESTERS|PROBADORES DE JUEGO
-pearlcat_spire1|perlacat_spire1
-Ah. So you've returned.|ah Así que has vuelto.
-SI|SI
-US_Undertower|US_Undertower
-Button East|botón este
-pearlcat_bottomshutter|perla_cat_bottomshutter
-The Gutter|el canalón
-...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|... ¡tienes el don de la comunicación! <LINE> ¿Tal vez le hiciste una visita a mi vecino, Five Pebbles...?
-To store, hold the same keybind with a pearl in your main hand|Para almacenar, mantenga la misma combinación de teclas con una perla en su mano principal
-pearlpup_face|perlapup_face
-AS IS|COMO ES
-Software|Software
-My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|Mis supervisores no han hecho las paces con su llegada. Tenía la impresión de que el sistema de tránsito no funcionaba en su mayor parte.
-Ability Input|Entrada de habilidad
-Inventory Override?|¿Anulación de inventario?
-Keybind to swap to the stored pearl to the right. Limited to Player 1.|Combinación de teclas para cambiar a la perla almacenada a la derecha. Limitado al jugador 1.
-min_tail_offset|min_tail_offset
-pearlcat_clouds|perla_nubes
-Swap Left|Cambiar a la izquierda
-pup|cachorro
-Affirmer|afirmador
-<oA>|<oA>
-pearlpup_head|perlapup_head
-T1_START|T1_START
-Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Cada perla roja proporciona un láser adicional, y sí, ¡estas moscas murciélago son MUY HOSTILES!
-It appears to contain a hymn that once meant a lot to the inhabitants of my city...|Parece contener un himno que alguna vez significó mucho para los habitantes de mi ciudad...
-pearlcat_light0|gatoperla_luz0
-MS|EM
-Laser Recharge Time|Tiempo de recarga del láser
-Another one? I shouldn't be surprised. Let's see...|¿Otro? No debería sorprenderme. Vamos a ver...
-): swap out a pearl, or change the limit in the Remix options|): intercambie una perla o cambie el límite en las opciones de Remix
-_AboveCloudsAtmosphereColor|_ArribaNubesAtmósferaColor
-Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Número máximo de perlas que se pueden almacenar a la vez, incluida la perla activa. El valor predeterminado es 9. Mantenga presionado y arrastre hacia arriba o hacia abajo para cambiar.
-You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|¿Vienes de bastante lejos? Puedes comunicarte con nosotros, pero la marca que posees me es ajena...
-pearlpup_scarf|bufanda_perla
-Pebbles_AS_PearlBlue|Guijarros_AS_PearlBlue
-Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Multiplicador porcentual en la visibilidad general de Pearlcat, influye en la atracción de depredadores. Por defecto, Pearlcat es significativamente más visible que incluso Hunter.
-OE|Equipo original
-pearlcat_support|perlacat_apoyo
-pearlcat_dusksky|Pearlcat_dusksky
-Sound Hooks Error:\n|Error de ganchos de sonido:\n
-pearlcatSleeve0|perlacatmanga0
-Hold (GRAB) with an active common pearl to convert it into a pearl spear|Sostenga (GRAB) con una perla común activa para convertirla en una lanza de perlas
-Scarf|Bufanda
-Agility Pearl Count|Cuenta de perlas de agilidad
-Intended for fun,\nmay change gameplay significantly!|Pensado para la diversión,\npuede cambiar significativamente el juego.
-Debug|Depurar
-DM|MD
-PFace|cara
-scholar|erudito
-haloGlyph5|haloGlyph5
-owner|dueño
-My own time is limited, after all...|Mi propio tiempo es limitado, después de todo...
-) with an active common pearl to convert it into a pearl spear|) con una perla común activa para convertirla en una lanza de perlas
-To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Para recuperar perlas, ten una mano principal vacía y mantén presionado (GRAB + UP)
-...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|... Te comiste ... a mí. Por favor vete. No hablaré... contigo.<LINE>YO... NO PUEDO hablar contigo... porque... me comiste... ...¿y por qué?
-I very much enjoy the company though... you and your little friend are always welcome here.|Aunque disfruto mucho de la compañía... tú y tu amiguito son siempre bienvenidos aquí.
-When checked, disables the agility effect granted by an active pearl.|Cuando está marcado, desactiva el efecto de agilidad otorgado por una perla activa.
-When checked, disables the rage effect granted by an active pearl.|Cuando está marcada, desactiva el efecto de ira otorgado por una perla activa.
-pearlcat_light1|gatoperla_luz1
-LC|LC
-OE_|EO_
-oa_max_dist|oa_max_dist
-pearlcat_over9|perla_over9
-max_tail_offset|max_tail_offset
-Press (|Prensa (
-Elliot|eliot
-LW_Tower|LW_Torre
-T1_CAREND|T1_CAREND
-Clearly an artifical creation. But from where? Sent by who?|Claramente una creación artificial. ¿Pero de dónde? Enviado por quien?
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|Cuando está marcado, establece el inventario en el número especificado de perlas de colores debajo de cada ciclo.
-Player 1|Jugador 1
-DistantBkgObjectAlpha|DistantBkgObjectAlpha
-AS-IS|COMO ES
-) while in the air to perform a double jump|) en el aire para realizar un doble salto
-oa_min_time|oa_min_time
-puptail|cola de cachorro
-Ah, I hope you both stay safe out there...|Ah, espero que ambos estén a salvo ahí fuera...
-Intended to make gameplay more challenging, may change gameplay significantly!|Diseñado para hacer que el juego sea más desafiante, ¡puede cambiar el juego significativamente!
-.  .  .|. . .
-face|rostro
-Camo Pearl Count|Recuento de perlas de camuflaje
-VS|contra
-US_Tower|US_Tower
-I will tolerate your pressence, so long as you bring me something meaningful.|Toleraré tu presencia, siempre y cuando me traigas algo significativo.
-pearlcat_hudpearl|perla_hudpearl
-Menu|Menú
-Slugcat_Pearlcat_Sleep|Slugcat_Pearlcat_Sueño
-_MultiplyColor|_MultiplicarColor
-0.0|0.0
-When checked, disables the revive effect granted by an active pearl.|Cuando está marcado, desactiva el efecto revivir otorgado por una perla activa.
-pearlcat_spire8|perlacat_spire8
-Disable Camoflague Effect?|¿Deshabilitar el efecto de camuflaje?
-So curious...|Tan curioso...
-_atlases|_atlas
-Hello! I remember you! I remember...|¡Hola! ¡Te recuerdo! Recuerdo...
-ruffian|rufián
-Four! Well, if you insist...|¡Cuatro! Bueno si insistes...
-1.0.0|1.0.0
-LOAD SAVE DATA IN PLAYER MODULE|CARGAR GUARDAR DATOS EN EL MÓDULO DE JUGADOR
-PEARLCAT PEBBLES MEETING: |REUNIÓN DE PEBBLES DE PEARLCAT:
-When checked, the inventory HUD will be replaced with a more compact version.|Cuando esté marcado, el HUD de inventario se reemplazará con una versión más compacta.
-3: |3:
-Pebbles_AS_PearlRed|Guijarros_AS_Rojo Perla
-Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|Tiempo en fotogramas que tarda el escudo perlado amarillo en recargarse después de activarse. Por defecto 40 segundos.
-pearlactivehalo|perlaactivahalo
-Yes, help yourself. They are not edible.|Sí, ayúdate a ti mismo. No son comestibles.
-CC|CC
-tail|cola
-Lolight2|lolight2
-I remember this one... don't you? Well...|Me acuerdo de este... ¿tú no? Bien...
-5|5
-122626|122626
-)|)
-Disable Agility Effect?|¿Deshabilitar el efecto de agilidad?
-ear_r_offset|oreja_r_desplazamiento
-When checked, enables Pearlcat to carry a backspear.|Cuando está marcada, permite que Pearlcat lleve una lanza trasera.
-Trigger Player|Activar jugador
-YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|AMARILLO simboliza protección. Cada perla amarilla almacenada proporcionará una carga de escudo.
-strings.txt|cadenas.txt
-pearlcat_spire9|gatoperla_spire9
-inventory_ui_offset|inventario_ui_compensación
-oa_max_time|oa_max_time
-by|por
-You... I didn't forget...|Tú... no me olvidé...
-oa_daze_max_speed|oa_daze_max_speed
-\nCorridorClimb |\nSubir Corredor
-Laser Windup TIme|Tiempo de cuerda láser
-I would guess they will grow up into quite the scholar themself, someday...|Supongo que algún día se convertirán en un erudito...
-BigGlyph8|GranGlifo8
-Assembly-CSharp|Asamblea-CSharp
-NON-MSC|NO-MSC
-LW_Grotto|LW_Grotto
-Pearl Threat Music?|¿Música Pearl Threat?
-Disable Cosmetics?|¿Desactivar cosméticos?
-Button North|Botón Norte
-Grab a creature and hold (GRAB) with an active green pearl to revive them|Agarra una criatura y sosténgala (GRAB) con una perla verde activa para revivirla
-Sidera |sidera
-Prefer to use the custom keybinds below for spear creation.|Prefiere usar las combinaciones de teclas personalizadas a continuación para la creación de lanzas.
-Noir |negro
-When checked, disables the shield effect granted by an active pearl.|Cuando está marcado, desactiva el efecto de escudo otorgado por una perla activa.
-Disable Spear Effect?|¿Deshabilitar el efecto de lanza?
-When checked, all tutorials will be disabled.|Cuando está marcado, todos los tutoriales estarán deshabilitados.
-daze_duration|aturdimiento_duración
-I do enjoy the company though... it gets lonely out here.|Aunque disfruto de la compañía... se siente solo aquí.
-body|cuerpo
-ACK|ACK
-4: |4:
-pearlactiveplaceholder|perlaactivamarcador de posición
-\nThrowSkill |\nLanzamiento
-pearlcat_spire2|perlacat_spire2
-Left Bumper|Parachoques izquierdo
-pearlcat_8|perla_8
-pearlcat_3|perla_3
-RW_Outro_Theme_B|RW_Outro_Theme_B
-Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|Los cargos se consumen para proporcionar protección. Cada perla recarga individualmente su carga después de un tiempo.
-pearlcat_hudcooldown|perlacat_hudcooldown
-Hello again.|Hola de nuevo.
-PEBBLESWAIT|ESPERANZA PEBBLES
-Extra Cheats|Trucos adicionales
-Button South|botón sur
-View|Vista
-License|Licencia
-When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Cuando se marca, los cosméticos de Pearlcat se desactivarán, con la intención de permitir sprites personalizados a través de DMS. Esto no incluye las perlas en sí.
-pearlcat_spire4|perlacat_spire4
-pearlcatScarfA0|perlagatoBufandaA0
-Slugcat_Pearlcat|Slugcat_Pearlcat
-I can only hope you have not come... to hurt me more.|Sólo puedo esperar que no hayas venido... a hacerme más daño.
-But it's best not to dwell on the past, don't you agree <PlayerName>?|Pero es mejor no insistir en el pasado, ¿no estás de acuerdo, <PlayerName>?
-DESTROY|DESTRUIR
-Hide Pearls?|¿Esconder perlas?
-.NETFramework,Version=v4.8|.NETFramework, Versión=v4.8
-Cloak|Capa
-You have a knack for finding these pearls, yes?|Tienes un don para encontrar estas perlas, ¿verdad?
-feet|pies
-I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Supongo que lo único que valoras en estas perlas es cuán pura es su red. Te sustituiré por uno mucho más refinado que este.
-I see you've returned, yet again.|Veo que has regresado, una vez más.
-q|q
-Basic|Básico
-LF|LF
-Start Shelter Override|Iniciar anulación de refugio
-HologramBehindTerrain|HologramaDetrásTerreno
-- Dialogue, SFX|- Diálogo, SFX
-TurtleMan27|TurtleMan27
-T1_CAR0|T1_CAR0
-Disable Revive Effect?|¿Deshabilitar el efecto revivir?
-ModManager.RefreshModsLists:\n|ModManager.RefreshModsLists:\n
-ear_l_offset|oreja_l_offset
- - |-
-AS|COMO
-Hides the visuals of inactive peparls and turns you into... cat.|Oculta las imágenes de peparls inactivos y te convierte en... gato.
-\nRunspeedFac |\nRunspeedFac
-Right Bumper|Parachoques Derecho
-Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Número de perlas de agilidad (azul). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
-Oracle Hooks Error:\n|Error de enganches de Oracle:\n
-Geahgeah |Geahgeah
-...you can manipulate our storage medium in unforseen ways...|...puedes manipular nuestro medio de almacenamiento de formas imprevistas...
-oa_cutoff_dist|oa_cutoff_dist
-Keybind for Player 4.|Combinación de teclas para el jugador 4.
-pearlcat_9|perla_9
-Let us see what- oh, again?|Veamos qué- oh, ¿otra vez?
-To cycle between pearls, use (|Para alternar entre perlas, use (
-Difficulty|Dificultad
-Efi|efi
-You. Again. I still remember what you did...|Tú. De nuevo. Aún recuerdo lo que hiciste...
-Commons|Los comunes
-SS_AI|SS_AI
-Given your unique abilities, if you are curious as to the contents of those pearls -|Dadas tus habilidades únicas, si tienes curiosidad sobre el contenido de esas perlas...
-Hello, again. You are very curious. Very curious indeed.|Hola de nuevo. Usted es muy curioso. Muy curioso por cierto.
-pearlactive|perlaactiva
-Button West|botón oeste
-Oh, hello <PlayerName>!|¡Hola, <nombre del jugador>!
-Press (JUMP + GRAB) while in the air to perform a double jump|Presiona (JUMP + GRAB) mientras estás en el aire para realizar un doble salto.
-oa_cutoff_max_speed|oa_cutoff_max_speed
-active_object_offset|desplazamiento_objeto_activo
-sweat|sudor
-- Artwork|- Obra de arte
-Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Tiempo en cuadros para que se dispare el láser de una perla roja después de adquirir un objetivo. Predeterminado 1,5 segundos.
-ear_l|conde
-Number of revive pearls (green). Effective only when Inventory Override? is checked.|Número de perlas revivir (verde). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
-.txt|.TXT
-When checked, disables the spear creation effect granted by an active pearl.|Cuando está marcado, desactiva el efecto de creación de lanza otorgado por una perla activa.
-And who is your little friend? They are quite adorable!|¿Y quién es tu amiguito? ¡Son bastante adorables!
-PlayerArm|PlayerArm
-The choice is yours.|La decisión es tuya.
-When checked, some abilties will show the inventory when recharged or depleted.|Cuando está marcada, algunas habilidades mostrarán el inventario cuando se carguen o se agoten.
-pearlcat_spire3|perlacat_spire3
-Revive Pearl Count|Revive el conteo de perlas
-oa_min_fric_speed|oa_min_fric_velocidad
-Another? And I shall read this one to you as well...|¿Otro? Y te leeré este también...
-Work|Trabajar
-And a third? So it is...|¿Y un tercero? Así es...
-T1_CAR1|T1_COCHE1
-Keyboard|Teclado
-Number of camo pearls (black). Effective only when Inventory Override? is checked.|Número de perlas de camuflaje (negro). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
-300|300
-I have tried to reconstruct it from memory many times, fruitlessly.|He intentado reconstruirlo de memoria muchas veces, sin éxito.
-OnModsInit:\n|OnModsInit:\n
-TitleCard_Pearlcat|TítuloCard_Pearlcat
-2: |2:
-The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|El poder que posees es fascinante. Nunca he visto nada parecido de tu especie.
-Disable Tutorials?|¿Desactivar tutoriales?
-.NET Framework 4.8|.NET Framework 4.8
-Failed to parse color {objectType} : {ex.Message}|No se pudo analizar el color {objectType}: {ex.Message}
-GateHologram|PuertaHolograma
-Cheats|trucos
-Disable Rage Effect?|¿Deshabilitar el efecto de ira?
-Shield Pearl Count|Cuenta de perlas de escudo
-Intro_Roll_C_|Intro_Roll_C_
-Your biology... it is both familiar and foreign to me. How curious.|Tu biología... es a la vez familiar y extraña para mí. Que curioso.
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Un erudito curioso con la habilidad inusual de aprovechar las perlas.<LINE><LINE>¡Configura entradas, dificultad, trucos y más a través de la configuración de Remix!<LINE><LINE>Más Slugcats es opcional, pero muy recomendable.
-tail_segment_velocities|cola_segmento_velocidades
-pearlcat_2|perla_2
-PostModsInit:\n|PostModsInit:\n
-SL|SL
-This one again? I have better things to do... but...|Este de nuevo? Tengo mejores cosas que hacer... pero...
-Something new to read... it has been too long...|Algo nuevo para leer... ha pasado demasiado tiempo...
-moreslugcats|más slugcats
-haloGlyph6|haloGlyph6
-pearlcat_4|perla_4
-Oh, and for direction - there is a gate to the far west of here, where the ground fissues...|Oh, y para orientarte, hay una puerta al oeste de aquí, donde el suelo se agrieta...
-), or the triggers on controller|), o los disparadores en el controlador
-Spear Pearl Count|Cuenta de perlas de lanza
-BigGlyph11|GranGlifo11
-sleeve|manga
-Custom Spear Keybind?|¿Combinación de teclas de lanza personalizada?
-Midground|medio terreno
-TheSacrifice|El sacrificio
-Get... get away... strange... thing.|Vete... vete... cosa... extraña.
-DschockHorizontalRight|DshockHorizontalDerecha
-You must be very brave to have made it all the way here. Very brave indeed...|Debes ser muy valiente para haber llegado hasta aquí. Muy valiente por cierto...
-T1_CAR3|T1_CAR3
-Feet|Pies
-The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|La extensión más allá sería un lugar seguro para que criaras a tu familia y te mantuvieras alejado de mis asuntos.
-Background|Fondo
-There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|No hay nada que pueda hacer para detenerte, así que aquí está mi pedido:<LINE>Déjame en paz o termínalo rápidamente.
-mergedmods|mods fusionados
-LC_T1_S01|LC_T1_S01
-Water|Agua
-- Floppy Ears, Scarf|- Orejas caídas, Bufanda
-Hello again, <PlayerName>!|¡Hola de nuevo, <Nombre del jugador>!
-Back again? You do visit often...|¿De nuevo? Usted visita a menudo...
-pearlcat_structure2|perlacat_estructura2
-TEXT ERROR|ERROR DE TEXTO
-.png|.png
-pearlcat_5|perla_5
-MergeFix Error:\n|Error de corrección de combinación:\n
-head|cabeza
-com.rainworldgame.garrakx.crs.mod|com.rainworldgame.garrakx.crs.mod
-And why... to me?|¿Y por qué... a mí?
-I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|Supongo que, dado que no puede leer la información almacenada en ellos, puedo leerlos por usted, si lo desea.
----------------------------------------------------------------|-------------------------------------------------- -------------
-Pearlcat|perla
-pearlcat_structure5|perlacat_estructura5
-pearlcat_hudshadow|perla_hudshadow
-LW_Coast|LW_Costa
-The Pearlcat|El gato perlado
-\nPoleClimb |\nSubir a la pértiga
-Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|Con una curiosidad insaciable, Pearlcat se aventura una vez más en <LINE>en busca de expandir su colección.
-Joystick[0-9]Button|Joystick[0-9]Botón
-Keybind to swap to the stored pearl to the left. Limited to Player 1.|Combinación de teclas para cambiar a la perla almacenada a la izquierda. Limitado al jugador 1.
-Pebbles_AS_PearlGreen|Guijarros_AS_Verde perla
-You're welcome to stay a while... your ability is fascinating.|Eres bienvenido a quedarte un rato... tu habilidad es fascinante.
-I have nothing for you, I'm afraid... but I hope you find the answers you seek.|No tengo nada para ti, me temo... pero espero que encuentres las respuestas que buscas.
-Rage Pearl Count|Cuenta de perlas de ira
-What do you want? To take away more of my life...?|¿Qué deseas? ¿Para quitarme más de mi vida...?
-When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Cuando está marcada, anula las perlas iniciales con la opción a continuación. ¿Solo es efectivo al comienzo de un nuevo juego, a diferencia de Inventory Override?
-BigGlyph6|GranGlifo6
-WillowWisp|WillowWisp
-Swap Input|Intercambiar entrada
-Input a shelter name to have it override where Pearlcat starts a new game.|Ingrese un nombre de refugio para que anule el lugar donde Pearlcat comienza un nuevo juego.
-pearlcat_daysky|perlacat_daysky
- SAVE|AHORRAR
-oa_cutoff_min_speed|oa_cutoff_min_velocidad
-Oh, hello! Hello!|¡Oh hola! ¡Hola!
-You. I didn't forget...|Tú. no me olvidé...
-Cloud|Nube
-A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Un erudito de origen oscuro, armado con una energía enigmática y sed de conocimiento.<LINE>Frágil físicamente, pero con perlas como aliadas, ¿qué descubrirás en tus viajes?
-soundeffects/ambient|efectos de sonido/ambiente
-pearlcat|perla
-pearlcat_glyphcooldown|pearlcat_glyphcooldown
-Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Daño que hace el láser de cada perla roja por disparo. Daño de lanza de sobreviviente = 1.0
-T1_S01|T1_S01
-Laser Damage|Daño por láser
-slime-cubed.slugbase|slime-cubed.slugbase
-Version|Versión
-pearlcat_structure3|perlacat_estructura3
-pearlcat_flyingclouds|gatoperla_nubes voladoras
-... |...
-Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Habilita combinaciones de teclas personalizadas a continuación, a diferencia de las predeterminadas (ARRIBA + RECOGIDA).
-scarf|bufanda
-Waiver|Exención
-Accent|Acento
-1: |1:
-pupear_r|pupear_r
-oa_min_speed|oa_min_velocidad
-Welcome back, I suppose.|Bienvenido de nuevo, supongo.
------------------------------------------|-----------------------------------------
-strange|extraño
-SS_S04|SS_S04
-pearlcat_spear|Pearlcat_spear
-Visibility Multiplier|Multiplicador de visibilidad
-Music|Música
-JaggedSquare|DentadoCuadrado
--------------------|-------------------
-Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Número de perlas escudo (amarillo). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
-Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Número de perlas de creación de lanza (blancas). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
-Looping SFX Error, Outsider often likes to cause this:\n|Looping SFX Error, a los forasteros a menudo les gusta causar esto:\n
-pixel|píxel
-Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|Tiempo en cuadros para que el láser de una perla roja se recargue después de disparar. Predeterminado 1,5 segundos.
-Storage limit reached (|Límite de almacenamiento alcanzado (
-Player 2|jugador 2
-Clearly artificial creations. But from where? Sent by who?|Claramente creaciones artificiales. ¿Pero de dónde? Enviado por quien?
-I do not know what to make of this.|No sé qué hacer con esto.
-3.0|3.0
-So curious... I wonder what it is you're searching for?|Tan curioso... Me pregunto qué es lo que estás buscando.
-Prefer to use the custom keybinds below for agility double jump.|Prefiere usar las combinaciones de teclas personalizadas a continuación para el doble salto de agilidad.
-NA_19 - Halcyon Memories|NA_19 - Recuerdos felices
-bro.mergefix|hermano.mergefix
-All times here are in frames.\n40 frames = 1 second.|Todos los tiempos aquí están en cuadros.\n40 cuadros = 1 segundo.
-T1_END|T1_END
+﻿If only I had my memories, I might have a clue...|Si tan solo tuviera mis recuerdos, podría tener una pista...
 I do enjoy the company of you and your friend though, <PlayerName>.|Sin embargo, disfruto de tu compañía y la de tu amigo, <PlayerName>.
-Sleeve|Manga
-Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
-legs|piernas
-When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|Cuando está marcada, las perlas ya no otorgarán cambios de estadísticas, activas o no, y las estadísticas básicas se configurarán para ser similares a Hunter.
-SB|SB
-APPLIED MERGEFIX|MERGEFIX APLICADO
-You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|Me diste bastante susto! No recibo visitas a menudo en estos días;<LINE>mucho menos visitas como tú, con las que puedo hablar...
-YOU!|¡TÚ!
-BigGlyph2|GranGlifo2
-pearlcat_hudcircle|perla_hudcircle
-CloudDistant|NubeDistante
-_textures|_texturas
-HUD|HUD
-arm|brazo
-Please... this all I have left... you have so much... ...why take mine?|Por favor... esto es todo lo que me queda... tienes tanto... ...¿por qué tomas el mío?
-...that pearl you carry, the purple one, where did you find it?|...esa perla que llevas, la morada, ¿dónde la encontraste?
-_sprites|_sprites
-\nDoes not save over the current inventory - it is returned to when unchecked.|\No guarda sobre el inventario actual - se regresa cuando no se marca.
-If only I had my memories, I might have a clue...|Si tan solo tuviera mis recuerdos, podría tener una pista...
-\r\n|\r\n
-Compact Inventory HUD?|Inventario compacto HUD?
-oa_max_fric_mult|oa_max_fric_mult
-Atlas not found! ({uniqueName})|¡Atlas no encontrado! ({nombre único})
-Store Input|Almacenar entrada
-Player 3|jugador 3
-Pearlpup Respawn?|¿Reaparición de Pearlpup?
-PEARLCAT WARP END|EXTREMO DE URDIMBRE PEARLCAT
-) & use the (LEFT) & (RIGHT) directional inputs|) y use las entradas direccionales (IZQUIERDA) y (DERECHA)
-...one which still means a lot to me.|... uno que todavía significa mucho para mí.
-Pebbles_AS_PearlYellow|Guijarros_AS_Amarillo perlado
-But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Pero... la marca que posees, es muy inusual. <LINE> No es algo que cualquiera en el grupo local pueda otorgar...
-Disable Shield Effect?|¿Deshabilitar el efecto de escudo?
-And now here you are, with a perfect copy.|Y ahora aquí estás, con una copia perfecta.
-...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...¿Vaya? Llévatelos, los datos que contienen no me sirven de nada. Supongo que te serán mucho más útiles...
-1.0.0.0|1.0.0.0
-pearlcat_light2|gatoperla_luz2
-pearlcat_0|perla_0
-General|General
-GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|El VERDE simboliza la vitalidad. Cada perla verde almacenada puede revivir una criatura por ciclo, incluyéndote a ti.
-Keybind for Keyboard.|Combinación de teclas para teclado.
-When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|Cuando está marcada, la mayoría de las perlas (cuando están activas) forzarán el tema de amenaza para todas las regiones al tema de la región de la que eran originalmente.
-Something else new? Allow me to see...|¿Algo más nuevo? Déjame ver...
-pearlcat_1|perla_1
-#|#
-MSC|MSC
-SH|SH
-I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Todavía estoy más que feliz de leer cualquier perla que me traigas; <LINE> especialmente dadas tus habilidades únicas.
-Hips|Caderas
-pearlcat_6|perla_6
-To retrieve pearls, have an empty main hand, and hold (|Para recuperar perlas, tenga una mano principal vacía y mantenga presionada (
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|Si tiene un momento libre, estaría más que feliz de leer esas perlas... <LINE> No hay mucho más que hacer para pasar el tiempo.
-pearlcat_structure4|perlacat_estructura4
-Body|Cuerpo
-And just who might you be?|¿Y quién podrías ser tú?
-Keybind for Player 2.|Combinación de teclas para el jugador 2.
-PEARLCAT WARP|URDIMBRE PERLADA
-3600|3600
-_windDir|vientoSor
-And just who might you two be?|¿Y quiénes podrían ser ustedes dos?
-Disable Minor Effects?|¿Desactivar efectos menores?
-pupear_l|pupear_l
-Head|Cabeza
-BigGlyph10|GranGlifo10
-Slugcat_Pearlcat_Ascended|Slugcat_Pearlcat_Ascended
-DS|SD
-Nevermind... this anger is useless...|No importa... esta ira es inútil...
-OE_SEXTRA|OE_SEXTRA
-Number of rage pearls (red). Effective only when Inventory Override? is checked.|Número de perlas de ira (rojas). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
-Shield Duration|Duración del escudo
-Inventory Pings?|¿Pings de inventario?
-_|_
-Think of this mutually, I can 'see' a little further outside this can...|Piensen en esto mutuamente, puedo 'ver' un poco más allá de esta lata...
-Face|Rostro
-GATE_UW_LC|GATE_UW_LC
-Special thanks to the following people!|¡Un agradecimiento especial a las siguientes personas!
-Hold (|Sostener (
-Legs|Piernas
-ad2424|anuncio2424
-...and you can gather more of that data you so clearly desire.|...y puede recopilar más de esos datos que tan claramente desea.
-Max Pearl Count|Número máximo de perlas
-oa_max_fric_speed|oa_max_fric_speed
-Balagaga|Balagaga
-loadedsoundeffects/ambient|efectos de sonido/ambien cargados
-Brought me something to read? Or just wasting my time, as per usual?|¿Me trajiste algo para leer? ¿O simplemente perdiendo el tiempo, como de costumbre?
-Back again? I hope you have brought me something this time.|¿De nuevo? Espero que me hayas traído algo esta vez.
-pearlcat_7|perla_7
-I assure you it will be a more than suitable replacement for your primitive needs.|Te aseguro que será un reemplazo más que adecuado para tus necesidades primitivas.
-Pebbles_AS_PearlBlack|Guijarros_AS_PearlBlack
-Chimney Canopy|Toldo de chimenea
-I do not have much else to occupy my time with these days...|No tengo mucho más en lo que ocupar mi tiempo estos días...
-pearlcat_structure1|perlacat_estructura1
-warp|deformación
-LizardBubble6|lagartoburbuja6
-pearlcat_structure6|perlacat_estructura6
-pearlcat_topshutter|perlacat_topshutter
-GravityDisruptor|Disruptor de gravedad
-GATE_SL_MS|GATE_SL_MS
-L-Stick|Palo en L
-Shield Recharge Time|Tiempo de recarga del escudo
+Pebbles_AS_PearlBlue|Guijarros_AS_PearlBlue
+face|rostro
+pearlcat_support|perlacat_apoyo
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Multiplicador porcentual en la visibilidad general de Pearlcat, influye en la atracción de depredadores. Por defecto, Pearlcat es significativamente más visible que incluso Hunter.
+AS|COMO
+ModManager.RefreshModsLists:\n|ModManager.RefreshModsLists:\n
+pearlactiveplaceholder|perlaactivamarcador de posición
 oa_min_fric_mult|oa_min_fric_mult
-oa_max_speed|oa_max_speed
-pearl|perla
-T1_CAR2|T1_COCHE2
-pearlcatScarfC0|perlagatoBufandaC0
-ear_r|oído_r
-Custom Keybind?|¿Combinación de teclas personalizada?
-If you do not plan to provide me with any meaningful data, that is your best course of action;|Si no planea proporcionarme ningún dato significativo, ese es su mejor curso de acción;
-Custom Agility Keybind?|¿Combinación de teclas de agilidad personalizada?
-mayhemmm|caos
-HI|HOLA
-Transit System|Sistema de tránsito
-Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|Tiempo en fotogramas que dura el escudo amarillo perla después de activarse. Predeterminado 1,5 segundos.
-store_object_delay|store_object_delay
-BigGlyph12|GranGlifo12
-) or (|) o (
-pearlcatFeetA0|perlapiesA0
-Keybind for Player 3.|Combinación de teclas para el jugador 3.
-DrainageSystemPlus|DrenajeSystemPlus
-RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|El ROJO simboliza el poder. Con una perla roja activa, la criatura hostil más cercana será el objetivo.
-Ah, yet another one? You are even better at finding these than I imagined...|Ah, ¿otro más? Eres incluso mejor para encontrar esto de lo que imaginaba...
-) & (|) & (
-Swap Right|Cambiar a la derecha
-SPECEVENT|EVENTO
+.png|.png
+HANDLED: Shield Sentry Sound Exception:\n|MANEJADO: Excepción de sonido de Shield Sentry:\n
+Pebbles_AS_PearlRed|Guijarros_AS_Rojo Perla
 pearlcat_spire5|perlacat_spire5
-...there.|...allá.
-DistantBkgObject|DistantBkgObject
-GW|GW
-Release|Liberar
-Futile_White|Fútil_Blanco
-BM_SB_SUBWAY|BM_SB_SUBWAY
-When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|Cuando está marcado, Pearlpup reaparecerá en el próximo refugio en el siguiente ciclo cada vez que se pierda.
-You would be a hard one to forget after all, <PlayerName>!|¡Serías difícil de olvidar después de todo, <PlayerName>!
-HowlingRift|Grieta aulladora
-Starting Inventory Override?|¿Iniciando anulación de inventario?
-UW|UW
+pearlcat_glyphcooldown|pearlcat_glyphcooldown
+JaggedSquare|DentadoCuadrado
 I think I may still have some use left after all!~|¡Creo que aún me queda algo de uso después de todo!~
-Foreground|Primer plano
-OVERRODE MSC LOAD ORDER - MOD LOAD ORDER:|ORDEN DE CARGA MSC ANULADA - ORDEN DE CARGA MOD:
-Read this one too? Yes, yes, here it is...|¿Leer este también? Sí, sí, aquí está...
-RW_Outro_Theme|RW_Outro_Tema
-GhostDistortion|Distorsión fantasma
-Player 4|jugador 4
--|-
-BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|AZUL simboliza la agilidad. Cada perla azul almacenada proporcionará un doble salto adicional
-Alternatively, hold (|Alternativamente, mantenga presionado (
-Enable Backspear?|Habilitar Backspear?
-When checked, disables the camoflague effect granted by an active pearl.|Cuando está marcado, desactiva el efecto de camuflaje otorgado por una perla activa.
-40|40
-I already read this one. I can read it again, I suppose.|Ya leí este. Puedo leerlo de nuevo, supongo.
-R-Stick|palo R
-pearlcat_cloak|perla_capa_gato
+Player 1|Jugador 1
+Clearly an artifical creation. But from where? Sent by who?|Claramente una creación artificial. ¿Pero de dónde? Enviado por quien?
+) & use the (LEFT) & (RIGHT) directional inputs|) y use las entradas direccionales (IZQUIERDA) y (DERECHA)
+strange|extraño
+I see you've returned, yet again.|Veo que has regresado, una vez más.
+Futile_White|Fútil_Blanco
+Basic|Básico
+Noir |negro
+pearlcat_spire9|gatoperla_spire9
+pearlpup_face_sick|perlapup_face_sick
+Music|Música
+Geahgeah |Geahgeah
+What do you want? To take away more of my life...?|¿Qué deseas? ¿Para quitarme más de mi vida...?
+PEARLCAT VOID SEA ENDING|FINAL DEL MAR VACÍO DE PEARLCAT
+I do not know what to make of this.|No sé qué hacer con esto.
+Software|Software
+LizardBubble6|lagartoburbuja6
+---------------------------------------------------------------|-------------------------------------------------- -------------
+5|5
+Hold (|Sostener (
+pearlcat_0|perla_0
+I do not have much else to occupy my time with these days...|No tengo mucho más en lo que ocupar mi tiempo estos días...
+pearlcat_revivesentry|perlacat_revivesentry
+MSC|MSC
+The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|El poder que posees es fascinante. Nunca he visto nada parecido de tu especie.
+Hologram|holograma
+Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|La desgracia no discrimina, lamentablemente. Espero que te espere un destino mejor, con el tiempo.
+I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|Espero que los ciclos te hayan tratado bien... debe ser difícil cuidarse unos a otros.
+Shield Pearl Count|Cuenta de perlas de escudo
+CC|CC
+Please... this all I have left... you have so much... ...why take mine?|Por favor... esto es todo lo que me queda... tienes tanto... ...¿por qué tomas el mío?
+\nCorridorClimb |\nSubir Corredor
+tail_segment_velocities|cola_segmento_velocidades
+I assure you it will be a more than suitable replacement for your primitive needs.|Te aseguro que será un reemplazo más que adecuado para tus necesidades primitivas.
+122626|122626
+Button East|botón este
+oa_cutoff_dist|oa_cutoff_dist
+oa_min_time|oa_min_time
+Intended to make gameplay more challenging, may change gameplay significantly!|Diseñado para hacer que el juego sea más desafiante, ¡puede cambiar el juego significativamente!
+I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Supongo que lo único que valoras en estas perlas es cuán pura es su red. Te sustituiré por uno mucho más refinado que este.
+DS|SD
+Player 3|jugador 3
+henpemaz_splitscreencoop|henpemaz_splitscreencoop
+TheSacrifice|El sacrificio
+ear_r|oído_r
+You would be a hard one to forget after all, <PlayerName>!|¡Serías difícil de olvidar después de todo, <PlayerName>!
+PlayerArm|PlayerArm
+pearlcat_spire4|perlacat_spire4
+JetFishEyeA|JetFishEyeA
+Disable Shield Effect?|¿Deshabilitar el efecto de escudo?
+Water|Agua
+YOU!|¡TÚ!
+So curious... I wonder what it is you're searching for?|Tan curioso... Me pregunto qué es lo que estás buscando.
+Keybind for Keyboard.|Combinación de teclas para teclado.
+Is my memory so bad to forget how your little one looks? They seem paler...|¿Tan mala es mi memoria como para olvidar cómo se ve tu pequeño? Parecen más pálidos...
+SB|SB
+pearlcat_structure4|perlacat_estructura4
+Input a shelter name to have it override where Pearlcat starts a new game.|Ingrese un nombre de refugio para que anule el lugar donde Pearlcat comienza un nuevo juego.
+Trigger Player|Activar jugador
+BigGlyph12|GranGlifo12
+Intro5_3|Introducción5_3
+T1_CAR2|T1_COCHE2
+My neighbour, Five Pebbles, is a little temperamental, but means well.|Mi vecino, Five Pebbles, es un poco temperamental, pero tiene buenas intenciones.
+Visibility Multiplier|Multiplicador de visibilidad
+PLAYTESTERS|PROBADORES DE JUEGO
+pearlpup_tail|perlapup_tail
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|Cuando está marcada, la mayoría de las perlas (cuando están activas) forzarán el tema de amenaza para todas las regiones al tema de la región de la que eran originalmente.
+pearlcat_structure6|perlacat_estructura6
+Head|Cabeza
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Cuando está marcada, anula las perlas iniciales con la opción a continuación. ¿Solo es efectivo al comienzo de un nuevo juego, a diferencia de Inventory Override?
+I see you have not found a cure for their illness. Not yet...|Veo que no ha encontrado una cura para su enfermedad. Aún no...
+pearlcat_light0|gatoperla_luz0
+I... wish there was more I could do... but even... nevermind in my current state.|Yo... desearía que pudiera hacer más... pero incluso... no importa en mi estado actual.
+Agility Pearl Count|Cuenta de perlas de agilidad
+#|#
+pearlcat_spire1|perlacat_spire1
+Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|Los cargos se consumen para proporcionar protección. Cada perla recarga individualmente su carga después de un tiempo.
 .meta|.meta
-\nLungsFac |\nLungsFac
-Keybind for Player 1.|Combinación de teclas para el jugador 1.
+Disable Tutorials?|¿Desactivar tutoriales?
+Outro2_1|Outro2_1
+warp|deformación
+Hide Pearls?|¿Ocultar perlas?
+98ab95|98ab95
+LC|LC
+In any case, you are welcome to stay as long as you like. Anything to ease the pain.|En cualquier caso, eres bienvenido a quedarte todo el tiempo que quieras. Cualquier cosa para aliviar el dolor.
+pearlcat_daysky|perlacat_daysky
+Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|Prefiere usar las combinaciones de teclas personalizadas a continuación para la creación de lanzas, en lugar de las predeterminadas (GRAB)
+Keybind for Player 2.|Combinación de teclas para el jugador 2.
+pearlpup_face|perlapup_face
+pearlcat_agilitysentry|perlacat_agilitysentry
+And please keep your child under control.|Y por favor mantenga a su hijo bajo control.
+The Pearlcat|El gato perlado
 train_view_yshift|tren_vista_yshift
-SU|SU
+body|cuerpo
+ SAVE|AHORRAR
+I am... sorry.|Lo siento.
+Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|Prefiere usar las combinaciones de teclas personalizadas a continuación para el doble salto de agilidad, en lugar del predeterminado (GRAB + JUMP)
+Starting Inventory Override?|¿Iniciando anulación de inventario?
+pearlcat_dusksky|Pearlcat_dusksky
+SPECEVENT|EVENTO
+General|General
+pearlcat_sentryhalo|perlacat_sentryhalo
+pearlcat_glyphsentry|perlacat_glyphsentry
+PEBBLES TAKE RM PEARL|GUIJARROS TOMAR PERLA RM
+And just who might you be?|¿Y quién podrías ser tú?
+RW_Outro_Theme|RW_Outro_Tema
+.  .  .|. . .
+legs|piernas
+oa_cutoff_min_speed|oa_cutoff_min_velocidad
+Enable Backspear?|Habilitar Backspear?
+_atlases|_atlas
+You're welcome to stay a while... your ability is fascinating.|Eres bienvenido a quedarte un rato... tu habilidad es fascinante.
+...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|... Te comiste ... a mí. Por favor vete. No hablaré... contigo.<LINE>YO... NO PUEDO hablar contigo... porque... me comiste... ...¿y por qué?
+And just who might you two be?|¿Y quiénes podrían ser ustedes dos?
+pearlcat_cloak|perla_capa_gato
+Failed to parse color {objectType} : {ex.Message}|No se pudo analizar el color {objectType}: {ex.Message}
+com.rainworldgame.garrakx.crs.mod|com.rainworldgame.garrakx.crs.mod
+TEXT ERROR|ERROR DE TEXTO
+pearlcat_hudshadow|perla_hudshadow
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|Número de perlas de ira (rojas). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
+When checked, disables the rage effect granted by an active pearl.|Cuando está marcada, desactiva el efecto de ira otorgado por una perla activa.
 Songs|Canciones
+Foreground|Primer plano
+Get... get away... strange... thing.|Vete... vete... cosa... extraña.
+) & (|) & (
+loadedsoundeffects/ambient|efectos de sonido/ambien cargados
+GravityDisruptor|Disruptor de gravedad
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|Combinación de teclas para cambiar a la perla almacenada a la izquierda. Limitado al jugador 1.
+Store Input|Almacenar entrada
+Hips|Caderas
+Accent|Acento
+Back again? I hope you have brought me something this time.|¿De nuevo? Espero que me hayas traído algo esta vez.
+pearlcat_hudcooldown|perlacat_hudcooldown
+...we were built to solve problems. It is a shame not every problem has a solution.|... fuimos construidos para resolver problemas. Es una pena que no todos los problemas tengan solución.
+Outro3_1|Outro3_1
+\nPoleClimb |\nSubir a la pértiga
+There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|No hay nada que pueda hacer para detenerte, así que aquí está mi pedido:<LINE>Déjame en paz o termínalo rápidamente.
+Let us see what- oh, again?|Veamos qué- oh, ¿otra vez?
+Inventory Override?|¿Anulación de inventario?
+Pearls may also be deployed as temporary sentries. Press (|Las perlas también pueden desplegarse como centinelas temporales. Prensa (
+SB_L01|SB_L01
+Your little friend is still quite sick, unfortunately.|Tu amiguito todavía está bastante enfermo, por desgracia.
+ad2424|anuncio2424
+PEARLCAT WARP END|EXTREMO DE URDIMBRE PEARLCAT
+Hello again, <PlayerName>!|¡Hola de nuevo, <Nombre del jugador>!
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Cuando se marca, los cosméticos de Pearlcat se desactivarán, con la intención de permitir sprites personalizados a través de DMS. Esto no incluye las perlas en sí.
+pup|cachorro
+Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|Tiempo en fotogramas que dura el escudo amarillo perla después de activarse. Predeterminado 1,5 segundos.
+oa_min_speed|oa_min_velocidad
+They are unwell, <PlayerName>, very unwell indeed.|No se encuentran bien, <PlayerName>, realmente muy mal.
+L-Stick|Palo en L
+ - |-
+It appears to contain a hymn that once meant a lot to the inhabitants of my city...|Parece contener un himno que alguna vez significó mucho para los habitantes de mi ciudad...
+...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|...no hay nada que pueda hacer por tu cachorro en este momento. Lo siento. Voy a... pensar en ello.
+The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|La extensión más allá sería un lugar seguro para que criaras a tu familia y te mantuvieras alejado de mis asuntos.
+RW_Outro_Theme_B|RW_Outro_Theme_B
+Player 4|jugador 4
+bro.mergefix|hermano.mergefix
+T1_CAR0|T1_CAR0
+) to deploy, and again to return.|) para implementar y nuevamente para regresar.
+SI|SI
+oa_min_fric_speed|oa_min_fric_velocidad
+Keybind for Player 3.|Combinación de teclas para el jugador 3.
+Custom Sentry Keybind?|¿Combinación de teclas centinela personalizada?
+Back again? You do visit often...|¿De nuevo? Usted visita a menudo...
+I can only hope you have not come... to hurt me more.|Sólo puedo esperar que no hayas venido... a hacerme más daño.
+Balagaga|Balagaga
+Looping SFX Error, Outsider often likes to cause this:\n|Looping SFX Error, a los forasteros a menudo les gusta causar esto:\n
+HoloGrid|HoloCuadrícula
+_AboveCloudsAtmosphereColor|_ArribaNubesAtmósferaColor
+Spear Pearl Count|Cuenta de perlas de lanza
+), or the triggers on controller|), o los disparadores en el controlador
+.txt|.TXT
+My own time is limited, after all...|Mi propio tiempo es limitado, después de todo...
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|Número de perlas revivir (verde). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
+BigGlyph6|GranGlifo6
+oa_max_speed|oa_max_speed
+pearlcat_light2|gatoperla_luz2
+min_tail_offset|min_tail_offset
+): swap out a pearl, or change the limit in the Remix options|): intercambie una perla o cambie el límite en las opciones de Remix
+I will tolerate your pressence, so long as you bring me something meaningful.|Toleraré tu presencia, siempre y cuando me traigas algo significativo.
+Hides the visuals of inactive pearls and turns you into... cat.|Oculta las imágenes de las perlas inactivas y te convierte en... gato.
+Welcome back, <PlayerName>, and your little one too.|Bienvenido de nuevo, <PlayerName>, y también a tu pequeño.
+ear_l|conde
+Hold (GRAB) with an active common pearl to convert it into a pearl spear|Sostenga (GRAB) con una perla común activa para convertirla en una lanza de perlas
+When checked, disables the agility effect granted by an active pearl.|Cuando está marcado, desactiva el efecto de agilidad otorgado por una perla activa.
+I am not sure if you are aware, but your child appears very unwell...|No estoy seguro de si lo sabe, pero su hijo parece muy mal...
+Your attachment to that thing is unavoidable, I suppose.|Su apego a esa cosa es inevitable, supongo.
+oa_cutoff_max_speed|oa_cutoff_max_speed
+Oh, hello <PlayerName>!|¡Hola, <nombre del jugador>!
+GW|GW
+1.0.0.0|1.0.0.0
+When checked, disables the revive effect granted by an active pearl.|Cuando está marcado, desactiva el efecto revivir otorgado por una perla activa.
+Disable Cosmetics?|¿Desactivar cosméticos?
+slugcat|gato baboso
+scholar|erudito
+ruffian|rufián
+DistantBkgObject|DistantBkgObject
+3.0|3.0
+T1_END|T1_END
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Cada perla roja proporciona un láser adicional, y sí, ¡estas moscas murciélago son MUY HOSTILES!
+oa_daze_max_speed|oa_daze_max_speed
+SH|SH
+ear_r_offset|oreja_r_desplazamiento
+\r\n|\r\n
+Intro3_3|Introducción3_3
+CloudDistant|NubeDistante
+scarf|bufanda
+Intended for fun, may change gameplay significantly!|Diseñado para divertirse, ¡puede cambiar significativamente el juego!
+Keyboard|Teclado
+Cloak|Capa
+Sleeve|Manga
+pupsick|cachorrito
+Disable Revive Effect?|¿Deshabilitar el efecto revivir?
+Keybind for Player 4.|Combinación de teclas para el jugador 4.
+T1_CAREND|T1_CAREND
+Oh, and for direction - there is a gate to the far west of here, where the ground fissues...|Oh, y para orientarte, hay una puerta al oeste de aquí, donde el suelo se agrieta...
+Atlas not found! ({uniqueName})|¡Atlas no encontrado! ({nombre único})
+q|q
+Nevermind... this anger is useless...|No importa... esta ira es inútil...
+When checked, the inventory HUD will be replaced with a more compact version.|Cuando está marcado, el HUD de inventario se reemplazará con una versión más compacta.
+You. Again. I still remember what you did...|Tú. De nuevo. Aún recuerdo lo que hiciste...
+HologramBehindTerrain|HologramaDetrásTerreno
+Oracle Hooks Error:\n|Error de enganches de Oracle:\n
+When checked, enables Pearlcat to carry a backspear.|Cuando está marcada, permite que Pearlcat lleve una lanza trasera.
+Feet|Pies
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Número de perlas escudo (amarillo). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
+pixel|píxel
+_textures|_texturas
+Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|Las perlas también pueden desplegarse como centinelas temporales. Pulsa (GRAB + JUMP + DOWN) para desplegar y de nuevo para volver.
+_MultiplyColor|_MultiplicarColor
+. . .|. . .
+Press (JUMP + GRAB) while in the air to perform a double jump|Presiona (JUMP + GRAB) mientras estás en el aire para realizar un doble salto.
+SU|SU
+) or (|) o (
+YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|AMARILLO simboliza protección. Cada perla amarilla almacenada proporcionará una carga de escudo.
+DESTROY|DESTRUIR
+Extra Cheats|Trucos adicionales
+pearlcat_hudsentry|perla_hudsentry
+So curious...|Tan curioso...
+...and you can gather more of that data you so clearly desire.|...y puede recopilar más de esos datos que tan claramente desea.
+I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Todavía estoy más que feliz de leer cualquier perla que me traigas; <LINE> especialmente dadas tus habilidades únicas.
 hips|caderas
-Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|A qué jugador se aplicará el cambio de disparador del controlador. 0 deshabilita el intercambio de disparadores. Mantén presionado y arrastra hacia arriba o hacia abajo para cambiar.
+Slugcat_Pearlcat|Slugcat_Pearlcat
+SS_S04|SS_S04
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|Número de perlas de camuflaje (negro). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
+\n|\norte
+You... I didn't forget...|Tú... no me olvidé...
+pearlcat_spire3|perlacat_spire3
+pearlcat_9|perla_9
+Disable Spear Effect?|¿Deshabilitar el efecto de lanza?
+GhostDistortion|Distorsión fantasma
+pearlcat_hudcircle|perla_hudcircle
+LOAD SAVE DATA IN PLAYER MODULE|CARGAR GUARDAR DATOS EN EL MÓDULO DE JUGADOR
+Oh! It is good to see you two again!|¡Oh! ¡Es bueno verlos a ustedes dos de nuevo!
+NA_19 - Halcyon Memories|NA_19 - Recuerdos felices
+You. I didn't forget...|Tú. no me olvidé...
+pearlcat_4|perla_4
+) with an active common pearl to convert it into a pearl spear|) con una perla común activa para convertirla en una lanza de perlas
+Welcome back, I suppose.|Bienvenido de nuevo, supongo.
+1.0.0|1.0.0
+Sick|Enfermo
+I do enjoy the company though... it gets lonely out here.|Aunque disfruto de la compañía... se siente solo aquí.
+Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|Tiempo en cuadros para que el láser de una perla roja se recargue después de disparar. Predeterminado 1,5 segundos.
+PEARLCAT INIT: VERSION |PEARLCAT INIT: VERSIÓN
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Un erudito curioso con la habilidad inusual de aprovechar las perlas.<LINE><LINE>¡Configura entradas, dificultad, trucos y más a través de la configuración de Remix!<LINE><LINE>Más Slugcats es opcional, pero muy recomendable.
+VS|contra
+GetSplitScreenHudOffset|ObtenerDividirPantallaHudOffset
+...and you have brought your little friend along, of course.|...y has traído a tu pequeño amigo, por supuesto.
+Think of this mutually, I can 'see' a little further outside this can...|Piensen en esto mutuamente, puedo 'ver' un poco más allá de esta lata...
+DM|MD
+feet|pies
+...you can manipulate our storage medium in unforseen ways...|...puedes manipular nuestro medio de almacenamiento de formas imprevistas...
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|Cuando está marcada, las perlas ya no otorgarán cambios de estadísticas, activas o no, y las estadísticas básicas se configurarán para ser similares a Hunter.
+Keybind for Player 1.|Combinación de teclas para el jugador 1.
+PEARLCAT OE ENDING|FINAL OE PEARLCAT
+Shield Recharge Time|Tiempo de recarga del escudo
+Pebbles_AS_PearlGreen|Guijarros_AS_Verde perla
+daze_duration|aturdimiento_duración
+LF|LF
+Four! Well, if you insist...|¡Cuatro! Bueno si insistes...
+inventory_ui_offset|inventario_ui_compensación
+And who is your little friend? They are quite adorable!|¿Y quién es tu amiguito? ¡Son bastante adorables!
+Disable Agility Effect?|¿Deshabilitar el efecto de agilidad?
+Rage Pearl Count|Cuenta de perlas de ira
+CANNOT PLAY|NO PUEDO JUGAR
+pearlcat_spire8|perlacat_spire8
+pearlcat_bottomshutter|perla_cat_bottomshutter
+OE_|EO_
+PostModsInit:\n|PostModsInit:\n
+...I am not sure if this is comforting, but...|...No estoy seguro de si esto es reconfortante, pero...
+Debug|Depurar
+Compact Inventory HUD?|Inventario compacto HUD?
+...that pearl you carry, the purple one, where did you find it?|...esa perla que llevas, la morada, ¿dónde la encontraste?
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|Si tiene un momento libre, estaría más que feliz de leer esas perlas... <LINE> No hay mucho más que hacer para pasar el tiempo.
+Transit System|Sistema de tránsito
+arm|brazo
+sleeve|manga
+Hello again.|Hola de nuevo.
+Cloud|Nube
+And why... to me?|¿Y por qué... a mí?
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|Cuando está marcado, establece el inventario en el número especificado de perlas de colores debajo de cada ciclo.
+haloGlyph5|haloGlyph5
+Camo Pearl Count|Recuento de perlas de camuflaje
+tail|cola
+TurtleMan27|TurtleMan27
+store_object_delay|store_object_delay
+Chimney Canopy|Toldo de chimenea
+Version|Versión
+Laser Windup TIme|Tiempo de cuerda láser
+But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Pero... la marca que posees, es muy inusual. <LINE> No es algo que cualquiera en el grupo local pueda otorgar...
+LC_T1_S01|LC_T1_S01
+pearlactive|perlaactiva
+The Gutter|el canalón
+OnModsInit:\n|OnModsInit:\n
+You must be very brave to have made it all the way here. Very brave indeed...|Debes ser muy valiente para haber llegado hasta aquí. Muy valiente por cierto...
+Assembly-CSharp|Asamblea-CSharp
+.NETFramework,Version=v4.8|.NETFramework, Versión=v4.8
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Número de perlas de agilidad (azul). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
+pearlcat_3|perla_3
+Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|Prefiere usar las combinaciones de teclas personalizadas para desplegar las perlas centinela, en lugar de las predeterminadas (GRAB + JUMP + DOWN)
+pearlcatSleeve0|perlacatManga0
+pearlcat_topshutter|perlacat_topshutter
+You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|¿Vienes de bastante lejos? Puedes comunicarte con nosotros, pero la marca que posees me es ajena...
+Given your unique abilities, if you are curious as to the contents of those pearls -|Dadas tus habilidades únicas, si tienes curiosidad sobre el contenido de esas perlas...
+The choice is yours.|La decisión es tuya.
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Habilita combinaciones de teclas personalizadas a continuación, a diferencia de las predeterminadas (ARRIBA + RECOGIDA).
+Pebbles_AS_PearlBlack|Guijarros_AS_PearlBlack
+OE|Equipo original
+I hope you are staying safe out there...|Espero que te mantengas a salvo ahí fuera...
+soundeffects/ambient|efectos de sonido/ambiente
+View|Vista
+Face|Rostro
+pearlcat_spear|Pearlcat_spear
+I am so sorry.|Lo siento mucho.
+I would guess they will grow up into quite the scholar themself, someday...|Me imagino que ellos mismos crecerán y se convertirán en eruditos, algún día...
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Un erudito de origen oscuro, armado con una energía enigmática y sed de conocimiento.<LINE>Frágil físicamente, pero con perlas como aliadas, ¿qué descubrirás en tus viajes?
+UW|UW
+Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|Tiempo en fotogramas que tarda el escudo perlado amarillo en recargarse después de activarse. Por defecto 40 segundos.
+Pearlpup Respawn?|¿Reaparición de Pearlpup?
+Laser Damage|Daño por láser
+When checked, disables the camoflague effect granted by an active pearl.|Cuando está marcado, desactiva el efecto de camuflaje otorgado por una perla activa.
+oa_max_fric_mult|oa_max_fric_mult
+I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|Supongo que, dado que no puede leer la información almacenada en ellos, puedo leerlos por usted, si lo desea.
+Something else new? Allow me to see...|¿Algo más nuevo? Déjame ver...
+GateHologram|PuertaHolograma
+oa_max_dist|oa_max_dist
+I very much enjoy the company though... you and your little friend are always welcome here.|Aunque disfruto mucho de la compañía... tú y tu amiguito son siempre bienvenidos aquí.
+PEBBLES GIVE SS PEARL|LOS GUIJARROS DAN PERLA SS
+Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Tiempo en cuadros para que se dispare el láser de una perla roja después de adquirir un objetivo. Predeterminado 1,5 segundos.
+Swap Right|Cambiar a la derecha
+BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|AZUL simboliza la agilidad. Cada perla azul almacenada proporcionará un doble salto adicional
+Shield Duration|Duración del escudo
+pearlpup_scarf|bufanda_perla
+active_object_offset|desplazamiento_objeto_activo
+Welcome back, you two!|¡Bienvenidos de nuevo, ustedes dos!
+3: |3:
+oa_max_time|oa_max_time
+Disable Rage Effect?|¿Deshabilitar el efecto de ira?
+Grab a creature and hold (GRAB) with an active green pearl to revive them|Agarra una criatura y sosténgala (GRAB) con una perla verde activa para revivirla
+Disable Camoflague Effect?|¿Deshabilitar el efecto de camuflaje?
+<LINE>Does not save over the current inventory - it is returned to when unchecked.|<LINE>No guarda sobre el inventario actual; se regresa cuando no se marca.
+.NET Framework 4.8|.NET Framework 4.8
+oa_max_fric_speed|oa_max_fric_speed
+MS|EM
+\nRunspeedFac |\nRunspeedFac
+Difficulty|Dificultad
+BigGlyph10|GranGlifo10
+Swap Left|Cambiar a la izquierda
+Inventory Pings?|¿Pings de inventario?
+Yes, help yourself. They are not edible.|Sí, ayúdate a ti mismo. No son comestibles.
+pearlcat_spire2|perlacat_spire2
+... |...
+HUD|HUD
+Ah, I hope you both stay safe out there...|Ah, espero que ambos estén a salvo ahí fuera...
+Disable Minor Effects?|¿Desactivar efectos menores?
+haloGlyph6|haloGlyph6
+PFace|cara
+Background|Fondo
+Release|Liberar
+Efi|efi
+Midground|medio terreno
+mayhemmm|caos
+Laser Recharge Time|Tiempo de recarga del láser
+Your biology... it is both familiar and foreign to me. How curious.|Tu biología... es a la vez familiar y extraña para mí. Que curioso.
+Player 2|jugador 2
+pearlcat_flyingclouds|Pearlcat_FlyingClouds
+I have nothing for you, I'm afraid... but I hope you find the answers you seek.|No tengo nada para ti, me temo... pero espero que encuentres las respuestas que buscas.
+GATE_UW_LC|GATE_UW_LC
+- Floppy Ears, Scarf|- Orejas caídas, Bufanda
+Another one? I shouldn't be surprised. Let's see...|¿Otro? No debería sorprenderme. Vamos a ver...
+Lolight2|lolight2
+pearlcat|perla
+NON-MSC|NO-MSC
+Body|Cuerpo
+3600|3600
+And who is your little friend? They are...|¿Y quién es tu amiguito? Ellos son...
+moreslugcats|más slugcats
+BigGlyph2|GranGlifo2
+...one which still means a lot to me.|... uno que todavía significa mucho para mí.
+pearlcat_structure3|perla_estructura_gato3
+DistantBkgObjectAlpha|DistantBkgObjectAlpha
+GATE_SL_MS|GATE_SL_MS
+Scarf|Bufanda
+slime-cubed.slugbase|slime-cubed.slugbase
+<oA>|<oA>
+pearl|perla
+Right Bumper|Parachoques Derecho
+When checked, some abilties will show the inventory when recharged or depleted.|Cuando está marcada, algunas habilidades mostrarán el inventario cuando se carguen o se agoten.
+pearlcat_clouds|perla_nubes
+pearlcat_7|perla_7
+pearlcat_8|perla_8
+Menu|Menú
+To retrieve pearls, have an empty main hand, and hold (|Para recuperar perlas, tenga una mano principal vacía y mantenga presionada (
+T1_CAR3|T1_CAR3
+To store, hold the same keybind with a pearl in your main hand|Para almacenar, mantenga la misma combinación de teclas con una perla en su mano principal
+com.henpemaz.splitscreencoop|com.henpemaz.splitscreencoop
+-----------------------------------------|-----------------------------------------
+HI|HOLA
+T1_START|T1_START
+Pearl Threat Music?|¿Música Pearl Threat?
+pearlpup_head|perlapup_head
+pearlcatScarfA0|perlagatoBufandaA0
+ACK|ACK
+pearlcat_5|perla_5
+Elliot|eliot
+-|-
+DschockHorizontalRight|DshockHorizontalDerecha
+) while in the air to perform a double jump|) en el aire para realizar un doble salto
+GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|El VERDE simboliza la vitalidad. Cada perla verde almacenada puede revivir una criatura por ciclo, incluyéndote a ti.
+\nThrowSkill |\nLanzar habilidad
+1: |1:
+T1_CAR1|T1_COCHE1
+Custom Spear Keybind?|¿Combinación de teclas de lanza personalizada?
+BM_SB_SUBWAY|BM_SB_SUBWAY
+Joystick[0-9]Button|Joystick[0-9]Botón
+pearlcat_light1|gatoperla_luz1
+face_sick|cara enferma
+pearlcat_structure5|perla_estructura_5
+ear_l_offset|oreja_l_offset
+All times here are in frames.<LINE>40 frames = 1 second.|Todos los tiempos aquí están en cuadros. <LINEA> 40 cuadros = 1 segundo.
+- Dialogue, SFX|- Diálogo, SFX
+When checked, all tutorials will be disabled.|Cuando está marcado, todos los tutoriales estarán deshabilitados.
+Alternatively, hold (|Alternativamente, mantenga presionado (
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|... ¡tienes el don de la comunicación! <LINE> ¿Tal vez le hiciste una visita a mi vecino, Five Pebbles...?
+Custom Agility Keybind?|¿Combinación de teclas de agilidad personalizada?
+SplitScreen Co-op|Cooperativo de pantalla dividida
+pearlcat_hudpearl|perla_hudpearl
+To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Para recuperar perlas, ten una mano principal vacía y mantén presionado (GRAB + UP)
+He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|Él está mucho mejor equipado que yo en este momento. Le recomendaría que lo visitara, si puede. <LINE> Aunque no fue diseñado como un centro médico, es posible que pueda ayudarlo de alguna manera.
+T1_S01|T1_S01
+Special thanks to the following people!|¡Un agradecimiento especial a las siguientes personas!
+Pebbles_AS_PearlYellow|Guijarros_AS_Amarillo perlado
+40|40
+Hello, again. You are very curious. Very curious indeed.|Hola de nuevo. Usted es muy curioso. Muy curioso por cierto.
+BigGlyph11|GranGlifo11
+If you do not plan to provide me with any meaningful data, that is your best course of action;|Si no planea proporcionarme ningún dato significativo, ese es su mejor curso de acción;
+Storage limit reached (|Límite de almacenamiento alcanzado (
+...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...¿Vaya? Llévatelos, los datos que contienen no me sirven de nada. Supongo que te serán mucho más útiles...
+Sidera |sidera
+R-Stick|palo R
+Max Pearl Count|Número máximo de perlas
+You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|Me diste bastante susto! No recibo visitas a menudo en estos días;<LINE>mucho menos visitas como tú, con las que puedo hablar...
+WillowWisp|WillowWisp
+Button West|botón oeste
+Clearly artificial creations. But from where? Sent by who?|Claramente creaciones artificiales. ¿Pero de dónde? Enviado por quien?
+Left Bumper|Parachoques izquierdo
+Ah. So you've returned.|ah Así que has vuelto.
+And now here you are, with a perfect copy.|Y ahora aquí estás, con una copia perfecta.
 I must resume my work. I will be waiting here, as always.|Debo reanudar mi trabajo. Te estaré esperando aquí, como siempre.
+pearlcat_structure1|perlacat_estructura1
+Legs|Piernas
+BigGlyph8|GranGlifo8
+Play around with sentries to see what they do!|¡Juega con los centinelas para ver qué hacen!
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|Cuando está marcado, Pearlpup reaparecerá en el próximo refugio en el siguiente ciclo cada vez que se pierda.
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|Combinación de teclas para cambiar a la perla almacenada a la derecha. Limitado al jugador 1.
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Número de perlas de creación de lanza (blancas). ¿Efectivo solo cuando la anulación de inventario? está chequeado.
+slugcatsick|slugcatsick
+OVERRODE MSC LOAD ORDER - MOD LOAD ORDER:|ORDEN DE CARGA MSC ANULADA - ORDEN DE CARGA MOD:
+Sound Hooks Error:\n|Error de ganchos de sonido:\n
+To cycle between pearls, use (|Para alternar entre perlas, use (
+There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|No hay nada que pueda hacer: no soy un centro médico, e incluso si lo fuera, mi equipo está lejos de ser impecable.
+But it's best not to dwell on the past, don't you agree <PlayerName>?|Pero es mejor no insistir en el pasado, ¿no estás de acuerdo, <PlayerName>?
+TitleCard_Pearlcat|TítuloCard_Pearlcat
+My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|Mis supervisores no han hecho las paces con su llegada. Tenía la impresión de que el sistema de tránsito no funcionaba en su mayor parte.
+_|_
+pearlcat_over9|perla_over9
+pearlcat_shieldsentry|Pearlcat_shieldsentry
+When checked, disables the shield effect granted by an active pearl.|Cuando está marcado, desactiva el efecto de escudo otorgado por una perla activa.
+RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|El ROJO simboliza el poder. Con una perla roja activa, la criatura hostil más cercana será el objetivo.
+I know that quite well.|Lo sé muy bien.
+Another? And I shall read this one to you as well...|¿Otro? Y te leeré este también...
+You are welcome to stay as long as you like. Anything to ease the pain.|Eres bienvenido a quedarte todo el tiempo que quieras. Cualquier cosa para aliviar el dolor.
+...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|...pero... Pensaré en tu problema, por ahora. Tal vez pueda encontrar una solución para los dos.
+_sprites|_sprites
+No, I do not care for your little one.|No, no me importa tu pequeño.
+pearlcatFeetA0|perlapiesA0
+This one again? I have better things to do... but...|Este de nuevo? Tengo mejores cosas que hacer... pero...
+Button North|Botón Norte
+Death is not the end... even death that seems permanent.|La muerte no es el final... incluso la muerte que parece permanente.
+-------------------|-------------------
+And a third? So it is...|¿Y un tercero? Así es...
+You have a knack for finding these pearls, yes?|Tienes un don para encontrar estas perlas, ¿verdad?
+pearlcat_hudlockedshortcut|pearlcat_hudlockedshortcut
+Swap Input|Intercambiar entrada
+- Artwork|- Obra de arte
+Pearlcat|perla
+Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Daño que hace el láser de cada perla roja por disparo. Daño de lanza de sobreviviente = 1.0
+Cheats|trucos
+\nLungsFac |\nLungsFac
+AS IS|COMO ES
+I remember this one... don't you? Well...|Me acuerdo de este... ¿tú no? Bien...
+Ah, yet another one? You are even better at finding these than I imagined...|Ah, ¿otro más? Eres incluso mejor para encontrar esto de lo que imaginaba...
+Read this one too? Yes, yes, here it is...|¿Leer este también? Sí, sí, aquí está...
+Oh... oh no...|Ay... ay no...
+Intro_Roll_C_|Intro_Roll_C_
+head|cabeza
+I already read this one. I can read it again, I suppose.|Ya leí este. Puedo leerlo de nuevo, supongo.
+OE_SEXTRA|OE_SEXTRA
+I have tried to reconstruct it from memory many times, fruitlessly.|He intentado reconstruirlo de memoria muchas veces, sin éxito.
+pearlcat_structure2|perlacat_estructura2
+sweat|sudor
+_windDir|vientoSor
+SL|SL
+pearlcat_2|perla_2
+Start Shelter Override|Iniciar anulación de refugio
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|Con una curiosidad insaciable, Pearlcat se aventura una vez más en <LINE>en busca de expandir su colección.
+2: |2:
+Button South|botón sur
+When checked, disables the spear creation effect granted by an active pearl.|Cuando está marcado, desactiva el efecto de creación de lanza otorgado por una perla activa.
+4: |4:
+fcb103|fcb103
+)|)
+PEBBLESWAIT|ESPERANZA PEBBLES
+Something new to read... it has been too long...|Algo nuevo para leer... ha pasado demasiado tiempo...
+...there.|...allá.
+Press (|Prensa (
+pearlcat_6|perla_6
+Oh, hello! Hello!|¡Oh hola! ¡Hola!
+Custom Keybind?|¿Combinación de teclas personalizada?
+Hello! I remember you! I remember...|¡Hola! ¡Te recuerdo! Recuerdo...
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|A qué jugador se aplicará el cambio de disparador del controlador. 0 deshabilita el intercambio de disparadores. Mantén presionado y arrastra hacia arriba o hacia abajo para cambiar.
+Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
+This illness, it is unlike any I have seen before - I can say it is likely fatal.|Esta enfermedad no se parece a ninguna que haya visto antes; puedo decir que probablemente sea fatal.
+max_tail_offset|max_tail_offset
+SplitScreenCoop.SplitScreenCoop|SplitScreenCoop.SplitScreenCoop
+SS_AI|SS_AI
+by|por
+Brought me something to read? Or just wasting my time, as per usual?|¿Me trajiste algo para leer? ¿O simplemente perdiendo el tiempo, como de costumbre?
+0.0|0.0
+PEARLCAT WARP|URDIMBRE PERLADA
+pearlcat_1|perla_1
+Ability Input|Entrada de habilidad
+pearlcatScarfC0|perlagatoBufandaC0
+300|300
+Revive Pearl Count|Revive el conteo de perlas
+pearlactivehalo|perlaactivahalo
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Número máximo de perlas que se pueden almacenar a la vez, incluida la perla activa. El valor predeterminado es 9. Mantenga presionado y arrastre hacia arriba o hacia abajo para cambiar.

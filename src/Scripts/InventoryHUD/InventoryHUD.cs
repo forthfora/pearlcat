@@ -1,5 +1,7 @@
 ﻿using HUD;
+using JollyCoop.JollyHUD;
 using RWCustom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -35,8 +37,6 @@ public class InventoryHUD : HudPart
     }
 
 
-    public static bool IsSplitScreenCoopActive => ModManager.ActiveMods.Any(x => x.id == "henpemaz_splitscreencoop");
-
     public override void Draw(float timeStacker)
     {
         if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game) return;
@@ -45,21 +45,32 @@ public class InventoryHUD : HudPart
         {
             if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
 
-            var camNum = 0;
+            var playerNum = playerModule.PlayerNumber;
 
-            //if (IsSplitScreenCoopActive)
+            var cameras = player.abstractCreature.world.game.cameras;
+            var rCam = cameras.First();
+
+            //foreach (var c in cameras)
             //{
-            //    var playerNum = playerModule.PlayerNumber;
+            //    foreach (var hudPart in rCam.hud.parts)
+            //    {
+            //        if (hudPart is not JollyPlayerSpecificHud jollyHud) continue;
 
-            //    if (playerNum >= 1)
-            //        camNum = 1;
+            //        if (jollyHud.playerNumber != playerNum) continue;
+
+            //        rCam = jollyHud.Camera; // splitscreen IL hooks this so it returns what we want (?)
+
+            //        // seems to alwawys return camera 0 though...
+            //        break;
+            //    }
             //}
-
 
             var playerChunkPos = Vector2.Lerp(player.firstChunk.lastPos, player.firstChunk.pos, timeStacker);
             var playerPos = player.abstractCreature.world.RoomToWorldPos(playerChunkPos, player.abstractCreature.Room.index);
-            var roomPos = player.abstractCreature.world.RoomToWorldPos(player.abstractCreature.world.game.cameras[camNum].pos, player.abstractCreature.world.game.cameras[camNum].room.abstractRoom.index);
-            var truePos = playerPos - roomPos;
+            var roomPos = player.abstractCreature.world.RoomToWorldPos(rCam.pos, rCam.room.abstractRoom.index);
+
+            var truePos = playerPos - roomPos - rCam.GetSplitScreenHUDOffset(rCam.cameraNumber); // method from splitscreen, via reflection
+
 
             var activeIndex = playerModule.ActiveObjectIndex;
 
@@ -168,7 +179,9 @@ public class InventoryHUD : HudPart
             if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
 
             foreach (var item in playerModule.Inventory)
+            {
                 UpdateSymbol(item, playerModule, updatedSymbols);
+            }
 
             foreach (var grasp in player.grasps)
             {
@@ -183,7 +196,9 @@ public class InventoryHUD : HudPart
         var symbolsToClear = AllSymbols.Except(updatedSymbols);
 
         foreach (var symbol in symbolsToClear)
+        {
             symbol.SlatedForDeletion = true;
+        }
     }
 
     public void UpdateSymbol(AbstractPhysicalObject abstractObject, PlayerModule playerModule, List<PlayerObjectSymbol> updatedSymbols)
@@ -191,7 +206,9 @@ public class InventoryHUD : HudPart
         if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
         {
             if (symbol != null)
+            {
                 Symbols.Remove(abstractObject);
+            }
 
             symbol = new PlayerObjectSymbol(this, Vector2.zero, playerModule);
             Symbols.Add(abstractObject, symbol);

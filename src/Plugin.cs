@@ -15,6 +15,7 @@ namespace Pearlcat;
 
 [BepInDependency("slime-cubed.slugbase")]
 [BepInDependency("com.rainworldgame.garrakx.crs.mod")]
+[BepInDependency("com.henpemaz.splitscreencoop", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInPlugin(MOD_ID, MOD_ID, "1.0.0")]
 
 public class Plugin : BaseUnityPlugin

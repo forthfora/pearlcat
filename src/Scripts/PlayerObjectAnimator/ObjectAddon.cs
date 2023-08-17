@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using DataPearlType = DataPearl.AbstractDataPearl;
+using MSCDataPearlType = MoreSlugcats.MoreSlugcatsEnums.DataPearlType;
 
 namespace Pearlcat;
 
@@ -148,9 +150,11 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public bool DrawHalo { get; set; }
     public int HaloSprite { get; set; }
 
-    public float HaloScale { get; set; } = 0.75f;
-    public float HaloAlpha { get; set; } = ModOptions.HidePearls.Value ? 0.0f : 0.5f;
-    public Color HaloColor { get; set; } = Color.white;
+    public Color ActiveHaloColor { get; set; }
+    public Color HaloColor { get; set; }
+    public float HaloAlpha { get; set; }
+    public float HaloScale { get; set; }
+
 
     public float CamoLerp { get; set; }
 
@@ -160,8 +164,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public int ReviveCounterSprite { get; set; }
 
     public int SymbolSprite { get; set; }
-    public POEffect.MajorEffectType SymbolType { get; set; }
-    public string? OverrideSymbol { get; set; }
+    public string? Symbol { get; set; }
     public bool DrawSymbolCooldown { get; set; }
 
     public int SpearSprite { get; set; }
@@ -215,7 +218,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.isVisible = !ModOptions.HidePearls.Value || IsActiveObject;
 
         sprite = sLeaser.sprites[SpearSprite];
-        sprite.isVisible = IsActiveObject;
+        sprite.isVisible = IsActiveObject && !IsSentry;
         sprite.SetPosition(pos);
         sprite.scaleY = IsActiveObject ? DrawSpearLerp : 0.0f;
         sprite.color = SymbolColor;
@@ -230,7 +233,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite = sLeaser.sprites[SymbolSprite];
         var offset = IsActiveObject ? ActiveOffset : InactiveOffset;
 
-        var spriteName = !IsActiveObject ? null : OverrideSymbol ?? SpriteFromMajorEffect(SymbolType);
+        var spriteName = !IsActiveObject ? null : Symbol;
         
         if (DrawSymbolCooldown)
             spriteName = "pearlcat_glyphcooldown";
@@ -348,5 +351,27 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
             _ => "pearlcat_glyphcooldown",
         };
+    }
+
+    public static string SpriteFromPearl(AbstractPhysicalObject obj)
+    {
+        if (obj is not DataPearlType pearl)
+        {
+            return "pearlcat_glyphcooldown";
+        }
+
+        var dataPearlType = pearl.dataPearlType;
+        
+        if (dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearlType == MSCDataPearlType.RM)
+        {
+            return "haloGlyph5";
+        }
+        else if (dataPearlType == Enums.Pearls.SS_Pearlcat)
+        {
+            return "haloGlyph6";
+        }
+
+        var effect = obj.GetPOEffect();
+        return SpriteFromMajorEffect(effect.MajorEffect);
     }
 }

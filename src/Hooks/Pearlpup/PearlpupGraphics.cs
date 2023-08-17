@@ -117,25 +117,25 @@ public static partial class Hooks
     {
         if (self.player.onBack != null) return;
 
-        for (int i = 0; i < self.tail.Length; i++)
-        {
-            var segmentVel = i switch
-            {
-                0 => new Vector2(-1.0f, 0.0f),
-                1 => new Vector2(-0.3f, 0.0f),
-                3 => new Vector2(1.0f, 0.0f),
+        //for (int i = 0; i < self.tail.Length; i++)
+        //{
+        //    var segmentVel = i switch
+        //    {
+        //        0 => new Vector2(-1.0f, 0.0f),
+        //        1 => new Vector2(-0.3f, 0.0f),
+        //        3 => new Vector2(1.0f, 0.0f),
 
-                _ => Vector2.zero,
-            };
+        //        _ => Vector2.zero,
+        //    };
 
-            if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
-                segmentVel.y /= 2.0f;
+        //    if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
+        //        segmentVel.y /= 2.0f;
 
-            if (self.player.superLaunchJump >= 20)
-                segmentVel.y += i == self.tail.Length - 1 ? 0.8f : 0.15f;
+        //    if (self.player.superLaunchJump >= 20)
+        //        segmentVel.y += i == self.tail.Length - 1 ? 0.8f : 0.15f;
 
-            self.tail[i].vel += segmentVel;
-        }
+        //    self.tail[i].vel += segmentVel;
+        //}
     }
 
     public static void ApplyPearlpupEarMovement(PlayerGraphics self)
@@ -182,9 +182,9 @@ public static partial class Hooks
         GenerateEarMesh(sLeaser, module.EarL, module.EarLSprite);
         GenerateEarMesh(sLeaser, module.EarR, module.EarRSprite);
 
-        module.LoadEarLTexture("pupear_l");
-        module.LoadEarRTexture("pupear_r");
-        module.LoadTailTexture("puptail");
+        module.LoadTailTexture("pearlpup_tail");
+        module.LoadEarLTexture("ear_l");
+        module.LoadEarRTexture("ear_r");
 
         self.AddToContainer(sLeaser, rCam, null);
     }
@@ -249,12 +249,22 @@ public static partial class Hooks
 
         if (!self.player.TryGetPearlpupModule(out var module)) return;
 
+        var save = self.player.abstractCreature.Room.world.game.GetMiscProgression();
+
         UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_scarf", "Scarf", module.ScarfNeckSprite);
         UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", module.FeetSprite);
 
         UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
-        UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face");
-        
+
+        if (save.IsPearlpupSick)
+        {
+            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face_sick", nameSuffix: "Sick");
+        }
+        else
+        {
+            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face");
+        }
+
         UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_head");
 
         DrawPearlpupEars(self, sLeaser, timeStacker, camPos, module);

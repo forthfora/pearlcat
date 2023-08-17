@@ -1,4 +1,5 @@
-﻿using Mono.Cecil.Cil;
+﻿using IL.MoreSlugcats;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using RWCustom;
@@ -39,6 +40,15 @@ public static partial class Hooks
 
         On.Player.ctor += Player_ctor;
         On.Player.CanEatMeat += Player_CanEatMeat;
+
+        On.Player.ReleaseGrasp += Player_ReleaseGrasp;
+    }
+
+    private static void Player_ReleaseGrasp(On.Player.orig_ReleaseGrasp orig, Player self, int grasp)
+    {
+        if ((self.inVoidSea || self.room?.roomSettings?.name == "SB_L01") && self.IsPearlcat() && self.grasps[grasp]?.grabbed?.firstChunk?.owner is Player pup && pup.IsPearlpup()) return;
+        
+        orig(self, grasp);
     }
 
     private static bool Player_CanEatMeat(On.Player.orig_CanEatMeat orig, Player self, Creature crit)
@@ -55,7 +65,7 @@ public static partial class Hooks
     {
         orig(self, abstractCreature, world);
 
-        if (self.SlugCatClass != Enums.Pearlcat) return;
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         if (ModOptions.EnableBackSpear.Value )
             self.spearOnBack ??= new Player.SpearOnBack(self);
@@ -208,56 +218,54 @@ public static partial class Hooks
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
         var unblockedInput = playerModule.UnblockedInput;
+        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping;
 
-        bool swapLeftInput = self.IsSwapLeftInput();
-        bool swapRightInput = self.IsSwapRightInput();
+        bool swapLeftInput = self.IsSwapLeftInput() && allowInput;
+        bool swapRightInput = self.IsSwapRightInput() && allowInput;
 
-        bool swapInput = self.IsSwapKeybindPressed();
-        bool storeInput = self.IsStoreKeybindPressed(playerModule);
+        bool swapInput = self.IsSwapKeybindPressed() && allowInput;
+        bool storeInput = self.IsStoreKeybindPressed(playerModule) && allowInput;
 
-        bool agilityInput = self.IsAgilityKeybindPressed(playerModule);
-        bool sentryInput = self.IsSentryKeybindPressed(playerModule);
+        bool agilityInput = self.IsAgilityKeybindPressed(playerModule) && allowInput;
+        bool sentryInput = self.IsSentryKeybindPressed(playerModule) && allowInput;
 
-        int numPressed = self.IsFirstPearlcat() ? self.GetNumberPressed() : -1;
+        int numPressed = self.IsFirstPearlcat() && allowInput ? self.GetNumberPressed() : -1;
 
         playerModule.BlockInput = false;
 
-        if (!self.inVoidSea)
+        if (numPressed >= 0)
         {
-            if (numPressed >= 0)
-            {
-                self.ActivateObjectInStorage(numPressed - 1);
-            }
-            else if (swapLeftInput && !playerModule.WasSwapLeftInput)
-            {
-                self.SelectPreviousObject();
-            }
-            else if (swapRightInput && !playerModule.WasSwapRightInput)
-            {
-                self.SelectNextObject();
-            }
-            else if (swapInput)
-            {
-                playerModule.BlockInput = true;
-                playerModule.ShowHUD(10);
+            self.ActivateObjectInStorage(numPressed - 1);
+        }
+        else if (swapLeftInput && !playerModule.WasSwapLeftInput)
+        {
+            self.SelectPreviousObject();
+        }
+        else if (swapRightInput && !playerModule.WasSwapRightInput)
+        {
+            self.SelectNextObject();
+        }
+        else if (swapInput)
+        {
+            playerModule.BlockInput = true;
+            playerModule.ShowHUD(10);
 
-                if (!playerModule.WasSwapped)
+            if (!playerModule.WasSwapped)
+            {
+                if (unblockedInput.x < -0.5f)
                 {
-                    if (unblockedInput.x < -0.5f)
-                    {
-                        self.SelectPreviousObject();
-                        playerModule.WasSwapped = true;
-                    }
-                    else if (unblockedInput.x > 0.5f)
-                    {
-                        self.SelectNextObject();
-                        playerModule.WasSwapped = true;
-                    }
+                    self.SelectPreviousObject();
+                    playerModule.WasSwapped = true;
                 }
-                else if (Mathf.Abs(unblockedInput.x) < 0.5f)
+                else if (unblockedInput.x > 0.5f)
                 {
-                    playerModule.WasSwapped = false;
+                    self.SelectNextObject();
+                    playerModule.WasSwapped = true;
                 }
+            }
+            else if (Mathf.Abs(unblockedInput.x) < 0.5f)
+            {
+                playerModule.WasSwapped = false;
             }
         }
 
@@ -270,7 +278,7 @@ public static partial class Hooks
         playerModule.WasSentryInput = sentryInput;
 
         // LAG CAUSER
-        if (playerModule.TextureUpdateTimer % 5 == 0 && (playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor))
+        if (playerModule.TextureUpdateTimer % 5 == 0 && (playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor || playerModule.SetInvertTailColors != playerModule.CurrentlyInvertedTailColors))
         {
             playerModule.LoadTailTexture("tail");
             playerModule.LoadEarLTexture("ear_l");
@@ -288,10 +296,13 @@ public static partial class Hooks
         if (self.canJump >= 5)
         {
             if (playerModule.GroundedTimer > 15)
+            {
                 playerModule.LastGroundedPos = self.firstChunk.pos;
-
+            }
             else
+            {
                 playerModule.GroundedTimer++;
+            }
         }
         else
         {
@@ -323,8 +334,10 @@ public static partial class Hooks
         }
 
         if (self.inVoidSea || playerModule.Inventory.Any(x => x.Room != self.abstractCreature.Room))
+        {
             self.AbstractizeInventory();
-    
+        }
+
         if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup) && pup.room != null && pup.InDeathpit() && playerModule.ReviveCount > 0)
         {
             pup.SuperHardSetPosition(self.firstChunk.pos);
@@ -339,6 +352,12 @@ public static partial class Hooks
         }
 
         playerModule.LastRoom = self.abstractCreature.Room;
+
+        if (playerModule.GraphicsResetCounter > 0)
+        {
+            playerModule.GraphicsResetCounter--;
+            self.graphicsModule?.Reset();
+        }
     }
 
     private static void UpdateAll(Player self, PlayerModule playerModule)
@@ -349,7 +368,7 @@ public static partial class Hooks
             self.GivePearls(playerModule);
             playerModule.LoadSaveData(self);
 
-            Plugin.Logger.LogWarning("PEARLCAT WARP END");
+            Plugin.Logger.LogInfo("PEARLCAT WARP END");
             playerModule.JustWarped = false;
         }
 
@@ -467,8 +486,10 @@ public static partial class Hooks
         {
             if (playerModule.StoreObjectTimer >= 0)
             {
-                if (playerModule.ActiveObject != null && playerModule.ActiveObject.TryGetModule(out var module) && !module.IsReturningSentry)
+                if (isStoring || (playerModule.ActiveObject != null && playerModule.ActiveObject.TryGetModule(out var module) && !module.IsReturningSentry))
+                {
                     playerModule.StoreObjectTimer++;
+                }
                 
                 playerModule.BlockInput = true;
                 playerModule.ShowHUD(10);
@@ -726,11 +747,21 @@ public static partial class Hooks
     private static void Creature_Violence(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
     {
         // sin number 2
-        if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
+        if (self is Player player && player.TryGetPearlcatModule(out var playerModule) && source != null)
         {
             bool shouldShield = playerModule.ShieldActive;
+            var attacker = source.owner;
 
-            if (self is JetFish or Cicada || (self is Centipede centipede && centipede.Small))
+            if (attacker is JetFish)
+                shouldShield = false;
+
+            if (attacker is Cicada)
+                shouldShield = false;
+
+            if (attacker is Centipede centipede && centipede.Small)
+                shouldShield = false;
+
+            if (damage <= 0.5f)
                 shouldShield = false;
 
             if (shouldShield)

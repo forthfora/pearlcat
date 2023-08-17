@@ -266,6 +266,9 @@ public static partial class Hooks
 
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {
+        if (abstractObject == null)
+            return Color.white;
+
         if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
         {
             if (dataPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
@@ -337,6 +340,8 @@ public static partial class Hooks
     {
         var pos = TargetPositions.GetValue(abstractObject, x => new StrongBox<Vector2>());
         pos.Value = targetPos;
+
+        if (abstractObject.TryGetSentry(out _)) return;
 
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 

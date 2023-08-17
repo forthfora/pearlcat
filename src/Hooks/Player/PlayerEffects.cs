@@ -111,6 +111,30 @@ public static partial class Hooks
         //    "\nRunspeedFac " + stats.runspeedFac +
         //    "\nCorridorClimb " + stats.corridorClimbSpeedFac +
         //    "\nPoleClimb " + stats.poleClimbSpeedFac);
+
+
+        var activeObj = playerModule.ActiveObject;
+
+        if (activeObj == null || !activeObj.TryGetModule(out var poModule)) return;
+
+        var abilityInput = self.IsSentryKeybindPressed(playerModule);
+        var wasAbilityInput = playerModule.WasSentryInput;
+
+        if (abilityInput && !wasAbilityInput)
+        {
+            if (!poModule.IsReturningSentry)
+            {
+                if (!poModule.IsSentry)
+                {
+                    poModule.IsSentry = true;
+                    self.room.AddObject(new POSentry(activeObj));
+                }
+                else
+                {
+                    poModule.RemoveSentry(activeObj);
+                }
+            }
+        }
     }
 
 
@@ -367,31 +391,52 @@ public static partial class Hooks
 
             self.Blink(5);
 
-            if (playerModule.ReviveTimer % 3 == 0)
+            if (playerModule.ReviveTimer % 3 == 0 && !poModule.IsReturningSentry)
+            {
                 playerModule.ActiveObject.realizedObject.ConnectEffect(creature.firstChunk.pos);
+            }
 
-            if (playerModule.ReviveTimer > 200)
+            if (playerModule.ReviveTimer > 100)
             {
                 playerModule.SetReviveCooldown(-1);
 
                 if (creature is Player player)
+                {
                     player.RevivePlayer();
-                
+                }
                 else
-                    creature.Revive();  
+                {
+                    creature.Revive();
+
+                    if (playerModule.PlayerRef.TryGetTarget(out player) && creature.killTag != player.abstractCreature)
+                    {
+                        creature.abstractCreature.world.game.session.creatureCommunities.InfluenceLikeOfPlayer(
+                            creature.abstractCreature.creatureTemplate.communityID,
+                            creature.abstractCreature.world.RegionNumber,
+                            playerModule.PlayerNumber,
+                            1.0f, 0.0f, 0.0f);
+                    }
+                }
             }
 
             shouldResetRevive = false;
-            playerModule.ReviveTimer++;
             playerModule.BlockInput = true;
             break;
         }
 
         if (shouldResetRevive)
+        {
             playerModule.ReviveTimer = 0;
-        
+        }
         else
-            playerModule.ReviveTimer++;
+        {
+            poModule.RemoveSentry(playerModule.ActiveObject);
+
+            if (!poModule.IsReturningSentry)
+            {
+                playerModule.ReviveTimer++;
+            }
+        }
     }
 
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
@@ -435,26 +480,22 @@ public static partial class Hooks
 
         if (self.room == null) return;
         
-        var roomObjects = self.room.physicalObjects;
+        var roomObjects = self.room.updateList;
         bool didDeflect = false;
 
         if (playerModule.ShieldActive)
         {
-            for (int i = roomObjects.Length - 1; i >= 0; i--)
+            for (int i = roomObjects.Count - 1; i >= 0; i--)
             {
-                List<PhysicalObject>? roomObject = roomObjects[i];
-                
-                for (int j = roomObject.Count - 1; j >= 0; j--)
-                {
-                    PhysicalObject? physicalObject = roomObject[j];
+                var obj = roomObjects[i];
              
-                    if (physicalObject is not Weapon weapon) continue;
-
+                if (obj is Weapon weapon)
+                {
                     if (weapon.thrownBy == self) continue;
 
                     if (weapon.thrownBy is Player playerThrownBy && (!self.room.game.rainWorld.options.friendlyFire || playerThrownBy.onBack == self)) continue;
 
-                    if (weapon.mode == Weapon.Mode.Thrown && Custom.Dist(weapon.firstChunk.pos, self.firstChunk.pos) < 75.0f)
+                    if (weapon.mode == Weapon.Mode.Thrown && Custom.DistLess(weapon.firstChunk.pos, self.firstChunk.pos, 75.0f))
                     {
                         weapon.ChangeMode(Weapon.Mode.Free);
                         weapon.SetRandomSpin();
@@ -464,37 +505,34 @@ public static partial class Hooks
                         didDeflect = true;
                     }
                 }
+                else if (obj is LizardSpit spit)
+                {
+                    if (Custom.DistLess(spit.pos, self.firstChunk.pos, 75.0f))
+                    {
+                        spit.vel = Vector2.zero;
+
+                        if (playerModule.ShieldTimer <= 0)
+                            spit.room.DeflectEffect(spit.pos);
+                        
+                        didDeflect = true;
+                    }
+                }
+                else if (obj is DartMaggot dart)
+                {
+                    if (Custom.DistLess(dart.firstChunk.pos, self.firstChunk.pos, 75.0f))
+                    {
+                        dart.mode = DartMaggot.Mode.Free;
+                        dart.firstChunk.vel = Vector2.zero;
+
+                        dart.room.DeflectEffect(dart.firstChunk.pos);
+                        didDeflect = true;
+                    }
+                }
             }
         }
 
         if (didDeflect)
             playerModule.ActivateVisualShield();
-
-
-        if (ModOptions.DisableShield.Value || self.inVoidSea) return;
-
-        if (effect.MajorEffect != MajorEffectType.SHIELD || playerModule.ActiveObject is not AbstractPhysicalObject activeObj) return;
-
-        if (!activeObj.TryGetModule(out var poModule)) return;
-
-        var abilityInput = self.IsSentryKeybindPressed(playerModule);
-        var wasAbilityInput = playerModule.WasSentryInput;
-
-        if (abilityInput && !wasAbilityInput)
-        {
-            if (!poModule.IsReturningSentry)
-            {
-                if (!poModule.IsSentry)
-                {
-                    poModule.IsSentry = true;
-                    self.room.AddObject(new POSentry(activeObj));
-                }
-                else
-                {
-                    poModule.RemoveSentry(activeObj);
-                }
-            }
-        }
     }
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
@@ -528,27 +566,6 @@ public static partial class Hooks
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
         if (playerModule.ActiveObject is not AbstractPhysicalObject activePearl) return;
-
-        if (!activePearl.TryGetModule(out var poModule)) return;
-
-        var abilityInput = self.IsSentryKeybindPressed(playerModule);
-        var wasAbilityInput = playerModule.WasSentryInput;
-
-        if (abilityInput && !wasAbilityInput)
-        {
-            if (!poModule.IsReturningSentry)
-            {
-                if (!poModule.IsSentry)
-                {
-                    poModule.IsSentry = true;
-                    self.room.AddObject(new POSentry(activePearl));
-                }
-                else
-                {
-                    poModule.RemoveSentry(activePearl);
-                }
-            }
-        }
 
         if (self.room == null) return;
 
@@ -688,6 +705,11 @@ public static partial class Hooks
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
+        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE || self.room?.Darkness(self.mainBodyChunk.pos) < 0.75f || playerModule.CamoCount <= 0)
+        {
+            playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 0.0f, 0.2f);
+        }
+
         if (ModOptions.DisableCamoflague.Value || self.inVoidSea) return;
 
         var camera = self.abstractCreature.world.game.cameras[0];
@@ -725,39 +747,19 @@ public static partial class Hooks
 
         playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, camoSpeed) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, camoSpeed);
 
-        if (shouldCamo && prevCamo < 0.9f && playerModule.CamoLerp > 0.9f)
+        //if (shouldCamo && prevCamo < 0.9f && playerModule.CamoLerp > 0.9f)
+        //{
+        //    self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk, false, 0.5f, Random.Range(0.8f, 1.2f));
+        //}
+        //else if (!shouldCamo && prevCamo > 0.9 && playerModule.CamoLerp < 0.9f)
+        //{
+        //    self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk, false, 0.7f, Random.Range(0.8f, 1.2f));
+        //}
+
+        if (effect.MajorEffect == MajorEffectType.CAMOFLAGUE && playerModule.CamoCount > 0 && self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f)
         {
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk, false, 0.5f, Random.Range(0.8f, 1.2f));
-        }
-        else if (!shouldCamo && prevCamo > 0.9 && playerModule.CamoLerp < 0.9f)
-        {
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk, false, 0.7f, Random.Range(0.8f, 1.2f));
-        }
-
-
-        if (self.room == null) return;
-
-        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE || playerModule.ActiveObject is not AbstractPhysicalObject activeObj) return;
-
-        if (!activeObj.TryGetModule(out var poModule)) return;
-
-        var abilityInput = self.IsSentryKeybindPressed(playerModule);
-        var wasAbilityInput = playerModule.WasSentryInput;
-
-        if (abilityInput && !wasAbilityInput)
-        {
-            if (!poModule.IsReturningSentry)
-            {
-                if (!poModule.IsSentry)
-                {
-                    poModule.IsSentry = true;
-                    self.room.AddObject(new POSentry(activeObj));
-                }
-                else
-                {
-                    poModule.RemoveSentry(activeObj);
-                }
-            }
+            var targetScale = Custom.LerpMap(playerModule.CamoCount, 1, 5, 40.0f, 150.0f);
+            playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, targetScale, 0.1f);
         }
     }
 }

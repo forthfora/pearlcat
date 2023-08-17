@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RWCustom;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -31,6 +33,11 @@ public class PearlpupModule
     public Color ScarfColor { get; set; }
     public Color FaceColor { get; set; }
 
+
+    public int TextureUpdateTimer { get; set; }
+    public Color LastBodyColor { get; set; }
+    public Color LastAccentColor { get; set; }
+
     public Color BaseBodyColor { get; set; } = new Color32(79, 70, 60, 255);
     public Color BaseAccentColor { get; set; } = Color.white;
     public Color BaseFaceColor { get; set; } = Color.white;
@@ -38,11 +45,41 @@ public class PearlpupModule
 
     public void UpdateColors(PlayerGraphics self)
     {
-        BodyColor = self.HypothermiaColorBlend(BaseBodyColor);
-        AccentColor = self.HypothermiaColorBlend(BaseAccentColor);
-        ScarfColor = self.HypothermiaColorBlend(BaseScarfColor);
+        var baseBodyColor = BaseBodyColor;
+        var baseAccentColor = BaseAccentColor;
+        var baseFaceColor = BaseFaceColor;
+        var baseScarfColor = BaseScarfColor;
 
-        FaceColor = BaseFaceColor;
+        var game = self.player.abstractCreature.world.game;
+        var firstPearlcat = game.Players[game.GetFirstPearlcatIndex()];
+
+        if (firstPearlcat.realizedCreature is Player player && player.TryGetPearlcatModule(out var playerModule))
+        {
+            if (playerModule.BaseBodyColor != PlayerModule.DefaultBodyColor)
+            {
+                baseBodyColor = playerModule.BaseBodyColor;
+            }
+            
+            if (playerModule.BaseAccentColor != PlayerModule.DefaultAccentColor)    
+            {
+                baseAccentColor = playerModule.BaseAccentColor;
+            }
+            
+            if (playerModule.BaseFaceColor != PlayerModule.DefaultFaceColor)
+            {
+                baseFaceColor = playerModule.BaseFaceColor;
+            }
+
+            if (playerModule.BaseCloakColor != PlayerModule.DefaultCloakColor)
+            {
+                baseScarfColor = playerModule.BaseCloakColor;
+            }
+        }
+
+        BodyColor = self.HypothermiaColorBlend(baseBodyColor);
+        AccentColor = self.HypothermiaColorBlend(baseAccentColor);
+        ScarfColor = self.HypothermiaColorBlend(baseScarfColor);
+        FaceColor = baseFaceColor;
 
         if (self.malnourished > 0.0f)
         {
@@ -51,6 +88,21 @@ public class PearlpupModule
             BodyColor = Color.Lerp(BodyColor, Color.gray, 0.4f * malnourished);
             AccentColor = Color.Lerp(AccentColor, Color.gray, 0.4f * malnourished);
         }
+
+        var save = self.player.abstractCreature.Room.world.game.GetMiscProgression();
+
+        if (save.IsPearlpupSick)
+        {
+            var sickColor = Custom.hexToColor("98ab95");
+
+            BodyColor = Color.Lerp(BodyColor, sickColor, 0.5f);
+            AccentColor = Color.Lerp(AccentColor, sickColor, 0.5f);
+        }
+
+        BodyColor = BodyColor.RWColorSafety();
+        AccentColor = AccentColor.RWColorSafety();
+        ScarfColor = ScarfColor.RWColorSafety();
+        FaceColor = FaceColor.RWColorSafety();
     }
 
 
@@ -94,6 +146,12 @@ public class PearlpupModule
         var tailTexture = AssetLoader.GetTexture(textureName);
         if (tailTexture == null) return;
 
+        PlayerModule.MapAlphaToColor(tailTexture, new Dictionary<byte, Color>()
+        {
+            { 255, BodyColor },
+            { 0, AccentColor },
+        });
+
         var atlasName = Plugin.MOD_ID + textureName + ID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
@@ -122,6 +180,12 @@ public class PearlpupModule
         var earLTexture = AssetLoader.GetTexture(textureName);
         if (earLTexture == null) return;
 
+        PlayerModule.MapAlphaToColor(earLTexture, new Dictionary<byte, Color>()
+        {
+            { 255, BodyColor },
+            { 0, AccentColor },
+        });
+
         var atlasName = Plugin.MOD_ID + textureName + ID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
@@ -134,6 +198,12 @@ public class PearlpupModule
     {
         var earRTexture = AssetLoader.GetTexture(textureName);
         if (earRTexture == null) return;
+
+        PlayerModule.MapAlphaToColor(earRTexture, new Dictionary<byte, Color>()
+        {
+            { 255, BodyColor },
+            { 0, AccentColor },
+        });
 
         var atlasName = Plugin.MOD_ID + textureName + ID;
 

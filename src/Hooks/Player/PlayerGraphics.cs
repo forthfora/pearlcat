@@ -67,23 +67,30 @@ public static partial class Hooks
         playerModule.CloakSprite = spriteIndex++;
 
         playerModule.ShieldSprite = spriteIndex++;
+        playerModule.HoloLightSprite = spriteIndex++;
 
         playerModule.LastSprite = spriteIndex;
         Array.Resize(ref sLeaser.sprites, spriteIndex);
 
-        sLeaser.sprites[playerModule.ScarfSprite] = new FSprite("pearlcatScarfA0");
+        sLeaser.sprites[playerModule.ScarfSprite] = new("pearlcatScarfA0");
 
-        sLeaser.sprites[playerModule.SleeveLSprite] = new FSprite("pearlcatSleeve0");
-        sLeaser.sprites[playerModule.SleeveRSprite] = new FSprite("pearlcatSleeve0");
+        sLeaser.sprites[playerModule.SleeveLSprite] = new("pearlcatSleeve0");
+        sLeaser.sprites[playerModule.SleeveRSprite] = new("pearlcatSleeve0");
 
-        sLeaser.sprites[playerModule.FeetSprite] = new FSprite("pearlcatFeetA0");
+        sLeaser.sprites[playerModule.FeetSprite] = new("pearlcatFeetA0");
 
-        sLeaser.sprites[playerModule.ShieldSprite] = new FSprite("Futile_White")
+        sLeaser.sprites[playerModule.ShieldSprite] = new("Futile_White")
         {
             shader = rCam.room.game.rainWorld.Shaders["GravityDisruptor"],
             // this one is pretty coool too...
             //shader = rCam.room.game.rainWorld.Shaders["GhostDistortion"],
         };
+
+        sLeaser.sprites[playerModule.HoloLightSprite] = new("Futile_White")
+        {
+            shader = rCam.game.rainWorld.Shaders["HoloGrid"],
+        };
+
 
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
@@ -100,6 +107,11 @@ public static partial class Hooks
         playerModule.LoadEarRTexture("ear_r");
 
         self.AddToContainer(sLeaser, rCam, null);
+
+        if (self.player.inVoidSea || self.player.playerState.isGhost)
+        {
+            playerModule.GraphicsResetCounter = 20;
+        }
     }
 
     public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite)
@@ -156,6 +168,8 @@ public static partial class Hooks
 
         for (int segment = 0; segment < playerModule.EarR.Length; segment++)
             playerModule.EarR[segment].Reset(playerModule.EarRAttachPos);
+
+        playerModule.Cloak.needsReset = true;
     }
 
 
@@ -189,14 +203,31 @@ public static partial class Hooks
         UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
         UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
 
+        var save = self.player.abstractCreature.world.game.GetMiscProgression();
+
         if (self.RenderAsPup)
         {
-            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face");
+            if (save.IsPearlpupSick && self.objectLooker.currentMostInteresting is Player player && player.IsPearlpup())
+            {
+                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face_sick", nameSuffix: "Sick");
+            }
+            else
+            {
+                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face");
+            }
+
             UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_head");
         }
         else
         {
-            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
+            if (save.IsPearlpupSick && self.player.firstChunk.vel.magnitude < 2.0f && self.objectLooker.currentMostInteresting is Player player && player.IsPearlpup())
+            {
+                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face_sick", nameSuffix: "Sick");
+            }
+            else
+            {
+                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
+            }
         }
 
         DrawEars(self, sLeaser, timeStacker, camPos, playerModule);
@@ -307,7 +338,7 @@ public static partial class Hooks
 
         if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh) return;
 
-        tailMesh.element = self.player.inVoidSea ? Futile.atlasManager.GetElementWithName("Futile_White") : tailAtlas.elements[0];
+        tailMesh.element = tailAtlas.elements[0];
 
         if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
             tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
@@ -382,6 +413,7 @@ public static partial class Hooks
         var cloakSprite = sLeaser.sprites[playerModule.CloakSprite];
 
         var shieldSprite = sLeaser.sprites[playerModule.ShieldSprite];
+        var holoLightSprite = sLeaser.sprites[playerModule.HoloLightSprite];
 
         // Container
         if (newContainer != null)
@@ -507,7 +539,7 @@ public static partial class Hooks
         handLSprite.color = accentColor;
         handRSprite.color = accentColor;
 
-        scarfSprite.color = cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.4f);
+        scarfSprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.4f)).RWColorSafety();
 
         sleeveLSprite.color = cloakColor;
         sleeveRSprite.color = cloakColor;
@@ -517,7 +549,7 @@ public static partial class Hooks
         if (playerModule.ActiveObject != null)
             markSprite.y += 10.0f;
 
-        tailSprite.color = self.player.inVoidSea ? playerModule.BodyColor : Color.white;
+        tailSprite.color = Color.white;
         earLSprite.color = Color.white;
         earRSprite.color = Color.white;
         cloakSprite.color = Color.white;
@@ -526,7 +558,14 @@ public static partial class Hooks
         shieldSprite.scale = playerModule.ShieldScale;
         shieldSprite.SetPosition(bodySprite.GetPosition());
 
+        holoLightSprite.alpha = playerModule.HoloLightAlpha;
+        holoLightSprite.scale = playerModule.HoloLightScale;
+        holoLightSprite.SetPosition(bodySprite.GetPosition());
+        holoLightSprite.color = new(0.384f, 0.184f, 0.984f, 1.0f);
+
         playerModule.Cloak.UpdateColor(sLeaser);
+
+        playerModule.SetInvertTailColors = self.player.inVoidSea && upsideDown;
 
     }
     
@@ -535,6 +574,12 @@ public static partial class Hooks
         if (self.lightSource == null) return;
 
         if (self.player.room == null) return;
+
+        if (self.player.inVoidSea)
+        {
+            self.lightSource.color = Color.white;
+            return;
+        }
 
         var maxAlpha = playerModule.ActiveObject?.realizedObject == null ? 0.6f : 1.0f;
         
@@ -571,18 +616,18 @@ public static partial class Hooks
         sLeaser.sprites[spriteIndex].rotation = spriteToCopy.rotation;
     }
 
-    public static void UpdateReplacementPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName)
+    public static void UpdateReplacementPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName, string nameSuffix = "")
     {
-        FAtlas? atlas = AssetLoader.GetAtlas(atlasName);
+        var atlas = AssetLoader.GetAtlas(atlasName);
         if (atlas == null) return;
 
-        string? name = sLeaser.sprites[spriteIndex]?.element?.name;
+        var name = sLeaser.sprites[spriteIndex]?.element?.name;
         if (name == null) return;
 
 
         if (!name.StartsWith(toReplace)) return;
 
-        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out FAtlasElement element)) return;
+        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name + nameSuffix, out FAtlasElement element)) return;
         
         sLeaser.sprites[spriteIndex].element = element;
     }
@@ -622,6 +667,16 @@ public static partial class Hooks
     public static void ApplyTailMovement(PlayerGraphics self)
     {
         if (self.player.onBack != null) return;
+
+        var upsideDown = self.head.pos.y < self.legs.pos.y;
+
+        if (self.player.bodyMode == Player.BodyModeIndex.CorridorClimb && upsideDown)
+        {
+            foreach (var segment in self.tail)
+                segment.vel += new Vector2(0.0f, 2.0f);
+
+            return;
+        }
 
         if (EXCLUDE_FROM_TAIL_OFFSET_BODYMODE.Contains(self.player.bodyMode)) return;
 
@@ -810,5 +865,14 @@ public static partial class Hooks
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
         self.playerColor = playerModule.ActiveColor;
+    }
+    
+    public static Color RWColorSafety(this Color color)
+    {
+        var hsl = Custom.RGB2HSL(color);
+
+        var safeColor = Custom.HSL2RGB(hsl.x, hsl.y, Mathf.Clamp(hsl.z, 0.01f, 1.0f), color.a);
+
+        return safeColor;
     }
 }

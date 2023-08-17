@@ -10,6 +10,83 @@ public static partial class Hooks
     {
         On.SLOracleBehaviorHasMark.MoonConversation.AddEvents += MoonConversation_AddEvents;
         On.SLOracleBehaviorHasMark.NameForPlayer += SLOracleBehaviorHasMark_NameForPlayer;
+
+        On.SLOracleBehaviorHasMark.ThirdAndUpGreeting += SLOracleBehaviorHasMark_ThirdAndUpGreeting;
+    }
+
+    private static void SLOracleBehaviorHasMark_ThirdAndUpGreeting(On.SLOracleBehaviorHasMark.orig_ThirdAndUpGreeting orig, SLOracleBehaviorHasMark self)
+    {
+        if (!self.oracle.room.game.IsPearlcatStory())
+        {
+            orig(self);
+            return;
+        }
+
+        var save = self.oracle.room.game.GetMiscWorld();
+        var miscProg = self.oracle.room.game.GetMiscProgression();
+
+        var t = self.oracle.room.game.rainWorld.inGameTranslator;
+
+        void SayStart(string text) => self.dialogBox.Interrupt(t.Translate(text), 10);
+
+        void Say(string text) => self.dialogBox.NewMessage(t.Translate(text), 10);
+
+        Plugin.Logger.LogWarning(save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode);
+
+        if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
+        {
+            if (save.MoonSickPupMeetCount == 0)
+            {
+                SayStart("Oh! It is good to see you two again!");
+
+                Say("Is my memory so bad to forget how your little one looks? They seem paler...");
+
+                Say("Oh... oh no...");
+
+                Say("They are unwell, <PlayerName>, very unwell indeed.".Replace("<PlayerName>", self.NameForPlayer(false)));
+
+                Say("I... wish there was more I could do... but even... nevermind in my current state.");
+
+                Say("I am so sorry.");
+
+
+                Say(". . .");
+
+                Say("My neighbour, Five Pebbles, is a little temperamental, but means well.");
+
+                Say("He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.");
+
+                Say("In any case, you are welcome to stay as long as you like. Anything to ease the pain.");
+
+                save.MoonSickPupMeetCount++;
+                return;
+            }
+            else if (save.MoonSickPupMeetCount == 1)
+            {
+                SayStart("Welcome back, <PlayerName>, and your little one too.".Replace("<PlayerName>", self.NameForPlayer(false)));
+
+                Say("I hope the cycles have been treating you well... it must be hard to take care of eachother out there.");
+
+                Say(". . .");
+
+                Say("...I am not sure if this is comforting, but...");
+
+                Say("Death is not the end... even death that seems permanent.");
+
+                Say("I know that quite well.");
+
+                save.MoonSickPupMeetCount++;
+                return;
+            }
+            else
+            {
+                SayStart("Welcome back, you two!");
+
+                Say("I hope you are staying safe out there...");
+            }
+        }
+
+        orig(self);
     }
 
     private static string SLOracleBehaviorHasMark_NameForPlayer(On.SLOracleBehaviorHasMark.orig_NameForPlayer orig, SLOracleBehaviorHasMark self, bool capitalized)
@@ -46,6 +123,8 @@ public static partial class Hooks
         }
 
         var save = self.myBehavior.oracle.room.game.GetMiscWorld();
+        var miscProg = self.myBehavior.oracle.room.game.GetMiscProgression();
+
         var t = self.myBehavior.oracle.room.game.rainWorld.inGameTranslator;
 
         void SayNoLinger(string text) => self.events.Add(new Conversation.TextEvent(self, 0, t.Translate(text), 0));
@@ -86,9 +165,29 @@ public static partial class Hooks
 
                     if (save?.HasPearlpupWithPlayer == true)
                     {
-                        SayNoLinger("And who is your little friend? They are quite adorable!");
+                        if (miscProg.IsPearlpupSick)
+                        {
+                            SayNoLinger("And who is your little friend? They are...");
 
-                        SayNoLinger("Ah, I hope you both stay safe out there...");
+                            SayNoLinger("Oh... oh no...");
+
+                            SayNoLinger("They are unwell, <PlayerName>, very unwell indeed.");
+
+                            SayNoLinger("I... wish there was more I could do... but even... nevermind in my current state.");
+
+                            SayNoLinger("I am so sorry.");
+
+                            SayNoLinger("You are welcome to stay as long as you like. Anything to ease the pain.");
+                            
+                            save.MoonSickPupMeetCount++;
+                            return;
+                        }
+                        else
+                        {
+                            SayNoLinger("And who is your little friend? They are quite adorable!");
+
+                            SayNoLinger("Ah, I hope you both stay safe out there...");
+                        }
                     }
                     else
                     {
@@ -114,6 +213,60 @@ public static partial class Hooks
             }
         }
 
+        if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && self.myBehavior is SLOracleBehaviorHasMark mark && !mark.DamagedMode)
+        {
+            if (save.MoonSickPupMeetCount == 0)
+            {
+                SayNoLinger("Oh! It is good to see you two again!");
+
+                SayNoLinger("Is my memory so bad to forget how your little one looks? They seem paler...");
+
+                SayNoLinger("Oh... oh no...");
+
+                SayNoLinger("They are unwell, <PlayerName>, very unwell indeed.");
+
+                SayNoLinger("I... wish there was more I could do... but even... nevermind in my current state.");
+
+                SayNoLinger("I am so sorry.");
+
+
+                SayNoLinger(". . .");
+
+                SayNoLinger("My neighbour, Five Pebbles, is a little temperamental, but means well.");
+
+                SayNoLinger("He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.");
+
+                SayNoLinger("In any case, you are welcome to stay as long as you like. Anything to ease the pain.");
+                
+                save.MoonSickPupMeetCount++;
+                return;
+            }
+            else if (save.MoonSickPupMeetCount == 1)
+            {
+                SayNoLinger("Welcome back, <PlayerName>, and your little one too.");
+
+                SayNoLinger("I hope the cycles have been treating you well... it must be hard to take care of eachother out there.");
+
+                SayNoLinger(". . .");
+
+                SayNoLinger("...I am not sure if this is comforting, but...");
+
+                SayNoLinger("Death is not the end... even death that seems permanent.");
+
+                SayNoLinger("I know that quite well.");
+                
+                save.MoonSickPupMeetCount++;
+                return;
+            }
+            else
+            {
+                SayNoLinger("Welcome back, you two!");
+
+                SayNoLinger("I hope you are staying safe out there...");
+            }
+        }
+
+        
         if (self.id == Conversation.ID.MoonSecondPostMarkConversation)
         {
             switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))

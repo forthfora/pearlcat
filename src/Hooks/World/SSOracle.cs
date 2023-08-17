@@ -34,9 +34,11 @@ public static partial class Hooks
         On.SSOracleBehavior.UpdateStoryPearlCollection += SSOracleBehavior_UpdateStoryPearlCollection;
         On.PebblesPearl.Update += PebblesPearl_Update;
 
+        On.SSOracleBehavior.Update += SSOracleBehavior_Update;
+
         try
         {
-            IL.SSOracleBehavior.Update += SSOracleBehavior_Update;
+            IL.SSOracleBehavior.Update += SSOracleBehavior_UpdateIL;
         }
         catch (Exception e)
         {
@@ -49,6 +51,77 @@ public static partial class Hooks
         );
     }
 
+    private static void SSOracleBehavior_Update(On.SSOracleBehavior.orig_Update orig, SSOracleBehavior self, bool eu)
+    {
+        orig(self, eu);
+
+        if (self.getToWorking == 0.0f) return;
+
+        var module = self.GetModule();
+
+        var orbitSmall = new List<DataPearl>();
+        var orbitMid = new List<DataPearl>();
+        var orbitLarge = new List<DataPearl>();
+
+        foreach (var updatable in self.oracle.room.updateList)
+        {
+            if (updatable is not DataPearl dataPearl) continue;
+
+            if (dataPearl.grabbedBy.Count > 0) continue;
+
+            if (dataPearl.abstractPhysicalObject.IsPlayerObject()) continue;
+            
+            if (dataPearl == module.PearlToRead || dataPearl == module.PearlBeingRead || dataPearl == module.PearlToReturn) continue;
+
+            if (self.player != null && Custom.DistLess(self.player.firstChunk.pos, self.oracle.firstChunk.pos, 180.0f))
+            {
+                orbitLarge.Add(dataPearl);
+                continue;
+            }
+
+            if (orbitSmall.Count < 5)
+            {
+                orbitSmall.Add(dataPearl);
+            }
+            else if (orbitMid.Count < 10)
+            {
+                orbitMid.Add(dataPearl);
+            }
+            else
+            {
+                orbitLarge.Add(dataPearl);
+            }
+        }
+        
+        var origin = new Vector2(490.0f, 340.0f);
+
+        AnimatePebblesPearlOrbit(origin, 80.0f, 0.0002f, orbitSmall);
+        AnimatePebblesPearlOrbit(origin, 180.0f, -0.00015f, orbitMid);
+        AnimatePebblesPearlOrbit(origin, 265.0f, 0.0001f, orbitLarge);
+    }
+
+    public static void AnimatePebblesPearlOrbit(Vector2 origin, float radius, float angleFrameAddition, List<DataPearl> pearls)
+    {
+        for (int i = 0; i < pearls.Count; i++)
+        {
+            var dataPearl = pearls[i];
+            
+            var angle = i * (Mathf.PI * 2.0f / pearls.Count) + angleFrameAddition * PearlAnimCounter++;
+            var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
+
+            var oraclePearlDir = Custom.DirVec(dataPearl.firstChunk.pos, targetPos);
+            var oraclePearlDist = Custom.Dist(targetPos, dataPearl.firstChunk.pos);
+
+            dataPearl.firstChunk.vel = oraclePearlDir * Custom.LerpMap(oraclePearlDist, 200.0f, 10.0f, 15.0f, 1.0f);
+
+            if (Custom.DistLess(dataPearl.firstChunk.pos, targetPos, 5.0f))
+            {
+                dataPearl.firstChunk.HardSetPosition(targetPos);
+            }
+        }
+    }
+
+
     public delegate bool orig_PebblesPearlNotCarried(PebblesPearl self);
     public static bool GetPebblesPearlNotCarried(orig_PebblesPearlNotCarried orig, PebblesPearl self)
     {
@@ -59,6 +132,8 @@ public static partial class Hooks
 
         return result;
     }
+
+    public static int PearlAnimCounter { get; set; }
 
     private static void PebblesPearl_Update(On.PebblesPearl.orig_Update orig, PebblesPearl self, bool eu)
     {
@@ -84,19 +159,26 @@ public static partial class Hooks
         if (self.grabbedBy.Count > 0) return;
 
 
-        var origin = new Vector2(225.0f, 570.0f);
-        var targetPos = origin + Vector2.down * 12.5f * self.marbleIndex;
+        //var origin = new Vector2(490.0f, 340.0f);
+        //var radius = 275.0f;
 
-        var oraclePearlDir = Custom.DirVec(self.firstChunk.pos, targetPos);
-        var oraclePearlDist = Custom.Dist(targetPos, self.firstChunk.pos);
+        //var angleFrameAddition = 0.0001f;
 
-        self.firstChunk.vel = oraclePearlDir * Custom.LerpMap(oraclePearlDist, 200.0f, 10.0f, 15.0f, 4.0f);
+        //var angle = (self.marbleIndex * Mathf.PI * 2.0f / (self.otherMarbles.Count + 1)) + angleFrameAddition * PearlAnimCounter++;
+        //var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
-        if (Custom.DistLess(self.firstChunk.pos, targetPos, 5.0f))
-            self.firstChunk.HardSetPosition(targetPos);
+        //var oraclePearlDir = Custom.DirVec(self.firstChunk.pos, targetPos);
+        //var oraclePearlDist = Custom.Dist(targetPos, self.firstChunk.pos);
+
+        //self.firstChunk.vel = oraclePearlDir * Custom.LerpMap(oraclePearlDist, 200.0f, 10.0f, 15.0f, 1.0f);
+
+        //if (Custom.DistLess(self.firstChunk.pos, targetPos, 5.0f))
+        //{
+        //    self.firstChunk.HardSetPosition(targetPos);
+        //}
     }
 
-    private static void SSOracleBehavior_Update(ILContext il)
+    private static void SSOracleBehavior_UpdateIL(ILContext il)
     {
         var c = new ILCursor(il);
 
@@ -133,6 +215,7 @@ public static partial class Hooks
         }
 
         var save = self.owner.oracle.room.game.GetMiscWorld();
+        var miscProg = self.owner.oracle.room.game.GetMiscProgression();
 
         var module = self.owner.GetModule();
         var currentLang = self.owner.rainWorld.inGameTranslator.currentLanguage;
@@ -241,32 +324,36 @@ public static partial class Hooks
             e.Add(new TextEvent(self, 0,
                 self.Translate("...and you can gather more of that data you so clearly desire."), l * 80));
 
+            if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick)
+            {
+                e.Add(new WaitEvent(self, 40));
+            }
+            else
+            {
+                if (save?.HasPearlpupWithPlayer == true)
+                {
+                    e.Add(new WaitEvent(self, 40));
 
-            // restore later
-            //if (save?.HasPearlpupWithPlayer == true)
-            //{
-            //    e.Add(new WaitEvent(self, 40));
+                    e.Add(new TextEvent(self, 0,
+                        self.Translate("Oh, and for direction - there is a gate to the far west of here, where the ground fissues..."), l * 80));
 
-            //    e.Add(new TextEvent(self, 0,
-            //        self.Translate("Oh, and for direction - there is a gate to the far west of here, where the ground fissues..."), l * 80));
+                    e.Add(new TextEvent(self, 0,
+                        self.Translate("The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business."), l * 80));
 
-            //    e.Add(new TextEvent(self, 0,
-            //        self.Translate("The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business."), l * 80));
+                    e.Add(new TextEvent(self, 0,
+                        self.Translate("If you do not plan to provide me with any meaningful data, that is your best course of action;"), l * 80));
 
-            //    e.Add(new TextEvent(self, 0,
-            //        self.Translate("If you do not plan to provide me with any meaningful data, that is your best course of action;"), l * 80));
+                    e.Add(new TextEvent(self, 0,
+                        self.Translate("The choice is yours."), l * 80));
+                }
 
-            //    e.Add(new TextEvent(self, 0,
-            //        self.Translate("The choice is yours."), l * 80));
-            //}
+                e.Add(new WaitEvent(self, 120));
 
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("I must resume my work. I will be waiting here, as always."), l * 80));
 
-            e.Add(new WaitEvent(self, 120));
-
-            e.Add(new TextEvent(self, 0,
-                self.Translate("I must resume my work. I will be waiting here, as always."), l * 80));
-
-            e.Add(new WaitEvent(self, 40));
+                e.Add(new WaitEvent(self, 40));
+            }
         }
 
         else if (id == Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect)
@@ -321,6 +408,39 @@ public static partial class Hooks
 
             e.Add(new TextEvent(self, 0,
                 self.Translate("...there."), l * 80));
+        }
+
+        else if (id == Enums.SSOracle.Pearlcat_SSConvoSickPup)
+        {
+            if (save != null)
+            {
+                save.PebblesMetSickPup = true;
+            }
+
+            e.Add(new WaitEvent(self, 40));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(". . ."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I am not sure if you are aware, but your child appears very unwell..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("This illness, it is unlike any I have seen before - I can say it is likely fatal."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I am... sorry."), l * 80));
+
+            e.Add(new WaitEvent(self, 120));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...we were built to solve problems. It is a shame not every problem has a solution."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...but... I will think on your problem, for now. Perhaps I can find a solution for both of us."), l * 80));
         }
 
         #region Vanilla Pearls
@@ -638,10 +758,9 @@ public static partial class Hooks
         public SSOracleMeetPearlcat(SSOracleBehavior owner) : base(owner, Enums.SSOracle.Pearlcat_SSSubBehavGeneral, Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
         {
             var save = oracle.room.game.GetMiscWorld();
+            var miscProg = oracle.room.game.GetMiscProgression();
 
             if (save == null) return;
-
-            Plugin.Logger.LogWarning("PEARLCAT PEBBLES MEETING: " + save.PebblesMeetCount);
 
             switch (save.PebblesMeetCount)
             {
@@ -698,6 +817,60 @@ public static partial class Hooks
                     break;
             }
 
+            if (save.HasPearlpupWithPlayer && save.PebblesMeetCount > 0)
+            {
+                if (miscProg.IsPearlpupSick && save.PebblesMetSickPup)
+                {
+                    switch (Random.Range(0, 4))
+                    {
+                        case 0:
+                            dialogBox.NewMessage(
+                                Translate("Your little friend is still quite sick, unfortunately."), 0);
+                            break;
+
+                        case 1:
+                            dialogBox.NewMessage(
+                                Translate("I see you have not found a cure for their illness. Not yet..."), 0);
+                            break;
+
+                        case 2:
+                            dialogBox.NewMessage(
+                                Translate("Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time."), 0);
+                            break;
+
+                        default:
+                            dialogBox.NewMessage(
+                                Translate("...there is nothing I can do for your pup at present. I am sorry. I will... think on it."), 0);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (Random.Range(0, 4))
+                    {
+                        case 0:
+                            dialogBox.NewMessage(
+                                Translate("...and you have brought your little friend along, of course."), 0);
+                            break;
+
+                        case 1:
+                            dialogBox.NewMessage(
+                                Translate("Your attachment to that thing is unavoidable, I suppose."), 0);
+                            break;
+
+                        case 2:
+                            dialogBox.NewMessage(
+                                Translate("And please keep your child under control."), 0);
+                            break;
+
+                        default:
+                            dialogBox.NewMessage(
+                                Translate("No, I do not care for your little one."), 0);
+                            break;
+                    }
+                }
+            }
+
             save.PebblesMeetCount++;
         }
 
@@ -707,6 +880,7 @@ public static partial class Hooks
 
             var module = owner.GetModule();
             var save = oracle.room.game.GetMiscWorld();
+            var miscProg = oracle.room.game.GetMiscProgression();
 
             if (save == null) return;
 
@@ -806,6 +980,15 @@ public static partial class Hooks
                     owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstLeave, this);
                     ConvoCount++;
                 }
+                else if (ConvoCount == 4)
+                {
+                    if (save.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
+                    {
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+                    }
+
+                    ConvoCount++;
+                }
                 else
                 {
                     owner.UnlockShortcuts();
@@ -815,7 +998,7 @@ public static partial class Hooks
             }
             else
             {
-                if (ConvoCount == 1)
+                if (ConvoCount == 1 && HasRMPearl(oracle))
                 {
                     owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl, this);
                     ConvoCount++;
@@ -832,6 +1015,14 @@ public static partial class Hooks
                         owner.getToWorking = 0.0f;
 
                         owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
+                        ConvoCount++;
+                    }
+                    else if (save.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !save.PebblesMetSickPup)
+                    {
+                        owner.LockShortcuts();
+                        owner.getToWorking = 0.0f;
+
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
                         ConvoCount++;
                     }
                 }
@@ -885,6 +1076,8 @@ public static partial class Hooks
                     for (int j = 0; j < roomObjects[i].Count; j++)
                     {
                         var physicalObject = roomObjects[i][j];
+
+                        if (!Custom.DistLess(physicalObject.firstChunk.pos, oracle.firstChunk.pos, 220.0f)) continue;
 
                         if (physicalObject.grabbedBy.Count > 0) continue;
 
@@ -945,20 +1138,8 @@ public static partial class Hooks
             module.Rand = rand;
             var type = pearl.AbstractPearl.dataPearlType;
 
-            if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1 || type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc) // temp broadcast fix
-                owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc, this);
 
-            else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc2)
-                owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc2, this);
-
-            else if (ModManager.MSC && type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc)
-                owner.InitateConversation(MoreSlugcatsEnums.ConversationID.Moon_Pearl_BroadcastMisc, this);
-
-            else if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
-                owner.InitateConversation(Conversation.ID.Moon_Pebbles_Pearl, this);
-
-
-            else if (type == Enums.Pearls.SS_Pearlcat)
+            if (type == Enums.Pearls.SS_Pearlcat)
                 owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSSPearl, this);
 
             else if (type == Enums.Pearls.AS_PearlBlue)
@@ -975,6 +1156,20 @@ public static partial class Hooks
             
             else if (type == Enums.Pearls.AS_PearlBlack)
                 owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlBlack, this);
+
+
+
+            else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1 || type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc) // temp broadcast fix
+                owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc, this);
+
+            else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc2)
+                owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc2, this);
+
+            else if (ModManager.MSC && type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc)
+                owner.InitateConversation(MoreSlugcatsEnums.ConversationID.Moon_Pearl_BroadcastMisc, this);
+
+            else if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
+                owner.InitateConversation(Conversation.ID.Moon_Pebbles_Pearl, this);
 
 
             else
@@ -1001,6 +1196,8 @@ public static partial class Hooks
 
         public void TakeRMPearl(Oracle oracle)
         {
+            Plugin.Logger.LogInfo("PEBBLES TAKE RM PEARL");
+
             for (int roomObjIndex = oracle.room.physicalObjects.Length - 1; roomObjIndex >= 0; roomObjIndex--)
             {
                 var roomObject = oracle.room.physicalObjects[roomObjIndex];
@@ -1033,6 +1230,8 @@ public static partial class Hooks
                             playerModule.ShowHUD(120);
                             //item.tracker.UninitializeTracker();
 
+                            oracle.room.game.GetStorySession.RemovePersistentTracker(item);
+                            
                             item.destroyOnAbstraction = true;
                             item.Abstractize(item.pos);
 
@@ -1064,6 +1263,8 @@ public static partial class Hooks
 
         public void GiveSSPearl(Oracle oracle)
         {
+            Plugin.Logger.LogInfo("PEBBLES GIVE SS PEARL");
+
             foreach (var roomObject in oracle.room.physicalObjects)
             {
                 foreach (var physicalObject in roomObject)

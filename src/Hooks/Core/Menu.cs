@@ -23,6 +23,7 @@ public static partial class Hooks
         On.Menu.MenuScene.ctor += MenuScene_ctor;
         On.Menu.MenuScene.Update += MenuScene_Update;
 
+
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
         On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
@@ -43,6 +44,27 @@ public static partial class Hooks
         On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
         On.HUD.HUD.InitSafariHud += HUD_InitSafariHud;
         On.ArenaGameSession.AddHUD += ArenaGameSession_AddHUD;
+
+        On.Menu.MenuIllustration.Update += MenuIllustration_Update;
+    }
+
+    private static void MenuIllustration_Update(On.Menu.MenuIllustration.orig_Update orig, MenuIllustration self)
+    {
+        orig(self);
+
+        if (!self.fileName.Contains("pearlcat")) return;
+
+        var save = self.menu.manager.rainWorld.GetMiscProgression();
+        var fileName = Path.GetFileNameWithoutExtension(self.fileName);
+
+        if (fileName == "Intro3_3" || fileName == "Intro5_3")
+        {
+            self.visible = ModManager.MSC;
+        }
+        else if (fileName == "Outro3_1" || fileName == "Outro2_1")
+        {
+            self.visible = save.HasPearlpup;
+        }
     }
 
     private static void ArenaGameSession_AddHUD(On.ArenaGameSession.orig_AddHUD orig, ArenaGameSession self)
@@ -175,14 +197,22 @@ public static partial class Hooks
 
             if (!MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
 
-            if (self.sceneID.value == "Slugcat_Pearlcat")
+            if (self.sceneID == Scenes.Slugcat_Pearlcat)
+            {
                 UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);
-
-            else if (self.sceneID.value == "Slugcat_Pearlcat_Sleep")
+            }
+            else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sleep)
+            {
                 UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
-
-            else if (self.sceneID.value == "Slugcat_Pearlcat_Ascended")
+            }
+            else if (self.sceneID == Scenes.Slugcat_Pearlcat_Ascended)
+            {
                 UpdateAscendedScreen(self, illustration, menuSceneModule, illustrationModule);
+            }
+            else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sick)
+            {
+                UpdateSickScreen(self, illustration, menuSceneModule, illustrationModule);
+            }
 
             //if (Input.GetKey("-"))
             //{
@@ -199,6 +229,87 @@ public static partial class Hooks
         MenuPearlAnimStacker += !ModManager.MSC && self.sceneID.value == "Slugcat_Pearlcat" ? 3 : 1;
     }
 
+    private static void UpdateSickScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    {
+        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+        if (illustrationModule.Index == -2) return;
+
+        if (illustrationModule.Index == -1)
+        {
+            if (menuSceneModule.ActivePearlColor == null)
+            {
+                illustration.visible = false;
+                return;
+            }
+
+            if (fileName == "pearlactivehalo")
+            {
+                illustration.sprite.SetAnchor(Vector2.one * 0.5f);
+                illustration.sprite.scale = 0.3f;
+
+                illustration.pos = menuSceneModule.ActivePearlPos;
+                return;
+            }
+
+            var activePearlColor = menuSceneModule.ActivePearlColor;
+
+            illustration.visible = true;
+            illustration.color = (Color)activePearlColor;
+            illustration.sprite.scale = 0.3f;
+
+
+            var pos = illustration.pos;
+            var spritePos = illustration.sprite.GetPosition();
+            var mousePos = self.menu.mousePosition;
+
+            var setPos = illustrationModule.setPos;
+
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
+                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+
+
+            var dir = (setPos - pos).normalized;
+            var dist = Custom.Dist(setPos, pos);
+            var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
+
+            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.vel += dir * speed;
+
+            illustration.pos += illustrationModule.vel;
+
+            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            menuSceneModule.ActivePearlPos = illustration.pos;
+            return;
+        }
+
+        var pearlColors = menuSceneModule.PearlColors;
+
+        var count = pearlColors.Count;
+        var i = illustrationModule.Index;
+
+        if (i >= count)
+        {
+            illustration.visible = false;
+            return;
+        }
+
+        illustration.visible = true;
+
+        var angleFrameAddition = 0.0005f;
+        var radius = 90.0f;
+        var origin = new Vector2(670, 470);
+
+        var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
+
+        var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius * 1.7f, origin.y + Mathf.Sin(angle) * radius);
+        illustration.pos = targetPos;
+
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, 0.0f, 0.2f, 0.3f);
+        illustration.alpha = 1.0f;
+        illustration.color = pearlColors[i].MenuPearlColorFilter();
+    }
+
     private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
         var save = self.menu.manager.rainWorld.GetMiscProgression();
@@ -209,11 +320,26 @@ public static partial class Hooks
         if (illustrationModule.Index == -2)
         {
             if (fileName == "sweat")
+            {
                 illustration.visible = menuSceneModule.ActivePearlColor == null;
-
-            if (fileName == "pup")
-                illustration.visible = save.HasPearlpup;
-
+            }
+            else if (fileName == "slugcat")
+            {
+                illustration.visible = !save.IsPearlpupSick;
+            }
+            else if (fileName == "slugcatsick")
+            {
+                illustration.visible = save.IsPearlpupSick;
+            }
+            else if (fileName == "pup")
+            {
+                illustration.visible = save.HasPearlpup && !save.IsPearlpupSick;
+            }
+            else if (fileName == "pupsick")
+            {
+                illustration.visible = save.HasPearlpup && save.IsPearlpupSick;
+            }
+            
             return;
         }
 
@@ -424,7 +550,7 @@ public static partial class Hooks
             illustration.visible = true;
             illustration.color = (Color)activePearlColor * Custom.HSL2RGB(1.0f, 0.2f, 1.0f);
             illustration.sprite.scale = 0.25f;
-            illustration.alpha = 0.8f;
+            illustration.alpha = 1.0f;
 
             var pos = illustration.pos;
             var spritePos = illustration.sprite.GetPosition();
@@ -471,7 +597,7 @@ public static partial class Hooks
         illustration.pos = targetPos;
 
         illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, 0.0f, 0.2f, 0.3f);
-        illustration.alpha = 0.8f;
+        illustration.alpha = 1.0f;
         illustration.color = pearlColors[i].MenuPearlColorFilter();
         //illustration.color = Color.Lerp(pearlColors[i].MenuPearlColorFilter(), new Color32(207, 187, 101, 255), 0.4f);
     }
@@ -506,7 +632,7 @@ public static partial class Hooks
             if (disableSave)
             {
                 self.startButton.buttonBehav.greyedOut = true;
-                var text = "CANNOT PLAY\n" + (save.IsMSCSave ? "MSC" : "NON-MSC") + " SAVE";
+                var text = "CANNOT PLAY" + "\n" + (save.IsMSCSave ? "MSC" : "NON-MSC") + " SAVE";
 
                 self.startButton.menuLabel.text = text;
             }

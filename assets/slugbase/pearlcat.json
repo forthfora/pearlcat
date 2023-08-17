@@ -5,7 +5,7 @@
     "features": {
         "expedition_description": "Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection",
 
-        "world_state": ["Pearlcat", "Red"],
+        "world_state": ["Pearlcat", "Red", "White"],
         "timeline_after": "Red",
         
         "start_room": ["T1_START", "SS_S04"],

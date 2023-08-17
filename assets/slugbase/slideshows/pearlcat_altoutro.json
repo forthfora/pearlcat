@@ -1,0 +1,50 @@
+{
+  "id": "Pearlcat_AltOutro",
+  "slideshow_folder": "slugbase/slideshows/pearlcat_altoutro",
+  "next_process": "Credits",
+  "scenes": [
+    {
+      "name": "Scene1",
+      "fade_in_start": 2.0,
+      "fade_out_start": 8.0,
+      "images": [
+        {"name": "AltOutro1_3", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
+        {"name": "AltOutro1_2", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
+        {"name": "AltOutro1_1", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 0] ]
+    },
+    {
+      "name": "Scene2",
+      "fade_in_start": 10.0,
+      "fade_out_start": 16.0,
+      "images": [
+        {"name": "AltOutro2_3", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
+        {"name": "AltOutro2_2", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
+        {"name": "AltOutro2_1", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 0] ]
+    },
+    {
+      "name": "Scene3",
+      "fade_in_start": 18.0,
+      "fade_out_start": 24.0,
+      "images": [
+        {"name": "AltOutro3_3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "AltOutro3_2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "AltOutro3_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [-200, 0] ]
+    },
+    {
+      "name": "Scene4",
+      "fade_in_start": 26.0,
+      "fade_out_start": 32.0,
+      "images": [
+        {"name": "AltOutro4_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "AltOutro4_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [100, 100] ]
+    }
+  ]
+}

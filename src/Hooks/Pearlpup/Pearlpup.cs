@@ -20,9 +20,16 @@ public static partial class Hooks
     {
         var result = orig(self, obj);
 
-        if (self.room.updateList.FirstOrDefault(x => x is Oracle) is Oracle oracle && oracle.oracleBehavior is SLOracleBehavior behavior)
-            if (self.IsPearlpup() && obj == behavior.holdingObject)
-                return false;
+        if (self.IsPearlpup())
+        {
+            if (self.room?.updateList?.FirstOrDefault(x => x is Oracle) is Oracle oracle && oracle.oracleBehavior is SLOracleBehavior behavior)
+            {
+                if (obj == behavior.holdingObject)
+                {
+                    return false;
+                }
+            }
+        }
 
         return result;
     }
@@ -44,22 +51,53 @@ public static partial class Hooks
     {
         orig(self, eu);
 
-        if (!self.IsPearlpup()) return;
+        if (!self.TryGetPearlpupModule(out var module)) return;
 
         var stats = self.slugcatStats;
+        var save = self.abstractCreature.world.game.GetMiscProgression();
 
-        stats.throwingSkill = 2;
-        stats.runspeedFac = self.grabbedBy.Count > 0 ? 0.9f : 1.1f;
-        stats.corridorClimbSpeedFac = 1.1f;
-        stats.poleClimbSpeedFac = 1.15f;
-        stats.lungsFac = 0.5f;
-        
+        if (self.Malnourished || save.IsPearlpupSick)
+        {
+            if (save.IsPearlpupSick)
+            {
+                self.aerobicLevel = 0.0f;
+            }
+
+            stats.throwingSkill = 0;
+            stats.runspeedFac = 0.9f;
+            stats.corridorClimbSpeedFac = 0.9f;
+            stats.poleClimbSpeedFac = 0.9f;
+            stats.lungsFac = 0.5f;
+        }
+        else
+        {
+            stats.throwingSkill = 2;
+            stats.runspeedFac = self.grabbedBy.Count > 0 ? 0.9f : 1.1f;
+            stats.corridorClimbSpeedFac = 1.1f;
+            stats.poleClimbSpeedFac = 1.15f;
+            stats.lungsFac = 0.5f;
+        }
+
         stats.generalVisibilityBonus = 0.1f;
         stats.visualStealthInSneakMode = 0.3f;
         stats.loudnessFac = 1.35f;
 
         if (self.abstractCreature.Room.world.game.devToolsActive && Input.GetKey("q"))
             self.AddFood(1);
+
+
+        if (module.TextureUpdateTimer % 5 == 0 && (module.LastBodyColor != module.BodyColor || module.LastAccentColor != module.AccentColor))
+        {
+            module.LoadTailTexture("pearlpup_tail");
+            module.LoadEarLTexture("ear_l");
+            module.LoadEarRTexture("ear_r");
+        }
+
+        module.LastBodyColor = module.BodyColor;
+        module.LastAccentColor = module.AccentColor;
+
+        module.TextureUpdateTimer++;
+
     }
 
     private static bool Weapon_HitThisObject(On.Weapon.orig_HitThisObject orig, Weapon self, PhysicalObject obj)

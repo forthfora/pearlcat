@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using RWCustom;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using static DataPearl.AbstractDataPearl;
 using static Pearlcat.POEffect;
 using DataPearlTypeMSC = MoreSlugcats.MoreSlugcatsEnums.DataPearlType;
@@ -9,6 +12,22 @@ public static class POEffectManager
 {
     public static Dictionary<DataPearlType, POEffect> PearlEffects { get; } = new();
     public static Dictionary<string, POEffect> CustomPearlEffects { get; } = new();
+
+    public static Dictionary<float, MajorEffectType> EffectColors { get; } = new()
+    {
+        { 0.0f, MajorEffectType.RAGE },
+
+        { 0.1f, MajorEffectType.SHIELD },
+        { 0.16f, MajorEffectType.SHIELD },
+
+        { 0.33f, MajorEffectType.REVIVE },
+        { 0.64f, MajorEffectType.AGILITY },
+
+        { 1.0f, MajorEffectType.RAGE },
+    };
+
+    // vigaro save
+    public static MajorEffectType GetEffectByHue(float hue) => EffectColors.OrderBy(x => Mathf.Abs(hue - x.Key)).First().Value;
 
     public static POEffect GetPOEffect(this AbstractPhysicalObject abstractObject)
     {
@@ -58,7 +77,23 @@ public static class POEffectManager
         if (CustomPearlEffects.TryGetValue(abstractPearl.dataPearlType.ToString(), out var CustomPOEffect))
             return CustomPOEffect;
 
-        return Misc;
+        var pearlColor = abstractPearl.GetObjectColor();
+        var hsl = Custom.RGB2HSL(pearlColor);
+
+        var hue = hsl.x;
+        var sat = hsl.y;
+        var lit = hsl.z;
+
+        if (lit > 0.85 || sat < 0.15f)
+            return Misc;
+        
+        if (lit < 0.1f)
+            return AS_PearlBlack;
+
+        var effect = Color;
+        effect.MajorEffect = GetEffectByHue(hue);
+
+        return effect;
     }
 
 
@@ -249,7 +284,6 @@ public static class POEffectManager
         RM.CorridorClimbSpeedFac = 0.15f;
         RM.RollSpeedFac = 0.15f;
         RM.SlideSpeedFac = 0.15f;
-        RM.RMSong = true;
 
         SS = None;
         SS.MajorEffect = MajorEffectType.NONE;
@@ -290,6 +324,15 @@ public static class POEffectManager
 
         US_Undertower = Color;
         US_Undertower.MajorEffect = MajorEffectType.RAGE;
+
+        DSH_Unlore_1 = Color;
+        DSH_Unlore_1.MajorEffect = MajorEffectType.REVIVE;
+
+        DSH_Unlore_2 = Color;
+        DSH_Unlore_2.MajorEffect = MajorEffectType.RAGE;
+
+        DSH_Unlore_3 = Color;
+        DSH_Unlore_3.MajorEffect = MajorEffectType.AGILITY;
     }
 
     public static void RegisterEffects()
@@ -355,15 +398,19 @@ public static class POEffectManager
         PearlEffects.Add(Enums.Pearls.AS_PearlBlack, AS_PearlBlack);
 
 
-        CustomPearlEffects.Add("HowlingRift", HowlingRift);
-        CustomPearlEffects.Add("DrainageSystemPlus", DrainageSystemPlus);
+        CustomPearlEffects.Add(nameof(HowlingRift), HowlingRift);
+        CustomPearlEffects.Add(nameof(DrainageSystemPlus), DrainageSystemPlus);
 
-        CustomPearlEffects.Add("LW_Tower", LW_Tower);
-        CustomPearlEffects.Add("LW_Grotto", LW_Grotto);
-        CustomPearlEffects.Add("LW_Coast", LW_Coast);
+        CustomPearlEffects.Add(nameof(LW_Tower), LW_Tower);
+        CustomPearlEffects.Add(nameof(LW_Grotto), LW_Grotto);
+        CustomPearlEffects.Add(nameof(LW_Coast), LW_Coast);
 
-        CustomPearlEffects.Add("US_Tower", US_Tower);
-        CustomPearlEffects.Add("US_Undertower", US_Undertower);
+        CustomPearlEffects.Add(nameof(US_Tower), US_Tower);
+        CustomPearlEffects.Add(nameof(US_Undertower), US_Undertower);
+
+        CustomPearlEffects.Add(nameof(DSH_Unlore_1), DSH_Unlore_1);
+        CustomPearlEffects.Add(nameof(DSH_Unlore_2), DSH_Unlore_2);
+        CustomPearlEffects.Add(nameof(DSH_Unlore_3), DSH_Unlore_3);
     }
 
 
@@ -430,4 +477,8 @@ public static class POEffectManager
 
     public static POEffect US_Tower;
     public static POEffect US_Undertower;
+
+    public static POEffect DSH_Unlore_1;
+    public static POEffect DSH_Unlore_2;
+    public static POEffect DSH_Unlore_3;
 }

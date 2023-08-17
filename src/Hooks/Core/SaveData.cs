@@ -3,6 +3,7 @@ using SlugBase.SaveData;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
@@ -22,6 +23,8 @@ public static partial class Hooks
         public Dictionary<int, SpearModule> PearlSpears { get; } = new();
 
         public int PebblesMeetCount { get; set; }
+        public bool PebblesMetSickPup { get; set; }
+        public int MoonSickPupMeetCount { get; set; }
         public Dictionary<int, int> PearlIDsBroughtToPebbles { get; } = new();
         public int UniquePearlsBroughtToPebbles => PearlIDsBroughtToPebbles.Keys.Count;
 
@@ -50,7 +53,10 @@ public static partial class Hooks
         public Color? ActivePearlColor { get; set; }
 
         public bool HasPearlpup { get; set; }
+        public bool IsPearlpupSick { get; set; }
+        public bool HasOEEnding { get; set; }
 
+        // DEPRECATED
         public bool AltEnd { get; set; }
     }
 
@@ -148,6 +154,19 @@ public static partial class Hooks
         miscProg.IsNewPearlcatSave = false;
         miscWorld.IsNewGame = false;
 
+        if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
+        {
+            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Sick);
+        }
+        else if (self.deathPersistentSaveData.ascended)
+        {
+            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Ascended);
+        }
+        else
+        {
+            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, null);
+        }
+
         return orig(self);
     }
 
@@ -167,7 +186,7 @@ public static partial class Hooks
             miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
 
             if (miscWorld.IsNewGame)
-                miscProg.AltEnd = false;
+                miscProg.IsPearlpupSick = false;
         }
     }
 }

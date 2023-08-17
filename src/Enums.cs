@@ -15,6 +15,7 @@ public static class Enums
 
         public static Conversation.ID Pearlcat_SSConvoRMPearlInspect = new(nameof(Pearlcat_SSConvoRMPearlInspect), true);
         public static Conversation.ID Pearlcat_SSConvoTakeRMPearl = new(nameof(Pearlcat_SSConvoTakeRMPearl), true);
+        public static Conversation.ID Pearlcat_SSConvoSickPup = new(nameof(Pearlcat_SSConvoSickPup), true);
 
         public static Conversation.ID Pearlcat_SSConvoSSPearl = new(nameof(Pearlcat_SSConvoSSPearl), true);
         public static Conversation.ID Pearlcat_SSConvoASPearlBlue = new(nameof(Pearlcat_SSConvoASPearlBlue), true);
@@ -62,9 +63,14 @@ public static class Enums
         public static DataPearlType AS_PearlBlack = new(nameof(AS_PearlBlack), false);
     }
 
-    public static class SlideShows
+    public static class Scenes
     {
-        public static SlideShowID PearlcatTreeOutro = new(nameof(PearlcatTreeOutro), true);
+        public static SceneID Slugcat_Pearlcat = new(nameof(Slugcat_Pearlcat), false);
+        public static SceneID Slugcat_Pearlcat_Sick = new(nameof(Slugcat_Pearlcat_Sick), false);
+        public static SceneID Slugcat_Pearlcat_Ascended = new(nameof(Slugcat_Pearlcat_Ascended), false);
+        public static SceneID Slugcat_Pearlcat_Sleep = new(nameof(Slugcat_Pearlcat_Sleep), false);
+
+        public static SlideShowID Pearlcat_AltOutro = new(nameof(Pearlcat_AltOutro), false);
 
         // DEPRECATED
         //public static SlideShowID PearlcatIntro = new(nameof(PearlcatIntro), true);

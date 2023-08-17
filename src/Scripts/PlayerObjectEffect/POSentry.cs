@@ -7,6 +7,8 @@ using static Pearlcat.POEffect;
 using MoreSlugcats;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
+using static MoreSlugcats.MoreSlugcatsEnums;
+using Music;
 
 namespace Pearlcat;
 
@@ -17,7 +19,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     public WeakReference<AbstractPhysicalObject> OwnerRef { get; }
     public Vector2 InitialPos { get; }
     public LightSource? LightSource { get; set; }
-    public DynamicSoundLoop ShieldHoldLoop { get; } = null!;
+    public DynamicSoundLoop? ShieldHoldLoop { get; set; }
 
     public POSentry(AbstractPhysicalObject owner)
     {
@@ -27,15 +29,16 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (owner.realizedObject == null) return;
 
+        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+
+        if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
+
         SentryData.Add(owner, this);
 
         room = owner.realizedObject.room;
-        InitialPos = owner.realizedObject.firstChunk.pos;
+        InitialPos = player.GetActiveObjectPos();
 
         var effect = owner.GetPOEffect();
-
-        if (effect.MajorEffect == MajorEffectType.RAGE)
-            AbilityCounter = 3;
 
         if (!owner.TryGetAddon(out var addon)) return;
 
@@ -45,21 +48,34 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         room.AddObject(new ExplosionSpikes(room, InitialPos, 5, 30.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
         room.AddObject(new LightningMachine.Impact(InitialPos, 0.1f, addon.SymbolColor, true));
 
-        ShieldHoldLoop = new ChunkDynamicSoundLoop(owner.realizedObject.firstChunk)
+        if (!owner.TryGetModule(out var module)) return;
+
+        if (module.CooldownTimer != 0) return;
+
+        if (effect.MajorEffect == MajorEffectType.REVIVE)
         {
-            sound = Enums.Sounds.Pearlcat_ShieldHold,
-            destroyClipWhenDone = false,
-            Pitch = 1.0f,
-            Volume = 1.0f,
-        };
+            module.CooldownTimer = 40;
+        }
+        else if (effect.MajorEffect == MajorEffectType.CAMOFLAGUE)
+        {
+            module.CooldownTimer = 40;
+        }
     }
 
     public Dictionary<ShortcutData, FSprite> LockedShortcutsSprites = new();
 
     public float ShieldTimer { get; set; } = -1;
-    public int? AbilityCounter { get; set; }
+    public int RageCounter { get; set; } = 3;
+    public bool WasPlayingRM { get; set; }
+    public Vector2? AgilityPos { get; set; }
+    public float HoloLightScale { get; set; }
+    public float HoloLightAlpha { get; set; }
+    public bool HoloLightActive { get; set; }
+
+    public float HaloScale { get; set; } = 1.0f;
     public float AnimCounter { get; set; }
     public WeakReference<Creature>? RageTarget { get; set; }
+
 
     public override void Update(bool eu)
     {
@@ -79,7 +95,15 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         if (!pearl.abstractPhysicalObject.TryGetModule(out var module)) return;
 
 
+        var pearlType = pearl.AbstractPearl.dataPearlType;
         var targetPos = InitialPos + new Vector2(0.0f, -40.0f);
+
+        if (pearlType == DataPearlType.RM
+            || pearlType == Enums.Pearls.RM_Pearlcat
+            || pearlType == Enums.Pearls.SS_Pearlcat)
+        {
+            targetPos.y += Mathf.Sin(AnimCounter / 60.0f) * 20.0f;
+        }
 
         pearl.firstChunk.pos = Vector2.Lerp(pearl.firstChunk.pos, targetPos, 0.1f);
         pearl.firstChunk.vel = Vector2.zero;
@@ -89,23 +113,203 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         UpdateShieldSentry(owner, module, pearl, effect);
         UpdateRageSentry(owner, module, pearl, effect);
+        UpdateAgilitySentry(owner, module, pearl, effect);
+        UpdateReviveSentry(owner, module, pearl, effect);
         UpdateCamoSentry(owner, module, pearl, effect);
+
+        UpdateSpearSentry(owner, module, pearl, effect);
+        
+        if (pearlType == DataPearlType.RM || pearlType == Enums.Pearls.RM_Pearlcat)
+        {
+            UpdateMusicSentry(owner, module, pearl, effect, "NA_19 - Halcyon Memories");
+        }
+        else if (pearlType == Enums.Pearls.SS_Pearlcat)
+        {
+            //UpdateMusicSentry(owner, module, pearl, effect, "");
+        }
 
         AnimCounter++;
     }
 
+
+    private void UpdateMusicSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect, string songName)
+    {
+        var musicPlayer = room.game.manager.musicPlayer;
+
+        if (musicPlayer.song != null)
+        {
+            if (musicPlayer.song.name == songName)
+            {
+                var song = musicPlayer.song;
+                song.volume = 0.0f;
+
+                if (room.game.FirstAlivePlayer?.realizedCreature is Player player)
+                {
+                    song.volume = Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 50.0f, 1000.0f, 0.3f, 0.0f);
+                }
+
+                var audioData = new float[1024];
+                song.subTracks[0].source.GetSpectrumData(audioData, 0, FFTWindow.Hamming);
+                
+                var amplitude = 0.0f;
+
+                for (int i = 0; i < 1024; i++)
+                {
+                    amplitude += audioData[i];
+                }
+
+                HaloScale = Custom.LerpMap(amplitude, 0.0f, 0.15f, 0.6f, 1.3f);
+                return;
+            }
+
+            musicPlayer.song.StopAndDestroy();
+            musicPlayer.song = null;
+        }
+
+        musicPlayer.song = new Song(room.game.manager.musicPlayer, songName, MusicPlayer.MusicContext.StoryMode)
+        {
+            stopAtGate = true,
+            stopAtDeath = true,
+            fadeInTime = 1,
+            playWhenReady = true
+        };
+
+        WasPlayingRM = true;
+    }
+
     private void UpdateCamoSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
+        const float MAX_SCALE = 300.0f;
+
+        if (HoloLightActive)
+        {
+            if (HoloLightScale >= MAX_SCALE * 0.99f)
+            {
+                HoloLightActive = false;
+            }
+            
+            if (HoloLightScale >= MAX_SCALE * 0.25f)
+            {
+                HoloLightAlpha = Mathf.Lerp(HoloLightAlpha, 0.0f, 0.01f);
+            }
+
+            HoloLightScale = Mathf.Lerp(HoloLightScale, MAX_SCALE, 0.04f);
+        }
+        
         if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE) return;
+
+        if (module.CooldownTimer != 0) return;
+
+        module.CooldownTimer = 200;
+ 
+        HoloLightScale = 0.0f;
+        HoloLightAlpha = 1.0f;
+        HoloLightActive = true;
+
+        var color = Custom.hexToColor("fcb103");
+
+        room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.4f, color, true));
+        room.AddObject(new ExplosionSpikes(room, pearl.firstChunk.pos, 5, 30.0f, 10, 10.0f, 20.0f, color));
+
+        room.PlaySound(SoundID.HUD_Food_Meter_Deplete_Plop_A, pearl.firstChunk, false, 2.0f, 1.0f);
+    }
+
+    private void UpdateReviveSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
+    {
+        if (effect.MajorEffect != MajorEffectType.REVIVE) return;
+
+        if (!owner.TryGetAddon(out var addon)) return;
+
+        if (module.CooldownTimer != 0) return;
+
+        var didHeal = false;
+
+        for (int i = room.updateList.Count - 1; i >= 0; i--)
+        {
+            UpdatableAndDeletable? updatable = room.updateList[i];
+            if (updatable is not Creature crit) continue;
+
+            if (!Custom.DistLess(pearl.firstChunk.pos, crit.firstChunk.pos, 225.0f)) continue;
+
+            if (crit.State is not HealthState healthState) continue;
+
+            if (healthState.dead) continue;
+
+            if (healthState.ClampedHealth >= 1.0f) continue;
+
+            healthState.health = Mathf.Min(1.0f, healthState.health + 0.25f);
+
+            room.AddObject(new LightningMachine.Impact(crit.mainBodyChunk.pos, 0.6f, addon.SymbolColor, true));
+            room.AddObject(new ExplosionSpikes(room, crit.mainBodyChunk.pos, 5, 70.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
+            room.AddObject(new ShockWave(pearl.firstChunk.pos, 30.0f, 0.2f, 10));
+
+            room.ConnectEffect(crit.mainBodyChunk.pos, pearl.firstChunk.pos, addon.SymbolColor, 2.0f, 60);
+            didHeal = true;
+        }
+
+        if (!didHeal) return;
+       
+        module.CooldownTimer = 160;
+
+        room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, addon.SymbolColor, true));
+        room.AddObject(new ShockWave(pearl.firstChunk.pos, 30.0f, 0.2f, 10));
+        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos);
+    }
+
+    private void UpdateAgilitySentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
+    {
+        if (effect.MajorEffect != MajorEffectType.AGILITY) return;
+
+        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+
+        if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
+
+        var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
+
+        AgilityPos = tooClose ? null : pearl.firstChunk.pos;
+     
+        /*
+        foreach (var updatable in room.updateList)
+        {
+            if (updatable is not Creature crit) continue;
+
+            if (!Custom.DistLess(pearl.firstChunk.pos, crit.firstChunk.pos, 75.0f)) continue;
+
+            if (crit is Player player)
+            {
+                var stats = new SlugcatStats(player.SlugCatClass, player.Malnourished);
+
+                if (player.TryGetPearlcatModule(out var playerModule))
+                {
+                    stats = player.slugcatStats;
+                }
+
+                player.slugcatStats.runspeedFac = stats.runspeedFac * 1.5f;
+                player.slugcatStats.corridorClimbSpeedFac = stats.corridorClimbSpeedFac * 1.5f;
+                player.slugcatStats.poleClimbSpeedFac = stats.poleClimbSpeedFac * 1.5f;
+
+                if (player.canJump > 0)
+                {
+                    player.jumpBoost = player.SlugCatClass == SlugcatStatsName.Rivulet ? 18.0f : 14.0f;
+                }
+            }
+        }
+        */
+    }
+
+    private void UpdateSpearSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
+    {
+        if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION) return;
+
+        if (!owner.TryGetAddon(out var addon)) return;
 
         if (LightSource == null)
         {
-            LightSource = new(pearl.firstChunk.pos, false, Color.white, this)
+            LightSource = new(pearl.firstChunk.pos, false, addon.SymbolColor, this)
             {
                 requireUpKeep = true,
                 setRad = 0.0f,
                 setAlpha = 1.0f,
-                color = Color.white,
                 flat = false,
             };
             room.AddObject(LightSource);
@@ -113,7 +317,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         LightSource.stayAlive = true;
 
-        LightSource.setRad = Mathf.Lerp(LightSource.Rad, 500.0f, 0.1f);
+        LightSource.setRad = Mathf.Lerp(LightSource.Rad, 300.0f, 0.1f);
         LightSource.setPos = pearl.firstChunk.pos;
     }
 
@@ -169,9 +373,9 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                     }
                     else if (physicalObject is Creature crit)
                     {
-                        if (crit.dead) continue;
+                        if (!player.IsHostileToMe(crit) && crit is not Lizard or Scavenger) continue;
 
-                        if (crit is Player) continue;
+                        if (crit.dead) continue;
 
                         crit.mainBodyChunk.vel = Custom.DirVec(pearl.firstChunk.pos, crit.firstChunk.pos) * 10.0f;
 
@@ -213,10 +417,30 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             }
         }
 
-        if (ShieldHoldLoop != null)
+
+        ShieldHoldLoop ??= new ChunkDynamicSoundLoop(owner.realizedObject.firstChunk)
         {
-            ShieldHoldLoop.Update();
-            ShieldHoldLoop.Volume = Mathf.Lerp(ShieldHoldLoop.Volume, ShieldTimer > 0 ? 1.0f : 0.0f, 0.1f);
+            sound = Enums.Sounds.Pearlcat_ShieldHold,
+            destroyClipWhenDone = false,
+            Pitch = 1.0f,
+            Volume = 1.0f,
+        };
+
+        // i don't fricking trust this
+        try
+        {
+            if (ShieldHoldLoop?.owner?.room != null && (ShieldHoldLoop?.emitter == null || ShieldHoldLoop?.emitter?.room != null))
+            {
+                if (ShieldHoldLoop != null)
+                {
+                    ShieldHoldLoop.Update();
+                    ShieldHoldLoop.Volume = Mathf.Lerp(ShieldHoldLoop.Volume, ShieldTimer > 0 ? 1.0f : 0.0f, 0.1f);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Plugin.Logger.LogWarning("HANDLED: Shield Sentry Sound Exception:\n" + ex);
         }
     }
 
@@ -238,7 +462,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (playerInRange)
         {
-            if (AbilityCounter <= 0)
+            if (RageCounter <= 0)
             {
                 room.ConnectEffect(player.firstChunk.pos, pearl.firstChunk.pos, addon.SymbolColor, lifeTime: 24);
                 room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, addon.SymbolColor, true));
@@ -246,7 +470,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                 room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 3.0f);
             }
 
-            AbilityCounter = 3;
+            RageCounter = 3;
         }
 
         module.LaserLerp = 0.0f;
@@ -321,7 +545,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
 
         if (RageTarget == null || !RageTarget.TryGetTarget(out target)) return;
-        if (AbilityCounter <= 0)
+        if (RageCounter <= 0)
             module.CooldownTimer = cooldownTime;
 
         if (module.CooldownTimer > 0)
@@ -346,10 +570,13 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             target.Violence(player.mainBodyChunk, null, target.mainBodyChunk, null, Creature.DamageType.Explosion, shootDamage, 5.0f);
 
             if (!playerInRange)
-                AbilityCounter--;
-
+            {
+                RageCounter--;
+            }
             else
+            {
                 room.ConnectEffect(player.firstChunk.pos, pearl.firstChunk.pos, addon.SymbolColor, lifeTime: 24);
+            }
         }
         else
         {
@@ -360,51 +587,98 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     }
 
 
+
     public override void Destroy()
     {
         base.Destroy();
 
         LightSource?.Destroy();
-        ShieldHoldLoop?.Stop();
 
         foreach (var shortcut in LockedShortcutsSprites.Values)
             shortcut.RemoveFromContainer();
 
         if (OwnerRef.TryGetTarget(out var owner) && owner.TryGetModule(out var module))
         {
-            if (room != null && owner.realizedObject != null && owner.TryGetAddon(out var addon))
-            {
-                room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 0.5f);
-
-                room.AddObject(new ExplosionSpikes(room, owner.realizedObject.firstChunk.pos, 5, 30.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
-                room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
-            }
-
             if (SentryData.TryGetValue(owner, out _))
                 SentryData.Remove(owner);
 
             if (module.IsSentry)
                 module.RemoveSentry(owner);
+            
+            var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+
+            if (owner.TryGetAddon(out var addon) && playerModule != null && playerModule.PlayerRef.TryGetTarget(out var player))
+            {
+                if (room != null && owner.realizedObject != null)
+                {
+                    room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 0.5f);
+
+                    room.AddObject(new ExplosionSpikes(room, owner.realizedObject.firstChunk.pos, 5, 30.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
+                    room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
+                }
+
+                if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && owner.Room == player.abstractCreature.Room)
+                {
+                    if (room != null && owner.realizedObject != null)
+                    {
+                        player.ConnectEffect(agilityPos, addon.SymbolColor);
+                        room.AddObject(new ShockWave(agilityPos, 100.0f, 0.3f, 20));
+                        room.AddObject(new ExplosionSpikes(room, agilityPos, 5, 70.0f, 25, 10.0f, 40.0f, addon.SymbolColor));
+
+
+                        room.PlaySound(Enums.Sounds.Pearlcat_CamoFade, owner.realizedObject.firstChunk, false, 1.0f, 1.5f);
+
+                        room.PlaySound(SoundID.Fire_Spear_Explode, owner.realizedObject.firstChunk, false, 0.5f, 1.0f);
+                        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.3f);
+                    }
+
+                    player.SuperHardSetPosition(agilityPos);
+                    
+                    if (player.slugOnBack?.slugcat is Player slugOnBack)
+                    {
+                        slugOnBack.SuperHardSetPosition(agilityPos);
+                        slugOnBack.graphicsModule?.Reset();
+                        slugOnBack.bodyChunks.ToList().ForEach(x => x.vel = Vector2.zero);
+                    }
+
+                    player.graphicsModule?.Reset();
+                    player.bodyChunks.ToList().ForEach(x => x.vel = Vector2.zero);
+
+                    playerModule.FlyTimer = 10;
+                    module.CooldownTimer = 1200;
+                }
+            }
+        }
+
+        if (WasPlayingRM && room != null)
+        {
+            var musicPlayer = room.game.manager.musicPlayer;
+
+            if (musicPlayer.song.name == "NA_19 - Halcyon Memories")
+            {
+                musicPlayer.song.StopAndDestroy();
+                musicPlayer.song = null;
+            }
         }
     }
 
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
-        sLeaser.sprites = new FSprite[6];
+        sLeaser.sprites = new FSprite[7];
 
-        sLeaser.sprites[0] = new FSprite("pixel");
+        sLeaser.sprites[0] = new("pixel");
 
-        sLeaser.sprites[1] = new FSprite("pearlcat_sentryhalo")
+        sLeaser.sprites[1] = new("pearlcat_sentryhalo")
         {
             //shader = rCam.room.game.rainWorld.Shaders["GateHologram"],
         };
 
-        sLeaser.sprites[2] = new FSprite("pearlcat_shieldsentry")
+        sLeaser.sprites[2] = new("pearlcat_shieldsentry")
         {
             shader = rCam.room.game.rainWorld.Shaders["Hologram"],
         };
 
-        sLeaser.sprites[3] = new FSprite("Futile_White")
+        sLeaser.sprites[3] = new("Futile_White")
         {
             shader = rCam.room.game.rainWorld.Shaders["GravityDisruptor"],
             scale = 0.0f,
@@ -418,6 +692,12 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         sLeaser.sprites[5] = new("pixel")
         {
             shader = rCam.room.game.rainWorld.Shaders["GateHologram"],
+        };
+
+        sLeaser.sprites[6] = new("Futile_White")
+        {
+            shader = rCam.game.rainWorld.Shaders["HoloGrid"],
+            scale = 0.0f,
         };
 
 
@@ -437,7 +717,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         if (!pearl.abstractPhysicalObject.TryGetAddon(out var addon)) return;
 
         var effect = pearl.abstractPhysicalObject.GetPOEffect();
-
+        
         var targetPos = Vector2.Lerp(pearl.firstChunk.lastPos, pearl.firstChunk.pos, timeStacker) - camPos;
 
         var symbolSprite = sLeaser.sprites[0];
@@ -446,25 +726,48 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         var shieldSprite = sLeaser.sprites[3];
         var laserSprite = sLeaser.sprites[4];
         var counterSprite = sLeaser.sprites[5];
+        var holoLightSprite = sLeaser.sprites[6];
 
-        symbolSprite.element = Futile.atlasManager.GetElementWithName(addon.DrawSymbolCooldown && AbilityCounter > 0 ? "pearlcat_glyphcooldown" : ObjectAddon.SpriteFromMajorEffect(effect.MajorEffect));
+        symbolSprite.element = Futile.atlasManager.GetElementWithName(addon.DrawSymbolCooldown && RageCounter > 0 ? "pearlcat_glyphcooldown" : ObjectAddon.SpriteFromPearl(pearl.abstractPhysicalObject));
         symbolSprite.SetPosition(targetPos + new Vector2(15.0f, 15.0f));
         symbolSprite.color = addon.SymbolColor;
 
+
         haloSprite.SetPosition(targetPos);
-        haloSprite.rotation = AnimCounter;
         haloSprite.color = addon.SymbolColor;
+        haloSprite.scale = HaloScale;
+
+        if (effect.MajorEffect == MajorEffectType.NONE)
+        {
+            haloSprite.color = addon.ActiveHaloColor;
+            haloSprite.element = Futile.atlasManager.GetElementWithName("LizardBubble6");
+        }
+        else
+        {
+            haloSprite.rotation = AnimCounter;
+        }
 
         guideSprite.SetPosition(targetPos);
-        guideSprite.color = addon.SymbolColor;
-        guideSprite.isVisible = effect.MajorEffect == MajorEffectType.SHIELD || (effect.MajorEffect == MajorEffectType.RAGE && AbilityCounter <= 0);
-        guideSprite.element = Futile.atlasManager.GetElementWithName(effect.MajorEffect == MajorEffectType.RAGE ? "pearlcat_shieldsentry" : "pearlcat_shieldsentry");
+        guideSprite.color = effect.MajorEffect == MajorEffectType.AGILITY && AgilityPos == null ? Color.red : addon.SymbolColor;
+        guideSprite.isVisible =
+            effect.MajorEffect == MajorEffectType.SHIELD
+            || effect.MajorEffect == MajorEffectType.AGILITY
+            || effect.MajorEffect == MajorEffectType.REVIVE
+            || (effect.MajorEffect == MajorEffectType.RAGE && RageCounter <= 0);
+
+        guideSprite.element = Futile.atlasManager.GetElementWithName(effect.MajorEffect switch
+        {
+            MajorEffectType.AGILITY => "pearlcat_agilitysentry",
+            MajorEffectType.REVIVE => "pearlcat_revivesentry",
+
+            _ => "pearlcat_shieldsentry",
+        });
 
         shieldSprite.SetPosition(targetPos);
         shieldSprite.scale = Mathf.Lerp(shieldSprite.scale, ShieldTimer > 5 ? 8.0f : 0.0f, 0.1f);
 
 
-        laserSprite.isVisible = RageTarget != null && AbilityCounter > 0;
+        laserSprite.isVisible = RageTarget != null && RageCounter > 0;
         var laserLerp = addon.LaserLerp;
 
         laserSprite.alpha = Custom.LerpMap(laserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
@@ -488,9 +791,14 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         laserSprite.SetPosition(startPos + dir * laserLength / 2.0f);
 
         counterSprite.SetPosition(targetPos + new Vector2(-15.0f, 15.0f));
-        counterSprite.isVisible = AbilityCounter != null;
         counterSprite.color = addon.SymbolColor;
-        counterSprite.element = Futile.atlasManager.GetElementWithName(ObjectAddon.SpriteFromNumber(AbilityCounter ?? -1) ?? "pearlcat_glyphcooldown");
+        counterSprite.isVisible = false;
+
+        if (effect.MajorEffect == MajorEffectType.RAGE)
+        {
+            counterSprite.isVisible = true;
+            counterSprite.element = Futile.atlasManager.GetElementWithName(ObjectAddon.SpriteFromNumber(RageCounter) ?? "pearlcat_glyphcooldown");
+        }
 
 
         foreach (var shortcut in room.shortcuts)
@@ -505,11 +813,13 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
             sprite.isVisible = !addon.DrawSymbolCooldown || ShieldTimer > 0;
         }
+
+        holoLightSprite.SetPosition(targetPos);
+        holoLightSprite.scale = HoloLightScale;
+        holoLightSprite.alpha = Custom.LerpMap(HoloLightAlpha, 0.3f, 0.0f, 1.0f, 0.0f);
+        holoLightSprite.color = new(0.384f, 0.184f, 0.984f, HoloLightAlpha);
     }
 
-    public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
-    {
-    }
 
     public void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
     {
@@ -519,5 +829,8 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         {
             newContatiner.AddChild(sprite);
         }
+    }
+    public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
+    {
     }
 }

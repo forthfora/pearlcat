@@ -9,6 +9,7 @@
     {"name": "sleep3", "pos": [735, 179], "depth": 4.0, "shader": "Normal"},
     
     {"name": "pup", "pos": [690, 220], "depth": 4.0, "shader": "Basic"},
+    {"name": "pupsick", "pos": [690, 220], "depth": 4.0, "shader": "Basic"},
 
     {"name": "pearl0", "pos": [789, 472], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl1", "pos": [870, 558], "depth": 2.3, "shader": "Basic"},
@@ -18,9 +19,11 @@
 
 
     {"name": "slugcat", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},
+    {"name": "slugcatsick", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},
+
     {"name": "sweat", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},
 
-    {"name": "pearlactiveplaceholder", "pos": [906, 406], "depth": 2.3, "shader": "Basic"},
+    {"name": "pearlactiveplaceholder", "pos": [870, 406], "depth": 2.3, "shader": "Basic"},
     {"name": "pearlactive", "pos": [911, 406], "depth": 2.3, "shader": "Basic"},
     {"name": "pearlactivehalo", "pos": [911, 406], "depth": 2.1, "shader": "Basic"},
     
@@ -33,8 +36,9 @@
     {"name": "sleep1", "pos": [486, 29], "depth": 2.5, "shader": "Normal"}
   ],
   
-  "select_menu_pos": [0, -150],
-
-	"idle_depths": [2.9],
-	"sleep scene_depth": 3.0
+  "idle_depths": [2.4],
+  "glow_pos": [430, 130],
+  
+  "select_menu_pos": [0, 0],
+  "slugcat_depth": 2.0
 }

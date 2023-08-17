@@ -29,7 +29,7 @@ public static partial class Hooks
         c.EmitDelegate<Action<RainWorldGame>>((self) =>
         {
             self.manager.statsAfterCredits = true;
-            self.manager.nextSlideshow = Enums.SlideShows.PearlcatTreeOutro;
+            self.manager.nextSlideshow = Enums.Scenes.Pearlcat_AltOutro;
             self.manager.RequestMainProcessSwitch(ProcessManager.ProcessID.SlideShow);
         });
     }

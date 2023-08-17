@@ -7,7 +7,6 @@ using RWCustom;
 using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
 using static Pearlcat.POEffect;
-using System.Runtime.CompilerServices;
 
 namespace Pearlcat;
 
@@ -21,17 +20,22 @@ public class PlayerModule
         PlayerRef = new(self);
 
         PlayerNumber = self.playerState.playerNumber;
+        UniqueID = IDCounter++;
         BaseStats = NormalStats;
     }
 
-    public int PlayerNumber { get; private set; }
+    public int PlayerNumber { get; }
+    public int UniqueID { get; }
+    public static int IDCounter { get; set; }
 
     public SlugcatStats BaseStats { get; set; }
     public SlugcatStats NormalStats { get; private set; } = new(Enums.Pearlcat, false);
     public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.Pearlcat, true);
 
+    public int GraphicsResetCounter { get; set; }
+
     public bool JustWarped { get; set; }
-    public AbstractRoom LastRoom { get; set; }
+    public AbstractRoom? LastRoom { get; set; }
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }
 
@@ -40,6 +44,7 @@ public class PlayerModule
     public int SleeveRSprite { get; set; }
     public int FeetSprite { get; set; }
     public int ShieldSprite { get; set; }
+    public int HoloLightSprite { get; set; }
 
     public int AgilityCount => ModOptions.DisableAgility.Value ? 0 : MajorEffectCount(MajorEffectType.AGILITY);
     public int CamoCount => ModOptions.DisableCamoflague.Value ? 0 : MajorEffectCount(MajorEffectType.CAMOFLAGUE);
@@ -159,8 +164,10 @@ public class PlayerModule
     public float SpearLerp { get; set; }
     public bool WasSpearOnBack { get; set; }
 
-    public Vector2 PrevHeadRotation { get; set; }
+    public float HoloLightAlpha { get; set; } = 1.0f;
+    public float HoloLightScale { get; set; }
 
+    public Vector2 PrevHeadRotation { get; set; }
     public Vector2 LastGroundedPos { get; set; }
     public int GroundedTimer { get; set; }
     public int FlyTimer { get; set; }
@@ -340,15 +347,20 @@ public class PlayerModule
     public Color BaseAccentColor { get; set; }
     public Color BaseCloakColor { get; set; }
 
-    public Color ActiveColor => ActiveObject == null ? Color.white : ActiveObject.GetObjectColor();
+    public static Color DefaultBodyColor => Custom.hexToColor("122626");
+    public static Color DefaultFaceColor => Color.white;
+    public static Color DefaultAccentColor => Color.white;
+    public static Color DefaultCloakColor => Custom.hexToColor("ad2424");
+
+    public Color ActiveColor => ActiveObject?.GetObjectColor() ?? Color.white;
 
     public void InitColors(PlayerGraphics self)
     {
-        BaseBodyColor = PlayerColor.Body.GetColor(self) ?? Custom.hexToColor("122626");
-        BaseFaceColor = PlayerColor.Eyes.GetColor(self) ?? Color.white;
+        BaseBodyColor = PlayerColor.Body.GetColor(self) ?? DefaultBodyColor;
+        BaseFaceColor = PlayerColor.Eyes.GetColor(self) ?? DefaultFaceColor;
 
-        BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? Color.white;
-        BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? Custom.hexToColor("ad2424");
+        BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? DefaultAccentColor;
+        BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? DefaultCloakColor;
     }
 
     public void UpdateColors(PlayerGraphics self)
@@ -366,6 +378,11 @@ public class PlayerModule
             BodyColor = Color.Lerp(BodyColor, Color.gray, 0.4f * malnourished);
             AccentColor = Color.Lerp(AccentColor, Color.gray, 0.4f * malnourished);
         }
+
+        BodyColor = BodyColor.RWColorSafety();
+        AccentColor = AccentColor.RWColorSafety();
+        CloakColor = CloakColor.RWColorSafety();
+        FaceColor = FaceColor.RWColorSafety();
     }
 
     public static void MapAlphaToColor(Texture2D texture, Dictionary<byte, Color> map)
@@ -373,8 +390,12 @@ public class PlayerModule
         var data = texture.GetPixelData<Color32>(0);
 
         for (int i = 0; i < data.Length; i++)
+        {
             if (map.TryGetValue(data[i].a, out var targetColor))
+            {
                 data[i] = targetColor;
+            }
+        }
 
         texture.SetPixelData(data, 0);
 
@@ -382,6 +403,7 @@ public class PlayerModule
         //    for (var y = 0; y < texture.height; y++)
         //        if (map.TryGetValue((byte)(texture.GetPixel(x, y).a * 255), out var targetColor))
         //            texture.SetPixel(x, y, targetColor);
+
         
         texture.Apply(false);
     }
@@ -418,7 +440,7 @@ public class PlayerModule
             { 0, AccentColor },
         });
 
-        var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
+        var atlasName = Plugin.MOD_ID + textureName + UniqueID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
@@ -438,7 +460,7 @@ public class PlayerModule
             { 0, AccentColor },
         });
 
-        var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
+        var atlasName = Plugin.MOD_ID + textureName + UniqueID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
@@ -503,25 +525,30 @@ public class PlayerModule
 
 
     public FAtlas? TailAtlas { get; set; }
+    public bool SetInvertTailColors { get; set; }
+    public bool CurrentlyInvertedTailColors { get; set; }
 
     public void LoadTailTexture(string textureName)
     {
         var tailTexture = AssetLoader.GetTexture(textureName);
         if (tailTexture == null) return;
+        
+        CurrentlyInvertedTailColors = SetInvertTailColors;
 
         // Apply Colors
         MapAlphaToColor(tailTexture, new Dictionary<byte, Color>()
         {
-            { 255, BodyColor },
-            { 0, AccentColor },
+            { 255, CurrentlyInvertedTailColors ? AccentColor : BodyColor },
+            { 0, CurrentlyInvertedTailColors ? BodyColor : AccentColor },
         });
 
-        var atlasName = Plugin.MOD_ID + textureName + PlayerNumber;
+        var atlasName = Plugin.MOD_ID + textureName + UniqueID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
 
         TailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
+
     }
 
 

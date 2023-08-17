@@ -38,5 +38,4 @@ public record struct POEffect
     public float RollSpeedFac { get; set; }
 
     public string? ThreatMusic { get; set; }
-    public bool RMSong { get; set; }
 }

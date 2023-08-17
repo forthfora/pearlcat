@@ -69,9 +69,11 @@ public abstract class ObjectAnimation
             addon.DrawHalo = true;
             float haloEffectTimer = HaloEffectStackers[i];
 
+            addon.ActiveHaloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
+
             if (i == playerModule.ActiveObjectIndex)
             {
-                addon.HaloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
+                addon.HaloColor = addon.ActiveHaloColor;
                 addon.HaloScale = 1.0f + 0.45f * haloEffectTimer;
                 addon.HaloAlpha = 0.8f;
             }
@@ -79,8 +81,9 @@ public abstract class ObjectAnimation
             {
                 addon.HaloColor = Hooks.GetObjectColor(abstractObject) * new Color(0.25f, 0.25f, 1.0f);
                 addon.HaloScale = 0.3f + 0.45f * haloEffectTimer;
-                addon.HaloAlpha = 0.6f;
+                addon.HaloAlpha = ModOptions.HidePearls.Value ? 0.0f : 0.6f; 
             }
+
 
 
             if (haloEffectTimer < 0.0f)
@@ -119,7 +122,7 @@ public abstract class ObjectAnimation
             var effect = abstractObject.GetPOEffect();
 
             addon.IsActiveObject = i == playerModule.ActiveObjectIndex;
-            addon.SymbolColor = Hooks.GetObjectColor(abstractObject);
+            addon.SymbolColor = effect.MajorEffect == POEffect.MajorEffectType.CAMOFLAGUE ? Color.white : Hooks.GetObjectColor(abstractObject);
 
             if (poModule.CooldownTimer != 0)
             {
@@ -138,19 +141,8 @@ public abstract class ObjectAnimation
                 addon.DrawSymbolCooldown = false;
             }
 
+            addon.Symbol = ObjectAddon.SpriteFromPearl(abstractObject);
             addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
-
-            addon.SymbolType = effect.MajorEffect;
-            addon.OverrideSymbol = null;
-
-            if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
-            {
-                if (dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == MoreSlugcats.MoreSlugcatsEnums.DataPearlType.RM)
-                    addon.OverrideSymbol = "haloGlyph5";
-
-                else if (dataPearl.dataPearlType == Enums.Pearls.SS_Pearlcat)
-                    addon.OverrideSymbol = "haloGlyph6";
-            }
 
             addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject ? 1.0f : playerModule.CamoLerp;
 
@@ -169,18 +161,27 @@ public abstract class ObjectAnimation
             if (addon.IsSentry)
             {
                 addon.CamoLerp = 0.0f;
-                addon.OverrideSymbol = "pearlcat_glyphsentry";
+                addon.Symbol = "pearlcat_glyphsentry";
 
-                Hooks.TargetPositions.TryGetValue(abstractObject, out var targetPos);
 
                 // hacks engaged
-                addon.OverrideLastPos = addon.IsActiveObject ? player.GetActiveObjectPos(timeStacker: 0.0f) : targetPos?.Value; 
-                addon.OverridePos = addon.IsActiveObject ? player.GetActiveObjectPos(timeStacker: 1.0f) : targetPos?.Value;
+                if (Hooks.TargetPositions.TryGetValue(abstractObject, out var targetPos))
+                {
+                    addon.OverridePos ??= abstractObject.realizedObject.firstChunk.pos;
+                    addon.OverrideLastPos = addon.OverridePos;
+                    
+                    addon.OverridePos = Vector2.Lerp((Vector2)addon.OverridePos, addon.IsActiveObject ? player.GetActiveObjectPos(timeStacker: 1.0f) : targetPos.Value, 0.7f);
+                    
+                    if (addon.OverrideLastPos != null && !Custom.DistLess((Vector2)addon.OverridePos, (Vector2)addon.OverrideLastPos, 100.0f))
+                    {
+                        addon.OverrideLastPos = addon.OverridePos;
+                    }
+                }
             }
             else
             {
-                addon.OverrideLastPos = null;
                 addon.OverridePos = null;
+                addon.OverrideLastPos = null;
             }
 
 
