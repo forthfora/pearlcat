@@ -1,573 +1,573 @@
 ﻿If only I had my memories, I might have a clue...|如果我有记忆的话，我也许能找到线索……
-I do enjoy the company of you and your friend though, <PlayerName>.|不过，我确实很喜欢和你和你的朋友在一起，<玩家名字>。
+I do enjoy the company of you and your friend though, <PlayerName>.|不过，我确实很喜欢和你以及你的朋友在一起，<PlayerName>。
 Pebbles_AS_PearlBlue|Pebbles_AS_PearlBlue
-face|脸
-pearlcat_support|Pearlcat_支持
-Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|珍珠猫总体能见度的百分比乘数会影响捕食者的吸引力。默认情况下，Pearlcat 甚至比 Hunter 更显眼。
-AS|作为
+face|face
+pearlcat_support|pearlcat_support
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|珍珠猫一般可视度的百分比乘数，影响对捕食者的吸引力。在默认情况下，珍珠猫甚至比猎手更能显眼。
+AS|AS
 ModManager.RefreshModsLists:\n|ModManager.RefreshModsLists:\n
-pearlactiveplaceholder|珍珠活性占位符
+pearlactiveplaceholder|pearlactiveplaceholder
 oa_min_fric_mult|oa_min_fric_mult
 .png|.png
-HANDLED: Shield Sentry Sound Exception:\n|已处理：盾牌哨兵声音异常：\n
+HANDLED: Shield Sentry Sound Exception:\n|处理：护盾哨兵声音异常：\n
 Pebbles_AS_PearlRed|Pebbles_AS_PearlRed
 pearlcat_spire5|Pearlcat_spire5
 pearlcat_glyphcooldown|Pearlcat_glyphcooldown
-JaggedSquare|锯齿方形
+JaggedSquare|JaggedSquare
 I think I may still have some use left after all!~|我想我也许还有点用处！~
-Player 1|玩家1
-Clearly an artifical creation. But from where? Sent by who?|显然是人工创造的。但从哪里来呢？由谁发送的？
-) & use the (LEFT) & (RIGHT) directional inputs|）并使用（左）和（右）方向输入
-strange|奇怪的
+Player 1|玩家 1
+Clearly an artifical creation. But from where? Sent by who?|显然是人造的。但来自哪里？又由谁发送？
+) & use the (LEFT) & (RIGHT) directional inputs|）并使用（左）和（右）方向键输入
+strange|strange
 I see you've returned, yet again.|我看到你又回来了。
-Futile_White|徒劳_白色
-Basic|基本的
-Noir |黑色
+Futile_White|Futile_White
+Basic|Basic
+Noir |Noir 
 pearlcat_spire9|Pearlcat_spire9
-pearlpup_face_sick|珍珠小狗脸生病了
+pearlpup_face_sick|pearlpup_face_sick
 Music|音乐
-Geahgeah |格赫格赫
-PEARLCAT VOID SEA ENDING|PEARLCAT 虚空之海结局
+Geahgeah |Geahgeah 
+PEARLCAT VOID SEA ENDING|PEARLCAT VOID SEA ENDING
 I do not know what to make of this.|我不知道该怎么办。
-Software|软件
-LizardBubble6|蜥蜴泡泡6
+Software|Software
+LizardBubble6|LizardBubble6
 ---------------------------------------------------------------|-------------------------------------------------- -------------
 5|5
-Hold (|抓住 （
-pearlcat_0|珍珠猫_0
-I do not have much else to occupy my time with these days...|这些天我没有太多其他的时间可以消磨……
+Hold (|按住 （
+pearlcat_0|pearlcat_0
+I do not have much else to occupy my time with these days...|目前我也没有其他事可以打发时间了……
 pearlcat_revivesentry|Pearlcat_revivesentry
 MSC|MSC
-The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|你所拥有的力量，令人着迷。我从来没有在你们那里见过类似的东西。
-Hologram|全息图
-Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|可悲的是，不幸并不歧视。我希望更好的命运在等待着你。
-I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|我希望这些周期对你很好……在外面互相照顾一定很困难。
-Shield Pearl Count|盾珍珠数
-CC|抄送
-Please... this all I have left... you have so much... ...why take mine?|求求你……我只剩下这些了……你有这么多……为什么要拿走我的？
-\nCorridorClimb |\n爬廊
-tail_segment_velocities|尾段速度
-I assure you it will be a more than suitable replacement for your primitive needs.|我向您保证，它将非常适合您的原始需求的替代品。
+The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|你所拥有的力量，令人着迷。我从来没有在你的族群中见过类似的东西。
+Hologram|Hologram
+Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|可悲的是，不幸并不会区别对待。我希望更好的命运在等待着你。
+I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|我希望雨循环待你很好……在外面互相照顾对方一定很困难。
+Shield Pearl Count|护盾珍珠数量
+CC|CC
+Please... this all I have left... you have so much... ...why take mine?|求求你……这是我仅剩的……你有这么多……为什么要拿走我的？
+\nCorridorClimb |\nCorridorClimb 
+tail_segment_velocities|tail_segment_velocities
+I assure you it will be a more than suitable replacement for your primitive needs.|我向你保证，它会是一个满足你原始需求的更合适的替代品。
 122626|122626
-Button East|巴顿东
+Button East|Button East
 oa_cutoff_dist|oa_cutoff_dist
 oa_min_time|oa_min_time
-Intended to make gameplay more challenging, may change gameplay significantly!|旨在使游戏玩法更具挑战性，可能会显着改变游戏玩法！
-I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|我想您对这些珍珠唯一看重的就是它们的晶格有多纯净？我会用比这更精致的人代替你。
+Intended to make gameplay more challenging, may change gameplay significantly!|旨在使游戏玩法更具挑战性，可能会显著改变你的游戏体验！
+I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|我想你对这些珍珠唯一在意的就是它们的晶格有多纯净？我会用一颗比这更精致的珍珠代替你的这颗。
 DS|DS
-Player 3|玩家3
+Player 3|玩家 3
 henpemaz_splitscreencoop|henpemaz_splitscreencoop
-TheSacrifice|牺牲
-ear_r|耳朵_r
-You would be a hard one to forget after all, <PlayerName>!|毕竟你会是一个很难忘记的人，<玩家名字>！
-PlayerArm|玩家手臂
+TheSacrifice|TheSacrifice
+ear_r|ear_r
+You would be a hard one to forget after all, <PlayerName>!|毕竟你是一个很难令人忘记的存在，<PlayerName>！
+PlayerArm|PlayerArm
 pearlcat_spire4|Pearlcat_spire4
-JetFishEyeA|喷射鱼眼A
-Disable Shield Effect?|解除护盾效果？
-Water|水
+JetFishEyeA|JetFishEyeA
+Disable Shield Effect?|禁用护盾效果？
+Water|Water
 YOU!|你！
-So curious... I wonder what it is you're searching for?|很好奇...我想知道您在寻找什么？
-Keybind for Keyboard.|键盘的按键绑定。
-Is my memory so bad to forget how your little one looks? They seem paler...|难道是我记性太差，忘记了你小宝贝的长相吗？他们看起来更苍白...
+So curious... I wonder what it is you're searching for?|真稀奇……我想知道你在寻找着什么？
+Keybind for Keyboard.|键盘按键。
+Is my memory so bad to forget how your little one looks? They seem paler...|难道是我记性太差，忘记了小家伙的长相吗？他们看起来更加苍白了……
 SB|SB
-pearlcat_structure4|珍珠猫_结构4
-Input a shelter name to have it override where Pearlcat starts a new game.|输入庇护所名称以覆盖 Pearlcat 开始新游戏的位置。
-Trigger Player|触发播放器
-BigGlyph12|大字形12
-Intro5_3|简介5_3
+pearlcat_structure4|pearlcat_structure4
+Input a shelter name to have it override where Pearlcat starts a new game.|输入庇护所的名称以覆盖珍珠猫在开始新游戏时的起始位置。
+Trigger Player|手柄玩家
+BigGlyph12|BigGlyph12
+Intro5_3|Intro5_3
 T1_CAR2|T1_CAR2
-My neighbour, Five Pebbles, is a little temperamental, but means well.|我的邻居五卵石虽然脾气有点暴躁，但心意是好的。
+My neighbour, Five Pebbles, is a little temperamental, but means well.|我的邻居，五块卵石虽然脾气不好，但他好意的。
 Visibility Multiplier|可见度乘数
 PLAYTESTERS|游戏测试员
-pearlpup_tail|珍珠小狗尾巴
-When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|选中后，大多数珍珠（激活时）会将所有区域的威胁主题强制为它们原来所在区域的主题。
-pearlcat_structure6|珍珠猫_结构6
-Head|头
-When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|选中后，将使用以下选项覆盖起始珍珠。与库存覆盖不同，仅在新游戏开始时有效？
-I see you have not found a cure for their illness. Not yet...|我看你还没有找到治疗他们的病的方法。还没有...
-pearlcat_light0|珍珠猫_light0
-I... wish there was more I could do... but even... nevermind in my current state.|我...希望我能做更多...但即使...以我目前的状态也没关系。
-Agility Pearl Count|敏捷珍珠数
+pearlpup_tail|pearlpup_tail
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|选中后，大多数珍珠（激活时）会将所有区域的威胁主题强制改为珍珠原先所在区域的主题。
+pearlcat_structure6|pearlcat_structure6
+Head|Head
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|选中后，将使用下方的选项覆盖起始珍珠。与背包覆盖？不同，此选项仅在开始新游戏时生效。
+I see you have not found a cure for their illness. Not yet...|看起来你还没有找到治愈他们疾病的方法。还没有……
+pearlcat_light0|pearlcat_light0
+I... wish there was more I could do... but even... nevermind in my current state.|我……希望我能做的更多……但……就我现在的状态来说……没关系。
+Agility Pearl Count|敏捷珍珠数量
 #|#
 pearlcat_spire1|Pearlcat_spire1
-Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|消耗电荷以提供保护。一段时间后，每颗珍珠都会单独补充电量
-.meta|.元
+Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|消耗充能以提供保护。每颗珍珠都会在一段时间后单独重新充能
+.meta|.meta
 Disable Tutorials?|禁用教程？
-Outro2_1|尾奏2_1
-warp|经
+Outro2_1|Outro2_1
+warp|warp
 Hide Pearls?|隐藏珍珠？
 98ab95|98ab95
-LC|液相色谱
-In any case, you are welcome to stay as long as you like. Anything to ease the pain.|无论如何，只要您愿意，我们都欢迎您留下来。任何可以缓解疼痛的东西。
-pearlcat_daysky|珍珠猫_daysky
-Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|更喜欢使用下面的自定义按键绑定来创建矛，而不是默认的（GRAB）
-Keybind for Player 2.|玩家 2 的按键绑定。
-pearlpup_face|珍珠小狗脸
+LC|LC
+In any case, you are welcome to stay as long as you like. Anything to ease the pain.|无论如何，只要你愿意，我都欢迎你留下来。只要能减轻痛苦就行。
+pearlcat_daysky|pearlcat_daysky
+Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|首选使用下方的自定义按键来创建珍珠矛，而非默认的（抓取）
+Keybind for Player 2.|玩家 2 的按键。
+pearlpup_face|pearlpup_face
 pearlcat_agilitysentry|Pearlcat_agilitysentry
-And please keep your child under control.|请控制好您的孩子。
+And please keep your child under control.|请控制好你的孩子。
 The Pearlcat|珍珠猫
 train_view_yshift|train_view_yshift
-body|身体
- SAVE|节省
-I am... sorry.|对不起。
-Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|更喜欢使用下面的自定义键绑定来实现敏捷双跳，而不是默认的（GRAB + JUMP）
-Starting Inventory Override?|开始库存覆盖？
-pearlcat_dusksky|珍珠猫_黄昏
-SPECEVENT|特殊事件
-General|一般的
+body|body
+ SAVE| SAVE
+I am... sorry.|我……很抱歉。
+Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|首选使用下方的自定义按键来进行二段跳，而非默认的（抓取 + 跳跃）
+Starting Inventory Override?|起始背包覆盖？
+pearlcat_dusksky|pearlcat_dusksky
+SPECEVENT|SPECEVENT
+General|常规
 pearlcat_sentryhalo|Pearlcat_sentryhalo
-PEBBLES TAKE RM PEARL|卵石夺取 RM 珍珠
+PEBBLES TAKE RM PEARL|PEBBLES TAKE RM PEARL
 And just who might you be?|你到底是谁？
-RW_Outro_Theme|RW_尾奏_主题
-.  .  .|。 。 。
-legs|腿
+RW_Outro_Theme|RW_Outro_Theme
+.  .  .|……
+legs|legs
 oa_cutoff_min_speed|oa_cutoff_min_speed
 Enable Backspear?|启用背矛？
-_atlases|_地图集
-You're welcome to stay a while... your ability is fascinating.|欢迎您留下来一段时间……您的能力令人着迷。
-...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|……你吃了……我。请走开。我不会……跟你说话。<LINE>我……不能和你说话……因为……你吃了……我……为什么？
+_atlases|_atlases
+You're welcome to stay a while... your ability is fascinating.|欢迎你留在这一段时间……你的能力令人着迷。
+...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|……你吃了……我。请你离开这里。我不会和你……说话了。<LINE>我……不能和你说话……因为……你吃了……我……为什么？
 And just who might you two be?|你们两个到底是谁？
-pearlcat_cloak|珍珠猫斗篷
+pearlcat_cloak|pearlcat_cloak
 Failed to parse color {objectType} : {ex.Message}|无法解析颜色 {objectType}：{ex.Message}
 com.rainworldgame.garrakx.crs.mod|com.rainworldgame.garrakx.crs.mod
-TEXT ERROR|文本错误
+TEXT ERROR|TEXT ERROR
 pearlcat_hudshadow|Pearlcat_hudshadow
-Number of rage pearls (red). Effective only when Inventory Override? is checked.|愤怒珍珠的数量（红色）。仅在库存覆盖时有效？已检查。
-When checked, disables the rage effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的愤怒效果。
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|愤怒珍珠数量（红色）。仅在选中背包覆盖？后生效。
+When checked, disables the rage effect granted by an active pearl.|选中后，禁用激活的珍珠所赋予的愤怒效果。
 Songs|歌曲
-Foreground|前景
-Get... get away... strange... thing.|走开……走开……奇怪的……事情。
-) & (|) & (
-loadedsoundeffects/ambient|加载音效/ambien
-GravityDisruptor|重力干扰者
-Keybind to swap to the stored pearl to the left. Limited to Player 1.|按键绑定以交换到左侧存储的珍珠。仅限玩家 1。
+Foreground|Foreground
+Get... get away... strange... thing.|走……走开……奇怪的……东西。
+) & (|）和（
+loadedsoundeffects/ambient|loadedsoundeffects/ambient
+GravityDisruptor|GravityDisruptor
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|按下按键以与左侧存储的珍珠交换。仅限玩家 1。
 Store Input|存储输入
-Hips|臀部
-Accent|口音
-Back again? I hope you have brought me something this time.|再次回来？我希望这次你给我带来了一些东西。
+Hips|Hips
+Accent|Accent
+Back again? I hope you have brought me something this time.|又回来了？我希望这次你给我带了一些东西。
 pearlcat_hudcooldown|Pearlcat_hudcooldown
-...we were built to solve problems. It is a shame not every problem has a solution.|...我们是为了解决问题而建立的。遗憾的是并非所有问题都有解决方案。
-Outro3_1|尾奏3_1
-\nPoleClimb |\n爬杆
-There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|我无法阻止你，所以我的请求是：<LINE>放开我，或者快点结束它。
-Let us see what- oh, again?|让我们看看什么——哦，又来了？
-Inventory Override?|库存覆盖？
-Pearls may also be deployed as temporary sentries. Press (|珍珠也可以被部署作为临时哨兵。按 （
+...we were built to solve problems. It is a shame not every problem has a solution.|……我们是为了解决问题而建造的。遗憾的是并非所有问题都有解决方案。
+Outro3_1|Outro3_1
+\nPoleClimb |\nPoleClimb
+There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|我无法阻止你，所以我的请求是：<LINE>别管我，或者快点结束这一切。
+Let us see what- oh, again?|让我们看看- 哦，又来？
+Inventory Override?|背包覆盖？
+Pearls may also be deployed as temporary sentries. Press (|珍珠也可以作为临时哨兵被部署。按下（
 SB_L01|SB_L01
 Your little friend is still quite sick, unfortunately.|不幸的是，你的小朋友仍然病得很重。
-ad2424|广告2424
-PEARLCAT WARP END|珍珠猫经纱末端
-Hello again, <PlayerName>!|再次问好，<玩家名>！
-When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|选中后，Pearlcat 的外观将被禁用，旨在允许通过 DMS 自定义精灵。这不包括珍珠本身。
-pup|小狗
-Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|黄色珍珠护盾激活后持续的时间（以帧为单位）。默认 1.5 秒。
-oa_min_speed|oa_最小速度
-They are unwell, <PlayerName>, very unwell indeed.|他们身体不舒服，<玩家名字>，确实非常不舒服。
-L-Stick|L 形棒
- - |-
-It appears to contain a hymn that once meant a lot to the inhabitants of my city...|它似乎包含一首曾经对我的城市居民意义重大的赞美诗......
-...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|...目前我无法为你的小狗做任何事。对不起。我会……考虑一下。
-The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|远处的广阔空间将是你养家糊口的安全之地，并且远离我的生意。
+ad2424|ad2424
+PEARLCAT WARP END|PEARLCAT WARP END
+Hello again, <PlayerName>!|又见面啦，<PlayerName>！
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|选中后，禁用珍珠猫的外观，旨在允许通过DMS自定义贴图。这并不包括珍珠本身。
+pup|pup
+Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|黄色珍珠护盾在激活后的持续时间（以帧为单位）。默认1.5秒。
+oa_min_speed|oa_min_speed
+They are unwell, <PlayerName>, very unwell indeed.|他们不舒服，<PlayerName>，确实非常不舒服。
+L-Stick|L-Stick
+ - | - 
+It appears to contain a hymn that once meant a lot to the inhabitants of my city...|它似乎包含了一首曾对我的城市居民意义重大的赞美诗……
+...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|……目前，我对你的猫崽无能为力。很抱歉。我会……考虑一下。
+The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|远处的广阔空间将是你养家糊口的安全之地，并且远离我的事业。
 RW_Outro_Theme_B|RW_Outro_Theme_B
 Player 4|玩家 4
-bro.mergefix|兄弟合并修复
+bro.mergefix|bro.mergefix
 T1_CAR0|T1_CAR0
-) to deploy, and again to return.|) 部署，然后再次返回。
+) to deploy, and again to return.|) 部署，再次按下以召回。
 SI|SI
 oa_min_fric_speed|oa_min_fric_speed
-Keybind for Player 3.|玩家 3 的按键绑定。
-Custom Sentry Keybind?|自定义哨兵按键绑定？
-Back again? You do visit often...|再次回来？你确实经常来访...
-I can only hope you have not come... to hurt me more.|我只能希望你没有来……进一步伤害我。
-Balagaga|巴拉加加
-Looping SFX Error, Outsider often likes to cause this:\n|循环 SFX 错误，局外人经常喜欢造成这种情况：\n
-HoloGrid|全息网格
+Keybind for Player 3.|玩家 3 的按键。
+Custom Sentry Keybind?|自定义哨兵按键？
+Back again? You do visit often...|又回来了？你确实经常来访……
+I can only hope you have not come... to hurt me more.|我只是希望你不是来……进一步伤害我的。
+Balagaga|Balagaga
+Looping SFX Error, Outsider often likes to cause this:\n|循环SFX错误，外来者经常喜欢造成这种情况：\n
+HoloGrid|HoloGrid
 _AboveCloudsAtmosphereColor|_AboveCloudsA​​tmosphereColor
-Spear Pearl Count|矛珍珠计数
-), or the triggers on controller|)，或控制器上的触发器
-.txt|。TXT
-My own time is limited, after all...|毕竟我自己的时间有限……
-Number of revive pearls (green). Effective only when Inventory Override? is checked.|复活珍珠数量（绿色）。仅在库存覆盖时有效？已检查。
-BigGlyph6|大字形6
-oa_max_speed|oa_最大速度
-pearlcat_light2|珍珠猫_light2
-min_tail_offset|最小尾部偏移量
-): swap out a pearl, or change the limit in the Remix options|)：更换珍珠，或更改混音选项中的限制
-I will tolerate your pressence, so long as you bring me something meaningful.|我会容忍你的存在，只要你能给我带来一些有意义的东西。
-Hides the visuals of inactive pearls and turns you into... cat.|隐藏不活跃珍珠的视觉效果，让你变成……猫。
-Welcome back, <PlayerName>, and your little one too.|欢迎回来，<玩家名字>，还有你的孩子。
-ear_l|伯爵
-Hold (GRAB) with an active common pearl to convert it into a pearl spear|按住（抓取）一颗活跃的普通珍珠，将其转变为珍珠矛
-When checked, disables the agility effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的敏捷效果。
-I am not sure if you are aware, but your child appears very unwell...|我不确定你是否知道，但你的孩子看起来很不舒服......
-Your attachment to that thing is unavoidable, I suppose.|我想你对那件事的执着是不可避免的。
+Spear Pearl Count|矛珍珠数量
+), or the triggers on controller|），或控制器上的扳机
+.txt|.txt
+My own time is limited, after all...|毕竟，我自己的时间有限……
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|复活珍珠数量（绿色）。仅在选中背包覆盖？后生效。
+BigGlyph6|BigGlyph6
+oa_max_speed|oa_max_speed
+pearlcat_light2|pearlcat_light2
+min_tail_offset|min_tail_offset
+): swap out a pearl, or change the limit in the Remix options|）：换掉一颗珍珠，或者更改Remix选项中的限制
+I will tolerate your pressence, so long as you bring me something meaningful.|我会容忍你的存在，只要你能给我带一些有意义的东西。
+Hides the visuals of inactive pearls and turns you into... cat.|隐藏未激活的珍珠的视觉效果，并将你变成……猫。
+Welcome back, <PlayerName>, and your little one too.|欢迎回来，<PlayerName>，以及你的小家伙。
+ear_l|ear_l
+Hold (GRAB) with an active common pearl to convert it into a pearl spear|按住（抓取）一颗激活的普通珍珠以将其转化成一根珍珠矛
+When checked, disables the agility effect granted by an active pearl.|选中后，禁用激活的珍珠所赋予的敏捷效果。
+I am not sure if you are aware, but your child appears very unwell...|我不确定你是否知道，但你的孩子看起来很不舒服……
+Your attachment to that thing is unavoidable, I suppose.|我想，你对那件事的执着是不可避免的。
 oa_cutoff_max_speed|oa_cutoff_max_speed
-Oh, hello <PlayerName>!|哦，你好<玩家名>！
+Oh, hello <PlayerName>!|哦，你好，<PlayerName>！
 GW|GW
 1.0.0.0|1.0.0.0
-When checked, disables the revive effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的复活效果。
-Disable Cosmetics?|禁用化妆品？
-slugcat|蛞蝓猫
-scholar|学者
-ruffian|痞子
-DistantBkgObject|远距离对象
+When checked, disables the revive effect granted by an active pearl.|选中后，禁用激活的珍珠所赋予的复活效果。
+Disable Cosmetics?|禁用装饰物？
+slugcat|slugcat
+scholar|scholar
+ruffian|ruffian
+DistantBkgObject|DistantBkgObject
 3.0|3.0
 T1_END|T1_END
-Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|每颗红色珍珠都会提供额外的激光 - 是的，这些蝙蝠蝇非常敌对！
-oa_daze_max_speed|oa_daze_最大速度
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|每颗红色珍珠都会提供一束额外的激光 - 是的，这些蝙蝠蝇有着很大的敌意！
+oa_daze_max_speed|oa_daze_max_speed
 SH|SH
-ear_r_offset|耳朵偏移量
+ear_r_offset|ear_r_offset
 \r\n|\r\n
-Intro3_3|简介3_3
-CloudDistant|云远方
-scarf|围巾
+Intro3_3|Intro3_3
+CloudDistant|CloudDistant
+scarf|scarf
 Intended for fun, may change gameplay significantly!|旨在娱乐，可能会显着改变游戏玩法！
 Keyboard|键盘
-Cloak|披风
-Sleeve|袖子
-pupsick|小狗生病了
+Cloak|Cloak
+Sleeve|Sleeve
+pupsick|pupsick
 Disable Revive Effect?|禁用复活效果？
-Keybind for Player 4.|玩家 4 的按键绑定。
+Keybind for Player 4.|玩家 4 的按键。
 T1_CAREND|T1_CAREND
-Oh, and for direction - there is a gate to the far west of here, where the ground fissues...|哦，还有方向——这里的最西边有一扇门，那里的地面裂开……
-Atlas not found! ({uniqueName})|找不到图集！ ({唯一名称})
+Oh, and for direction - there is a gate to the far west of here, where the ground fissues...|哦，对于方向 - 这里的最西边有一扇大门，那里的大地断裂……
+Atlas not found! ({uniqueName})|未找到Atlas！({uniqueName})
 q|q
-Nevermind... this anger is useless...|没关系……这种愤怒是没有用的……
-When checked, the inventory HUD will be replaced with a more compact version.|选中后，库存 HUD 将替换为更紧凑的版本。
-You. Again. I still remember what you did...|你。再次。我还记得你所做的事...
-HologramBehindTerrain|地形背后的全息图
-Oracle Hooks Error:\n|Oracle 挂钩错误:\n
-When checked, enables Pearlcat to carry a backspear.|选中后，珍珠猫可以携带后矛。
-Feet|脚
-Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|盾珍珠数量（黄色）。仅在库存覆盖时有效？已检查。
-pixel|像素
-_textures|_纹理
-Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|珍珠也可以被部署作为临时哨兵。按（GRAB + JUMP + DOWN）进行部署，然后再按一次返回。
-_MultiplyColor|_多重颜色
-. . .|。 。 。
-Press (JUMP + GRAB) while in the air to perform a double jump|在空中按下 (JUMP + GRAB) 可进行二段跳
-SU|苏
-) or (|） 或者 （
-YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|黄色象征保护。每储存一颗黄色珍珠都会提供护盾费用
-DESTROY|破坏
-Extra Cheats|额外秘籍
+Nevermind... this anger is useless...|没关系……这种愤怒是无用的……
+When checked, the inventory HUD will be replaced with a more compact version.|选中后，库存HUD会被替换为更紧凑的版本。
+You. Again. I still remember what you did...|又是你。我还记得你做了什么……
+HologramBehindTerrain|HologramBehindTerrain
+Oracle Hooks Error:\n|Oracle Hooks Error:
+When checked, enables Pearlcat to carry a backspear.|选中后，珍珠猫可以像猎手一样在背后背一根长矛。
+Feet|Feet
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|护盾珍珠数量（黄色）。仅在选中背包覆盖？后生效。
+pixel|pixel
+_textures|_textures
+Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|珍珠也可以作为临时哨兵被部署。按下（抓取 + 跳跃 + 下）部署，再次按下以召回。
+_MultiplyColor|_MultiplyColor
+. . .|……
+Press (JUMP + GRAB) while in the air to perform a double jump|按下（跳跃 + 抓取）以在空中进行二段跳
+SU|SU
+) or (|）或者（
+YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|黄色象征保护。每颗存储的黄色珍珠都会提供一点护盾充能。
+DESTROY|DESTROY
+Extra Cheats|额外作弊
 pearlcat_hudsentry|Pearlcat_hudsentry
-So curious...|太好奇了...
-...and you can gather more of that data you so clearly desire.|...您可以收集更多您明确想要的数据。
-I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|我仍然非常乐意阅读你带给我的任何珍珠；<LINE>尤其是考虑到你独特的能力。
-hips|臀部
-Slugcat_Pearlcat|鼻涕虫_珍珠猫
+So curious...|真稀奇……
+...and you can gather more of that data you so clearly desire.|……并且你可以收集更多你明确想要的数据。
+I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|我仍然非常乐意阅读你带给我的任何珍珠；<LINE>尤其是在考虑到你那独特的能力后。
+hips|hips
+Slugcat_Pearlcat|Slugcat_Pearlcat
 SS_S04|SS_S04
-Number of camo pearls (black). Effective only when Inventory Override? is checked.|迷彩珍珠数量（黑色）。仅在库存覆盖时有效？已检查。
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|迷彩珍珠数量（黑色）。仅在选中背包覆盖？后生效。
 \n|\n
-You... I didn't forget...|你……我没有忘记……
+You... I didn't forget...|你。我没有忘……
 pearlcat_spire3|Pearlcat_spire3
-pearlcat_9|珍珠猫_9
+pearlcat_9|pearlcat_9
 Disable Spear Effect?|禁用长矛效果？
-GhostDistortion|鬼影扭曲
+GhostDistortion|GhostDistortion
 pearlcat_hudcircle|Pearlcat_hudcircle
-LOAD SAVE DATA IN PLAYER MODULE|在播放器模块中加载保存数据
-Oh! It is good to see you two again!|哦！很高兴再次见到你们两个！
-NA_19 - Halcyon Memories|NA_19 - 翡翠回忆
-You. I didn't forget...|你。我没有忘记...
-pearlcat_4|珍珠猫_4
-) with an active common pearl to convert it into a pearl spear|）用一颗活跃的普通珍珠将其转化为珍珠矛
+LOAD SAVE DATA IN PLAYER MODULE|LOAD SAVE DATA IN PLAYER MODULE
+Oh! It is good to see you two again!|哦！很高兴再次见到你们！
+NA_19 - Halcyon Memories|NA_19 - Halcyon Memories
+You. I didn't forget...|你。我没有忘……
+pearlcat_4|pearlcat_4
+) with an active common pearl to convert it into a pearl spear|）一颗激活的普通珍珠以将其转化成一根珍珠矛
 Welcome back, I suppose.|欢迎回来，我想。
 1.0.0|1.0.0
-Sick|生病的
-I do enjoy the company though... it gets lonely out here.|不过我确实很喜欢有人陪伴……这里会很孤独。
-Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|红珍珠激光发射后重新充电的时间（以帧为单位）。默认 1.5 秒。
-PEARLCAT INIT: VERSION |PEARLCAT 初始化：版本
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|一位好奇的学者，具有利用珍珠发挥优势的非凡能力。<LINE><LINE>通过 Remix 配置来配置输入、难度、作弊等！<LINE><LINE>更多 Slugcats 是可选的，但强烈推荐。
+Sick|Sick
+I do enjoy the company though... it gets lonely out here.|不过，我确实喜欢有人陪着我……在这里很孤独。
+Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|红色珍珠的激光在发射后重新充能的时间（以帧为单位）。默认1.5秒。
+PEARLCAT INIT: VERSION |PEARLCAT INIT: VERSION 
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|一位好奇的学者，具有利用珍珠发挥优势的非凡能力。<LINE><LINE>通过 Remix 配置来配置输入、难度、作弊等！<LINE><LINE>更多蛞蝓猫是可选的，但强烈推荐。
 VS|VS
-GetSplitScreenHudOffset|获取SplitScreenHudOffset
-...and you have brought your little friend along, of course.|……当然，你还带着你的小朋友一起来。
-Think of this mutually, I can 'see' a little further outside this can...|互相想想，我可以‘看到’这个罐子外面更远一点……
+GetSplitScreenHudOffset|GetSplitScreenHudOffset
+...and you have brought your little friend along, of course.|……当然了，你还带着你的小朋友。
+Think of this mutually, I can 'see' a little further outside this can...|换位思考一下，我可以'看到'这个罐子外面更远一点的地方……
 DM|DM
-feet|脚
-...you can manipulate our storage medium in unforseen ways...|...您可以以不可预见的方式操纵我们的存储介质...
-When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|选中后，珍珠将不再授予统计数据更改（无论是主动还是其他），并且基本统计数据设置为与猎人类似。
-Keybind for Player 1.|玩家 1 的按键绑定。
-PEARLCAT OE ENDING|珍珠猫 OE 结局
+feet|feet
+...you can manipulate our storage medium in unforseen ways...|……你可以以一种不可见的方式操纵我们的存储介质……
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|选中后，珍珠将不再给予属性的更改（无论是激活的还是其他的），并且基础属性变为与猎手相近。
+Keybind for Player 1.|玩家 2 的按键。
+PEARLCAT OE ENDING|PEARLCAT OE ENDING
 Shield Recharge Time|护盾充能时间
-Pebbles_AS_PearlGreen|卵石_AS_珍珠绿
-daze_duration|发呆持续时间
-LF|如果
-Four! Well, if you insist...|四！好吧，如果你坚持的话...
-inventory_ui_offset|库存_ui_偏移量
-And who is your little friend? They are quite adorable!|谁是你的小朋友？他们非常可爱！
+Pebbles_AS_PearlGreen|Pebbles_AS_PearlGreen
+daze_duration|daze_duration
+LF|LF
+Four! Well, if you insist...|第四个！好吧，如果你坚持这样的话……
+inventory_ui_offset|inventory_ui_offset
+And who is your little friend? They are quite adorable!|你的小朋友是谁？他们非常可爱！
 Disable Agility Effect?|禁用敏捷效果？
-Rage Pearl Count|愤怒珍珠伯爵
-CANNOT PLAY|不能用，不能玩
+Rage Pearl Count|愤怒珍珠数量
+CANNOT PLAY|CANNOT PLAY
 pearlcat_spire8|Pearlcat_spire8
 pearlcat_bottomshutter|Pearlcat_bottomshutter
 OE_|OE_
 PostModsInit:\n|PostModsInit:\n
-...I am not sure if this is comforting, but...|...我不确定这是否令人安慰，但是...
+...I am not sure if this is comforting, but...|……我不确定这是否能够起到安慰作用，但……
 Debug|调试
-Compact Inventory HUD?|紧凑库存 HUD？
-...that pearl you carry, the purple one, where did you find it?|……你带着的那颗珍珠，紫色的，你在哪里找到的？
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|如果您恰好有空闲时间，我会非常乐意阅读这些珍珠...<LINE>没有太多其他事情可做来打发时间。
+Compact Inventory HUD?|紧凑背包HUD？
+...that pearl you carry, the purple one, where did you find it?|……那颗你带着的紫色珍珠，你是在哪里找到的？
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|如如果你碰巧有空，我会非常乐意阅读那些珍珠……<LINE>没有其他事情可以来打发时间了。
 Transit System|交通系统
-arm|手臂
-sleeve|袖子
-Hello again.|再一次问好。
-Cloud|云
+arm|arm
+sleeve|sleeve
+Hello again.|你好。
+Cloud|Cloud
 And why... to me?|为什么……对我来说？
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|选中后，将库存设置为每个周期下方指定的彩色珍珠数量。
-haloGlyph5|晕字形5
-Camo Pearl Count|迷彩珍珠计数
-tail|尾巴
-TurtleMan27|龟人27
-store_object_delay|存储对象延迟
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|选中后，每个循环都会将背包中的珍珠都设为下列指定数量的珍珠。
+haloGlyph5|haloGlyph5
+Camo Pearl Count|迷彩珍珠数量
+tail|tail
+TurtleMan27|TurtleMan27
+store_object_delay|store_object_delay
 Chimney Canopy|烟囱顶篷
 Version|版本
-Laser Windup TIme|激光结束时间
-But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|但是……你所拥有的印记，很不寻常。<LINE>不是本地团体中的任何人都可以授予的……
+Laser Windup TIme|激光后摇时间
+But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|但……你所拥有的印记，很不寻常。<LINE>不是在本地群组中的任何人能够给予的……
 LC_T1_S01|LC_T1_S01
-pearlactive|珠光活性
-The Gutter|天沟
+pearlactive|pearlactive
+The Gutter|The Gutter
 OnModsInit:\n|OnModsInit:\n
-You must be very brave to have made it all the way here. Very brave indeed...|你一定很勇敢，才一路走到这里。确实非常勇敢...
-Assembly-CSharp|汇编-CSharp
-.NETFramework,Version=v4.8|.NETFramework，版本=v4.8
-Number of agility pearls (blue). Effective only when Inventory Override? is checked.|敏捷珍珠数量（蓝色）。仅在库存覆盖时有效？已检查。
-pearlcat_3|珍珠猫_3
-Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|更喜欢使用自定义键绑定来部署哨兵珍珠，而不是默认键（GRAB + JUMP + DOWN）
-pearlcatSleeve0|珍珠猫袖0
+You must be very brave to have made it all the way here. Very brave indeed...|你能穿过艰难险阻来到这里，一定很勇敢。确实非常勇敢……
+Assembly-CSharp|Assembly-CSharp
+.NETFramework,Version=v4.8|.NETFramework,Version=v4.8
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|敏捷珍珠数量（蓝色）。仅在选中背包覆盖？后生效。
+pearlcat_3|pearlcat_3
+Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|首选使用下方的自定义按键来部署哨兵珍珠，而非默认的（抓取 + 跳跃 + 下）
+pearlcatSleeve0|pearlcatSleeve0
 pearlcat_topshutter|Pearlcat_topshutter
-You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|你从很远的地方来吗？你可以和我们交流，但你所拥有的印记对我来说是陌生的……
-Given your unique abilities, if you are curious as to the contents of those pearls -|以你独特的能力，如果你对那些珍珠的内容感到好奇的话——
+You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|你是从一个很远的地方来的吗？你可以与我们交流，但你所拥有的印记对我来说是陌生的……
+Given your unique abilities, if you are curious as to the contents of those pearls -|鉴于你独特的能力，如果你对那些珍珠的内容感到好奇的话 - 
 The choice is yours.|这是你的选择。
-Enables custom keybinds below, as opposed to the default (UP + PICKUP).|启用下面的自定义按键绑定，而不是默认的（UP + PICKUP）。
-Pebbles_AS_PearlBlack|卵石_AS_PearlBlack
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|启用下方的自定义按键，而非默认的（上 + 拾取）。
+Pebbles_AS_PearlBlack|Pebbles_AS_PearlBlack
 OE|OE
-I hope you are staying safe out there...|我希望你在外面保持安全......
-soundeffects/ambient|音效/环境
-View|看法
-Face|脸
-pearlcat_spear|珍珠猫_矛
+I hope you are staying safe out there...|我希望你在外面注意安全……
+soundeffects/ambient|soundeffects/ambient
+View|查看
+Face|Face
+pearlcat_spear|pearlcat_spear
 I am so sorry.|我很抱歉。
-I would guess they will grow up into quite the scholar themself, someday...|我猜他们有一天会成长为一名学者......
-A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|出身不明的学者，拥有神秘的能量和对知识的渴望。<LINE>身体虚弱，但有珍珠作为你的盟友 - 你会在旅途中发现什么？
-UW|华盛顿大学
-Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|黄色珍珠护盾激活后重新充电所需的时间（以帧为单位）。默认 40 秒。
-Pearlpup Respawn?|珍珠幼崽重生？
-Laser Damage|激光损伤
-When checked, disables the camoflague effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的迷彩效果。
+I would guess they will grow up into quite the scholar themself, someday...|我想，他们在某天会成长为学者……
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|来历不明的学者，有着神秘的能量和对知识的渴望。<LINE>身体虚弱，但拥有珍珠作为你的盟友 - 你会在旅途中发现什么？
+UW|UW
+Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|黄色珍珠护盾在激活后重新充能所需的时间（以帧为单位）。默认40秒。
+Pearlpup Respawn?|珍珠猫幼崽重生？
+Laser Damage|激光伤害
+When checked, disables the camoflague effect granted by an active pearl.|选中后，禁用激活的珍珠所赋予的迷彩效果。
 oa_max_fric_mult|oa_max_fric_mult
-I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|我想，鉴于您无法读取其中存储的信息，如果您愿意，我可以为您读取它们。
-Something else new? Allow me to see...|还有什么新东西吗？让我看看...
-GateHologram|门全息图
-oa_max_dist|oa_最大距离
-I very much enjoy the company though... you and your little friend are always welcome here.|不过，我非常喜欢这个公司……这里随时欢迎您和您的小朋友。
+I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|我想，鉴于你无法读取其中存储的信息，如果你愿意，我可以为你读取它们。
+Something else new? Allow me to see...|还有什么新东西吗？让我看看……
+GateHologram|GateHologram
+oa_max_dist|oa_max_dist
+I very much enjoy the company though... you and your little friend are always welcome here.|不过，我非常喜欢有人陪着我……随时欢迎你和你的小朋友来这。
 PEBBLES GIVE SS PEARL|卵石赋予 SS 珍珠
-Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|获取目标后红珍珠激光发射的时间（以帧为单位）。默认 1.5 秒。
-Swap Right|右交换
-BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|蓝色象征着敏捷。每储存一颗蓝珍珠都会提供额外的二段跳
+Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|红色珍珠在获取目标后激光发射的时间（以帧为单位）。默认1.5秒。
+Swap Right|与右侧交换
+BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|蓝色象征敏捷。每颗存储的蓝色珍珠都会提供一段额外的二段跳
 Shield Duration|护盾持续时间
-pearlpup_scarf|珍珠小狗围巾
-active_object_offset|活动对象偏移量
-Welcome back, you two!|欢迎回来，你们两个！
-3: |3：
-oa_max_time|oa_最大时间
+pearlpup_scarf|pearlpup_scarf
+active_object_offset|active_object_offset
+Welcome back, you two!|欢迎你们俩回来！
+3: |3: 
+oa_max_time|oa_max_time
 Disable Rage Effect?|禁用愤怒效果？
-Grab a creature and hold (GRAB) with an active green pearl to revive them|抓住一个生物并用活跃的绿色珍珠按住（GRAB）以复活它们
+Grab a creature and hold (GRAB) with an active green pearl to revive them|在绿色珍珠激活的情况下，抓住一个生物并按住（抓取）以复活他们
 Disable Camoflague Effect?|禁用迷彩效果？
-<LINE>Does not save over the current inventory - it is returned to when unchecked.|<LINE>不会保存当前库存 - 未选中时会返回。
-.NET Framework 4.8|.NET框架4.8
-oa_max_fric_speed|oa_最大摩擦速度
-MS|多发性硬化症
-\nRunspeedFac |\n运行速度Fac
-Difficulty|困难
-BigGlyph10|大字形10
-Swap Left|向左交换
-Inventory Pings?|库存 ping 值？
-Yes, help yourself. They are not edible.|是的，帮助自己。它们不可食用。
+<LINE>Does not save over the current inventory - it is returned to when unchecked.|<LINE>不保存当前库存 - 未选中时返回。
+.NET Framework 4.8|.NET Framework 4.8
+oa_max_fric_speed|oa_max_fric_speed
+MS|MS
+\nRunspeedFac |\nRunspeedFac 
+Difficulty|困难度难
+BigGlyph10|BigGlyph10
+Swap Left|与左侧交换
+Inventory Pings?|背包提示？
+Yes, help yourself. They are not edible.|是的，随便拿吧。反正它们又不能吃。
 pearlcat_spire2|Pearlcat_spire2
-... |...
-HUD|平视显示器
-Ah, I hope you both stay safe out there...|啊，希望你们俩在外面注意安全……
+... |……
+HUD|抬头显示器
+Ah, I hope you both stay safe out there...|啊，我希望你们俩在外面注意安全……
 Disable Minor Effects?|禁用次要效果？
-haloGlyph6|光晕字形6
-PFace|人脸
-Background|背景
-Release|发布
-Efi|埃菲
-Midground|中景
-mayhemmm|混乱
-Laser Recharge Time|激光充电时间
-Your biology... it is both familiar and foreign to me. How curious.|你的生物学……对我来说既熟悉又陌生。多么好奇啊。
-Player 2|玩家2
-pearlcat_flyingclouds|珍珠猫_飞云
+haloGlyph6|haloGlyph6
+PFace|PFace
+Background|Background
+Release|Release
+Efi|Efi
+Midground|Midground
+mayhemmm|mayhemmm
+Laser Recharge Time|激光充能时间
+Your biology... it is both familiar and foreign to me. How curious.|你的生理结构……对我来说既熟悉又陌生。多么稀奇啊。
+Player 2|玩家 2
+pearlcat_flyingclouds|pearlcat_flyingclouds
 I have nothing for you, I'm afraid... but I hope you find the answers you seek.|恐怕我没有什么可以给你的……但我希望你能找到你想要的答案。
 GATE_UW_LC|GATE_UW_LC
-- Floppy Ears, Scarf|- 松垮的耳朵、围巾
-Another one? I shouldn't be surprised. Let's see...|另一个？我不应该感到惊讶。让我们来看看...
-Lolight2|洛莱特2
-pearlcat|珍珠猫
-NON-MSC|非MSC
-Body|身体
+- Floppy Ears, Scarf|- 软耷耷的耳朵、围巾
+Another one? I shouldn't be surprised. Let's see...|又一个？我不应该感到意外。让我们来看看……
+Lolight2|Lolight2
+pearlcat|pearlcat
+NON-MSC|NON-MSC
+Body|Body
 3600|3600
-And who is your little friend? They are...|谁是你的小朋友？他们是...
-moreslugcats|更多鼻涕虫
-BigGlyph2|大字形2
-...one which still means a lot to me.|...对我来说仍然意义重大。
-pearlcat_structure3|珍珠猫_结构3
-DistantBkgObjectAlpha|远程BkgObjectAlpha
+And who is your little friend? They are...|你的小朋友是谁？他们……
+moreslugcats|moreslugcats
+BigGlyph2|BigGlyph2
+...one which still means a lot to me.|……对我来说仍然意义非凡。
+pearlcat_structure3|pearlcat_structure3
+DistantBkgObjectAlpha|DistantBkgObjectAlpha
 GATE_SL_MS|GATE_SL_MS
-Scarf|围巾
-slime-cubed.slugbase|粘液立方.slugbase
+Scarf|Scarf
+slime-cubed.slugbase|slime-cubed.slugbase
 <oA>|<oA>
-pearl|珍珠
-Right Bumper|右保险杠
-When checked, some abilties will show the inventory when recharged or depleted.|选中后，某些技能会在充电或耗尽时显示库存。
-pearlcat_clouds|珍珠猫云
-pearlcat_7|珍珠猫_7
-pearlcat_8|珍珠猫_8
+pearl|pearl
+Right Bumper|右前按钮
+When checked, some abilties will show the inventory when recharged or depleted.|选中后，某些能力会在重新充能或耗尽时显示背包。
+pearlcat_clouds|pearlcat_clouds
+pearlcat_7|pearlcat_7
+pearlcat_8|pearlcat_8
 Menu|菜单
-To retrieve pearls, have an empty main hand, and hold (|要取回珍珠，请空着主手，然后按住 (
+To retrieve pearls, have an empty main hand, and hold (|要想取回珍珠，在主手为空的情况下按住（
 T1_CAR3|T1_CAR3
-To store, hold the same keybind with a pearl in your main hand|存放时，用主手握住同一个带有珍珠的钥匙扣
+To store, hold the same keybind with a pearl in your main hand|在主手拿着珍珠时按住与取回珍珠相同的按键以存储
 com.henpemaz.splitscreencoop|com.henpemaz.splitscreencoop
 -----------------------------------------|----------------------------------------------------
-HI|你好
+HI|HI
 T1_START|T1_START
 Pearl Threat Music?|珍珠威胁音乐？
-pearlpup_head|珍珠小狗头
-pearlcatScarfA0|珍珠猫围巾A0
-ACK|确认
-pearlcat_5|珍珠猫_5
-Elliot|艾略特
+pearlpup_head|pearlpup_head
+pearlcatScarfA0|pearlcatScarfA0
+ACK|ACK
+pearlcat_5|pearlcat_5
+Elliot|Elliot
 -|-
-DschockHorizontalRight|Dschock水平右
-) while in the air to perform a double jump|) 在空中进行二段跳
-GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|绿色象征着活力。每个储存的每颗绿色珍珠可以在每个周期复活一个生物，包括你
-\nThrowSkill |\n投掷技能
-1: |1：
+DschockHorizontalRight|DschockHorizontalRight
+) while in the air to perform a double jump|）以在空中进行二段跳
+GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|绿色象征生命力。每颗存储的绿色珍珠都可以在每个循环内复活一个生物，包括你自己
+\nThrowSkill |\nThrowSkill 
+1: |1: 
 T1_CAR1|T1_CAR1
-Custom Spear Keybind?|定制矛键绑定？
-BM_SB_SUBWAY|BM_SB_地铁
-Joystick[0-9]Button|摇杆[0-9]按钮
-pearlcat_light1|珍珠猫_light1
-face_sick|脸生病了
-pearlcat_structure5|珍珠猫_结构5
-ear_l_offset|耳左偏移
-All times here are in frames.<LINE>40 frames = 1 second.|此处所有时间均以帧为单位。<LINE>40 帧 = 1 秒。
-- Dialogue, SFX|- 对话、音效
-When checked, all tutorials will be disabled.|选中后，所有教程都将被禁用。
-Alternatively, hold (|或者，按住 (
-...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|...你有沟通的天赋！<LINE>也许你拜访了我的邻居，五颗卵石...？
-Custom Agility Keybind?|自定义敏捷键绑定？
-SplitScreen Co-op|分屏合作
-pearlcat_hudpearl|珍珠猫_hudpearl
-To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|要取回珍珠，请空着主手，然后按住 (GRAB + UP)
-He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|他目前的装备比我好得多 - 如果可以的话，我建议您去拜访他。<LINE>虽然他不是被设计为医疗设施，但他也许能够以某种方式帮助您。
+Custom Spear Keybind?|自定义矛按键？
+BM_SB_SUBWAY|BM_SB_SUBWAY
+Joystick[0-9]Button|Joystick[0-9]Button
+pearlcat_light1|pearlcat_light1
+face_sick|face_sick
+pearlcat_structure5|pearlcat_structure5
+ear_l_offset|ear_l_offset
+All times here are in frames.<LINE>40 frames = 1 second.|此处所有时间均以帧为单位。<LINE>40帧 = 1秒。
+- Dialogue, SFX|- 对话、特效
+When checked, all tutorials will be disabled.|选中后，禁用所有的教程。
+Alternatively, hold (|或者，按住（
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|……你有交流的天赋！<LINE>也许你拜访了我的邻居，五块卵石……？
+Custom Agility Keybind?|自定义敏捷按键？
+SplitScreen Co-op|SplitScreen Co-op
+pearlcat_hudpearl|pearlcat_hudpearl
+To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|要想取回珍珠，在主手为空的情况下按住（抓取 + 上）
+He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|他目前的设备比我好得多 - 如果可以的话，我建议你去拜访他。<LINE>虽然他不是作为医疗设施而设计的，但他也许能够以某种方式帮助到你。
 T1_S01|T1_S01
-Special thanks to the following people!|特别感谢以下人士！
+Special thanks to the following people!|特别感谢以下人员！
 Pebbles_AS_PearlYellow|Pebbles_AS_PearlYellow
 40|40
-Hello, again. You are very curious. Very curious indeed.|再一次问好。你很好奇。确实很好奇。
-BigGlyph11|大字形11
-If you do not plan to provide me with any meaningful data, that is your best course of action;|如果您不打算向我提供任何有意义的数据，那是您最好的做法；
-Storage limit reached (|已达到存储限制（
-...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...哦？拿走它们，它们包含的数据对我来说毫无价值。我想它们对你来说会更有用......
-Sidera |西德拉
-R-Stick|R-棒
-Max Pearl Count|最大珍珠数
-You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|你真是把我吓坏了！这些天我很少见到访客；<LINE>更不用说像你这样的访客了，我可以和他们交谈......
-WillowWisp|柳小精灵
-Button West|巴顿·韦斯特
-Clearly artificial creations. But from where? Sent by who?|明显是人工创作。但从哪里来呢？由谁发送的？
-Left Bumper|左保险杠
+Hello, again. You are very curious. Very curious indeed.|你好，又见到你了。你很好奇。确实很好奇。
+BigGlyph11|BigGlyph11
+If you do not plan to provide me with any meaningful data, that is your best course of action;|如果你不打算向我提供任何有意义的数据，那是你最佳的做法；
+Storage limit reached (|已到达存储上限（
+...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|……哦？拿走它们，它们内含的数据对我来说毫无价值。我想它们对你来说会更有用……
+Sidera |Sidera 
+R-Stick|R-Stick
+Max Pearl Count|最大珍珠数量
+You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|你真是把我吓坏了！这些天里我很少见到拜访者；<LINE>更不用说像你这样的拜访者了，我可以与之交谈的拜访者……
+WillowWisp|WillowWisp
+Button West|Button West
+Clearly artificial creations. But from where? Sent by who?|显然是人造的。但来自哪里？又由谁发送？
+Left Bumper|左前按钮
 Ah. So you've returned.|啊。所以你回来了。
-And now here you are, with a perfect copy.|现在您就在这里，拥有一份完美的副本。
-I must resume my work. I will be waiting here, as always.|我必须继续工作。我会一如既往地在这里等待。
-pearlcat_structure1|珍珠猫_结构1
-Legs|腿
-BigGlyph8|大字形8
+And now here you are, with a perfect copy.|而现在，你就在这里，带着一份完美的副本。
+I must resume my work. I will be waiting here, as always.|我得继续我的工作了。我会一如既往地在这里等待。
+pearlcat_structure1|pearlcat_structure1
+Legs|Legs
+BigGlyph8|BigGlyph8
 Play around with sentries to see what they do!|与哨兵一起玩，看看他们会做什么！
-When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|选中后，每当珍珠幼崽迷路时，它们都会在下一个周期中在下一个庇护所重生。
-Keybind to swap to the stored pearl to the right. Limited to Player 1.|按键绑定以交换到右侧存储的珍珠。仅限玩家 1。
-Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|矛创造珍珠的数量（白色）。仅在库存覆盖时有效？已检查。
-slugcatsick|蛞蝓病
-OVERRODE MSC LOAD ORDER - MOD LOAD ORDER:|覆盖 MSC 加载顺序 - MOD 加载顺序：
-Sound Hooks Error:\n|声音挂钩错误:\n
-To cycle between pearls, use (|要在珍珠之间循环，请使用 (
-There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|我无能为力——我不是医疗机构，即使我是，我的设备也远非原始。
-But it's best not to dwell on the past, don't you agree <PlayerName>?|但最好不要沉溺于过去，你同意吗<玩家名字>？
-TitleCard_Pearlcat|标题卡_Pearlcat
-My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|我的监督者对你的到来并不满意——我的印象是交通系统几乎无法运行。
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|选中后，每当珍珠猫幼崽丢失时，它们都会在下个循环中在下个庇护所重生。
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|按下按键以与右侧存储的珍珠交换。仅限玩家 1。
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|矛珍珠数量（白色）。仅在选中背包覆盖？后生效。
+slugcatsick|slugcatsick
+OVERRODE MSC LOAD ORDER - MOD LOAD ORDER:|OVERRODE MSC LOAD ORDER - MOD LOAD ORDER:
+Sound Hooks Error:\n|Sound Hooks Error::\n
+To cycle between pearls, use (|要在珍珠之间循环，使用（
+There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|我无能为力 - 我并非医疗设施，即使我是，我的设备也早已老化了。
+But it's best not to dwell on the past, don't you agree <PlayerName>?|但最好不要沉溺于过去，你同意吗，<PlayerName>？
+TitleCard_Pearlcat|TitleCard_Pearlcat
+My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|我的监视者对于你的到来有些意外 - 在我的印象里，交通系统几乎无法运行了。
 _|_
-pearlcat_over9|珍珠猫_over9
+pearlcat_over9|pearlcat_over9
 pearlcat_shieldsentry|Pearlcat_shieldsentry
-When checked, disables the shield effect granted by an active pearl.|选中后，会禁用活跃珍珠所赋予的护盾效果。
-RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|红色象征着力量。当红珍珠活跃时，最近的敌对生物将成为目标
+When checked, disables the shield effect granted by an active pearl.|选中后，禁用激活的珍珠所赋予的护盾效果。
+RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|红色象征力量。当激活红色珍珠时，离你最近的敌对生物会成为目标
 I know that quite well.|我很清楚这一点。
-Another? And I shall read this one to you as well...|其他？我也将读这一篇给你听......
-You are welcome to stay as long as you like. Anything to ease the pain.|只要您愿意，欢迎您留下来。任何可以缓解疼痛的东西。
-...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|...但是...我现在会考虑你的问题。也许我能为我们俩找到一个解决办法。
-_sprites|_精灵
+Another? And I shall read this one to you as well...|另一个？我也会将这个读给你听……
+You are welcome to stay as long as you like. Anything to ease the pain.|无论如何，只要你愿意，我都欢迎你留下来。只要能减轻痛苦就行。
+...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|……但……我现在会想一下你的问题。也许我能为我们俩都找到一个解决办法。
+_sprites|_sprites
 No, I do not care for your little one.|不，我不关心你的小家伙。
-pearlcatFeetA0|珍珠猫脚A0
-This one again? I have better things to do... but...|又是这个？我还有更重要的事情要做……但是……
-Button North|巴顿北
-Death is not the end... even death that seems permanent.|死亡并不是终结……即使是看似永恒的死亡。
+pearlcatFeetA0|pearlcatFeetA0
+This one again? I have better things to do... but...|又一个？我还有更重要的事情要做……但……
+Button North|Button North
+Death is not the end... even death that seems permanent.|死亡并非终结……即使是看似永恒的死亡。
 -------------------|-------------------
-And a third? So it is...|还有第三个？所以它是...
-You have a knack for finding these pearls, yes?|你有找到这些珍珠的诀窍，是吗？
+And a third? So it is...|还有第三个？所以它是……
+You have a knack for finding these pearls, yes?|你有找这些珍珠的诀窍，对吗？
 pearlcat_hudlockedshortcut|Pearlcat_hudlockedshortcut
 Swap Input|交换输入
-- Artwork|- 艺术品
+- Artwork|- 插图
 Pearlcat|珍珠猫
-Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|每次射击对每颗红珍珠的激光造成伤害。幸存者长矛伤害 = 1.0
-Cheats|秘籍
-\nLungsFac |\n肺Fac
+Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|每颗色红珍珠在每次射击时激光造成伤害。幸存者长矛的伤害 = 1.0
+Cheats|作弊
+\nLungsFac |\nLungsFac
 AS IS|按原样
-I remember this one... don't you? Well...|我记得这个……你不记得吗？出色地...
-Ah, yet another one? You are even better at finding these than I imagined...|啊，还有一个吗？你比我想象的更擅长找到这些......
-Read this one too? Yes, yes, here it is...|也读这一本吗？是的，是的，这里是……
-Oh... oh no...|哦...哦不...
-Intro_Roll_C_|介绍_卷_C_
-head|头
-I already read this one. I can read it again, I suppose.|我已经读过这一篇了。我想我可以再读一遍。
+I remember this one... don't you? Well...|我记得这个……你是不是？好吧……
+Ah, yet another one? You are even better at finding these than I imagined...|啊，另一个？你比我想象的还要擅长寻找这些……
+Read this one too? Yes, yes, here it is...|也要读这颗吗？好吧，好吧，这里写着……
+Oh... oh no...|哦……哦不……
+Intro_Roll_C_|Intro_Roll_C_
+head|head
+I already read this one. I can read it again, I suppose.|我已经读过这个了。我想，我可以再读一次。
 OE_SEXTRA|OE_SEXTRA
-I have tried to reconstruct it from memory many times, fruitlessly.|我曾多次试图凭记忆重建它，但无果而终。
-pearlcat_structure2|珍珠猫_结构2
-sweat|汗
-_windDir|温莎
+I have tried to reconstruct it from memory many times, fruitlessly.|我曾多次试图凭记忆重建它，但都无果而终。
+pearlcat_structure2|pearlcat_structure2
+sweat|sweat
+_windDir|_windDir
 SL|SL
-pearlcat_2|珍珠猫_2
-Start Shelter Override|开始避难所覆盖
-Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|珍珠猫的好奇心永无止境，他们再次冒险<LINE>追求扩大他们的收藏
-2: |2：
-Button South|巴顿南
-When checked, disables the spear creation effect granted by an active pearl.|选中后，禁用活跃珍珠所赋予的矛创造效果。
-4: |4：
+pearlcat_2|pearlcat_2
+Start Shelter Override|起始庇护所覆盖
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|珍珠猫的好奇心永无止境，他们再次踏入冒险之旅<LINE>以求扩充他们的收藏
+2: |2: 
+Button South|Button South
+When checked, disables the spear creation effect granted by an active pearl.|选中后，禁用激活的珍珠所赋予的造矛效果。
+4: |4: 
 fcb103|FCB103
 )|）
-PEBBLESWAIT|卵石等待
-Something new to read... it has been too long...|读了一些新内容……已经太久了……
-...there.|...那里。
-Press (|按 （
-pearlcat_6|珍珠猫_6
-Oh, hello! Hello!|哦你好！你好！
-Custom Keybind?|自定义按键绑定？
-Hello! I remember you! I remember...|你好！我记得你！我记得...
-Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|哪个玩家控制器触发交换将适用。 0 禁用触发器交换。按住并向上或向下拖动进行更改。
-Pebbles_SS_Pearlcat|卵石_SS_Pearlcat
-This illness, it is unlike any I have seen before - I can say it is likely fatal.|这种病与我以前见过的任何病都不一样——我可以说它很可能是致命的。
-max_tail_offset|最大尾部偏移量
+PEBBLESWAIT|PEBBLESWAIT
+Something new to read... it has been too long...|一些要读的新东西……已经太久了……
+...there.|……给。
+Press (|按下（
+pearlcat_6|pearlcat_6
+Oh, hello! Hello!|哦，你好！你好！
+Custom Keybind?|自定义按键？
+Hello! I remember you! I remember...|你好！我记得你！我记得……
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|决定将应用哪个玩家的扳机交换。0以禁用扳机交换。按住并向上或向下拖动以更改数值。
+Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
+This illness, it is unlike any I have seen before - I can say it is likely fatal.|这种病与我以前见过的任何病都不一样 - 我可以说它很可能是致命的。
+max_tail_offset|max_tail_offset
 SplitScreenCoop.SplitScreenCoop|SplitScreenCoop.SplitScreenCoop
 SS_AI|SS_AI
-by|经过
-Brought me something to read? Or just wasting my time, as per usual?|给我带来了一些东西来读？或者像往常一样只是浪费我的时间？
+by|作者
+Brought me something to read? Or just wasting my time, as per usual?|给我带了一些可以读的东西吗？或者只是像往常一样来浪费我的时间？
 0.0|0.0
-PEARLCAT WARP|珍珠猫经纱
-pearlcat_1|珍珠猫_1
+PEARLCAT WARP|PEARLCAT WARP
+pearlcat_1|pearlcat_1
 Ability Input|能力输入
-pearlcatScarfC0|珍珠猫围巾C0
+pearlcatScarfC0|pearlcatScarfC0
 300|300
-Revive Pearl Count|复活珍珠伯爵
-pearlactivehalo|珍珠活性光环
-Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|一次可以存储的最大珍珠数量，包括活跃珍珠。默认值为 9。按住并向上或向下拖动进行更改。
+Revive Pearl Count|复活珍珠数量
+pearlactivehalo|pearlactivehalo
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|可同时存储的最大珍珠数量，包括激活的珍珠。默认值为9。按住并向上或向下拖动以更改数值。
