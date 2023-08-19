@@ -6,6 +6,7 @@
 - Geahgeah - Art & Design
 - Sidera - SFX & Dialogue
 - Noir - Ear & Scarf Code
+- Linnnnnna - Chinese Translation
 
 ## Playtesters
 - TurtleMan27
