@@ -567,6 +567,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             pearl.room.AddObject(new ShockWave(targetPos, 30.0f, 0.4f, 5, false));
             room.AddObject(new ExplosionSpikes(pearl.room, targetPos, 5, 20.0f, 10, 20.0f, 20.0f, addon.SymbolColor));
 
+            target.SetKillTag(player.abstractCreature);
             target.Violence(player.mainBodyChunk, null, target.mainBodyChunk, null, Creature.DamageType.Explosion, shootDamage, 5.0f);
 
             if (!playerInRange)

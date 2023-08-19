@@ -30,16 +30,7 @@ public partial class Hooks
     
     public static readonly ConditionalWeakTable<MusicPlayer, MusicPlayerModule> MusicPlayerData = new();
 
-    public static MusicPlayerModule GetModule(this MusicPlayer self)
-    {
-        if (!MusicPlayerData.TryGetValue(self, out MusicPlayerModule module))
-        {
-            module = new();
-            MusicPlayerData.Add(self, module);
-        }
-
-        return module;
-    }
+    public static MusicPlayerModule GetModule(this MusicPlayer self) => MusicPlayerData.GetValue(self, x => new MusicPlayerModule());
 
     private static void ProceduralMusic_Reset(ILContext il)
     {
@@ -72,7 +63,9 @@ public partial class Hooks
         if (chunk.owner != null && chunk.owner.abstractPhysicalObject.IsPlayerObject())
         {
             if (soundId == SoundID.SS_AI_Marble_Hit_Floor && PlayerObjectData.TryGetValue(chunk.owner.abstractPhysicalObject, out var playerObjectModule) && !playerObjectModule.PlayCollisionSound)
+            {
                 vol = 0.0f;
+            }
         }
 
         return orig(self, soundId, chunk, loop, vol, pitch, randomStartPosition);
@@ -101,6 +94,12 @@ public partial class Hooks
 
     private static void MusicPlayer_Update(On.Music.MusicPlayer.orig_Update orig, MusicPlayer self)
     {
+        if (!ModOptions.PearlThreatMusic.Value)
+        {
+            orig(self);
+            return;
+        }
+
         var module = self.GetModule();
 
         if (self.manager.currentMainLoop is RainWorldGame game)
@@ -118,7 +117,7 @@ public partial class Hooks
 
                 var effect = playerModule.ActiveObject.GetPOEffect();
 
-                if (effect.ThreatMusic != null && ModOptions.PearlThreatMusic.Value)
+                if (effect.ThreatMusic != null)
                 {
                     if (self.proceduralMusic == null || (self.nextProcedural != effect.ThreatMusic && self.proceduralMusic.instruction.name != effect.ThreatMusic))
                     {

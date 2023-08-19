@@ -1,4 +1,6 @@
 ﻿
+using MoreSlugcats;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -14,6 +16,20 @@ public static partial class Hooks
         On.Player.Update += Player_UpdatePearlpup;
 
         On.Player.CanIPickThisUp += Player_CanIPickThisUp;
+
+        On.RedsIllness.RedsIllnessEffect.CanShowPlayer += RedsIllnessEffect_CanShowPlayer;
+    }
+
+    private static bool RedsIllnessEffect_CanShowPlayer(On.RedsIllness.RedsIllnessEffect.orig_CanShowPlayer orig, Player player)
+    {
+        var result = orig(player);
+
+        if (player.IsPearlpup())
+        {
+            return false;
+        }
+
+        return result;
     }
 
     private static bool Player_CanIPickThisUp(On.Player.orig_CanIPickThisUp orig, Player self, PhysicalObject obj)
@@ -38,7 +54,9 @@ public static partial class Hooks
     {
         orig(self, abstractCreature, world);
 
-        if (self.SlugCatClass != MoreSlugcats.MoreSlugcatsEnums.SlugcatStatsName.Slugpup) return;
+        if (!ModOptions.PearlpupRespawn.Value) return;
+
+        if (self.SlugCatClass != MoreSlugcatsEnums.SlugcatStatsName.Slugpup) return;
 
         var save = world.game.GetMiscWorld();
 
@@ -55,14 +73,10 @@ public static partial class Hooks
 
         var stats = self.slugcatStats;
         var save = self.abstractCreature.world.game.GetMiscProgression();
+        
 
         if (self.Malnourished || save.IsPearlpupSick)
         {
-            if (save.IsPearlpupSick)
-            {
-                self.aerobicLevel = 0.0f;
-            }
-
             stats.throwingSkill = 0;
             stats.runspeedFac = 0.9f;
             stats.corridorClimbSpeedFac = 0.9f;
@@ -77,6 +91,14 @@ public static partial class Hooks
             stats.poleClimbSpeedFac = 1.15f;
             stats.lungsFac = 0.5f;
         }
+
+        if (save.IsPearlpupSick)
+        {
+            //stats.foodToHibernate = stats.maxFood;
+
+            self.redsIllness ??= new(self, -20);
+            self.redsIllness.Update();
+        }   
 
         stats.generalVisibilityBonus = 0.1f;
         stats.visualStealthInSneakMode = 0.3f;

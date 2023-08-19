@@ -113,6 +113,8 @@ public static partial class Hooks
         //    "\nPoleClimb " + stats.poleClimbSpeedFac);
 
 
+        if (self.inVoidSea) return;
+
         var activeObj = playerModule.ActiveObject;
 
         if (activeObj == null || !activeObj.TryGetModule(out var poModule)) return;
@@ -692,6 +694,7 @@ public static partial class Hooks
                 self.room.AddObject(new ShockWave(targetPos, 30.0f, 0.4f, 5, false));
                 self.room.AddObject(new ExplosionSpikes(self.room, targetPos, 5, 20.0f, 10, 20.0f, 20.0f, addon.SymbolColor));
 
+                target.SetKillTag(self.abstractCreature);
                 target.Violence(self.mainBodyChunk, null, target.mainBodyChunk, null, Creature.DamageType.Explosion, shootDamage, 5.0f);
             }
             else

@@ -40,7 +40,8 @@
             "meat": 1.0,
             "plants": 1.0,
             "overrides": {
-                "Fly" : 1.0
+                "Fly": 1.0,
+                "SlugNPC": 0.0
             }
         },
         

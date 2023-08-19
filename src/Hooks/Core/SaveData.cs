@@ -3,7 +3,6 @@ using SlugBase.SaveData;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
@@ -55,6 +54,8 @@ public static partial class Hooks
         public bool HasPearlpup { get; set; }
         public bool IsPearlpupSick { get; set; }
         public bool HasOEEnding { get; set; }
+        public bool JustAscended { get; set; }
+        public bool Ascended { get; set; }
 
         // DEPRECATED
         public bool AltEnd { get; set; }
@@ -103,7 +104,6 @@ public static partial class Hooks
         var miscWorld = self.currentSaveState?.miscWorldSaveData?.GetMiscWorld();
         var miscProg = self.miscProgressionData?.GetMiscProgression();
 
-
         if (miscWorld != null && miscProg != null && saveCurrentState && miscWorld.IsPearlcatStory)
         {
             miscProg.StoredPearlColors.Clear();
@@ -150,11 +150,19 @@ public static partial class Hooks
     {
         var miscWorld = self.miscWorldSaveData.GetMiscWorld();
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
-
-        miscProg.IsNewPearlcatSave = false;
+        
         miscWorld.IsNewGame = false;
 
-        if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
+        if (!miscWorld.IsPearlcatStory)
+        {
+            return orig(self);
+        }
+
+
+        miscProg.IsNewPearlcatSave = false;
+        miscProg.Ascended = self.deathPersistentSaveData.ascended;
+
+        if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.JustAscended)
         {
             SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Sick);
         }
@@ -177,17 +185,23 @@ public static partial class Hooks
         var miscWorld = self.miscWorldSaveData.GetMiscWorld();
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
-
         miscWorld.IsPearlcatStory = self.saveStateNumber == Enums.Pearlcat;
-        miscProg.IsMSCSave = ModManager.MSC;
 
-        if (miscWorld.IsPearlcatStory)
+        if (!miscWorld.IsPearlcatStory) return;
+
+        miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
+        miscProg.IsMSCSave = ModManager.MSC;            
+
+        if (miscWorld.IsNewGame)
         {
-            miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
-
-            if (miscWorld.IsNewGame)
-                miscProg.IsPearlpupSick = false;
+            miscProg.IsPearlpupSick = false;
+            miscProg.HasOEEnding = false;
+            miscProg.HasPearlpup = false;
+            miscProg.Ascended = false;
+            miscProg.JustAscended = false;
         }
+
+        miscProg.JustAscended = false;
     }
 }
 

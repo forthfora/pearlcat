@@ -83,18 +83,35 @@ public partial class Hooks
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
         On.Leech.Attached += Leech_Attached;
-        On.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode1;
+        On.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
+
+        On.PlacedObject.FilterData.FromString += FilterData_FromString;
     }
 
-    private static void RainWorldGame_BeatGameMode1(On.RainWorldGame.orig_BeatGameMode orig, RainWorldGame game, bool standardVoidSea)
+
+    private static void FilterData_FromString(On.PlacedObject.FilterData.orig_FromString orig, PlacedObject.FilterData self, string s)
+    {
+        orig(self, s);
+
+        if (!self.availableToPlayers.Contains(SlugcatStats.Name.Red) && self.availableToPlayers.Contains(Enums.Pearlcat))
+        {
+            self.availableToPlayers.Remove(Enums.Pearlcat);
+        }
+    }
+
+    private static void RainWorldGame_BeatGameMode(On.RainWorldGame.orig_BeatGameMode orig, RainWorldGame game, bool standardVoidSea)
     {
         orig(game, standardVoidSea);
 
         if (standardVoidSea && game.IsPearlcatStory())
         {
             Plugin.Logger.LogInfo("PEARLCAT VOID SEA ENDING");
+
+            var save = game.GetMiscProgression();
+            save.JustAscended = true;
         }
     }
+
 
     private static void Leech_Attached(On.Leech.orig_Attached orig, Leech self)
     {
@@ -195,6 +212,7 @@ public partial class Hooks
         return result;
     }
 
+
     private static void DaddyLongLegs_Update(On.DaddyLongLegs.orig_Update orig, DaddyLongLegs self, bool eu)
     {
         orig(self, eu);
@@ -248,6 +266,7 @@ public partial class Hooks
             }
         }
     }
+
 
     private static void RegionState_AdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
     {
@@ -355,6 +374,7 @@ public partial class Hooks
         c.Emit(OpCodes.Stloc_0);
     }
 
+
     private static void VultureMask_DrawSprites(On.VultureMask.orig_DrawSprites orig, VultureMask self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         //Vector2 vector = Vector2.Lerp(self.firstChunk.lastPos, self.firstChunk.pos, timeStacker);
@@ -445,12 +465,18 @@ public partial class Hooks
 
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
+        if (playerModule.ShieldActive)
+        {
+            playerModule.ActivateVisualShield();
+        }
+
         if (playerModule.ShieldTimer > 0)
         {
             self.BreakStinger();
             self.stingerOut = false;
         }
     }
+
 
     public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
     public static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)

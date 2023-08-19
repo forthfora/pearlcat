@@ -2,6 +2,7 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
+using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Collections.Generic;
@@ -39,36 +40,96 @@ public static partial class Hooks
         );
 
         On.Player.ctor += Player_ctor;
-        On.Player.CanEatMeat += Player_CanEatMeat;
 
-        On.Player.ReleaseGrasp += Player_ReleaseGrasp;
+        On.BodyChunk.Update += BodyChunk_Update;
+        On.Creature.Grasp.Release += Grasp_Release;
+
+        try
+        {
+            IL.Creature.Update += Creature_Update;
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("Player Hooks IL Exception: \n" + e);
+        }
     }
 
-    private static void Player_ReleaseGrasp(On.Player.orig_ReleaseGrasp orig, Player self, int grasp)
+
+    private static void Grasp_Release(On.Creature.Grasp.orig_Release orig, Creature.Grasp self)
     {
-        if ((self.inVoidSea || self.room?.roomSettings?.name == "SB_L01") && self.IsPearlcat() && self.grasps[grasp]?.grabbed?.firstChunk?.owner is Player pup && pup.IsPearlpup()) return;
+        if (self.grabber is not Player player)
+        {
+            orig(self);
+            return;
+        }
+
+        var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
+
+        if (inVoid && player.IsPearlcat() && self.grabbed?.firstChunk?.owner is Player pup && pup.IsPearlpup()) return;
+
+        if (inVoid && player.IsPearlpup()) return;
         
-        orig(self, grasp);
+        orig(self);
     }
 
-    private static bool Player_CanEatMeat(On.Player.orig_CanEatMeat orig, Player self, Creature crit)
+    private static void Creature_Update(ILContext il)
     {
-        var result = orig(self, crit);
+        var c = new ILCursor(il);
 
-        if (crit is Player player && player.TryGetPearlpupModule(out _))
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdstr("FORCE CREATURE RELEASE UNDER ROOM"));
+
+        var dest = c.DefineLabel();
+
+        c.GotoPrev(MoveType.After,
+            x => x.MatchBle(out dest));
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Func<Creature, bool>>((self) =>
+        {
+            if (self is not Player player)
+            {
+                return false;
+            }
+
+            var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
+
+            if (inVoid && player.IsPearlpup())
+            {
+                // Plugin.Logger.LogWarning("PREVENTED PEARLPUP GRASP RELEASE");
+                return true;
+            }
+
+            // Plugin.Logger.LogWarning("DID NOT PREVENT RELEASE");
             return false;
+        });
 
-        return result;
+        c.Emit(OpCodes.Brtrue, dest);
+
+        // Plugin.Logger.LogWarning(c.Context);
+    }
+
+    private static void BodyChunk_Update(On.BodyChunk.orig_Update orig, BodyChunk self)
+    {
+        if (self.owner is Player player && player.IsPearlpup() && (player.room?.roomSettings?.name == "SB_L01" || player.inVoidSea))
+        {
+            self.restrictInRoomRange = float.MaxValue;
+            self.defaultRestrictInRoomRange = float.MaxValue;
+        }
+
+        orig(self);
     }
 
     private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
         orig(self, abstractCreature, world);
 
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.TryGetPearlcatModule(out _)) return;
 
-        if (ModOptions.EnableBackSpear.Value )
+        if (ModOptions.EnableBackSpear.Value)
+        {
             self.spearOnBack ??= new Player.SpearOnBack(self);
+        }
     }
 
     // yucky
@@ -761,7 +822,7 @@ public static partial class Hooks
             if (attacker is Centipede centipede && centipede.Small)
                 shouldShield = false;
 
-            if (damage <= 0.5f)
+            if (damage <= 0.1f)
                 shouldShield = false;
 
             if (shouldShield)
@@ -927,7 +988,7 @@ public static partial class Hooks
 
         var AI = creature.abstractCreature.abstractAI?.RealAI;
 
-        if (self is Player && AI is LizardAI or ScavengerAI or BigNeedleWormAI or DropBugAI or CicadaAI)
+        if (self is Player && AI is LizardAI or ScavengerAI or BigNeedleWormAI or DropBugAI or CicadaAI or MoreSlugcats.InspectorAI)
         {
             var aggression = AI.CurrentPlayerAggression(self.abstractCreature);
 
@@ -950,6 +1011,9 @@ public static partial class Hooks
 
             if (AI is DropBugAI)
                 return true;
+
+            if (AI is MoreSlugcats.InspectorAI)
+                return aggression > 0.0f;
 
             return false;
         }
