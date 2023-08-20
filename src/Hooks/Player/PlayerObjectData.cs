@@ -29,7 +29,9 @@ public static partial class Hooks
         var result = orig(abs);
 
         if (abs.IsPlayerObject())
+        {
             return false;
+        }
 
         return result;
     }
@@ -39,7 +41,9 @@ public static partial class Hooks
         orig(self, time);
 
         if (self.IsPlayerObject() && self.Room.world.game.GetStorySession is StoryGameSession session)
+        {
             session.RemovePersistentTracker(self);
+        }
     }
 
 
@@ -73,6 +77,7 @@ public static partial class Hooks
         if (module.IsCurrentlyStored) return;
 
         var physicalObject = abstractObject.realizedObject;
+        
         if (abstractObject.realizedObject == null) return;
 
         module.IsCurrentlyStored = true;
@@ -83,10 +88,14 @@ public static partial class Hooks
         module.CollideWithTerrain = physicalObject.CollideWithTerrain;
 
         if (physicalObject is DataPearl pearl)
+        {
             module.PearlGlimmerWait = pearl.glimmerWait;
+        }
 
         if (physicalObject is Weapon weapon)
+        {
             module.WeaponRotationSpeed = weapon.rotationSpeed;
+        }
     }
 
     public static void ClearAsPlayerObject(this AbstractPhysicalObject abstractObject)
@@ -108,10 +117,14 @@ public static partial class Hooks
         physicalObject.CollideWithTerrain = module.CollideWithTerrain;
 
         if (physicalObject is DataPearl pearl)
+        {
             pearl.glimmerWait = module.PearlGlimmerWait;
+        }
 
         if (physicalObject is Weapon weapon)
+        {
             weapon.rotationSpeed = module.WeaponRotationSpeed;
+        }
     }
 
 
@@ -125,7 +138,9 @@ public static partial class Hooks
         if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive && player.IsHostileToMe(self))
         {
             if (!(self is Centipede && playerModule.ShieldTimer > 0))
+            {
                 DeflectEffect(self.room, self.DangerPos);
+            }
 
             self.Stun(10);
             self.ReleaseGrasp(graspUsed);

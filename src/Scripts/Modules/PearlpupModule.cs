@@ -103,6 +103,13 @@ public class PearlpupModule
         AccentColor = AccentColor.RWColorSafety();
         ScarfColor = ScarfColor.RWColorSafety();
         FaceColor = FaceColor.RWColorSafety();
+
+        if (self.player.onBack is Player parent && parent.TryGetPearlcatModule(out var parentModule))
+        {
+            BodyColor = Color.Lerp(BodyColor, parentModule.CamoColor, parentModule.CamoLerp);
+            AccentColor = Color.Lerp(AccentColor, parentModule.CamoColor, parentModule.CamoLerp);
+            ScarfColor = Color.Lerp(ScarfColor, parentModule.CamoColor, parentModule.CamoLerp);
+        }
     }
 
 

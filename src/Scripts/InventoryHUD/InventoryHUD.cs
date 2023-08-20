@@ -50,6 +50,8 @@ public class InventoryHUD : HudPart
             var cameras = player.abstractCreature.world.game.cameras;
             var rCam = cameras.First();
 
+            //var rCam = cameras[1];
+
             //foreach (var c in cameras)
             //{
             //    foreach (var hudPart in rCam.hud.parts)
@@ -69,8 +71,10 @@ public class InventoryHUD : HudPart
             var playerPos = player.abstractCreature.world.RoomToWorldPos(playerChunkPos, player.abstractCreature.Room.index);
             var roomPos = player.abstractCreature.world.RoomToWorldPos(rCam.pos, rCam.room.abstractRoom.index);
 
-            var truePos = playerPos - roomPos - rCam.GetSplitScreenHUDOffset(rCam.cameraNumber); // method from splitscreen, via reflection
+            //var truePos = playerPos - roomPos - rCam.GetSplitScreenHUDOffset(rCam.cameraNumber); // method from splitscreen, via reflection
+            var truePos = playerPos - roomPos;
 
+            //Plugin.Logger.LogWarning(playerModule.PlayerNumber + " - " + truePos);
 
             var activeIndex = playerModule.ActiveObjectIndex;
 

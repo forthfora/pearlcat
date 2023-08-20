@@ -102,10 +102,11 @@ public partial class Hooks
 
         var module = self.GetModule();
 
-        if (self.manager.currentMainLoop is RainWorldGame game)
+        if (self.manager.currentMainLoop is RainWorldGame game && game.Players.Any(x => x.realizedCreature is Player player && player.IsPearlcat()))
         {
+            var region = self.threatTracker?.region;
             bool hasThreatMusicPearl = false;
-
+            
             foreach (var abstractCreature in game.Players)
             {
                 if (abstractCreature?.realizedCreature is not Player player) continue;
@@ -114,15 +115,21 @@ public partial class Hooks
 
                 if (playerModule.ActiveObject == null) continue;
 
-
                 var effect = playerModule.ActiveObject.GetPOEffect();
 
                 if (effect.ThreatMusic != null)
                 {
                     if (self.proceduralMusic == null || (self.nextProcedural != effect.ThreatMusic && self.proceduralMusic.instruction.name != effect.ThreatMusic))
                     {
-                        module.IsPearlPlaying = true;
-                        self.NewRegion(effect.ThreatMusic);
+                        module.WasThreatPearlActive = true;
+
+                        if (self.proceduralMusic?.instruction?.name == region)
+                        {
+                            module.IsPearlPlaying = true;
+                            self.NewRegion(effect.ThreatMusic);
+                            //Plugin.Logger.LogWarning("START PEARL THREAT " + effect.ThreatMusic);
+                        }
+
                     }
 
                     hasThreatMusicPearl = true;
@@ -131,10 +138,16 @@ public partial class Hooks
             }
 
             // Stop New Threat Music
-            var region = self.threatTracker?.region;
+            if (!hasThreatMusicPearl && module.WasThreatPearlActive)
+            {
+                if (region != null)
+                {
+                    self.NewRegion(region);
+                    //Plugin.Logger.LogWarning("STOP PEARL THREAT");
+                }
 
-            if (!hasThreatMusicPearl && region != null && (self.proceduralMusic == null || self.proceduralMusic.instruction.name != region))
-                self.NewRegion(region);
+                module.WasThreatPearlActive = false;
+            }
         }
 
         orig(self);

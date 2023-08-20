@@ -716,28 +716,6 @@ public static partial class Hooks
         if (ModOptions.DisableCamoflague.Value || self.inVoidSea) return;
 
         var camera = self.abstractCreature.world.game.cameras[0];
-        List<Color> samples = new()
-        {
-            camera.PixelColorAtCoordinate(self.firstChunk.pos),
-
-            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(10.0f, 10.0f)),
-            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(-10.0f, -10.0f)),
-            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(10.0f, -10.0f)),
-            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(-10.0f, 10.0f)),
-
-            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(0.0f, 10.0f)),
-            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(10.0f, 0.0f)),
-            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(0.0f, -10.0f)),
-            camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(-10.0f, 0.0f)),
-        };
-
-        var totalColor = Color.black;
-
-        foreach (var color in samples)
-            totalColor += color;
-
-        playerModule.CamoColor = totalColor / samples.Count;
-
 
         var camoSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 0.001f, 0.01f);
         var camoMaxMoveSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 2.0f, 10.0f);
@@ -746,7 +724,28 @@ public static partial class Hooks
             && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) || self.bodyMode == Player.BodyModeIndex.Crawl)
             && effect.MajorEffect == MajorEffectType.CAMOFLAGUE && playerModule.StoreObjectTimer <= 0 && playerModule.CamoCount > 0;
 
-        var prevCamo = playerModule.CamoLerp;
+        // LAG CAUSER
+        if (shouldCamo || playerModule.BodyColor != playerModule.BaseBodyColor)
+        {
+            var samples = new List<Color>()
+            {
+                camera.PixelColorAtCoordinate(self.firstChunk.pos),
+
+                camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(-10.0f, 0.0f)),
+                camera.PixelColorAtCoordinate(self.firstChunk.pos + new Vector2(10.0f, 0.0f)),
+            };
+
+            var totalColor = Color.black;
+
+            foreach (var color in samples)
+            {
+                totalColor += color;
+            }
+
+            playerModule.CamoColor = totalColor / samples.Count;
+        }
+
+        //var prevCamo = playerModule.CamoLerp;
 
         playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, camoSpeed) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, camoSpeed);
 

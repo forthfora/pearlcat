@@ -268,10 +268,14 @@ public static partial class Hooks
         if (self.room != null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
         {
             if (self.firstChunk.vel.magnitude < 7.5f)
+            {
                 self.firstChunk.vel += self.input[0].analogueDir * 0.7f;
+            }
 
             if (self.input[0].analogueDir.magnitude < 0.05f)
+            {
                 self.firstChunk.vel *= 0.8f;
+            }
         }
 
         if (playerModule == null) return;
@@ -339,20 +343,26 @@ public static partial class Hooks
         playerModule.WasSentryInput = sentryInput;
 
         // LAG CAUSER
-        if (playerModule.TextureUpdateTimer % 5 == 0 && (playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor || playerModule.SetInvertTailColors != playerModule.CurrentlyInvertedTailColors))
+        if (playerModule.TextureUpdateTimer > self.TexUpdateInterval() && !ModOptions.DisableCosmetics.Value)
         {
-            playerModule.LoadTailTexture("tail");
-            playerModule.LoadEarLTexture("ear_l");
-            playerModule.LoadEarRTexture("ear_r");
+            if ((playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor || playerModule.SetInvertTailColors != playerModule.CurrentlyInvertedTailColors))
+            {
+                playerModule.LoadTailTexture("tail");
+                playerModule.LoadEarLTexture("ear_l");
+                playerModule.LoadEarRTexture("ear_r");
+            }
+
+            playerModule.LastBodyColor = playerModule.BodyColor;
+            playerModule.LastAccentColor = playerModule.AccentColor;
+
+            playerModule.TextureUpdateTimer = 0;
+        }
+        else
+        {
+            playerModule.TextureUpdateTimer++;
         }
 
-        playerModule.LastBodyColor = playerModule.BodyColor;
-        playerModule.LastAccentColor = playerModule.AccentColor;
 
-        //if (playerModule.TextureUpdateTimer % 120 == 0)
-        //    Plugin.Logger.LogWarning(Futile.atlasManager._atlases.Count);
-
-        playerModule.TextureUpdateTimer++;
 
         if (self.canJump >= 5)
         {
@@ -450,7 +460,9 @@ public static partial class Hooks
         UpdateTryRevive(self, playerModule);
 
         if (self.room != null)
+        {
             self.GivePearls(playerModule);
+        }
 
         RefreshPearlpup(self, playerModule);
     }

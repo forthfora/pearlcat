@@ -106,20 +106,26 @@ public static partial class Hooks
 
         if (self.abstractCreature.Room.world.game.devToolsActive && Input.GetKey("q"))
             self.AddFood(1);
+        
 
-
-        if (module.TextureUpdateTimer % 5 == 0 && (module.LastBodyColor != module.BodyColor || module.LastAccentColor != module.AccentColor))
+        if (module.TextureUpdateTimer > self.TexUpdateInterval())
         {
-            module.LoadTailTexture("pearlpup_tail");
-            module.LoadEarLTexture("ear_l");
-            module.LoadEarRTexture("ear_r");
+            if ((module.LastBodyColor != module.BodyColor || module.LastAccentColor != module.AccentColor))
+            {
+                module.LoadTailTexture("pearlpup_tail");
+                module.LoadEarLTexture("ear_l");
+                module.LoadEarRTexture("ear_r");
+            }
+
+            module.LastBodyColor = module.BodyColor;
+            module.LastAccentColor = module.AccentColor;
+
+            module.TextureUpdateTimer = 0;
         }
-
-        module.LastBodyColor = module.BodyColor;
-        module.LastAccentColor = module.AccentColor;
-
-        module.TextureUpdateTimer++;
-
+        else
+        {
+            module.TextureUpdateTimer++;
+        }
     }
 
     private static bool Weapon_HitThisObject(On.Weapon.orig_HitThisObject orig, Weapon self, PhysicalObject obj)

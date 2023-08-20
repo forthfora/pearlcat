@@ -314,7 +314,7 @@ sleeve|sleeve
 Hello again.|你好。
 Cloud|Cloud
 And why... to me?|为什么……对我来说？
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|选中后，每个循环都会将背包中的珍珠都设为下列指定数量的珍珠。
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.<LINE>Does not save over the current inventory - it is returned to when unchecked.|选中后，每个循环都会将背包中的珍珠都设为下列指定数量的珍珠。<LINE>不保存当前库存 - 未选中时返回。
 haloGlyph5|haloGlyph5
 Camo Pearl Count|迷彩珍珠数量
 tail|tail
@@ -374,7 +374,6 @@ oa_max_time|oa_max_time
 Disable Rage Effect?|禁用愤怒效果？
 Grab a creature and hold (GRAB) with an active green pearl to revive them|在绿色珍珠激活的情况下，抓住一个生物并按住（抓取）以复活他们
 Disable Camoflague Effect?|禁用迷彩效果？
-<LINE>Does not save over the current inventory - it is returned to when unchecked.|<LINE>不保存当前库存 - 未选中时返回。
 .NET Framework 4.8|.NET Framework 4.8
 oa_max_fric_speed|oa_max_fric_speed
 MS|MS

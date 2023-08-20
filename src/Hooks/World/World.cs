@@ -336,12 +336,15 @@ public partial class Hooks
         c.Emit(OpCodes.Stloc_0);
     }
 
-    private static void OE_GourmandEnding_Update(On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.orig_Update orig, MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding self, bool eu)
+    private static void OE_GourmandEnding_Update(On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.orig_Update orig, MSCRoomSpecificScript.OE_GourmandEnding self, bool eu)
     {
-        var miscWorld = self.room.world.game.GetMiscWorld();
-        var miscProg = self.room.world.game.GetMiscProgression();
+        if (self.room.world.game.IsPearlcatStory())
+        {
+            var miscWorld = self.room.world.game.GetMiscWorld();
+            var miscProg = self.room.world.game.GetMiscProgression();
 
-        if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.HasOEEnding) return;
+            if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.HasOEEnding) return;
+        }
 
         orig(self, eu);
     }

@@ -49,8 +49,6 @@ public static partial class Hooks
         playerModule.InitColors(self);
         playerModule.InitSounds(self.player);
 
-        if (ModOptions.DisableCosmetics.Value) return;
-
         playerModule.FirstSprite = sLeaser.sprites.Length;
         int spriteIndex = playerModule.FirstSprite;
 
@@ -137,7 +135,7 @@ public static partial class Hooks
     {
         orig(self, sLeaser, rCam, newContatiner);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule) || ModOptions.DisableCosmetics.Value) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
         if (playerModule.FirstSprite <= 0 || sLeaser.sprites.Length < playerModule.LastSprite) return;
 
@@ -149,7 +147,7 @@ public static partial class Hooks
     {
         orig(self);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule) || ModOptions.DisableCosmetics.Value) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
 
         if (playerModule.EarL == null || playerModule.EarR == null) return;
@@ -182,7 +180,11 @@ public static partial class Hooks
 
         UpdateLightSource(self, playerModule);
 
-        if (ModOptions.DisableCosmetics.Value) return;
+        if (ModOptions.DisableCosmetics.Value)
+        {
+            OrderAndColorSprites(self, sLeaser, rCam, playerModule, null);
+            return;
+        }
 
         UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "scarf", "Scarf", playerModule.ScarfSprite);
 
@@ -331,6 +333,8 @@ public static partial class Hooks
 
     public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
     {
+        if (ModOptions.DisableCosmetics.Value) return;
+
         FAtlas? tailAtlas = playerModule.TailAtlas;
         if (tailAtlas == null) return;
 
@@ -401,16 +405,18 @@ public static partial class Hooks
         var legsSprite = sLeaser.sprites[LEGS_SPRITE];
         var markSprite = sLeaser.sprites[MARK_SPRITE];
 
+        var feetSprite = sLeaser.sprites[playerModule.FeetSprite];
+        
+        var cloakSprite = sLeaser.sprites[playerModule.CloakSprite];
         var scarfSprite = sLeaser.sprites[playerModule.ScarfSprite];
+
         var sleeveLSprite = sLeaser.sprites[playerModule.SleeveLSprite];
         var sleeveRSprite = sLeaser.sprites[playerModule.SleeveRSprite];
 
-        var feetSprite = sLeaser.sprites[playerModule.FeetSprite];
 
         var earLSprite = sLeaser.sprites[playerModule.EarLSprite];
         var earRSprite = sLeaser.sprites[playerModule.EarRSprite];
 
-        var cloakSprite = sLeaser.sprites[playerModule.CloakSprite];
 
         var shieldSprite = sLeaser.sprites[playerModule.ShieldSprite];
         var holoLightSprite = sLeaser.sprites[playerModule.HoloLightSprite];
@@ -433,6 +439,31 @@ public static partial class Hooks
             newContainer.AddChild(cloakSprite);
 
             hudContainer.AddChild(shieldSprite);
+        }
+
+        shieldSprite.alpha = playerModule.ShieldAlpha;
+        shieldSprite.scale = playerModule.ShieldScale;
+        shieldSprite.SetPosition(bodySprite.GetPosition());
+
+        holoLightSprite.alpha = playerModule.HoloLightAlpha;
+        holoLightSprite.scale = playerModule.HoloLightScale;
+        holoLightSprite.SetPosition(bodySprite.GetPosition());
+        holoLightSprite.color = new(0.384f, 0.184f, 0.984f, 1.0f);
+
+
+        if (ModOptions.DisableCosmetics.Value)
+        {
+            feetSprite.isVisible = false;
+
+            cloakSprite.isVisible = false;
+            scarfSprite.isVisible = false;
+
+            sleeveLSprite.isVisible = false;
+            sleeveRSprite.isVisible = false;
+
+            earLSprite.isVisible = false;
+            earRSprite.isVisible = false;
+            return;
         }
 
 
@@ -547,26 +578,18 @@ public static partial class Hooks
         markSprite.color = playerModule.ActiveColor;
 
         if (playerModule.ActiveObject != null)
+        {
             markSprite.y += 10.0f;
+        }
 
         tailSprite.color = Color.white;
         earLSprite.color = Color.white;
         earRSprite.color = Color.white;
         cloakSprite.color = Color.white;
 
-        shieldSprite.alpha = playerModule.ShieldAlpha;
-        shieldSprite.scale = playerModule.ShieldScale;
-        shieldSprite.SetPosition(bodySprite.GetPosition());
-
-        holoLightSprite.alpha = playerModule.HoloLightAlpha;
-        holoLightSprite.scale = playerModule.HoloLightScale;
-        holoLightSprite.SetPosition(bodySprite.GetPosition());
-        holoLightSprite.color = new(0.384f, 0.184f, 0.984f, 1.0f);
-
         playerModule.Cloak.UpdateColor(sLeaser);
 
         playerModule.SetInvertTailColors = self.player.inVoidSea && upsideDown;
-
     }
     
     public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)
@@ -638,8 +661,7 @@ public static partial class Hooks
     {
         orig(self);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule) || ModOptions.DisableCosmetics.Value) return;
-
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
 
         ApplyTailMovement(self);
         ApplyEarMovement(self);
@@ -666,6 +688,8 @@ public static partial class Hooks
     // Creates raised tail effect
     public static void ApplyTailMovement(PlayerGraphics self)
     {
+        if (ModOptions.DisableCosmetics.Value) return;
+
         if (self.player.onBack != null) return;
 
         var upsideDown = self.head.pos.y < self.legs.pos.y;
@@ -874,5 +898,22 @@ public static partial class Hooks
         var safeColor = Custom.HSL2RGB(hsl.x, hsl.y, Mathf.Clamp(hsl.z, 0.01f, 1.0f), color.a);
 
         return safeColor;
+    }
+
+    public static int TexUpdateInterval(this Player player)
+    {
+        var texUpdateInterval = 5;
+        var quality = player.abstractCreature.world.game.rainWorld.options.quality;
+
+        if (quality == Options.Quality.LOW)
+        {
+            texUpdateInterval = 20;
+        }
+        else if (quality == Options.Quality.MEDIUM)
+        {
+            texUpdateInterval = 10;
+        }
+
+        return texUpdateInterval;
     }
 }

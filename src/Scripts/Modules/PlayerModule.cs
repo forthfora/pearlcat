@@ -554,6 +554,8 @@ public class PlayerModule
 
     public void RegenerateTail()
     {
+        if (ModOptions.DisableCosmetics.Value) return;
+
         if (!PlayerRef.TryGetTarget(out var player)) return;
 
         if (player.graphicsModule == null) return;
