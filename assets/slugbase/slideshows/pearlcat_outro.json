@@ -1,7 +1,7 @@
 {
   "id": "Pearlcat_Outro",
   "slideshow_folder": "slugbase/slideshows/pearlcat_outro",
-  "next_process": "Credits",
+  "next_process": "Statistics",
   "music": {
     "name": "RW_Outro_Theme",
     "fade_in": 40

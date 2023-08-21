@@ -45,6 +45,31 @@ public static partial class Hooks
         On.ArenaGameSession.AddHUD += ArenaGameSession_AddHUD;
 
         On.Menu.MenuIllustration.Update += MenuIllustration_Update;
+        On.Menu.StoryGameStatisticsScreen.AddBkgIllustration += StoryGameStatisticsScreen_AddBkgIllustration;
+    }
+
+    private static void StoryGameStatisticsScreen_AddBkgIllustration(On.Menu.StoryGameStatisticsScreen.orig_AddBkgIllustration orig, StoryGameStatisticsScreen self)
+    {
+
+        if (RainWorld.lastActiveSaveSlot == Enums.Pearlcat)
+        {
+            var save = self.manager.rainWorld.GetMiscProgression();
+
+            var sceneID = Scenes.Slugcat_Pearlcat_Statistics_Ascended;
+            
+            if (!save.JustAscended)
+            {
+                sceneID = Scenes.Slugcat_Pearlcat_Statistics_Sick;
+            }
+
+            self.scene = new InteractiveMenuScene(self, self.pages[0], sceneID);
+            self.pages[0].subObjects.Add(self.scene);
+
+            Plugin.Logger.LogInfo("PEARLCAT STATISTICS SCREEN: " + sceneID);
+            return;
+        }
+
+        orig(self);
     }
 
     private static void MenuIllustration_Update(On.Menu.MenuIllustration.orig_Update orig, MenuIllustration self)
@@ -63,6 +88,15 @@ public static partial class Hooks
         else if (fileName == "Outro3_1" || fileName == "Outro2_1")
         {
             self.visible = save.HasPearlpup;
+        }
+        else if (fileName == "AltOutro10_1")
+        {
+            if (self.alpha == 1.0f)
+            {
+                self.alpha = 0.0f;
+            }
+
+            self.alpha = Mathf.Lerp(self.alpha, 0.99f, 0.015f);
         }
     }
 
@@ -175,8 +209,12 @@ public static partial class Hooks
                 var indexString = fileName.Replace("pearl", "");
 
                 if (!int.TryParse(indexString, out index))
+                {
                     if (fileName == "pearlactive" || fileName == "pearlactiveplaceholder" || fileName == "pearlactivehalo")
+                    {
                         index = -1;
+                    }
+                }
             }
 
             MenuIllustrationData.Add(illustration, new(illustration, index));

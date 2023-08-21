@@ -23,6 +23,7 @@ public class PearlpupModule
     public int ScarfSprite { get; set; }
     public int ScarfNeckSprite { get; set; }
     public int FeetSprite { get; set; }
+    public int SickSprite { get; set; }
 
     public SharedPhysics.TerrainCollisionData ScratchTerrainCollisionData { get; } = new();
     public Vector2 PrevHeadRotation { get; set; }
@@ -95,8 +96,8 @@ public class PearlpupModule
         {
             var sickColor = Custom.hexToColor("98ab95");
 
-            BodyColor = Color.Lerp(BodyColor, sickColor, 0.5f);
-            AccentColor = Color.Lerp(AccentColor, sickColor, 0.5f);
+            BodyColor = Color.Lerp(BodyColor, sickColor, 0.25f);
+            AccentColor = Color.Lerp(AccentColor, sickColor, 0.25f);
         }
 
         BodyColor = BodyColor.RWColorSafety();

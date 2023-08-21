@@ -209,7 +209,7 @@ public static partial class Hooks
 
         if (self.RenderAsPup)
         {
-            if (save.IsPearlpupSick && self.objectLooker.currentMostInteresting is Player player && player.IsPearlpup())
+            if (self.player.firstChunk.vel.magnitude < 2.0f && self.objectLooker.currentMostInteresting is Player pup && pup.IsPearlpup() && (save.IsPearlpupSick || pup.dead))
             {
                 UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face_sick", nameSuffix: "Sick");
             }
@@ -222,7 +222,7 @@ public static partial class Hooks
         }
         else
         {
-            if (save.IsPearlpupSick && self.player.firstChunk.vel.magnitude < 2.0f && self.objectLooker.currentMostInteresting is Player player && player.IsPearlpup())
+            if (self.player.firstChunk.vel.magnitude < 2.0f && self.objectLooker.currentMostInteresting is Player pup && pup.IsPearlpup() && (save.IsPearlpupSick || pup.dead))
             {
                 UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face_sick", nameSuffix: "Sick");
             }
@@ -576,6 +576,12 @@ public static partial class Hooks
         sleeveRSprite.color = cloakColor;
 
         markSprite.color = playerModule.ActiveColor;
+
+        if (self.player.inVoidSea)
+        {
+            markSprite.alpha = 0.0f;
+        }
+
 
         if (playerModule.ActiveObject != null)
         {

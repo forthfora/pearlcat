@@ -1,0 +1,14 @@
+{
+  "id": "Slugcat_Pearlcat_Statistics_Ascended",
+  "scene_folder": "slugbase/scenes/slugcat_pearlcat_statistics_ascended",
+  "images": [
+    {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+    {"name": "Background", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+    {"name": "Glow", "pos": [0, 0], "depth": 3.5, "shader": "Basic"},
+    {"name": "Slugcat", "pos": [0, 0], "depth": 3.0, "shader": "Basic"}
+  ],
+  
+  "idle_depths": [3.0],
+  "select_menu_pos": [0, 0]
+}

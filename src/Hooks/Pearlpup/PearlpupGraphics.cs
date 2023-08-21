@@ -168,16 +168,19 @@ public static partial class Hooks
         module.EarLSprite = spriteIndex++;
         module.EarRSprite = spriteIndex++;
 
+        module.SickSprite = spriteIndex++;
+
         module.LastSprite = spriteIndex;
         Array.Resize(ref sLeaser.sprites, spriteIndex);
 
         sLeaser.sprites[module.ScarfNeckSprite] = new FSprite("pearlcatScarfC0");
         sLeaser.sprites[module.FeetSprite] = new FSprite("pearlcatFeetA0");
+        sLeaser.sprites[module.SickSprite] = new FSprite("pearlcatHipsAPearlpupSick");
 
         module.RegenerateTail();
         module.RegenerateEars();
 
-        GenerateScarfMesh(sLeaser, rCam, module.ScarfSprite, module);
+        GenerateScarfMesh(sLeaser, rCam, module);
 
         GenerateEarMesh(sLeaser, module.EarL, module.EarLSprite);
         GenerateEarMesh(sLeaser, module.EarR, module.EarRSprite);
@@ -189,7 +192,7 @@ public static partial class Hooks
         self.AddToContainer(sLeaser, rCam, null);
     }
 
-    private static void GenerateScarfMesh(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, int scarfSprite, PearlpupModule module)
+    private static void GenerateScarfMesh(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PearlpupModule module)
     {
         var scarf = module.Scarf;
 
@@ -255,6 +258,7 @@ public static partial class Hooks
         UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", module.FeetSprite);
 
         UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
+        UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_head");
 
         if (save.IsPearlpupSick)
         {
@@ -265,7 +269,6 @@ public static partial class Hooks
             UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face");
         }
 
-        UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_head");
 
         DrawPearlpupEars(self, sLeaser, timeStacker, camPos, module);
         DrawPearlpupTail(self, sLeaser, module);
@@ -304,6 +307,7 @@ public static partial class Hooks
 
         var scarfNeckSprite = sLeaser.sprites[module.ScarfNeckSprite];
         var feetSprite = sLeaser.sprites[module.FeetSprite];
+        var sickSprite = sLeaser.sprites[module.SickSprite];
 
         // Container
         if (newContainer != null)
@@ -315,6 +319,8 @@ public static partial class Hooks
 
             newContainer.AddChild(earLSprite);
             newContainer.AddChild(earRSprite);
+
+            newContainer.AddChild(sickSprite);
         }
 
         // Order
@@ -326,6 +332,8 @@ public static partial class Hooks
 
         feetSprite.MoveBehindOtherNode(scarfSprite);
         feetSprite.MoveInFrontOfOtherNode(legsSprite);
+
+        sickSprite.MoveInFrontOfOtherNode(hipsSprite);
 
 
         var upsideDown = self.head.pos.y < self.legs.pos.y || self.player.bodyMode == Player.BodyModeIndex.ZeroG;
@@ -389,6 +397,7 @@ public static partial class Hooks
             }
         }
 
+
         module.UpdateColors(self);
 
         var bodyColor = module.BodyColor;
@@ -417,6 +426,23 @@ public static partial class Hooks
         tailSprite.color = Color.white;
         earLSprite.color = Color.white;
         earRSprite.color = Color.white;
+
+
+        var miscProg = self.player.abstractCreature.world.game.GetMiscProgression();
+
+        if (miscProg.IsPearlpupSick)
+        {
+            sickSprite.SetPosition(hipsSprite.GetPosition());
+            sickSprite.rotation = hipsSprite.rotation;
+            sickSprite.isVisible = true;
+
+            var sickColor = Custom.RGB2HSL(bodyColor).z < 0.3f ? Color.white : Custom.hexToColor("29193d");
+            sickSprite.color = Color.Lerp(bodyColor, sickColor, 0.8f);
+        }
+        else
+        {
+            sickSprite.isVisible = false;
+        }
     }
 
     public static void DrawPearlpupTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlpupModule module)

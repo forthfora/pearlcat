@@ -66,11 +66,12 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
     public float ShieldTimer { get; set; } = -1;
     public int RageCounter { get; set; } = 3;
-    public bool WasPlayingRM { get; set; }
+    public bool WasPlayingMusic { get; set; }
     public Vector2? AgilityPos { get; set; }
     public float HoloLightScale { get; set; }
     public float HoloLightAlpha { get; set; }
     public bool HoloLightActive { get; set; }
+    public float MusicVolume { get; set; }
 
     public float HaloScale { get; set; } = 1.0f;
     public float AnimCounter { get; set; }
@@ -125,7 +126,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         }
         else if (pearlType == Enums.Pearls.SS_Pearlcat)
         {
-            //UpdateMusicSentry(owner, module, pearl, effect, "");
+            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Amnesia");
         }
 
         AnimCounter++;
@@ -141,11 +142,21 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             if (musicPlayer.song.name == songName)
             {
                 var song = musicPlayer.song;
-                song.volume = 0.0f;
+                
+                var targetVolume = song.name switch
+                {
+                    _ => 0.3f,
+                };
+
+                MusicVolume = Mathf.Lerp(MusicVolume, targetVolume, 0.025f);
 
                 if (room.game.FirstAlivePlayer?.realizedCreature is Player player)
                 {
-                    song.volume = Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 50.0f, 1000.0f, 0.3f, 0.0f);
+                    song.volume = Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 50.0f, 1000.0f, MusicVolume, 0.0f);
+                }
+                else
+                {
+                    song.volume = 0.0f;
                 }
 
                 var audioData = new float[1024];
@@ -158,23 +169,28 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                     amplitude += audioData[i];
                 }
 
-                HaloScale = Custom.LerpMap(amplitude, 0.0f, 0.15f, 0.6f, 1.3f);
-                return;
+                HaloScale = Custom.LerpMap(amplitude, 0.0f, musicPlayer.song.name == "Pearlcat_Amnesia" ? 0.45f : 0.15f, musicPlayer.song.name == "Pearlcat_Amnesia" ? 0.8f : 0.6f, 1.3f);
             }
-
-            musicPlayer.song.StopAndDestroy();
-            musicPlayer.song = null;
+            else
+            {
+                musicPlayer.song.StopAndDestroy();
+                musicPlayer.song = null;
+            }
         }
 
-        musicPlayer.song = new Song(room.game.manager.musicPlayer, songName, MusicPlayer.MusicContext.StoryMode)
+        if (musicPlayer.song == null)
         {
-            stopAtGate = true,
-            stopAtDeath = true,
-            fadeInTime = 1,
-            playWhenReady = true
-        };
+            musicPlayer.song = new Song(room.game.manager.musicPlayer, songName, MusicPlayer.MusicContext.StoryMode)
+            {
+                stopAtGate = true,
+                stopAtDeath = true,
+                fadeInTime = 1.0f,
+                playWhenReady = true
+            };
 
-        WasPlayingRM = true;
+            MusicVolume = 0.0f;
+            WasPlayingMusic = true;
+        }
     }
 
     private void UpdateCamoSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
@@ -651,11 +667,17 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             }
         }
 
-        if (WasPlayingRM && room != null)
+        if (WasPlayingMusic && room != null)
         {
             var musicPlayer = room.game.manager.musicPlayer;
 
-            if (musicPlayer.song.name == "NA_19 - Halcyon Memories")
+            var songsToStop = new List<string>()
+            {
+                "NA_19 - Halcyon Memories",
+                "Pearlcat_Amnesia",
+            };
+
+            if (songsToStop.Contains(musicPlayer.song.name))
             {
                 musicPlayer.song.StopAndDestroy();
                 musicPlayer.song = null;

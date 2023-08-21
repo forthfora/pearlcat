@@ -1,0 +1,20 @@
+{"frames": {
+
+"pearlcatHipsAPearlpupSick.png":
+{
+	"frame": {"x":2,"y":2,"w":14,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":20},
+	"sourceSize": {"w":14,"h":20}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/tgreenturepacker",
+	"version": "1.0",
+	"image": "pearlcat_hips.png",
+	"format": "RGBA8888",
+	"size": {"w":18,"h":24},
+	"scale": "1",
+	"smartupdate": "$TgreenturePacker:SmartUpdate:997a41558186e7354dcc8a4fce8a7c99:6b57016163b442e8a481e7af7dc3e9cf:47c195541bd5851e1cf2127685e38d61$"
+}
+}

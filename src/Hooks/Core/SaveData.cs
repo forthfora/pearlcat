@@ -101,46 +101,57 @@ public static partial class Hooks
 
     private static bool PlayerProgression_SaveToDisk(On.PlayerProgression.orig_SaveToDisk orig, PlayerProgression self, bool saveCurrentState, bool saveMaps, bool saveMiscProg)
     {
-        var miscWorld = self.currentSaveState?.miscWorldSaveData?.GetMiscWorld();
-        var miscProg = self.miscProgressionData?.GetMiscProgression();
-
-        if (miscWorld != null && miscProg != null && saveCurrentState && miscWorld.IsPearlcatStory)
+        try
         {
-            miscProg.StoredPearlColors.Clear();
-            miscProg.ActivePearlColor = null;
+            var miscWorld = self.currentSaveState?.miscWorldSaveData?.GetMiscWorld();
+            var miscProg = self.miscProgressionData?.GetMiscProgression();
 
-            if (miscWorld.Inventory.TryGetValue(0, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(0, out var activeIndex))
+            if (miscWorld != null && miscProg != null && saveCurrentState && miscWorld.IsPearlcatStory)
             {
-                for (int i = 0; i < inventory.Count; i++)
+                miscProg.StoredPearlColors.Clear();
+                miscProg.ActivePearlColor = null;
+
+                if (miscWorld.Inventory.TryGetValue(0, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(0, out var activeIndex))
                 {
-                    var item = inventory[i];
+                    for (int i = 0; i < inventory.Count; i++)
+                    {
+                        var item = inventory[i];
+                        var split = item.Split(new string[] { "<oA>" }, StringSplitOptions.None);
 
-                    var split = item.Split(new string[] { "<oA>" }, StringSplitOptions.None);
+                        if (split.Length < 5) continue;
 
-                    if (split.Length < 5) continue;
-
-                    var potentialType = split[5];
-
-                    if (!ExtEnumBase.TryParse(typeof(DataPearlType), potentialType, false, out var type)) continue;
-
-                    if (type is not DataPearlType dataPearlType) continue;
+                        var potentialType = split[5];
 
 
-                    var potentialPebblesColor = 0;
+                        if (!ExtEnumBase.TryParse(typeof(DataPearlType), potentialType, false, out var type)) continue;
 
-                    if (dataPearlType == DataPearlType.PebblesPearl && split.Length >= 6 && int.TryParse(split[6], out var result))
-                        potentialPebblesColor = result;
+                        if (type is not DataPearlType dataPearlType) continue;
 
 
-                    if (i == activeIndex)
-                        miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
+                        var potentialPebblesColor = 0;
 
-                    else
-                        miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
+                        if (dataPearlType == DataPearlType.PebblesPearl && split.Length >= 6 && int.TryParse(split[6], out var result))
+                        {
+                            potentialPebblesColor = result;
+                        }
+
+                        if (i == activeIndex)
+                        {
+                            miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
+                        }
+                        else
+                        {
+                            miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
+                        }
+                    }
                 }
-            }
 
-            //miscProg.HasPearlpup = miscWorld.PearlpupID != null;
+                //miscProg.HasPearlpup = miscWorld.PearlpupID != null;
+            }
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("PEARLCAT SAVE TO DISK EXCEPTION:\n" + e);
         }
 
         return orig(self, saveCurrentState, saveMaps, saveMiscProg);
@@ -148,31 +159,38 @@ public static partial class Hooks
 
     private static string SaveState_SaveToString(On.SaveState.orig_SaveToString orig, SaveState self)
     {
-        var miscWorld = self.miscWorldSaveData.GetMiscWorld();
-        var miscProg = self.progression.miscProgressionData.GetMiscProgression();
+        try
+        {
+            var miscWorld = self.miscWorldSaveData.GetMiscWorld();
+            var miscProg = self.progression.miscProgressionData.GetMiscProgression();
         
-        miscWorld.IsNewGame = false;
+            miscWorld.IsNewGame = false;
 
-        if (!miscWorld.IsPearlcatStory)
-        {
-            return orig(self);
+            if (miscWorld.IsPearlcatStory)
+            {
+                miscProg.IsNewPearlcatSave = false;
+                miscProg.Ascended = self.deathPersistentSaveData.ascended;
+
+                if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.JustAscended)
+                {
+                    SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Sick);
+                    //Plugin.Logger.LogWarning("SET SICK SELECT SCREEN");
+                }
+                else if (self.deathPersistentSaveData.ascended)
+                {
+                    SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Ascended);
+                    //Plugin.Logger.LogWarning("SET ASCENDED SELECT SCREEN");
+                }
+                else
+                {
+                    SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
+                    //Plugin.Logger.LogWarning("SET DEFAULT SELECT SCREEN");
+                }
+            }
         }
-
-
-        miscProg.IsNewPearlcatSave = false;
-        miscProg.Ascended = self.deathPersistentSaveData.ascended;
-
-        if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.JustAscended)
+        catch (Exception e)
         {
-            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Sick);
-        }
-        else if (self.deathPersistentSaveData.ascended)
-        {
-            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Ascended);
-        }
-        else
-        {
-            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, null);
+            Plugin.Logger.LogError("PEARLCAT SAVE TO STRING EXCEPTION:\n" + e);
         }
 
         return orig(self);

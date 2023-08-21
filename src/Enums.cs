@@ -68,7 +68,12 @@ public static class Enums
         public static SceneID Slugcat_Pearlcat = new(nameof(Slugcat_Pearlcat), false);
         public static SceneID Slugcat_Pearlcat_Sick = new(nameof(Slugcat_Pearlcat_Sick), false);
         public static SceneID Slugcat_Pearlcat_Ascended = new(nameof(Slugcat_Pearlcat_Ascended), false);
+
         public static SceneID Slugcat_Pearlcat_Sleep = new(nameof(Slugcat_Pearlcat_Sleep), false);
+
+        public static SceneID Slugcat_Pearlcat_Statistics_Ascended = new(nameof(Slugcat_Pearlcat_Statistics_Ascended), false);
+        public static SceneID Slugcat_Pearlcat_Statistics_Sick = new(nameof(Slugcat_Pearlcat_Statistics_Sick), false);
+
 
         public static SlideShowID Pearlcat_AltOutro = new(nameof(Pearlcat_AltOutro), false);
 

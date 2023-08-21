@@ -198,11 +198,13 @@ public static partial class Hooks
                     save?.PearlSpears.Add(abstractSpear.ID.number, spearModule);
 
                     if (self.spearOnBack != null && (holdingSpear || self.onBack != null))
+                    {
                         self.spearOnBack.SpearToBack((Spear)abstractSpear.realizedObject);
-
+                    }
                     else
+                    {
                         self.SlugcatGrab(abstractSpear.realizedObject, self.FreeHand());
-
+                    }
 
                     ConnectEffect(playerModule.ActiveObject?.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
 
@@ -215,6 +217,8 @@ public static partial class Hooks
 
                         activeObj.destroyOnAbstraction = true;
                         activeObj.Abstractize(activeObj.pos);
+
+                        self.UpdateInventorySaveData(playerModule);
                     }
                 }
             }
