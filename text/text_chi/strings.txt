@@ -314,7 +314,7 @@ sleeve|sleeve
 Hello again.|你好。
 Cloud|Cloud
 And why... to me?|为什么……对我来说？
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.<LINE>Does not save over the current inventory - it is returned to when unchecked.|选中后，每个循环都会将背包中的珍珠都设为下列指定数量的珍珠。<LINE>不保存当前库存 - 未选中时返回。
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.<LINE>Does not save over the current inventory - it is returned to when unchecked.|选中后，每个循环都会将背包中的珍珠都设为下列指定数量的珍珠。<LINE>不覆盖当前背包 - 取消选中后返还覆盖前的珍珠。
 haloGlyph5|haloGlyph5
 Camo Pearl Count|迷彩珍珠数量
 tail|tail
