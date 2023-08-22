@@ -83,11 +83,9 @@ public partial class Hooks
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
         On.Leech.Attached += Leech_Attached;
-        On.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
 
         On.PlacedObject.FilterData.FromString += FilterData_FromString;
     }
-
 
     private static void FilterData_FromString(On.PlacedObject.FilterData.orig_FromString orig, PlacedObject.FilterData self, string s)
     {
@@ -96,19 +94,6 @@ public partial class Hooks
         if (!self.availableToPlayers.Contains(SlugcatStats.Name.Red) && self.availableToPlayers.Contains(Enums.Pearlcat))
         {
             self.availableToPlayers.Remove(Enums.Pearlcat);
-        }
-    }
-
-    private static void RainWorldGame_BeatGameMode(On.RainWorldGame.orig_BeatGameMode orig, RainWorldGame game, bool standardVoidSea)
-    {
-        orig(game, standardVoidSea);
-
-        if (standardVoidSea && game.IsPearlcatStory())
-        {
-            Plugin.Logger.LogInfo("PEARLCAT VOID SEA ENDING");
-
-            var save = game.GetMiscProgression();
-            save.JustAscended = true;
         }
     }
 
@@ -338,13 +323,13 @@ public partial class Hooks
 
     private static void OE_GourmandEnding_Update(On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.orig_Update orig, MSCRoomSpecificScript.OE_GourmandEnding self, bool eu)
     {
-        //if (self.room.world.game.IsPearlcatStory())
-        //{
-        //    var miscWorld = self.room.world.game.GetMiscWorld();
-        //    var miscProg = self.room.world.game.GetMiscProgression();
+        if (self.room.world.game.IsPearlcatStory())
+        {
+            var miscWorld = self.room.world.game.GetMiscWorld();
+            var miscProg = self.room.world.game.GetMiscProgression();
 
-        //    if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.HasOEEnding) return;
-        //}
+            if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.HasOEEnding) return;
+        }
 
         orig(self, eu);
     }

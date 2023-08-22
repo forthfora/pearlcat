@@ -216,7 +216,6 @@ public static partial class Hooks
             miscProg.HasOEEnding = false;
             miscProg.HasPearlpup = false;
             miscProg.Ascended = false;
-            miscProg.JustAscended = false;
         }
 
         miscProg.JustAscended = false;

@@ -17,6 +17,7 @@ public static partial class Hooks
         //IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
     }
 
+
     private static void RainWorldGame_GoToRedsGameOver(ILContext il)
     {
         var c = new ILCursor(il);

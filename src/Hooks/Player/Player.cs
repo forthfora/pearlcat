@@ -9,8 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using VoidSea;
 using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
+using MoreSlugcatsEnums = MoreSlugcats.MoreSlugcatsEnums;
 
 namespace Pearlcat;
 
@@ -40,10 +42,10 @@ public static partial class Hooks
         );
 
         On.Player.ctor += Player_ctor;
-
-        On.BodyChunk.Update += BodyChunk_Update;
         On.Creature.Grasp.Release += Grasp_Release;
 
+        On.VoidSea.VoidSeaScene.Update += VoidSeaScene_Update;
+       
         try
         {
             IL.Creature.Update += Creature_Update;
@@ -53,6 +55,35 @@ public static partial class Hooks
             Plugin.Logger.LogError("Player Hooks IL Exception: \n" + e);
         }
     }
+
+    private static void VoidSeaScene_Update(On.VoidSea.VoidSeaScene.orig_Update orig, VoidSeaScene self, bool eu)
+    {
+        orig(self, eu);
+
+        if (!self.room.game.IsPearlcatStory()) return;
+
+        foreach (var obj in self.room.updateList)
+        {
+            if (obj is not Player player) continue;
+
+            if (player.inVoidSea) continue;
+
+            if (!player.IsPearlpup()) continue;
+
+            player.inVoidSea = true;
+            self.UpdatePlayerInVoidSea(player);
+        }
+
+        if (self.deepDivePhase == VoidSeaScene.DeepDivePhase.EggScenario)
+        {
+            var save = self.room.abstractRoom.world.game.GetMiscProgression();
+            save.JustAscended = true;
+        }
+    }
+
+    // void sea limits (150 - 160) (4260 - 4275)
+    // tiles (-9) (214)
+    // only the first player does not have this issue at all
 
 
     private static void Grasp_Release(On.Creature.Grasp.orig_Release orig, Creature.Grasp self)
@@ -109,16 +140,6 @@ public static partial class Hooks
         // Plugin.Logger.LogWarning(c.Context);
     }
 
-    private static void BodyChunk_Update(On.BodyChunk.orig_Update orig, BodyChunk self)
-    {
-        if (self.owner is Player player && player.IsPearlpup() && (player.room?.roomSettings?.name == "SB_L01" || player.inVoidSea))
-        {
-            self.restrictInRoomRange = float.MaxValue;
-            self.defaultRestrictInRoomRange = float.MaxValue;
-        }
-
-        orig(self);
-    }
 
     private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
@@ -261,6 +282,7 @@ public static partial class Hooks
     {
         if (self.TryGetPearlcatModule(out var playerModule) && self.spearOnBack != null)
             playerModule.WasSpearOnBack = self.spearOnBack.HasASpear;
+
 
         orig(self, eu);
 

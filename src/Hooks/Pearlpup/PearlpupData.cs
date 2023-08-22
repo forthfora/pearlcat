@@ -1,5 +1,4 @@
-﻿
-using MoreSlugcats;
+﻿using MoreSlugcats;
 using System.Runtime.CompilerServices;
 
 namespace Pearlcat;
