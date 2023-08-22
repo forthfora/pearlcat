@@ -24,20 +24,21 @@ public static partial class Hooks
         return true;
     }
 
-    public static bool IsPearlpup(this Player pup) => pup.abstractCreature.Room.world.game.IsPearlcatStory() && pup.abstractCreature.Room.world.game.GetMiscWorld()?.PearlpupID == pup.abstractCreature.ID.number;
+    public static bool IsPearlpup(this Player player) => player.abstractCreature.IsPearlpup();
+    public static bool IsPearlpup(this AbstractCreature crit) => crit.Room.world.game.IsPearlcatStory() && crit.Room.world.game.GetMiscWorld()?.PearlpupID == crit.ID.number;
 
-    public static void MakePearlpup(this Player pup)
+    public static void MakePearlpup(this AbstractCreature crit)
     {
-        if (pup.SlugCatClass != MoreSlugcatsEnums.SlugcatStatsName.Slugpup) return;
+        if (crit.creatureTemplate.type != MoreSlugcatsEnums.CreatureTemplateType.SlugNPC) return;
 
-        if (IsPearlpup(pup)) return;
+        if (IsPearlpup(crit)) return;
 
-        var save = pup.abstractCreature.world.game.GetMiscWorld();
+        var save = crit.world.game.GetMiscWorld();
 
         if (save == null) return;
 
         if (save.PearlpupID != null) return;
 
-        save.PearlpupID = pup.abstractCreature.ID.number;
+        save.PearlpupID = crit.ID.number;
     }
 }

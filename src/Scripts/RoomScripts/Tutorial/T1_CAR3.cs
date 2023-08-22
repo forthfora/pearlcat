@@ -60,19 +60,19 @@ public class T1_CAR3 : UpdatableAndDeletable
                     if (ModManager.MSC)
                     {
                         var abstractSlugpup = new AbstractCreature(room.world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC), null, new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID());
+                        abstractSlugpup.MakePearlpup();
 
                         room.abstractRoom.entities.Add(abstractSlugpup);
                         abstractSlugpup.RealizeInRoom();
 
                         var slugpup = (Player)abstractSlugpup.realizedObject;
+
                         slugpup.SuperHardSetPosition(TutorialSlugpupPos);
                         slugpup.graphicsModule.Reset();
                         slugpup.playerState.foodInStomach = 3;
 
                         slugpup.Stun(40);
                         slugpup.Die();
-
-                        slugpup.MakePearlpup();
                     }
 
 

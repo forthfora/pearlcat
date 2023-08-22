@@ -156,6 +156,8 @@ public static partial class Hooks
     {
         orig(self, sLeaser, rCam);
 
+        //Plugin.Logger.LogWarning("INIT GRAPHICS");
+
         if (!self.player.TryGetPearlpupModule(out var module)) return;
 
         module.FirstSprite = sLeaser.sprites.Length;
@@ -190,6 +192,13 @@ public static partial class Hooks
         module.LoadEarRTexture("ear_r");
 
         self.AddToContainer(sLeaser, rCam, null);
+
+        //Plugin.Logger.LogWarning("----------------------------");
+        //for (int i = 0; i < sLeaser.sprites.Length; i++)
+        //{
+        //    FSprite? sprite = sLeaser.sprites[i];
+        //    Plugin.Logger.LogWarning(i + " - " + sprite.element.name);
+        //}
     }
 
     private static void GenerateScarfMesh(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PearlpupModule module)
@@ -489,7 +498,9 @@ public static partial class Hooks
         var attachPos = self.ScarfAttachPos(module, timeStacker);
         
         var scarf = module.Scarf;
-        var scarfSprite = (TriangleMesh)sLeaser.sprites[module.ScarfSprite];
+        var scarfSprite = sLeaser.sprites[module.ScarfSprite] as TriangleMesh;
+
+        if (scarfSprite == null) return;
         
         for (int i = 0; i < scarf.GetLength(0); i++)
         {

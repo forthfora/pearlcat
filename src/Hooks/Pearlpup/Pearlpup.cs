@@ -62,7 +62,7 @@ public static partial class Hooks
 
         if (!world.game.IsStorySession || save?.PearlpupID != null) return;
 
-        self.MakePearlpup();
+        self.abstractCreature.MakePearlpup();
     }
 
     private static void Player_UpdatePearlpup(On.Player.orig_Update orig, Player self, bool eu)
