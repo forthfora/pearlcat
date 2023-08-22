@@ -13,13 +13,14 @@ Pebbles sees a use for Pearlcat, and now will read your pearls too
 [/list][/b]
 [h1][b]+ Unique abilities for each pearl you store, depending on the color![/b][/h1]
 
-[b][u]Pearlcat does NOT require MSC, however it is strongly recommended[/u]
+[b][u]Pearlcat does NOT require More Slugcats (DLC), however it is strongly recommended[/u]
 
 [b]CREDITS:[/b]
 [b][list]
     [*]Geahgeah - Art & Design   
     [*]Sidera - SFX & Dialogue
     [*]Noir - Ear & Scarf Code
+    [*]Linnnnnna - Chinese Translation
 [/list][/b]
 [b]PLAYTESTERS:[/b]
 [b][list]
@@ -29,5 +30,8 @@ Pebbles sees a use for Pearlcat, and now will read your pearls too
     [*] Efi
     [*] WillowWisp
     [*] Lolight2
+    [*] mayhemmm
 [/list][/b]
 [b]Direct: [/b]https://github.com/forthbridge/pearlcat/releases
+
+[b][u]MergeFix is a soft dependency, not strictly required, but enabling it should resolve most world issues related to MSC & Remix load order[/u][/b]

@@ -20,6 +20,7 @@ Pebbles 看到了珍珠猫的用处，现在也会读取你的珍珠
     [*]Geahgeah - 艺术与设计
     [*]Sidera - 特效和对话
     [*]Noir - 耳朵和围巾代码
+    [*]Linnnnnna - 中文翻译
 [/list][/b]
 [b]游戏测试人员：[/b]
 [b][list]
@@ -29,5 +30,6 @@ Pebbles 看到了珍珠猫的用处，现在也会读取你的珍珠
     [*] Efi
     [*] WillowWisp
     [*] Lolight2
+    [*] mayhemmm
 [/list][/b]
-[b]Direct: [/b]https://github.com/forthbridge/pearlcat/releases
+[b]直接: [/b]https://github.com/forthbridge/pearlcat/releases
