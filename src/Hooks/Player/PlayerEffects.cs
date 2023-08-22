@@ -113,7 +113,7 @@ public static partial class Hooks
         //    "\nPoleClimb " + stats.poleClimbSpeedFac);
 
 
-        if (self.inVoidSea) return;
+        if (self.inVoidSea || !self.Consious || self.Sleeping) return;
 
         var activeObj = playerModule.ActiveObject;
 
