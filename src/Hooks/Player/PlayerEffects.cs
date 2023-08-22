@@ -161,10 +161,9 @@ public static partial class Hooks
         playerModule.ForceLockSpearOnBack = self.spearOnBack != null && (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20);
 
         var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule)
-            && !self.grasps.Any(x => x?.grabbed is Creature creature && 
-            ((creature.dead && PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(creature) > 0)
-            || (creature is Player player))
-        );
+            && !self.grasps.Any(x =>  x?.grabbed != null
+            && ((PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(x.grabbed) > 0 && (x.grabbed is not Creature crit || crit.dead))
+            || (x.grabbed is Player)));
 
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
 
