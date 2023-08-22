@@ -40,6 +40,11 @@ public partial class Hooks
                     var item = playerModule.Inventory[i];
 
                     player.RemoveFromInventory(item);
+                     
+                    if (player.abstractCreature.world.game.GetStorySession is StoryGameSession story)
+                    {
+                        story.RemovePersistentTracker(item);
+                    }
 
                     item.destroyOnAbstraction = true;
                     item.Abstractize(item.pos);
