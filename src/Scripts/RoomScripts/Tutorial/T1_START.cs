@@ -37,8 +37,6 @@ public class T1_START : UpdatableAndDeletable
         {
             if (crit.realizedCreature is not Player player) continue;
 
-            if (!player.TryGetPearlcatModule(out var playerModule)) return;
-
             if (CurrentPhase == Phase.Init)
             {
                 player.playerState.foodInStomach = 6;
@@ -46,7 +44,7 @@ public class T1_START : UpdatableAndDeletable
 
                 player.controller = new PearlcatController(new(this, player.playerState.playerNumber));
 
-                if (!ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value && player.playerState.playerNumber == 0)
+                if (player.TryGetPearlcatModule(out var playerModule) && !ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value && player.playerState.playerNumber == 0)
                 {
                     // Clear default pearls
                     for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
@@ -80,7 +78,9 @@ public class T1_START : UpdatableAndDeletable
             }
 
             if (player.controller is PearlcatController pearlcatController)
+            {
                 pearlcatController.Owner.Update();
+            }
         }
 
 
