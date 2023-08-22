@@ -328,7 +328,7 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(DisableCosmetics);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(2);
+        AddNewLine(1);
 
         AddTextLabel("Special thanks to the following people!", bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
@@ -338,6 +338,11 @@ public sealed class ModOptions : OptionsTemplate
         AddTextLabel("Geahgeah " + Translate("- Artwork"), translate: false);
         AddTextLabel("Sidera " + Translate("- Dialogue, SFX"), translate: false);
         AddTextLabel("Noir " + Translate("- Floppy Ears, Scarf"), translate: false);
+        DrawTextLabels(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+
+        AddTextLabel("Linnnnnna " + Translate("- Chinese Translation"), translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine(1);
@@ -361,7 +366,7 @@ public sealed class ModOptions : OptionsTemplate
         DrawTextLabels(ref Tabs[tabIndex]);
 
 
-        AddNewLine(2);
+        AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
 
         if (GetConfigurable(DisableCosmetics, out OpCheckBox checkBox))

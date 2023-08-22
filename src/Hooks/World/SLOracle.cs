@@ -31,8 +31,6 @@ public static partial class Hooks
 
         void Say(string text) => self.dialogBox.NewMessage(t.Translate(text), 10);
 
-        Plugin.Logger.LogWarning(save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode);
-
         if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
         {
             if (save.MoonSickPupMeetCount == 0)

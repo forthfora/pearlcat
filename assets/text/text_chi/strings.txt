@@ -571,3 +571,4 @@ pearlcatScarfC0|pearlcatScarfC0
 Revive Pearl Count|复活珍珠数量
 pearlactivehalo|pearlactivehalo
 Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|可同时存储的最大珍珠数量，包括激活的珍珠。默认值为9。按住并向上或向下拖动以更改数值。
+- Chinese Translation|- 中文翻译
