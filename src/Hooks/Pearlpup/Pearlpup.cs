@@ -1,7 +1,9 @@
 ﻿
+using MonoMod.RuntimeDetour;
 using MoreSlugcats;
 using System;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -18,7 +20,57 @@ public static partial class Hooks
         On.Player.CanIPickThisUp += Player_CanIPickThisUp;
 
         On.RedsIllness.RedsIllnessEffect.CanShowPlayer += RedsIllnessEffect_CanShowPlayer;
+
+        On.RedsIllness.AddFood += RedsIllness_AddFood;
+        On.RedsIllness.AddQuarterFood += RedsIllness_AddQuarterFood;
+
+        //new Hook(
+        //    typeof(RedsIllness).GetProperty(nameof(RedsIllness.FoodFac), BindingFlags.Instance | BindingFlags.NonPublic).GetGetMethod(),
+        //    typeof(Hooks).GetMethod(nameof(GetRedsIllnessFoodFac), BindingFlags.Static | BindingFlags.Public)
+        //);
     }
+
+    //public delegate float orig_RedsIllnessFoodFac(RedsIllness self);
+    //public static float GetRedsIllnessFoodFac(orig_RedsIllnessFoodFac orig, RedsIllness self)
+    //{
+    //    if (self.player?.IsPearlpup() == true)
+    //        return 0.5f;
+
+    //    return orig(self);
+    //}
+
+    private static void RedsIllness_AddFood(On.RedsIllness.orig_AddFood orig, RedsIllness self, int i)
+    {
+        if (!self.player.IsPearlpup())
+        {
+            orig(self, i);
+            return;
+        }
+
+        var foodFac = 1.0f;
+        var num = Math.Min(i * foodFac, self.player.slugcatStats.maxFood - self.player.playerState.foodInStomach);
+
+        self.totFoodCounter += num / foodFac;
+        self.floatFood += num;
+        self.UpdateFood();
+    }
+
+    private static void RedsIllness_AddQuarterFood(On.RedsIllness.orig_AddQuarterFood orig, RedsIllness self)
+    {
+        if (!self.player.IsPearlpup())
+        {
+            orig(self);
+            return;
+        }
+
+        var foodFac = 1.0f;
+        var num = Math.Min(0.25f * foodFac, self.player.slugcatStats.maxFood - self.player.playerState.foodInStomach);
+
+        self.totFoodCounter += num / foodFac;
+        self.floatFood += num;
+        self.UpdateFood();
+    }
+
 
     private static bool RedsIllnessEffect_CanShowPlayer(On.RedsIllness.RedsIllnessEffect.orig_CanShowPlayer orig, Player player)
     {
@@ -96,7 +148,7 @@ public static partial class Hooks
         {
             //stats.foodToHibernate = stats.maxFood;
 
-            self.redsIllness ??= new(self, -1);
+            self.redsIllness ??= new(self, 10);
             self.redsIllness.Update();
         }   
 
