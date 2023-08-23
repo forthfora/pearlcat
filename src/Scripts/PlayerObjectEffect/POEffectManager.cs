@@ -105,7 +105,7 @@ public static class POEffectManager
         Misc.ThrowingSkill = 0.2f;
         Misc.MajorEffect = MajorEffectType.SPEAR_CREATION;
         Misc.ActiveMultiplier = 2.0f;
-        Misc.LungsFac = 0.05f;
+        Misc.LungsFac = -0.05f;
         Misc.RunSpeedFac = 0.05f;
         Misc.PoleClimbSpeedFac = 0.05f;
         Misc.CorridorClimbSpeedFac = 0.05f;
@@ -121,7 +121,7 @@ public static class POEffectManager
 
 
         Color = None;
-        Color.LungsFac = -0.05f;
+        Color.LungsFac = 0.05f;
         Color.RunSpeedFac = -0.05f;
         Color.PoleClimbSpeedFac = -0.05f;
         Color.CorridorClimbSpeedFac = -0.05f;

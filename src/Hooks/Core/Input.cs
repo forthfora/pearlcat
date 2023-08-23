@@ -92,12 +92,12 @@ public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModul
 
     public static int GetNumberPressed(this Player player)
     {
-        if (player.input[0].controllerType != Options.ControlSetup.Preset.KeyboardSinglePlayer)
-            return -1;
+        //if (player.input[0].controllerType != Options.ControlSetup.Preset.KeyboardSinglePlayer)
+        //    return -1;
 
-        for (int number = 0; number <= 9; number++)
-            if (Input.GetKey(number.ToString()))
-                return number;
+        //for (int number = 0; number <= 9; number++)
+        //    if (Input.GetKey(number.ToString()))
+        //        return number;
 
         return -1;
     }

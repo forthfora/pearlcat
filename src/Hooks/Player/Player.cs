@@ -496,14 +496,22 @@ public static partial class Hooks
         var save = self.abstractCreature.Room.world.game.GetMiscWorld();
         var miscProg = self.abstractCreature.Room.world.game.GetMiscProgression();
 
-
         miscProg.HasPearlpup = false;
-        if (save != null) save.HasPearlpupWithPlayer = false;
+        
+        if (save != null)
+        {
+            save.HasPearlpupWithPlayer = false;
+        }
 
         if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup))
         {
             miscProg.HasPearlpup = !pup.dead && pup.abstractCreature.Room == self.abstractCreature.Room;
-            if (save != null) save.HasPearlpupWithPlayer = miscProg.HasPearlpup;
+
+            if (save != null)
+            {
+                save.HasPearlpupWithPlayer = miscProg.HasPearlpup;
+            }
+
             return;
         }
 
@@ -525,7 +533,9 @@ public static partial class Hooks
         playerModule.PearlpupRef = null;
 
         if (save != null)
+        {
             save.PearlpupID = null;
+        }
     }
 
     private static void UpdateTryRevive(Player self, PlayerModule playerModule)

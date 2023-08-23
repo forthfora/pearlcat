@@ -96,7 +96,7 @@ public static partial class Hooks
         {
             //stats.foodToHibernate = stats.maxFood;
 
-            self.redsIllness ??= new(self, -20);
+            self.redsIllness ??= new(self, -1);
             self.redsIllness.Update();
         }   
 
@@ -105,8 +105,9 @@ public static partial class Hooks
         stats.loudnessFac = 1.35f;
 
         if (self.abstractCreature.Room.world.game.devToolsActive && Input.GetKey("q"))
+        {
             self.AddFood(1);
-        
+        }
 
         if (module.TextureUpdateTimer > self.TexUpdateInterval())
         {

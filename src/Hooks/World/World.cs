@@ -912,19 +912,33 @@ public partial class Hooks
 
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
     {
-        for (int i = 0; i < self.world.NumberOfRooms; i++)
+        try
         {
-            var abstractRoom = self.world.GetAbstractRoom(self.world.firstRoomIndex + i);
-
-            for (int j = abstractRoom.entities.Count - 1; j >= 0; j--)
+            for (int i = 0; i < self.world.NumberOfRooms; i++)
             {
-                var entity = abstractRoom.entities[j];
+                var abstractRoom = self.world.GetAbstractRoom(self.world.firstRoomIndex + i);
 
-                if (entity is not AbstractPhysicalObject abstractObject) continue;
+                for (int j = abstractRoom.entities.Count - 1; j >= 0; j--)
+                {
+                    var entity = abstractRoom.entities[j];
 
-                if (abstractObject.IsPlayerObject())
-                    abstractRoom.RemoveEntity(entity);
+                    if (entity is not AbstractPhysicalObject abstractObject) continue;
+
+                    if (abstractObject.IsPlayerObject())
+                    {
+                        if (abstractObject.world.game.IsStorySession)
+                        {
+                            abstractObject.world.game.GetStorySession.RemovePersistentTracker(abstractObject);
+                        }
+
+                        abstractRoom.RemoveEntity(entity);
+                    }
+                }
             }
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogWarning("ERROR REMOVING PERSISTENT TRACKERS FROM STORED OBJECTS: \n" + e);
         }
 
         orig(self, playerShelter, activeGate);

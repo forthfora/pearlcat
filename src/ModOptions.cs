@@ -92,8 +92,7 @@ public sealed class ModOptions : OptionsTemplate
 
 
     public static Configurable<bool> InventoryOverride { get; } = Instance.config.Bind(nameof(InventoryOverride), false, new ConfigurableInfo(
-        "When checked, sets the inventory to the specified numbers of coloured pearls below every cycle." +
-        "<LINE>Does not save over the current inventory - it is returned to when unchecked.", null, "",
+        "When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.", null, "",
         "Inventory Override?"));
 
     public static Configurable<bool> StartingInventoryOverride { get; } = Instance.config.Bind(nameof(StartingInventoryOverride), false, new ConfigurableInfo(
@@ -416,6 +415,7 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(EnableBackSpear);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
+        // lazy fix
         AddCheckBox(InventoryOverride);
         AddCheckBox(StartingInventoryOverride);
         DrawCheckBoxes(ref Tabs[tabIndex]);

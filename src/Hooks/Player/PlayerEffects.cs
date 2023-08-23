@@ -159,11 +159,37 @@ public static partial class Hooks
         if (playerModule.SpearCount <= 0) return;
 
         playerModule.ForceLockSpearOnBack = self.spearOnBack != null && (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20);
+        
+        bool IsHoldingFoodOrPlayer(Player player)
+        {
+            var grasps = player.grasps;
 
-        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule)
-            && !self.grasps.Any(x =>  x?.grabbed != null
-            && ((PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(x.grabbed) > 0 && (x.grabbed is not Creature crit || crit.dead))
-            || (x.grabbed is Player)));
+            foreach (var grasp in grasps)
+            {
+                if (grasp == null) continue;
+
+                if (grasp.grabbed is Player)
+                    return true;
+
+
+                // not hungry
+                if (self.CurrentFood == self.slugcatStats.maxFood) continue;
+
+                if (grasp.grabbed is Creature creature && creature.dead && PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(creature) > 0)
+                    return true;
+
+
+                // not a consumable object
+                if (grasp.grabbed?.abstractPhysicalObject is not AbstractConsumable) continue;
+
+                if (grasp.grabbed?.abstractPhysicalObject is AbstractConsumable consumable && PlayerFeatures.Diet.TryGet(self, out diet) && diet.GetFoodMultiplier(consumable.realizedObject) > 0)
+                    return true;
+            }
+
+            return false;
+        }
+
+        var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) && !self.IsStoreKeybindPressed(playerModule) && !IsHoldingFoodOrPlayer(self);
 
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
 
