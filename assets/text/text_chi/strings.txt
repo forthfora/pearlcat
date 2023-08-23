@@ -221,7 +221,7 @@ ear_r_offset|ear_r_offset
 Intro3_3|Intro3_3
 CloudDistant|CloudDistant
 scarf|scarf
-Intended for fun, may change gameplay significantly!|旨在娱乐，可能会显着改变游戏玩法！
+Intended for fun, may change gameplay significantly!|旨在娱乐，可能会显著改变你的游戏体验！
 Keyboard|键盘
 Cloak|Cloak
 Sleeve|Sleeve
@@ -314,7 +314,7 @@ sleeve|sleeve
 Hello again.|你好。
 Cloud|Cloud
 And why... to me?|为什么……对我来说？
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|选中后，每个循环都会将背包中的珍珠都设为下列指定数量的珍珠。不保存当前库存 - 未选中时返回。
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|选中后，每个循环都会将背包中的珍珠都设为下列指定数量的珍珠。不覆盖当前背包 - 取消选中后返还覆盖前的珍珠。
 haloGlyph5|haloGlyph5
 Camo Pearl Count|迷彩珍珠数量
 tail|tail
@@ -322,7 +322,7 @@ TurtleMan27|TurtleMan27
 store_object_delay|store_object_delay
 Chimney Canopy|烟囱顶篷
 Version|版本
-Laser Windup TIme|激光后摇时间
+Laser Windup TIme|激光蓄能时间
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|但……你所拥有的印记，很不寻常。<LINE>不是在本地群组中的任何人能够给予的……
 LC_T1_S01|LC_T1_S01
 pearlactive|pearlactive
@@ -361,7 +361,7 @@ Something else new? Allow me to see...|还有什么新东西吗？让我看看�
 GateHologram|GateHologram
 oa_max_dist|oa_max_dist
 I very much enjoy the company though... you and your little friend are always welcome here.|不过，我非常喜欢有人陪着我……随时欢迎你和你的小朋友来这。
-PEBBLES GIVE SS PEARL|卵石赋予 SS 珍珠
+PEBBLES GIVE SS PEARL|PEBBLES GIVE SS PEARL
 Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|红色珍珠在获取目标后激光发射的时间（以帧为单位）。默认1.5秒。
 Swap Right|与右侧交换
 BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|蓝色象征敏捷。每颗存储的蓝色珍珠都会提供一段额外的二段跳
