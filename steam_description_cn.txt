@@ -21,6 +21,7 @@
     [*]Sidera - 特效和对话
     [*]Noir - 耳朵和围巾代码
     [*]Linnnnnna - 中文翻译
+    [*]Kimi - 附加插图
 [/list][/b]
 [b]游戏测试人员：[/b]
 [b][list]
