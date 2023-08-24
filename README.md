@@ -7,6 +7,7 @@
 - Sidera - SFX & Dialogue
 - Noir - Ear & Scarf Code
 - Linnnnnna - Chinese Translation
+- Kimi - Additional Art
 
 ## Playtesters
 - TurtleMan27
