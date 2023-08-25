@@ -55,6 +55,10 @@ public static partial class Hooks
     {
         orig(self, eu);
 
+        if (!self.oracle.room.game.IsPearlcatStory()) return;
+
+        if (self.timeSinceSeenPlayer == -1) return;
+
         if (self.getToWorking == 0.0f) return;
 
         var module = self.GetModule();
@@ -128,7 +132,12 @@ public static partial class Hooks
         var result = orig(self);
 
         if (self.room.game.IsPearlcatStory())
-            return false;
+        {
+            if (self.oracle?.oracleBehavior is SSOracleBehavior behavior && behavior.timeSinceSeenPlayer >= 0)
+            {
+                return false;
+            }
+        }
 
         return result;
     }

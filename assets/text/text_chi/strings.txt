@@ -519,6 +519,7 @@ pearlcat_hudlockedshortcut|Pearlcat_hudlockedshortcut
 Swap Input|交换输入
 - Artwork|- 插图
 Pearlcat|珍珠猫
+PEARLCAT|珍珠猫
 Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|每颗色红珍珠在每次射击时激光造成伤害。幸存者长矛的伤害 = 1.0
 Cheats|作弊
 \nLungsFac |\nLungsFac

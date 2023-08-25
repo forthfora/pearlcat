@@ -2,7 +2,7 @@
   "Title": "Pearlcat",
   "Description": "[h1][b]An enigmatic scholar from a faraway land, gifted with the unusual ability to harness pearls![/b][/h1]\r\n\r\n[h1][b]Armed with this knowledge, face peril and protect your pup - all on your journey to discover the world and its mysteries...[/b][/h1]\r\n\r\n[h1][b]FEATURES:[/b][/h1]\r\n[b][list]\r\n    [*]Carry and store many pearls at once\r\n    \r\n    [*]Unique interactions with Pebbles and Moon!\r\nPebbles sees a use for Pearlcat, and now will read your pearls too\r\n    \r\n    [*]New cutscenes\r\n[/list][/b]\r\n[h1][b]\u002B Unique abilities for each pearl you store, depending on the color![/b][/h1]\r\n\r\n[b][u]Pearlcat does NOT require More Slugcats (DLC), however it is strongly recommended[/u]\r\n\r\n[b]CREDITS:[/b]\r\n[b][list]\r\n    [*]Geahgeah - Art \u0026 Design   \r\n    [*]Sidera - SFX \u0026 Dialogue\r\n    [*]Noir - Ear \u0026 Scarf Code\r\n    [*]Linnnnnna - Chinese Translation\r\n[/list][/b]\r\n[b]PLAYTESTERS:[/b]\r\n[b][list]\r\n    [*] TurtleMan27\r\n    [*] Balagaga\r\n    [*] Elliot\r\n    [*] Efi\r\n    [*] WillowWisp\r\n    [*] Lolight2\r\n    [*] mayhemmm\r\n[/list][/b]\r\n[b]Direct: [/b]https://github.com/forthbridge/pearlcat/releases\r\n\r\n[b][u]MergeFix is a soft dependency, not strictly required, but enabling it should resolve most world issues related to MSC \u0026 Remix load order[/u][/b]",
   "ID": "pearlcat",
-  "Version": "1.1.0",
+  "Version": "1.1.2",
   "TargetGameVersion": "v1.9.07b",
   "Requirements": "slime-cubed.slugbase,crs",
   "RequirementNames": "SlugBase,Custom Regions Support",

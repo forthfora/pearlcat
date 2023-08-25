@@ -450,6 +450,15 @@ public static partial class Hooks
         holoLightSprite.SetPosition(bodySprite.GetPosition());
         holoLightSprite.color = new(0.384f, 0.184f, 0.984f, 1.0f);
 
+        if (self.player.inVoidSea)
+        {
+            markSprite.alpha = 0.0f;
+        }
+
+        if (playerModule.ActiveObject != null)
+        {
+            markSprite.y += 10.0f;
+        }
 
         if (ModOptions.DisableCosmetics.Value)
         {
@@ -576,17 +585,6 @@ public static partial class Hooks
         sleeveRSprite.color = cloakColor;
 
         markSprite.color = playerModule.ActiveColor;
-
-        if (self.player.inVoidSea)
-        {
-            markSprite.alpha = 0.0f;
-        }
-
-
-        if (playerModule.ActiveObject != null)
-        {
-            markSprite.y += 10.0f;
-        }
 
         tailSprite.color = Color.white;
         earLSprite.color = Color.white;

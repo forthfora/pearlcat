@@ -113,7 +113,7 @@ public static partial class Hooks
         //    "\nPoleClimb " + stats.poleClimbSpeedFac);
 
 
-        if (self.inVoidSea || !self.Consious || self.Sleeping) return;
+        if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller != null) return;
 
         var activeObj = playerModule.ActiveObject;
 
@@ -182,7 +182,7 @@ public static partial class Hooks
                 // not a consumable object
                 if (grasp.grabbed?.abstractPhysicalObject is not AbstractConsumable) continue;
 
-                if (grasp.grabbed?.abstractPhysicalObject is AbstractConsumable consumable && PlayerFeatures.Diet.TryGet(self, out diet) && diet.GetFoodMultiplier(consumable.realizedObject) > 0)
+                if (grasp.grabbed?.abstractPhysicalObject is AbstractConsumable consumable && consumable.realizedObject != null && PlayerFeatures.Diet.TryGet(self, out diet) && diet.GetFoodMultiplier(consumable.realizedObject) > 0)
                     return true;
             }
 

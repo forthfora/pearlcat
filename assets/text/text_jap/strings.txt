@@ -125,6 +125,7 @@ SB|SB
 L-Stick|Lスティック
 store_object_delay|ストアオブジェクト遅延
 Pearlcat|パールキャット
+PEARLCAT|パールキャット
 The Pearlcat|パールキャット
 Keybind for Player 4.|プレイヤー 4 のキーバインド。
 Keybind for Player 1.|プレイヤー 1 のキーバインド。

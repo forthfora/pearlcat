@@ -107,6 +107,7 @@ pearlpup_face|perlapup_face
 pearlcat_agilitysentry|perlacat_agilitysentry
 And please keep your child under control.|Y por favor mantenga a su hijo bajo control.
 The Pearlcat|El gato perlado
+PEARLCAT|GATO PERLADO
 train_view_yshift|tren_vista_yshift
 body|cuerpo
  SAVE|AHORRAR
