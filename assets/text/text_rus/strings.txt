@@ -106,7 +106,8 @@ Keybind for Player 2.|Связка клавиш для игрока 2.
 pearlpup_face|жемчужный_лицо
 pearlcat_agilitysentry|Pearlcat_agilitysentry
 And please keep your child under control.|И, пожалуйста, держите ребенка под контролем.
-The Pearlcat|Жемчужная кошка
+The Pearlcat|Жемчугокот
+PEARLCAT|ЖЕМЧУГОКОТ
 train_view_yshift|train_view_yshift
 body|тело
  SAVE|СОХРАНЯТЬ

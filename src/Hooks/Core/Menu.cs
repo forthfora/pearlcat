@@ -262,8 +262,10 @@ public static partial class Hooks
             //}
         }
 
-        // without MSC the main menu updates at a lower speed?
-        MenuPearlAnimStacker += !ModManager.MSC && self.sceneID.value == "Slugcat_Pearlcat" ? 3 : 1;
+        if (self.menu is not SlugcatSelectMenu)
+        {
+            MenuPearlAnimStacker += 1; // hacky
+        }
     }
 
     private static void UpdateSickScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
@@ -658,6 +660,8 @@ public static partial class Hooks
     private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)
     {
         orig(self);
+
+        MenuPearlAnimStacker += 9; // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol
 
         var page = self.slugcatPages[self.slugcatPageIndex];
 

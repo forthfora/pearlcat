@@ -305,7 +305,7 @@ public static partial class Hooks
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
         var unblockedInput = playerModule.UnblockedInput;
-        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping;
+        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && self.controller == null;
 
         bool swapLeftInput = self.IsSwapLeftInput() && allowInput;
         bool swapRightInput = self.IsSwapRightInput() && allowInput;

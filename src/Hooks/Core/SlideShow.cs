@@ -29,6 +29,8 @@ public static partial class Hooks
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Action<RainWorldGame>>((self) =>
         {
+            if (self.GetStorySession?.saveStateNumber != Enums.Pearlcat) return;
+
             self.manager.statsAfterCredits = true;
             self.manager.nextSlideshow = Enums.Scenes.Pearlcat_AltOutro;
             self.manager.RequestMainProcessSwitch(ProcessManager.ProcessID.SlideShow);

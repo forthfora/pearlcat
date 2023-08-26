@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using RWCustom;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -119,18 +120,20 @@ public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModul
         if (!int.TryParse(keyCodeChar, out var buttonNum))
             return keyCode.ToString();
 
+        var t = Custom.rainWorld.inGameTranslator;
+
         return buttonNum switch
         {
-            0 => "Button South",
-            1 => "Button East",
-            2 => "Button West",
-            3 => "Button North",
-            4 => "Left Bumper",
-            5 => "Right Bumper",
-            6 => "Menu",
-            7 => "View",
-            8 => "L-Stick",
-            9 => "R-Stick",
+            0 => t.Translate("Button South"),
+            1 => t.Translate("Button East"),
+            2 => t.Translate("Button West"),
+            3 => t.Translate("Button North"),
+            4 => t.Translate("Left Bumper"),
+            5 => t.Translate("Right Bumper"),
+            6 => t.Translate("Menu"),
+            7 => t.Translate("View"),
+            8 => t.Translate("L-Stick"),
+            9 => t.Translate("R-Stick"),
 
             _ => keyCode.ToString(),
         };

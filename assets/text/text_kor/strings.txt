@@ -107,6 +107,7 @@ pearlpup_face|pearlpup_face
 pearlcat_agilitysentry|pearlcat_agilitysentry
 And please keep your child under control.|그리고 자녀를 통제하십시오.
 The Pearlcat|펄캣
+PEARLCAT|펄캣
 train_view_yshift|train_view_yshift
 body|몸
  SAVE|구하다

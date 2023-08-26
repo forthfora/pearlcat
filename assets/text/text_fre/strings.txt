@@ -521,7 +521,8 @@ You have a knack for finding these pearls, yes?|Vous avez le don de trouver ces 
 pearlcat_hudlockedshortcut|pearlcat_hudlockedshortcut
 Swap Input|Permuter l'entrée
 - Artwork|- Ouvrages d'art
-Pearlcat|Perlecat
+Pearlcat|Chat de Perlé
+PEARLCAT|CHAT DE PERLE
 Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Dommages que le laser de chaque perle rouge fait par tir. Dégâts de la lance du survivant = 1,0
 Cheats|Astuces
 \nLungsFac |\nLungsFac

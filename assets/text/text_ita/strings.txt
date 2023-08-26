@@ -124,7 +124,8 @@ Hologram|Ologramma
 SB|SB
 L-Stick|Bastone a L
 store_object_delay|store_object_delay
-Pearlcat|Pearlcat
+Pearlcat|Gatto delle Pearle
+PEARLCAT|GATTO DELLE PEARLE
 The Pearlcat|Il gatto delle perle
 Keybind for Player 4.|Combinazione di tasti per il giocatore 4.
 Keybind for Player 1.|Combinazione di tasti per il giocatore 1.

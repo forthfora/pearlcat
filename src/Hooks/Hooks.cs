@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -69,7 +70,13 @@ public static partial class Hooks
 
             AssetLoader.LoadAssets();
 
-            Plugin.Logger.LogInfo("PEARLCAT INIT: VERSION " +  Plugin.VERSION);
+
+            var initMessage = "PEARLCAT SAYS HELLO FROM INIT! (VERSION: " + Plugin.VERSION + ")";
+
+            Debug.Log(initMessage);
+
+            Plugin.Logger.LogInfo("START OF BEPINEX LOG");
+            Plugin.Logger.LogInfo(initMessage);
         }
         catch (Exception e)
         {
