@@ -31,7 +31,7 @@ PEARLCAT VOID SEA ENDING|PEARLCAT VOID SEA ENDING
 I do not know what to make of this.|我不知道该怎么办。
 Software|Software
 LizardBubble6|LizardBubble6
----------------------------------------------------------------|-------------------------------------------------- -------------
+---------------------------------------------------------------|---------------------------------------------------------------
 5|5
 Hold (|按住 （
 pearlcat_0|pearlcat_0
@@ -41,7 +41,7 @@ MSC|MSC
 The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|你所拥有的力量，令人着迷。我从来没有在你的族群中见过类似的东西。
 Hologram|Hologram
 Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|可悲的是，不幸并不会区别对待。我希望更好的命运在等待着你。
-I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|我希望雨循环待你很好……在外面互相照顾对方一定很困难。
+I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|我希望你一切安好……在外面互相照顾对方一定很困难。
 Shield Pearl Count|护盾珍珠数量
 CC|CC
 Please... this all I have left... you have so much... ...why take mine?|求求你……这是我仅剩的……你有这么多……为什么要拿走我的？
@@ -76,7 +76,7 @@ Trigger Player|手柄玩家
 BigGlyph12|BigGlyph12
 Intro5_3|Intro5_3
 T1_CAR2|T1_CAR2
-My neighbour, Five Pebbles, is a little temperamental, but means well.|我的邻居，五块卵石虽然脾气不好，但他好意的。
+My neighbour, Five Pebbles, is a little temperamental, but means well.|我的邻居，五块卵石，虽然有点小脾气，但他是好意的。
 Visibility Multiplier|可见度乘数
 PLAYTESTERS|游戏测试员
 pearlpup_tail|pearlpup_tail
@@ -86,7 +86,7 @@ Head|Head
 When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|选中后，将使用下方的选项覆盖起始珍珠。与背包覆盖？不同，此选项仅在开始新游戏时生效。
 I see you have not found a cure for their illness. Not yet...|看起来你还没有找到治愈他们疾病的方法。还没有……
 pearlcat_light0|pearlcat_light0
-I... wish there was more I could do... but even... nevermind in my current state.|我……希望我能做的更多……但……就我现在的状态来说……没关系。
+I... wish there was more I could do... but even... nevermind in my current state.|我……希望我能做的更多……但……就我现在的状态来说……做不到。
 Agility Pearl Count|敏捷珍珠数量
 #|#
 pearlcat_spire1|Pearlcat_spire1
@@ -98,7 +98,7 @@ warp|warp
 Hide Pearls?|隐藏珍珠？
 98ab95|98ab95
 LC|LC
-In any case, you are welcome to stay as long as you like. Anything to ease the pain.|无论如何，只要你愿意，我都欢迎你留下来。只要能减轻痛苦就行。
+In any case, you are welcome to stay as long as you like. Anything to ease the pain.|无论如何，只要你愿意，我都欢迎你留下来。只要能减轻你的痛苦就好。
 pearlcat_daysky|pearlcat_daysky
 Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|首选使用下方的自定义按键来创建珍珠矛，而非默认的（抓取）
 Keybind for Player 2.|玩家 2 的按键。
@@ -162,11 +162,11 @@ When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sp
 pup|pup
 Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|黄色珍珠护盾在激活后的持续时间（以帧为单位）。默认1.5秒。
 oa_min_speed|oa_min_speed
-They are unwell, <PlayerName>, very unwell indeed.|他们不舒服，<PlayerName>，确实非常不舒服。
+They are unwell, <PlayerName>, very unwell indeed.|它很不舒服，<PlayerName>，非常不舒服。
 L-Stick|L-Stick
  - | - 
 It appears to contain a hymn that once meant a lot to the inhabitants of my city...|它似乎包含了一首曾对我的城市居民意义重大的赞美诗……
-...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|……目前，我对你的猫崽无能为力。很抱歉。我会……考虑一下。
+...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|……目前，我对你的猫崽无能为力。我很遗憾。我会……考虑一下。
 The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|远处的广阔空间将是你养家糊口的安全之地，并且远离我的事业。
 RW_Outro_Theme_B|RW_Outro_Theme_B
 Player 4|玩家 4
@@ -328,7 +328,7 @@ LC_T1_S01|LC_T1_S01
 pearlactive|pearlactive
 The Gutter|The Gutter
 OnModsInit:\n|OnModsInit:\n
-You must be very brave to have made it all the way here. Very brave indeed...|你能穿过艰难险阻来到这里，一定很勇敢。确实非常勇敢……
+You must be very brave to have made it all the way here. Very brave indeed...|你能穿过艰难险阻来到这里，一定很勇敢。非常非常勇敢……
 Assembly-CSharp|Assembly-CSharp
 .NETFramework,Version=v4.8|.NETFramework,Version=v4.8
 Number of agility pearls (blue). Effective only when Inventory Override? is checked.|敏捷珍珠数量（蓝色）。仅在选中背包覆盖？后生效。
@@ -347,7 +347,7 @@ soundeffects/ambient|soundeffects/ambient
 View|查看
 Face|Face
 pearlcat_spear|pearlcat_spear
-I am so sorry.|我很抱歉。
+I am so sorry.|我很遗憾。
 I would guess they will grow up into quite the scholar themself, someday...|我想，他们在某天会成长为学者……
 A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|来历不明的学者，有着神秘的能量和对知识的渴望。<LINE>身体虚弱，但拥有珍珠作为你的盟友 - 你会在旅途中发现什么？
 UW|UW
@@ -504,8 +504,8 @@ When checked, disables the shield effect granted by an active pearl.|选中后�
 RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|红色象征力量。当激活红色珍珠时，离你最近的敌对生物会成为目标
 I know that quite well.|我很清楚这一点。
 Another? And I shall read this one to you as well...|另一个？我也会将这个读给你听……
-You are welcome to stay as long as you like. Anything to ease the pain.|无论如何，只要你愿意，我都欢迎你留下来。只要能减轻痛苦就行。
-...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|……但……我现在会想一下你的问题。也许我能为我们俩都找到一个解决办法。
+You are welcome to stay as long as you like. Anything to ease the pain.|无论如何，只要你愿意，我都欢迎你留下来。只要能减轻你的痛苦就好。
+...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|……但现在……我会考虑一下你的问题。也许我能为我们俩都找到一个解决方案。
 _sprites|_sprites
 No, I do not care for your little one.|不，我不关心你的小家伙。
 pearlcatFeetA0|pearlcatFeetA0
