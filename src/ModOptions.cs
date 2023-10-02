@@ -207,25 +207,22 @@ public sealed class ModOptions : OptionsTemplate
         "Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)",
         null, "", "Custom Agility Keybind?"));
 
-    public static Configurable<bool> CustomSentryKeybind = Instance.config.Bind(nameof(CustomSentryKeybind), true, new ConfigurableInfo(
-        "Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)",
-        null, "", "Custom Sentry Keybind?"));
 
 
     public static Configurable<KeyCode> AbilityKeybindKeyboard = Instance.config.Bind(nameof(AbilityKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
-        "Keybind for Keyboard.", null, "", "Keyboard"));
+        "Keybind for Keyboard.", null, "", "Ability KB"));
 
     public static Configurable<KeyCode> AbilityKeybindPlayer1 = Instance.config.Bind(nameof(AbilityKeybindPlayer1), KeyCode.Joystick1Button4, new ConfigurableInfo(
-        "Keybind for Player 1.", null, "", "Player 1"));
+        "Keybind for Player 1.", null, "", "Ability P1"));
 
     public static Configurable<KeyCode> AbilityKeybindPlayer2 = Instance.config.Bind(nameof(AbilityKeybindPlayer2), KeyCode.Joystick2Button4, new ConfigurableInfo(
-        "Keybind for Player 2.", null, "", "Player 2"));
+        "Keybind for Player 2.", null, "", "Ability P2"));
 
     public static Configurable<KeyCode> AbilityKeybindPlayer3 = Instance.config.Bind(nameof(AbilityKeybindPlayer3), KeyCode.Joystick3Button4, new ConfigurableInfo(
-        "Keybind for Player 3.", null, "", "Player 3"));
+        "Keybind for Player 3.", null, "", "Ability P3"));
 
     public static Configurable<KeyCode> AbilityKeybindPlayer4 = Instance.config.Bind(nameof(AbilityKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
-        "Keybind for Player 4.", null, "", "Player 4"));
+        "Keybind for Player 4.", null, "", "Ability P4"));
 
 
 
@@ -247,6 +244,26 @@ public sealed class ModOptions : OptionsTemplate
 
     public static Configurable<KeyCode> StoreKeybindPlayer4 = Instance.config.Bind(nameof(StoreKeybindPlayer4), KeyCode.Joystick4Button6, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Player 4"));
+
+
+    public static Configurable<bool> CustomSentryKeybind = Instance.config.Bind(nameof(CustomSentryKeybind), true, new ConfigurableInfo(
+        "Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)",
+        null, "", "Custom Sentry Keybind?"));
+
+    public static Configurable<KeyCode> SentryKeybindKeyboard = Instance.config.Bind(nameof(SentryKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
+        "Keybind for Keyboard.", null, "", "Sentry KB"));
+
+    public static Configurable<KeyCode> SentryKeybindPlayer1 = Instance.config.Bind(nameof(SentryKeybindPlayer1), KeyCode.Joystick1Button4, new ConfigurableInfo(
+        "Keybind for Player 1.", null, "", "Sentry P1"));
+
+    public static Configurable<KeyCode> SentryKeybindPlayer2 = Instance.config.Bind(nameof(SentryKeybindPlayer2), KeyCode.Joystick2Button4, new ConfigurableInfo(
+        "Keybind for Player 2.", null, "", "Sentry P2"));
+
+    public static Configurable<KeyCode> SentryKeybindPlayer3 = Instance.config.Bind(nameof(SentryKeybindPlayer3), KeyCode.Joystick3Button4, new ConfigurableInfo(
+        "Keybind for Player 3.", null, "", "Sentry P3"));
+
+    public static Configurable<KeyCode> SentryKeybindPlayer4 = Instance.config.Bind(nameof(SentryKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
+        "Keybind for Player 4.", null, "", "Sentry P4"));
 
     #endregion
 
@@ -681,19 +698,27 @@ public sealed class ModOptions : OptionsTemplate
 
         AddNewLine(3);
 
-        DrawKeybinders(AbilityKeybindKeyboard, ref Tabs[tabIndex]);
+        var abilityOffset = new Vector2(-100.0f, 0.0f);
+        var sentryOffset = new Vector2(140.0f, 0.0f);
+
+        DrawKeybinders(AbilityKeybindKeyboard, ref Tabs[tabIndex], abilityOffset, false);
+        DrawKeybinders(SentryKeybindKeyboard, ref Tabs[tabIndex], sentryOffset);
         AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer1, ref Tabs[tabIndex]);
+        DrawKeybinders(AbilityKeybindPlayer1, ref Tabs[tabIndex], abilityOffset, false);
+        DrawKeybinders(SentryKeybindPlayer1, ref Tabs[tabIndex], sentryOffset);
         AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer2, ref Tabs[tabIndex]);
+        DrawKeybinders(AbilityKeybindPlayer2, ref Tabs[tabIndex], abilityOffset, false);
+        DrawKeybinders(SentryKeybindPlayer2, ref Tabs[tabIndex], sentryOffset);
         AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer3, ref Tabs[tabIndex]);
+        DrawKeybinders(AbilityKeybindPlayer3, ref Tabs[tabIndex], abilityOffset, false);
+        DrawKeybinders(SentryKeybindPlayer3, ref Tabs[tabIndex], sentryOffset);
         AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer4, ref Tabs[tabIndex]);
+        DrawKeybinders(AbilityKeybindPlayer4, ref Tabs[tabIndex], abilityOffset, false);
+        DrawKeybinders(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
 
         AddNewLine(-2);
         AddCheckBox(CustomSentryKeybind);

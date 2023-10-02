@@ -85,6 +85,65 @@ public partial class Hooks
         On.Leech.Attached += Leech_Attached;
 
         On.PlacedObject.FilterData.FromString += FilterData_FromString;
+
+        IL.Region.GetFullRegionOrder += Region_GetFullRegionOrder;
+
+        On.DreamsState.StaticEndOfCycleProgress += DreamsState_StaticEndOfCycleProgress;
+        On.RainWorldGame.ctor += RainWorldGame_ctor;
+    }
+
+    private static void RainWorldGame_ctor(On.RainWorldGame.orig_ctor orig, RainWorldGame self, ProcessManager manager)
+    {
+        orig(self, manager);
+
+        if (!self.IsStorySession) return;
+
+        if (self.StoryCharacter != Enums.Pearlcat) return;
+
+        var save = self.GetStorySession.saveState;
+        var miscWorld = self.GetMiscWorld();
+        var miscProg = self.GetMiscProgression();
+
+        if (miscWorld == null) return;
+
+        if (miscWorld.HasPearlpupWithPlayer)
+        {
+            var canDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.2f;
+
+            if (canDream)
+            {
+                if (miscProg.IsPearlpupSick)
+                {
+                    self.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Sick);
+                }
+                else
+                {
+                    self.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pearlpup);
+                }
+            }
+        }
+    }
+
+    private static void DreamsState_StaticEndOfCycleProgress(On.DreamsState.orig_StaticEndOfCycleProgress orig, SaveState saveState, string currentRegion, string denPosition, ref int cyclesSinceLastDream, ref int cyclesSinceLastFamilyDream, ref int cyclesSinceLastGuideDream, ref int inGWOrSHCounter, ref DreamsState.DreamID upcomingDream, ref DreamsState.DreamID eventDream, ref bool everSleptInSB, ref bool everSleptInSB_S01, ref bool guideHasShownHimselfToPlayer, ref int guideThread, ref bool guideHasShownMoonThisRound, ref int familyThread)
+    {
+        if (saveState.saveStateNumber == Enums.Pearlcat && (eventDream == null || !eventDream.value.Contains("Pearlcat"))) return;
+
+        orig(saveState, currentRegion, denPosition, ref cyclesSinceLastDream, ref cyclesSinceLastFamilyDream, ref cyclesSinceLastGuideDream, ref inGWOrSHCounter, ref upcomingDream, ref eventDream, ref everSleptInSB, ref everSleptInSB_S01, ref guideHasShownHimselfToPlayer, ref guideThread, ref guideHasShownMoonThisRound, ref familyThread);
+    }
+
+    private static void Region_GetFullRegionOrder(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.Before,
+            x => x.MatchRet());
+
+        c.EmitDelegate<Func<List<string>, List<string>>>((list) =>
+        {
+            list.Remove("T1");
+
+            return list;
+        });
     }
 
     private static void FilterData_FromString(On.PlacedObject.FilterData.orig_FromString orig, PlacedObject.FilterData self, string s)
@@ -784,6 +843,9 @@ public partial class Hooks
     {
         orig(room);
 
+        if (!room.game.IsPearlcatStory()) return;
+
+
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
 
@@ -793,10 +855,11 @@ public partial class Hooks
 
         if (!room.abstractRoom.firstTimeRealized) return;
 
+
         // Tutorial
 
         // Start
-        if (room.game.GetStorySession.saveState.saveStateNumber == Enums.Pearlcat && room.game.GetStorySession.saveState.cycleNumber == 0 && room.roomSettings.name == "T1_START")
+        if (room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
 
         // Agility
@@ -1010,5 +1073,19 @@ public partial class Hooks
         for (int i = 0; i < room.shortcuts.Length; i++)
             if (shortcutGraphics.entranceSprites[i, 0] != null)
                 shortcutGraphics.entranceSprites[i, 0].isVisible = true;
+    }
+
+    public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId)
+    {
+        var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
+
+        if (miscWorld == null) return;
+
+        var strId = dreamId.value;
+
+        if (miscWorld.PreviousDreams.Contains(strId)) return;
+
+        miscWorld.CurrentDream = strId;
+        SlugBase.Assets.CustomDreams.QueueDream(storyGame, dreamId);
     }
 }

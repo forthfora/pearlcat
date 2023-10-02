@@ -33,6 +33,8 @@ public static partial class Hooks
 
         if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
         {
+            self.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon_Sick);
+
             if (save.MoonSickPupMeetCount == 0)
             {
                 SayStart("Oh! It is good to see you two again!");
@@ -213,6 +215,8 @@ public static partial class Hooks
 
         if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && self.myBehavior is SLOracleBehaviorHasMark mark && !mark.DamagedMode)
         {
+            self.myBehavior.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon_Sick);
+
             if (save.MoonSickPupMeetCount == 0)
             {
                 SayNoLinger("Oh! It is good to see you two again!");

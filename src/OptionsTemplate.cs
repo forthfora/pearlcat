@@ -101,21 +101,24 @@ public abstract class OptionsTemplate : OptionInterface
         CoxEndPositions.RemoveAt(lastIndex);
     }
 
-    protected void DrawKeybinders(Configurable<KeyCode> configurable, ref OpTab tab)
+    protected void DrawKeybinders(Configurable<KeyCode> configurable, ref OpTab tab, Vector2? offset = null, bool newline = true)
     {
         var name = Translate((string)configurable.info.Tags[0]);
 
         tab.AddItems(
-            new OpLabel(new Vector2(115.0f, Pos.y), new Vector2(100f, 34f), name)
+            new OpLabel(new Vector2(115.0f, Pos.y) + (offset ?? Vector2.zero), new Vector2(100f, 34f), name)
             {
                 alignment = FLabelAlignment.Right,
                 verticalAlignment = OpLabel.LabelVAlignment.Center,
                 description = Translate(configurable.info?.description)
             },
-            new OpKeyBinder(configurable, new(235.0f, Pos.y), new(146f, 30f), false)
+            new OpKeyBinder(configurable, new Vector2(235.0f, Pos.y) + (offset ?? Vector2.zero), new(146f, 30f), false)
         );
 
-        AddNewLine(2);
+        if (newline)
+        {
+            AddNewLine(2);
+        }
     }
 
     protected void AddCheckBox(Configurable<bool> configurable, string? text=null)

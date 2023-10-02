@@ -140,8 +140,8 @@ public class T1_START : UpdatableAndDeletable
 
                 if (ModOptions.CustomSentryKeybind.Value)
                 {
-                    game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (")
-                        + ModOptions.AbilityKeybindPlayer1.Value.GetDisplayName() + t.Translate(") to deploy, and again to return."), 0, 600);
+                    game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + ModOptions.SentryKeybindKeyboard.Value + t.Translate(") or (")
+                        + ModOptions.SentryKeybindPlayer1.Value.GetDisplayName() + t.Translate(") to deploy, and again to return."), 0, 600);
                 }
                 else
                 {

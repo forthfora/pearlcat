@@ -28,18 +28,18 @@ public static partial class Hooks
         };
     }
 
-public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModule playerModule)
-{
-    return player.playerState.playerNumber switch
+    public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        0 => Input.GetKey(ModOptions.AbilityKeybindPlayer1.Value) || Input.GetKey(ModOptions.AbilityKeybindKeyboard.Value),
-        1 => Input.GetKey(ModOptions.AbilityKeybindPlayer2.Value),
-        2 => Input.GetKey(ModOptions.AbilityKeybindPlayer3.Value),
-        3 => Input.GetKey(ModOptions.AbilityKeybindPlayer4.Value),
+        return player.playerState.playerNumber switch
+        {
+            0 => Input.GetKey(ModOptions.AbilityKeybindPlayer1.Value) || Input.GetKey(ModOptions.AbilityKeybindKeyboard.Value),
+            1 => Input.GetKey(ModOptions.AbilityKeybindPlayer2.Value),
+            2 => Input.GetKey(ModOptions.AbilityKeybindPlayer3.Value),
+            3 => Input.GetKey(ModOptions.AbilityKeybindPlayer4.Value),
 
-        _ => false
-    };
-}
+            _ => false
+        };
+    }
 
     public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
@@ -71,10 +71,22 @@ public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModul
     public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (ModOptions.CustomSentryKeybind.Value)
-            return IsCustomAbilityKeybindPressed(player, playerModule);
+        {
+            return player.playerState.playerNumber switch
+            {
+                0 => Input.GetKey(ModOptions.SentryKeybindPlayer1.Value) || Input.GetKey(ModOptions.SentryKeybindKeyboard.Value),
+                1 => Input.GetKey(ModOptions.SentryKeybindPlayer2.Value),
+                2 => Input.GetKey(ModOptions.SentryKeybindPlayer3.Value),
+                3 => Input.GetKey(ModOptions.SentryKeybindPlayer4.Value),
 
-        var input = playerModule.UnblockedInput;
-        return input.jmp && input.pckp && input.y == -1;
+                _ => false
+            };
+        }
+        else
+        {
+            var input = playerModule.UnblockedInput;
+            return input.jmp && input.pckp && input.y == -1;
+        }
     }
 
 

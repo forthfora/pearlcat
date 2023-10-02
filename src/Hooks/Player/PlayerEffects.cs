@@ -76,7 +76,7 @@ public static partial class Hooks
         {
             stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, 0, 2);
 
-            stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.75f, float.MaxValue);
+            stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.01f, 2.5f);
             stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.75f, float.MaxValue);
 
             stats.corridorClimbSpeedFac = Mathf.Clamp(baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac, 0.75f, float.MaxValue);

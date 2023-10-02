@@ -1,0 +1,16 @@
+{
+  "id": "Dream_Pearlcat_Moon_Sick",
+  "scene_folder": "slugbase/scenes/dream_pearlcat_moon_sick",
+  "images": [
+    {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+    {"name": "3", "pos": [0, 0], "depth": 10.0, "shader": "Basic"},
+    {"name": "2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+    {"name": "1", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
+
+    {"name": "dark", "pos": [0, 0], "depth": 10.0, "shader": "Basic"}
+  ],
+  
+  "idle_depths": [3.0],
+  "select_menu_pos": [0, 0]
+}

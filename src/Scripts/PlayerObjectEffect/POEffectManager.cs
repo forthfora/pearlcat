@@ -278,7 +278,7 @@ public static class POEffectManager
         RM = None;
         RM.MajorEffect = MajorEffectType.NONE;
         RM.ActiveMultiplier = 2.0f;
-        RM.LungsFac = 0.15f;
+        RM.LungsFac = -0.15f;
         RM.RunSpeedFac = 0.15f;
         RM.PoleClimbSpeedFac = 0.15f;
         RM.CorridorClimbSpeedFac = 0.15f;
@@ -288,7 +288,7 @@ public static class POEffectManager
         SS = None;
         SS.MajorEffect = MajorEffectType.NONE;
         SS.ActiveMultiplier = 2.0f;
-        SS.LungsFac = 0.3f;
+        SS.LungsFac = -0.3f;
         SS.RunSpeedFac = 0.3f;
         SS.PoleClimbSpeedFac = 0.3f;
         SS.CorridorClimbSpeedFac = 0.3f;

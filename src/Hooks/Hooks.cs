@@ -68,8 +68,9 @@ public static partial class Hooks
 
             _ = Enums.Scenes.Slugcat_Pearlcat;
 
-            AssetLoader.LoadAssets();
+            Enums.Dreams.RegisterDreams();
 
+            AssetLoader.LoadAssets();
 
             var initMessage = "PEARLCAT SAYS HELLO FROM INIT! (VERSION: " + Plugin.VERSION + ")";
 

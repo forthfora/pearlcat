@@ -766,12 +766,16 @@ public static partial class Hooks
 
         public SSOracleMeetPearlcat(SSOracleBehavior owner) : base(owner, Enums.SSOracle.Pearlcat_SSSubBehavGeneral, Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
         {
-            var save = oracle.room.game.GetMiscWorld();
+            if (!oracle.room.game.IsStorySession) return;
+
+            var save = oracle.room.game.GetStorySession.saveState;
+
+            var miscWorld = oracle.room.game.GetMiscWorld();
             var miscProg = oracle.room.game.GetMiscProgression();
 
-            if (save == null) return;
+            if (miscWorld == null) return;
 
-            switch (save.PebblesMeetCount)
+            switch (miscWorld.PebblesMeetCount)
             {
                 case 0:
                     break;
@@ -826,9 +830,9 @@ public static partial class Hooks
                     break;
             }
 
-            if (save.HasPearlpupWithPlayer && save.PebblesMeetCount > 0)
+            if (miscWorld.HasPearlpupWithPlayer && miscWorld.PebblesMeetCount > 0)
             {
-                if (miscProg.IsPearlpupSick && save.PebblesMetSickPup)
+                if (miscProg.IsPearlpupSick && miscWorld.PebblesMetSickPup)
                 {
                     switch (Random.Range(0, 4))
                     {
@@ -880,7 +884,13 @@ public static partial class Hooks
                 }
             }
 
-            save.PebblesMeetCount++;
+            miscWorld.PebblesMeetCount++;
+            save.miscWorldSaveData.SSaiConversationsHad++;
+
+            if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
+            {
+                oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles);
+            }
         }
 
         public override void Update()

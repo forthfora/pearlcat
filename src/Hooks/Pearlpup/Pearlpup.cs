@@ -133,7 +133,7 @@ public static partial class Hooks
             stats.runspeedFac = 0.9f;
             stats.corridorClimbSpeedFac = 0.9f;
             stats.poleClimbSpeedFac = 0.9f;
-            stats.lungsFac = 0.5f;
+            stats.lungsFac = 0.1f;
         }
         else
         {
@@ -141,7 +141,7 @@ public static partial class Hooks
             stats.runspeedFac = self.grabbedBy.Count > 0 ? 0.9f : 1.1f;
             stats.corridorClimbSpeedFac = 1.1f;
             stats.poleClimbSpeedFac = 1.15f;
-            stats.lungsFac = 0.5f;
+            stats.lungsFac = 0.1f;
         }
 
         if (save.IsPearlpupSick)

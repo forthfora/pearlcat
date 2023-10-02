@@ -74,8 +74,12 @@ public static class Enums
         public static SceneID Slugcat_Pearlcat_Statistics_Ascended = new(nameof(Slugcat_Pearlcat_Statistics_Ascended), false);
         public static SceneID Slugcat_Pearlcat_Statistics_Sick = new(nameof(Slugcat_Pearlcat_Statistics_Sick), false);
 
-
         public static SlideShowID Pearlcat_AltOutro = new(nameof(Pearlcat_AltOutro), false);
+
+        public static SceneID Dream_Pearlcat_Pebbles = new(nameof(Dream_Pearlcat_Pebbles), false);
+        public static SceneID Dream_Pearlcat_Pearlpup = new(nameof(Dream_Pearlcat_Pearlpup), false);
+        public static SceneID Dream_Pearlcat_Moon_Sick = new(nameof(Dream_Pearlcat_Moon_Sick), false);
+        public static SceneID Dream_Pearlcat_Sick = new(nameof(Dream_Pearlcat_Sick), false);
 
         // DEPRECATED
         //public static SlideShowID PearlcatIntro = new(nameof(PearlcatIntro), true);
@@ -89,5 +93,21 @@ public static class Enums
 
         //public static SceneID Pearlcat_AltOutro_1 = new(nameof(Pearlcat_AltOutro_1), false);
         //public static SceneID Pearlcat_AltOutro_2 = new(nameof(Pearlcat_AltOutro_2), false);
+    }
+
+    public static class Dreams
+    {
+        public static DreamsState.DreamID Dream_Pearlcat_Pebbles = new(nameof(Dream_Pearlcat_Pebbles), true);
+        public static DreamsState.DreamID Dream_Pearlcat_Pearlpup = new(nameof(Dream_Pearlcat_Pearlpup), true);
+        public static DreamsState.DreamID Dream_Pearlcat_Moon_Sick = new(nameof(Dream_Pearlcat_Moon_Sick), true);
+        public static DreamsState.DreamID Dream_Pearlcat_Sick = new(nameof(Dream_Pearlcat_Sick), true);
+
+        public static void RegisterDreams()
+        {
+            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Pebbles, Scenes.Dream_Pearlcat_Pebbles);
+            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Pearlpup, Scenes.Dream_Pearlcat_Pearlpup);
+            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Moon_Sick, Scenes.Dream_Pearlcat_Moon_Sick);
+            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Sick, Scenes.Dream_Pearlcat_Sick);
+        }
     }
 }

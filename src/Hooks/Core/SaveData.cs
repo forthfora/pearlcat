@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static DataPearl.AbstractDataPearl;
+using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -34,6 +35,9 @@ public static partial class Hooks
         public bool HasPearlpupWithPlayer { get; set; }
         
         public bool JustBeatAltEnd { get; set; }
+
+        public string? CurrentDream { get; set; }
+        public List<string> PreviousDreams { get; } = new();
     }
 
     public class SaveDeathPersistent
@@ -56,6 +60,7 @@ public static partial class Hooks
         public bool HasOEEnding { get; set; }
         public bool JustAscended { get; set; }
         public bool Ascended { get; set; }
+
 
         // DEPRECATED
         public bool AltEnd { get; set; }
@@ -186,6 +191,12 @@ public static partial class Hooks
                     SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
                     //Plugin.Logger.LogWarning("SET DEFAULT SELECT SCREEN");
                 }
+            }
+
+            if (miscWorld.CurrentDream != null && !miscWorld.PreviousDreams.Contains(miscWorld.CurrentDream))
+            {
+                miscWorld.PreviousDreams.Add(miscWorld.CurrentDream);
+                miscWorld.CurrentDream = null;
             }
         }
         catch (Exception e)

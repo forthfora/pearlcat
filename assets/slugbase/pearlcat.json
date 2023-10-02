@@ -31,7 +31,7 @@
         "the_glow": true,
         
         "auto_grab_batflies": false,
-        "has_dreams": false,
+        "has_dreams": true,
         "perma_unlock_gates": false,
         
         "diet": {
