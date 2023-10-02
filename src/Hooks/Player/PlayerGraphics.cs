@@ -27,6 +27,7 @@ public static partial class Hooks
         On.JollyCoop.JollyHUD.JollyPlayerSpecificHud.Draw += JollyPlayerSpecificHud_Draw;
     }
 
+
     public const int BODY_SPRITE = 0;
     public const int HIPS_SPRITE = 1;
     public const int TAIL_SPRITE = 2;
@@ -40,6 +41,8 @@ public static partial class Hooks
     public const int GLOW_SPRITE = 10;
     public const int MARK_SPRITE = 11;
 
+
+    // Initialization
     private static void PlayerGraphics_InitiateSprites(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         orig(self, sLeaser, rCam);
@@ -98,7 +101,7 @@ public static partial class Hooks
         GenerateEarMesh(sLeaser, playerModule.EarR, playerModule.EarRSprite);
 
         // Color meshes
-        playerModule.LoadTailTexture("tail");
+        playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_alttail" : "tail");
         playerModule.LoadEarLTexture("ear_l");
         playerModule.LoadEarRTexture("ear_r");
 
@@ -174,7 +177,7 @@ public static partial class Hooks
     }
 
 
-
+    // Draw
     private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
@@ -189,17 +192,13 @@ public static partial class Hooks
             return;
         }
 
+
         UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "scarf", "Scarf", playerModule.ScarfSprite);
-
-        UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveLSprite);
-        UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveRSprite);
-
         UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", playerModule.FeetSprite);
 
 
         UpdateReplacementPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
-        sLeaser.sprites[BODY_SPRITE].alpha = 0.0f;
-
+   
         UpdateReplacementPlayerSprite(sLeaser, HIPS_SPRITE, "Hips", "hips");
         UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "head");
 
@@ -207,6 +206,19 @@ public static partial class Hooks
 
         UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
         UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
+
+
+        if (playerModule.IsPearlpupAppearance)
+        {
+            UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "pearlpup_sleeve", "SleevePearlpup", playerModule.SleeveLSprite);
+            UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "pearlpup_sleeve", "SleevePearlpup", playerModule.SleeveRSprite);
+        }
+        else
+        {
+            UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveLSprite);
+            UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveRSprite);
+        }
+
 
         var save = self.player.abstractCreature.world.game.GetMiscProgression();
 
@@ -243,8 +255,6 @@ public static partial class Hooks
         OrderAndColorSprites(self, sLeaser, rCam, playerModule, null);
     }
 
-
-    // Ears adapted from NoirCatto (thanks Noir!) https://github.com/NoirCatto/NoirCatto
     public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
     {
         if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
@@ -395,6 +405,7 @@ public static partial class Hooks
         Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
 
 
+    // Update
     public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, FContainer? newContainer = null)
     {
         var bodySprite = sLeaser.sprites[BODY_SPRITE];
@@ -557,11 +568,6 @@ public static partial class Hooks
             }
         }
 
-        sleeveLSprite.MoveToBack();
-        sleeveRSprite.MoveToBack();
-        sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
-        sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
-
 
         playerModule.UpdateColors(self);
 
@@ -597,6 +603,17 @@ public static partial class Hooks
         playerModule.Cloak.UpdateColor(sLeaser);
 
         playerModule.SetInvertTailColors = self.player.inVoidSea && upsideDown;
+
+
+        if (playerModule.IsPearlpupAppearance)
+        {
+            sleeveLSprite.color = bodyColor;
+            sleeveRSprite.color = bodyColor;
+        }
+        else
+        {
+            bodySprite.isVisible = false;
+        }
     }
     
     public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)
@@ -663,7 +680,7 @@ public static partial class Hooks
     }
 
 
-
+    // Movement
     private static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
     {
         orig(self);
@@ -677,41 +694,49 @@ public static partial class Hooks
         playerModule.PrevHeadRotation = self.head.connection.Rotation;
     }
 
-    public static readonly List<Player.BodyModeIndex> EXCLUDE_FROM_TAIL_OFFSET_BODYMODE = new()
-    {
-        Player.BodyModeIndex.ZeroG,
-        Player.BodyModeIndex.Swimming,
-        Player.BodyModeIndex.ClimbingOnBeam,
-        Player.BodyModeIndex.CorridorClimb,
-        Player.BodyModeIndex.Stunned,
-        Player.BodyModeIndex.Dead,
-    };
-
-    public static readonly List<Player.AnimationIndex> EXCLUDE_FROM_TAIL_OFFSET_ANIMATION = new()
-    {
-        Player.AnimationIndex.Roll,
-    };
-
-    // Creates raised tail effect
     public static void ApplyTailMovement(PlayerGraphics self)
     {
+        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+
+        if (playerModule.IsPearlpupAppearance) return;
+
+
         if (ModOptions.DisableCosmetics.Value) return;
 
         if (self.player.onBack != null) return;
+
 
         var upsideDown = self.head.pos.y < self.legs.pos.y;
 
         if (self.player.bodyMode == Player.BodyModeIndex.CorridorClimb && upsideDown)
         {
             foreach (var segment in self.tail)
+            {
                 segment.vel += new Vector2(0.0f, 2.0f);
+            }
 
             return;
         }
 
-        if (EXCLUDE_FROM_TAIL_OFFSET_BODYMODE.Contains(self.player.bodyMode)) return;
 
-        if (EXCLUDE_FROM_TAIL_OFFSET_ANIMATION.Contains(self.player.animation)) return;
+        var excludeFromTailOffsetBodyMode = new List<Player.BodyModeIndex>()
+        {
+            Player.BodyModeIndex.ZeroG,
+            Player.BodyModeIndex.Swimming,
+            Player.BodyModeIndex.ClimbingOnBeam,
+            Player.BodyModeIndex.CorridorClimb,
+            Player.BodyModeIndex.Stunned,
+            Player.BodyModeIndex.Dead,
+        };
+
+        var excludeFromTailOffsetAnimation = new List<Player.AnimationIndex>()
+        {
+            Player.AnimationIndex.Roll,
+        };
+
+        if (excludeFromTailOffsetBodyMode.Contains(self.player.bodyMode)) return;
+
+        if (excludeFromTailOffsetAnimation.Contains(self.player.animation)) return;
 
         if (!TailSegmentVelocities.TryGet(self.player, out var tailSegmentVelocities)) return;
 
@@ -719,8 +744,8 @@ public static partial class Hooks
         {
             if (!tailSegmentVelocities.ContainsKey(i)) continue;
 
-            Vector2 segmentVel = tailSegmentVelocities[i];
-            Vector2 facingDir = new(self.player.flipDirection, 1.0f);
+            var segmentVel = tailSegmentVelocities[i];
+            var facingDir = new Vector2(self.player.flipDirection, 1.0f);
 
             if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
                 segmentVel.y /= 2.0f;
@@ -832,8 +857,7 @@ public static partial class Hooks
     }
 
 
-
-    // Stop player looking at their balls (lmao)
+    // Extra
     private static float PlayerObjectLooker_HowInterestingIsThisObject(On.PlayerGraphics.PlayerObjectLooker.orig_HowInterestingIsThisObject orig, PlayerGraphics.PlayerObjectLooker self, PhysicalObject obj)
     {
         var result = orig(self, obj);

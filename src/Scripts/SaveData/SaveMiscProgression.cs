@@ -26,6 +26,7 @@ public class SaveMiscProgression
     public bool JustAscended { get; set; }
     public bool Ascended { get; set; }
 
+    public bool HasTrueEnding { get; set; }
 
 
     // DEPRECATED

@@ -29,6 +29,8 @@ public class PearlpupModule
     public Vector2 PrevHeadRotation { get; set; }
     public Vector2[,] Scarf { get; } = new Vector2[6, 6];
 
+
+    // Colors
     public Color BodyColor { get; set; }
     public Color AccentColor { get; set; }
     public Color ScarfColor { get; set; }
@@ -39,10 +41,10 @@ public class PearlpupModule
     public Color LastBodyColor { get; set; }
     public Color LastAccentColor { get; set; }
 
-    public Color BaseBodyColor { get; set; } = new Color32(79, 70, 60, 255);
-    public Color BaseAccentColor { get; set; } = Color.white;
-    public Color BaseFaceColor { get; set; } = Color.white;
-    public Color BaseScarfColor { get; set; } = new Color32(145, 34, 26, 255);
+    public static Color BaseBodyColor { get; set; } = new Color32(79, 70, 60, 255);
+    public static Color BaseAccentColor { get; set; } = Color.white;
+    public static Color BaseFaceColor { get; set; } = Color.white;
+    public static Color BaseScarfColor { get; set; } = new Color32(145, 34, 26, 255);
 
     public void UpdateColors(PlayerGraphics self)
     {
@@ -114,6 +116,7 @@ public class PearlpupModule
     }
 
 
+    // Tail
     public FAtlas? TailAtlas { get; set; }
 
     public void RegenerateTail()
@@ -154,7 +157,7 @@ public class PearlpupModule
         var tailTexture = AssetLoader.GetTexture(textureName);
         if (tailTexture == null) return;
 
-        PlayerModule.MapAlphaToColor(tailTexture, new Dictionary<byte, Color>()
+        tailTexture.MapAlphaToColor(new Dictionary<byte, Color>()
         {
             { 255, BodyColor },
             { 0, AccentColor },
@@ -168,6 +171,8 @@ public class PearlpupModule
         TailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
     }
 
+
+    // Ears
     public TailSegment[]? EarL { get; set; }
     public TailSegment[]? EarR { get; set; }
 
@@ -188,7 +193,7 @@ public class PearlpupModule
         var earLTexture = AssetLoader.GetTexture(textureName);
         if (earLTexture == null) return;
 
-        PlayerModule.MapAlphaToColor(earLTexture, new Dictionary<byte, Color>()
+        earLTexture.MapAlphaToColor(new Dictionary<byte, Color>()
         {
             { 255, BodyColor },
             { 0, AccentColor },
@@ -197,7 +202,9 @@ public class PearlpupModule
         var atlasName = Plugin.MOD_ID + textureName + ID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
+        {
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+        }
 
         EarLAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earLTexture, false);
     }
@@ -207,7 +214,7 @@ public class PearlpupModule
         var earRTexture = AssetLoader.GetTexture(textureName);
         if (earRTexture == null) return;
 
-        PlayerModule.MapAlphaToColor(earRTexture, new Dictionary<byte, Color>()
+        earRTexture.MapAlphaToColor(new Dictionary<byte, Color>()
         {
             { 255, BodyColor },
             { 0, AccentColor },

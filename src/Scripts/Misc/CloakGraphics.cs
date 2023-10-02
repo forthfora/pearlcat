@@ -125,7 +125,9 @@ public class CloakGraphics
 
     public void InitiateSprite(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
-        var element = Futile.atlasManager.GetElementWithName("pearlcat_cloak");
+        var element = Futile.atlasManager.GetElementWithName(playerModule.IsPearlpupAppearance ? "pearlpup_cloak" : "pearlcat_cloak");
+
+        Plugin.Logger.LogWarning(element.name);
             
         sLeaser.sprites[sprite] = TriangleMesh.MakeGridMesh(element.name, divs - 1);
         sLeaser.sprites[sprite].color = Color.white;

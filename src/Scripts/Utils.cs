@@ -9,6 +9,7 @@ using RWCustom;
 using static Conversation;
 using static SSOracleBehavior;
 using Random = UnityEngine.Random;
+using static AbstractPhysicalObject;
 
 namespace Pearlcat;
 
@@ -16,8 +17,150 @@ public static class Utils
 {
     public static bool IsMergeFixActive => ModManager.ActiveMods.Any(x => x.id == "bro.mergefix");
     public static bool WarpEnabled(this RainWorldGame game) => game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
-    
-    
+
+
+
+    public static void TryRevivePlayer(this Player self, PlayerModule playerModule)
+    {
+        if (playerModule.ReviveCount <= 0) return;
+
+        if (self.room == null) return;
+
+        //if (self.room == null || self.graphicsModule == null) return;
+
+        //if (self.killTag?.creatureTemplate is CreatureTemplate template
+        //    && (template.type == CreatureTemplate.Type.DaddyLongLegs || template.type == CreatureTemplate.Type.BrotherLongLegs
+        //    || template.type == CreatureTemplate.Type.BigEel || template.type == MoreSlugcats.MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs)) return;
+
+        self.AllGraspsLetGoOfThisObject(true);
+
+        self.room.DeflectEffect(self.firstChunk.pos);
+        playerModule.ShieldTimer = 200;
+
+        if (self.dead)
+            self.RevivePlayer();
+
+        else
+            self.room.ReviveEffect(self.firstChunk.pos);
+
+        playerModule.SetReviveCooldown(-1);
+    }
+
+    public static void RevivePlayer(this Player self)
+    {
+        self.Revive();
+
+        self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
+        self.playerState.permaDead = false;
+        self.playerState.alive = true;
+
+        self.exhausted = false;
+        self.airInLungs = 1.0f;
+        self.aerobicLevel = 0.0f;
+
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        playerModule.PickObjectAnimation(self);
+    }
+
+    public static void Revive(this Creature self)
+    {
+        //self.graphicsModule?.ReleaseAllInternallyContainedSprites();
+
+        if (self.State is HealthState healthState)
+            healthState.health = 1.0f;
+
+        self.State.alive = true;
+
+        self.dead = false;
+        self.killTag = null;
+        self.killTagCounter = 0;
+        self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
+
+        if (self is not Player)
+            self.Stun(100);
+
+        self.room.ReviveEffect(self.mainBodyChunk.pos);
+    }
+
+
+    public static int GraspsHasType(this Player self, AbstractObjectType type)
+    {
+        for (int i = 0; i < self.grasps.Length; i++)
+        {
+            Creature.Grasp? grasp = self.grasps[i];
+
+            if (grasp == null) continue;
+
+            if (grasp.grabbed.abstractPhysicalObject.type == type)
+                return i;
+        }
+
+        return -1;
+    }
+
+    public static bool IsHostileToMe(this Creature self, Creature creature)
+    {
+        // trust no one, not even yourself?
+        if (creature == self)
+            return false;
+
+        if (creature is Player pup && pup.IsPearlpup())
+            return false;
+
+        var AI = creature.abstractCreature.abstractAI?.RealAI;
+
+        if (self is Player && AI is LizardAI or ScavengerAI or BigNeedleWormAI or DropBugAI or CicadaAI or MoreSlugcats.InspectorAI)
+        {
+            var aggression = AI.CurrentPlayerAggression(self.abstractCreature);
+
+            var rep = AI.tracker.RepresentationForCreature(self.abstractCreature, false);
+
+            if (rep?.dynamicRelationship == null)
+                return false;
+
+            if (AI is LizardAI)
+                return aggression > 0.0f;
+
+            if (AI is ScavengerAI)
+                return aggression > 0.5f;
+
+            if (AI is BigNeedleWormAI)
+                return aggression > 0.0f;
+
+            if (AI is CicadaAI)
+                return aggression > 0.0f;
+
+            if (AI is DropBugAI)
+                return true;
+
+            if (AI is MoreSlugcats.InspectorAI)
+                return aggression > 0.0f;
+
+            return false;
+        }
+
+        if (self is Player && creature is Player player && !player.isSlugpup)
+        {
+            var game = self.abstractCreature.world.game;
+
+            if (game.IsArenaSession && game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers)
+                return true;
+        }
+
+        var myRelationship = self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
+        var creatureRelationship = creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
+
+        return myRelationship.GoForKill || creatureRelationship.GoForKill;
+    }
+
+    public static bool InDeathpit(this Player self)
+    {
+        return self.mainBodyChunk.pos.y < -300.0f
+            && (!self.room.water || self.room.waterInverted || self.room.defaultWaterLevel < -10)
+            && (!self.Template.canFly || self.Stunned || self.dead) && self.room.deathFallGraphic != null;
+    }
+
 
     public static void AddTextPrompt(this RainWorldGame game, string text, int wait, int time, bool darken = false, bool? hideHud = null)
     {
@@ -118,6 +261,31 @@ public static class Utils
 
         return texUpdateInterval;
     }
+
+    public static void SetIfSame(this ref Color toSet, Color toCompare, Color newColor)
+    {
+        if (toSet == toCompare)
+        {
+            toSet = newColor;
+        }
+    }
+
+    public static void MapAlphaToColor(this Texture2D texture, Dictionary<byte, Color> map)
+    {
+        var data = texture.GetPixelData<Color32>(0);
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            if (map.TryGetValue(data[i].a, out var targetColor))
+            {
+                data[i] = targetColor;
+            }
+        }
+
+        texture.SetPixelData(data, 0);
+        texture.Apply(false);
+    }
+
 
 
     public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)

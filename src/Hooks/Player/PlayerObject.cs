@@ -1,10 +1,64 @@
 ﻿using System.Collections.Generic;
+using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
 public static partial class Hooks
 {
+    public static void GivePearls(this Player self, PlayerModule playerModule)
+    {
+        var save = self.room.game.GetMiscWorld();
+        bool shouldGivePearls = true;
+
+        if (save != null)
+            shouldGivePearls = !save.PlayersGivenPearls.Contains(self.playerState.playerNumber);
+
+        if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
+            playerModule.GivenPearls = false;
+
+        if (!(shouldGivePearls || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
+
+
+        List<DataPearlType> pearls;
+        bool overrideLimit = false;
+
+        if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
+        {
+            pearls = ModOptions.GetOverridenInventory(self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession);
+        }
+        else
+        {
+            // Defaults
+            pearls = new List<DataPearlType>()
+            {
+                Enums.Pearls.AS_PearlBlue,
+                Enums.Pearls.AS_PearlYellow,
+                Enums.Pearls.AS_PearlGreen,
+                Enums.Pearls.AS_PearlBlack,
+                Enums.Pearls.AS_PearlRed,
+                self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc,
+            };
+
+            if (ModOptions.MaxPearlCount.Value <= 1)
+                pearls.Remove(Enums.Pearls.AS_PearlBlack);
+
+            overrideLimit = true;
+        }
+
+        foreach (var pearlType in pearls)
+        {
+            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
+            self.StoreObject(pearl, overrideLimit: overrideLimit);
+        }
+
+        playerModule.GivenPearls = true;
+
+        if (save != null && !save.PlayersGivenPearls.Contains(self.playerState.playerNumber))
+            save.PlayersGivenPearls.Add(self.playerState.playerNumber);
+    }
+
+
     // Realization & Abstraction
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {

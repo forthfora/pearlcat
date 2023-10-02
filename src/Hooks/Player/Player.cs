@@ -50,84 +50,6 @@ public static partial class Hooks
         }
     }
 
-    private static void VoidSeaScene_Update(On.VoidSea.VoidSeaScene.orig_Update orig, VoidSeaScene self, bool eu)
-    {
-        orig(self, eu);
-
-        if (!self.room.game.IsPearlcatStory()) return;
-
-        foreach (var obj in self.room.updateList)
-        {
-            if (obj is not Player player) continue;
-
-            if (player.inVoidSea) continue;
-
-            if (!player.IsPearlpup()) continue;
-
-            player.inVoidSea = true;
-            self.UpdatePlayerInVoidSea(player);
-        }
-
-        if (self.deepDivePhase == VoidSeaScene.DeepDivePhase.EggScenario)
-        {
-            var save = self.room.abstractRoom.world.game.GetMiscProgression();
-            save.JustAscended = true;
-        }
-    }
-
-    private static void Grasp_Release(On.Creature.Grasp.orig_Release orig, Creature.Grasp self)
-    {
-        if (self.grabber is not Player player)
-        {
-            orig(self);
-            return;
-        }
-
-        var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
-
-        if (inVoid && player.IsPearlcat() && self.grabbed?.firstChunk?.owner is Player pup && pup.IsPearlpup()) return;
-
-        if (inVoid && player.IsPearlpup()) return;
-        
-        orig(self);
-    }
-
-    private static void Creature_Update(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchLdstr("FORCE CREATURE RELEASE UNDER ROOM"));
-
-        var dest = c.DefineLabel();
-
-        c.GotoPrev(MoveType.After,
-            x => x.MatchBle(out dest));
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Func<Creature, bool>>((self) =>
-        {
-            if (self is not Player player)
-            {
-                return false;
-            }
-
-            var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
-
-            if (inVoid && player.IsPearlpup())
-            {
-                // Plugin.Logger.LogWarning("PREVENTED PEARLPUP GRASP RELEASE");
-                return true;
-            }
-
-            // Plugin.Logger.LogWarning("DID NOT PREVENT RELEASE");
-            return false;
-        });
-
-        c.Emit(OpCodes.Brtrue, dest);
-
-        // Plugin.Logger.LogWarning(c.Context);
-    }
 
     private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
@@ -139,55 +61,6 @@ public static partial class Hooks
         {
             self.spearOnBack ??= new Player.SpearOnBack(self);
         }
-    }
-
-    private static void Creature_SpitOutOfShortCut(On.Creature.orig_SpitOutOfShortCut orig, Creature self, IntVector2 pos, Room newRoom, bool spitOutAllSticks)
-    {
-        orig(self, pos, newRoom, spitOutAllSticks);
-
-        if (self is Player p && p.TryGetPearlcatModule(out var mod))
-            mod.LastGroundedPos = p.firstChunk.pos;
-
-        foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPlayerData())
-        {
-            foreach (var item in playerModule.Inventory) 
-            {
-                if (!item.TryGetSentry(out var sentry)) continue;
-
-                if (!item.TryGetModule(out var module)) continue;
-
-                if (module.CooldownTimer != 0 && sentry.ShieldTimer <= 0) continue;
-
-                var effect = item.GetPOEffect();
-                if (effect.MajorEffect != POEffect.MajorEffectType.SHIELD) continue;
-                
-                if (!sentry.OwnerRef.TryGetTarget(out var owner)) continue;
-                
-                if (owner.realizedObject == null) continue;
-
-                if (!Custom.DistLess(owner.realizedObject.firstChunk.pos, newRoom.MiddleOfTile(pos), 75.0f)) continue;
-
-                if (sentry.ShieldTimer <= 0)
-                    sentry.ShieldTimer = ModOptions.ShieldDuration.Value * 3.0f;
-                
-                owner.realizedObject.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.7f);
-                owner.realizedObject.room?.DeflectEffect(newRoom.MiddleOfTile(pos));
-                
-                self.SuckedIntoShortCut(pos, false);
-            }
-        }
-    }
-
-
-    public delegate float orig_PlayerVisibilityBonus(Player self);
-    public static float GetPlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
-    {
-        if (self.TryGetPearlcatModule(out var playerModule) || self.onBack?.TryGetPearlcatModule(out playerModule) == true
-            || (self.grabbedBy.FirstOrDefault(x => x.grabber is Player)?.grabber as Player)?.TryGetPearlcatModule(out playerModule) == true)
-            if (playerModule.CamoLerp > 0.5f)
-                return -playerModule.CamoLerp;
-
-        return orig(self);
     }
 
 
@@ -282,7 +155,7 @@ public static partial class Hooks
         {
             if ((playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor || playerModule.SetInvertTailColors != playerModule.CurrentlyInvertedTailColors))
             {
-                playerModule.LoadTailTexture("tail");
+                playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_alttail" : "tail");
                 playerModule.LoadEarLTexture("ear_l");
                 playerModule.LoadEarRTexture("ear_r");
             }
@@ -402,70 +275,6 @@ public static partial class Hooks
         RefreshPearlpup(self, playerModule);
     }
 
-    private static void RefreshPearlpup(Player self, PlayerModule playerModule)
-    {
-        if (!self.IsFirstPearlcat()) return;
-        
-        var save = self.abstractCreature.Room.world.game.GetMiscWorld();
-        var miscProg = self.abstractCreature.Room.world.game.GetMiscProgression();
-
-        miscProg.HasPearlpup = false;
-        
-        if (save != null)
-        {
-            save.HasPearlpupWithPlayer = false;
-        }
-
-        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup))
-        {
-            miscProg.HasPearlpup = !pup.dead && pup.abstractCreature.Room == self.abstractCreature.Room;
-
-            if (save != null)
-            {
-                save.HasPearlpupWithPlayer = miscProg.HasPearlpup;
-            }
-
-            return;
-        }
-
-        if (self.room == null) return;
-
-        foreach (var roomObject in self.room.physicalObjects)
-        {
-            foreach (var physicalobject in roomObject)
-            {
-                if (physicalobject is not Player player) continue;
-
-                if (!player.IsPearlpup()) continue;
-
-                playerModule.PearlpupRef = new(player);
-                return;
-            }
-        }
-
-        playerModule.PearlpupRef = null;
-
-        if (save != null)
-        {
-            save.PearlpupID = null;
-        }
-    }
-
-    private static void UpdateTryRevive(Player self, PlayerModule playerModule)
-    {
-        bool shouldTryRevive = false;
-
-        if (self.dead)
-            shouldTryRevive = true;
-
-        if (self.dangerGraspTime >= 60 && self.AI == null)
-            shouldTryRevive = true;
-
-
-        if (!shouldTryRevive) return;
-
-        TryRevivePlayer(self, playerModule);
-    }
 
     private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
     {
@@ -547,6 +356,74 @@ public static partial class Hooks
         }
     }
 
+    private static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
+    {
+        if (self.dead || playerModule.PostDeathInventory.Count == 0) return;
+
+        for (int i = playerModule.PostDeathInventory.Count - 1; i >= 0; i--)
+        {
+            var item = playerModule.PostDeathInventory[i];
+            playerModule.PostDeathInventory.RemoveAt(i);
+
+            if (item.realizedObject == null) continue;
+
+            if (item.realizedObject.room != self.room) continue;
+
+            if (item.realizedObject.grabbedBy.Count > 0) continue;
+
+            if (item.IsPlayerObject()) return;
+
+            if (ModuleManager.ObjectsWithAddon.TryGetValue(item, out var _))
+                ModuleManager.ObjectsWithAddon.Remove(item);
+
+            self.StoreObject(item);
+        }
+
+        if (playerModule.PostDeathActiveObjectIndex != null)
+        {
+            ActivateObjectInStorage(self, (int)playerModule.PostDeathActiveObjectIndex);
+        }
+
+        playerModule.PostDeathActiveObjectIndex = null;
+    }
+    
+    private static void UpdatePlayerOA(Player self, PlayerModule playerModule)
+    {
+        if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
+        {
+            playerModule.CurrentObjectAnimation = new FreeFallOA(self);
+        }
+        else if (self.Sleeping || self.sleepCurlUp > 0.0f)
+        {
+            playerModule.CurrentObjectAnimation = new SleepOA(self);
+        }
+        else if (playerModule.CurrentObjectAnimation is SleepOA or FreeFallOA)
+        {
+            foreach (var abstractObject in playerModule.Inventory)
+            {
+                if (abstractObject.TryGetSentry(out _)) continue;
+                
+                abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
+            }
+
+            playerModule.PickObjectAnimation(self);
+        }
+        else
+        {
+            if (playerModule.CurrentObjectAnimation is SineWaveInterOA or SineWaveOA && self.firstChunk.vel.magnitude > 4.0f)
+            {
+                playerModule.PickObjectAnimation(self);
+            }
+        }
+
+        if (playerModule.ObjectAnimationTimer > playerModule.ObjectAnimationDuration)
+            playerModule.PickObjectAnimation(self);
+
+        playerModule.CurrentObjectAnimation?.Update(self);
+        playerModule.ObjectAnimationTimer++;
+    }
+
+        
     private static void UpdateSFX(Player self, PlayerModule playerModule)
     {
         // Outsider breaks looping SFX sometimes, this is safety
@@ -590,36 +467,6 @@ public static partial class Hooks
         }
     }
 
-    private static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
-    {
-        if (self.dead || playerModule.PostDeathInventory.Count == 0) return;
-
-        for (int i = playerModule.PostDeathInventory.Count - 1; i >= 0; i--)
-        {
-            var item = playerModule.PostDeathInventory[i];
-            playerModule.PostDeathInventory.RemoveAt(i);
-
-            if (item.realizedObject == null) continue;
-
-            if (item.realizedObject.room != self.room) continue;
-
-            if (item.realizedObject.grabbedBy.Count > 0) continue;
-
-            if (item.IsPlayerObject()) return;
-
-            if (ModuleManager.ObjectsWithAddon.TryGetValue(item, out var _))
-                ModuleManager.ObjectsWithAddon.Remove(item);
-
-            self.StoreObject(item);
-        }
-
-        if (playerModule.PostDeathActiveObjectIndex != null)
-        {
-            ActivateObjectInStorage(self, (int)playerModule.PostDeathActiveObjectIndex);
-        }
-
-        playerModule.PostDeathActiveObjectIndex = null;
-    }
 
     private static void UpdatePlayerDaze(Player self, PlayerModule playerModule)
     {
@@ -631,42 +478,72 @@ public static partial class Hooks
         if (playerModule.DazeTimer > 0)
             playerModule.DazeTimer--;
     }
-
-    private static void UpdatePlayerOA(Player self, PlayerModule playerModule)
+    
+    private static void UpdateTryRevive(Player self, PlayerModule playerModule)
     {
-        if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
-        {
-            playerModule.CurrentObjectAnimation = new FreeFallOA(self);
-        }
-        else if (self.Sleeping || self.sleepCurlUp > 0.0f)
-        {
-            playerModule.CurrentObjectAnimation = new SleepOA(self);
-        }
-        else if (playerModule.CurrentObjectAnimation is SleepOA or FreeFallOA)
-        {
-            foreach (var abstractObject in playerModule.Inventory)
-            {
-                if (abstractObject.TryGetSentry(out _)) continue;
-                
-                abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
-            }
+        bool shouldTryRevive = false;
 
-            playerModule.PickObjectAnimation(self);
-        }
-        else
-        {
-            if (playerModule.CurrentObjectAnimation is SineWaveInterOA or SineWaveOA && self.firstChunk.vel.magnitude > 4.0f)
-            {
-                playerModule.PickObjectAnimation(self);
-            }
-        }
+        if (self.dead)
+            shouldTryRevive = true;
 
-        if (playerModule.ObjectAnimationTimer > playerModule.ObjectAnimationDuration)
-            playerModule.PickObjectAnimation(self);
+        if (self.dangerGraspTime >= 60 && self.AI == null)
+            shouldTryRevive = true;
 
-        playerModule.CurrentObjectAnimation?.Update(self);
-        playerModule.ObjectAnimationTimer++;
+
+        if (!shouldTryRevive) return;
+
+        self.TryRevivePlayer(playerModule);
     }
+
+    private static void RefreshPearlpup(Player self, PlayerModule playerModule)
+    {
+        if (!self.IsFirstPearlcat()) return;
+        
+        var save = self.abstractCreature.Room.world.game.GetMiscWorld();
+        var miscProg = self.abstractCreature.Room.world.game.GetMiscProgression();
+
+        miscProg.HasPearlpup = false;
+        
+        if (save != null)
+        {
+            save.HasPearlpupWithPlayer = false;
+        }
+
+        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup))
+        {
+            miscProg.HasPearlpup = !pup.dead && pup.abstractCreature.Room == self.abstractCreature.Room;
+
+            if (save != null)
+            {
+                save.HasPearlpupWithPlayer = miscProg.HasPearlpup;
+            }
+
+            return;
+        }
+
+        if (self.room == null) return;
+
+        foreach (var roomObject in self.room.physicalObjects)
+        {
+            foreach (var physicalobject in roomObject)
+            {
+                if (physicalobject is not Player player) continue;
+
+                if (!player.IsPearlpup()) continue;
+
+                playerModule.PearlpupRef = new(player);
+                return;
+            }
+        }
+
+        playerModule.PearlpupRef = null;
+
+        if (save != null)
+        {
+            save.PearlpupID = null;
+        }
+    }
+
 
 
     private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
@@ -736,7 +613,30 @@ public static partial class Hooks
             }
         }
     }
+    
 
+
+    public delegate float orig_PlayerVisibilityBonus(Player self);
+    public static float GetPlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
+    {
+        if (self.TryGetPearlcatModule(out var playerModule) || self.onBack?.TryGetPearlcatModule(out playerModule) == true
+            || (self.grabbedBy.FirstOrDefault(x => x.grabber is Player)?.grabber as Player)?.TryGetPearlcatModule(out playerModule) == true)
+            if (playerModule.CamoLerp > 0.5f)
+                return -playerModule.CamoLerp;
+
+        return orig(self);
+    }
+
+    private static void SpearOnBack_Update(On.Player.SpearOnBack.orig_Update orig, Player.SpearOnBack self, bool eu)
+    {
+        orig(self, eu);
+
+        if (!self.owner.TryGetPearlcatModule(out var playerModule)) return;
+
+        if (playerModule.ForceLockSpearOnBack)
+            self.interactionLocked = true;
+    }
+    
     private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
         var result = orig(self, obj);
@@ -745,6 +645,98 @@ public static partial class Hooks
             return Player.ObjectGrabability.CantGrab;
 
         return result;
+    }
+
+    
+    private static void Grasp_Release(On.Creature.Grasp.orig_Release orig, Creature.Grasp self)
+    {
+        if (self.grabber is not Player player)
+        {
+            orig(self);
+            return;
+        }
+
+        var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
+
+        if (inVoid && player.IsPearlcat() && self.grabbed?.firstChunk?.owner is Player pup && pup.IsPearlpup()) return;
+
+        if (inVoid && player.IsPearlpup()) return;
+
+        orig(self);
+    }
+
+    private static void Creature_Update(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdstr("FORCE CREATURE RELEASE UNDER ROOM"));
+
+        var dest = c.DefineLabel();
+
+        c.GotoPrev(MoveType.After,
+            x => x.MatchBle(out dest));
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Func<Creature, bool>>((self) =>
+        {
+            if (self is not Player player)
+            {
+                return false;
+            }
+
+            var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
+
+            if (inVoid && player.IsPearlpup())
+            {
+                // Plugin.Logger.LogWarning("PREVENTED PEARLPUP GRASP RELEASE");
+                return true;
+            }
+
+            // Plugin.Logger.LogWarning("DID NOT PREVENT RELEASE");
+            return false;
+        });
+
+        c.Emit(OpCodes.Brtrue, dest);
+
+        // Plugin.Logger.LogWarning(c.Context);
+    }
+
+    private static void Creature_SpitOutOfShortCut(On.Creature.orig_SpitOutOfShortCut orig, Creature self, IntVector2 pos, Room newRoom, bool spitOutAllSticks)
+    {
+        orig(self, pos, newRoom, spitOutAllSticks);
+
+        if (self is Player p && p.TryGetPearlcatModule(out var mod))
+            mod.LastGroundedPos = p.firstChunk.pos;
+
+        foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPlayerData())
+        {
+            foreach (var item in playerModule.Inventory)
+            {
+                if (!item.TryGetSentry(out var sentry)) continue;
+
+                if (!item.TryGetModule(out var module)) continue;
+
+                if (module.CooldownTimer != 0 && sentry.ShieldTimer <= 0) continue;
+
+                var effect = item.GetPOEffect();
+                if (effect.MajorEffect != POEffect.MajorEffectType.SHIELD) continue;
+
+                if (!sentry.OwnerRef.TryGetTarget(out var owner)) continue;
+
+                if (owner.realizedObject == null) continue;
+
+                if (!Custom.DistLess(owner.realizedObject.firstChunk.pos, newRoom.MiddleOfTile(pos), 75.0f)) continue;
+
+                if (sentry.ShieldTimer <= 0)
+                    sentry.ShieldTimer = ModOptions.ShieldDuration.Value * 3.0f;
+
+                owner.realizedObject.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.7f);
+                owner.realizedObject.room?.DeflectEffect(newRoom.MiddleOfTile(pos));
+
+                self.SuckedIntoShortCut(pos, false);
+            }
+        }
     }
 
     private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
@@ -790,205 +782,30 @@ public static partial class Hooks
 
         orig(self, source, directionAndMomentum, hitChunk, hitAppendage, type, damage, stunBonus);
     }
-
-
-    public static void GivePearls(this Player self, PlayerModule playerModule)
-    {
-        var save = self.room.game.GetMiscWorld();
-        bool shouldGivePearls = true;
-
-        if (save != null)
-            shouldGivePearls = !save.PlayersGivenPearls.Contains(self.playerState.playerNumber);
-
-        if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
-            playerModule.GivenPearls = false;
-
-        if (!(shouldGivePearls || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
-
-
-        List<DataPearlType> pearls;
-        bool overrideLimit = false;
-
-        if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
-        {
-            pearls = ModOptions.GetOverridenInventory(self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession);
-        }
-        else
-        {
-            // Defaults
-            pearls = new List<DataPearlType>()
-            {
-                Enums.Pearls.AS_PearlBlue,
-                Enums.Pearls.AS_PearlYellow,
-                Enums.Pearls.AS_PearlGreen,
-                Enums.Pearls.AS_PearlBlack,
-                Enums.Pearls.AS_PearlRed,
-                self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc,
-            };
-
-            if (ModOptions.MaxPearlCount.Value <= 1)
-                pearls.Remove(Enums.Pearls.AS_PearlBlack);
-
-            overrideLimit = true;
-        }
-
-        foreach (var pearlType in pearls)
-        {
-            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
-            self.StoreObject(pearl, overrideLimit: overrideLimit);
-        }
-
-        playerModule.GivenPearls = true;
-
-        if (save != null && !save.PlayersGivenPearls.Contains(self.playerState.playerNumber))
-            save.PlayersGivenPearls.Add(self.playerState.playerNumber);
-    }
     
-    public static int GraspsHasType(this Player self, AbstractObjectType type)
-    {
-        for (int i = 0; i < self.grasps.Length; i++)
-        {
-            Creature.Grasp? grasp = self.grasps[i];
-            
-            if (grasp == null) continue;
-
-            if (grasp.grabbed.abstractPhysicalObject.type == type)
-                return i;
-        }
-
-        return -1;
-    }
-
-    private static void SpearOnBack_Update(On.Player.SpearOnBack.orig_Update orig, Player.SpearOnBack self, bool eu)
+    
+    private static void VoidSeaScene_Update(On.VoidSea.VoidSeaScene.orig_Update orig, VoidSeaScene self, bool eu)
     {
         orig(self, eu);
 
-        if (!self.owner.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.room.game.IsPearlcatStory()) return;
 
-        if (playerModule.ForceLockSpearOnBack)
-            self.interactionLocked = true;
-    }
-
-    public static void TryRevivePlayer(this Player self, PlayerModule playerModule)
-    {
-        if (playerModule.ReviveCount <= 0) return;
-
-        if (self.room == null) return;
-
-        //if (self.room == null || self.graphicsModule == null) return;
-
-        //if (self.killTag?.creatureTemplate is CreatureTemplate template
-        //    && (template.type == CreatureTemplate.Type.DaddyLongLegs || template.type == CreatureTemplate.Type.BrotherLongLegs
-        //    || template.type == CreatureTemplate.Type.BigEel || template.type == MoreSlugcats.MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs)) return;
-
-        self.AllGraspsLetGoOfThisObject(true);
-
-        DeflectEffect(self.room, self.firstChunk.pos);
-        playerModule.ShieldTimer = 200;
-
-        if (self.dead)
-            self.RevivePlayer();
-
-        else
-            self.room.ReviveEffect(self.firstChunk.pos);
-
-        playerModule.SetReviveCooldown(-1);
-    }
-
-    public static void RevivePlayer(this Player self)
-    {
-        self.Revive();
-
-        self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
-        self.playerState.permaDead = false;
-        self.playerState.alive = true;
-
-        self.exhausted = false;
-        self.airInLungs = 1.0f;
-        self.aerobicLevel = 0.0f;
-        
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-        playerModule.PickObjectAnimation(self);
-    }
-    
-    public static void Revive(this Creature self)
-    {
-        //self.graphicsModule?.ReleaseAllInternallyContainedSprites();
-
-        if (self.State is HealthState healthState)
-            healthState.health = 1.0f;
-
-        self.State.alive = true;
-
-        self.dead = false;
-        self.killTag = null;
-        self.killTagCounter = 0;
-        self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
-
-        if (self is not Player)
-            self.Stun(100);
-
-        self.room.ReviveEffect(self.mainBodyChunk.pos);
-    }
-
-
-    public static bool IsHostileToMe(this Creature self, Creature creature)
-    {
-        // trust no one, not even yourself?
-        if (creature == self)
-            return false;
-
-        if (creature is Player pup && pup.IsPearlpup())
-            return false;
-
-        var AI = creature.abstractCreature.abstractAI?.RealAI;
-
-        if (self is Player && AI is LizardAI or ScavengerAI or BigNeedleWormAI or DropBugAI or CicadaAI or MoreSlugcats.InspectorAI)
+        foreach (var obj in self.room.updateList)
         {
-            var aggression = AI.CurrentPlayerAggression(self.abstractCreature);
+            if (obj is not Player player) continue;
 
-            var rep = AI.tracker.RepresentationForCreature(self.abstractCreature, false);
+            if (player.inVoidSea) continue;
 
-            if (rep?.dynamicRelationship == null)
-                return false;
+            if (!player.IsPearlpup()) continue;
 
-            if (AI is LizardAI)
-                return aggression > 0.0f;
-
-            if (AI is ScavengerAI)
-                return aggression > 0.5f;
-
-            if (AI is BigNeedleWormAI)
-                return aggression > 0.0f;
-
-            if (AI is CicadaAI)
-                return aggression > 0.0f;
-
-            if (AI is DropBugAI)
-                return true;
-
-            if (AI is MoreSlugcats.InspectorAI)
-                return aggression > 0.0f;
-
-            return false;
+            player.inVoidSea = true;
+            self.UpdatePlayerInVoidSea(player);
         }
 
-        if (self is Player && creature is Player player && !player.isSlugpup)
+        if (self.deepDivePhase == VoidSeaScene.DeepDivePhase.EggScenario)
         {
-            var game = self.abstractCreature.world.game;
-
-            if (game.IsArenaSession && game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers)
-                return true;
+            var save = self.room.abstractRoom.world.game.GetMiscProgression();
+            save.JustAscended = true;
         }
-
-        var myRelationship = self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
-        var creatureRelationship = creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
-
-        return myRelationship.GoForKill || creatureRelationship.GoForKill;
     }
-
-    // https://github.com/WondaMegapon/pitrespawn/blob/master/PitRespawn.cs
-    public static bool InDeathpit(this Player self) => self.mainBodyChunk.pos.y < -300.0f
-        && (!self.room.water || self.room.waterInverted || self.room.defaultWaterLevel < -10) && (!self.Template.canFly || self.Stunned || self.dead) && self.room.deathFallGraphic != null;
 }
