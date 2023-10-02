@@ -6,11 +6,13 @@ namespace Pearlcat;
 
 public static class AssetLoader
 {
-    public const string ATLASES_DIRPATH = Plugin.MOD_ID + "_atlases";
-    public const string SPRITES_DIRPATH = Plugin.MOD_ID + "_sprites";
-    public const string TEXTURES_DIRPATH = Plugin.MOD_ID + "_textures";
+    private const string ATLASES_DIRPATH = Plugin.MOD_ID + "_atlases";
+    private const string SPRITES_DIRPATH = Plugin.MOD_ID + "_sprites";
+    private const string TEXTURES_DIRPATH = Plugin.MOD_ID + "_textures";
 
-    public const TextureFormat TEXTURE_FORMAT = TextureFormat.RGBA32;
+    private const TextureFormat TEXTURE_FORMAT = TextureFormat.RGBA32;
+
+    
     public static Dictionary<string, Texture2D> Textures { get; } = new();
 
     public static string GetUniqueName(string name) => Plugin.MOD_ID + "_" + name;
@@ -20,9 +22,11 @@ public static class AssetLoader
         string uniqueName = GetUniqueName(atlasName);
 
         if (Futile.atlasManager.DoesContainAtlas(uniqueName))
+        {
             return Futile.atlasManager.LoadAtlas(uniqueName);
+        }
 
-        string atlasDirName = ATLASES_DIRPATH + Path.AltDirectorySeparatorChar + Plugin.MOD_ID + "_" + atlasName;
+        var atlasDirName = ATLASES_DIRPATH + Path.AltDirectorySeparatorChar + Plugin.MOD_ID + "_" + atlasName;
 
         if (!Futile.atlasManager.DoesContainAtlas(atlasDirName))
         {
@@ -36,15 +40,19 @@ public static class AssetLoader
     public static Texture2D? GetTexture(string textureName)
     {
         if (!Textures.ContainsKey(textureName))
+        {
             return null;
+        }
 
         var originalTexture = Textures[textureName];
 
-        Texture2D? copiedTexture = new(originalTexture.width, originalTexture.height, TEXTURE_FORMAT, false);
+        var copiedTexture = new Texture2D(originalTexture.width, originalTexture.height, TEXTURE_FORMAT, false);
+        
         Graphics.CopyTexture(originalTexture, copiedTexture);
 
         return copiedTexture;
     }
+
 
 
     public static void LoadAssets()
@@ -53,22 +61,22 @@ public static class AssetLoader
         LoadSprites();
         LoadTextures();
     }
-    
 
     // Loads complete atlases 
-    public static void LoadAtlases()
+    private static void LoadAtlases()
     {
         foreach (string filePath in AssetManager.ListDirectory(ATLASES_DIRPATH))
         {
             if (Path.GetExtension(filePath) != ".txt") continue;
 
             var atlasName = Path.GetFileNameWithoutExtension(filePath);
+            
             Futile.atlasManager.LoadAtlas(ATLASES_DIRPATH + Path.AltDirectorySeparatorChar + atlasName);
         }
     }
 
     // Loads individual PNG files into their own separate atlases
-    public static void LoadSprites()
+    private static void LoadSprites()
     {
         foreach (string filePath in AssetManager.ListDirectory(SPRITES_DIRPATH))
         {
@@ -77,6 +85,7 @@ public static class AssetLoader
             string atlasName = Path.GetFileNameWithoutExtension(filePath);
 
             var texture = FileToTexture2D(filePath);
+            
             if (texture == null) continue;
 
             Futile.atlasManager.LoadAtlasFromTexture(atlasName, texture, false);
@@ -84,15 +93,16 @@ public static class AssetLoader
     }
 
     // Load individual PNG files into a dictionary of Texture2Ds
-    public static void LoadTextures()
+    private static void LoadTextures()
     {
         foreach (string filePath in AssetManager.ListDirectory(TEXTURES_DIRPATH))
         {
             if (Path.GetExtension(filePath).ToLower() != ".png") continue;
 
-            string textureName = Path.GetFileNameWithoutExtension(filePath);
+            var textureName = Path.GetFileNameWithoutExtension(filePath);
 
             var texture = FileToTexture2D(filePath);
+            
             if (texture == null) continue;
 
             Textures.Add(textureName, texture);
@@ -102,18 +112,20 @@ public static class AssetLoader
 
 
     // https://answers.unity.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
-    public static Texture2D? FileToTexture2D(string filePath)
+    private static Texture2D? FileToTexture2D(string filePath)
     {
-        byte[] fileData = File.ReadAllBytes(filePath);
+        var fileData = File.ReadAllBytes(filePath);
 
-        Texture2D texture = new(0, 0, TEXTURE_FORMAT, false)
+        var texture = new Texture2D(0, 0, TEXTURE_FORMAT, false)
         {
             anisoLevel = 0,
             filterMode = FilterMode.Point,
         };
 
         if (!texture.LoadImage(fileData))
+        {
             return null;
+        }
 
         return texture;
     }

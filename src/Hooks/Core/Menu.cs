@@ -25,8 +25,6 @@ public static partial class Hooks
 
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
-        On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
-
         new Hook(
             typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasMark), BindingFlags.Static | BindingFlags.Public)
@@ -37,9 +35,6 @@ public static partial class Hooks
             typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.Public)
         );
 
-        // uses trygoto
-        IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
-
         On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
         On.HUD.HUD.InitSafariHud += HUD_InitSafariHud;
         On.ArenaGameSession.AddHUD += ArenaGameSession_AddHUD;
@@ -47,6 +42,8 @@ public static partial class Hooks
         On.Menu.MenuIllustration.Update += MenuIllustration_Update;
         On.Menu.StoryGameStatisticsScreen.AddBkgIllustration += StoryGameStatisticsScreen_AddBkgIllustration;
     }
+
+
 
     private static void StoryGameStatisticsScreen_AddBkgIllustration(On.Menu.StoryGameStatisticsScreen.orig_AddBkgIllustration orig, StoryGameStatisticsScreen self)
     {
@@ -124,6 +121,7 @@ public static partial class Hooks
     }
 
 
+
     public delegate bool orig_SlugcatPageHasMark(SlugcatSelectMenu.SlugcatPage self);
     public static bool GetSlugcatPageHasMark(orig_SlugcatPageHasMark orig, SlugcatSelectMenu.SlugcatPage self)
     {
@@ -145,11 +143,8 @@ public static partial class Hooks
 
         return result;
     }
-
-
-    public static readonly ConditionalWeakTable<MenuScene, MenuSceneModule> MenuSceneData = new();
-    public static readonly ConditionalWeakTable<MenuDepthIllustration, MenuIllustrationModule> MenuIllustrationData = new();
     
+
     private static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, MenuScene self, Menu.Menu menu, MenuObject owner, MenuScene.SceneID sceneID)
     {
         orig(self, menu, owner, sceneID);
@@ -171,7 +166,7 @@ public static partial class Hooks
             foreach (var pearl in pearls)
                 pearlColors.Add(pearl.GetDataPearlColor());
 
-            MenuSceneData.Add(self, new(pearlColors, activePearl?.GetDataPearlColor()));
+            ModuleManager.MenuSceneData.Add(self, new(pearlColors, activePearl?.GetDataPearlColor()));
         }
         else if (save.IsNewPearlcatSave)
         {
@@ -184,7 +179,7 @@ public static partial class Hooks
                 Pearls.AS_PearlBlack.GetDataPearlColor(),
             };
 
-            MenuSceneData.Add(self, new(pearlColors, Pearls.RM_Pearlcat.GetDataPearlColor()));
+            ModuleManager.MenuSceneData.Add(self, new(pearlColors, Pearls.RM_Pearlcat.GetDataPearlColor()));
         }
         else
         {
@@ -193,7 +188,7 @@ public static partial class Hooks
             if (pearls.Count > 11)
                 pearls.RemoveRange(11, pearls.Count - 11);
 
-            MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
+            ModuleManager.MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
         }
 
         MenuPearlAnimStacker = 0;
@@ -217,12 +212,13 @@ public static partial class Hooks
                 }
             }
 
-            MenuIllustrationData.Add(illustration, new(illustration, index));
+            ModuleManager.MenuIllustrationData.Add(illustration, new(illustration, index));
         }
     }
 
     public static Color MenuPearlColorFilter(this Color color) => color;
-    public static int MenuPearlAnimStacker = 0;
+
+    public static int MenuPearlAnimStacker { get; set; } = 0;
 
     private static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, MenuScene self)
     {
@@ -230,9 +226,9 @@ public static partial class Hooks
 
         foreach (var illustration in self.depthIllustrations)
         {
-            if (!MenuSceneData.TryGetValue(self, out var menuSceneModule)) continue;
+            if (!ModuleManager.MenuSceneData.TryGetValue(self, out var menuSceneModule)) continue;
 
-            if (!MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
+            if (!ModuleManager.MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
 
             if (self.sceneID == Scenes.Slugcat_Pearlcat)
             {
@@ -302,22 +298,22 @@ public static partial class Hooks
             var spritePos = illustration.sprite.GetPosition();
             var mousePos = self.menu.mousePosition;
 
-            var setPos = illustrationModule.setPos;
+            var setPos = illustrationModule.SetPos;
 
             if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+                illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
 
 
             var dir = (setPos - pos).normalized;
             var dist = Custom.Dist(setPos, pos);
             var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
 
-            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-            illustrationModule.vel += dir * speed;
+            illustrationModule.Vel *= Custom.LerpMap(illustrationModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.Vel += dir * speed;
 
-            illustration.pos += illustrationModule.vel;
+            illustration.pos += illustrationModule.Vel;
 
-            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
@@ -428,20 +424,20 @@ public static partial class Hooks
             var spritePos = illustration.sprite.GetPosition();
             var mousePos = self.menu.mousePosition;
 
-            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 90.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 1.5f;
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.SetPos) < 90.0f)
+                illustrationModule.Vel += (spritePos - mousePos).normalized * 1.5f;
 
 
-            var dir = (illustrationModule.setPos - pos).normalized;
-            var dist = Custom.Dist(illustrationModule.setPos, pos);
+            var dir = (illustrationModule.SetPos - pos).normalized;
+            var dist = Custom.Dist(illustrationModule.SetPos, pos);
             var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
 
-            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-            illustrationModule.vel += dir * speed;
+            illustrationModule.Vel *= Custom.LerpMap(illustrationModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.Vel += dir * speed;
 
-            illustration.pos += illustrationModule.vel;
+            illustration.pos += illustrationModule.Vel;
 
-            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
 
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
@@ -512,22 +508,22 @@ public static partial class Hooks
             // var mouseVel = (self.menu.mousePosition - self.menu.lastMousePos).magnitude;
             // Custom.LerpMap(mouseVel, 0.0f, 100.0f, 1.0f, 6.0f);
 
-            var setPos = illustrationModule.setPos - Vector2.right * (save.HasPearlpup ? 30.0f : 0.0f);
+            var setPos = illustrationModule.SetPos - Vector2.right * (save.HasPearlpup ? 30.0f : 0.0f);
 
             if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+                illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
 
 
             var dir = (setPos - pos).normalized;
             var dist = Custom.Dist(setPos, pos);
             var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
 
-            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-            illustrationModule.vel += dir * speed;
+            illustrationModule.Vel *= Custom.LerpMap(illustrationModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.Vel += dir * speed;
 
-            illustration.pos += illustrationModule.vel;
+            illustration.pos += illustrationModule.Vel;
 
-            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
@@ -595,20 +591,20 @@ public static partial class Hooks
             var spritePos = illustration.sprite.GetPosition();
             var mousePos = self.menu.mousePosition;
 
-            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 120.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.SetPos) < 120.0f)
+                illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
 
 
-            var dir = (illustrationModule.setPos - pos).normalized;
-            var dist = Custom.Dist(illustrationModule.setPos, pos);
+            var dir = (illustrationModule.SetPos - pos).normalized;
+            var dist = Custom.Dist(illustrationModule.SetPos, pos);
             var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
 
-            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-            illustrationModule.vel += dir * speed;
+            illustrationModule.Vel *= Custom.LerpMap(illustrationModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.Vel += dir * speed;
 
-            illustration.pos += illustrationModule.vel;
+            illustration.pos += illustrationModule.Vel;
 
-            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
@@ -712,38 +708,5 @@ public static partial class Hooks
         //        introRollSong.StartMusic();
         //    }
         //}
-    }
-
-
-    // fix for dev tools w/ custom ambient SFX, thanks Bro
-    private static void TriggersPage_ctor(On.DevInterface.TriggersPage.orig_ctor orig, DevInterface.TriggersPage self, DevInterface.DevUI owner, string IDstring, DevInterface.DevUINode parentNode, string name)
-    {
-        orig(self, owner, IDstring, parentNode, name);
-
-        List<string> songs = new();
-
-        string[] files = AssetManager.ListDirectory("Music" + Path.DirectorySeparatorChar.ToString() + "Songs");
-        
-        foreach (string file in files)
-        {
-            string noExtension = Path.GetFileNameWithoutExtension(file);
-
-            if (!songs.Contains(noExtension) && Path.GetExtension(file).ToLower() != ".meta")
-                songs.Add(noExtension);
-        }
-
-        self.songNames = songs.ToArray();
-    }
-
-    private static void SoundPage_ctor(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        if (c.TryGotoNext(MoveType.Before, x => x.MatchLdstr("soundeffects/ambient")))
-        {
-            c.MoveAfterLabels();
-            c.Emit(OpCodes.Ldstr, "loadedsoundeffects/ambient");
-            c.Remove();
-        }
     }
 }

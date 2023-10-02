@@ -27,10 +27,7 @@ public partial class Hooks
         }
     }
 
-    
-    public static readonly ConditionalWeakTable<MusicPlayer, MusicPlayerModule> MusicPlayerData = new();
 
-    public static MusicPlayerModule GetModule(this MusicPlayer self) => MusicPlayerData.GetValue(self, x => new MusicPlayerModule());
 
     private static void ProceduralMusic_Reset(ILContext il)
     {
@@ -62,7 +59,7 @@ public partial class Hooks
     {
         if (chunk.owner != null && chunk.owner.abstractPhysicalObject.IsPlayerObject())
         {
-            if (soundId == SoundID.SS_AI_Marble_Hit_Floor && PlayerObjectData.TryGetValue(chunk.owner.abstractPhysicalObject, out var playerObjectModule) && !playerObjectModule.PlayCollisionSound)
+            if (soundId == SoundID.SS_AI_Marble_Hit_Floor && chunk.owner.abstractPhysicalObject.TryGetModule(out var module) && !module.PlayCollisionSound)
             {
                 vol = 0.0f;
             }
@@ -70,6 +67,7 @@ public partial class Hooks
 
         return orig(self, soundId, chunk, loop, vol, pitch, randomStartPosition);
     }
+
 
     // Fix subregion specific tracks
     private static void MusicPlayer_NewRegion(On.Music.MusicPlayer.orig_NewRegion orig, MusicPlayer self, string newRegion)

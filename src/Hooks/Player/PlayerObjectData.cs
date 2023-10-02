@@ -47,32 +47,10 @@ public static partial class Hooks
     }
 
 
-    public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectModule> PlayerObjectData { get; } = new();
-
-    public static bool TryGetModule(this AbstractPhysicalObject abstractObject, out PlayerObjectModule module)
-    {
-        if (PlayerObjectData.TryGetValue(abstractObject, out module))
-            return true;
-
-        module = null!;
-        return false;
-    }
-
-    public static bool TryGetAddon(this AbstractPhysicalObject abstractObject, out ObjectAddon addon)
-    {
-        if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out addon))
-            return true;
-
-        addon = null!;
-        return false;
-    }
-
-    public static bool TryGetSentry(this AbstractPhysicalObject self, out POSentry sentry) => POSentry.SentryData.TryGetValue(self, out sentry);
-
 
     public static void MarkAsPlayerObject(this AbstractPhysicalObject abstractObject)
     {
-        var module = PlayerObjectData.GetValue(abstractObject, x => new PlayerObjectModule());
+        var module = ModuleManager.PlayerObjectData.GetValue(abstractObject, x => new PlayerObjectModule());
 
         if (module.IsCurrentlyStored) return;
 
@@ -152,7 +130,6 @@ public static partial class Hooks
         return result;
     }
 
-    // extra grab prevention safety
     private static void PhysicalObject_Grabbed(On.PhysicalObject.orig_Grabbed orig, PhysicalObject self, Creature.Grasp grasp)
     {
         orig(self, grasp);
@@ -254,7 +231,7 @@ public static partial class Hooks
 
     public static bool IsPlayerObject(this AbstractPhysicalObject targetObject)
     {
-        var playerData = GetAllPlayerData(targetObject.world.game);
+        var playerData = targetObject.world.game.GetAllPlayerData();
 
         foreach (var playerModule in playerData)
             if (playerModule.Inventory.Any(abstractObject => abstractObject == targetObject))

@@ -14,18 +14,37 @@ namespace Pearlcat;
 
 public class POSentry : UpdatableAndDeletable, IDrawable
 {
-    public static ConditionalWeakTable<AbstractPhysicalObject, POSentry> SentryData { get; } = new();
-
     public WeakReference<AbstractPhysicalObject> OwnerRef { get; }
     public Vector2 InitialPos { get; }
+
+    public float HaloScale { get; set; } = 1.0f;
+    public float AnimCounter { get; set; }
+
+
     public LightSource? LightSource { get; set; }
+
+    public float ShieldTimer { get; set; } = -1;
     public DynamicSoundLoop? ShieldHoldLoop { get; set; }
+    public Dictionary<ShortcutData, FSprite> LockedShortcutsSprites { get; } = new();
+    
+    public int RageCounter { get; set; } = 3;
+    public WeakReference<Creature>? RageTarget { get; set; }
+    
+    public Vector2? AgilityPos { get; set; }
+    
+    public float HoloLightScale { get; set; }
+    public float HoloLightAlpha { get; set; }
+    public bool HoloLightActive { get; set; }
+
+    public bool WasPlayingMusic { get; set; }
+    public float MusicVolume { get; set; }
+    
 
     public POSentry(AbstractPhysicalObject owner)
     {
         OwnerRef = new(owner);
 
-        if (SentryData.TryGetValue(owner, out _)) return;
+        if (ModuleManager.SentryData.TryGetValue(owner, out _)) return;
 
         if (owner.realizedObject == null) return;
 
@@ -33,7 +52,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
 
-        SentryData.Add(owner, this);
+        ModuleManager.SentryData.Add(owner, this);
 
         room = owner.realizedObject.room;
         InitialPos = player.GetActiveObjectPos();
@@ -61,22 +80,6 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             module.CooldownTimer = 40;
         }
     }
-
-    public Dictionary<ShortcutData, FSprite> LockedShortcutsSprites = new();
-
-    public float ShieldTimer { get; set; } = -1;
-    public int RageCounter { get; set; } = 3;
-    public bool WasPlayingMusic { get; set; }
-    public Vector2? AgilityPos { get; set; }
-    public float HoloLightScale { get; set; }
-    public float HoloLightAlpha { get; set; }
-    public bool HoloLightActive { get; set; }
-    public float MusicVolume { get; set; }
-
-    public float HaloScale { get; set; } = 1.0f;
-    public float AnimCounter { get; set; }
-    public WeakReference<Creature>? RageTarget { get; set; }
-
 
     public override void Update(bool eu)
     {
@@ -131,6 +134,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         AnimCounter++;
     }
+
 
 
     private void UpdateMusicSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect, string songName)
@@ -616,12 +620,16 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (OwnerRef.TryGetTarget(out var owner) && owner.TryGetModule(out var module))
         {
-            if (SentryData.TryGetValue(owner, out _))
-                SentryData.Remove(owner);
+            if (ModuleManager.SentryData.TryGetValue(owner, out _))
+            {
+                ModuleManager.SentryData.Remove(owner);
+            }
 
             if (module.IsSentry)
+            {
                 module.RemoveSentry(owner);
-            
+            }
+
             var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
             if (owner.TryGetAddon(out var addon) && playerModule != null && playerModule.PlayerRef.TryGetTarget(out var player))

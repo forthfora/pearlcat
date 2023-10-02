@@ -19,14 +19,20 @@ public static partial class Hooks
         ApplyPlayerGraphicsHooks();
         ApplyPlayerObjectDataHooks();
 
+        // Pearlpup
         ApplyPearlpupHooks();
         ApplyPearlpupGraphicsHooks();
+        ApplyPearlpupIllnessHooks();
 
         // World
         ApplyWorldHooks();
+        ApplyWorldCreatureHooks();
         ApplySoundHooks();
 
         ApplySSOracleHooks();
+        ApplySSOracleConvoHooks();
+        ApplySSOraclePearlsHooks();
+
         ApplySLOracleHooks();
     }
 

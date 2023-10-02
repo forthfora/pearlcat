@@ -8,6 +8,9 @@ namespace Pearlcat;
 
 public abstract class ObjectAnimation
 {
+    public int AnimTimer { get; set; } = 0;
+
+
     public ObjectAnimation(Player player) => InitAnimation(player);
 
     public virtual void InitAnimation(Player self)
@@ -19,9 +22,6 @@ public abstract class ObjectAnimation
         for (int i = 0; i < playerModule.Inventory.Count; i++)
             HaloEffectStackers.Add((1.0f / playerModule.Inventory.Count) * i);
     }
-
-
-    public int animTimer = 0;
 
     public virtual void Update(Player player)
     {
@@ -42,11 +42,12 @@ public abstract class ObjectAnimation
             module.PlayCollisionSound = false;
         }
 
-        animTimer++;
+        AnimTimer++;
 
         UpdateHaloEffects(player);
         UpdateSymbolEffects(player);
     }
+
 
 
     public List<float> HaloEffectStackers { get; set; } = new();
@@ -60,14 +61,15 @@ public abstract class ObjectAnimation
 
         for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
+            var abstractObject = playerModule.Inventory[i];
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
+            if (!abstractObject.TryGetAddon(out var addon)) continue;
             
+
             addon.DrawHalo = true;
-            float haloEffectTimer = HaloEffectStackers[i];
+            var haloEffectTimer = HaloEffectStackers[i];
 
             addon.ActiveHaloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
 
@@ -87,14 +89,18 @@ public abstract class ObjectAnimation
 
 
             if (haloEffectTimer < 0.0f)
+            {
                 HaloEffectDir = 1;
-
+            }
             else if (haloEffectTimer > 1.0f)
+            {
                 HaloEffectDir = -1;
+            }
 
             HaloEffectStackers[i] += HaloEffectDir * HaloEffectFrameAddition;
         }
     }
+
 
     public virtual void UpdateSymbolEffects(Player player)
     {
@@ -207,13 +213,14 @@ public abstract class ObjectAnimation
         }
     }
 
+
     public void AnimateOrbit(Player player, Vector2 origin, float radius, float angleFrameAddition, List<AbstractPhysicalObject> abstractObjects)
     {
         for (int i = 0; i < abstractObjects.Count; i++)
         {
             var abstractObject = abstractObjects[i];
 
-            var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * animTimer;
+            var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * AnimTimer;
 
             Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
             abstractObject.MoveToTargetPos(player, targetPos);

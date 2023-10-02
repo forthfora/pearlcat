@@ -267,6 +267,7 @@ public sealed class ModOptions : OptionsTemplate
 
     #endregion
 
+
     public const int TAB_COUNT = 7;
 
     public override void Initialize()
@@ -286,6 +287,7 @@ public sealed class ModOptions : OptionsTemplate
         InitCheats(ref tabIndex);
         InitExtraCheats(ref tabIndex);
     }
+
 
     private void InitExtraCheats(ref int tabIndex)
     {

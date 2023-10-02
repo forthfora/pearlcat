@@ -6,6 +6,7 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
+    // Inventory
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (player.bodyMode != Player.BodyModeIndex.Stand && player.bodyMode != Player.BodyModeIndex.ZeroG && player.bodyMode != Player.BodyModeIndex.Swimming
@@ -28,6 +29,46 @@ public static partial class Hooks
         };
     }
 
+    public static bool IsSwapKeybindPressed(this Player player)
+    {
+        return player.playerState.playerNumber switch
+        {
+            0 => Input.GetKey(ModOptions.SwapKeybindPlayer1.Value) || Input.GetKey(ModOptions.SwapKeybindKeyboard.Value),
+            1 => Input.GetKey(ModOptions.SwapKeybindPlayer2.Value),
+            2 => Input.GetKey(ModOptions.SwapKeybindPlayer3.Value),
+            3 => Input.GetKey(ModOptions.SwapKeybindPlayer4.Value),
+
+            _ => false
+        };
+    }
+
+    public static bool IsSwapLeftInput(this Player player)
+    {
+        return (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapLeftKeybind.Value))
+            || (Input.GetAxis("DschockHorizontalRight") < -0.5f && (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1 || player.IsSingleplayer()));
+    }
+
+    public static bool IsSwapRightInput(this Player player)
+    {
+        return (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapRightKeybind.Value))
+            || (Input.GetAxis("DschockHorizontalRight") > 0.5f && (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1 || player.IsSingleplayer()));
+    }
+    
+    public static int GetNumberPressed(this Player player)
+    {
+        //if (player.input[0].controllerType != Options.ControlSetup.Preset.KeyboardSinglePlayer)
+        //    return -1;
+
+        //for (int number = 0; number <= 9; number++)
+        //    if (Input.GetKey(number.ToString()))
+        //        return number;
+
+        return -1;
+    } // DEPRECATED
+
+
+
+    // Ability
     public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
         return player.playerState.playerNumber switch
@@ -40,34 +81,7 @@ public static partial class Hooks
             _ => false
         };
     }
-
-    public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
-    {
-        if (ModOptions.CustomAgilityKeybind.Value)
-            return IsCustomAbilityKeybindPressed(player, playerModule);
-
-        var input = playerModule.UnblockedInput;
-        return input.jmp && input.pckp;
-    }
-
-    public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
-    {
-        if (ModOptions.CustomSpearKeybind.Value)
-            return IsCustomAbilityKeybindPressed(player, playerModule);
-
-        var input = playerModule.UnblockedInput;
-        return input.pckp;
-    }
-
-    public static bool IsReviveKeybindPressed(this Player player, PlayerModule playerModule)
-    {
-        //if (ModOptions.CustomReviveKeybind.Value)
-        //    return IsCustomAbilityKeybindPressed(player, playerModule);
-
-        var input = playerModule.UnblockedInput;
-        return input.pckp;
-    }
-
+    
     public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (ModOptions.CustomSentryKeybind.Value)
@@ -90,39 +104,32 @@ public static partial class Hooks
     }
 
 
-    public static bool IsSwapKeybindPressed(this Player player)
-    {
-        return player.playerState.playerNumber switch
-        {
-            0 => Input.GetKey(ModOptions.SwapKeybindPlayer1.Value) || Input.GetKey(ModOptions.SwapKeybindKeyboard.Value),
-            1 => Input.GetKey(ModOptions.SwapKeybindPlayer2.Value),
-            2 => Input.GetKey(ModOptions.SwapKeybindPlayer3.Value),
-            3 => Input.GetKey(ModOptions.SwapKeybindPlayer4.Value),
 
-            _ => false
-        };
+    // Custom Ability
+    public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
+    {
+        if (ModOptions.CustomAgilityKeybind.Value)
+            return IsCustomAbilityKeybindPressed(player, playerModule);
+
+        var input = playerModule.UnblockedInput;
+        return input.jmp && input.pckp;
     }
 
-    public static int GetNumberPressed(this Player player)
+    public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        //if (player.input[0].controllerType != Options.ControlSetup.Preset.KeyboardSinglePlayer)
-        //    return -1;
+        if (ModOptions.CustomSpearKeybind.Value)
+            return IsCustomAbilityKeybindPressed(player, playerModule);
 
-        //for (int number = 0; number <= 9; number++)
-        //    if (Input.GetKey(number.ToString()))
-        //        return number;
-
-        return -1;
+        var input = playerModule.UnblockedInput;
+        return input.pckp;
     }
 
+    public static bool IsReviveKeybindPressed(this Player player, PlayerModule playerModule)
+    {
+        var input = playerModule.UnblockedInput;
+        return input.pckp;
+    } // DEPRECATED
 
-    public static bool IsSwapLeftInput(this Player player)
-        => (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapLeftKeybind.Value))
-        || (Input.GetAxis("DschockHorizontalRight") < -0.5f && (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1 || player.IsSingleplayer()));
-
-    public static bool IsSwapRightInput(this Player player)
-        => (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapRightKeybind.Value))
-        || (Input.GetAxis("DschockHorizontalRight") > 0.5f && (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1 || player.IsSingleplayer()));
 
 
     public static string GetDisplayName(this KeyCode keyCode)

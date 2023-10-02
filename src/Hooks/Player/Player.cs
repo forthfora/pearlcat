@@ -697,8 +697,8 @@ public static partial class Hooks
 
             if (item.IsPlayerObject()) return;
 
-            if (ObjectAddon.ObjectsWithAddon.TryGetValue(item, out var _))
-                ObjectAddon.ObjectsWithAddon.Remove(item);
+            if (ModuleManager.ObjectsWithAddon.TryGetValue(item, out var _))
+                ModuleManager.ObjectsWithAddon.Remove(item);
 
             self.StoreObject(item);
         }

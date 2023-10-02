@@ -10,7 +10,6 @@ namespace Pearlcat;
 
 public class ObjectAddon : UpdatableAndDeletable, IDrawable
 {
-    public static ConditionalWeakTable<AbstractPhysicalObject, ObjectAddon> ObjectsWithAddon { get; } = new();
     public WeakReference<AbstractPhysicalObject> ObjectRef { get; } = null!;
 
     public ObjectAddon(AbstractPhysicalObject abstractObject)
@@ -22,7 +21,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         }
 
         ObjectRef = new(abstractObject);
-        ObjectsWithAddon.Add(abstractObject, this);
+        ModuleManager.ObjectsWithAddon.Add(abstractObject, this);
 
         abstractObject.realizedObject.room.AddObject(this);
     }
@@ -49,9 +48,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         base.Destroy();
 
         if (ObjectRef?.TryGetTarget(out var abstractObject) == true)
-            ObjectsWithAddon.Remove(abstractObject);
-
-        //Plugin.Logger.LogWarning("DESTROY");
+        {
+            ModuleManager.ObjectsWithAddon.Remove(abstractObject);
+        }
 
         RemoveFromRoom();
     }
@@ -300,15 +299,6 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         var laserWidth = LaserLerp > 0.97 ? 10.0f : Custom.LerpMap(LaserLerp, 0.0f, 1.0f, 1.5f, 5.0f);
         var laserLength = Custom.Dist(startPos, targetPos);
-
-        //var perpVecNorm = Custom.PerpendicularVector(dir).normalized;
-        
-        //var startLeft = startPos - perpVecNorm * laserWidth;
-        //var startRight = startPos + perpVecNorm * laserWidth;
-        
-        //var endLeft = startPos + dir * laserLength - (perpVecNorm * laserWidth);
-        //var endRight = startPos + dir * laserLength + (perpVecNorm * laserWidth);
-
 
         sprite.rotation = Custom.VecToDeg(dir);
         sprite.scaleX = laserWidth;

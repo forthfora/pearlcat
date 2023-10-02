@@ -80,19 +80,6 @@ public static class Enums
         public static SceneID Dream_Pearlcat_Pearlpup = new(nameof(Dream_Pearlcat_Pearlpup), false);
         public static SceneID Dream_Pearlcat_Moon_Sick = new(nameof(Dream_Pearlcat_Moon_Sick), false);
         public static SceneID Dream_Pearlcat_Sick = new(nameof(Dream_Pearlcat_Sick), false);
-
-        // DEPRECATED
-        //public static SlideShowID PearlcatIntro = new(nameof(PearlcatIntro), true);
-        //public static SlideShowID PearlcatOutro = new(nameof(PearlcatOutro), true);
-
-        //public static SceneID Pearlcat_Intro_1 = new(nameof(Pearlcat_Intro_1), false);
-        //public static SceneID Pearlcat_Intro_2 = new(nameof(Pearlcat_Intro_2), false);
-
-        //public static SceneID Pearlcat_Outro_1 = new(nameof(Pearlcat_Outro_1), false);
-        //public static SceneID Pearlcat_Outro_2 = new(nameof(Pearlcat_Outro_2), false);
-
-        //public static SceneID Pearlcat_AltOutro_1 = new(nameof(Pearlcat_AltOutro_1), false);
-        //public static SceneID Pearlcat_AltOutro_2 = new(nameof(Pearlcat_AltOutro_2), false);
     }
 
     public static class Dreams

@@ -11,7 +11,7 @@ public class SpearModule
         PearlType = pearlType;
     }
 
-    [JsonConverter(typeof(ColorHandler))]
+    [JsonConverter(typeof(JsonColorHandler))]
     public Color Color { get; set; }
     public string PearlType { get; set; }
 

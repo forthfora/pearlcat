@@ -93,7 +93,7 @@ public static partial class Hooks
         playerModule.RegenerateTail();
         playerModule.RegenerateEars();
 
-        playerModule.Cloak = new PlayerModule.CloakGraphics(self, playerModule);
+        playerModule.Cloak = new CloakGraphics(self, playerModule);
         playerModule.Cloak.InitiateSprite(sLeaser, rCam);
 
         GenerateEarMesh(sLeaser, playerModule.EarL, playerModule.EarLSprite);
