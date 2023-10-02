@@ -1,7 +1,6 @@
 ﻿using RWCustom;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using static Pearlcat.POEffect;
 using MoreSlugcats;

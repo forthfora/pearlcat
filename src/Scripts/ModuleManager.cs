@@ -116,6 +116,7 @@ public static class ModuleManager
         return false;
     }
 
+
     // Object Addon
     public static ConditionalWeakTable<AbstractPhysicalObject, ObjectAddon> ObjectsWithAddon { get; } = new();
     public static bool TryGetAddon(this AbstractPhysicalObject abstractObject, out ObjectAddon addon)
@@ -126,7 +127,6 @@ public static class ModuleManager
         addon = null!;
         return false;
     }
-
 
 
     // Save Data

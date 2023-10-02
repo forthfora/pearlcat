@@ -1,8 +1,6 @@
-﻿using IL.MoreSlugcats;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
-using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Collections.Generic;
@@ -12,7 +10,6 @@ using UnityEngine;
 using VoidSea;
 using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
-using MoreSlugcatsEnums = MoreSlugcats.MoreSlugcatsEnums;
 
 namespace Pearlcat;
 
@@ -32,9 +29,6 @@ public static partial class Hooks
         On.Creature.Violence += Creature_Violence;
 
         On.Player.SpearOnBack.Update += SpearOnBack_Update;
-
-        //On.Player.Jump += Player_Jump;
-        //IL.Player.Jump += Player_JumpIL;
 
         new Hook(
             typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
@@ -80,11 +74,6 @@ public static partial class Hooks
             save.JustAscended = true;
         }
     }
-
-    // void sea limits (150 - 160) (4260 - 4275)
-    // tiles (-9) (214)
-    // only the first player does not have this issue at all
-
 
     private static void Grasp_Release(On.Creature.Grasp.orig_Release orig, Creature.Grasp self)
     {
@@ -140,7 +129,6 @@ public static partial class Hooks
         // Plugin.Logger.LogWarning(c.Context);
     }
 
-
     private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
         orig(self, abstractCreature, world);
@@ -152,81 +140,6 @@ public static partial class Hooks
             self.spearOnBack ??= new Player.SpearOnBack(self);
         }
     }
-
-    // yucky
-    private static void Player_JumpIL(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        // Jump from Roll
-        c.GotoNext(MoveType.After,
-            x => x.MatchLdsfld<Player.AnimationIndex>(nameof(Player.AnimationIndex.RocketJump)),
-            x => x.MatchStfld<Player>(nameof(Player.animation))
-        );
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Action<Player>>((player) =>
-        {
-            if (!player.TryGetPearlcatModule(out var playerModule))
-                return;
-
-            var effect = playerModule.CurrentPOEffect;
-
-            player.bodyChunks[0].vel.x *= effect.RollSpeedFac;
-            player.bodyChunks[0].vel.y *= effect.RollSpeedFac;
-
-            player.bodyChunks[1].vel.x *= effect.RollSpeedFac;
-            player.bodyChunks[1].vel.y *= effect.RollSpeedFac;
-        });
-
-
-        // Jump from Slide
-        c.GotoNext(MoveType.After,
-            x => x.MatchStfld<Player>(nameof(Player.rocketJumpFromBellySlide))
-        );
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.Emit(OpCodes.Ldloc_0);        
-        c.EmitDelegate<Action<Player, float>>((player, origValue) =>
-        {
-            if (!player.TryGetPearlcatModule(out var playerModule))
-                return;
-
-            var effect = playerModule.CurrentPOEffect;
-
-            player.bodyChunks[1].vel = new Vector2(player.rollDirection * effect.SlideSpeedFac, effect.SlideSpeedFac) * origValue * (player.longBellySlide ? 1.2f : 1.0f);
-            player.bodyChunks[0].vel = new Vector2(player.rollDirection * effect.SlideSpeedFac, effect.SlideSpeedFac) * origValue * (player.longBellySlide ? 1.2f : 1.0f);
-        });
-
-
-        // Backflip
-        //c.GotoNext(MoveType.After,
-        //    x => x.MatchLdsfld<Player.AnimationIndex>(nameof(Player.AnimationIndex.Flip)),
-        //    x => x.MatchStfld<Player>(nameof(Player.jumpBoost))
-        //);
-
-        //c.Emit(OpCodes.Ldarg_0);
-        //c.Emit(OpCodes.Ldloc_0);
-        //c.EmitDelegate<Action<Player, float>>((player, origValue) =>
-        //{
-        //    if (!player.TryGetPearlcatModule(out var playerModule))
-        //        return;
-
-        //    var effect = playerModule.CurrentPOEffect;
-
-        //    player.bodyChunks[0].vel.y = (effect.JumpHeightFac + 2) * origValue;
-        //    player.bodyChunks[1].vel.y = effect.JumpHeightFac * origValue;
-        //});
-    }
-    private static void Player_Jump(On.Player.orig_Jump orig, Player self)
-    {
-        orig(self);
-
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-        self.jumpBoost *= playerModule.CurrentPOEffect.JumpHeightFac;
-    }
-
 
     private static void Creature_SpitOutOfShortCut(On.Creature.orig_SpitOutOfShortCut orig, Creature self, IntVector2 pos, Room newRoom, bool spitOutAllSticks)
     {
@@ -601,9 +514,6 @@ public static partial class Hooks
 
                 self.Blink(5);
 
-                //var pGraphics = (PlayerGraphics)self.graphicsModule;
-                //pGraphics.hands[self.FreeHand()].absoluteHuntPos = self.firstChunk.pos + new Vector2(50.0f, 0.0f);
-
                 // every 5 frames
                 if (playerModule.StoreObjectTimer % 5 == 0)
                 {
@@ -704,8 +614,10 @@ public static partial class Hooks
         }
 
         if (playerModule.PostDeathActiveObjectIndex != null)
+        {
             ActivateObjectInStorage(self, (int)playerModule.PostDeathActiveObjectIndex);
-        
+        }
+
         playerModule.PostDeathActiveObjectIndex = null;
     }
 

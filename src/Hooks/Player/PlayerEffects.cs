@@ -2,7 +2,6 @@
 using RWCustom;
 using SlugBase.Features;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using static Pearlcat.POEffect;
 using Random = UnityEngine.Random;

@@ -1,9 +1,5 @@
-﻿
-using MonoMod.RuntimeDetour;
-using MoreSlugcats;
-using System;
+﻿using MoreSlugcats;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace Pearlcat;

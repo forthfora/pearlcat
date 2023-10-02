@@ -1,22 +1,5 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using RWCustom;
-using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using static Conversation;
-using static SSOracleBehavior;
-using Random = UnityEngine.Random;
+﻿using System.Linq;
 using Action = SSOracleBehavior.Action;
-using UnityEngine;
-using MonoMod.RuntimeDetour;
-using System.Reflection;
-using MoreSlugcats;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Text;
-using System.IO;
 
 namespace Pearlcat;
 

@@ -80,8 +80,6 @@ public static partial class Hooks
         sLeaser.sprites[playerModule.ShieldSprite] = new("Futile_White")
         {
             shader = rCam.room.game.rainWorld.Shaders["GravityDisruptor"],
-            // this one is pretty coool too...
-            //shader = rCam.room.game.rainWorld.Shaders["GhostDistortion"],
         };
 
         sLeaser.sprites[playerModule.HoloLightSprite] = new("Futile_White")
@@ -124,7 +122,9 @@ public static partial class Hooks
             int indexTimesFour = i * 4;
 
             for (int j = 0; j <= 3; j++)
+            {
                 earMeshTries[indexTimesFour + j] = new TriangleMesh.Triangle(indexTimesFour + j, indexTimesFour + j + 1, indexTimesFour + j + 2);
+            }
         }
 
         earMeshTries[earMeshTriesLength] = new TriangleMesh.Triangle(earMeshTriesLength, earMeshTriesLength + 1, earMeshTriesLength + 2);
@@ -159,13 +159,16 @@ public static partial class Hooks
         playerModule.EarLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earLOffset);
 
         for (int segment = 0; segment < playerModule.EarL.Length; segment++)
+        {
             playerModule.EarL[segment].Reset(playerModule.EarLAttachPos);
-
+        }
 
         playerModule.EarRAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earROffset);
 
         for (int segment = 0; segment < playerModule.EarR.Length; segment++)
+        {
             playerModule.EarR[segment].Reset(playerModule.EarRAttachPos);
+        }
 
         playerModule.Cloak.needsReset = true;
     }
@@ -893,31 +896,5 @@ public static partial class Hooks
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
         self.playerColor = playerModule.ActiveColor;
-    }
-    
-    public static Color RWColorSafety(this Color color)
-    {
-        var hsl = Custom.RGB2HSL(color);
-
-        var safeColor = Custom.HSL2RGB(hsl.x, hsl.y, Mathf.Clamp(hsl.z, 0.01f, 1.0f), color.a);
-
-        return safeColor;
-    }
-
-    public static int TexUpdateInterval(this Player player)
-    {
-        var texUpdateInterval = 5;
-        var quality = player.abstractCreature.world.game.rainWorld.options.quality;
-
-        if (quality == Options.Quality.LOW)
-        {
-            texUpdateInterval = 20;
-        }
-        else if (quality == Options.Quality.MEDIUM)
-        {
-            texUpdateInterval = 10;
-        }
-
-        return texUpdateInterval;
     }
 }

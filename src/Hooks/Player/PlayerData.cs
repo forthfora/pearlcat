@@ -1,10 +1,4 @@
-﻿using SlugBase;
-using SlugBase.Features;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Vector2 = UnityEngine.Vector2;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public static partial class Hooks
 {

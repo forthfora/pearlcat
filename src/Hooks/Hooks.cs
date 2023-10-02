@@ -17,7 +17,7 @@ public static partial class Hooks
         // Player
         ApplyPlayerHooks();
         ApplyPlayerGraphicsHooks();
-        ApplyPlayerObjectDataHooks();
+        ApplyPlayerObjectManagementHooks();
 
         // Pearlpup
         ApplyPearlpupHooks();

@@ -1,7 +1,6 @@
 ﻿using RWCustom;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using DataPearlType = DataPearl.AbstractDataPearl;
 using MSCDataPearlType = MoreSlugcats.MoreSlugcatsEnums.DataPearlType;

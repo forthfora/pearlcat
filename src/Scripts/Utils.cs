@@ -8,8 +8,6 @@ using UnityEngine;
 using RWCustom;
 using static Conversation;
 using static SSOracleBehavior;
-using Newtonsoft.Json;
-using System;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;
@@ -92,6 +90,33 @@ public static class Utils
 
         miscWorld.CurrentDream = strId;
         SlugBase.Assets.CustomDreams.QueueDream(storyGame, dreamId);
+    }
+
+
+    public static Color RWColorSafety(this Color color)
+    {
+        var hsl = Custom.RGB2HSL(color);
+
+        var safeColor = Custom.HSL2RGB(hsl.x, hsl.y, Mathf.Clamp(hsl.z, 0.01f, 1.0f), color.a);
+
+        return safeColor;
+    }
+
+    public static int TexUpdateInterval(this Player player)
+    {
+        var texUpdateInterval = 5;
+        var quality = player.abstractCreature.world.game.rainWorld.options.quality;
+
+        if (quality == Options.Quality.LOW)
+        {
+            texUpdateInterval = 20;
+        }
+        else if (quality == Options.Quality.MEDIUM)
+        {
+            texUpdateInterval = 10;
+        }
+
+        return texUpdateInterval;
     }
 
 
