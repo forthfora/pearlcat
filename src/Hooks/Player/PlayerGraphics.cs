@@ -70,7 +70,9 @@ public static partial class Hooks
         playerModule.ShieldSprite = spriteIndex++;
         playerModule.HoloLightSprite = spriteIndex++;
 
-        playerModule.RibbonSprite = spriteIndex++;
+        playerModule.Ribbon1Sprite = spriteIndex++;
+        playerModule.Ribbon2Sprite = spriteIndex++;
+
         playerModule.ScarSprite = spriteIndex++;
 
         playerModule.LastSprite = spriteIndex;
@@ -93,7 +95,7 @@ public static partial class Hooks
             shader = rCam.game.rainWorld.Shaders["HoloGrid"],
         };
 
-        sLeaser.sprites[playerModule.ScarSprite] = new("pearlcatBodyAScar");
+        sLeaser.sprites[playerModule.ScarSprite] = new("pearlcatScar");
 
 
         playerModule.RegenerateTail();
@@ -105,7 +107,8 @@ public static partial class Hooks
         GenerateEarMesh(sLeaser, playerModule.EarL, playerModule.EarLSprite);
         GenerateEarMesh(sLeaser, playerModule.EarR, playerModule.EarRSprite);
 
-        GenerateRibbonMesh(sLeaser, rCam, playerModule);
+        GenerateRibbonMesh(sLeaser, rCam, playerModule, playerModule.Ribbon1Sprite, playerModule.Ribbon1);
+        GenerateRibbonMesh(sLeaser, rCam, playerModule, playerModule.Ribbon2Sprite, playerModule.Ribbon2);
 
         // Color meshes
         playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_adulttail" : "tail");
@@ -182,29 +185,32 @@ public static partial class Hooks
 
         playerModule.Cloak.needsReset = true;
 
+        ResetRibbon(self, playerModule, playerModule.Ribbon1, playerModule.Ribbon1Offset);
+        ResetRibbon(self, playerModule, playerModule.Ribbon2, playerModule.Ribbon2Offset);
+    }
 
-        var scarfPos = self.RibbonAttachPos(playerModule, 1.0f);
+    private static void ResetRibbon(PlayerGraphics self, PlayerModule playerModule, Vector2[,] ribbon, Vector2 offset)
+    {
+        var ribbonPos = self.RibbonAttachPos(playerModule, 1.0f, offset);
 
-        for (int i = 0; i < playerModule.Ribbon.GetLength(0); i++)
+        for (int i = 0; i < ribbon.GetLength(0); i++)
         {
-            playerModule.Ribbon[i, 0] = scarfPos;
-            playerModule.Ribbon[i, 1] = scarfPos;
-            playerModule.Ribbon[i, 2] *= 0f;
+            ribbon[i, 0] = ribbonPos;
+            ribbon[i, 1] = ribbonPos;
+            ribbon[i, 2] *= 0f;
         }
     }
 
-    private static void GenerateRibbonMesh(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule module)
+    private static void GenerateRibbonMesh(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule module, int spriteIndex, Vector2[,] ribbon)
     {
-        var ribbon = module.Ribbon;
+        sLeaser.sprites[spriteIndex] = TriangleMesh.MakeLongMesh(ribbon.GetLength(0), false, false);
+        sLeaser.sprites[spriteIndex].shader = rCam.game.rainWorld.Shaders["Basic"];
+        sLeaser.sprites[spriteIndex].alpha = 1.0f;
 
-        sLeaser.sprites[module.RibbonSprite] = TriangleMesh.MakeLongMesh(ribbon.GetLength(0), false, false);
-        sLeaser.sprites[module.RibbonSprite].shader = rCam.game.rainWorld.Shaders["Basic"];
-        sLeaser.sprites[module.RibbonSprite].alpha = 1.0f;
+        //var ribbonTex = Futile.atlasManager.GetElementWithName("pearlcat_ribbon");
 
-        var ribbonTex = Futile.atlasManager.GetElementWithName("pearlcat_ribbon");
-
-        ((TriangleMesh)sLeaser.sprites[module.RibbonSprite]).SetAtlasedImage(ribbonTex);
-        sLeaser.sprites[module.RibbonSprite].element = ribbonTex;
+        //((TriangleMesh)sLeaser.sprites[module.Ribbon1Sprite]).SetAtlasedImage(ribbonTex);
+        //sLeaser.sprites[module.Ribbon1Sprite].element = ribbonTex;
     }
 
 
@@ -225,7 +231,6 @@ public static partial class Hooks
 
 
         UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "scarf", "Scarf", playerModule.ScarfSprite);
-        UpdateCustomPlayerSprite(sLeaser,BODY_SPRITE, "Body", "scar", "Scar", playerModule.ScarSprite);
 
         UpdateReplacementPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
    
@@ -283,7 +288,8 @@ public static partial class Hooks
 
         playerModule.Cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
 
-        DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos);
+        DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos, playerModule.Ribbon1Sprite, playerModule.Ribbon1, playerModule.Ribbon1Offset);
+        DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos, playerModule.Ribbon2Sprite, playerModule.Ribbon2, playerModule.Ribbon2Offset);
 
         OrderAndColorSprites(self, sLeaser, rCam, playerModule, null);
     }
@@ -451,10 +457,10 @@ public static partial class Hooks
     }
 
 
-    public static void DrawRibbon(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule, float timeStacker, Vector2 camPos, int spriteIndex, Vector2[,] ribbon, Vector2 attachPos)
+    public static void DrawRibbon(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule, float timeStacker, Vector2 camPos, int spriteIndex, Vector2[,] ribbon, Vector2 offset)
     {
         var prevRot = 0.0f;
-        var startPos = attachPos;
+        var startPos = self.RibbonAttachPos(playerModule, timeStacker, offset);
 
         var ribbonSprite = sLeaser.sprites[spriteIndex] as TriangleMesh;
 
@@ -519,7 +525,9 @@ public static partial class Hooks
         var holoLightSprite = sLeaser.sprites[playerModule.HoloLightSprite];
 
         var scarSprite = sLeaser.sprites[playerModule.ScarSprite];
-        var ribbonSprite = sLeaser.sprites[playerModule.RibbonSprite];
+
+        var ribbon1Sprite = sLeaser.sprites[playerModule.Ribbon1Sprite];
+        var ribbon2Sprite = sLeaser.sprites[playerModule.Ribbon2Sprite];
 
         // Container
         if (newContainer != null)
@@ -539,7 +547,9 @@ public static partial class Hooks
             newContainer.AddChild(cloakSprite);
 
             newContainer.AddChild(scarSprite);
-            newContainer.AddChild(ribbonSprite);
+
+            newContainer.AddChild(ribbon1Sprite);
+            newContainer.AddChild(ribbon2Sprite);
 
             hudContainer.AddChild(shieldSprite);
         }
@@ -576,7 +586,7 @@ public static partial class Hooks
             earLSprite.isVisible = false;
             earRSprite.isVisible = false;
 
-            ribbonSprite.isVisible = false;
+            ribbon1Sprite.isVisible = false;
             scarfSprite.isVisible = false;
             return;
         }
@@ -652,11 +662,11 @@ public static partial class Hooks
         sleeveLSprite.MoveInFrontOfOtherNode(armLSprite);
         sleeveRSprite.MoveInFrontOfOtherNode(armRSprite);
 
-        scarSprite.MoveToBack();
-        scarSprite.MoveInFrontOfOtherNode(bodySprite);
+        ribbon1Sprite.MoveInFrontOfOtherNode(headSprite);
+        ribbon1Sprite.MoveBehindOtherNode(cloakSprite);
 
-        ribbonSprite.MoveInFrontOfOtherNode(headSprite);
-        ribbonSprite.MoveBehindOtherNode(cloakSprite);
+        ribbon2Sprite.MoveInFrontOfOtherNode(headSprite);
+        ribbon2Sprite.MoveBehindOtherNode(cloakSprite);
 
         if (upsideDown)
         {
@@ -666,6 +676,10 @@ public static partial class Hooks
         {
             scarfSprite.MoveInFrontOfOtherNode(headSprite);
         }
+
+        scarSprite.MoveBehindOtherNode(cloakSprite);
+        scarSprite.MoveBehindOtherNode(ribbon2Sprite);
+        scarSprite.MoveBehindOtherNode(ribbon1Sprite);
 
 
         playerModule.UpdateColors(self);
@@ -687,7 +701,7 @@ public static partial class Hooks
         handLSprite.color = accentColor;
         handRSprite.color = accentColor;
 
-        scarfSprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.6f)).RWColorSafety();
+        scarfSprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.4f)).RWColorSafety();
 
         sleeveLSprite.color = cloakColor;
         sleeveRSprite.color = cloakColor;
@@ -699,7 +713,9 @@ public static partial class Hooks
         earRSprite.color = Color.white;
 
         cloakSprite.color = Color.white;
-        ribbonSprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.75f)).RWColorSafety();
+
+        ribbon1Sprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.5f)).RWColorSafety();
+        ribbon2Sprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.6f)).RWColorSafety();
 
         playerModule.Cloak.UpdateColor(sLeaser);
 
@@ -713,18 +729,21 @@ public static partial class Hooks
 
             feetSprite.isVisible = false;
 
-            scarSprite.SetPosition(bodySprite.GetPosition());
-            scarSprite.rotation = bodySprite.rotation;
+            scarSprite.SetPosition(hipsSprite.GetPosition());
+            scarSprite.SetAnchor(hipsSprite.GetAnchor());
+            scarSprite.rotation = hipsSprite.rotation;
             scarSprite.isVisible = true;
 
-            var sickColor = Custom.RGB2HSL(bodyColor).z < 0.1f ? Color.white : Custom.hexToColor("29193d");
-            scarSprite.color = Color.Lerp(bodyColor, sickColor, 0.8f);
+            var scarColor = Custom.hexToColor("694646");
+            scarSprite.color = Color.Lerp(bodyColor, scarColor, 0.8f);
         }
         else
         {
             bodySprite.isVisible = false;
             scarSprite.isVisible = false;
-            ribbonSprite.isVisible = false;
+
+            ribbon1Sprite.isVisible = false;
+            ribbon2Sprite.isVisible = false;
         }
     }
     
@@ -804,7 +823,9 @@ public static partial class Hooks
         ApplyEarMovement(self);
 
         playerModule.Cloak.Update();
-        ApplyRibbonMovement(self, playerModule);
+
+        ApplyRibbonMovement(self, playerModule, playerModule.Ribbon1, playerModule.Ribbon1Offset, playerModule.Ribbon1CollisionData);
+        ApplyRibbonMovement(self, playerModule, playerModule.Ribbon2, playerModule.Ribbon2Offset, playerModule.Ribbon1CollisionData);
 
         playerModule.PrevHeadRotation = self.head.connection.Rotation;
     }
@@ -974,9 +995,8 @@ public static partial class Hooks
     }
 
 
-    public static void ApplyRibbonMovement(PlayerGraphics self, PlayerModule playerModule)
+    public static void ApplyRibbonMovement(PlayerGraphics self, PlayerModule playerModule, Vector2[,] ribbon, Vector2 offset, SharedPhysics.TerrainCollisionData collisionData)
     {
-        var ribbon = playerModule.Ribbon;
         var conRad = 7.0f;
 
         for (int i = 0; i < ribbon.GetLength(0); i++)
@@ -985,7 +1005,7 @@ public static partial class Hooks
 
             ribbon[i, 1] = ribbon[i, 0];
             ribbon[i, 0] += ribbon[i, 2];
-            ribbon[i, 2] -= self.player.firstChunk.Rotation * Mathf.InverseLerp(1f, 0f, (float)i) * 0.8f;
+            ribbon[i, 2] -= self.player.firstChunk.Rotation * Mathf.InverseLerp(1f, 0f, i) * 0.8f;
             ribbon[i, 4] = ribbon[i, 3];
             ribbon[i, 3] = (ribbon[i, 3] + ribbon[i, 5] * Custom.LerpMap(Vector2.Distance(ribbon[i, 0], ribbon[i, 1]), 1f, 18f, 0.05f, 0.3f)).normalized;
             ribbon[i, 5] = (ribbon[i, 5] + Custom.RNV() * Random.value * Mathf.Pow(Mathf.InverseLerp(1f, 18f, Vector2.Distance(ribbon[i, 0], ribbon[i, 1])), 0.3f)).normalized;
@@ -1006,7 +1026,7 @@ public static partial class Hooks
 
                 if (i % 3 == 2 || i == ribbon.GetLength(0) - 1)
                 {
-                    var terrainCollisionData = playerModule.ScratchTerrainCollisionData.Set(ribbon[i, 0], ribbon[i, 1], ribbon[i, 2], 1f, new IntVector2(0, 0), false);
+                    var terrainCollisionData = collisionData.Set(ribbon[i, 0], ribbon[i, 1], ribbon[i, 2], 1f, new IntVector2(0, 0), false);
 
                     terrainCollisionData = SharedPhysics.HorizontalCollision(self.player.room, terrainCollisionData);
                     terrainCollisionData = SharedPhysics.VerticalCollision(self.player.room, terrainCollisionData);
@@ -1051,7 +1071,7 @@ public static partial class Hooks
             }
             else
             {
-                ribbon[j, 0] = self.RibbonAttachPos(playerModule, 1.0f);
+                ribbon[j, 0] = self.RibbonAttachPos(playerModule, 1.0f, offset);
                 ribbon[j, 2] *= 0f;
             }
         }

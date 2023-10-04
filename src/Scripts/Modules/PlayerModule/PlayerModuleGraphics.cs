@@ -26,11 +26,20 @@ public partial class PlayerModule
     public int FeetSprite { get; set; }
     public int ShieldSprite { get; set; }
     public int HoloLightSprite { get; set; }
-    public int RibbonSprite { get; set; }
-    public int ScarSprite { get; set; }
 
-    public Vector2[,] Ribbon { get; set; } = new Vector2[8, 14]; // length, width
-    public SharedPhysics.TerrainCollisionData ScratchTerrainCollisionData { get; } = new();
+    public int ScarSprite { get; set; }
+    public int Ribbon1Sprite { get; set; }
+    public int Ribbon2Sprite { get; set; }
+
+    public Vector2[,] Ribbon1 { get; set; } = new Vector2[6, 11]; // length, width
+    public Vector2[,] Ribbon2 { get; set; } = new Vector2[8, 14]; // length, width
+
+    public SharedPhysics.TerrainCollisionData Ribbon1CollisionData { get; } = new();
+    public SharedPhysics.TerrainCollisionData Ribbon2CollisionData { get; } = new();
+
+    public Vector2 Ribbon1Offset { get; } = new(4.0f, 0.0f);
+    public Vector2 Ribbon2Offset { get; } = new(-3.0f, 0.0f);
+
 
     // Shortcut Color
     public float ShortcutColorTimer { get; set; }
