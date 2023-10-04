@@ -156,8 +156,6 @@ public static partial class Hooks
     {
         orig(self, sLeaser, rCam);
 
-        //Plugin.Logger.LogWarning("INIT GRAPHICS");
-
         if (!self.player.TryGetPearlpupModule(out var module)) return;
 
         module.FirstSprite = sLeaser.sprites.Length;
@@ -175,9 +173,9 @@ public static partial class Hooks
         module.LastSprite = spriteIndex;
         Array.Resize(ref sLeaser.sprites, spriteIndex);
 
-        sLeaser.sprites[module.ScarfNeckSprite] = new FSprite("pearlcatScarfC0");
-        sLeaser.sprites[module.FeetSprite] = new FSprite("pearlcatFeetA0");
-        sLeaser.sprites[module.SickSprite] = new FSprite("pearlcatHipsAPearlpupSick");
+        sLeaser.sprites[module.ScarfNeckSprite] = new("pearlcatScarfC0");
+        sLeaser.sprites[module.FeetSprite] = new("pearlcatFeetA0");
+        sLeaser.sprites[module.SickSprite] = new("pearlcatHipsAPearlpupSick");
 
         module.RegenerateTail();
         module.RegenerateEars();
@@ -192,13 +190,6 @@ public static partial class Hooks
         module.LoadEarRTexture("ear_r");
 
         self.AddToContainer(sLeaser, rCam, null);
-
-        //Plugin.Logger.LogWarning("----------------------------");
-        //for (int i = 0; i < sLeaser.sprites.Length; i++)
-        //{
-        //    FSprite? sprite = sLeaser.sprites[i];
-        //    Plugin.Logger.LogWarning(i + " - " + sprite.element.name);
-        //}
     }
 
     private static void GenerateScarfMesh(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PearlpupModule module)

@@ -117,13 +117,5 @@ public partial class PlayerModule
             ActiveObjectIndex = activeObjectIndex < Inventory.Count ? activeObjectIndex : 0;
 
         PickObjectAnimation(self);
-
-        //Plugin.Logger.LogWarning("LOAD SAVE DATA IN PLAYER MODULE");
-        //foreach (var a in Inventory)
-        //{
-        //    if (a is DataPearl.AbstractDataPearl pearl)
-        //        Plugin.Logger.LogWarning(pearl.dataPearlType);
-        //}
-        //Plugin.Logger.LogWarning(ActiveObjectIndex);
     }
 }

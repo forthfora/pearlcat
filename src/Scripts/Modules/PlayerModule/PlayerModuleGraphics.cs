@@ -6,7 +6,6 @@ using UnityEngine;
 using RWCustom;
 using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
-using static Pearlcat.POEffect;
 
 namespace Pearlcat;
 
@@ -27,7 +26,11 @@ public partial class PlayerModule
     public int FeetSprite { get; set; }
     public int ShieldSprite { get; set; }
     public int HoloLightSprite { get; set; }
+    public int RibbonSprite { get; set; }
+    public int ScarSprite { get; set; }
 
+    public Vector2[,] Ribbon { get; set; } = new Vector2[8, 14]; // length, width
+    public SharedPhysics.TerrainCollisionData ScratchTerrainCollisionData { get; } = new();
 
     // Shortcut Color
     public float ShortcutColorTimer { get; set; }
@@ -257,9 +260,28 @@ public partial class PlayerModule
         var self = (PlayerGraphics)player.graphicsModule;
 
         var newEarL = new TailSegment[3];
-        newEarL[0] = new(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-        newEarL[1] = new(self, 3.0f, 6.0f, newEarL[0], 0.85f, 1.0f, 0.05f, true);
-        newEarL[2] = new(self, 1.0f, 4.0f, newEarL[1], 0.85f, 1.0f, 0.05f, true);
+        var newEarR = new TailSegment[3];
+
+        if (IsPearlpupAppearance)
+        {
+            newEarL[0] = new(self, 3.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+            newEarL[1] = new(self, 2.0f, 6.0f, newEarL[0], 0.85f, 1.0f, 0.05f, true);
+            newEarL[2] = new(self, 0.25f, 4.0f, newEarL[1], 0.85f, 1.0f, 0.05f, true);
+
+            newEarR[0] = new(self, 3.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+            newEarR[1] = new(self, 2.0f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.05f, true);
+            newEarR[2] = new(self, 0.25f, 4.0f, newEarR[1], 0.85f, 1.0f, 0.05f, true);
+        }
+        else
+        {
+            newEarL[0] = new(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+            newEarL[1] = new(self, 3.0f, 6.0f, newEarL[0], 0.85f, 1.0f, 0.05f, true);
+            newEarL[2] = new(self, 1.0f, 4.0f, newEarL[1], 0.85f, 1.0f, 0.05f, true);
+
+            newEarR[0] = new(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+            newEarR[1] = new(self, 3.0f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.05f, true);
+            newEarR[2] = new(self, 1.0f, 4.0f, newEarR[1], 0.85f, 1.0f, 0.05f, true);
+        }
 
 
         if (EarL != null)
@@ -273,23 +295,6 @@ public partial class PlayerModule
                 newEarL[i].stretched = EarL[i].stretched;
             }
         }
-
-
-        TailSegment[] newEarR = new TailSegment[3];
-
-        if (IsPearlpupAppearance)
-        {
-            newEarR[0] = new TailSegment(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-            newEarR[1] = new TailSegment(self, 2.0f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.05f, true);
-            newEarR[2] = new TailSegment(self, 0.75f, 4.0f, newEarR[1], 0.85f, 1.0f, 0.05f, true);
-        }
-        else
-        {
-            newEarR[0] = new TailSegment(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-            newEarR[1] = new TailSegment(self, 3.0f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.05f, true);
-            newEarR[2] = new TailSegment(self, 1.0f, 4.0f, newEarR[1], 0.85f, 1.0f, 0.05f, true);
-        }
-
 
         if (EarR != null)
         {
@@ -306,7 +311,7 @@ public partial class PlayerModule
         EarL = newEarL;
         EarR = newEarR;
 
-        List<BodyPart> newBodyParts = self.bodyParts.ToList();
+        var newBodyParts = self.bodyParts.ToList();
 
         newBodyParts.AddRange(EarL);
         newBodyParts.AddRange(EarR);
@@ -337,7 +342,9 @@ public partial class PlayerModule
         var atlasName = Plugin.MOD_ID + textureName + UniqueID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
+        {
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+        }
 
         TailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
 
@@ -358,12 +365,12 @@ public partial class PlayerModule
         {
             Array.Resize(ref newTail, 6);
 
-            newTail[0] = new(self, 7.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-            newTail[1] = new(self, 4.5f, 7.0f, newTail[0], 0.85f, 1.0f, 0.5f, true);
-            newTail[2] = new(self, 2.0f, 7.0f, newTail[1], 0.85f, 1.0f, 0.5f, true);
-            newTail[3] = new(self, 1.7f, 7.0f, newTail[2], 0.85f, 1.0f, 0.5f, true);
-            newTail[4] = new(self, 1.3f, 7.0f, newTail[3], 0.85f, 1.0f, 0.5f, true);
-            newTail[5] = new(self, 0.8f, 7.0f, newTail[4], 0.85f, 1.0f, 0.5f, true);
+            newTail[0] = new(self, 8.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+            newTail[1] = new(self, 7.0f, 7.0f, newTail[0], 0.85f, 1.0f, 0.5f, true);
+            newTail[2] = new(self, 5.0f, 7.0f, newTail[1], 0.85f, 1.0f, 0.5f, true);
+            newTail[3] = new(self, 2.5f, 7.0f, newTail[2], 0.85f, 1.0f, 0.5f, true);
+            newTail[4] = new(self, 1.5f, 7.0f, newTail[3], 0.85f, 1.0f, 0.5f, true);
+            newTail[5] = new(self, 1.0f, 7.0f, newTail[4], 0.85f, 1.0f, 0.5f, true);
         }
         else
         {

@@ -128,10 +128,10 @@ public class PearlpupModule
         var self = (PlayerGraphics)pup.graphicsModule;
 
         var newTail = new TailSegment[4];
-        newTail[0] = new TailSegment(self, 6.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
-        newTail[1] = new TailSegment(self, 5.0f, 7.0f, newTail[0], 0.85f, 1.0f, 0.5f, true);
-        newTail[2] = new TailSegment(self, 2.5f, 7.0f, newTail[1], 0.85f, 1.0f, 0.5f, true);
-        newTail[3] = new TailSegment(self, 1.0f, 7.0f, newTail[2], 0.85f, 1.0f, 0.5f, true);
+        newTail[0] = new(self, 6.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+        newTail[1] = new(self, 5.0f, 7.0f, newTail[0], 0.85f, 1.0f, 0.5f, true);
+        newTail[2] = new(self, 2.5f, 7.0f, newTail[1], 0.85f, 1.0f, 0.5f, true);
+        newTail[3] = new(self, 1.0f, 7.0f, newTail[2], 0.85f, 1.0f, 0.5f, true);
 
         for (int i = 0; i < newTail.Length && i < self.tail.Length; i++)
         {

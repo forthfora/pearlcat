@@ -155,7 +155,7 @@ public static partial class Hooks
         {
             if ((playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor || playerModule.SetInvertTailColors != playerModule.CurrentlyInvertedTailColors))
             {
-                playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_alttail" : "tail");
+                playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_adulttail" : "tail");
                 playerModule.LoadEarLTexture("ear_l");
                 playerModule.LoadEarRTexture("ear_r");
             }
