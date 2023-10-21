@@ -84,6 +84,24 @@ public static class ModuleManager
         save.PearlpupID = crit.ID.number;
     }
 
+    public static ConditionalWeakTable<DataPearl.AbstractDataPearl, PearlpupPearlModule> PearlpupPearlData { get; } = new();
+    public static bool TryGetPearlpupPearlModule(this DataPearl.AbstractDataPearl dataPearl, out PearlpupPearlModule module)
+    {
+        if (!dataPearl.IsPearlpupPearl())
+        {
+            module = null!;
+            return false;
+        }
+
+        if (!PearlpupPearlData.TryGetValue(dataPearl, out module))
+        {
+            module = new(dataPearl);
+            PearlpupPearlData.Add(dataPearl, module);
+        }
+
+        return true;
+    }
+
 
     // Menu Scene
     public static readonly ConditionalWeakTable<MenuScene, MenuSceneModule> MenuSceneData = new();

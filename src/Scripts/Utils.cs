@@ -286,6 +286,11 @@ public static class Utils
         texture.Apply(false);
     }
 
+    public static Color HSLToRGB(this Vector3 hsl)
+    {
+        return Custom.HSL2RGB(hsl.x, hsl.y, hsl.z);
+    }
+
 
 
     public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)

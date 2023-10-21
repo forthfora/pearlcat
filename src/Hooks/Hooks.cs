@@ -23,6 +23,7 @@ public static partial class Hooks
         ApplyPearlpupHooks();
         ApplyPearlpupGraphicsHooks();
         ApplyPearlpupIllnessHooks();
+        ApplyPearlpupPearlHooks();
 
         // World
         ApplyWorldHooks();

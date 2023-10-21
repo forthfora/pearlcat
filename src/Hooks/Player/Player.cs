@@ -1,15 +1,14 @@
-﻿using Mono.Cecil.Cil;
+﻿using JetBrains.Annotations;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using RWCustom;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using VoidSea;
 using static AbstractPhysicalObject;
-using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
@@ -273,8 +272,20 @@ public static partial class Hooks
         }
 
         RefreshPearlpup(self, playerModule);
+
+        UpdateAdultPearlpup(self, playerModule);
     }
 
+    private static void UpdateAdultPearlpup(Player self, PlayerModule playerModule)
+    {
+        if (!playerModule.IsAdultPearlpup) return;
+        
+        if (!self.dead && self.room != null && !playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType == Enums.Pearls.MI_Pearlpup))
+        {
+            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.MI_Pearlpup);
+            self.StoreObject(pearl, overrideLimit: true);
+        }
+    }
 
     private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
     {

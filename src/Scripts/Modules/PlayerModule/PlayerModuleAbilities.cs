@@ -1,11 +1,5 @@
-﻿using SlugBase.DataTypes;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using UnityEngine;
-using RWCustom;
-using Random = UnityEngine.Random;
-using Color = UnityEngine.Color;
 using static Pearlcat.POEffect;
 
 namespace Pearlcat;

@@ -11,7 +11,7 @@ namespace Pearlcat;
 
 public partial class PlayerModule
 {
-    public bool IsPearlpupAppearance => IsPearlpup || true;
+    public bool IsPearlpupAppearance => IsAdultPearlpup;
 
     public int GraphicsResetCounter { get; set; }
 

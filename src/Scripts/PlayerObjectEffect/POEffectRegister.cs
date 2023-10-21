@@ -9,6 +9,8 @@ public static partial class POEffectManager
     public static POEffect None;
     public static POEffect Color;
 
+    public static POEffect MI;
+
     // Vanilla & MSC
     public static POEffect Misc;
     public static POEffect SL_moon;
@@ -74,6 +76,7 @@ public static partial class POEffectManager
     public static POEffect DSH_Unlore_1;
     public static POEffect DSH_Unlore_2;
     public static POEffect DSH_Unlore_3;
+
 
 
     public static void SetEffects()
@@ -274,6 +277,16 @@ public static partial class POEffectManager
         SS.RollSpeedFac = 0.3f;
         SS.SlideSpeedFac = 0.3f;
 
+        MI = None;
+        MI.MajorEffect = MajorEffectType.NONE;
+        MI.ActiveMultiplier = 2.0f;
+        MI.LungsFac = -0.3f;
+        MI.RunSpeedFac = 0.3f;
+        MI.PoleClimbSpeedFac = 0.3f;
+        MI.CorridorClimbSpeedFac = 0.3f;
+        MI.RollSpeedFac = 0.3f;
+        MI.SlideSpeedFac = 0.3f;
+
 
         // Custom threat themes take too long to load
         //AS_PearlBlue.ThreatMusic = "AS";
@@ -312,6 +325,8 @@ public static partial class POEffectManager
 
         DSH_Unlore_3 = Color;
         DSH_Unlore_3.MajorEffect = MajorEffectType.AGILITY;
+
+
     }
 
     public static void RegisterEffects()
@@ -369,6 +384,7 @@ public static partial class POEffectManager
 
         PearlEffects.Add(Enums.Pearls.RM_Pearlcat, RM);
         PearlEffects.Add(Enums.Pearls.SS_Pearlcat, SS);
+        PearlEffects.Add(Enums.Pearls.MI_Pearlpup, MI);
 
         PearlEffects.Add(Enums.Pearls.AS_PearlBlue, AS_PearlBlue);
         PearlEffects.Add(Enums.Pearls.AS_PearlRed, AS_PearlRed);

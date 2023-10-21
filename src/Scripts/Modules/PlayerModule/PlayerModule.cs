@@ -1,12 +1,6 @@
-﻿using SlugBase.DataTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using RWCustom;
-using Random = UnityEngine.Random;
-using Color = UnityEngine.Color;
-using static Pearlcat.POEffect;
 
 namespace Pearlcat;
 
@@ -25,7 +19,7 @@ public partial class PlayerModule
     }
     
     
-    public bool IsPearlpup => PlayerRef.TryGetTarget(out var player) && player.abstractCreature.Room.world.game.IsPearlcatStory() && player.abstractCreature.Room.world.game.GetMiscProgression().HasTrueEnding;
+    public bool IsAdultPearlpup => PlayerRef.TryGetTarget(out var player) && player.abstractCreature.Room.world.game.IsPearlcatStory() && player.abstractCreature.Room.world.game.GetMiscProgression().HasTrueEnding || true;
 
     public int PlayerNumber { get; }
     public int UniqueID { get; }
@@ -107,14 +101,20 @@ public partial class PlayerModule
             Inventory.Clear();
             
             if (save.Inventory.TryGetValue(playerNumber, out var inventory))
+            {
                 foreach (var item in inventory)
+                {
                     self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item), addToEnd: true);
+                }
+            }
         }
 
         ActiveObjectIndex = null;
 
         if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex) && Inventory.Count > 0)
+        {
             ActiveObjectIndex = activeObjectIndex < Inventory.Count ? activeObjectIndex : 0;
+        }
 
         PickObjectAnimation(self);
     }

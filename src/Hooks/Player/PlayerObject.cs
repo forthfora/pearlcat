@@ -12,10 +12,14 @@ public static partial class Hooks
         bool shouldGivePearls = true;
 
         if (save != null)
+        {
             shouldGivePearls = !save.PlayersGivenPearls.Contains(self.playerState.playerNumber);
+        }
 
         if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
+        {
             playerModule.GivenPearls = false;
+        }
 
         if (!(shouldGivePearls || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
 
@@ -41,7 +45,9 @@ public static partial class Hooks
             };
 
             if (ModOptions.MaxPearlCount.Value <= 1)
+            {
                 pearls.Remove(Enums.Pearls.AS_PearlBlack);
+            }
 
             overrideLimit = true;
         }
@@ -55,7 +61,9 @@ public static partial class Hooks
         playerModule.GivenPearls = true;
 
         if (save != null && !save.PlayersGivenPearls.Contains(self.playerState.playerNumber))
+        {
             save.PlayersGivenPearls.Add(self.playerState.playerNumber);
+        }
     }
 
 
