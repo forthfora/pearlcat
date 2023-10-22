@@ -35,6 +35,22 @@ public static partial class Hooks
         return false;
     }
 
+    public static Player? TryGetPlayerObjectOwner(this AbstractPhysicalObject targetObject)
+    {
+        var playerData = targetObject.world.game.GetAllPlayerData();
+
+        foreach (var playerModule in playerData)
+        {
+            var obj = playerModule.Inventory.FirstOrDefault(abstractObject => abstractObject == targetObject);
+
+            if (obj != null && playerModule.PlayerRef.TryGetTarget(out var player))
+            {
+                return player;
+            }
+        }
+
+        return null;
+    }
 
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {

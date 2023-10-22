@@ -1,21 +1,27 @@
-﻿
-using RWCustom;
-using System;
-using UnityEngine;
+﻿using System;
 
 namespace Pearlcat;
 
 public class PearlpupPearlModule
 {
     public WeakReference<DataPearl.AbstractDataPearl> DataPearlRef { get; }
+    public WeakReference<Player>? OwnerRef { get; } 
 
     public PearlpupPearlModule(DataPearl.AbstractDataPearl dataPearl)
     {
         DataPearlRef = new(dataPearl);
+
+        var owner = dataPearl.TryGetPlayerObjectOwner();
+
+        if (owner != null)
+        {
+            OwnerRef = new(owner);
+        }
     }
 
-    public int TimeCounter = 0;
+    public float HeartRateMult { get; set; } = 1.0f;
 
-    public Color MainColor { get; set; }
-    public Color HighlightColor { get; set; } = Custom.HSL2RGB(0.0f, 1.0f, 0.5f);
+    public int HeartBeatTime => (int)(80 * HeartRateMult);
+    public int HeartBeatTimer1 { get; set; } = 0;
+    public int HeartBeatTimer2 { get; set; } = 10;
 }
