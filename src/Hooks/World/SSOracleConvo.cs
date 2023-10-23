@@ -36,7 +36,18 @@ public static partial class Hooks
         c.EmitDelegate<Func<string, SSOracleBehavior, string>>((origText, self) =>
         {
             if (self.oracle.room.game.IsPearlcatStory())
-                return self.Translate("...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...");
+            {
+                var miscProg = self.oracle.room.game.GetMiscProgression();
+
+                if (miscProg.HasTrueEnding)
+                {
+                    return self.Translate("...ah... are those still a fascination to you? You really are no different from your mother...");
+                }
+                else
+                {
+                    return self.Translate("...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...");
+                }
+            }
 
             return origText;
         });

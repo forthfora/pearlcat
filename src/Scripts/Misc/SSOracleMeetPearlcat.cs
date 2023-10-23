@@ -30,114 +30,178 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             return;
         }
 
-        switch (miscWorld.PebblesMeetCount)
+        if (miscProg.HasTrueEnding)
         {
-            case 0:
-                break;
-
-            case 1:
-                dialogBox.NewMessage(
-                    Translate("Ah. So you've returned."), 0);
-
-                dialogBox.NewMessage(
-                    Translate("Brought me something to read? Or just wasting my time, as per usual?"), 0);
-                break;
-
-            case 2:
-                dialogBox.NewMessage(
-                    Translate("Back again? I hope you have brought me something this time."), 0);
-
-                dialogBox.NewMessage(
-                    Translate("My own time is limited, after all..."), 0);
-                break;
-
-            case 3:
-                dialogBox.NewMessage(
-                    Translate("Back again? You do visit often..."), 0);
-
-                dialogBox.NewMessage(
-                    Translate("I will tolerate your pressence, so long as you bring me something meaningful."), 0);
-                break;
-
-            default:
-                switch (Random.Range(0, 4))
-                {
-                    case 0:
-                        dialogBox.NewMessage(
-                            Translate("Welcome back, I suppose."), 0);
-                        break;
-
-                    case 1:
-                        dialogBox.NewMessage(
-                            Translate("I see you've returned, yet again."), 0);
-                        break;
-
-                    case 2:
-                        dialogBox.NewMessage(
-                            Translate("Hello again."), 0);
-                        break;
-
-                    default:
-                        dialogBox.NewMessage(
-                            Translate("Hello, again. You are very curious. Very curious indeed."), 0);
-                        break;
-                }
-                break;
-        }
-
-        if (miscWorld.HasPearlpupWithPlayer && miscWorld.PebblesMeetCount > 0)
-        {
-            if (miscProg.IsPearlpupSick && miscWorld.PebblesMetSickPup)
+            switch (miscWorld.PebblesMeetCount)
             {
-                switch (Random.Range(0, 4))
-                {
-                    case 0:
-                        dialogBox.NewMessage(
-                            Translate("Your little friend is still quite sick, unfortunately."), 0);
-                        break;
+                case 0:
+                    break;
 
-                    case 1:
-                        dialogBox.NewMessage(
-                            Translate("I see you have not found a cure for their illness. Not yet..."), 0);
-                        break;
+                case 1:
+                    dialogBox.NewMessage(
+                        Translate("Hello. Again."), 0);
 
-                    case 2:
-                        dialogBox.NewMessage(
-                            Translate("Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time."), 0);
-                        break;
+                    dialogBox.NewMessage(
+                        Translate("Why did you come back here...? I can only imagine it brings back painful memories."), 0);
 
-                    default:
-                        dialogBox.NewMessage(
-                            Translate("...there is nothing I can do for your pup at present. I am sorry. I will... think on it."), 0);
-                        break;
-                }
-            }
-            else
-            {
-                switch (Random.Range(0, 4))
-                {
-                    case 0:
-                        dialogBox.NewMessage(
-                            Translate("...and you have brought your little friend along, of course."), 0);
-                        break;
+                    dialogBox.NewMessage(
+                        Translate("It doesn't matter I suppose, you may stay, so long as you don't disturb my work..."), 0);
+                    break;
 
-                    case 1:
-                        dialogBox.NewMessage(
-                            Translate("Your attachment to that thing is unavoidable, I suppose."), 0);
-                        break;
+                case 2:
+                    dialogBox.NewMessage(
+                        Translate("Ah, you have returned? You look about as sickly as I remember."), 0);
 
-                    case 2:
-                        dialogBox.NewMessage(
-                            Translate("And please keep your child under control."), 0);
-                        break;
+                    dialogBox.NewMessage(
+                        Translate("...and don't look to me, it's not my fault..."), 0);
+                    break;
 
-                    default:
-                        dialogBox.NewMessage(
-                            Translate("No, I do not care for your little one."), 0);
-                        break;
-                }
+                case 3:
+                    dialogBox.NewMessage(
+                        Translate("Surely it must be another little beast with a pearl for a heart?"), 0);
+
+                    dialogBox.NewMessage(
+                        Translate("For the number of visits you pay me, how could there only be one of you?"), 0);
+                    break;
+
+                default:
+                    switch (Random.Range(0, 4))
+                    {
+                        case 0:
+                            dialogBox.NewMessage(
+                                Translate("Welc- Hello. Hello again."), 0);
+                            break;
+
+                        case 1:
+                            dialogBox.NewMessage(
+                                Translate("Is the implant... painful? Not that it matters, of course. Just noting some common ground."), 0);
+                            break;
+
+                        case 2:
+                            dialogBox.NewMessage(
+                                Translate("So... anything for me to read?"), 0);
+                            break;
+
+                        default:
+                            dialogBox.NewMessage(
+                                Translate("The surviving scholar returns once more... how poetic."), 0);
+                            break;
+                    }
+                    break;
             }
         }
+        else
+        {
+            switch (miscWorld.PebblesMeetCount)
+            {
+                case 0:
+                    break;
+
+                case 1:
+                    dialogBox.NewMessage(
+                        Translate("Ah. So you've returned."), 0);
+
+                    dialogBox.NewMessage(
+                        Translate("Brought me something to read? Or just wasting my time, as per usual?"), 0);
+                    break;
+
+                case 2:
+                    dialogBox.NewMessage(
+                        Translate("Back again? I hope you have brought me something this time."), 0);
+
+                    dialogBox.NewMessage(
+                        Translate("My own time is limited, after all..."), 0);
+                    break;
+
+                case 3:
+                    dialogBox.NewMessage(
+                        Translate("Back again? You do visit often..."), 0);
+
+                    dialogBox.NewMessage(
+                        Translate("I will tolerate your pressence, so long as you bring me something meaningful."), 0);
+                    break;
+
+                default:
+                    switch (Random.Range(0, 4))
+                    {
+                        case 0:
+                            dialogBox.NewMessage(
+                                Translate("Welcome back, I suppose."), 0);
+                            break;
+
+                        case 1:
+                            dialogBox.NewMessage(
+                                Translate("I see you've returned, yet again."), 0);
+                            break;
+
+                        case 2:
+                            dialogBox.NewMessage(
+                                Translate("Hello again."), 0);
+                            break;
+
+                        default:
+                            dialogBox.NewMessage(
+                                Translate("Hello, again. You are very curious. Very curious indeed."), 0);
+                            break;
+                    }
+                    break;
+            }
+
+            if (miscWorld.HasPearlpupWithPlayer && miscWorld.PebblesMeetCount > 0)
+            {
+                if (miscProg.IsPearlpupSick && miscWorld.PebblesMetSickPup)
+                {
+                    switch (Random.Range(0, 4))
+                    {
+                        case 0:
+                            dialogBox.NewMessage(
+                                Translate("Your little friend is still quite sick, unfortunately."), 0);
+                            break;
+
+                        case 1:
+                            dialogBox.NewMessage(
+                                Translate("I see you have not found a cure for their illness. Not yet..."), 0);
+                            break;
+
+                        case 2:
+                            dialogBox.NewMessage(
+                                Translate("Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time."), 0);
+                            break;
+
+                        default:
+                            dialogBox.NewMessage(
+                                Translate("...there is nothing I can do for your pup at present. I am sorry. I will... think on it."), 0);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (Random.Range(0, 4))
+                    {
+                        case 0:
+                            dialogBox.NewMessage(
+                                Translate("...and you have brought your little friend along, of course."), 0);
+                            break;
+
+                        case 1:
+                            dialogBox.NewMessage(
+                                Translate("Your attachment to that thing is unavoidable, I suppose."), 0);
+                            break;
+
+                        case 2:
+                            dialogBox.NewMessage(
+                                Translate("And please keep your child under control."), 0);
+                            break;
+
+                        default:
+                            dialogBox.NewMessage(
+                                Translate("No, I do not care for your little one."), 0);
+                            break;
+                    }
+                }
+            }
+        }
+
 
         miscWorld.PebblesMeetCount++;
         save.miscWorldSaveData.SSaiConversationsHad++;
@@ -229,82 +293,88 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         module.PearlToReturn ??= module.PearlBeingRead;
         module.PearlBeingRead = null;
 
-
-        if (meetCount == 1)
+        if (miscProg.HasTrueEnding)
         {
-            if (ConvoCount == 0)
-            {
-                owner.LockShortcuts();
-                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstMeet, this);
-                ConvoCount++;
-            }
-            else if (ConvoCount == 1)
-            {
-                if (HasRMPearl(oracle))
-                {
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
-                }
-
-                ConvoCount++;
-            }
-            else if (ConvoCount == 2)
-            {
-                if (HasRMPearl(oracle))
-                {
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl, this);
-                }
-
-                ConvoCount++;
-            }
-            else if (ConvoCount == 3)
-            {
-                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstLeave, this);
-                ConvoCount++;
-            }
-            else if (ConvoCount == 4)
-            {
-                if (save.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
-                {
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
-                }
-
-                ConvoCount++;
-            }
-            else
-            {
-                owner.UnlockShortcuts();
-                owner.getToWorking = 1.0f;
-                owner.movementBehavior = MovementBehavior.Meditate;
-            }
+            // PEARLADULT DIALOGUE
         }
         else
         {
-            if (ConvoCount == 1 && HasRMPearl(oracle))
+            if (meetCount == 1)
             {
-                owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl, this);
-                ConvoCount++;
+                if (ConvoCount == 0)
+                {
+                    owner.LockShortcuts();
+                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstMeet, this);
+                    ConvoCount++;
+                }
+                else if (ConvoCount == 1)
+                {
+                    if (HasRMPearl(oracle))
+                    {
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
+                    }
+
+                    ConvoCount++;
+                }
+                else if (ConvoCount == 2)
+                {
+                    if (HasRMPearl(oracle))
+                    {
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl, this);
+                    }
+
+                    ConvoCount++;
+                }
+                else if (ConvoCount == 3)
+                {
+                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstLeave, this);
+                    ConvoCount++;
+                }
+                else if (ConvoCount == 4)
+                {
+                    if (save.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
+                    {
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+                    }
+
+                    ConvoCount++;
+                }
+                else
+                {
+                    owner.UnlockShortcuts();
+                    owner.getToWorking = 1.0f;
+                    owner.movementBehavior = MovementBehavior.Meditate;
+                }
             }
             else
             {
-                owner.UnlockShortcuts();
-                owner.getToWorking = 1.0f;
-                owner.movementBehavior = MovementBehavior.Meditate;
-
-                if (HasRMPearl(oracle))
+                if (ConvoCount == 1 && HasRMPearl(oracle))
                 {
-                    owner.LockShortcuts();
-                    owner.getToWorking = 0.0f;
-
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
+                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl, this);
                     ConvoCount++;
                 }
-                else if (save.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !save.PebblesMetSickPup)
+                else
                 {
-                    owner.LockShortcuts();
-                    owner.getToWorking = 0.0f;
+                    owner.UnlockShortcuts();
+                    owner.getToWorking = 1.0f;
+                    owner.movementBehavior = MovementBehavior.Meditate;
 
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
-                    ConvoCount++;
+                    if (HasRMPearl(oracle))
+                    {
+                        owner.LockShortcuts();
+                        owner.getToWorking = 0.0f;
+
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
+                        ConvoCount++;
+                    }
+                    else if (save.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !save.PebblesMetSickPup)
+                    {
+                        owner.LockShortcuts();
+                        owner.getToWorking = 0.0f;
+
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+                        ConvoCount++;
+                    }
                 }
             }
         }

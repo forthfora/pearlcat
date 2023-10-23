@@ -512,6 +512,8 @@ public partial class Hooks
 
         if (!room.game.IsPearlcatStory()) return;
 
+        var save = room.abstractRoom.world.game.GetMiscProgression();
+
 
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
@@ -528,6 +530,10 @@ public partial class Hooks
         // Start
         if (room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
+
+
+
+        if (save.HasTrueEnding) return;
 
         // Agility
         if (room.roomSettings.name == "T1_CAR0")
