@@ -42,6 +42,9 @@ public static partial class Hooks
                         if (type is not DataPearlType dataPearlType) continue;
 
 
+                        if (dataPearlType == Enums.Pearls.MI_Pearlpup) continue;
+
+
                         var potentialPebblesColor = 0;
 
                         if (dataPearlType == DataPearlType.PebblesPearl && split.Length >= 6 && int.TryParse(split[6], out var result))
@@ -136,8 +139,11 @@ public static partial class Hooks
             miscProg.HasOEEnding = false;
             miscProg.HasPearlpup = false;
             miscProg.Ascended = false;
+            miscProg.HasTrueEnding = false;
         }
 
         miscProg.JustAscended = false;
+
+        miscProg.HasTrueEnding = true;
     }
 }

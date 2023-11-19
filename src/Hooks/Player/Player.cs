@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using RWCustom;

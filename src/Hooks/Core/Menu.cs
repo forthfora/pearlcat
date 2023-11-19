@@ -351,6 +351,16 @@ public static partial class Hooks
 
         if (illustrationModule.Index == -2)
         {
+            if (save.HasTrueEnding)
+            {
+                if (!fileName.Contains("pupadult"))
+                {
+                    illustration.visible = false;
+                }
+
+                return;
+            }
+
             if (fileName == "sweat")
             {
                 illustration.visible = menuSceneModule.ActivePearlColor == null;
@@ -465,12 +475,28 @@ public static partial class Hooks
 
         if (illustrationModule.Index == -2)
         {
+            if (save.HasTrueEnding)
+            {
+                if (!fileName.Contains("pupadult"))
+                {
+                    illustration.visible = false;
+                }
+
+                return;
+            }
+
             if (fileName == "pup")
+            {
                 illustration.visible = save.HasPearlpup;
+            }
 
             if (save.HasPearlpup)
+            {
                 if (fileName == "body" || fileName == "tail" || fileName == "legs")
+                {
                     illustration.pos.x = illustrationModule.InitialPos.x - 20.0f;
+                }
+            }
 
             return;
         }
@@ -508,8 +534,9 @@ public static partial class Hooks
             var setPos = illustrationModule.SetPos - Vector2.right * (save.HasPearlpup ? 30.0f : 0.0f);
 
             if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
+            {
                 illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
-
+            }
 
             var dir = (setPos - pos).normalized;
             var dist = Custom.Dist(setPos, pos);
@@ -520,8 +547,16 @@ public static partial class Hooks
 
             illustration.pos += illustrationModule.Vel;
 
+            illustrationModule.SetPos = illustrationModule.InitialPos;
             illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+
+            if (save.HasTrueEnding)
+            {
+                illustrationModule.SetPos += new Vector2(100.0f, 170.0f);
+            }
+
             menuSceneModule.ActivePearlPos = illustration.pos;
+
             return;
         }
 
@@ -543,7 +578,15 @@ public static partial class Hooks
         var origin = new Vector2(680, 400);
 
         if (save.HasPearlpup)
+        {
             origin.x -= 20.0f;
+        }
+
+        if (save.HasTrueEnding)
+        {
+            radius = 130.0f;
+            angleFrameAddition = 0.0005f;
+        }
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
 

@@ -11,12 +11,14 @@
     {"name": "pup", "pos": [690, 220], "depth": 4.0, "shader": "Basic"},
     {"name": "pupsick", "pos": [690, 220], "depth": 4.0, "shader": "Basic"},
 
+    {"name": "pupadult", "pos": [690, 88], "depth": 4.5, "shader": "Basic"},
+    {"name": "pupadult_1", "pos": [486, 29], "depth": 3.5, "shader": "Normal"},
+
     {"name": "pearl0", "pos": [789, 472], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl1", "pos": [870, 558], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl2", "pos": [1193, 492], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl3", "pos": [1077, 648], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl4", "pos": [952, 647], "depth": 2.3, "shader": "Basic"},
-
 
     {"name": "slugcat", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},
     {"name": "slugcatsick", "pos": [735, 88], "depth": 3.0, "shader": "Basic"},
