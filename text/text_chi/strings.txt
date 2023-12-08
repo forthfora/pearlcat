@@ -163,7 +163,7 @@ pup|pup
 Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|黄色珍珠护盾在激活后的持续时间（以帧为单位）。默认1.5秒。
 oa_min_speed|oa_min_speed
 They are unwell, <PlayerName>, very unwell indeed.|它很不舒服，<PlayerName>，非常不舒服。
-L-Stick|L-Stick
+L-Stick|左操作杆
  - | - 
 It appears to contain a hymn that once meant a lot to the inhabitants of my city...|它似乎包含了一首曾对我的城市居民意义重大的赞美诗……
 ...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|……目前，我对你的猫崽无能为力。我很遗憾。我会……考虑一下。
@@ -320,7 +320,7 @@ Camo Pearl Count|迷彩珍珠数量
 tail|tail
 TurtleMan27|TurtleMan27
 store_object_delay|store_object_delay
-Chimney Canopy|烟囱顶篷
+Chimney Canopy|烟囱天棚
 Version|版本
 Laser Windup TIme|激光蓄能时间
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|但……你所拥有的印记，很不寻常。<LINE>不是在本地群组中的任何人能够给予的……
@@ -472,7 +472,7 @@ If you do not plan to provide me with any meaningful data, that is your best cou
 Storage limit reached (|已到达存储上限（
 ...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|……哦？拿走它们，它们内含的数据对我来说毫无价值。我想它们对你来说会更有用……
 Sidera |Sidera 
-R-Stick|R-Stick
+R-Stick|右操作杆
 Max Pearl Count|最大珍珠数量
 You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|你真是把我吓坏了！这些天里我很少见到拜访者；<LINE>更不用说像你这样的拜访者了，我可以与之交谈的拜访者……
 WillowWisp|WillowWisp
