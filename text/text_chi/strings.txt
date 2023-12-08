@@ -326,7 +326,7 @@ Laser Windup TIme|激光蓄能时间
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|但……你所拥有的印记，很不寻常。<LINE>不是在本地群组中的任何人能够给予的……
 LC_T1_S01|LC_T1_S01
 pearlactive|pearlactive
-The Gutter|The Gutter
+The Gutter|排水沟
 OnModsInit:\n|OnModsInit:\n
 You must be very brave to have made it all the way here. Very brave indeed...|你能穿过艰难险阻来到这里，一定很勇敢。非常非常勇敢……
 Assembly-CSharp|Assembly-CSharp
