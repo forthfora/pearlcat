@@ -15,7 +15,6 @@ namespace Pearlcat;
 
 public static class Utils
 {
-    public static bool IsMergeFixActive => ModManager.ActiveMods.Any(x => x.id == "bro.mergefix");
     public static bool WarpEnabled(this RainWorldGame game) => game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
 
 

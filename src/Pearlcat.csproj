@@ -37,6 +37,10 @@
       <public>False</public>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ImprovedInput">
+      <HintPath>..\..\Backups\Rain World\Rain World References\ImprovedInput.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\Mono.Cecil.dll</HintPath>
       <public>False</public>

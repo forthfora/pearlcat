@@ -11,7 +11,6 @@ public partial class Hooks
     public static void ApplyFixesHooks()
     {
         On.Menu.PauseMenu.Singal += PauseMenu_Singal;
-        On.ModManager.ModApplyer.ctor += ModApplyer_ctor;
 
         IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
         On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
@@ -51,19 +50,6 @@ public partial class Hooks
                 playerModule.JustWarped = true;
             }
         }
-    }
-
-
-    // Merge Fix
-    private static void ModApplyer_ctor(On.ModManager.ModApplyer.orig_ctor orig, ModManager.ModApplyer self, ProcessManager manager, List<bool> pendingEnabled, List<int> pendingLoadOrder)
-    {
-        orig(self, manager, pendingEnabled, pendingLoadOrder);
-
-        if (Utils.IsMergeFixActive) return;
-
-        self.pendingLoadOrder.Reverse(); //flip it back so that the values line up with the mods
-        int highest = self.pendingLoadOrder.Max((int t) => t); //find the highest mod
-        self.pendingLoadOrder = self.pendingLoadOrder.Select(t => highest - t).ToList(); //invert the real load order
     }
 
 

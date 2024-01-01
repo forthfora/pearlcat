@@ -41,9 +41,6 @@ public static partial class Hooks
     {
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         On.RainWorld.PostModsInit += RainWorld_PostModsInit;
-
-        // deprecated
-        //On.ModManager.RefreshModsLists += ModManager_RefreshModsLists;
     }
 
     public static bool IsInit { get; private set; } = false;
@@ -79,6 +76,12 @@ public static partial class Hooks
 
             AssetLoader.LoadAssets();
 
+            // Only init this if IIC is active
+            if (IsImprovedInputActive)
+            {
+                InitIICKeybinds();
+            }
+
             var initMessage = "PEARLCAT SAYS HELLO FROM INIT! (VERSION: " + Plugin.VERSION + ")";
 
             Debug.Log(initMessage);
@@ -109,40 +112,6 @@ public static partial class Hooks
         finally
         {
             orig(self);
-        }
-    }
-
-    // DEPRECATED
-    // 'fix' the stupid remix load order issues
-    private static void ModManager_RefreshModsLists(On.ModManager.orig_RefreshModsLists orig, RainWorld rainWorld)
-    {
-        orig(rainWorld);
-
-        try
-        {
-            if (!ModManager.MSC) return;
-
-            var modIndex = ModManager.ActiveMods.FindIndex(mod => mod.id == Plugin.MOD_ID);
-            if (modIndex == -1) return;
-        
-            var mod = ModManager.ActiveMods[modIndex];
-        
-            var mscIndex = ModManager.ActiveMods.FindIndex(mod => mod.id == "moreslugcats");
-            if (mscIndex == -1) return;
-
-            if (modIndex > mscIndex) return;
-
-            ModManager.ActiveMods.Remove(mod);
-            ModManager.ActiveMods.Insert(mscIndex, mod);
-
-            Plugin.Logger.LogWarning("OVERRODE MSC LOAD ORDER - MOD LOAD ORDER:");
-
-            foreach (var activeMod in ModManager.ActiveMods)
-                Plugin.Logger.LogWarning(activeMod.id);
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError("ModManager.RefreshModsLists:\n" + e.Message);
         }
     }
 }

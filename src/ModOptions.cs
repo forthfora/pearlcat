@@ -645,23 +645,39 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(UsesCustomStoreKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(3);
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
 
-        DrawKeybinders(StoreKeybindKeyboard, ref Tabs[tabIndex]);
-        AddNewLine(1);
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
 
-        DrawKeybinders(StoreKeybindPlayer1, ref Tabs[tabIndex]);
-        AddNewLine(1);
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
 
-        DrawKeybinders(StoreKeybindPlayer2, ref Tabs[tabIndex]);
-        AddNewLine(1);
+            AddNewLine(9);
+        }
+        else
+        {
+            AddNewLine(3);
 
-        DrawKeybinders(StoreKeybindPlayer3, ref Tabs[tabIndex]);
-        AddNewLine(1);
+            DrawKeybinders(StoreKeybindKeyboard, ref Tabs[tabIndex]);
+            AddNewLine(1);
 
-        DrawKeybinders(StoreKeybindPlayer4, ref Tabs[tabIndex]);
+            DrawKeybinders(StoreKeybindPlayer1, ref Tabs[tabIndex]);
+            AddNewLine(1);
 
-        AddNewLine(1);
+            DrawKeybinders(StoreKeybindPlayer2, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(StoreKeybindPlayer3, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(StoreKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(1);
+        }
+
         DrawBox(ref Tabs[tabIndex]);
     }
 
@@ -672,20 +688,36 @@ public sealed class ModOptions : OptionsTemplate
         AddDragger(SwapTriggerPlayer);
         DrawDraggers(ref Tabs[tabIndex]);
 
-        AddNewLine(3);
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
 
-        DrawKeybinders(SwapLeftKeybind, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapRightKeybind, ref Tabs[tabIndex]);
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
 
-        AddNewLine(2);
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
 
-        DrawKeybinders(SwapKeybindKeyboard, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapKeybindPlayer1, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapKeybindPlayer2, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapKeybindPlayer3, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapKeybindPlayer4, ref Tabs[tabIndex]);
+            AddNewLine(9);
+        }
+        else
+        {
+            AddNewLine(3);
 
-        AddNewLine(-1);
+            DrawKeybinders(SwapLeftKeybind, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapRightKeybind, ref Tabs[tabIndex]);
+
+            AddNewLine(2);
+
+            DrawKeybinders(SwapKeybindKeyboard, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapKeybindPlayer1, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapKeybindPlayer2, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapKeybindPlayer3, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(-1);
+        }
+
         DrawBox(ref Tabs[tabIndex]);
     }
 
@@ -697,33 +729,50 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(CustomAgilityKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(3);
+        if (!Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(3);
+    
+            var abilityOffset = new Vector2(-100.0f, 0.0f);
+            var sentryOffset = new Vector2(140.0f, 0.0f);
 
-        var abilityOffset = new Vector2(-100.0f, 0.0f);
-        var sentryOffset = new Vector2(140.0f, 0.0f);
+            DrawKeybinders(AbilityKeybindKeyboard, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindKeyboard, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindKeyboard, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindKeyboard, ref Tabs[tabIndex], sentryOffset);
-        AddNewLine(1);
+            DrawKeybinders(AbilityKeybindPlayer1, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindPlayer1, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer1, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindPlayer1, ref Tabs[tabIndex], sentryOffset);
-        AddNewLine(1);
+            DrawKeybinders(AbilityKeybindPlayer2, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindPlayer2, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer2, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindPlayer2, ref Tabs[tabIndex], sentryOffset);
-        AddNewLine(1);
+            DrawKeybinders(AbilityKeybindPlayer3, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindPlayer3, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer3, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindPlayer3, ref Tabs[tabIndex], sentryOffset);
-        AddNewLine(1);
+            DrawKeybinders(AbilityKeybindPlayer4, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
 
-        DrawKeybinders(AbilityKeybindPlayer4, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(-2);
+        }
 
-        AddNewLine(-2);
         AddCheckBox(CustomSentryKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
+        
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
+
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddNewLine(6);
+        }
 
         DrawBox(ref Tabs[tabIndex]);
     }
