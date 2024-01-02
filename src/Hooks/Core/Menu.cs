@@ -244,15 +244,15 @@ public static partial class Hooks
                 UpdateSickScreen(self, illustration, menuSceneModule, illustrationModule);
             }
 
-            //if (Input.GetKey("-"))
-            //{
-            //    var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+            if (Input.GetKey("-"))
+            {
+                var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
-            //    if (illustration.depth > 4.8f)
-            //        Plugin.Logger.LogWarning("-----------------------------------------");
+                if (illustration.depth > 4.8f)
+                    Plugin.Logger.LogWarning("-----------------------------------------");
 
-            //    Plugin.Logger.LogWarning(fileName + " - " + illustration.pos);
-            //}
+                Plugin.Logger.LogWarning(fileName + " - " + illustration.pos);
+            }
         }
 
         if (self.menu is not SlugcatSelectMenu)
@@ -349,37 +349,44 @@ public static partial class Hooks
 
         illustration.alpha = 1.0f;
 
+        var pearlcatSad = save.IsPearlpupSick || (!save.HasPearlpup && save.DidHavePearlpup);
+
         if (illustrationModule.Index == -2)
         {
-            if (save.HasTrueEnding)
+            if (fileName == "pcat_nopup")
             {
-                if (!fileName.Contains("pupadult"))
-                {
-                    illustration.visible = false;
-                }
-
-                return;
+                illustration.visible = !save.DidHavePearlpup;
             }
-
-            if (fileName == "sweat")
+            else if (fileName == "pcat_withpup")
             {
-                illustration.visible = menuSceneModule.ActivePearlColor == null;
+                illustration.visible = !pearlcatSad;
             }
-            else if (fileName == "slugcat")
+            else if (fileName == "pcat_sad")
             {
-                illustration.visible = !save.IsPearlpupSick;
-            }
-            else if (fileName == "slugcatsick")
-            {
-                illustration.visible = save.IsPearlpupSick;
+                illustration.visible = pearlcatSad;
             }
             else if (fileName == "pup")
             {
                 illustration.visible = save.HasPearlpup && !save.IsPearlpupSick;
             }
-            else if (fileName == "pupsick")
+            else if (fileName == "pup_sick")
             {
                 illustration.visible = save.HasPearlpup && save.IsPearlpupSick;
+            }
+            else if (fileName == "scarf")
+            {
+                illustration.visible = pearlcatSad;
+            }
+            else if (fileName == "pup_drawings")
+            {
+                illustration.visible = save.HasPearlpup && !save.IsPearlpupSick;
+            }
+            else if (fileName == "sleep1")
+            {
+                if (pearlcatSad || save.HasPearlpup)
+                {
+                    illustration.pos = new(609, 27);
+                }
             }
             
             return;
@@ -396,6 +403,17 @@ public static partial class Hooks
 
                 illustration.pos = menuSceneModule.ActivePearlPos;
                 return;
+            }
+
+            var sadPos = new Vector2(870, 330);
+
+            if (pearlcatSad && illustrationModule.InitialPos != sadPos)
+            {
+                illustrationModule.InitialPos = sadPos;
+                illustrationModule.SetPos = sadPos;
+                illustrationModule.Vel = Vector2.zero;
+
+                illustration.pos = sadPos;
             }
 
             bool isPlaceholder = fileName == "pearlactiveplaceholder";

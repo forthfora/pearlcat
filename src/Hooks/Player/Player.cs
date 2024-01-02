@@ -525,7 +525,7 @@ public static partial class Hooks
 
             if (save != null)
             {
-                save.HasPearlpupWithPlayer = miscProg.HasPearlpup;
+                save.HasPearlpupWithPlayer = miscProg.HasPearlpup;            
             }
 
             return;

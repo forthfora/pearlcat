@@ -385,13 +385,14 @@ public partial class Hooks
         var result = orig(self);
 
         if (self.saveStateNumber == Enums.Pearlcat && self.progression.miscProgressionData.GetMiscProgression().IsNewPearlcatSave)
+        {
             if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
+            {
                 return ModOptions.StartShelterOverride.Value;
+            }
+        }
 
-        if (result == "T1_S01")
-            return ModManager.MSC ? "LC_T1_S01" : "SS_S04";
-
-        return result;
+        return result == "T1_S01" ? ModManager.MSC ? "LC_T1_S01" : "SS_S04" : result;
     }
 
     private static void Spear_Update(On.Spear.orig_Update orig, Spear self, bool eu)

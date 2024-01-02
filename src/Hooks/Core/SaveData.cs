@@ -83,6 +83,11 @@ public static partial class Hooks
         
             miscWorld.IsNewGame = false;
 
+            if (miscProg.HasPearlpup)
+            {
+                miscProg.DidHavePearlpup = true;
+            }
+
             if (miscWorld.IsPearlcatStory)
             {
                 miscProg.IsNewPearlcatSave = false;
@@ -103,6 +108,7 @@ public static partial class Hooks
                     SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
                     //Plugin.Logger.LogWarning("SET DEFAULT SELECT SCREEN");
                 }
+
             }
 
             if (miscWorld.CurrentDream != null && !miscWorld.PreviousDreams.Contains(miscWorld.CurrentDream))
@@ -139,11 +145,14 @@ public static partial class Hooks
             miscProg.HasOEEnding = false;
             miscProg.HasPearlpup = false;
             miscProg.Ascended = false;
+
+            miscProg.DidHavePearlpup = false;
             miscProg.HasTrueEnding = false;
         }
 
         miscProg.JustAscended = false;
 
-        miscProg.HasTrueEnding = true;
+        // HACK
+        // miscProg.HasTrueEnding = true;
     }
 }

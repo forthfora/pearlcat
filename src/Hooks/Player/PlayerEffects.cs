@@ -383,10 +383,10 @@ public static partial class Hooks
     {
         if (ModOptions.DisableRevive.Value || self.inVoidSea) return;
 
-        if (playerModule.ActiveObject == null || playerModule.ActiveObject.TryGetModule(out var poModule)) return;
+        if (playerModule.ActiveObject == null || !playerModule.ActiveObject.TryGetModule(out var poModule)) return;
 
         var abilityInput = self.IsReviveKeybindPressed(playerModule);
-
+        
         if (effect.MajorEffect != MajorEffectType.REVIVE || !abilityInput)
         {
             playerModule.ReviveTimer = 0;
