@@ -359,7 +359,7 @@ public static partial class Hooks
             }
             else if (fileName == "pcat_withpup")
             {
-                illustration.visible = !pearlcatSad;
+                illustration.visible = !pearlcatSad && save.HasPearlpup;
             }
             else if (fileName == "pcat_sad")
             {
@@ -493,15 +493,7 @@ public static partial class Hooks
 
         if (illustrationModule.Index == -2)
         {
-            if (save.HasTrueEnding)
-            {
-                if (!fileName.Contains("pupadult"))
-                {
-                    illustration.visible = false;
-                }
-
-                return;
-            }
+            illustration.visible = (save.HasTrueEnding && fileName.Contains("pupadult")) || (!save.HasTrueEnding && !fileName.Contains("pupadult"));
 
             if (fileName == "pup")
             {

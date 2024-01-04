@@ -248,8 +248,9 @@ public static partial class Hooks
             UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveLSprite);
             UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveRSprite);
             
-            UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
             UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", playerModule.FeetSprite);
+         
+            UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
         }
 
         UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
@@ -606,7 +607,7 @@ public static partial class Hooks
         feetSprite.MoveInFrontOfOtherNode(legsSprite);
 
         var upsideDown = self.head.pos.y < self.legs.pos.y || self.player.bodyMode == Player.BodyModeIndex.ZeroG;
-        
+
         if (upsideDown)
         {
             earLSprite.MoveInFrontOfOtherNode(headSprite);
@@ -727,8 +728,6 @@ public static partial class Hooks
             sleeveLSprite.color = bodyColor;
             sleeveRSprite.color = bodyColor;
 
-            feetSprite.isVisible = false;
-
             scarSprite.SetPosition(hipsSprite.GetPosition());
             scarSprite.SetAnchor(hipsSprite.GetAnchor());
             scarSprite.rotation = hipsSprite.rotation;
@@ -739,9 +738,9 @@ public static partial class Hooks
         }
         else
         {
-            bodySprite.isVisible = false;
-            scarSprite.isVisible = false;
+            bodySprite.alpha = 0.0f;
 
+            scarSprite.isVisible = false;
             ribbon1Sprite.isVisible = false;
             ribbon2Sprite.isVisible = false;
         }
