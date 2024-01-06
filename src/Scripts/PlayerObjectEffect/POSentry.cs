@@ -138,7 +138,9 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
     private void UpdateMusicSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect, string songName)
     {
-        var musicPlayer = room.game.manager.musicPlayer;
+        var musicPlayer = room?.game?.manager?.musicPlayer;
+
+        if (musicPlayer == null || room == null) return;
 
         if (musicPlayer.song != null)
         {
@@ -283,37 +285,12 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
 
+        var inGate = player.room?.IsGateRoom() ?? false;
         var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
+        
+        var canTP = !tooClose && !inGate;
 
-        AgilityPos = tooClose ? null : pearl.firstChunk.pos;
-     
-        /*
-        foreach (var updatable in room.updateList)
-        {
-            if (updatable is not Creature crit) continue;
-
-            if (!Custom.DistLess(pearl.firstChunk.pos, crit.firstChunk.pos, 75.0f)) continue;
-
-            if (crit is Player player)
-            {
-                var stats = new SlugcatStats(player.SlugCatClass, player.Malnourished);
-
-                if (player.TryGetPearlcatModule(out var playerModule))
-                {
-                    stats = player.slugcatStats;
-                }
-
-                player.slugcatStats.runspeedFac = stats.runspeedFac * 1.5f;
-                player.slugcatStats.corridorClimbSpeedFac = stats.corridorClimbSpeedFac * 1.5f;
-                player.slugcatStats.poleClimbSpeedFac = stats.poleClimbSpeedFac * 1.5f;
-
-                if (player.canJump > 0)
-                {
-                    player.jumpBoost = player.SlugCatClass == SlugcatStatsName.Rivulet ? 18.0f : 14.0f;
-                }
-            }
-        }
-        */
+        AgilityPos = canTP ? pearl.firstChunk.pos : null;
     }
 
     private void UpdateSpearSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)

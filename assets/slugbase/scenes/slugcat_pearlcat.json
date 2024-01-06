@@ -12,12 +12,12 @@
 
     {"name": "tail", "pos": [430, 130], "depth": 3.2, "shader": "Basic"},
 
-    {"name": "pupadult_6", "pos": [0, -25], "depth": 6.0, "shader": "Basic"},
-    {"name": "pupadult_5", "pos": [0, -25], "depth": 4.5, "shader": "Basic"},
-    {"name": "pupadult_4", "pos": [0, -25], "depth": 4.0, "shader": "Basic"},
-    {"name": "pupadult_3", "pos": [0, -25], "depth": 3.5, "shader": "Basic"},
-    {"name": "pupadult_2", "pos": [0, -25], "depth": 3.0, "shader": "Basic"},
-    {"name": "pupadult_1", "pos": [0, -25], "depth": 2.6, "shader": "Basic"},
+    {"name": "trueend_6", "pos": [0, -25], "depth": 6.0, "shader": "Basic"},
+    {"name": "trueend_5", "pos": [0, -25], "depth": 4.5, "shader": "Basic"},
+    {"name": "trueend_4", "pos": [0, -25], "depth": 4.0, "shader": "Basic"},
+    {"name": "trueend_3", "pos": [0, -25], "depth": 3.5, "shader": "Basic"},
+    {"name": "trueend_2", "pos": [0, -25], "depth": 3.0, "shader": "Basic"},
+    {"name": "trueend_1", "pos": [0, -25], "depth": 2.6, "shader": "Basic"},
     
     {"name": "pearl0", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},

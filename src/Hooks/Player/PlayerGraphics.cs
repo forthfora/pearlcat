@@ -1,4 +1,5 @@
-﻿using RWCustom;
+﻿using Newtonsoft.Json.Serialization;
+using RWCustom;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -242,6 +243,8 @@ public static partial class Hooks
         {
             UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "pearlpup_sleeve", "SleevePearlpup", playerModule.SleeveLSprite);
             UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "pearlpup_sleeve", "SleevePearlpup", playerModule.SleeveRSprite);
+
+            UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "pearlpup_feet", "PFeet", playerModule.FeetSprite);
         }
         else
         {
@@ -249,7 +252,7 @@ public static partial class Hooks
             UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveRSprite);
             
             UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", playerModule.FeetSprite);
-         
+
             UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
         }
 
@@ -601,7 +604,14 @@ public static partial class Hooks
         tailSprite.MoveBehindOtherNode(bodySprite);
         legsSprite.MoveBehindOtherNode(hipsSprite);
 
-        cloakSprite.MoveBehindOtherNode(headSprite);
+        if (self.RenderAsPup)
+        {
+            cloakSprite.MoveInFrontOfOtherNode(headSprite);
+        }
+        else
+        {
+            cloakSprite.MoveBehindOtherNode(headSprite);
+        }
 
         feetSprite.MoveBehindOtherNode(cloakSprite);
         feetSprite.MoveInFrontOfOtherNode(legsSprite);

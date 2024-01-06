@@ -151,8 +151,5 @@ public static partial class Hooks
         }
 
         miscProg.JustAscended = false;
-
-        // HACK
-        // miscProg.HasTrueEnding = true;
     }
 }

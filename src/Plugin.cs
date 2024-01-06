@@ -98,7 +98,13 @@ public class Plugin : BaseUnityPlugin
 
                 $"{nameof(SaveMiscProgression.HasOEEnding)}: {pearlcatMiscProg.HasOEEnding}\n" +
                 $"{nameof(SaveMiscProgression.JustAscended)}: {pearlcatMiscProg.JustAscended}\n" +
-                $"{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n";
+                $"{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n" +
+
+
+                "\n" +
+
+                $"{nameof(SaveMiscProgression.DidHavePearlpup)}: {pearlcatMiscProg.DidHavePearlpup}\n" +
+                $"{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n";
 
 
             if (saveState != null && pearlcatMiscWorld != null)
@@ -146,6 +152,7 @@ public class Plugin : BaseUnityPlugin
                     $"{nameof(SaveMiscWorld.HasPearlpupWithPlayer)}: {pearlcatMiscWorld.HasPearlpupWithPlayer}\n" +
 
                     "\n" +
+
 
                     $"{nameof(SaveMiscWorld.JustBeatAltEnd)}: {pearlcatMiscWorld.JustBeatAltEnd}\n";
             }
