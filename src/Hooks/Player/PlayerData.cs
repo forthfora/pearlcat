@@ -28,4 +28,8 @@ public static partial class Hooks
 
         return -1;
     }
+
+
+    // BACKWARDS COMPAT
+    public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule) => player.TryGetPearlcatModule(out playerModule);
 }

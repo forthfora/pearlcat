@@ -62,8 +62,6 @@ public static partial class Hooks
                         }
                     }
                 }
-
-                //miscProg.HasPearlpup = miscWorld.PearlpupID != null;
             }
         }
         catch (Exception e)

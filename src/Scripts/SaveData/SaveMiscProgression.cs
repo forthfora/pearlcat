@@ -9,6 +9,8 @@ public class SaveMiscProgression
     // Meta
     public bool IsNewPearlcatSave { get; set; } = true;
     public bool IsMSCSave { get; set; }
+    
+    public bool IsMiraSkipEnabled { get; set; }
 
 
     // Menu Pearls

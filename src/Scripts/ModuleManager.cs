@@ -147,6 +147,11 @@ public static class ModuleManager
     }
 
 
+    // Slugcat Select Menu
+    public static ConditionalWeakTable<SlugcatSelectMenu, SlugcatSelectMenuModule> SlugcatSelectMenuData { get; } = new();
+    public static SlugcatSelectMenuModule GetModule(this SlugcatSelectMenu self) => SlugcatSelectMenuData.GetValue(self, x => new SlugcatSelectMenuModule(self));
+
+
     // Save Data
     public static SaveMiscWorld? GetMiscWorld(this RainWorldGame game) => game.IsStorySession ? GetMiscWorld(game.GetStorySession.saveState.miscWorldSaveData) : null;
     public static SaveMiscWorld GetMiscWorld(this MiscWorldSaveData data)

@@ -38,9 +38,14 @@ public static partial class Hooks
 
         On.Menu.MenuIllustration.Update += MenuIllustration_Update;
         On.Menu.StoryGameStatisticsScreen.AddBkgIllustration += StoryGameStatisticsScreen_AddBkgIllustration;
+
+        On.Menu.CheckBox.MyColor += CheckBox_MyColor;
+        On.Menu.SlugcatSelectMenu.SetChecked += SlugcatSelectMenu_SetChecked;
+        On.Menu.SlugcatSelectMenu.GetChecked += SlugcatSelectMenu_GetChecked;
+
+        On.Menu.SlugcatSelectMenu.UpdateStartButtonText += SlugcatSelectMenu_UpdateStartButtonText;
+        On.Menu.HoldButton.MyColor += HoldButton_MyColor;
     }
-
-
 
     private static void StoryGameStatisticsScreen_AddBkgIllustration(On.Menu.StoryGameStatisticsScreen.orig_AddBkgIllustration orig, StoryGameStatisticsScreen self)
     {
@@ -749,16 +754,32 @@ public static partial class Hooks
     {
         orig(self);
 
-        MenuPearlAnimStacker += 9; // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol
-
-
         var page = self.slugcatPages[self.slugcatPageIndex];
-
-        if (page.slugcatNumber != Enums.Pearlcat) return;
-
+        var module = self.GetModule();
+        var miraSkipCheckbox = module.MiraCheckbox;
 
         var save = self.manager.rainWorld.GetMiscProgression();
         var disableSave = !save.IsNewPearlcatSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;
+
+        var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
+        var miraSkipAvailable = !disableSave && IsMiraActive && isPearlcatPage && !self.restartChecked && !save.HasTrueEnding;
+
+        if (miraSkipAvailable)
+        {
+            miraSkipCheckbox.pos = Vector2.Lerp(miraSkipCheckbox.pos, module.CheckboxUpPos, 0.2f);
+            miraSkipCheckbox.buttonBehav.greyedOut = false;
+            miraSkipCheckbox.selectable = true;
+        }
+        else
+        {
+            miraSkipCheckbox.pos = Vector2.Lerp(miraSkipCheckbox.pos, module.CheckboxDownPos, 0.2f);
+            miraSkipCheckbox.buttonBehav.greyedOut = true;
+            miraSkipCheckbox.selectable = false;
+            miraSkipCheckbox.Checked = false;
+        }
+
+
+        if (!isPearlcatPage) return;
 
         if (disableSave)
         {
@@ -786,5 +807,99 @@ public static partial class Hooks
                 }
             }
         }
+
+        if (page is SlugcatSelectMenu.SlugcatPageContinue continuePage && module.OriginalRegionLabelText != null)
+        {
+            var regionLabel = continuePage.regionLabel;
+
+            if (save.IsMiraSkipEnabled)
+            {
+                regionLabel.text = "Begin at the start of the Mira storyline..." +
+                    "\nThe save will be preserved, and pearls will carry over!";
+                
+                if (save.IsMSCSave && !save.HasPearlpup)
+                {
+                    regionLabel.text += " Pearlpup will be revived.";
+                }
+            }
+            else
+            {
+                regionLabel.text = module.OriginalRegionLabelText;
+            }
+        }
+        
+        // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol
+        MenuPearlAnimStacker += 9;
     }
+
+
+    public const string MIRA_SKIP_ID = "PEARLCAT_MIRA_SKIP";
+    public static Color MiraMenuColor { get; } = Custom.hexToColor("9487c9");
+
+    private static Color CheckBox_MyColor(On.Menu.CheckBox.orig_MyColor orig, CheckBox self, float timeStacker)
+    {
+        var result = orig(self, timeStacker);
+
+        if (self.IDString == MIRA_SKIP_ID)
+        {
+            return MiraMenuColor;
+        }
+
+        return result;
+    }
+
+    private static void SlugcatSelectMenu_SetChecked(On.Menu.SlugcatSelectMenu.orig_SetChecked orig, SlugcatSelectMenu self, CheckBox box, bool c)
+    {
+        var save = self.manager.rainWorld.GetMiscProgression();
+        
+        if (box.IDString == MIRA_SKIP_ID)
+        {
+            save.IsMiraSkipEnabled = c;
+            self.UpdateStartButtonText();
+            return;
+        }
+
+        orig(self, box, c);
+    }
+
+    private static bool SlugcatSelectMenu_GetChecked(On.Menu.SlugcatSelectMenu.orig_GetChecked orig, SlugcatSelectMenu self, CheckBox box)
+    {
+        var result = orig(self, box);
+        
+        if (box.IDString == MIRA_SKIP_ID)
+        {
+            var save = self.manager.rainWorld.GetMiscProgression();
+            return save.IsMiraSkipEnabled;
+        }
+
+        return result;
+    }
+
+    private static void SlugcatSelectMenu_UpdateStartButtonText(On.Menu.SlugcatSelectMenu.orig_UpdateStartButtonText orig, SlugcatSelectMenu self)
+    {
+        var save = self.manager.rainWorld.GetMiscProgression();
+
+        if (save.IsMiraSkipEnabled)
+        {
+            self.startButton.fillTime = 240.0f;
+            self.startButton.menuLabel.text = self.Translate("FIND MIRA...");
+            return;
+        }
+
+        orig(self);
+    }
+
+    private static Color HoldButton_MyColor(On.Menu.HoldButton.orig_MyColor orig, HoldButton self, float timeStacker)
+    {
+        var result = orig(self, timeStacker);
+        var save = self.menu.manager.rainWorld.GetMiscProgression();
+
+        if (self.signalText == "START" && save.IsMiraSkipEnabled)
+        {
+            return MiraMenuColor;
+        }
+
+        return result;
+    }
+
 }
