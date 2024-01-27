@@ -359,6 +359,10 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         {
             return "haloGlyph6";
         }
+        else if (dataPearlType == Enums.Pearls.Heart_Pearlpup)
+        {
+            return "pearlcat_glyphheart";
+        }
 
         var effect = obj.GetPOEffect();
         return SpriteFromMajorEffect(effect.MajorEffect);

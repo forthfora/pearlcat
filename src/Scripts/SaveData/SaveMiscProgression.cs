@@ -11,6 +11,7 @@ public class SaveMiscProgression
     public bool IsMSCSave { get; set; }
     
     public bool IsMiraSkipEnabled { get; set; }
+    public bool IsSecretEnabled { get; set; }
 
 
     // Menu Pearls

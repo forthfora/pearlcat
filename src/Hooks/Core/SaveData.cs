@@ -42,7 +42,7 @@ public static partial class Hooks
                         if (type is not DataPearlType dataPearlType) continue;
 
 
-                        if (dataPearlType == Enums.Pearls.MI_Pearlpup) continue;
+                        if (dataPearlType == Enums.Pearls.Heart_Pearlpup) continue;
 
 
                         var potentialPebblesColor = 0;
@@ -145,7 +145,8 @@ public static partial class Hooks
             miscProg.Ascended = false;
 
             miscProg.DidHavePearlpup = false;
-            miscProg.HasTrueEnding = false;
+
+            miscProg.HasTrueEnding = miscProg.IsSecretEnabled;
         }
 
         miscProg.JustAscended = false;

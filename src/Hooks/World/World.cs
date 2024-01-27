@@ -231,7 +231,11 @@ public partial class Hooks
             var miscWorld = self.room.world.game.GetMiscWorld();
             var miscProg = self.room.world.game.GetMiscProgression();
 
-            if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.HasOEEnding) return;
+            if (miscWorld?.HasPearlpupWithPlayer == false) return;
+
+            if (miscProg.HasOEEnding) return;
+
+            if (miscProg.HasTrueEnding) return;
         }
 
         orig(self, eu);
@@ -252,8 +256,9 @@ public partial class Hooks
             if (game.IsStorySession && game.StoryCharacter == Enums.Pearlcat)
             {
                 var save = game.GetMiscWorld();
+                var miscProg = game.GetMiscProgression();
 
-                if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value)
+                if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value && !miscProg.HasTrueEnding)
                     return 0;
 
                 return int.MaxValue;
@@ -384,9 +389,15 @@ public partial class Hooks
     {
         var result = orig(self);
 
+        var miscProg = self.progression.miscProgressionData.GetMiscProgression();
+
         if (self.saveStateNumber == Enums.Pearlcat && self.progression.miscProgressionData.GetMiscProgression().IsNewPearlcatSave)
         {
-            if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
+            if (miscProg.IsMiraSkipEnabled)
+            {
+                return "T2_START";
+            }
+            else if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
             {
                 return ModOptions.StartShelterOverride.Value;
             }

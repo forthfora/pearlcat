@@ -18,7 +18,7 @@ public static class Utils
     public static bool WarpEnabled(this RainWorldGame game) => game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
 
 
-    public static bool IsPearlpupPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.MI_Pearlpup;
+    public static bool IsPearlpupPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.Heart_Pearlpup;
 
 
     public static void TryRevivePlayer(this Player self, PlayerModule playerModule)

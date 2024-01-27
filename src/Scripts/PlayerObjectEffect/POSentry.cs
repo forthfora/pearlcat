@@ -25,19 +25,19 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     public float ShieldTimer { get; set; } = -1;
     public DynamicSoundLoop? ShieldHoldLoop { get; set; }
     public Dictionary<ShortcutData, FSprite> LockedShortcutsSprites { get; } = new();
-    
+
     public int RageCounter { get; set; } = 3;
     public WeakReference<Creature>? RageTarget { get; set; }
-    
+
     public Vector2? AgilityPos { get; set; }
-    
+
     public float HoloLightScale { get; set; }
     public float HoloLightAlpha { get; set; }
     public bool HoloLightActive { get; set; }
 
     public bool WasPlayingMusic { get; set; }
     public float MusicVolume { get; set; }
-    
+
 
     public POSentry(AbstractPhysicalObject owner)
     {
@@ -101,9 +101,11 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         var pearlType = pearl.AbstractPearl.dataPearlType;
         var targetPos = InitialPos + new Vector2(0.0f, -40.0f);
 
+        // Pearls with floating animation
         if (pearlType == DataPearlType.RM
             || pearlType == Enums.Pearls.RM_Pearlcat
-            || pearlType == Enums.Pearls.SS_Pearlcat)
+            || pearlType == Enums.Pearls.SS_Pearlcat
+            || pearlType == Enums.Pearls.Heart_Pearlpup)
         {
             targetPos.y += Mathf.Sin(AnimCounter / 60.0f) * 20.0f;
         }
@@ -130,11 +132,25 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         {
             UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Amnesia");
         }
+        else if(pearlType == Enums.Pearls.Heart_Pearlpup)
+        {
+            UpdateHeartSentry(owner, module, pearl);
+        }
 
         AnimCounter++;
     }
 
 
+
+    private void UpdateHeartSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl)
+    {
+        var player = owner.TryGetPlayerObjectOwner();
+
+        if (player == null) return;
+
+        player.mainBodyChunk.vel += Custom.DirVec(player.firstChunk.pos, pearl.firstChunk.pos) * Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 75.0f, 125.0f, 0.0f, 3.0f, 0.8f); 
+        
+    }
 
     private void UpdateMusicSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect, string songName)
     {

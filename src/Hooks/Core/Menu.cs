@@ -1,6 +1,9 @@
 ﻿using Menu;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using RWCustom;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -45,8 +48,11 @@ public static partial class Hooks
 
         On.Menu.SlugcatSelectMenu.UpdateStartButtonText += SlugcatSelectMenu_UpdateStartButtonText;
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
+
+        IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
     }
 
+  
     private static void StoryGameStatisticsScreen_AddBkgIllustration(On.Menu.StoryGameStatisticsScreen.orig_AddBkgIllustration orig, StoryGameStatisticsScreen self)
     {
 
@@ -669,7 +675,7 @@ public static partial class Hooks
             var activePearlColor = menuSceneModule.ActivePearlColor;
 
             illustration.visible = true;
-            illustration.color = (Color)activePearlColor * Custom.HSL2RGB(1.0f, 0.2f, 1.0f);
+            illustration.color = ((Color)activePearlColor).AscendedPearlColorFilter();
             illustration.sprite.scale = 0.25f;
             illustration.alpha = 1.0f;
 
@@ -719,11 +725,15 @@ public static partial class Hooks
 
         illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, 0.0f, 0.2f, 0.3f);
         illustration.alpha = 1.0f;
-        illustration.color = pearlColors[i].MenuPearlColorFilter();
+        illustration.color = pearlColors[i].AscendedPearlColorFilter();
         //illustration.color = Color.Lerp(pearlColors[i].MenuPearlColorFilter(), new Color32(207, 187, 101, 255), 0.4f);
     }
 
-
+    public static Color AscendedPearlColorFilter(this Color color)
+    {
+        Color.RGBToHSV(Color.Lerp(color, Color.white, 0.3f), out var hue, out var sat, out var val);
+        return Color.HSVToRGB(hue, Mathf.Lerp(sat, 0.0f, 0.2f), val);
+    }
 
     public static string SecretPassword { get; set; } = "mira";
     public static int SecretIndex { get; set; } = 0;
@@ -744,7 +754,8 @@ public static partial class Hooks
 
         if (SecretIndex == SecretPassword.Length)
         {
-            save.HasTrueEnding = !save.HasTrueEnding;
+            save.IsSecretEnabled = !save.IsSecretEnabled;
+            save.HasTrueEnding = save.IsSecretEnabled;
         }
 
         SecretIndex = 0;
@@ -789,11 +800,14 @@ public static partial class Hooks
             self.startButton.menuLabel.text = text;
         }
 
+
+        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame;
+
         if (SecretIndex >= SecretPassword.Length)
         {
             self.manager.RequestMainProcessSwitch(ProcessManager.ProcessID.SlugcatSelect);
         }
-        else
+        else if (canSecretOccur)
         {
             if (Input.anyKey)
             {
@@ -826,6 +840,12 @@ public static partial class Hooks
             {
                 regionLabel.text = module.OriginalRegionLabelText;
             }
+        }
+        else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage && save.IsSecretEnabled)
+        {
+            newGamePage.difficultyLabel.text = "PEARLPUP";
+            newGamePage.infoLabel.text = "The child becomes the scholar, but the scholar...?" +
+                "\nA glimpse into what awaits...";
         }
         
         // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol
@@ -902,4 +922,32 @@ public static partial class Hooks
         return result;
     }
 
+
+    // Skip intro cutscene if secret
+    private static void SlugcatSelectMenu_StartGame(MonoMod.Cil.ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchCallOrCallvirt<SlugcatSelectMenu>(nameof(SlugcatSelectMenu.ContinueStartedGame))
+        );
+
+        var dest = il.DefineLabel();
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdstr("s"),
+            x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey)),
+            x => x.MatchBrtrue(out dest)
+        );
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((self) =>
+        {
+            var save = self.manager.rainWorld.GetMiscProgression();
+
+            return save.IsSecretEnabled;
+        });
+
+        c.Emit(OpCodes.Brtrue, dest);
+    }
 }

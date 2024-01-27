@@ -7,4 +7,4 @@
 [ADD]AS_PearlGreen : 42c728 : ffffff : AS_PearlGreen
 [ADD]AS_PearlBlack : 121212 : ffffff : AS_PearlBlack
 
-[ADD]MI_Pearlpup : ffffff : ffffff : MI_Pearlpup
+[ADD]Heart_Pearlpup : ffffff : ffffff : Heart_Pearlpup

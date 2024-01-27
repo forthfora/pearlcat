@@ -1,5 +1,6 @@
 ﻿
 using RWCustom;
+using System;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -28,6 +29,12 @@ public static partial class Hooks
         orig(self, sLeaser, rCam);
 
         if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
+
+        module.Umbilical = new UmbilicalGraphics(self.firstChunk.pos, sLeaser.sprites.Length);
+        Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + module.Umbilical.totalSprites);
+
+        module.Umbilical.InitiateSprites(sLeaser, rCam);
+        self.AddToContainer(sLeaser, rCam, null);
     }
 
     private static void DataPearl_DrawSprites_PearlpupPearl(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -49,16 +56,17 @@ public static partial class Hooks
 
         if (module.HeartBeatTimer1 == 0 || module.HeartBeatTimer2 == 0)
         {
-            foreach (var sprite in sLeaser.sprites)
-            {
-                sprite.scale = 2.0f;
-            }
+            mainSprite.scale = 2.5f;
+            highlightSprite.scale = 2.0f;
+            glimmerSprite.scale = 1.5f;
         }
 
-        foreach (var sprite in sLeaser.sprites)
-        {
-            sprite.scale = Custom.LerpBackEaseOut(sprite.scale, 0.9f, 0.02f);
-        }
+        mainSprite.scale = Custom.LerpBackEaseOut(mainSprite.scale, 0.9f, 0.02f);
+        highlightSprite.scale = Custom.LerpBackEaseOut(highlightSprite.scale, 0.9f, 0.02f);
+        glimmerSprite.scale = Custom.LerpBackEaseOut(glimmerSprite.scale, 0.9f, 0.02f);
+        
+        module.Umbilical.DrawSprites(sLeaser, rCam, timeStacker, camPos);
+        module.Umbilical.ApplyPalette(sLeaser);
     }
 
     private static void DataPearl_Update_PearlpupPearl(On.DataPearl.orig_Update orig, DataPearl self, bool eu)
@@ -75,6 +83,8 @@ public static partial class Hooks
             return;
         }
 
+        if (!owner.TryGetPearlcatModule(out var playerModule)) return;
+
         module.HeartBeatTimer1++;
         module.HeartBeatTimer2++;
 
@@ -87,5 +97,10 @@ public static partial class Hooks
         {
             module.HeartBeatTimer2 = 0;
         }
+
+        var umbilicalStartPos = playerModule.ScarPos;
+        var umbilicalEndPos = self.firstChunk.pos;
+
+        module.Umbilical?.Update(umbilicalStartPos, umbilicalEndPos, self.room);
     }
 }

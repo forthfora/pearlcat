@@ -154,7 +154,7 @@ public static partial class Hooks
         if (playerModule.FirstSprite <= 0 || sLeaser.sprites.Length < playerModule.LastSprite) return;
 
         newContatiner ??= rCam.ReturnFContainer("Midground");
-        OrderAndColorSprites(self, sLeaser, rCam, playerModule, newContatiner);
+        OrderAndColorSprites(self, sLeaser, rCam, Vector2.zero, playerModule, newContatiner);
     }
 
     private static void PlayerGraphics_Reset(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
@@ -226,7 +226,7 @@ public static partial class Hooks
 
         if (ModOptions.DisableCosmetics.Value)
         {
-            OrderAndColorSprites(self, sLeaser, rCam, playerModule, null);
+            OrderAndColorSprites(self, sLeaser, rCam, camPos, playerModule, null);
             return;
         }
 
@@ -295,7 +295,7 @@ public static partial class Hooks
         DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos, playerModule.Ribbon1Sprite, playerModule.Ribbon1, playerModule.Ribbon1Offset);
         DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos, playerModule.Ribbon2Sprite, playerModule.Ribbon2, playerModule.Ribbon2Offset);
 
-        OrderAndColorSprites(self, sLeaser, rCam, playerModule, null);
+        OrderAndColorSprites(self, sLeaser, rCam, camPos, playerModule, null);
     }
 
 
@@ -499,7 +499,7 @@ public static partial class Hooks
 
 
     // Update
-    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule playerModule, FContainer? newContainer = null)
+    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, Vector2 camPos, PlayerModule playerModule, FContainer? newContainer = null)
     {
         var bodySprite = sLeaser.sprites[BODY_SPRITE];
         var armLSprite = sLeaser.sprites[ARM_L_SPRITE];
@@ -745,6 +745,8 @@ public static partial class Hooks
 
             var scarColor = Custom.hexToColor("694646");
             scarSprite.color = Color.Lerp(bodyColor, scarColor, 0.8f);
+
+            playerModule.ScarPos = scarSprite.GetPosition() + camPos;
         }
         else
         {

@@ -417,4 +417,7 @@ public partial class PlayerModule
     // Cloak
     public int CloakSprite { get; set; }
     public CloakGraphics Cloak { get; set; } = null!;
+
+
+    public Vector2 ScarPos { get; set; }
 }
