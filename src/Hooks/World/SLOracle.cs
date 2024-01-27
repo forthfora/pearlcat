@@ -99,7 +99,7 @@ public static partial class Hooks
         }
 
         var t = self.oracle.room.game.rainWorld.inGameTranslator;
-        var miscProg = self.oracle.room.game.rainWorld.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         string name = t.Translate("scholar");
         string prefix = miscProg.HasTrueEnding ? t.Translate("miraculous") : t.Translate("strange");

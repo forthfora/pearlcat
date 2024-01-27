@@ -2,8 +2,6 @@
 using System;
 using System.Linq;
 using UnityEngine;
-using DataPearlType = DataPearl.AbstractDataPearl;
-using MSCDataPearlType = MoreSlugcats.MoreSlugcatsEnums.DataPearlType;
 
 namespace Pearlcat;
 
@@ -344,14 +342,14 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
     public static string SpriteFromPearl(AbstractPhysicalObject obj)
     {
-        if (obj is not DataPearlType pearl)
+        if (obj is not DataPearl.AbstractDataPearl pearl)
         {
             return "pearlcat_glyphcooldown";
         }
 
         var dataPearlType = pearl.dataPearlType;
         
-        if (dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearlType == MSCDataPearlType.RM)
+        if (pearl.IsHalcyonPearl())
         {
             return "haloGlyph5";
         }
@@ -359,7 +357,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         {
             return "haloGlyph6";
         }
-        else if (dataPearlType == Enums.Pearls.Heart_Pearlpup)
+        else if (pearl.IsHeartPearl())
         {
             return "pearlcat_glyphheart";
         }

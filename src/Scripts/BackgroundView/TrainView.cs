@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using RWCustom;
+using System.Linq;
 using UnityEngine;
 using static Pearlcat.CustomBgElement;
 using Random = UnityEngine.Random;
@@ -14,6 +15,8 @@ public class TrainView : CustomBgScene
 
     public TrainView(Room room) : base(room)
     {
+        var save = Utils.GetMiscProgression();
+
         IsOutside = room.roomSettings.name == "T1_END";
 
         float effectAmount = 10000f - 30000f;
@@ -21,19 +24,13 @@ public class TrainView : CustomBgScene
         StartAltitude = effectAmount - 5500f;
         EndAltitude = effectAmount + 5500f;
 
-        AtmosphereColor = new Color32(149, 107, 107, 255);
+        AtmosphereColor = save.HasTrueEnding ? Custom.hexToColor("46628f") : new Color32(149, 107, 107, 255);
 
-        var daySky = new Simple2DBackgroundIllustration(this, "pearlcat_daysky", new(683.0f, 384.0f))
+        var sky = new Simple2DBackgroundIllustration(this, save.HasTrueEnding ? "pearlcat_daysky" : "pearlcat_daysky", new(683.0f, 384.0f))
         {
             alpha = 1.0f,
         };
-        AddElement(daySky);
-
-        //var duskSky = new Simple2DBackgroundIllustration(this, "pearlcat_dusksky", new(683.0f, 384.0f))
-        //{
-        //    alpha = 0.5f,
-        //};
-        //AddElement(duskSky);
+        AddElement(sky);
 
         //var fog = new Fog(this)
         //{

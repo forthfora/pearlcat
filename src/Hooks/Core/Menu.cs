@@ -58,7 +58,7 @@ public static partial class Hooks
 
         if (RainWorld.lastActiveSaveSlot == Enums.Pearlcat)
         {
-            var save = self.manager.rainWorld.GetMiscProgression();
+            var save = Utils.GetMiscProgression();
 
             var sceneID = Scenes.Slugcat_Pearlcat_Statistics_Ascended;
             
@@ -83,7 +83,7 @@ public static partial class Hooks
 
         if (!self.fileName.Contains("pearlcat")) return;
 
-        var save = self.menu.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(self.fileName);
 
         if (fileName == "Intro3_3" || fileName == "Intro5_3")
@@ -158,7 +158,7 @@ public static partial class Hooks
     {
         orig(self, menu, owner, sceneID);
        
-        var save = menu.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
 
         if (ModOptions.InventoryOverride.Value || (save.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
         {
@@ -279,7 +279,7 @@ public static partial class Hooks
 
     private static void UpdateSelectScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
-        var save = self.menu.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
         if (illustrationModule.Index == -2)
@@ -411,7 +411,7 @@ public static partial class Hooks
 
     private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
-        var save = self.menu.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
         illustration.alpha = 1.0f;
@@ -643,7 +643,7 @@ public static partial class Hooks
     {
         if (illustrationModule.Index == -2)
         {
-            var save = self.menu.manager.rainWorld.GetMiscProgression();
+            var save = Utils.GetMiscProgression();
             var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
             var visible = true;
@@ -744,7 +744,7 @@ public static partial class Hooks
 
         if (slugcatNumber != Enums.Pearlcat) return;
 
-        var save = menu.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
         var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault().GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
 
         // screw pebbles pearls you get ORANGE    
@@ -769,7 +769,7 @@ public static partial class Hooks
         var module = self.GetModule();
         var miraSkipCheckbox = module.MiraCheckbox;
 
-        var save = self.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
         var disableSave = !save.IsNewPearlcatSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
@@ -870,7 +870,7 @@ public static partial class Hooks
 
     private static void SlugcatSelectMenu_SetChecked(On.Menu.SlugcatSelectMenu.orig_SetChecked orig, SlugcatSelectMenu self, CheckBox box, bool c)
     {
-        var save = self.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
         
         if (box.IDString == MIRA_SKIP_ID)
         {
@@ -888,7 +888,7 @@ public static partial class Hooks
         
         if (box.IDString == MIRA_SKIP_ID)
         {
-            var save = self.manager.rainWorld.GetMiscProgression();
+            var save = Utils.GetMiscProgression();
             return save.IsMiraSkipEnabled;
         }
 
@@ -897,7 +897,7 @@ public static partial class Hooks
 
     private static void SlugcatSelectMenu_UpdateStartButtonText(On.Menu.SlugcatSelectMenu.orig_UpdateStartButtonText orig, SlugcatSelectMenu self)
     {
-        var save = self.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
 
         if (save.IsMiraSkipEnabled)
         {
@@ -912,7 +912,7 @@ public static partial class Hooks
     private static Color HoldButton_MyColor(On.Menu.HoldButton.orig_MyColor orig, HoldButton self, float timeStacker)
     {
         var result = orig(self, timeStacker);
-        var save = self.menu.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
 
         if (self.signalText == "START" && save.IsMiraSkipEnabled)
         {
@@ -943,7 +943,7 @@ public static partial class Hooks
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((self) =>
         {
-            var save = self.manager.rainWorld.GetMiscProgression();
+            var save = Utils.GetMiscProgression();
 
             return save.IsSecretEnabled;
         });

@@ -279,7 +279,7 @@ public static partial class Hooks
     {
         if (!playerModule.IsAdultPearlpup) return;
         
-        if (!self.dead && self.room != null && !playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType == Enums.Pearls.Heart_Pearlpup))
+        if (!self.dead && self.room != null && !playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl()))
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
             self.StoreObject(pearl, overrideLimit: true);

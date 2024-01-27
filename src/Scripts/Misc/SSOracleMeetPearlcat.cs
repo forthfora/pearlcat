@@ -555,9 +555,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             {
                 if (physicalObject is not DataPearl dataPearl) continue;
 
-                var type = dataPearl.AbstractPearl.dataPearlType;
-
-                if (type == Enums.Pearls.RM_Pearlcat || type == MoreSlugcatsEnums.DataPearlType.RM)
+                if (dataPearl.IsHalcyonPearl())
                 {
                     return true;
                 }
@@ -589,9 +587,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                         if (item is not DataPearl.AbstractDataPearl itemDataPearl) continue;
 
-                        var itemType = itemDataPearl.dataPearlType;
-
-                        if (itemType != Enums.Pearls.RM_Pearlcat && itemType != MoreSlugcatsEnums.DataPearlType.RM) continue;
+                        if (!itemDataPearl.IsHalcyonPearl()) continue;
 
                         if (item.realizedObject != null)
                         {
@@ -615,10 +611,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                 if (physicalObject is not DataPearl dataPearl) continue;
                 
-
-                var type = dataPearl.AbstractPearl.dataPearlType;
-
-                if (type != Enums.Pearls.RM_Pearlcat && type != MoreSlugcatsEnums.DataPearlType.RM) continue;
+                if (!dataPearl.IsHalcyonPearl()) continue;
 
                 
                 physicalObject.AbstractedEffect();

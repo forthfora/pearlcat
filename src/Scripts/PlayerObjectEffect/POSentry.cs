@@ -102,10 +102,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         var targetPos = InitialPos + new Vector2(0.0f, -40.0f);
 
         // Pearls with floating animation
-        if (pearlType == DataPearlType.RM
-            || pearlType == Enums.Pearls.RM_Pearlcat
-            || pearlType == Enums.Pearls.SS_Pearlcat
-            || pearlType == Enums.Pearls.Heart_Pearlpup)
+        if (pearl.IsHalcyonPearl() || pearl.IsHeartPearl() || pearlType == Enums.Pearls.SS_Pearlcat)
         {
             targetPos.y += Mathf.Sin(AnimCounter / 60.0f) * 20.0f;
         }
@@ -124,7 +121,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         UpdateSpearSentry(owner, module, pearl, effect);
         
-        if (pearlType == DataPearlType.RM || pearlType == Enums.Pearls.RM_Pearlcat)
+        if (pearl.IsHalcyonPearl())
         {
             UpdateMusicSentry(owner, module, pearl, effect, "NA_19 - Halcyon Memories");
         }
@@ -132,7 +129,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         {
             UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Amnesia");
         }
-        else if(pearlType == Enums.Pearls.Heart_Pearlpup)
+        else if(pearl.IsHeartPearl())
         {
             UpdateHeartSentry(owner, module, pearl);
         }

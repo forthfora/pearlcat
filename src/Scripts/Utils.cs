@@ -10,6 +10,7 @@ using static Conversation;
 using static SSOracleBehavior;
 using Random = UnityEngine.Random;
 using static AbstractPhysicalObject;
+using MoreSlugcats;
 
 namespace Pearlcat;
 
@@ -18,7 +19,14 @@ public static class Utils
     public static bool WarpEnabled(this RainWorldGame game) => game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
 
 
-    public static bool IsPearlpupPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.Heart_Pearlpup;
+    public static SaveMiscProgression GetMiscProgression() => Custom.rainWorld.GetMiscProgression();
+
+
+    public static bool IsHeartPearl(this DataPearl dataPearl) => dataPearl.AbstractPearl.IsHeartPearl();
+    public static bool IsHeartPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.Heart_Pearlpup;
+
+    public static bool IsHalcyonPearl(this DataPearl dataPearl) => dataPearl.AbstractPearl.IsHalcyonPearl();
+    public static bool IsHalcyonPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == MoreSlugcatsEnums.DataPearlType.RM;
 
 
     public static void TryRevivePlayer(this Player self, PlayerModule playerModule)

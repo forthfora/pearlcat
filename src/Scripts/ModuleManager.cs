@@ -2,6 +2,7 @@
 using Menu;
 using MoreSlugcats;
 using Music;
+using RWCustom;
 using SlugBase.SaveData;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -87,7 +88,7 @@ public static class ModuleManager
     public static ConditionalWeakTable<DataPearl.AbstractDataPearl, PearlpupPearlModule> PearlpupPearlData { get; } = new();
     public static bool TryGetPearlpupPearlModule(this DataPearl.AbstractDataPearl dataPearl, out PearlpupPearlModule module)
     {
-        if (!dataPearl.IsPearlpupPearl())
+        if (!dataPearl.IsHeartPearl())
         {
             module = null!;
             return false;

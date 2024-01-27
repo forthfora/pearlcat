@@ -55,7 +55,7 @@ public class T1_START : UpdatableAndDeletable
                             var item = playerModule.Inventory[i];
 
                             if (item is DataPearl.AbstractDataPearl dataPearl)
-                                if (dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == Enums.Pearls.AS_PearlBlack)
+                                if (dataPearl.IsHalcyonPearl() || dataPearl.dataPearlType == Enums.Pearls.AS_PearlBlack)
                                     continue;
 
                             player.RemoveFromInventory(item);

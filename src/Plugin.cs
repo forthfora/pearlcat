@@ -56,7 +56,7 @@ public class Plugin : BaseUnityPlugin
             var miscProg = rainWorld.progression.miscProgressionData;
             var saveState = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetStorySession?.saveState;
 
-            var pearlcatMiscProg = rainWorld.GetMiscProgression();
+            var pearlcatMiscProg = Utils.GetMiscProgression();
             var pearlcatMiscWorld = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetMiscWorld();
 
             var message =
