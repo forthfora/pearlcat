@@ -257,7 +257,7 @@ public static partial class Hooks
 
         var velocityMult = Custom.LerpMap(playerModule.AgilityCount, 1, 5, 1.0f, 0.75f);
         velocityMult *= Custom.LerpMap(playerModule.AgilityOveruseTimer, 40, maxOveruse, 1.0f, 0.7f);
-
+        velocityMult *= playerModule.ActiveObject?.GetPOEffect().MajorEffect == MajorEffectType.AGILITY ? 1.25f : 1.0f;
 
         var abilityInput = self.IsAgilityKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasAgilityInput;

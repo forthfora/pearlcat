@@ -6,7 +6,6 @@ using static Pearlcat.POEffect;
 using MoreSlugcats;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
-using static MoreSlugcats.MoreSlugcatsEnums;
 using Music;
 
 namespace Pearlcat;
@@ -30,6 +29,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     public WeakReference<Creature>? RageTarget { get; set; }
 
     public Vector2? AgilityPos { get; set; }
+    public AbstractRoom? AgilityRoom { get; set; }
 
     public float HoloLightScale { get; set; }
     public float HoloLightAlpha { get; set; }
@@ -300,10 +300,11 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         var inGate = player.room?.IsGateRoom() ?? false;
         var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
-        
+
         var canTP = !tooClose && !inGate;
 
         AgilityPos = canTP ? pearl.firstChunk.pos : null;
+        AgilityRoom = canTP ? pearl.AbstractPearl.Room : null;
     }
 
     private void UpdateSpearSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
@@ -631,7 +632,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                     room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
                 }
 
-                if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && owner.Room == player.abstractCreature.Room)
+                if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && AgilityRoom == player.abstractCreature.Room)
                 {
                     if (room != null && owner.realizedObject != null)
                     {

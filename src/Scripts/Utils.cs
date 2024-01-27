@@ -301,7 +301,6 @@ public static class Utils
     }
 
 
-
     public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)
     {
         if (saveFile == null) { saveFile = self.currentSaveFile; }

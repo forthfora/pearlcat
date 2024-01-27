@@ -2,7 +2,6 @@
 using Menu;
 using MoreSlugcats;
 using Music;
-using RWCustom;
 using SlugBase.SaveData;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;

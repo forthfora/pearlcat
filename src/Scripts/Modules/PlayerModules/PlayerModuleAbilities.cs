@@ -80,6 +80,8 @@ public partial class PlayerModule
         {
             if (!pearl.TryGetModule(out var module)) continue;
 
+            if (pearl.TryGetSentry(out _)) continue;
+
             if (pearl.GetPOEffect().MajorEffect != type) continue;
 
             if (module.CooldownTimer == 0)
@@ -117,8 +119,12 @@ public partial class PlayerModule
         
         ShieldTimer = ModOptions.ShieldDuration.Value;
 
-        if (PlayerRef.TryGetTarget(out var player))
+        if (PlayerRef.TryGetTarget(out var player) && player.TryGetPearlcatModule(out var playerModule))
+        {
             player.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, player.firstChunk);
+
+            ShieldTimer *= (int)(playerModule.ActiveObject?.GetPOEffect().MajorEffect == MajorEffectType.SHIELD ? 2.0f : 1.0f);
+        }
 
         if (ModOptions.InventoryPings.Value)
             ShowHUD(60);

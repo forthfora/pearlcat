@@ -24,9 +24,9 @@ public class TrainView : CustomBgScene
         StartAltitude = effectAmount - 5500f;
         EndAltitude = effectAmount + 5500f;
 
-        AtmosphereColor = save.HasTrueEnding ? Custom.hexToColor("46628f") : new Color32(149, 107, 107, 255);
+        AtmosphereColor = save.HasTrueEnding ? Custom.hexToColor("22385c") : new Color32(149, 107, 107, 255);
 
-        var sky = new Simple2DBackgroundIllustration(this, save.HasTrueEnding ? "pearlcat_daysky" : "pearlcat_daysky", new(683.0f, 384.0f))
+        var sky = new Simple2DBackgroundIllustration(this, save.HasTrueEnding ? "pearlcat_nightsky" : "pearlcat_daysky", new(683.0f, 384.0f))
         {
             alpha = 1.0f,
         };
