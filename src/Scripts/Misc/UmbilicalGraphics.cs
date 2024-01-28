@@ -157,22 +157,24 @@ public class UmbilicalGraphics
             
             for (int num7 = 1; num7 < smallWires.GetLength(1); num7++)
             {
-                Vector2 a4 = Custom.DirVec(smallWires[n, num7, 0], smallWires[n, num7 - 1, 0]);
-                float num8 = Vector2.Distance(smallWires[n, num7, 0], smallWires[n, num7 - 1, 0]);
-                smallWires[n, num7, 0] -= (num6 - num8) * a4 * 0.5f;
-                smallWires[n, num7, 2] -= (num6 - num8) * a4 * 0.5f;
-                smallWires[n, num7 - 1, 0] += (num6 - num8) * a4 * 0.5f;
-                smallWires[n, num7 - 1, 2] += (num6 - num8) * a4 * 0.5f;
+                var a4 = Custom.DirVec(smallWires[n, num7, 0], smallWires[n, num7 - 1, 0]);
+                var dist = Vector2.Distance(smallWires[n, num7, 0], smallWires[n, num7 - 1, 0]);
+
+                smallWires[n, num7, 0] -= (num6 - dist) * a4 * 0.5f;
+                smallWires[n, num7, 2] -= (num6 - dist) * a4 * 0.5f;
+                smallWires[n, num7 - 1, 0] += (num6 - dist) * a4 * 0.5f;
+                smallWires[n, num7 - 1, 2] += (num6 - dist) * a4 * 0.5f;
             }
             
             for (int num9 = 0; num9 < smallWires.GetLength(1) - 1; num9++)
             {
-                Vector2 a5 = Custom.DirVec(smallWires[n, num9, 0], smallWires[n, num9 + 1, 0]);
-                float num10 = Vector2.Distance(smallWires[n, num9, 0], smallWires[n, num9 + 1, 0]);
-                smallWires[n, num9, 0] -= (num6 - num10) * a5 * 0.5f;
-                smallWires[n, num9, 2] -= (num6 - num10) * a5 * 0.5f;
-                smallWires[n, num9 + 1, 0] += (num6 - num10) * a5 * 0.5f;
-                smallWires[n, num9 + 1, 2] += (num6 - num10) * a5 * 0.5f;
+                var a5 = Custom.DirVec(smallWires[n, num9, 0], smallWires[n, num9 + 1, 0]);
+                var dist = Vector2.Distance(smallWires[n, num9, 0], smallWires[n, num9 + 1, 0]);
+
+                smallWires[n, num9, 0] -= (num6 - dist) * a5 * 0.5f;
+                smallWires[n, num9, 2] -= (num6 - dist) * a5 * 0.5f;
+                smallWires[n, num9 + 1, 0] += (num6 - dist) * a5 * 0.5f;
+                smallWires[n, num9 + 1, 2] += (num6 - dist) * a5 * 0.5f;
             }
 
             //smallWires[n, 0, 0] = bigCord[bigCord.GetLength(0) - 1, 0];
@@ -283,22 +285,24 @@ public class UmbilicalGraphics
 
         for (int j = 0; j < smallWires.GetLength(0); j++)
         {
-            Vector2 a2 = Vector2.Lerp(smallWires[j, 0, 1], smallWires[j, 0, 0], timeStacker);
-            float d3 = 0.5f;
+            Vector2 lerpPos1 = Vector2.Lerp(smallWires[j, 0, 1], smallWires[j, 0, 0], timeStacker);
+            float half = 0.5f;
 
             for (int k = 0; k < smallWires.GetLength(1); k++)
             {
-                Vector2 vector4 = Vector2.Lerp(smallWires[j, k, 1], smallWires[j, k, 0], timeStacker);
-                Vector2 normalized = (a2 - vector4).normalized;
-                Vector2 a3 = Custom.PerpendicularVector(normalized);
-                float d4 = Vector2.Distance(a2, vector4) / 5f;
+                var lerpPos2 = Vector2.Lerp(smallWires[j, k, 1], smallWires[j, k, 0], timeStacker);
+                
+                var normalized = (lerpPos1 - lerpPos2).normalized;
+                var perpVec = Custom.PerpendicularVector(normalized);
+                
+                float dist = Vector2.Distance(lerpPos1, lerpPos2) / 5f;
 
-                ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4, a2 - normalized * d4 - a3 * d3 - camPos);
-                ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4 + 1, a2 - normalized * d4 + a3 * d3 - camPos);
-                ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4 + 2, vector4 + normalized * d4 - a3 * d3 - camPos);
-                ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4 + 3, vector4 + normalized * d4 + a3 * d3 - camPos);
+                ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4, lerpPos1 - normalized * dist - perpVec * half - camPos);
+                ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4 + 1, lerpPos1 - normalized * dist + perpVec * half - camPos);
+                ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4 + 2, lerpPos2 + normalized * dist - perpVec * half - camPos);
+                ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4 + 3, lerpPos2 + normalized * dist + perpVec * half - camPos);
 
-                a2 = vector4;
+                lerpPos1 = lerpPos2;
             }
         }
     }
@@ -338,6 +342,19 @@ public class UmbilicalGraphics
             //{
             //    sLeaser.sprites[SmallWireSprite(j)].color = Color.Lerp(new Color(0f, 0f, 1f), metalColor, 0.5f);
             //}
+        }
+    }
+
+    public void Reset(Vector2 resetPos)
+    {
+        for (int i = 0; i < smallWires.GetLength(0); i++)
+        {
+            for (int j = 0; j < smallWires.GetLength(1); j++)
+            {
+                smallWires[i, j, 0] = resetPos;
+                smallWires[i, j, 1] = resetPos;
+                smallWires[i, j, 2] = Vector2.zero;
+            }
         }
     }
 }

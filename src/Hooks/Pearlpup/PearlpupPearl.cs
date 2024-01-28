@@ -15,6 +15,16 @@ public static partial class Hooks
         On.DataPearl.AddToContainer += DataPearl_AddToContainer;
 
         On.DataPearl.DrawSprites += DataPearl_DrawSprites_PearlpupPearl;
+        On.DataPearl.PlaceInRoom += DataPearl_PlaceInRoom;
+    }
+
+    private static void DataPearl_PlaceInRoom(On.DataPearl.orig_PlaceInRoom orig, DataPearl self, Room placeRoom)
+    {
+        orig(self, placeRoom);
+
+        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
+
+        module.Umbilical.Reset(self.firstChunk.pos);
     }
 
     private static void DataPearl_AddToContainer(On.DataPearl.orig_AddToContainer orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
@@ -30,7 +40,7 @@ public static partial class Hooks
 
         if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
 
-        module.Umbilical = new UmbilicalGraphics(self.firstChunk.pos, sLeaser.sprites.Length);
+        module.Umbilical = new UmbilicalGraphics(Vector2.zero, sLeaser.sprites.Length);
         Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + module.Umbilical.totalSprites);
 
         module.Umbilical.InitiateSprites(sLeaser, rCam);
