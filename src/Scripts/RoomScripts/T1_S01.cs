@@ -26,10 +26,12 @@ public class T1_S01 : UpdatableAndDeletable, IDrawable
 
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
+        var save = Utils.GetMiscProgression();
+
         sLeaser.sprites = new FSprite[2];
 
-        sLeaser.sprites[0] = new FSprite("pearlcat_topshutter");
-        sLeaser.sprites[1] = new FSprite("pearlcat_bottomshutter");
+        sLeaser.sprites[0] = new FSprite(save.HasTrueEnding ? "pearlcat_topshutter_night" : "pearlcat_topshutter");
+        sLeaser.sprites[1] = new FSprite(save.HasTrueEnding ? "pearlcat_bottomshutter_night" : "pearlcat_bottomshutter");
 
         AddToContainer(sLeaser, rCam, null!);
     }

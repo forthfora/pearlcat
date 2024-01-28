@@ -57,7 +57,7 @@ public class TrainView : CustomBgScene
         }
 
         Shader.SetGlobalVector("_AboveCloudsAtmosphereColor", AtmosphereColor);
-        Shader.SetGlobalVector("_MultiplyColor", Color.white);
+        Shader.SetGlobalVector("_MultiplyColor", save.HasTrueEnding ? Custom.hexToColor("9badc7") : Color.white);
 
         var count = (int)BgElementType.END;
         BgElementTimers = new int[count];
@@ -96,12 +96,14 @@ public class TrainView : CustomBgScene
         }
     }
 
+    public const float TRAIN_WIND_DIR = 7.0f;
+
     public override void Update(bool eu)
     {
         base.Update(eu);
 
         // thank god for this global
-        Shader.SetGlobalFloat("_windDir", 7.0f);
+        Shader.SetGlobalFloat("_windDir", TRAIN_WIND_DIR);
 
         if (Hooks.TrainViewYShift.TryGet(room.world.game, out var trainViewYShift))
             YShift = trainViewYShift;
@@ -252,6 +254,8 @@ public class TrainView : CustomBgScene
     {
         if (type == BgElementType.END) return;
 
+        var save = Utils.GetMiscProgression();
+
         var spriteName = type switch
         {
             BgElementType.VeryCloseCan => "pearlcat_structure1",
@@ -269,8 +273,8 @@ public class TrainView : CustomBgScene
             BgElementType.VeryFarSpire => "pearlcat_spire8",
             BgElementType.FarthestSpire => "pearlcat_spire9",
 
-            BgElementType.FgSupport => "pearlcat_support",
-            BgElementType.BgSupport => "pearlcat_support",
+            BgElementType.FgSupport => save.HasTrueEnding ? "pearlcat_support_night" : "pearlcat_support",
+            BgElementType.BgSupport => save.HasTrueEnding ? "pearlcat_support_night" : "pearlcat_support",
 
             _ => "pearlcat_structure1",
         };

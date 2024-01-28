@@ -42,7 +42,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                         Translate("Hello. Again."), 0);
 
                     dialogBox.NewMessage(
-                        Translate("Why did you come back here...? I can only imagine it brings back painful memories."), 0);
+                        Translate("Why did you come back here...? I can only imagine it brings back some painful memories."), 0);
 
                     dialogBox.NewMessage(
                         Translate("It doesn't matter I suppose, you may stay, so long as you don't disturb my work..."), 0);

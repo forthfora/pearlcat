@@ -89,8 +89,9 @@ public partial class Hooks
 
         On.DreamsState.StaticEndOfCycleProgress += DreamsState_StaticEndOfCycleProgress;
         On.RainWorldGame.ctor += RainWorldGame_ctor;
-    }
 
+        On.AboveCloudsView.ctor += AboveCloudsView_ctor;
+    }
 
     private static void RainWorldGame_ctor(On.RainWorldGame.orig_ctor orig, RainWorldGame self, ProcessManager manager)
     {
@@ -589,16 +590,23 @@ public partial class Hooks
     {
         orig(self);
 
+        var save = Utils.GetMiscProgression();
+
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {
             var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.1f;
             self.ScreenMovement(null, Vector2.right * 3.0f, intensity);
-        }
-        else
-        {
-            Shader.SetGlobalFloat("_windDir", ModManager.MSC ? -1f : 1f);
+
+            if (save.HasTrueEnding)
+            {
+                foreach (var camera in self.game.cameras)
+                {
+                    camera.ChangeMainPalette(301);
+                }
+            }
         }
 
+        // Outside train wind effect
         if (self.roomSettings.name == "T1_END")
         {
             foreach (var updatable in self.updateList)
@@ -705,5 +713,16 @@ public partial class Hooks
                 return null;
 
         return result;
+    }
+
+    // Reset this here instead, better for compat
+    private static void AboveCloudsView_ctor(On.AboveCloudsView.orig_ctor orig, AboveCloudsView self, Room room, RoomSettings.RoomEffect effect)
+    {
+        if (Shader.GetGlobalFloat("_windDir") == TrainView.TRAIN_WIND_DIR)
+        {
+            Shader.SetGlobalFloat("_windDir", ModManager.MSC ? -1.0f : 1.0f);
+        }
+
+        orig(self, room, effect);
     }
 }

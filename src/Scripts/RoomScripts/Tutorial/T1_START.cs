@@ -17,6 +17,8 @@ public class T1_START : UpdatableAndDeletable
         SentryTutorial,
 
         End,
+
+        Sleep,
     }
 
     public T1_START(Room room)
@@ -47,6 +49,7 @@ public class T1_START : UpdatableAndDeletable
 
                 if (!save.HasTrueEnding)
                 {
+                    // Remove Default Inventory
                     if (player.TryGetPearlcatModule(out var playerModule) && !ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value && player.playerState.playerNumber == 0)
                     {
                         // Clear default pearls
@@ -102,8 +105,13 @@ public class T1_START : UpdatableAndDeletable
                         room.game.cameras[0].hud.foodMeter.fade = 0f;
                         room.game.cameras[0].hud.foodMeter.lastFade = 0f;
 
-                        CurrentPhase = Phase.End;
+                        CurrentPhase = Phase.Sleep;
+                        PhaseTimer = 300;
                     }
+                }
+                else if (CurrentPhase == Phase.Sleep)
+                {
+                    CurrentPhase = Phase.End;
                 }
                 else if (CurrentPhase == Phase.End)
                 {
