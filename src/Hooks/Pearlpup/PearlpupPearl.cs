@@ -12,7 +12,6 @@ public static partial class Hooks
         On.DataPearl.Update += DataPearl_Update_PearlpupPearl;
         
         On.DataPearl.InitiateSprites += DataPearl_InitiateSprites_PearlpupPearl;
-        On.DataPearl.AddToContainer += DataPearl_AddToContainer;
 
         On.DataPearl.DrawSprites += DataPearl_DrawSprites_PearlpupPearl;
         On.DataPearl.PlaceInRoom += DataPearl_PlaceInRoom;
@@ -24,14 +23,7 @@ public static partial class Hooks
 
         if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
 
-        module.Umbilical.Reset(self.firstChunk.pos);
-    }
-
-    private static void DataPearl_AddToContainer(On.DataPearl.orig_AddToContainer orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
-    {
-        orig(self, sLeaser, rCam, newContatiner);
-
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
+        module.Umbilical?.Reset(self.firstChunk.pos);
     }
 
     private static void DataPearl_InitiateSprites_PearlpupPearl(On.DataPearl.orig_InitiateSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
@@ -40,11 +32,19 @@ public static partial class Hooks
 
         if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
 
-        module.Umbilical = new UmbilicalGraphics(Vector2.zero, sLeaser.sprites.Length);
-        Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + module.Umbilical.totalSprites);
+        module.Umbilical = new UmbilicalGraphics(sLeaser.sprites.Length);
+        Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + module.Umbilical.TotalSprites);
 
         module.Umbilical.InitiateSprites(sLeaser, rCam);
-        self.AddToContainer(sLeaser, rCam, null);
+
+        var umbilical = module.Umbilical;
+        var mgContainer = rCam.ReturnFContainer("Midground");
+
+        for (int i = 0; i < umbilical.SmallWires.GetLength(0); i++)
+        {
+            sLeaser.sprites[umbilical.SmallWireSprite(i)].RemoveFromContainer();
+            mgContainer.AddChild(sLeaser.sprites[umbilical.SmallWireSprite(i)]);
+        }
     }
 
     private static void DataPearl_DrawSprites_PearlpupPearl(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -75,8 +75,8 @@ public static partial class Hooks
         highlightSprite.scale = Custom.LerpBackEaseOut(highlightSprite.scale, 0.9f, 0.02f);
         glimmerSprite.scale = Custom.LerpBackEaseOut(glimmerSprite.scale, 0.9f, 0.02f);
         
-        module.Umbilical.DrawSprites(sLeaser, rCam, timeStacker, camPos);
-        module.Umbilical.ApplyPalette(sLeaser);
+        module.Umbilical?.DrawSprites(sLeaser, rCam, timeStacker, camPos);
+        module.Umbilical?.ApplyPalette(sLeaser);
     }
 
     private static void DataPearl_Update_PearlpupPearl(On.DataPearl.orig_Update orig, DataPearl self, bool eu)

@@ -28,5 +28,5 @@ public class PearlpupPearlModule
 
     // Umbilical
     public int UmbilicalSprite;
-    public UmbilicalGraphics Umbilical { get; set; } = null!;
+    public UmbilicalGraphics? Umbilical { get; set; }
 }
