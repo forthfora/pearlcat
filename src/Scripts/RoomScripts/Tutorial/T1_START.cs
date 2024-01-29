@@ -151,7 +151,7 @@ public class T1_START : UpdatableAndDeletable
                 }
                 else if (CurrentPhase == Phase.SwapTutorial)
                 {
-                    var t = room.game.rainWorld.inGameTranslator;
+                    var t = Utils.Translator;
 
                     game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + ModOptions.SwapLeftKeybind.Value + ") & (" + ModOptions.SwapRightKeybind.Value + t.Translate("), or the triggers on controller"), 0, 600);
 
@@ -163,7 +163,7 @@ public class T1_START : UpdatableAndDeletable
                 }
                 else if (CurrentPhase == Phase.StoreTutorial)
                 {
-                    var t = room.game.rainWorld.inGameTranslator;
+                    var t = Utils.Translator;
 
                     if (ModOptions.UsesCustomStoreKeybind.Value)
                         game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + ModOptions.StoreKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + ")", 0, 800);
@@ -178,7 +178,7 @@ public class T1_START : UpdatableAndDeletable
                 }
                 else if (CurrentPhase == Phase.SentryTutorial)
                 {
-                    var t = room.game.rainWorld.inGameTranslator;
+                    var t = Utils.Translator;
 
                     if (ModOptions.CustomSentryKeybind.Value)
                     {

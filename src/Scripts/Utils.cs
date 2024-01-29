@@ -16,10 +16,13 @@ namespace Pearlcat;
 
 public static class Utils
 {
+    public static RainWorld RainWorld => Custom.rainWorld;
+    public static Dictionary<string, FShader> Shaders => RainWorld.Shaders;
+    public static InGameTranslator Translator => RainWorld.inGameTranslator;
+    public static SaveMiscProgression GetMiscProgression() => RainWorld.GetMiscProgression();
+
+
     public static bool WarpEnabled(this RainWorldGame game) => game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
-
-    public static SaveMiscProgression GetMiscProgression() => Custom.rainWorld.GetMiscProgression();
-
 
     public static bool IsHeartPearl(this DataPearl dataPearl) => dataPearl.AbstractPearl.IsHeartPearl();
     public static bool IsHeartPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.Heart_Pearlpup;
@@ -173,7 +176,7 @@ public static class Utils
     public static void AddTextPrompt(this RainWorldGame game, string text, int wait, int time, bool darken = false, bool? hideHud = null)
     {
         hideHud ??= ModManager.MMF;
-        game.cameras.First().hud.textPrompt.AddMessage(game.manager.rainWorld.inGameTranslator.Translate(text), wait, time, darken, (bool)hideHud);
+        game.cameras.First().hud.textPrompt.AddMessage(Translator.Translate(text), wait, time, darken, (bool)hideHud);
     }
 
 
@@ -304,17 +307,17 @@ public static class Utils
     {
         if (saveFile == null) { saveFile = self.currentSaveFile; }
 
-        InGameTranslator.LanguageID languageID = self.interfaceOwner.rainWorld.inGameTranslator.currentLanguage;
+        var languageID = Translator.currentLanguage;
         string text;
         for (; ; )
         {
-            text = AssetManager.ResolveFilePath(self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(languageID) + Path.DirectorySeparatorChar.ToString() + fileName + ".txt");
+            text = AssetManager.ResolveFilePath(Translator.SpecificTextFolderDirectory(languageID) + Path.DirectorySeparatorChar.ToString() + fileName + ".txt");
             if (saveFile != null)
             {
                 string text2 = text;
                 text = AssetManager.ResolveFilePath(string.Concat(new string[]
                 {
-                    self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(languageID),
+                    Translator.SpecificTextFolderDirectory(languageID),
                     Path.DirectorySeparatorChar.ToString(),
                     fileName,
                     "-",

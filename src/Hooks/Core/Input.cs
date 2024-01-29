@@ -195,7 +195,7 @@ public static partial class Hooks
         if (!int.TryParse(keyCodeChar, out var buttonNum))
             return keyCode.ToString();
 
-        var t = Custom.rainWorld.inGameTranslator;
+        var t = Utils.Translator;
 
         return buttonNum switch
         {

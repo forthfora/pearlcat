@@ -134,7 +134,7 @@ public static partial class Hooks
         {
             if (save?.ShownFullInventoryTutorial == false && !ModOptions.DisableTutorials.Value)
             {
-                var t = self.abstractCreature.world.game.rainWorld.inGameTranslator;
+                var t = Utils.Translator;
 
                 save.ShownFullInventoryTutorial = true;
                 self.abstractCreature.world.game.AddTextPrompt(t.Translate("Storage limit reached (") + ModOptions.MaxPearlCount.Value + t.Translate("): swap out a pearl, or change the limit in the Remix options"), 40, 600);
@@ -178,7 +178,7 @@ public static partial class Hooks
         {
             save.ShownSpearCreationTutorial = true;
 
-            var t = self.abstractCreature.world.game.rainWorld.inGameTranslator;
+            var t = Utils.Translator;
 
             if (ModOptions.CustomSpearKeybind.Value)
                 self.abstractCreature.world.game.AddTextPrompt(

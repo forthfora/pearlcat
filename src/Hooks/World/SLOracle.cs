@@ -25,7 +25,7 @@ public static partial class Hooks
         var save = self.oracle.room.game.GetMiscWorld();
         var miscProg = self.oracle.room.game.GetMiscProgression();
 
-        var t = self.oracle.room.game.rainWorld.inGameTranslator;
+        var t = Utils.Translator;
 
         void SayStart(string text) => self.dialogBox.Interrupt(t.Translate(text), 10);
 
@@ -43,7 +43,7 @@ public static partial class Hooks
 
                 Say("Oh... oh no...");
 
-                Say("They are unwell, <PlayerName>, very unwell indeed.".Replace("<PlayerName>", self.NameForPlayer(false)));
+                Say("They are unwell, <PlayerName>, very unwell indeed.");
 
                 Say("I... wish there was more I could do... but even... nevermind in my current state.");
 
@@ -63,7 +63,7 @@ public static partial class Hooks
             }
             else if (save.MoonSickPupMeetCount == 1)
             {
-                SayStart("Welcome back, <PlayerName>, and your little one too.".Replace("<PlayerName>", self.NameForPlayer(false)));
+                SayStart("Welcome back, <PlayerName>, and your little one too.");
 
                 Say("I hope the cycles have been treating you well... it must be hard to take care of eachother out there.");
 
@@ -111,7 +111,7 @@ public static partial class Hooks
             return result;
         }
 
-        var t = self.oracle.room.game.rainWorld.inGameTranslator;
+        var t = Utils.Translator;
         var miscProg = Utils.GetMiscProgression();
 
         string name = t.Translate("scholar");
@@ -145,7 +145,7 @@ public static partial class Hooks
 
         var metMoon = self.myBehavior.oracle.room.game.GetStorySession.saveState.miscWorldSaveData.EverMetMoon;
 
-        var t = self.myBehavior.oracle.room.game.rainWorld.inGameTranslator;
+        var t = self.myBehavior;
 
         void SayNoLinger(string text) => self.events.Add(new Conversation.TextEvent(self, 0, t.Translate(text), 0));
 

@@ -87,12 +87,12 @@ public static partial class Hooks
 
         sLeaser.sprites[playerModule.ShieldSprite] = new("Futile_White")
         {
-            shader = rCam.room.game.rainWorld.Shaders["GravityDisruptor"],
+            shader = Utils.Shaders["GravityDisruptor"],
         };
 
         sLeaser.sprites[playerModule.HoloLightSprite] = new("Futile_White")
         {
-            shader = rCam.game.rainWorld.Shaders["HoloGrid"],
+            shader = Utils.Shaders["HoloGrid"],
         };
 
         sLeaser.sprites[playerModule.ScarSprite] = new("pearlcatScar");
@@ -204,7 +204,7 @@ public static partial class Hooks
     private static void GenerateRibbonMesh(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PlayerModule module, int spriteIndex, Vector2[,] ribbon)
     {
         sLeaser.sprites[spriteIndex] = TriangleMesh.MakeLongMesh(ribbon.GetLength(0), false, false);
-        sLeaser.sprites[spriteIndex].shader = rCam.game.rainWorld.Shaders["Basic"];
+        sLeaser.sprites[spriteIndex].shader = Utils.Shaders["Basic"];
         sLeaser.sprites[spriteIndex].alpha = 1.0f;
 
         //var ribbonTex = Futile.atlasManager.GetElementWithName("pearlcat_ribbon");

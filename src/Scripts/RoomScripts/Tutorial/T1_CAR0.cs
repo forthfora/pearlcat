@@ -66,7 +66,7 @@ public class T1_CAR0 : UpdatableAndDeletable
             {
                 game.AddTextPrompt("BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump", 0, 800);
 
-                var t = game.rainWorld.inGameTranslator;
+                var t = Utils.Translator;
 
                 if (ModOptions.CustomAgilityKeybind.Value)
                     game.AddTextPrompt(t.Translate("Press (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + t.Translate(") while in the air to perform a double jump"), 0, 600);

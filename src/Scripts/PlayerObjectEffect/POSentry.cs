@@ -419,7 +419,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             {
                 sprite = new FSprite("pearlcat_hudlockedshortcut")
                 {
-                    shader = room.game.rainWorld.Shaders["Hologram"],
+                    shader = Utils.Shaders["Hologram"],
                     scale = 0.5f,
                 };
 
@@ -691,33 +691,33 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         sLeaser.sprites[1] = new("pearlcat_sentryhalo")
         {
-            //shader = rCam.room.game.rainWorld.Shaders["GateHologram"],
+            //shader = Utils.Shaders["GateHologram"],
         };
 
         sLeaser.sprites[2] = new("pearlcat_shieldsentry")
         {
-            shader = rCam.room.game.rainWorld.Shaders["Hologram"],
+            shader = Utils.Shaders["Hologram"],
         };
 
         sLeaser.sprites[3] = new("Futile_White")
         {
-            shader = rCam.room.game.rainWorld.Shaders["GravityDisruptor"],
+            shader = Utils.Shaders["GravityDisruptor"],
             scale = 0.0f,
         };
 
         sLeaser.sprites[4] = new("pixel")
         {
-            shader = rCam.room.game.rainWorld.Shaders["HologramBehindTerrain"],
+            shader = Utils.Shaders["HologramBehindTerrain"],
         };
 
         sLeaser.sprites[5] = new("pixel")
         {
-            shader = rCam.room.game.rainWorld.Shaders["GateHologram"],
+            shader = Utils.Shaders["GateHologram"],
         };
 
         sLeaser.sprites[6] = new("Futile_White")
         {
-            shader = rCam.game.rainWorld.Shaders["HoloGrid"],
+            shader = Utils.Shaders["HoloGrid"],
             scale = 0.0f,
         };
 

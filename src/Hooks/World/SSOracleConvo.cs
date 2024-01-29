@@ -143,7 +143,7 @@ public static partial class Hooks
         var miscProg = self.owner.oracle.room.game.GetMiscProgression();
 
         var module = self.owner.GetModule();
-        var currentLang = self.owner.rainWorld.inGameTranslator.currentLanguage;
+        var currentLang = Utils.Translator.currentLanguage;
         var l = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean ? 8 : 0;
 
         var id = self.id;

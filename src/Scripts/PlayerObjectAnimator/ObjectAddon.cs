@@ -70,7 +70,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         sLeaser.sprites = new FSprite[spriteIndex];
 
-        var shaders = rCam.game.rainWorld.Shaders;
+        var shaders = Utils.Shaders;
 
         sLeaser.sprites[HaloSprite] = new("LizardBubble6");
 

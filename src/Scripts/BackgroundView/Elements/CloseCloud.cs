@@ -19,7 +19,7 @@ public class CloseCloud : Cloud
 
         sLeaser.sprites[0] = new FSprite("pixel", true)
         {
-            shader = rCam.game.rainWorld.Shaders["Background"],
+            shader = Utils.Shaders["Background"],
             anchorY = 0f,
             scaleX = 1400f,
             x = 683f,
@@ -29,7 +29,7 @@ public class CloseCloud : Cloud
         
         sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString(), true)
         {
-            shader = rCam.game.rainWorld.Shaders["Cloud"],
+            shader = Utils.Shaders["Cloud"],
             anchorY = 1f
         };
         

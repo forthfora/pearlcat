@@ -47,7 +47,7 @@ public class BgLightning : CustomBgElement
 
         sLeaser.sprites[0] = new FSprite(AssetName, true)
         {
-            shader = rCam.game.rainWorld.Shaders["Background"],
+            shader = Utils.Shaders["Background"],
             anchorY = 1.0f
         };
 

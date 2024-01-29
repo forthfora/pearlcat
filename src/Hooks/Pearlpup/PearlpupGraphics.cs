@@ -197,7 +197,7 @@ public static partial class Hooks
         var scarf = module.Scarf;
 
         sLeaser.sprites[module.ScarfSprite] = TriangleMesh.MakeLongMesh(scarf.GetLength(0), false, false);
-        sLeaser.sprites[module.ScarfSprite].shader = rCam.game.rainWorld.Shaders["JaggedSquare"];
+        sLeaser.sprites[module.ScarfSprite].shader = Utils.Shaders["JaggedSquare"];
         sLeaser.sprites[module.ScarfSprite].alpha = 1.0f;
     }
 
