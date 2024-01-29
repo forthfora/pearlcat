@@ -18,7 +18,6 @@ public static class Utils
 {
     public static bool WarpEnabled(this RainWorldGame game) => game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
 
-
     public static SaveMiscProgression GetMiscProgression() => Custom.rainWorld.GetMiscProgression();
 
 

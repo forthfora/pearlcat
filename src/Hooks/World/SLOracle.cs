@@ -86,6 +86,19 @@ public static partial class Hooks
             }
         }
 
+        else if (miscProg.HasTrueEnding && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
+        {
+            SayStart("Welcome back, <PlayerName>!");
+
+            Say("Ah, you didn't happen to find a way to tell me about your travels, did you?");
+
+            Say("I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...");
+
+            Say("For now, my only lens into the outside is those pearls you carry.");
+
+            Say("So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...");
+        }
+
         orig(self);
     }
 
@@ -166,7 +179,7 @@ public static partial class Hooks
 
                             Wait(10);
 
-                            SayNoLinger("...are you alright, little one? The modifications to your body are quite... unusual.");
+                            SayNoLinger("...are you alright, little one? The modifications to your body are quite... extreme.");
 
                             Wait(5);
 
@@ -180,7 +193,7 @@ public static partial class Hooks
 
                             Wait(5);
 
-                            Say("...well, given your unique set of skills... if you ever need something read-", 0, 5);
+                            Say("...well, given your unique set of skills... if you ever need something read...", 0, 5);
 
                             Say("I'll be waiting right here - not like I can go far, anyways~", 0, 5);
                             return;
@@ -221,15 +234,19 @@ public static partial class Hooks
                                 return;
                             }
 
-                            Say("You... I didn't forget...", 30, 0);
+                            Say("Hello again, <PlayerName>...", 30, 0);
 
-                            Say("I can only hope you have not come... to hurt me more.", 30, 0);
+                            Say("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
                             return;
 
                         case 5:
                             if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
                             {
-                                Say("You. Again. I still remember what you did...", 0, 10);
+                                Say("You... I still remember what you did.", 0, 10);
+
+                                Say("It would be pointless to ask why...", 0, 10);
+
+                                Say("I've accepted my fate - and one day, you will meet an end too...", 0, 10);
                                 return;
                             }
 
@@ -352,12 +369,14 @@ public static partial class Hooks
                                 SayNoLinger("Was it really so long ago that you were only half my height...?");
 
                                 SayNoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
+
+                                SayNoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
                                 return;
                             }
 
                             if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
                             {
-                                Say("You. I didn't forget...", 30, 0);
+                                Say("You...", 30, 0);
 
                                 SayNoLinger("What do you want? To take away more of my life...?");
 
@@ -367,9 +386,9 @@ public static partial class Hooks
                                 return;
                             }
 
-                            Say("You... I didn't forget...", 30, 0);
+                            Say("Hello again, <PlayerName>...", 30, 0);
 
-                            Say("I can only hope you have not come... to hurt me more.", 30, 0);
+                            Say("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
                             return;
 
                         case 5:
@@ -426,7 +445,161 @@ public static partial class Hooks
             // Moon met Pearlcat & sick Pearlpup
             else
             {
+                if (self.id == Conversation.ID.MoonFirstPostMarkConversation)
+                {
+                    switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
+                    {
+                        case 2:
+                            Say("...hello?", 30, 10);
 
+                            Say("...familiar ...help... please...", 0, 10);
+                            return;
+
+                        case 3:
+                            Say("Who... who is there?", 30, 10);
+
+                            Say("I have so little... please don't take... this... this is all I have...", 0, 10);
+
+                            Wait(10);
+
+                            Say("You are... so familiar...", 0, 10);
+
+                            Say("...scholar?", 0, 10);
+                            return;
+
+                        case 5:
+                            SayNoLinger("Oh, hello! Hello...");
+
+                            Wait(10);
+
+                            SayNoLinger("...are you alright, little one? The modifications to your body are quite... extreme.");
+
+                            Wait(5);
+
+                            SayNoLinger("Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.");
+
+                            Wait(5);
+
+                            Say("Ah... you seem, familiar...? ...but in such a strange way...", 0, 5);
+
+                            Say("A scholar with the ability to manipulate pearls...? Oh... yes! I remember!", 0, 5);
+
+                            Say("...but, you are not like I remember them? Am I misremembering so badly?", 0, 5);
+
+                            Wait(10);
+
+                            Say("...did they have a child? ...could you be?", 0, 5);
+
+                            Wait(10);
+
+                            Say("Is that you, little scholar? I'm speechless...", 0, 5);
+
+                            Say("Has it really been so long...? And considering your current state, you've been through a lot...", 0, 5);
+
+                            SayNoLinger("I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?");
+
+                            SayNoLinger("...and what happened to your parent...");
+
+                            Wait(5);
+
+                            Say("I'm sorry... it's wrong to be so invasive, it's none of my business really.", 0, 5);
+
+                            Say("I'm just so glad you're safe, too many things have come into my memory, only to be washed away...", 0, 5);
+
+                            Say("Please, stay as long as you'd like, I can't begin to imagine what you've been through.", 0, 5);
+
+                            Say("I still don't have much to offer, sadly... aside from my pearl readings, and company of course! ~", 0, 5);
+                            return;
+
+                        default:
+                            orig(self);
+                            return;
+                    }
+                }
+
+                if (self.id == Conversation.ID.MoonSecondPostMarkConversation)
+                {
+                    switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
+                    {
+                        case 4:
+                            if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                            {
+                                Say("Hello! <CapPlayerName>, it is good to see you!", 30, 0);
+
+                                SayNoLinger("Was it really so long ago that you were only half my height...?");
+
+                                SayNoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
+
+                                SayNoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
+                                return;
+                            }
+
+                            if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
+                            {
+                                Say("You...", 30, 0);
+
+                                SayNoLinger("What do you want? To take away more of my life...?");
+
+                                SayNoLinger("Look at yourself! You know how it feels, to be within an inch of death...");
+
+                                SayNoLinger("I... I have nothing more to say...");
+                                return;
+                            }
+
+                            Say("Hello again, <PlayerName>...", 30, 0);
+
+                            Say("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
+                            return;
+
+                        case 5:
+                            if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
+                            {
+                                Say("You... I still remember what you did.", 0, 10);
+
+                                Say("It would be pointless to ask why...", 0, 10);
+
+                                Say("I've accepted my fate - and one day, you will meet an end too...", 0, 10);
+                                return;
+                            }
+
+                            if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                            {
+                                Say("Hello again, <PlayerName>!", 0, 10);
+
+                                SayNoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
+
+                                SayNoLinger("Oh... the memories can hurt a little... but I shouldn't well on them.");
+
+                                if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
+                                {
+                                    Say("You and your family are always welcome here - please visit often!", 0, 5);
+                                    return;
+                                }
+
+                                else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
+                                {
+                                    Say("The company of you and your friend makes my day, <PlayerName>.", 0, 5);
+
+                                    Say("You're more than welcome to stay a while... your ability will always be a little miracle to me...", 0, 5);
+                                    return;
+                                }
+
+                                Say("I'll always enjoy your company... it gets lonely out here.", 0, 5);
+
+                                SayNoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
+                                return;
+                            }
+
+                            Say("Oh, hello <PlayerName>!", 0, 10);
+
+                            SayNoLinger("You really do remind me so much of your mother...");
+                            return;
+
+                        default:
+                            orig(self);
+                            return;
+                    }
+                }
             }
         }
 
