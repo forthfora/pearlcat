@@ -8,7 +8,7 @@
   },
   "scenes": [
     {
-      "name": "Scene1",
+      "name": "Start",
       "fade_in_start": 2.0,
       "fade_out_start": 8.0,
       "images": [
@@ -22,7 +22,7 @@
       "camera_path": [ [-150, 300] ]
     },
     {
-      "name": "Scene2",
+      "name": "ClimbUp",
       "fade_in_start": 10.0,
       "fade_out_start": 16.0,
       "images": [
@@ -36,9 +36,9 @@
       "camera_path": [ [0, 200] ]
     },
     {
-      "name": "Scene3",
-      "fade_in_start": 18.0,
-      "fade_out_start": 24.0,
+      "name": "BeginSleep",
+      "fade_in_start": 17.0,
+      "fade_out_start": 20.0,
       "images": [
         {"name": "Intro3_6", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "Intro3_5", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
@@ -47,37 +47,76 @@
         {"name": "Intro3_2_First", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
         {"name": "Intro3_1", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
       ],
-      "camera_path": [ [200, 500] ]
+      "camera_path": [ [200, 250] ]
     },
     {
-      "name": "Scene4",
+      "name": "Sleep",
+      "fade_in_start": 21.0,
+      "fade_out_start": 24.0,
+      "images": [
+        {"name": "Intro3_6", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro3_5", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
+        {"name": "Intro3_4", "pos": [0, 0], "depth": 2.5, "shader": "Basic"},
+        {"name": "Intro3_3_Second", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "Intro3_2_Second", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
+        {"name": "Intro3_1", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 100] ]
+    },
+    {
+      "name": "PupClimbStart",
       "fade_in_start": 25.0,
-      "fade_in_end": 26.0,
-      "fade_out_start": 28.0,
+      "fade_in_end": 25.5,
+      "fade_out_start": 26.0,
       "images": [
         {"name": "Intro4_5", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Intro4_4_Third", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
         {"name": "Intro4_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
         {"name": "Intro4_2", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
         {"name": "Intro4_1_First", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
       ],
-      "camera_path": [ [0, -100]]
+      "camera_path": [ [0, 50]]
     },
     {
-      "name": "Scene5",
+      "name": "PupClimbMid",
+      "fade_in_start": 26.5,
+      "fade_in_end": 27.0,
+      "fade_out_start": 27.5,
+      "images": [
+        {"name": "Intro4_5", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro4_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "Intro4_2", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
+        {"name": "Intro4_1_Second", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 100]]
+    },
+    {
+      "name": "PupClimbEnd",
+      "fade_in_start": 28.0,
+      "fade_in_end": 28.5,
+      "fade_out_start": 29.0,
+      "images": [
+        {"name": "Intro4_5", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro4_4_Third", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
+        {"name": "Intro4_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "Intro4_2", "pos": [0, 0], "depth": 1.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 500]]
+    },
+    {
+      "name": "PupSick",
       "fade_in_start": 30.0,
-      "fade_in_end": 30.5,
+      "fade_in_end": 31.0,
       "fade_out_start": 31.5,
       "images": [
         {"name": "Intro5_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "Intro5_1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"}
       ],
-      "camera_path": [ [0, -100]]
+      "camera_path": [ [0, 300]]
     },
     {
-      "name": "Scene6",
-      "fade_in_start": 33.0,
-      "fade_in_end": 35.0,
+      "name": "TitleCard",
+      "fade_in_start": 34.0,
+      "fade_in_end": 36.0,
       "fade_out_start": 39.0,
       "images": [
         {"name": "Intro6", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
