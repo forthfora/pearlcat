@@ -27,6 +27,9 @@ public class PlayerObjectSymbol
 
     public bool SlatedForDeletion { get; set; }
 
+    public bool IsHeart { get; set; }
+
+
     public PlayerObjectSymbol(InventoryHUD owner, Vector2 pos, PlayerModule playerModule)
     {
         PlayerModuleRef ??= new(playerModule);
@@ -56,6 +59,8 @@ public class PlayerObjectSymbol
         ItemSymbol.Show(true);
         ItemSymbol.shadowSprite1.alpha = 0f;
         ItemSymbol.shadowSprite2.alpha = 0f;
+
+        IsHeart = abstractObject.IsHeartPearl();
     }
 
     public void RemoveSprites()
@@ -96,7 +101,7 @@ public class PlayerObjectSymbol
 
         ItemSymbol.shadowSprite1.element = Futile.atlasManager.GetElementWithName("pearlcat_hudshadow");
         ItemSymbol.shadowSprite2.element = Futile.atlasManager.GetElementWithName("pearlcat_hudshadow");
-        ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName("pearlcat_hudpearl");
+        ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName(IsHeart ? "pearlcat_hudheart" : "pearlcat_hudpearl");
 
         ItemSymbol.shadowSprite1.SetPosition(ItemSymbol.symbolSprite.GetPosition());
         ItemSymbol.shadowSprite2.SetPosition(ItemSymbol.symbolSprite.GetPosition());

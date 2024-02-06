@@ -117,7 +117,8 @@ public static partial class Hooks
 
 
         // Disconnected from player, i.e. pearlpup is dead
-        if (module.OwnerRef == null || !module.OwnerRef.TryGetTarget(out var owner) || !self.abstractPhysicalObject.IsPlayerObject())
+        // Also hide when cosmetics are disabled
+        if (module.OwnerRef == null || !module.OwnerRef.TryGetTarget(out var owner) || !self.abstractPhysicalObject.IsPlayerObject() || ModOptions.DisableCosmetics.Value)
         {
             if (module.Umbilical != null)
             {
