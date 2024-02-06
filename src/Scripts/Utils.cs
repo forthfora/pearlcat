@@ -16,6 +16,9 @@ namespace Pearlcat;
 
 public static class Utils
 {
+    public static bool IsMiraActive => ModManager.ActiveMods.Any(x => x.id == "mira"); // HACK
+
+
     public static RainWorld RainWorld => Custom.rainWorld;
     public static Dictionary<string, FShader> Shaders => RainWorld.Shaders;
     public static InGameTranslator Translator => RainWorld.inGameTranslator;

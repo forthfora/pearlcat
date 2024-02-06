@@ -86,15 +86,24 @@ public static partial class Hooks
         var save = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(self.fileName);
 
-        if (fileName == "Intro3_3" || fileName == "Intro5_3")
+        // INTRO
+        if (fileName == "Intro6")
         {
-            self.visible = ModManager.MSC;
+            self.visible = !Utils.IsMiraActive;
         }
-        else if (fileName == "Outro3_1" || fileName == "Outro2_1")
+        if (fileName == "Intro6_Mira")
+        {
+            self.visible = Utils.IsMiraActive;
+        }
+
+        // VOID SEA ENDING
+        if (fileName == "Outro3_1" || fileName == "Outro2_1")
         {
             self.visible = save.HasPearlpup;
         }
-        else if (fileName == "AltOutro10_1")
+
+        // OUTER EXPANSE ENDING
+        if (fileName == "AltOutro10_1")
         {
             if (self.alpha == 1.0f)
             {
@@ -773,7 +782,7 @@ public static partial class Hooks
         var disableSave = !save.IsNewPearlcatSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
-        var miraSkipAvailable = !disableSave && IsMiraActive && isPearlcatPage && !self.restartChecked && !save.HasTrueEnding;
+        var miraSkipAvailable = !disableSave && Utils.IsMiraActive && isPearlcatPage && !self.restartChecked && !save.HasTrueEnding;
 
         if (miraSkipAvailable)
         {
@@ -851,6 +860,7 @@ public static partial class Hooks
         // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol
         MenuPearlAnimStacker += 9;
     }
+
 
 
     public const string MIRA_SKIP_ID = "PEARLCAT_MIRA_SKIP";

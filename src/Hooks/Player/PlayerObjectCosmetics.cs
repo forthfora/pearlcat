@@ -143,5 +143,4 @@ public static partial class Hooks
         room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.5f, 0.7f);
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 3.0f, 0.4f);
     }
-
 }

@@ -114,6 +114,4 @@ public static partial class Hooks
             orig(self);
         }
     }
-
-    public static bool IsMiraActive => ModManager.ActiveMods.Any(x => x.id == "mira") || true; // HACK
 }

@@ -12,10 +12,12 @@
       "fade_in_start": 2.0,
       "fade_out_start": 8.0,
       "images": [
-        {"name": "Intro1_4", "pos": [-50, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Intro1_3", "pos": [-50, 0], "depth": 2.0, "shader": "Basic"},
-        {"name": "Intro1_2", "pos": [-50, 0], "depth": 1.5, "shader": "Basic"},
-        {"name": "Intro1_1", "pos": [-50, 0], "depth": 1.0, "shader": "Basic"}
+        {"name": "Intro1_6", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro1_5", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "Intro1_4", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "Intro1_3", "pos": [0, 0], "depth": 0.5, "shader": "Basic"},
+        {"name": "Intro1_2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "Intro1_1", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
       ],
       "camera_path": [ [-150, 300] ]
     },
@@ -24,10 +26,12 @@
       "fade_in_start": 10.0,
       "fade_out_start": 16.0,
       "images": [
-        {"name": "Intro2_4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro2_6", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro2_5", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "Intro2_4", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
         {"name": "Intro2_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
         {"name": "Intro2_2", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
-        {"name": "Intro2_1", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
+        {"name": "Intro2_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [0, 200] ]
     },
@@ -39,8 +43,8 @@
         {"name": "Intro3_6", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "Intro3_5", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
         {"name": "Intro3_4", "pos": [0, 0], "depth": 2.5, "shader": "Basic"},
-        {"name": "Intro3_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-        {"name": "Intro3_2", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
+        {"name": "Intro3_3_First", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "Intro3_2_First", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
         {"name": "Intro3_1", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
       ],
       "camera_path": [ [200, 500] ]
@@ -51,10 +55,11 @@
       "fade_in_end": 26.0,
       "fade_out_start": 28.0,
       "images": [
-        {"name": "Intro4_4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro4_5", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro4_4_Third", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
         {"name": "Intro4_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
         {"name": "Intro4_2", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
-        {"name": "Intro4_1", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
+        {"name": "Intro4_1_First", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
       ],
       "camera_path": [ [0, -100]]
     },
@@ -64,10 +69,8 @@
       "fade_in_end": 30.5,
       "fade_out_start": 31.5,
       "images": [
-        {"name": "Intro5_4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Intro5_3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-        {"name": "Intro5_2", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
-        {"name": "Intro5_1", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
+        {"name": "Intro5_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "Intro5_1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"}
       ],
       "camera_path": [ [0, -100]]
     },
@@ -77,11 +80,12 @@
       "fade_in_end": 35.0,
       "fade_out_start": 39.0,
       "images": [
-        {"name": "Intro6", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+        {"name": "Intro6", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
+        {"name": "Intro6_Mira", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
       ]
     },
     {
-      "name": "Black3",
+      "name": "Black",
       "fade_in_start": 41.0,
       "fade_in_end": 41.0,
       "fade_out_start": 43.0,

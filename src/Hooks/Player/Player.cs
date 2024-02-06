@@ -278,8 +278,10 @@ public static partial class Hooks
     private static void UpdateAdultPearlpup(Player self, PlayerModule playerModule)
     {
         if (!playerModule.IsAdultPearlpup) return;
-        
-        if (!self.dead && self.room != null && !playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl()))
+
+        var hasHeart = playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl()) || playerModule.PostDeathInventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl());
+
+        if (!self.dead && self.room != null && !hasHeart)
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
             self.StoreObject(pearl, overrideLimit: true);
@@ -311,8 +313,15 @@ public static partial class Hooks
             }
             else if (playerModule.ActiveObject != null)
             {
-                self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActiveObject.realizedObject.firstChunk);
-                self.RetrieveActiveObject();
+                if (playerModule.ActiveObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl())
+                {
+                    TryToRemoveHeart(self, dataPearl);
+                }
+                else
+                {
+                    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActiveObject.realizedObject.firstChunk);
+                    self.RetrieveActiveObject();
+                }
             }
 
             playerModule.StoreObjectTimer = -1;
@@ -326,38 +335,40 @@ public static partial class Hooks
                 if (isStoring || (playerModule.ActiveObject != null && playerModule.ActiveObject.TryGetModule(out var module) && !module.IsReturningSentry))
                 {
                     playerModule.StoreObjectTimer++;
+
+                    // every 5 frames
+                    if (playerModule.StoreObjectTimer % 5 == 0)
+                    {
+                        if (isStoring)
+                        {
+                            var activeObjPos = self.GetActiveObjectPos();
+                            toStore?.ConnectEffect(activeObjPos);                
+                        }
+                        else
+                        {
+                            var activeObj = playerModule.ActiveObject?.realizedObject;
+                    
+                            if (playerModule.ActiveObject?.TryGetModule(out module) == true)
+                            {
+                                if (!module.IsReturningSentry)
+                                {
+                                    activeObj.ConnectEffect(self.firstChunk.pos);
+                                }
+
+                                module.RemoveSentry(playerModule.ActiveObject);
+                            }
+                            else
+                            {
+                                activeObj.ConnectEffect(self.firstChunk.pos);
+                            }
+                        }
+                    }
                 }
                 
                 playerModule.BlockInput = true;
                 playerModule.ShowHUD(10);
 
                 self.Blink(5);
-
-                // every 5 frames
-                if (playerModule.StoreObjectTimer % 5 == 0)
-                {
-                    if (isStoring)
-                    {
-                        var activeObjPos = self.GetActiveObjectPos();
-                        toStore?.ConnectEffect(activeObjPos);                
-                    }
-                    else
-                    {
-                        var activeObj = playerModule.ActiveObject?.realizedObject;
-                    
-                        if (playerModule.ActiveObject?.TryGetModule(out module) == true)
-                        {
-                            if (!module.IsReturningSentry)
-                                activeObj.ConnectEffect(self.firstChunk.pos);
-
-                            module.RemoveSentry(playerModule.ActiveObject);
-                        }
-                        else
-                        {
-                            activeObj.ConnectEffect(self.firstChunk.pos);
-                        }
-                    }
-                }
             }
         }
         else
@@ -366,6 +377,15 @@ public static partial class Hooks
         }
     }
 
+
+    private static void TryToRemoveHeart(Player self, DataPearl.AbstractDataPearl dataPearl)
+    {
+        self.Stun(100);
+
+        if (self.room == null) return;
+    }
+
+    
     private static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
         if (self.dead || playerModule.PostDeathInventory.Count == 0) return;

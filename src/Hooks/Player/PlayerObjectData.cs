@@ -21,6 +21,11 @@ public static partial class Hooks
 
     public static bool IsStorable(this AbstractPhysicalObject abstractObject)
     {
+        if (abstractObject is DataPearl.AbstractDataPearl abstractPearl)
+        {
+            if (abstractPearl.IsHeartPearl()) return false;
+        }
+
         if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.DataPearl) return true;
 
         if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.PebblesPearl) return true;
@@ -29,7 +34,7 @@ public static partial class Hooks
         
         if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl) return true;
 
-        
+        // Pearl Spear
         if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out _)) return true;
 
         return false;
