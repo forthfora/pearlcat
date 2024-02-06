@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
+using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Linq;
@@ -305,6 +306,13 @@ public static partial class Hooks
         if (!isStoring && playerModule.ActiveObject == null) return;
 
 
+        // Longer delay removing heart
+        if (playerModule.ActiveObject.IsHeartPearl() && !isStoring)
+        {
+            storeObjectDelay = 120;
+        }
+
+
         if (playerModule.StoreObjectTimer > storeObjectDelay)
         {
             if (isStoring && toStore != null)
@@ -313,9 +321,9 @@ public static partial class Hooks
             }
             else if (playerModule.ActiveObject != null)
             {
-                if (playerModule.ActiveObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl())
+                if (playerModule.ActiveObject.IsHeartPearl())
                 {
-                    TryToRemoveHeart(self, dataPearl);
+                    TryToRemoveHeart(self, (DataPearl.AbstractDataPearl)playerModule.ActiveObject);
                 }
                 else
                 {
@@ -380,9 +388,31 @@ public static partial class Hooks
 
     private static void TryToRemoveHeart(Player self, DataPearl.AbstractDataPearl dataPearl)
     {
-        self.Stun(100);
-
         if (self.room == null) return;
+
+        var room = self.room;
+        var pos = self.firstChunk.pos;
+        
+        self.firstChunk.vel.y += 20.0f;
+        self.SaintStagger(1000);
+
+
+        room.AddObject(new Explosion.ExplosionLight(pos, 100.0f, 1.0f, 3, Color.red));
+        room.AddObject(new ShockWave(pos, 250.0f, 0.07f, 6, false));
+
+        room.AddObject(new ExplosionSpikes(room, pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
+        room.AddObject(new LightningMachine.Impact(pos, 2.0f, Color.red, true));
+
+        for (int i = 0; i < 4; i++)
+        {
+            var randVec = Custom.RNV() * 150.0f;
+            room.ConnectEffect(pos, pos + randVec, Color.red, 1.5f, 80);
+        }
+
+        room.PlaySound(SoundID.Fire_Spear_Explode, pos, 1.2f, 0.8f);
+        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1.0f, 1.0f);
+
+        self.Die();
     }
 
     

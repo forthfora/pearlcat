@@ -1,6 +1,8 @@
 ﻿
+using MoreSlugcats;
 using RWCustom;
 using System;
+using System.Security.Permissions;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -53,6 +55,8 @@ public static partial class Hooks
 
         if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
 
+        if (self.slatedForDeletetion) return;
+
         var mainSprite = sLeaser.sprites[0];
         var highlightSprite = sLeaser.sprites[1];
         var glimmerSprite = sLeaser.sprites[2];
@@ -69,6 +73,18 @@ public static partial class Hooks
             mainSprite.scale = 2.5f;
             highlightSprite.scale = 2.0f;
             glimmerSprite.scale = 1.5f;
+
+            var sparkVel = Custom.RNV() * 2.5f;
+            self.room.AddObject(new Spark(self.firstChunk.pos, sparkVel, Color.red, null, 3, 5));
+
+            self.room.AddObject(new ExplosionSpikes(self.room, self.firstChunk.pos, 3, 10.0f, 10.0f, 5.0f, 10.0f, Color.red));
+
+            if (module.HeartBeatTimer2 == 0)
+            {
+                var vol = self.AbstractPearl.TryGetSentry(out _) ? 0.15f : 0.08f;
+
+                self.room.PlaySound(Enums.Sounds.Pearlcat_Heartbeat, self.firstChunk.pos, vol, 1.0f);
+            }
         }
 
         mainSprite.scale = Custom.LerpBackEaseOut(mainSprite.scale, 0.9f, 0.02f);
@@ -84,16 +100,7 @@ public static partial class Hooks
         orig(self, eu);
 
         if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
-
-        if (module.OwnerRef == null || !module.OwnerRef.TryGetTarget(out var owner) || !self.abstractPhysicalObject.IsPlayerObject())
-        {
-            // do some idle behavior
-            module.HeartBeatTimer1 = 1;
-            module.HeartBeatTimer2 = 1;
-            return;
-        }
-
-        if (!owner.TryGetPearlcatModule(out var playerModule)) return;
+        
 
         module.HeartBeatTimer1++;
         module.HeartBeatTimer2++;
@@ -108,9 +115,28 @@ public static partial class Hooks
             module.HeartBeatTimer2 = 0;
         }
 
-        var umbilicalStartPos = playerModule.ScarPos;
-        var umbilicalEndPos = self.firstChunk.pos;
 
-        module.Umbilical?.Update(umbilicalStartPos, umbilicalEndPos, self.room);
+        // Disconnected from player, i.e. pearlpup is dead
+        if (module.OwnerRef == null || !module.OwnerRef.TryGetTarget(out var owner) || !self.abstractPhysicalObject.IsPlayerObject())
+        {
+            if (module.Umbilical != null)
+            {
+                module.Umbilical.IsVisible = false;
+            }
+        }
+        // Is attached to the player
+        else
+        {
+            if (!owner.TryGetPearlcatModule(out var playerModule)) return;
+
+            var umbilicalStartPos = playerModule.ScarPos;
+            var umbilicalEndPos = self.firstChunk.pos;
+
+            if (module.Umbilical != null)
+            {
+                module.Umbilical.IsVisible = true;
+                module.Umbilical.Update(umbilicalStartPos, umbilicalEndPos, self.room);
+            }
+        }
     }
 }

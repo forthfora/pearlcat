@@ -13,6 +13,8 @@ public class UmbilicalGraphics
 
     public int SmallWireSprite(int c) => FirstSprite + c;
 
+    public bool IsVisible { get; set; } = true;
+
 
     public UmbilicalGraphics(int firstSprite)
     {
@@ -110,6 +112,8 @@ public class UmbilicalGraphics
                 ((TriangleMesh)sLeaser.sprites[SmallWireSprite(j)]).MoveVertice(k * 4 + 3, lerpPos2 + normalized * dist + perpVec * half - camPos);
 
                 lerpPos1 = lerpPos2;
+
+                sLeaser.sprites[SmallWireSprite(j)].isVisible = IsVisible;
             }
         }
     }

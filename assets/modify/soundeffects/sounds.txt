@@ -12,4 +12,6 @@ Pearlcat_ShieldOff : pearlcatshieldoff/vol=0.25/minPitch=1.8/maxPitch=2.3
 Pearlcat_ShieldHold : pearlcatshieldhold/vol=0.5/minPitch=1.8/maxPitch=2.3
 Pearlcat_ShieldRecharge : pearlcatshieldrecharge/vol=1.0/minPitch=1.8/maxPitch=2.3
 Pearlcat_CamoFade : pearlcatcamofade/vol=2.0/minPitch=0.8/maxPitch=1.3
+
+Pearlcat_Heartbeat : pearlcatheartbeat/vol=1.0/minPitch=0.8/maxPitch=1.2
 [ENDMERGE]

@@ -49,6 +49,8 @@ public static class Enums
 
         public static SoundID Pearlcat_ShieldHold = new(nameof(Pearlcat_ShieldHold), true);
         public static SoundID Pearlcat_CamoFade = new(nameof(Pearlcat_CamoFade), true);
+
+        public static SoundID Pearlcat_Heartbeat = new(nameof(Pearlcat_Heartbeat), true);
     }
 
     public static class Pearls
