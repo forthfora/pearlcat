@@ -368,6 +368,57 @@ public static partial class Hooks
                 self.Translate("...but... I will think on your problem, for now. Perhaps I can find a solution for both of us."), l * 80));
         }
 
+        else if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeetTrueEnd)
+        {
+            e.Add(new WaitEvent(self, 160));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(".  .  ."), 0));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Some time ago now, I encountered a scholar and their dying pup..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I believe that child was you."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Considering the state you left in, I thought it impossible I would see you again... and yet here you are."), l * 80));
+
+            e.Add(new WaitEvent(self, 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...I would love to study it, to help treat my own affliction, however it would require... removal of the augment..."), l * 80));
+
+            e.Add(new WaitEvent(self, 40));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I..."), l * 80));
+            
+            e.Add(new WaitEvent(self, 120));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...no, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                 self.Translate("I am glad you found your own solution... even if it is an abhorrent perversion of natural law."), l * 80));
+
+            e.Add(new WaitEvent(self, 40));
+
+            e.Add(new TextEvent(self, 0,
+                 self.Translate("Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer..."), l * 80));
+
+            e.Add(new WaitEvent(self, 40));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...your survival gives me some hope, little one."), l * 80));
+        }
+
         #region Vanilla Pearls
 
         else if (self.id == ID.Moon_Pearl_Misc || self.id == ID.Moon_Pearl_Misc2)

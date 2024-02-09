@@ -387,13 +387,12 @@ public static partial class Hooks
                         {
                             var randVec = Custom.RNV() * Random.Range(150.0f, 250.0f);
                             self.room.ConnectEffect(heart.firstChunk.pos, heart.firstChunk.pos + randVec, Color.red, 8.0f, 40);
-                            self.room.PlaySound(SoundID.Zapper_Zap, heart.firstChunk.pos, 1.0f, Random.Range(0.8f, 1.4f));
+                            self.room.PlaySound(SoundID.Zapper_Zap, heart.firstChunk.pos, 1.0f, Random.Range(0.6f, 1.4f));
                         }
 
                         if (playerModule.StoreObjectTimer % heartBeatFreq == 0)
                         {
                             self.room.PlaySound(Enums.Sounds.Pearlcat_Heartbeat , heart.firstChunk.pos, Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 0.75f, 1.5f), 1.0f);
-                            self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, heart.firstChunk.pos, 0.8f, 5.0f);
                         }
 
                         if (playerModule.StoreObjectTimer % 10 == 0)
@@ -403,6 +402,7 @@ public static partial class Hooks
 
                         if (playerModule.StoreObjectTimer % 30 == 0)
                         {
+                            self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, heart.firstChunk.pos, 0.8f, 5.0f);
                             self.room.AddObject(new ExplosionSpikes(self.room, heart.firstChunk.pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
                         }
                     }
@@ -839,7 +839,6 @@ public static partial class Hooks
         if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
         {
             var sameRoom = player.abstractCreature.Room == playerModule.LastRoom;
-            //var sameRoom = false;
 
             player.AbstractizeInventory(sameRoom);
             player.slugOnBack?.slugcat?.AbstractizeInventory(sameRoom);

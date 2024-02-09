@@ -236,15 +236,20 @@ public static class Utils
     }
 
 
-    public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId)
+    public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId, bool isTrueEndDream = false)
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
+        var miscProg = GetMiscProgression();
 
         if (miscWorld == null) return;
 
         var strId = dreamId.value;
 
-        if (miscWorld.PreviousDreams.Contains(strId)) return;
+        if (miscWorld.PreviousDreams.Contains(strId))
+        {
+            // Dreams occur randomly if adult pearlpup
+            if (!miscProg.HasTrueEnding || !isTrueEndDream) return;
+        }
 
         miscWorld.CurrentDream = strId;
         SlugBase.Assets.CustomDreams.QueueDream(storyGame, dreamId);
@@ -419,5 +424,53 @@ public static class Utils
         {
             self.events.Add(new TextEvent(self, 0, "TEXT ERROR", 100));
         }
+    }
+
+    
+    public static void GiveTrueEnding(this RainWorldGame game)
+    {
+        if (!game.IsPearlcatStory()) return;
+
+        var miscProg = GetMiscProgression();
+        var miscWorld = game.GetMiscWorld();
+        
+        var baseMiscWorld = game.GetStorySession.saveState.miscWorldSaveData;
+
+        if (miscWorld == null) return;
+
+
+        miscProg.HasTrueEnding = true;
+        miscProg.IsPearlpupSick = false;
+
+        miscWorld.PebblesMeetCount = 0;
+
+        baseMiscWorld.SLOracleState.ForceResetState(Enums.Pearlcat);
+    }
+
+    public static void StartFromMira(this RainWorldGame game)
+    {
+        if (!game.IsPearlcatStory()) return;
+
+        var miscProg = GetMiscProgression();
+        var miscWorld = game.GetMiscWorld();
+
+        var baseMiscWorld = game.GetStorySession.saveState.miscWorldSaveData;
+
+        if (miscWorld == null) return;
+
+
+        miscProg.IsPearlpupSick = true;
+        miscProg.HasOEEnding = true;
+        miscProg.DidHavePearlpup = true;
+
+        miscWorld.ShownFullInventoryTutorial = true;
+        miscWorld.ShownSpearCreationTutorial = true;
+
+        miscWorld.PebblesMeetCount = 3;
+        miscWorld.MoonSickPupMeetCount = 1;
+        miscWorld.PebblesMetSickPup = true;
+
+        baseMiscWorld.SLOracleState.playerEncountersWithMark = 2;
+        baseMiscWorld.SLOracleState.playerEncounters = 2;
     }
 }

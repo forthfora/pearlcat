@@ -79,40 +79,36 @@ public static partial class Hooks
             var miscWorld = self.miscWorldSaveData.GetMiscWorld();
             var miscProg = self.progression.miscProgressionData.GetMiscProgression();
         
-            miscWorld.IsNewGame = false;
-
-            if (miscProg.HasPearlpup)
-            {
-                miscProg.DidHavePearlpup = true;
-            }
-
             if (miscWorld.IsPearlcatStory)
             {
+                miscWorld.IsNewGame = false;
+
                 miscProg.IsNewPearlcatSave = false;
                 miscProg.Ascended = self.deathPersistentSaveData.ascended;
+
+                if (miscProg.HasPearlpup)
+                {
+                    miscProg.DidHavePearlpup = true;
+                }
 
                 if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.JustAscended)
                 {
                     SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Sick);
-                    //Plugin.Logger.LogWarning("SET SICK SELECT SCREEN");
                 }
                 else if (self.deathPersistentSaveData.ascended)
                 {
                     SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat_Ascended);
-                    //Plugin.Logger.LogWarning("SET ASCENDED SELECT SCREEN");
                 }
                 else
                 {
                     SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
-                    //Plugin.Logger.LogWarning("SET DEFAULT SELECT SCREEN");
                 }
 
-            }
-
-            if (miscWorld.CurrentDream != null && !miscWorld.PreviousDreams.Contains(miscWorld.CurrentDream))
-            {
-                miscWorld.PreviousDreams.Add(miscWorld.CurrentDream);
-                miscWorld.CurrentDream = null;
+                if (miscWorld.CurrentDream != null && !miscWorld.PreviousDreams.Contains(miscWorld.CurrentDream))
+                {
+                    miscWorld.PreviousDreams.Add(miscWorld.CurrentDream);
+                    miscWorld.CurrentDream = null;
+                }
             }
         }
         catch (Exception e)
@@ -134,11 +130,14 @@ public static partial class Hooks
 
         if (!miscWorld.IsPearlcatStory) return;
 
+
         miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
-        miscProg.IsMSCSave = ModManager.MSC;            
+        miscProg.JustAscended = false;
 
         if (miscWorld.IsNewGame)
         {
+            miscProg.IsMSCSave = ModManager.MSC;            
+
             miscProg.IsPearlpupSick = false;
             miscProg.HasOEEnding = false;
             miscProg.HasPearlpup = false;
@@ -146,9 +145,15 @@ public static partial class Hooks
 
             miscProg.DidHavePearlpup = false;
 
-            miscProg.HasTrueEnding = miscProg.IsSecretEnabled;
+            if (miscProg.IsMiraSkipEnabled)
+            {
+                game.StartFromMira();
+            }
+            else if (miscProg.IsSecretEnabled)
+            {
+                game.StartFromMira();
+                game.GiveTrueEnding();
+            }
         }
-
-        miscProg.JustAscended = false;
     }
 }

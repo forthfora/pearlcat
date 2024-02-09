@@ -17,6 +17,8 @@ public static class Enums
         public static Conversation.ID Pearlcat_SSConvoTakeRMPearl = new(nameof(Pearlcat_SSConvoTakeRMPearl), true);
         public static Conversation.ID Pearlcat_SSConvoSickPup = new(nameof(Pearlcat_SSConvoSickPup), true);
 
+        public static Conversation.ID Pearlcat_SSConvoFirstMeetTrueEnd = new(nameof(Pearlcat_SSConvoFirstMeetTrueEnd), true);
+
         public static Conversation.ID Pearlcat_SSConvoSSPearl = new(nameof(Pearlcat_SSConvoSSPearl), true);
         public static Conversation.ID Pearlcat_SSConvoASPearlBlue = new(nameof(Pearlcat_SSConvoASPearlBlue), true);
         public static Conversation.ID Pearlcat_SSConvoASPearlRed = new(nameof(Pearlcat_SSConvoASPearlRed), true);

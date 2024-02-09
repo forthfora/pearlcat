@@ -28,7 +28,6 @@ public partial class Hooks
         On.ShelterDoor.DrawSprites += ShelterDoor_DrawSprites;
         On.ShelterDoor.DoorGraphic.DrawSprites += DoorGraphic_DrawSprites;
 
-        //On.GlobalRain.Update += GlobalRain_Update;
 
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
         On.KingTusks.Tusk.Update += Tusk_Update;
@@ -36,7 +35,6 @@ public partial class Hooks
         On.Spear.DrawSprites += Spear_DrawSprites;
         On.Spear.Update += Spear_Update;
 
-        //On.DartMaggot.ShotUpdate += DartMaggot_ShotUpdate;
         On.BigNeedleWorm.Swish += BigNeedleWorm_Swish;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
@@ -107,6 +105,7 @@ public partial class Hooks
 
         if (miscWorld == null) return;
 
+
         if (miscWorld.HasPearlpupWithPlayer)
         {
             var canDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.2f;
@@ -121,6 +120,28 @@ public partial class Hooks
                 {
                     self.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pearlpup);
                 }
+            }
+        }
+        else if (miscProg.HasTrueEnding)
+        {
+            var canDream = Random.Range(0.0f, 1.0f) < 0.1f;
+
+            if (canDream)
+            {
+                var dreamPool = new List<DreamsState.DreamID>()
+                {
+                    Enums.Dreams.Dream_Pearlcat_Sick,
+                    Enums.Dreams.Dream_Pearlcat_Pearlpup,
+                    Enums.Dreams.Dream_Pearlcat_Pebbles,
+                    Enums.Dreams.Dream_Pearlcat_Moon_Sick,
+                };
+
+                var randState = Random.state;
+                Random.InitState((int)DateTime.Now.Ticks);
+
+                self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], true);
+
+                Random.state = randState;
             }
         }
     }
@@ -392,11 +413,11 @@ public partial class Hooks
 
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
-        if (self.saveStateNumber == Enums.Pearlcat && self.progression.miscProgressionData.GetMiscProgression().IsNewPearlcatSave)
+        if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
         {
             if (miscProg.IsMiraSkipEnabled)
             {
-                return "T2_START";
+                return "SS_AI";
             }
             else if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
             {
@@ -404,7 +425,12 @@ public partial class Hooks
             }
         }
 
-        return result == "T1_S01" ? ModManager.MSC ? "LC_T1_S01" : "SS_S04" : result;
+        if (result == "T1_S01")
+        {
+            return ModManager.MSC ? "LC_T1_S01" : "SS_S04";
+        }
+
+        return result;
     }
 
     private static void Spear_Update(On.Spear.orig_Update orig, Spear self, bool eu)

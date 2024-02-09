@@ -104,30 +104,28 @@ public static partial class Hooks
 
     private static string SLOracleBehaviorHasMark_NameForPlayer(On.SLOracleBehaviorHasMark.orig_NameForPlayer orig, SLOracleBehaviorHasMark self, bool capitalized)
     {
-        var result = orig(self, capitalized);
-
         if (!self.oracle.room.game.IsPearlcatStory())
         {
-            return result;
+            return orig(self, capitalized);
         }
 
         var t = Utils.Translator;
-        var miscProg = Utils.GetMiscProgression();
 
-        string name = t.Translate("scholar");
-        string prefix = miscProg.HasTrueEnding ? t.Translate("little") : t.Translate("strange");
+        var prefix = t.Translate("strange");
+        var name = t.Translate("scholar");
 
         if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
         {
-            name = miscProg.HasTrueEnding ? t.Translate("savage") : t.Translate("ruffian");
-            prefix = t.Translate("terrible");
+            prefix = t.Translate("acursed");
+            name = t.Translate("thing");
         }
 
-        bool damagedSpeech = self.DamagedMode && Random.value < 0.5f;
-
+        var damagedSpeech = self.DamagedMode && Random.value < 0.5f;
 
         if (capitalized)
+        {
             prefix = string.Concat(prefix[0].ToString().ToUpper(), prefix.Substring(1));
+        }
 
         return prefix + (damagedSpeech ? "... " : " ") + name;
     }
@@ -213,7 +211,7 @@ public static partial class Hooks
                             {
                                 Say("Hello! I remember you! I remember...", 30, 0);
 
-                                SayNoLinger("You would be a hard one to forget after all, <PlayerName>!");
+                                SayNoLinger("You would be a hard one to forget after all, strange scholar!");
 
                                 SayNoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
 
@@ -234,7 +232,7 @@ public static partial class Hooks
                                 return;
                             }
 
-                            Say("Hello again, <PlayerName>...", 30, 0);
+                            Say("Hello again, strange scholar...", 30, 0);
 
                             Say("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
                             return;
@@ -252,7 +250,7 @@ public static partial class Hooks
 
                             if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
                             {
-                                Say("Hello again, <PlayerName>!", 0, 10);
+                                Say("Hello again, strange scholar!", 0, 10);
 
                                 SayNoLinger("So curious... I wonder what it is you're searching for?");
 
@@ -266,7 +264,7 @@ public static partial class Hooks
 
                                 if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
                                 {
-                                    Say("I do enjoy the company of you and your friend though, <PlayerName>.", 0, 5);
+                                    Say("I do enjoy the company of you and your friend though, strange schoar.", 0, 5);
 
                                     Say("You're welcome to stay a while... your ability is fascinating.", 0, 5);
                                     return;
@@ -278,7 +276,7 @@ public static partial class Hooks
                                 return;
                             }
 
-                            Say("Oh, hello <PlayerName>!", 0, 10);
+                            Say("Oh, hello strange scholar!", 0, 10);
                             return;
 
                         default:
@@ -336,7 +334,7 @@ public static partial class Hooks
 
                             Wait(10);
 
-                            Say("Well, if my memory is serving me correctly, it is nice to see you again... <PlayeyrName>.", 0, 5);
+                            Say("Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.", 0, 5);
 
                             Say("Has it really been so long...? And considering your current state, you've been through a lot...", 0, 5);
 
@@ -364,7 +362,7 @@ public static partial class Hooks
                         case 4:
                             if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
                             {
-                                Say("Hello! <PlayerName>, it is good to see you!", 30, 0);
+                                Say("Hello! Strange scholar, it is good to see you!", 30, 0);
 
                                 SayNoLinger("Was it really so long ago that you were only half my height...?");
 
@@ -386,7 +384,7 @@ public static partial class Hooks
                                 return;
                             }
 
-                            Say("Hello again, <PlayerName>...", 30, 0);
+                            Say("Hello again, strange scholar...", 30, 0);
 
                             Say("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
                             return;
@@ -404,7 +402,7 @@ public static partial class Hooks
 
                             if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
                             {
-                                Say("Hello again, <PlayerName>!", 0, 10);
+                                Say("Hello again, strange scholar!", 0, 10);
 
                                 SayNoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
 
@@ -418,7 +416,7 @@ public static partial class Hooks
 
                                 else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
                                 {
-                                    Say("The company of you and your friend makes my day, <PlayerName>.", 0, 5);
+                                    Say("The company of you and your friend makes my day, strange scholar.", 0, 5);
 
                                     Say("You're more than welcome to stay a while... your ability will always be a miracle to me...", 0, 5);
                                     return;
@@ -430,7 +428,7 @@ public static partial class Hooks
                                 return;
                             }
 
-                            Say("Oh, hello <PlayerName>!", 0, 10);
+                            Say("Oh, hello strange scholar!", 0, 10);
 
                             SayNoLinger("You really do remind me so much of your mother...");
                             return;
@@ -524,7 +522,7 @@ public static partial class Hooks
                         case 4:
                             if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
                             {
-                                Say("Hello! <CapPlayerName>, it is good to see you!", 30, 0);
+                                Say("Hello! Strange scholar, it is good to see you!", 30, 0);
 
                                 SayNoLinger("Was it really so long ago that you were only half my height...?");
 
@@ -546,7 +544,7 @@ public static partial class Hooks
                                 return;
                             }
 
-                            Say("Hello again, <PlayerName>...", 30, 0);
+                            Say("Hello again, strange scholar...", 30, 0);
 
                             Say("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
                             return;
@@ -564,7 +562,7 @@ public static partial class Hooks
 
                             if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
                             {
-                                Say("Hello again, <PlayerName>!", 0, 10);
+                                Say("Hello again, strange scholar!", 0, 10);
 
                                 SayNoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
 
@@ -578,7 +576,7 @@ public static partial class Hooks
 
                                 else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
                                 {
-                                    Say("The company of you and your friend makes my day, <PlayerName>.", 0, 5);
+                                    Say("The company of you and your friend makes my day, strange scholar.", 0, 5);
 
                                     Say("You're more than welcome to stay a while... your ability will always be a little miracle to me...", 0, 5);
                                     return;
@@ -590,7 +588,7 @@ public static partial class Hooks
                                 return;
                             }
 
-                            Say("Oh, hello <PlayerName>!", 0, 10);
+                            Say("Oh, hello strange scholar!", 0, 10);
 
                             SayNoLinger("You really do remind me so much of your mother...");
                             return;

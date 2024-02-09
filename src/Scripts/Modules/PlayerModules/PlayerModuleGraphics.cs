@@ -57,12 +57,13 @@ public partial class PlayerModule
 
         if (!Hooks.MaxOATime.TryGet(player, out var maxTime)) return;
 
-        CurrentObjectAnimation = GetObjectAnimation(player);
-        ObjectAnimationTimer = 0;
-
         var randState = Random.state;
 
         Random.InitState((int)DateTime.Now.Ticks);
+
+        CurrentObjectAnimation = GetObjectAnimation(player);
+        ObjectAnimationTimer = 0;
+
 
         ObjectAnimationDuration = Random.Range(minTime, maxTime);
 

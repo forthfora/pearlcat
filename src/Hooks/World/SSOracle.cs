@@ -27,8 +27,10 @@ public static partial class Hooks
         if (self.oracle.room.game.IsPearlcatStory() && self.action != Enums.SSOracle.Pearlcat_SSActionGeneral)
         {
             if (self.timeSinceSeenPlayer < 0)
+            {
                 self.timeSinceSeenPlayer = 0;
-            
+            }
+
             self.SlugcatEnterRoomReaction();
             self.NewAction(Enums.SSOracle.Pearlcat_SSActionGeneral);
             return;
@@ -49,7 +51,9 @@ public static partial class Hooks
             var subBehavior = self.allSubBehaviors.FirstOrDefault(x => x.ID == Enums.SSOracle.Pearlcat_SSSubBehavGeneral);
             
             if (subBehavior == null)
+            {
                 self.allSubBehaviors.Add(subBehavior = new SSOracleMeetPearlcat(self));
+            }
 
             self.currSubBehavior.Deactivate();
 

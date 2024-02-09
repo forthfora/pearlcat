@@ -49,7 +49,7 @@ public static partial class Hooks
         On.Menu.SlugcatSelectMenu.UpdateStartButtonText += SlugcatSelectMenu_UpdateStartButtonText;
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
 
-        IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
+        //IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
     }
 
   
@@ -778,11 +778,11 @@ public static partial class Hooks
         var module = self.GetModule();
         var miraSkipCheckbox = module.MiraCheckbox;
 
-        var save = Utils.GetMiscProgression();
-        var disableSave = !save.IsNewPearlcatSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;
+        var miscProg = Utils.GetMiscProgression();
+        var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
-        var miraSkipAvailable = !disableSave && Utils.IsMiraActive && isPearlcatPage && !self.restartChecked && !save.HasTrueEnding;
+        var miraSkipAvailable = !disableSave && Utils.IsMiraActive && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding;
 
         if (miraSkipAvailable)
         {
@@ -804,13 +804,13 @@ public static partial class Hooks
         if (disableSave)
         {
             self.startButton.buttonBehav.greyedOut = true;
-            var text = "CANNOT PLAY" + "\n" + (save.IsMSCSave ? "MSC" : "NON-MSC") + " SAVE";
+            var text = "CANNOT PLAY" + "\n" + (miscProg.IsMSCSave ? "MSC" : "NON-MSC") + " SAVE";
 
             self.startButton.menuLabel.text = text;
         }
 
 
-        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame;
+        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding;
 
         if (SecretIndex >= SecretPassword.Length)
         {
@@ -835,12 +835,12 @@ public static partial class Hooks
         {
             var regionLabel = continuePage.regionLabel;
 
-            if (save.IsMiraSkipEnabled)
+            if (miscProg.IsMiraSkipEnabled)
             {
                 regionLabel.text = "Begin at the start of the Mira storyline..." +
                     "\nThe save will be preserved, and pearls will carry over!";
                 
-                if (save.IsMSCSave && !save.HasPearlpup)
+                if (miscProg.IsMSCSave && !miscProg.HasPearlpup)
                 {
                     regionLabel.text += " Pearlpup will be revived.";
                 }
@@ -850,7 +850,7 @@ public static partial class Hooks
                 regionLabel.text = module.OriginalRegionLabelText;
             }
         }
-        else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage && save.IsSecretEnabled)
+        else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage && miscProg.IsSecretEnabled)
         {
             newGamePage.difficultyLabel.text = "PEARLPUP";
             newGamePage.infoLabel.text = "The child becomes the scholar, but the scholar...?" +
@@ -933,8 +933,8 @@ public static partial class Hooks
     }
 
 
-    // Skip intro cutscene if secret
-    private static void SlugcatSelectMenu_StartGame(MonoMod.Cil.ILContext il)
+    // Skip intro cutscene if secret (nvm I want people to see geahgeahg's work, they can already skip if they want lol)
+    private static void SlugcatSelectMenu_StartGame(ILContext il)
     {
         var c = new ILCursor(il);
 

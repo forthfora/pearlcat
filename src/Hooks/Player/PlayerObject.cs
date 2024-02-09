@@ -8,12 +8,14 @@ public static partial class Hooks
 {
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
-        var save = self.room.game.GetMiscWorld();
-        bool shouldGivePearls = true;
+        var miscWorld = self.room.game.GetMiscWorld();
+        var miscProg = Utils.GetMiscProgression();
 
-        if (save != null)
+        var shouldGivePearls = true;
+
+        if (miscWorld != null)
         {
-            shouldGivePearls = !save.PlayersGivenPearls.Contains(self.playerState.playerNumber);
+            shouldGivePearls = !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber);
         }
 
         if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
@@ -25,7 +27,7 @@ public static partial class Hooks
 
 
         List<DataPearlType> pearls;
-        bool overrideLimit = false;
+        var overrideLimit = false;
 
         if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
         {
@@ -41,12 +43,13 @@ public static partial class Hooks
                 Enums.Pearls.AS_PearlGreen,
                 Enums.Pearls.AS_PearlBlack,
                 Enums.Pearls.AS_PearlRed,
-                self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc,
             };
 
-            if (ModOptions.MaxPearlCount.Value <= 1)
+            if (!playerModule.IsAdultPearlpup)
             {
-                pearls.Remove(Enums.Pearls.AS_PearlBlack);
+                var specialPearl = (self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession) ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc;
+                
+                pearls.Add(specialPearl);
             }
 
             overrideLimit = true;
@@ -60,9 +63,9 @@ public static partial class Hooks
 
         playerModule.GivenPearls = true;
 
-        if (save != null && !save.PlayersGivenPearls.Contains(self.playerState.playerNumber))
+        if (miscWorld != null && !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber))
         {
-            save.PlayersGivenPearls.Add(self.playerState.playerNumber);
+            miscWorld.PlayersGivenPearls.Add(self.playerState.playerNumber);
         }
     }
 
@@ -95,8 +98,6 @@ public static partial class Hooks
             abstractObject.MarkAsPlayerObject();
             abstractObject.realizedObject?.RealizedEffect();
         }
-        
-        //self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk.pos);
     }
 
     public static void AbstractizeInventory(this Player self, bool excludeSentries = false)
@@ -115,11 +116,7 @@ public static partial class Hooks
 
             AbstractedEffect(abstractObject.realizedObject);
             abstractObject.Abstractize(abstractObject.pos);
-
         }
-
-        //if (playerModule.Inventory.Count > 0)
-        //    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk.pos);
     }
 
 

@@ -295,7 +295,27 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         if (miscProg.HasTrueEnding)
         {
-            // PEARLADULT DIALOGUE
+            if (meetCount == 1)
+            {
+                if (ConvoCount == 0)
+                {
+                    owner.LockShortcuts();
+                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstMeetTrueEnd, this);
+                    ConvoCount++;
+                }
+                else
+                {
+                    owner.UnlockShortcuts();
+                    owner.getToWorking = 1.0f;
+                    owner.movementBehavior = MovementBehavior.Meditate;
+                }
+            }
+            else
+            {
+                owner.UnlockShortcuts();
+                owner.getToWorking = 1.0f;
+                owner.movementBehavior = MovementBehavior.Meditate;
+            }
         }
         else
         {
