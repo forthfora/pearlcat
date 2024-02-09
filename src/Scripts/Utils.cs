@@ -427,14 +427,13 @@ public static class Utils
     }
 
     
-    public static void GiveTrueEnding(this RainWorldGame game)
+    public static void GiveTrueEnding(this SaveState saveState)
     {
-        if (!game.IsPearlcatStory()) return;
+        if (saveState.saveStateNumber != Enums.Pearlcat) return;
 
         var miscProg = GetMiscProgression();
-        var miscWorld = game.GetMiscWorld();
-        
-        var baseMiscWorld = game.GetStorySession.saveState.miscWorldSaveData;
+        var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
+        var baseMiscWorld = saveState.miscWorldSaveData;
 
         if (miscWorld == null) return;
 
@@ -447,17 +446,18 @@ public static class Utils
         baseMiscWorld.SLOracleState.ForceResetState(Enums.Pearlcat);
     }
 
-    public static void StartFromMira(this RainWorldGame game)
+    public static void StartFromMira(this SaveState saveState)
     {
-        if (!game.IsPearlcatStory()) return;
+        if (saveState.saveStateNumber != Enums.Pearlcat) return;
 
         var miscProg = GetMiscProgression();
-        var miscWorld = game.GetMiscWorld();
-
-        var baseMiscWorld = game.GetStorySession.saveState.miscWorldSaveData;
+        var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
+        var baseMiscWorld = saveState.miscWorldSaveData;
 
         if (miscWorld == null) return;
 
+
+        miscProg.UnlockedMira = true;
 
         miscProg.IsPearlpupSick = true;
         miscProg.HasOEEnding = true;
@@ -469,6 +469,7 @@ public static class Utils
         miscWorld.PebblesMeetCount = 3;
         miscWorld.MoonSickPupMeetCount = 1;
         miscWorld.PebblesMetSickPup = true;
+
 
         baseMiscWorld.SLOracleState.playerEncountersWithMark = 2;
         baseMiscWorld.SLOracleState.playerEncounters = 2;

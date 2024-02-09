@@ -415,14 +415,15 @@ public partial class Hooks
 
         if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
         {
-            if (miscProg.IsMiraSkipEnabled)
-            {
-                return "SS_AI";
-            }
-            else if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
+            if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
             {
                 return ModOptions.StartShelterOverride.Value;
             }
+        }
+
+        if (miscProg.IsMiraSkipEnabled)
+        {
+            return "SS_AI";
         }
 
         if (result == "T1_S01")

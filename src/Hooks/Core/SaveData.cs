@@ -136,24 +136,19 @@ public static partial class Hooks
 
         if (miscWorld.IsNewGame)
         {
-            miscProg.IsMSCSave = ModManager.MSC;            
+            miscProg.IsMSCSave = ModManager.MSC;
 
-            miscProg.IsPearlpupSick = false;
-            miscProg.HasOEEnding = false;
-            miscProg.HasPearlpup = false;
-            miscProg.Ascended = false;
+            miscProg.ResetSave();
+        }
 
-            miscProg.DidHavePearlpup = false;
-
-            if (miscProg.IsMiraSkipEnabled)
-            {
-                game.StartFromMira();
-            }
-            else if (miscProg.IsSecretEnabled)
-            {
-                game.StartFromMira();
-                game.GiveTrueEnding();
-            }
+        if (miscProg.IsMiraSkipEnabled)
+        {
+            self.StartFromMira();
+        }
+        else if (miscProg.IsSecretEnabled)
+        {
+            self.StartFromMira();
+            self.GiveTrueEnding();
         }
     }
 }

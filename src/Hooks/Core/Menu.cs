@@ -782,7 +782,7 @@ public static partial class Hooks
         var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
-        var miraSkipAvailable = !disableSave && Utils.IsMiraActive && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding;
+        var miraSkipAvailable = !disableSave && Utils.IsMiraActive && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding && !miscProg.UnlockedMira;
 
         if (miraSkipAvailable)
         {
@@ -838,7 +838,7 @@ public static partial class Hooks
             if (miscProg.IsMiraSkipEnabled)
             {
                 regionLabel.text = "Begin at the start of the Mira storyline..." +
-                    "\nThe save will be preserved, and pearls will carry over!";
+                    "\nThe world will be preserved, and pearls will carry over!";
                 
                 if (miscProg.IsMSCSave && !miscProg.HasPearlpup)
                 {
