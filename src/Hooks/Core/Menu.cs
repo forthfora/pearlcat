@@ -83,23 +83,23 @@ public static partial class Hooks
 
         if (!self.fileName.Contains("pearlcat")) return;
 
-        var save = Utils.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(self.fileName);
 
         // INTRO
         if (fileName == "Intro6")
         {
-            self.visible = !Utils.IsMiraActive;
+            self.visible = !miscProg.IsMiraSkipEnabled;
         }
         if (fileName == "Intro6_Mira")
         {
-            self.visible = Utils.IsMiraActive;
+            self.visible = miscProg.IsMiraSkipEnabled;
         }
 
         // VOID SEA ENDING
         if (fileName == "Outro3_1" || fileName == "Outro2_1")
         {
-            self.visible = save.HasPearlpup;
+            self.visible = miscProg.HasPearlpup;
         }
 
         // OUTER EXPANSE ENDING
