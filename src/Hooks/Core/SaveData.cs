@@ -20,7 +20,7 @@ public static partial class Hooks
             var miscWorld = self.currentSaveState?.miscWorldSaveData?.GetMiscWorld();
             var miscProg = self.miscProgressionData?.GetMiscProgression();
 
-            if (miscWorld != null && miscProg != null && saveCurrentState && miscWorld.IsPearlcatStory)
+            if (miscWorld != null && miscProg != null && saveCurrentState && self.currentSaveState?.saveStateNumber == Enums.Pearlcat)
             {
                 miscProg.StoredPearlColors.Clear();
                 miscProg.ActivePearlColor = null;
@@ -78,11 +78,11 @@ public static partial class Hooks
         {
             var miscWorld = self.miscWorldSaveData.GetMiscWorld();
             var miscProg = self.progression.miscProgressionData.GetMiscProgression();
+            
+            miscWorld.IsNewGame = false;
         
-            if (miscWorld.IsPearlcatStory)
+            if (self.saveStateNumber == Enums.Pearlcat)
             {
-                miscWorld.IsNewGame = false;
-
                 miscProg.IsNewPearlcatSave = false;
                 miscProg.Ascended = self.deathPersistentSaveData.ascended;
 
@@ -126,9 +126,7 @@ public static partial class Hooks
         var miscWorld = self.miscWorldSaveData.GetMiscWorld();
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
-        miscWorld.IsPearlcatStory = self.saveStateNumber == Enums.Pearlcat;
-
-        if (!miscWorld.IsPearlcatStory) return;
+        if (self.saveStateNumber != Enums.Pearlcat) return;
 
 
         miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
@@ -137,7 +135,7 @@ public static partial class Hooks
         if (miscWorld.IsNewGame)
         {
             miscProg.IsMSCSave = ModManager.MSC;
-
+    
             miscProg.ResetSave();
         }
 

@@ -54,8 +54,10 @@ public static partial class Hooks
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
         if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
-
+            
         if (self.slatedForDeletetion) return;
+
+        if (self.room == null) return;
 
         var mainSprite = sLeaser.sprites[0];
         var highlightSprite = sLeaser.sprites[1];

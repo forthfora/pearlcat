@@ -8,8 +8,6 @@
     {"name": "Floor", "pos": [400, 150], "depth": 2.0, "shader": "Normal"},
     
     {"name": "Vines", "pos": [420, 430], "depth": 2.3, "shader": "Normal"},
-    
-    {"name": "SlugcatBottom", "pos": [550, 350], "depth": 2.0, "shader": "Basic"},
 
     {"name": "pearl0", "pos": [771, 583], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl1", "pos": [675, 599], "depth": 2.0, "shader": "Basic"},
@@ -21,8 +19,6 @@
     {"name": "pearl7", "pos": [740, 406], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl8", "pos": [523, 439], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl9", "pos": [612, 386], "depth": 2.0, "shader": "Basic"},
-    
-    {"name": "SlugcatTop", "pos": [550, 350], "depth": 2.0, "shader": "Basic"},
     
     {"name": "pearlactive", "pos": [700, 650], "depth": 2.3, "shader": "Basic"},
     {"name": "pearlactivehalo", "pos": [500, 500], "depth": 2.1, "shader": "Basic"},

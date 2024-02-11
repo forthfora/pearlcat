@@ -628,7 +628,10 @@ public partial class Hooks
             {
                 foreach (var camera in self.game.cameras)
                 {
-                    camera.ChangeMainPalette(301);
+                    if (camera.paletteA != 301)
+                    {
+                        camera.ChangeMainPalette(301);
+                    }
                 }
             }
         }

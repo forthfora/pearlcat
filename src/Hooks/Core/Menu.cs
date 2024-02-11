@@ -89,11 +89,11 @@ public static partial class Hooks
         // INTRO
         if (fileName == "Intro6")
         {
-            self.visible = !miscProg.IsMiraSkipEnabled;
+            self.visible = !Utils.IsMiraActive;
         }
         if (fileName == "Intro6_Mira")
         {
-            self.visible = miscProg.IsMiraSkipEnabled;
+            self.visible = Utils.IsMiraActive;
         }
 
         // VOID SEA ENDING
@@ -425,7 +425,7 @@ public static partial class Hooks
 
         illustration.alpha = 1.0f;
 
-        var pearlcatSad = save.IsPearlpupSick || (!save.HasPearlpup && save.DidHavePearlpup);
+        var pearlcatSad = (save.IsPearlpupSick || (!save.HasPearlpup && save.DidHavePearlpup)) && !save.HasTrueEnding;
 
         if (illustrationModule.Index == -2)
         {
@@ -466,9 +466,10 @@ public static partial class Hooks
                     illustration.pos = new(609, 27);
                 }
             }
-            
-            visible = visible && ((save.HasTrueEnding && fileName.Contains("trueend")) || (!save.HasTrueEnding && !fileName.Contains("trueend")));
-            illustration.visible = visible;
+
+            var trueEndVisible = save.HasTrueEnding == fileName.Contains("trueend") || fileName.Contains("sleep1");
+
+            illustration.visible = visible && trueEndVisible;
             return;
         }
 

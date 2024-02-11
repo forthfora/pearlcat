@@ -491,7 +491,9 @@ public static partial class Hooks
         }
 
         if (self.airInLungs < 0.1f && playerModule.ShieldActive)
+        {
             playerModule.ActivateVisualShield();
+        }
 
         if (self.room == null) return;
         
@@ -508,7 +510,18 @@ public static partial class Hooks
                 {
                     if (weapon.thrownBy == self) continue;
 
-                    if (weapon.thrownBy is Player playerThrownBy && (!self.room.game.rainWorld.options.friendlyFire || playerThrownBy.onBack == self)) continue;
+                    // Thrown by another player
+                    if (weapon.thrownBy is Player playerThrownBy)
+                    {
+                        // Thrown by a player we are on the back of
+                        if (playerThrownBy.onBack == self) continue;
+
+                        // Jolly FF is off, doesn't apply to arena sessions
+                        if (!self.abstractCreature.world.game.IsArenaSession && !Utils.RainWorld.options.friendlyFire) continue;
+                        
+                        // Arena FF is off, only applies to arena sessions
+                        if (self.abstractCreature.world.game.IsArenaSession && !self.abstractCreature.world.game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers) continue;
+                    }
 
                     if (weapon.mode == Weapon.Mode.Thrown && Custom.DistLess(weapon.firstChunk.pos, self.firstChunk.pos, 75.0f))
                     {
@@ -547,7 +560,9 @@ public static partial class Hooks
         }
 
         if (didDeflect)
+        {
             playerModule.ActivateVisualShield();
+        }
     }
     
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
