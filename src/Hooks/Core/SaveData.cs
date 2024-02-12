@@ -25,6 +25,8 @@ public static partial class Hooks
                 miscProg.StoredPearlColors.Clear();
                 miscProg.ActivePearlColor = null;
 
+                var heartIsActive = false;
+
                 if (miscWorld.Inventory.TryGetValue(0, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(0, out var activeIndex))
                 {
                     for (int i = 0; i < inventory.Count; i++)
@@ -42,7 +44,11 @@ public static partial class Hooks
                         if (type is not DataPearlType dataPearlType) continue;
 
 
-                        if (dataPearlType == Enums.Pearls.Heart_Pearlpup) continue;
+                        if (dataPearlType == Enums.Pearls.Heart_Pearlpup)
+                        {
+                            heartIsActive = true;
+                            continue;
+                        }
 
 
                         var potentialPebblesColor = 0;
@@ -61,6 +67,12 @@ public static partial class Hooks
                             miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
                         }
                     }
+                }
+
+                if (heartIsActive && miscProg.StoredPearlColors.Count > 0)
+                {
+                    miscProg.ActivePearlColor = miscProg.StoredPearlColors[0];
+                    miscProg.StoredPearlColors.RemoveAt(0);
                 }
             }
         }

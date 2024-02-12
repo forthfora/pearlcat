@@ -313,6 +313,11 @@ public static partial class Hooks
                 }
             }
 
+            if (fileName.Contains("pupheart"))
+            {
+                UpdatePupHeartIllustration(self, illustration, illustrationModule);
+            }
+
             return;
         }
 
@@ -334,7 +339,7 @@ public static partial class Hooks
             }
 
 
-            var trueEndPos = new Vector2(770, 540);
+            var trueEndPos = new Vector2(690, 490);
 
             if (save.HasTrueEnding && illustrationModule.InitialPos != trueEndPos)
             {
@@ -567,7 +572,6 @@ public static partial class Hooks
         illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin((MenuPearlAnimStacker + i * 50.0f) / 50.0f) * 25.0f;
     }
 
-
     private static void UpdateSickScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
@@ -739,11 +743,73 @@ public static partial class Hooks
         //illustration.color = Color.Lerp(pearlColors[i].MenuPearlColorFilter(), new Color32(207, 187, 101, 255), 0.4f);
     }
 
+
     public static Color AscendedPearlColorFilter(this Color color)
     {
         Color.RGBToHSV(Color.Lerp(color, Color.white, 0.3f), out var hue, out var sat, out var val);
         return Color.HSVToRGB(hue, Mathf.Lerp(sat, 0.0f, 0.2f), val);
     }
+    
+    private static void UpdatePupHeartIllustration(MenuScene self, MenuDepthIllustration illustration, MenuIllustrationModule illustrationModule)
+    {
+        var miscProg = Utils.GetMiscProgression();
+
+        if (!miscProg.HasTrueEnding)
+        {
+            illustration.visible = false;
+            return;
+        }
+
+        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+        illustration.visible = true;
+
+        var initialScale = 0.3f;
+        var isCore = fileName == "pupheartcore";
+
+        if (illustration.sprite.scale == 1.0f)
+        {
+            illustration.sprite.scale = initialScale;
+            illustration.sprite.SetAnchor(new Vector2(0.5f, 0.5f));
+        }
+
+        var currentScale = illustration.sprite.scale;
+        
+        const int beatFrequency = 80;
+        const int coreBeatOffset = 10;
+
+        var beat = MenuPearlAnimStacker % beatFrequency == 0;
+        var coreBeat = (MenuPearlAnimStacker - coreBeatOffset) % beatFrequency == 0;
+
+        if (isCore)
+        {
+            if (coreBeat)
+            {
+                illustration.sprite.scale = 0.4f;
+            }
+            else
+            {
+                illustration.sprite.scale = Mathf.Lerp(currentScale, initialScale, 0.1f);
+            }
+        }
+        else
+        {
+            if (beat)
+            {
+                illustration.sprite.scale = 0.45f;
+                self.menu.PlaySound(Sounds.Pearlcat_Heartbeat, 0.0f, 0.3f, 1.0f);
+            }
+            else if (coreBeat)
+            {
+                illustration.sprite.scale = 0.4f;
+            }
+            else
+            {
+                illustration.sprite.scale = Mathf.Lerp(currentScale, initialScale, 0.1f);
+            }
+        }
+    }
+
+
 
     public static string SecretPassword { get; set; } = "mira";
     public static int SecretIndex { get; set; } = 0;
@@ -854,8 +920,8 @@ public static partial class Hooks
         else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage && miscProg.IsSecretEnabled)
         {
             newGamePage.difficultyLabel.text = "PEARLPUP";
-            newGamePage.infoLabel.text = "The child becomes the scholar, but the scholar...?" +
-                "\nA glimpse into what awaits...";
+            newGamePage.infoLabel.text = "WIP - no new ending yet!" +
+                "\nIf you find any bugs, please report them to forthbridge!";
         }
         
         // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol

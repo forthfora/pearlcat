@@ -18,7 +18,11 @@
     {"name": "trueend_3", "pos": [0, -25], "depth": 3.5, "shader": "Basic"},
     {"name": "trueend_2", "pos": [0, -25], "depth": 3.0, "shader": "Basic"},
     {"name": "trueend_1", "pos": [0, -25], "depth": 2.6, "shader": "Basic"},
-    
+    {"name": "trueend_0", "pos": [350, 40], "depth": 1.8, "shader": "Normal"},
+
+    {"name": "pupheartcore", "pos": [770, 540], "depth": 2.3, "shader": "Basic"},
+    {"name": "pupheart", "pos": [770, 540], "depth": 2.3, "shader": "Basic"},
+
     {"name": "pearl0", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl2", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
@@ -39,7 +43,7 @@
     {"name": "bottomgrass", "pos": [435, 130], "depth": 1.7,  "shader": "Normal"},
 
     {"name": "pearlactive", "pos": [690, 380], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearlactivehalo", "pos": [690, 380], "depth": 2.0, "shader": "Basic"}  
+    {"name": "pearlactivehalo", "pos": [690, 380], "depth": 2.0, "shader": "Basic"}
   ],
   
   "idle_depths": [2.4],
