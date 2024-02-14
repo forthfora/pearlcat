@@ -2,6 +2,7 @@
 using MoreSlugcats;
 using RWCustom;
 using System;
+using System.Linq.Expressions;
 using System.Security.Permissions;
 using UnityEngine;
 
@@ -34,6 +35,8 @@ public static partial class Hooks
 
         if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
 
+
+        // Umbilical
         module.Umbilical = new UmbilicalGraphics(sLeaser.sprites.Length);
         Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + module.Umbilical.TotalSprites);
 
@@ -41,12 +44,25 @@ public static partial class Hooks
 
         var umbilical = module.Umbilical;
         var mgContainer = rCam.ReturnFContainer("Midground");
+        var fgContainer = rCam.ReturnFContainer("Foreground");
 
         for (int i = 0; i < umbilical.SmallWires.GetLength(0); i++)
         {
             sLeaser.sprites[umbilical.SmallWireSprite(i)].RemoveFromContainer();
             mgContainer.AddChild(sLeaser.sprites[umbilical.SmallWireSprite(i)]);
         }
+
+        // Possession
+        var spriteIndex = sLeaser.sprites.Length;
+        
+        module.PossessLaserSprite = spriteIndex++;
+
+        Array.Resize(ref sLeaser.sprites, spriteIndex);
+
+        var possessionSprite = sLeaser.sprites[module.PossessLaserSprite] = new FSprite("pixel");
+
+        possessionSprite.RemoveFromContainer();
+        fgContainer.AddChild(possessionSprite);
     }
 
     private static void DataPearl_DrawSprites_PearlpupPearl(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -58,6 +74,15 @@ public static partial class Hooks
         if (self.slatedForDeletetion) return;
 
         if (self.room == null) return;
+
+
+        PlayerModule? playerModule = null;
+
+        if (module.OwnerRef?.TryGetTarget(out var player) == true)
+        {
+            player.TryGetPearlcatModule(out playerModule);
+        }
+
 
         var mainSprite = sLeaser.sprites[0];
         var highlightSprite = sLeaser.sprites[1];
@@ -95,6 +120,32 @@ public static partial class Hooks
         
         module.Umbilical?.DrawSprites(sLeaser, rCam, timeStacker, camPos);
         module.Umbilical?.ApplyPalette(sLeaser);
+
+        
+        var possessLaserSprite = sLeaser.sprites[module.PossessLaserSprite];
+
+        if (playerModule != null && playerModule.PossessionTarget?.TryGetTarget(out var target) == true)
+        {
+            possessLaserSprite.isVisible = true;
+            
+            var startPos = self.firstChunk.pos - camPos;
+            var targetPos = target.firstChunk.pos - camPos;
+
+            var dir = Custom.DirVec(startPos, targetPos);
+
+            var laserWidth = 2.5f;
+            var laserLength = Custom.Dist(startPos, targetPos);
+
+            possessLaserSprite.rotation = Custom.VecToDeg(dir);
+            possessLaserSprite.scaleX = laserWidth;
+            possessLaserSprite.scaleY = laserLength;
+
+            possessLaserSprite.SetPosition(startPos + dir * laserLength / 2.0f);
+        }
+        else
+        {
+            possessLaserSprite.isVisible = false;
+        }
     }
 
     private static void DataPearl_Update_PearlpupPearl(On.DataPearl.orig_Update orig, DataPearl self, bool eu)

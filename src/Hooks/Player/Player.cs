@@ -9,6 +9,7 @@ using System.Reflection;
 using UnityEngine;
 using VoidSea;
 using static AbstractPhysicalObject;
+using static Pearlcat.POEffect;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;
@@ -277,18 +278,6 @@ public static partial class Hooks
         UpdateAdultPearlpup(self, playerModule);
     }
 
-    private static void UpdateAdultPearlpup(Player self, PlayerModule playerModule)
-    {
-        if (!playerModule.IsAdultPearlpup) return;
-
-        var hasHeart = playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl()) || playerModule.PostDeathInventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl());
-
-        if (!self.dead && self.room != null && !hasHeart)
-        {
-            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
-            self.StoreObject(pearl, overrideLimit: true);
-        }
-    }
 
     private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
     {
@@ -310,7 +299,7 @@ public static partial class Hooks
         // Longer delay removing heart
         if (playerModule.ActiveObject.IsHeartPearl() && !isStoring)
         {
-            storeObjectDelay = 300;
+            storeObjectDelay = 200;
         }
 
 
@@ -324,7 +313,7 @@ public static partial class Hooks
             {
                 if (playerModule.ActiveObject.IsHeartPearl())
                 {
-                    TryToRemoveHeart(self, (DataPearl.AbstractDataPearl)playerModule.ActiveObject);
+                    TryToRemoveHeart(self, playerModule, (DataPearl.AbstractDataPearl)playerModule.ActiveObject);
                 }
                 else
                 {
@@ -377,33 +366,42 @@ public static partial class Hooks
                     var heartRemovalStart = 40;
 
                     // trying to remove heart
-                    if (playerModule.ActiveObject is DataPearl.AbstractDataPearl abstractHeart && abstractHeart.IsHeartPearl() && !isStoring && playerModule.StoreObjectTimer > heartRemovalStart)
+                    if (playerModule.ActiveObject is DataPearl.AbstractDataPearl abstractHeart && abstractHeart.IsHeartPearl() && !isStoring)
                     {
-                        var heart = (DataPearl)abstractHeart.realizedObject;
-                        var bigSparkFreq = (int)Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 35, 1);
-                        var heartBeatFreq = (int)Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 35, 4);
 
-                        if (playerModule.StoreObjectTimer % bigSparkFreq == 0)
+                        // Removing the heart without any possessable creatures nearby
+                        if (playerModule.PossessionTarget == null && playerModule.StoreObjectTimer > heartRemovalStart)
                         {
-                            var randVec = Custom.RNV() * Random.Range(150.0f, 250.0f);
-                            self.room.ConnectEffect(heart.firstChunk.pos, heart.firstChunk.pos + randVec, Color.red, 8.0f, 40);
-                            self.room.PlaySound(SoundID.Zapper_Zap, heart.firstChunk.pos, 1.0f, Random.Range(0.6f, 1.4f));
+                            var heart = (DataPearl)abstractHeart.realizedObject;
+                            var bigSparkFreq = (int)Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 35, 1);
+                            var heartBeatFreq = (int)Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 35, 4);
+
+                            if (playerModule.StoreObjectTimer % bigSparkFreq == 0)
+                            {
+                                var randVec = Custom.RNV() * Random.Range(150.0f, 250.0f);
+                                self.room.ConnectEffect(heart.firstChunk.pos, heart.firstChunk.pos + randVec, Color.red, 8.0f, 40);
+                                self.room.PlaySound(SoundID.Zapper_Zap, heart.firstChunk.pos, 0.8f, Random.Range(0.6f, 1.4f));
+                            }
+
+                            if (playerModule.StoreObjectTimer % heartBeatFreq == 0)
+                            {
+                                self.room.PlaySound(Enums.Sounds.Pearlcat_Heartbeat , heart.firstChunk.pos, Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 0.45f, 1.0f), 1.0f);
+                            }
+
+                            if (playerModule.StoreObjectTimer % 10 == 0)
+                            {
+                                self.room.AddObject(new LightningMachine.Impact(heart.firstChunk.pos, 0.4f, Color.red));
+                            }
+
+                            if (playerModule.StoreObjectTimer % 30 == 0)
+                            {
+                                self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, heart.firstChunk.pos, 0.8f, 5.0f);
+                                self.room.AddObject(new ExplosionSpikes(self.room, heart.firstChunk.pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
+                            }
                         }
-
-                        if (playerModule.StoreObjectTimer % heartBeatFreq == 0)
+                        else
                         {
-                            self.room.PlaySound(Enums.Sounds.Pearlcat_Heartbeat , heart.firstChunk.pos, Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 0.75f, 1.5f), 1.0f);
-                        }
 
-                        if (playerModule.StoreObjectTimer % 10 == 0)
-                        {
-                            self.room.AddObject(new LightningMachine.Impact(heart.firstChunk.pos, 0.4f, Color.red));
-                        }
-
-                        if (playerModule.StoreObjectTimer % 30 == 0)
-                        {
-                            self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, heart.firstChunk.pos, 0.8f, 5.0f);
-                            self.room.AddObject(new ExplosionSpikes(self.room, heart.firstChunk.pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
                         }
                     }
                 }
@@ -419,37 +417,6 @@ public static partial class Hooks
             playerModule.StoreObjectTimer = 0;
         }
     }
-
-
-    private static void TryToRemoveHeart(Player self, DataPearl.AbstractDataPearl dataPearl)
-    {
-        if (self.room == null) return;
-
-        var room = self.room;
-        var pos = self.firstChunk.pos;
-        
-        self.firstChunk.vel.y += 20.0f;
-        self.SaintStagger(1000);
-
-
-        room.AddObject(new Explosion.ExplosionLight(pos, 100.0f, 1.0f, 3, Color.red));
-        room.AddObject(new ShockWave(pos, 250.0f, 0.07f, 6, false));
-
-        room.AddObject(new ExplosionSpikes(room, pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
-        room.AddObject(new LightningMachine.Impact(pos, 2.0f, Color.red, true));
-
-        for (int i = 0; i < 4; i++)
-        {
-            var randVec = Custom.RNV() * 150.0f;
-            room.ConnectEffect(pos, pos + randVec, Color.red, 1.5f, 80);
-        }
-
-        room.PlaySound(SoundID.Fire_Spear_Explode, pos, 1.2f, 0.8f);
-        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1.0f, 1.0f);
-
-        self.Die();
-    }
-
     
     private static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
@@ -901,5 +868,187 @@ public static partial class Hooks
             var save = self.room.abstractRoom.world.game.GetMiscProgression();
             save.JustAscended = true;
         }
+    }
+
+
+
+    private static void UpdateAdultPearlpup(Player self, PlayerModule playerModule)
+    {
+        if (!playerModule.IsAdultPearlpup) return;
+
+        var hasHeart = playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl()) || playerModule.PostDeathInventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl());
+        var room = self.room;
+
+        if (room != null && !self.dead && !hasHeart)
+        {
+            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
+            self.StoreObject(pearl, overrideLimit: true);
+        }
+
+
+        if (playerModule.IsPossessingCreature)
+        {
+            playerModule.PossessionTarget = null;
+
+            AbstractCreature? possessedCreature = null;
+            var shouldReleasePossession = playerModule.PossessedCreature == null || !playerModule.PossessedCreature.TryGetTarget(out possessedCreature);
+
+            if (possessedCreature != null)
+            {
+                if (possessedCreature.realizedCreature.dead)
+                {
+                    shouldReleasePossession = true;
+                }
+            }
+
+            if (shouldReleasePossession || possessedCreature == null)
+            {
+                ReleasePossession(self, playerModule);
+                return;
+            }
+
+
+            playerModule.BlockInput = true;
+            possessedCreature.controlled = true;
+
+            if (possessedCreature.realizedCreature == null)
+            {
+                self.Abstractize();
+                self.AbstractizeInventory();
+            }
+            else
+            {
+                if (room == null)
+                {
+                    self.PlaceInRoom(possessedCreature.realizedCreature.room);
+                }
+
+                self.ChangeCollisionLayer(0);
+                self.SuperHardSetPosition(possessedCreature.realizedCreature.firstChunk.pos);
+               
+                foreach (var chunk in self.bodyChunks)
+                {
+                    chunk.vel = Vector2.zero; 
+                }
+            }
+        }
+        else
+        {
+            if (room == null) return;
+
+            if (!playerModule.ActiveObject.IsHeartPearl())
+            {
+                playerModule.PossessionTarget = null;
+                return;
+            }
+
+            const float possessionMaxDist = 400.0f;
+            const float possessionLostDist = 400.0f;
+
+            // search for target
+            if (playerModule.PossessionTarget == null || !playerModule.PossessionTarget.TryGetTarget(out var target))
+            {
+                Creature? bestTarget = null;
+                var shortestDist = float.MaxValue;
+
+                foreach (var roomObject in room.physicalObjects)
+                {
+                    foreach (var physicalObject in roomObject)
+                    {
+                        if (physicalObject is Player) continue;
+
+                        if (physicalObject is not Creature creature) continue;
+
+                        if (creature.dead) continue;
+
+                        if (creature.abstractCreature.controlled) continue;
+
+
+                        var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
+
+                        if (dist > possessionMaxDist) continue;
+
+                        if (dist > shortestDist) continue;
+
+                        if (!self.room.VisualContact(self.mainBodyChunk.pos, creature.mainBodyChunk.pos)) continue;
+
+                        shortestDist = dist;
+                        bestTarget = creature;
+                    }
+                }
+
+                if (bestTarget != null)
+                {
+                    playerModule.PossessionTarget = new(bestTarget);
+                }
+            }
+            else
+            {
+                // ensure target is still valid
+                bool invalidTarget = false;
+
+                if (!Custom.DistLess(target.mainBodyChunk.pos, self.mainBodyChunk.pos, possessionLostDist))
+                    invalidTarget = true;
+
+                if (target.room != self.room)
+                    invalidTarget = true;
+
+                if (target.dead)
+                    invalidTarget = true;
+
+                if (!self.room.VisualContact(self.mainBodyChunk.pos, target.mainBodyChunk.pos))
+                    invalidTarget = true;
+
+
+                if (invalidTarget)
+                    playerModule.PossessionTarget = null;
+            }
+        }
+    }
+
+    private static void TryToRemoveHeart(Player self, PlayerModule playerModule, DataPearl.AbstractDataPearl dataPearl)
+    {
+        if (self.room == null) return;
+
+        if (playerModule.PossessionTarget?.TryGetTarget(out var target) == true)
+        {
+            playerModule.PossessionTarget = null;
+            playerModule.PossessedCreature = new(target.abstractCreature);
+        }
+        else
+        {
+            var room = self.room;
+            var pos = self.firstChunk.pos;
+
+            self.firstChunk.vel.y += 20.0f;
+
+            room.AddObject(new Explosion.ExplosionLight(pos, 100.0f, 1.0f, 3, Color.red));
+            room.AddObject(new ShockWave(pos, 250.0f, 0.07f, 6, false));
+
+            room.AddObject(new ExplosionSpikes(room, pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
+            room.AddObject(new LightningMachine.Impact(pos, 2.0f, Color.red, true));
+
+            for (int i = 0; i < 4; i++)
+            {
+                var randVec = Custom.RNV() * 150.0f;
+                room.ConnectEffect(pos, pos + randVec, Color.red, 1.5f, 80);
+            }
+
+            room.PlaySound(SoundID.Fire_Spear_Explode, pos, 1.2f, 0.8f);
+            room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1.0f, 1.0f);
+
+            self.Die();
+        }
+    }
+
+    private static void ReleasePossession(Player self, PlayerModule playerModule)
+    {
+        if (playerModule.PossessedCreature?.TryGetTarget(out var creature) == true)
+        {
+            creature.controlled = false;
+        }
+
+        playerModule.PossessedCreature = null;
+        playerModule.PossessionTarget = null;
     }
 }

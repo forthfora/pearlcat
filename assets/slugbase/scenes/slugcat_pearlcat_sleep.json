@@ -5,11 +5,14 @@
     {"name": "flat", "pos": [730, 130], "depth": -1.0, "flatmode": true},
 
     {"name": "trueend", "pos": [630, 30], "depth": 3.0, "shader": "Basic"},
+
+    {"name": "pupheartcore", "pos": [1000, 400], "depth": 2.3, "shader": "Basic"},
+    {"name": "pupheart", "pos": [1000, 400], "depth": 2.3, "shader": "Basic"},
     
     {"name": "sleep5", "pos": [683, 265], "depth": 5.0, "shader": "Normal"},
     {"name": "sleep4", "pos": [678, 188], "depth": 4.5, "shader": "Normal"},
     {"name": "sleep3", "pos": [735, 179], "depth": 4.0, "shader": "Normal"},
-
+    
 
     {"name": "pearl0", "pos": [789, 472], "depth": 2.3, "shader": "Basic"},
     {"name": "pearl1", "pos": [870, 558], "depth": 2.3, "shader": "Basic"},

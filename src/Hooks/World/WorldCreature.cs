@@ -46,6 +46,9 @@ public static partial class Hooks
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
         On.Leech.Attached += Leech_Attached;
+
+        On.Creature.SafariControlInputUpdate += Creature_SafariControlInputUpdate;
+        On.ArtificialIntelligence.VisualContact_BodyChunk += ArtificialIntelligence_VisualContact_BodyChunk;
     }
 
 
@@ -375,5 +378,33 @@ public static partial class Hooks
             self.BreakStinger();
             self.stingerOut = false;
         }
+    }
+
+
+    // Possesssion
+    private static void Creature_SafariControlInputUpdate(On.Creature.orig_SafariControlInputUpdate orig, Creature self, int playerIndex)
+    {
+        foreach (var module in self.abstractCreature.world.game.GetAllPlayerData())
+        {
+            if (module.PossessedCreature?.TryGetTarget(out var target) == true && target == self.abstractCreature && module.PlayerRef.TryGetTarget(out var player))
+            {
+                playerIndex = player.playerState.playerNumber;
+            }
+        }
+
+        orig(self, playerIndex);
+    }
+
+    private static bool ArtificialIntelligence_VisualContact_BodyChunk(On.ArtificialIntelligence.orig_VisualContact_BodyChunk orig, ArtificialIntelligence self, BodyChunk chunk)
+    {
+        if (chunk.owner is Player player && player.TryGetPearlcatModule(out var playerModule))
+        {
+            if (playerModule.PossessedCreature?.TryGetTarget(out var target) == true)
+            {
+                if (target == self.creature) return false;
+            }
+        }
+
+        return orig(self, chunk);    
     }
 }

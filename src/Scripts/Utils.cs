@@ -119,10 +119,13 @@ public static class Utils
         // trust no one, not even yourself?
         if (creature == self)
             return false;
-
+        
         if (creature is Player pup && pup.IsPearlpup())
             return false;
 
+        if (self is Player && creature.abstractCreature.controlled)
+            return false;
+        
         var AI = creature.abstractCreature.abstractAI?.RealAI;
 
         if (self is Player && AI is LizardAI or ScavengerAI or BigNeedleWormAI or DropBugAI or CicadaAI or MoreSlugcats.InspectorAI)
@@ -155,7 +158,7 @@ public static class Utils
             return false;
         }
 
-        if (self is Player && creature is Player player && !player.isSlugpup)
+        if (self is Player && creature is Player player2 && !player2.isSlugpup)
         {
             var game = self.abstractCreature.world.game;
 

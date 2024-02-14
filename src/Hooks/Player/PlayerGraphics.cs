@@ -510,6 +510,7 @@ public static partial class Hooks
         var handRSprite = sLeaser.sprites[HAND_R_SPRITE];
         var legsSprite = sLeaser.sprites[LEGS_SPRITE];
         var markSprite = sLeaser.sprites[MARK_SPRITE];
+        var faceSprite = sLeaser.sprites[FACE_SPRITE];
 
         var feetSprite = sLeaser.sprites[playerModule.FeetSprite];
         
@@ -576,6 +577,44 @@ public static partial class Hooks
             markSprite.y += 10.0f;
         }
 
+        // Possession
+        if (playerModule.IsAdultPearlpup)
+        {
+            var possesssionAlpha = playerModule.IsPossessingCreature ? 0.0f : 1.0f;
+
+            feetSprite.alpha = possesssionAlpha;
+
+            cloakSprite.alpha = possesssionAlpha;
+            scarfSprite.alpha = possesssionAlpha;
+
+            sleeveLSprite.alpha = possesssionAlpha;
+            sleeveRSprite.alpha = possesssionAlpha;
+
+            earLSprite.alpha = possesssionAlpha;
+            earRSprite.alpha = possesssionAlpha;
+
+            ribbon1Sprite.alpha = possesssionAlpha;
+            ribbon2Sprite.alpha = possesssionAlpha;
+
+            scarfSprite.alpha = possesssionAlpha;
+
+            scarSprite.alpha = possesssionAlpha;
+
+            faceSprite.alpha = possesssionAlpha;
+            bodySprite.alpha = possesssionAlpha;
+            armLSprite.alpha = possesssionAlpha;
+            armRSprite.alpha = possesssionAlpha;
+            hipsSprite.alpha = possesssionAlpha;
+            tailSprite.alpha = possesssionAlpha;
+            headSprite.alpha = possesssionAlpha;
+            handLSprite.alpha = possesssionAlpha;
+            handRSprite.alpha = possesssionAlpha;
+            legsSprite.alpha = possesssionAlpha;
+            markSprite.alpha = possesssionAlpha;
+
+            playerModule.Cloak.visible = !playerModule.IsPossessingCreature;
+        }
+
         if (ModOptions.DisableCosmetics.Value)
         {
             feetSprite.isVisible = false;
@@ -590,6 +629,8 @@ public static partial class Hooks
             earRSprite.isVisible = false;
 
             ribbon1Sprite.isVisible = false;
+            ribbon2Sprite.isVisible = false;
+
             scarfSprite.isVisible = false;
             return;
         }

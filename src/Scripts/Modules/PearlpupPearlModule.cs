@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -27,6 +28,10 @@ public class PearlpupPearlModule
 
 
     // Umbilical
-    public int UmbilicalSprite;
+    public int UmbilicalSprite { get; set; }
     public UmbilicalGraphics? Umbilical { get; set; }
+
+
+    // Possession
+    public int PossessLaserSprite { get; set; }
 }

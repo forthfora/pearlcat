@@ -91,6 +91,7 @@ public partial class Hooks
         On.AboveCloudsView.ctor += AboveCloudsView_ctor;
     }
 
+
     private static void RainWorldGame_ctor(On.RainWorldGame.orig_ctor orig, RainWorldGame self, ProcessManager manager)
     {
         orig(self, manager);

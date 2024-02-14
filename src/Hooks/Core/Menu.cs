@@ -475,6 +475,12 @@ public static partial class Hooks
             var trueEndVisible = save.HasTrueEnding == fileName.Contains("trueend") || fileName.Contains("sleep1");
 
             illustration.visible = visible && trueEndVisible;
+
+            if (fileName.Contains("pupheart"))
+            {
+                UpdatePupHeartIllustration(self, illustration, illustrationModule);
+            }
+
             return;
         }
 
