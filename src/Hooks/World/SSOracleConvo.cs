@@ -370,7 +370,7 @@ public static partial class Hooks
 
         else if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeetTrueEnd)
         {
-            e.Add(new WaitEvent(self, 160));
+            e.Add(new WaitEvent(self, 240));
 
             e.Add(new TextEvent(self, 0,
                 self.Translate(".  .  ."), 0));
@@ -390,17 +390,17 @@ public static partial class Hooks
                 self.Translate("I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works."), l * 80));
 
             e.Add(new TextEvent(self, 0,
-                self.Translate("...I would love to study it, to help treat my own affliction, however it would require... removal of the augment..."), l * 80));
+                self.Translate("I would love to study it, to help treat my own affliction, however it would require... removal of the augment."), l * 80));
 
             e.Add(new WaitEvent(self, 40));
 
             e.Add(new TextEvent(self, 0,
-                self.Translate("I..."), l * 80));
+                self.Translate(". . ."), l * 80));
             
             e.Add(new WaitEvent(self, 120));
 
             e.Add(new TextEvent(self, 0,
-                self.Translate("...no, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed."), l * 80));
+                self.Translate("No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed."), l * 80));
 
             e.Add(new TextEvent(self, 0,
                  self.Translate("I am glad you found your own solution... even if it is an abhorrent perversion of natural law."), l * 80));
@@ -416,7 +416,42 @@ public static partial class Hooks
             e.Add(new WaitEvent(self, 40));
 
             e.Add(new TextEvent(self, 0,
-                self.Translate("...your survival gives me some hope, little one."), l * 80));
+                self.Translate("Your survival gives me some hope, little one."), l * 80));
+        }
+
+        else if (id == Enums.SSOracle.Pearlcat_SSConvoUnlockMira)
+        {
+            miscProg.UnlockedMira = true;
+
+            e.Add(new WaitEvent(self, 160));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(".  .  ."), 0));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I may not have the facilities to aid you, however..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I have sent a request for the stationary cargo transports in my city to resume operation."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("However, given a lack of other options, this is the best I can do."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("You may find them by taking the elevator back up to the surface - that is the one past the murals above my chamber."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Whichever path you take, I hope you find the help that you seek."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Good luck, mysterious scholar."), l * 80));
+
         }
 
         #region Vanilla Pearls

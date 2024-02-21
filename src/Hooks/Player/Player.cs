@@ -803,9 +803,14 @@ public static partial class Hooks
 
     private static void Creature_SuckedIntoShortCut(On.Creature.orig_SuckedIntoShortCut orig, Creature self, IntVector2 entrancePos, bool carriedByOther)
     {
-        if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
+        if (self is Player player)
         {
-            var sameRoom = player.abstractCreature.Room == playerModule.LastRoom;
+            var sameRoom = false;
+            
+            if (player.TryGetPearlcatModule(out PlayerModule? playerModule) || player.slugOnBack?.slugcat?.TryGetPearlcatModule(out playerModule) == true)
+            {
+                sameRoom = player.abstractCreature.Room == playerModule.LastRoom;
+            }
 
             player.AbstractizeInventory(sameRoom);
             player.slugOnBack?.slugcat?.AbstractizeInventory(sameRoom);
@@ -895,7 +900,7 @@ public static partial class Hooks
 
             if (possessedCreature != null)
             {
-                if (possessedCreature.realizedCreature.dead)
+                if (possessedCreature.realizedCreature == null || possessedCreature.realizedCreature.dead)
                 {
                     shouldReleasePossession = true;
                 }
@@ -911,16 +916,22 @@ public static partial class Hooks
             playerModule.BlockInput = true;
             possessedCreature.controlled = true;
 
-            if (possessedCreature.realizedCreature == null)
+            if (possessedCreature.realizedCreature?.room == null)
             {
-                self.Abstractize();
                 self.AbstractizeInventory();
+                
+                self.abstractCreature.Abstractize(possessedCreature.pos);
+
+
+
+                Plugin.Logger.LogWarning("UH");
             }
             else
             {
                 if (room == null)
                 {
-                    self.PlaceInRoom(possessedCreature.realizedCreature.room);
+                    self.abstractCreature.ChangeRooms(possessedCreature.pos);
+                    self.abstractCreature.RealizeInRoom();
                 }
 
                 self.ChangeCollisionLayer(0);
@@ -1012,8 +1023,7 @@ public static partial class Hooks
 
         if (playerModule.PossessionTarget?.TryGetTarget(out var target) == true)
         {
-            playerModule.PossessionTarget = null;
-            playerModule.PossessedCreature = new(target.abstractCreature);
+            self. PossessCreature(playerModule, target);
         }
         else
         {
@@ -1039,6 +1049,14 @@ public static partial class Hooks
 
             self.Die();
         }
+    }
+
+    private static void PossessCreature(this Player self, PlayerModule playerModule, Creature target)
+    {
+        playerModule.PossessionTarget = null;
+        playerModule.PossessedCreature = new(target.abstractCreature);
+
+        self.LoseAllGrasps();
     }
 
     private static void ReleasePossession(Player self, PlayerModule playerModule)

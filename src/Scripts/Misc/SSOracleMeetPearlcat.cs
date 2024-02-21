@@ -217,12 +217,12 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         if (player == null) return;
 
         var module = owner.GetModule();
-        var save = oracle.room.game.GetMiscWorld();
+        var miscWorld = oracle.room.game.GetMiscWorld();
         var miscProg = oracle.room.game.GetMiscProgression();
 
-        if (save == null) return;
+        if (miscWorld == null) return;
 
-        var meetCount = save.PebblesMeetCount;
+        var meetCount = miscWorld.PebblesMeetCount;
 
         owner.movementBehavior = MovementBehavior.KeepDistance;
 
@@ -352,9 +352,18 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 }
                 else if (ConvoCount == 4)
                 {
-                    if (save.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
+                    if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
                     {
                         owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+                    }
+
+                    ConvoCount++;
+                }
+                else if (ConvoCount == 5)
+                {
+                    if (Utils.IsMiraActive && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
+                    {
+                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
                     }
 
                     ConvoCount++;
@@ -387,12 +396,20 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                         owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
                         ConvoCount++;
                     }
-                    else if (save.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !save.PebblesMetSickPup)
+                    else if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
                     {
                         owner.LockShortcuts();
                         owner.getToWorking = 0.0f;
 
-                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+                        if (!miscWorld.PebblesMetSickPup)
+                        {
+                            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+                        }
+                        else if (Utils.IsMiraActive && !miscProg.UnlockedMira)
+                        {
+                            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
+                        }
+
                         ConvoCount++;
                     }
                 }

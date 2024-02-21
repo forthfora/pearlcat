@@ -460,8 +460,6 @@ public static class Utils
         if (miscWorld == null) return;
 
 
-        miscProg.UnlockedMira = true;
-
         miscProg.IsPearlpupSick = true;
         miscProg.HasOEEnding = true;
         miscProg.DidHavePearlpup = true;

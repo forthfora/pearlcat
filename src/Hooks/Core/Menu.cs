@@ -295,23 +295,13 @@ public static partial class Hooks
         {
             var visible = true;
 
-            if (fileName == "pup")
+            if (fileName.Contains("Pearlpup"))
             {
                 visible = save.HasPearlpup;
             }
 
             visible = visible && ((save.HasTrueEnding && fileName.Contains("trueend")) || (!save.HasTrueEnding && !fileName.Contains("trueend")));
             illustration.visible = visible;
-            
-            
-            // Offset pearlcat if pearlpup is present
-            if (save.HasPearlpup)
-            {
-                if (fileName == "body" || fileName == "tail" || fileName == "legs")
-                {
-                    illustration.pos.x = illustrationModule.InitialPos.x - 20.0f;
-                }
-            }
 
             if (fileName.Contains("pupheart"))
             {
@@ -362,7 +352,7 @@ public static partial class Hooks
             var spritePos = illustration.sprite.GetPosition();
             var mousePos = self.menu.mousePosition;
 
-            var setPos = illustrationModule.SetPos - Vector2.right * (save.HasPearlpup ? 30.0f : 0.0f);
+            var setPos = illustrationModule.SetPos;
 
             if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
             {
@@ -400,13 +390,8 @@ public static partial class Hooks
         illustration.visible = true;
 
         var angleFrameAddition = 0.00075f;
-        var radius = 120.0f;
-        var origin = new Vector2(680, 400);
-
-        if (save.HasPearlpup)
-        {
-            origin.x -= 20.0f;
-        }
+        var radius = 150.0f;
+        var origin = new Vector2(675, 400);
 
         if (save.HasTrueEnding)
         {
@@ -416,10 +401,10 @@ public static partial class Hooks
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
 
-        Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius * 1.25f);
+        var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
         illustration.pos = targetPos;
 
-        illustration.sprite.scale = Custom.LerpMap(Mathf.Cos(angle), 0.0f, 1.0f, 0.2f, 0.35f);
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 0.0f, 1.0f, 0.3f, 0.25f);
         illustration.color = pearlColors[i].MenuPearlColorFilter();
     }
 

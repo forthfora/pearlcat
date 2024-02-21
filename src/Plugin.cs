@@ -119,6 +119,7 @@ public class Plugin : BaseUnityPlugin
                     $"\n-------------------\n" +
                     $"PEARLCAT MISC WORLD:\n" +
                     $"{nameof(SaveMiscWorld.IsNewGame)}: {pearlcatMiscWorld.IsNewGame}\n" +
+                    $"{nameof(SaveMiscWorld.IsPearlcatStory)}: {pearlcatMiscWorld.IsPearlcatStory}\n" +
 
                     "\n" +
 

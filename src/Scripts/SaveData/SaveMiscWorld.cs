@@ -6,6 +6,9 @@ public class SaveMiscWorld
 {
     // Meta
     public bool IsNewGame { get; set; } = true;
+    public bool IsPearlcatStory { get; set; }
+
+
     public bool JustBeatAltEnd { get; set; }
 
 
