@@ -125,6 +125,10 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         {
             UpdateMusicSentry(owner, module, pearl, effect, "NA_19 - Halcyon Memories");
         }
+        else if (pearl.IsHeartPearl())
+        {
+            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Heartmend");
+        }
         else if (pearlType == Enums.Pearls.SS_Pearlcat)
         {
             UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Amnesia");

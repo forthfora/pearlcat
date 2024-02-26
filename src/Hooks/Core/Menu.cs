@@ -840,7 +840,7 @@ public static partial class Hooks
         var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
-        var miraSkipAvailable = !disableSave && Utils.IsMiraActive && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding && !miscProg.UnlockedMira;
+        var miraSkipAvailable = !disableSave && Utils.IsMiraActive && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding && !miscProg.UnlockedMira && ModManager.MSC;
 
         if (miraSkipAvailable)
         {

@@ -474,5 +474,7 @@ public static class Utils
 
         baseMiscWorld.SLOracleState.playerEncountersWithMark = 2;
         baseMiscWorld.SLOracleState.playerEncounters = 2;
+
+        miscWorld.JustMiraSkipped = true;
     }
 }

@@ -145,11 +145,14 @@ public static partial class Hooks
         miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
         miscProg.JustAscended = false;
 
+        miscWorld.JustMiraSkipped = false;
+
         if (miscWorld.IsNewGame)
         {
-            miscProg.IsMSCSave = ModManager.MSC;
-    
             miscProg.ResetSave();
+
+            miscProg.IsMSCSave = ModManager.MSC;
+            miscProg.UnlockedMira = !ModManager.MSC;
         }
 
         if (miscProg.IsMiraSkipEnabled)

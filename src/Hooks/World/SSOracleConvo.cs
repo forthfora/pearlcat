@@ -139,7 +139,7 @@ public static partial class Hooks
             return;
         }
 
-        var save = self.owner.oracle.room.game.GetMiscWorld();
+        var miscWorld = self.owner.oracle.room.game.GetMiscWorld();
         var miscProg = self.owner.oracle.room.game.GetMiscProgression();
 
         var module = self.owner.GetModule();
@@ -153,7 +153,7 @@ public static partial class Hooks
 
         if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
         {
-            if (save?.HasPearlpupWithPlayer == true)
+            if (miscWorld?.HasPearlpupWithPlayer == true)
             {
                 e.Add(new WaitEvent(self, 160));
 
@@ -249,13 +249,13 @@ public static partial class Hooks
             e.Add(new TextEvent(self, 0,
                 self.Translate("...and you can gather more of that data you so clearly desire."), l * 80));
 
-            if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick)
+            if (miscWorld?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick)
             {
                 e.Add(new WaitEvent(self, 40));
             }
             else
             {
-                if (save?.HasPearlpupWithPlayer == true)
+                if (miscWorld?.HasPearlpupWithPlayer == true)
                 {
                     e.Add(new WaitEvent(self, 40));
 
@@ -337,9 +337,9 @@ public static partial class Hooks
 
         else if (id == Enums.SSOracle.Pearlcat_SSConvoSickPup)
         {
-            if (save != null)
+            if (miscWorld != null)
             {
-                save.PebblesMetSickPup = true;
+                miscWorld.PebblesMetSickPup = true;
             }
 
             e.Add(new WaitEvent(self, 40));

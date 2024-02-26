@@ -10,6 +10,7 @@ public class SaveMiscWorld
 
 
     public bool JustBeatAltEnd { get; set; }
+    public bool JustMiraSkipped { get; set; }
 
 
     // Pearlcat
