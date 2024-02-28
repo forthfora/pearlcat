@@ -76,9 +76,18 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
             if (pup != null)
             {
-                pup.SuperHardSetPosition(world.game.FirstAlivePlayer.realizedCreature.firstChunk.pos);
                 pup.graphicsModule.Reset();
                 pup.playerState.foodInStomach = 3;
+
+                foreach (var chunk in pup.bodyChunks)
+                {
+                    chunk.vel = Vector2.zero;
+                }
+
+                if (pup.dead)
+                {
+                    pup.RevivePlayer();
+                }
 
                 var firstPearlcat = world.game.Players[world.game.GetFirstPearlcatIndex()];
 

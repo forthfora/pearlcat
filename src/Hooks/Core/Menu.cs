@@ -632,7 +632,7 @@ public static partial class Hooks
 
         var angleFrameAddition = 0.0005f;
         var radius = 90.0f;
-        var origin = new Vector2(670, 470);
+        var origin = new Vector2(650, 490);
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
 
@@ -861,8 +861,10 @@ public static partial class Hooks
 
         if (disableSave)
         {
-            self.startButton.buttonBehav.greyedOut = true;
-            var text = "CANNOT PLAY" + "\n" + (miscProg.IsMSCSave ? "MSC" : "NON-MSC") + " SAVE";
+            //self.startButton.buttonBehav.greyedOut = true; // found issues with this, so don't restrict incase of false detection
+
+            self.startButton.fillTime = 240.0f;
+            var text = self.Translate("CANNOT PLAY") + "\n" + (miscProg.IsMSCSave ? "MSC" : "NON-MSC") + self.Translate(" SAVE");
 
             self.startButton.menuLabel.text = text;
         }
@@ -895,12 +897,11 @@ public static partial class Hooks
 
             if (miscProg.IsMiraSkipEnabled)
             {
-                regionLabel.text = "Begin at the start of the Mira storyline..." +
-                    "\nThe world will be preserved, and pearls will carry over!";
-                
+                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
+
                 if (miscProg.IsMSCSave && !miscProg.HasPearlpup)
                 {
-                    regionLabel.text += " Pearlpup will be revived.";
+                    regionLabel.text += self.Translate(" Pearlpup will be revived.");
                 }
             }
             else
@@ -908,11 +909,26 @@ public static partial class Hooks
                 regionLabel.text = module.OriginalRegionLabelText;
             }
         }
-        else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage && miscProg.IsSecretEnabled)
+        else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage)
         {
-            newGamePage.difficultyLabel.text = "PEARLPUP";
-            newGamePage.infoLabel.text = "WIP - no new ending yet!" +
-                "\nIf you find any bugs, please report them to forthbridge!";
+            var infoLabel = newGamePage.infoLabel;
+
+            if (miscProg.IsMiraSkipEnabled)
+            {
+                infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
+            }
+            else
+            {
+                if (SlugBase.SlugBaseCharacter.TryGet(Enums.Pearlcat, out var registry))
+                {
+                    infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate(registry.Description));
+                }
+            }
+        }
+        else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePageSecret && miscProg.IsSecretEnabled)
+        {
+            newGamePageSecret.difficultyLabel.text = self.Translate("PEARLPUP");
+            newGamePageSecret.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!"));
         }
         
         // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol

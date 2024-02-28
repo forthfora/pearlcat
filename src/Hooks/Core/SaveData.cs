@@ -13,6 +13,7 @@ public static partial class Hooks
         On.PlayerProgression.SaveToDisk += PlayerProgression_SaveToDisk;
     }
 
+
     private static bool PlayerProgression_SaveToDisk(On.PlayerProgression.orig_SaveToDisk orig, PlayerProgression self, bool saveCurrentState, bool saveMaps, bool saveMiscProg)
     {
         try
@@ -20,7 +21,7 @@ public static partial class Hooks
             var miscWorld = self.currentSaveState?.miscWorldSaveData?.GetMiscWorld();
             var miscProg = self.miscProgressionData?.GetMiscProgression();
 
-            if (miscWorld != null && miscProg != null && saveCurrentState && miscWorld.IsPearlcatStory)
+            if (miscWorld != null && miscProg != null && saveCurrentState && self.currentSaveState?.saveStateNumber == Enums.Pearlcat)
             {
                 miscProg.StoredPearlColors.Clear();
                 miscProg.ActivePearlColor = null;
@@ -91,9 +92,7 @@ public static partial class Hooks
             var miscWorld = self.miscWorldSaveData.GetMiscWorld();
             var miscProg = self.progression.miscProgressionData.GetMiscProgression();
             
-            miscWorld.IsNewGame = false;
-        
-            if (miscWorld.IsPearlcatStory)
+            if (self.saveStateNumber == Enums.Pearlcat)
             {
                 miscProg.IsNewPearlcatSave = false;
                 miscProg.Ascended = self.deathPersistentSaveData.ascended;
@@ -138,21 +137,15 @@ public static partial class Hooks
         var miscWorld = self.miscWorldSaveData.GetMiscWorld();
         var miscProg = self.progression.miscProgressionData.GetMiscProgression();
 
-        miscWorld.IsPearlcatStory = self.saveStateNumber == Enums.Pearlcat;
+        if (self.saveStateNumber != Enums.Pearlcat) return;
 
-        if (!miscWorld.IsPearlcatStory) return;
 
-        miscProg.IsNewPearlcatSave = miscWorld.IsNewGame;
         miscProg.JustAscended = false;
-
         miscWorld.JustMiraSkipped = false;
 
-        if (miscWorld.IsNewGame)
+        if (self.cycleNumber == 0)
         {
             miscProg.ResetSave();
-
-            miscProg.IsMSCSave = ModManager.MSC;
-            miscProg.UnlockedMira = !ModManager.MSC;
         }
 
         if (miscProg.IsMiraSkipEnabled)

@@ -38,6 +38,8 @@ public class SaveMiscProgression
 
     public void ResetSave()
     {
+        IsNewPearlcatSave = true;
+
         HasPearlpup = false;
         DidHavePearlpup = false;
         
@@ -48,5 +50,8 @@ public class SaveMiscProgression
 
         UnlockedMira = false;
         HasTrueEnding = false;
+
+        IsMSCSave = ModManager.MSC;
+        UnlockedMira = !ModManager.MSC;
     }
 }

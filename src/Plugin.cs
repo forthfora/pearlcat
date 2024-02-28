@@ -118,11 +118,6 @@ public class Plugin : BaseUnityPlugin
 
                     $"\n-------------------\n" +
                     $"PEARLCAT MISC WORLD:\n" +
-                    $"{nameof(SaveMiscWorld.IsNewGame)}: {pearlcatMiscWorld.IsNewGame}\n" +
-                    $"{nameof(SaveMiscWorld.IsPearlcatStory)}: {pearlcatMiscWorld.IsPearlcatStory}\n" +
-
-                    "\n" +
-
                     $"{nameof(SaveMiscWorld.Inventory)}:\n{string.Join("\n", pearlcatMiscWorld.Inventory.Select(x => $"{x.Key}:\n  {string.Join("\n  ", x.Value)}"))}\n" +
 
                     "\n" +
