@@ -11,17 +11,40 @@ public static partial class Hooks
         On.SaveState.LoadGame += SaveState_LoadGame;
 
         On.PlayerProgression.SaveToDisk += PlayerProgression_SaveToDisk;
+
+        //On.PlayerProgression.WipeSaveState += PlayerProgression_WipeSaveState;
+        //On.PlayerProgression.WipeAll += PlayerProgression_WipeAll;
     }
 
+    private static void PlayerProgression_WipeAll(On.PlayerProgression.orig_WipeAll orig, PlayerProgression self)
+    {
+        var miscProg = Utils.GetMiscProgression();
+
+        miscProg.ResetSave();
+
+        orig(self);
+    }
+
+    private static void PlayerProgression_WipeSaveState(On.PlayerProgression.orig_WipeSaveState orig, PlayerProgression self, SlugcatStats.Name saveStateNumber)
+    {
+        var miscProg = Utils.GetMiscProgression();
+
+        if (saveStateNumber == Enums.Pearlcat)
+        {
+            miscProg.ResetSave();
+        }
+
+        orig(self, saveStateNumber);
+    }
 
     private static bool PlayerProgression_SaveToDisk(On.PlayerProgression.orig_SaveToDisk orig, PlayerProgression self, bool saveCurrentState, bool saveMaps, bool saveMiscProg)
     {
         try
         {
             var miscWorld = self.currentSaveState?.miscWorldSaveData?.GetMiscWorld();
-            var miscProg = self.miscProgressionData?.GetMiscProgression();
+            var miscProg = Utils.GetMiscProgression();
 
-            if (miscWorld != null && miscProg != null && saveCurrentState && self.currentSaveState?.saveStateNumber == Enums.Pearlcat)
+            if (miscWorld != null && saveCurrentState && self.currentSaveState?.saveStateNumber == Enums.Pearlcat)
             {
                 miscProg.StoredPearlColors.Clear();
                 miscProg.ActivePearlColor = null;

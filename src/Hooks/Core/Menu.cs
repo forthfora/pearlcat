@@ -297,7 +297,7 @@ public static partial class Hooks
 
             if (fileName.Contains("Pearlpup"))
             {
-                visible = save.HasPearlpup;
+                visible = save.HasPearlpup || (save.IsNewPearlcatSave && ModManager.MSC);
             }
 
             visible = visible && ((save.HasTrueEnding && fileName.Contains("trueend")) || (!save.HasTrueEnding && !fileName.Contains("trueend")));
