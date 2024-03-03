@@ -1,6 +1,6 @@
 ﻿0-15-pearlcatpebbles
-Es un plano para el sistema de filtración de Fluido del Vacío debajo de mis instalaciones.
+Es un plano para el sistema de filtración del Fluido Vacío debajo de mi instalación.
 
-Mi vecino al este de aquí estaba conectado a una red de tuberías más antigua que es anterior a mi construcción.
+Mi vecina al este de aquí estaba conectada a una red de tuberías más antigua que precede a la de mi construcción.
 
-Debido a fallas mecánicas, fue redirigida para compartir mi instalación. Sin embargo,<LINE>a diferencia de nuestras aguas subterráneas compartidas, nada destacable ha surgido de esto.
+Debido a fallas mecánicas, fue reenviada para compartir mi instalación. Sin embargo,<LINE>a diferencia de nuestras aguas subterráneas compartidas, nada destacable ha surgido de esto.
