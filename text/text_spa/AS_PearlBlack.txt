@@ -1,12 +1,12 @@
 ﻿0-1
-¿Oh? Esta perla es muy extraña.
+¿Eh? Esta perla es muy extraña.
 
-Está en blanco, pero no simplemente en blanco.
+Está en blanco, pero no del todo.
 
 Cualquier intento de acceso serían devoluciones de datos, nada...
 
-Sin negación, sin confirmación, sin error. Nada.
+Sin denegaciones, sin confirmaciones, sin errores. Nada.
 
-Me gustaría experimentar más con esto, pero en mi estado actual...?
+Me gustaría experimentar más a fondo, pero en mi estado actual...
 
-Será mejor que te quedes con esto, <PlayerName>; no sería prudente que jugara con lo que no entiendo.
+Será mejor que te quedes con esta, <PlayerName>; no sería prudente que juegue con lo que no entiendo.
