@@ -211,7 +211,7 @@ GW|GW
 When checked, disables the revive effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de revivir otorgado por una perla activa.
 Disable Cosmetics?|Desactivar cosméticos
 slugcat|gato-babosa
-scholar|erudio
+scholar|erudito
 ruffian|rufián
 DistantBkgObject|DistantBkgObject
 3.0|3.0
