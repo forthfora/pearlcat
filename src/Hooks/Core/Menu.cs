@@ -911,24 +911,27 @@ public static partial class Hooks
         }
         else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage)
         {
-            var infoLabel = newGamePage.infoLabel;
-
-            if (miscProg.IsMiraSkipEnabled)
+            if (miscProg.IsSecretEnabled)
             {
-                infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
+                newGamePage.difficultyLabel.text = self.Translate("PEARLPUP");
+                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!"));
             }
             else
             {
-                if (SlugBase.SlugBaseCharacter.TryGet(Enums.Pearlcat, out var registry))
+                var infoLabel = newGamePage.infoLabel;
+
+                if (miscProg.IsMiraSkipEnabled)
                 {
-                    infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate(registry.Description));
+                    infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
+                }
+                else
+                {
+                    if (SlugBase.SlugBaseCharacter.TryGet(Enums.Pearlcat, out var registry))
+                    {
+                        infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate(registry.Description));
+                    }
                 }
             }
-        }
-        else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePageSecret && miscProg.IsSecretEnabled)
-        {
-            newGamePageSecret.difficultyLabel.text = self.Translate("PEARLPUP");
-            newGamePageSecret.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!"));
         }
         
         // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol
