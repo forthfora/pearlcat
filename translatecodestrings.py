@@ -78,13 +78,16 @@ def Translate(targetLang, preserveExisting):
         print("[" + str(i + 1) + " / " + str(len(strings)) + "]")
         
         try:
-            string = strings[i]
+            string = strings[i] 
             
             if string in existingStrings:
-                output = string + "|" + existingStrings[string]
+                output = string + "|" + existingStrings[string] + "\n"
             
             else:
-                output = string + "|" + translator.translate(string, src=SRC, dest=targetLang).text + "\n"
+                translated = translator.translate(string, src=SRC, dest=targetLang).text
+                #translated = "X"
+                
+                output = string + "|" + translated + "\n"
             
             f.write(output)
         

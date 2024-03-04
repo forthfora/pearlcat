@@ -361,6 +361,7 @@ public sealed class ModOptions : OptionsTemplate
 
         AddTextLabel("Kimi " + Translate("- Additional Artwork"), translate: false);
         AddTextLabel("Linnnnnna " + Translate("- Chinese Translation"), translate: false);
+        AddTextLabel("zbiotr " + Translate("- Spanish Translation"), translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine(1);
