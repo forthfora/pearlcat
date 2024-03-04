@@ -9,21 +9,20 @@ OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pear
 translator = Translator()
 
 SRC = "en"
-DEST = "es"
 
 langMap = {
-    # "zh-CN": "chi",
-    # "ru": "rus",
-    # "ko": "kor",
-    # "fr": "fre",
-    # "es": "spa",
+    "ru": "rus",
+    "ko": "kor",
+    "fr": "fre",
     "pt": "por",
     "it": "ita",
     "de": "ger",
-    "ja": "jap"
+    "ja": "jap",
+    "zh-CN": "chi",
+    "es": "spa"
 }
 
-def Translate(targetLang):
+def Translate(targetLang, preserveExisting):
     print("TRANSLATING: " + targetLang)
 
     strings = [
@@ -52,21 +51,41 @@ def Translate(targetLang):
 
     # strings = list(filter(None, strings)) # remove empty
     # strings = list(filter(lambda x: not (x.startswith("_") or x.startswith(".")), strings)) # trim weird stuff
+            
     strings = [*set(strings)] # remove duplicates
 
     # strings = [x.strip() for x in strings]
 
+    existingStrings = {}
     output = os.path.join(OUTPUT_DIR, "text_{dest}/strings.txt".format(dest = langMap[targetLang]))
-    os.makedirs(os.path.dirname(output), exist_ok=True)
+
+    if os.path.exists(output) and preserveExisting:
+        f = open(output, "r", encoding='utf-8-sig')
+
+        for line in f.readlines():
+            lineSplit = line.split("|")
+            lineSplit[1] = lineSplit[1].removesuffix("\n")
+
+            existingStrings[lineSplit[0]] = lineSplit[1]
+
+        f.close()
+
+    os.makedirs(os.path.dirname(output), exist_ok = True)
 
     f = open(output, "w", encoding='utf-8-sig')
 
     for i in range(len(strings)):
         print("[" + str(i + 1) + " / " + str(len(strings)) + "]")
+        
         try:
             string = strings[i]
             
-            output = string + "|" + translator.translate(string, src=SRC, dest=targetLang).text + "\n"
+            if string in existingStrings:
+                output = string + "|" + existingStrings[string]
+            
+            else:
+                output = string + "|" + translator.translate(string, src=SRC, dest=targetLang).text + "\n"
+            
             f.write(output)
         
         except:
@@ -74,5 +93,12 @@ def Translate(targetLang):
 
     f.close()
 
-for lang in langMap.keys():
-    Translate(lang)
+preserveLangMap = [
+    "zh-CN",
+    "es"
+]
+
+# for lang in langMap.keys():
+#     Translate(lang, lang in preserveLangMap)
+
+Translate("zh-CN", True)
