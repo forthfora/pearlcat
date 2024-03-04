@@ -21,6 +21,7 @@ Pebbles sees a use for Pearlcat, and now will read your pearls too
     [*]Sidera - SFX & Dialogue
     [*]Noir - Ear & Scarf Code
     [*]Linnnnnna - Chinese Translation
+    [*]zbiotr - Spanish Translation
     [*]Kimi - Additional Artwork
 [/list][/b]
 [b]PLAYTESTERS:[/b]
@@ -34,5 +35,3 @@ Pebbles sees a use for Pearlcat, and now will read your pearls too
     [*] mayhemmm
 [/list][/b]
 [b]Direct: [/b]https://github.com/forthbridge/pearlcat/releases
-
-[b][u]MergeFix is a soft dependency, not strictly required, but enabling it should resolve most world issues related to MSC & Remix load order[/u][/b]

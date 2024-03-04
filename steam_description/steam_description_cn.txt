@@ -21,6 +21,7 @@
     [*]Sidera - 特效和对话
     [*]Noir - 耳朵和围巾代码
     [*]Linnnnnna - 中文翻译
+    [*]zbiotr - 西班牙语翻译
     [*]Kimi - 附加插图
 [/list][/b]
 [b]游戏测试人员：[/b]
@@ -34,5 +35,3 @@
     [*] mayhemmm
 [/list][/b]
 [b]源码: [/b]https://github.com/forthbridge/pearlcat/releases
-
-[b][u]弱依赖于MergeFix，并非硬性要求，但启用它应该可以解决与 MSC 和 Remix 加载顺序相关的大多数世界问题[/u][/b]

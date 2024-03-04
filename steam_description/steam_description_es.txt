@@ -1,0 +1,37 @@
+[h1][b]¡Un erudito enigmático de una tierra lejana, dotado con la extraordinaria habilidad de sacarle provecho a las perlas![/b][/h1]
+
+[h1][b]Armado con este conocimiento, haz frente al peligro y protege a tu cría; todo esto en tu viaje por descubrir el mundo y sus misterios...[/b][/h1]
+
+[h1][b]INCLUYE:[/b][/h1]
+[b][list]
+    [*]Lleva y almacena muchas perlas a la vez
+    
+    [*]¡Interacciones exclusivas con Guijarros y Luna!
+Guijarros ve un uso para el Perlino, y ahora lee tus perlas también
+    
+    [*]Nuevas cinemáticas y dos finales
+[/list][/b]
+[h1][b]+ ¡Habilidades únicas para cada perla que almacenes, dependiendo de su color![/b][/h1]
+
+[b][u]Este mod NO requiere More Slugcats (DLC), sin embargo es altamente recomendable[/u]
+
+[b]CRÉDITOS:[/b]
+[b][list]
+    [*]Geahgeah - Arte y diseño
+    [*]Sidera - Diálogos y efectos de sonido
+    [*]Noir - Código de las orejas y la bufanda
+    [*]Linnnnnna - Traducción al chino
+    [*]zbiotr - Traducción al español
+    [*]Kimi - Trabajo artístico adicional
+[/list][/b]
+[b]TESTERS:[/b]
+[b][list]
+    [*] TurtleMan27
+    [*] Balagaga
+    [*] Elliot
+    [*] Efi
+    [*] WillowWisp
+    [*] Lolight2
+    [*] mayhemmm
+[/list][/b]
+[b]Dirección: [/b]https://github.com/forthbridge/pearlcat/releases
