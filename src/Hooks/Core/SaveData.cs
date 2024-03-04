@@ -13,8 +13,22 @@ public static partial class Hooks
         On.PlayerProgression.SaveToDisk += PlayerProgression_SaveToDisk;
 
         //On.PlayerProgression.WipeSaveState += PlayerProgression_WipeSaveState;
-        //On.PlayerProgression.WipeAll += PlayerProgression_WipeAll;
+        On.PlayerProgression.WipeAll += PlayerProgression_WipeAll;
     }
+    
+
+    // Shouldn't be necessary
+    //private static void PlayerProgression_WipeSaveState(On.PlayerProgression.orig_WipeSaveState orig, PlayerProgression self, SlugcatStats.Name saveStateNumber)
+    //{
+    //    var miscProg = Utils.GetMiscProgression();
+
+    //    if (saveStateNumber == Enums.Pearlcat)
+    //    {
+    //        miscProg.ResetSave();
+    //    }
+
+    //    orig(self, saveStateNumber);
+    //}
 
     private static void PlayerProgression_WipeAll(On.PlayerProgression.orig_WipeAll orig, PlayerProgression self)
     {
@@ -25,17 +39,6 @@ public static partial class Hooks
         orig(self);
     }
 
-    private static void PlayerProgression_WipeSaveState(On.PlayerProgression.orig_WipeSaveState orig, PlayerProgression self, SlugcatStats.Name saveStateNumber)
-    {
-        var miscProg = Utils.GetMiscProgression();
-
-        if (saveStateNumber == Enums.Pearlcat)
-        {
-            miscProg.ResetSave();
-        }
-
-        orig(self, saveStateNumber);
-    }
 
     private static bool PlayerProgression_SaveToDisk(On.PlayerProgression.orig_SaveToDisk orig, PlayerProgression self, bool saveCurrentState, bool saveMaps, bool saveMiscProg)
     {
