@@ -19,12 +19,12 @@ Guijarros ve un propósito para el Perlino y ahora leerá tus perlas también.
 [b][list]
     [*]Geahgeah - Arte y diseño
     [*]Sidera - Diálogos y efectos de sonido
-    [*]Noir - Código de las orejas y la bufanda
+    [*]Noir - Código de las orejas y de la bufanda
     [*]Linnnnnna - Traducción al chino
     [*]zbiotr - Traducción al español
     [*]Kimi - Trabajo artístico adicional
 [/list][/b]
-[b]TESTERS:[/b]
+[b][i]PLAYTESTERS[/i]:[/b]
 [b][list]
     [*] TurtleMan27
     [*] Balagaga
@@ -36,4 +36,4 @@ Guijarros ve un propósito para el Perlino y ahora leerá tus perlas también.
 [/list][/b]
 [b]Dirección: [/b]https://github.com/forthbridge/pearlcat/releases
 
-[b][u]MergeFix es una dependencia ligera y no estrictamente necesaria, pero activarla debería resolver la mayoría de los problemas relacionados con el orden de carga de MSC y Remix.[/u][/b]
+[b][u][i]MergeFix[/i] es una dependencia ligera y no estrictamente necesaria, pero activarla debería resolver la mayoría de los problemas relacionados con el orden de carga de MSC y Remix.[/u][/b]
