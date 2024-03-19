@@ -66,7 +66,7 @@ public class CloakGraphics
         }
 
         var bodyPos = cloakAttachPos;
-        var bodyAngle = Custom.DirVec(owner.player.bodyChunks[1].pos, owner.player.bodyChunks[0].pos + Custom.DirVec(default, owner.player.bodyChunks[0].vel) * 5f) * 1.6f;
+        var bodyAngle = Custom.DirVec(owner.player.bodyChunks[1].pos, owner.player.firstChunk.pos); ;
         var perp = Custom.PerpendicularVector(bodyAngle);
 
         for (int k = 0; k < divs; k++)
