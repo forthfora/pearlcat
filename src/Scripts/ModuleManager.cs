@@ -69,6 +69,7 @@ public static class ModuleManager
 
         return true;
     }
+
     public static void MakePearlpup(this AbstractCreature crit)
     {
         if (crit.creatureTemplate.type != MoreSlugcatsEnums.CreatureTemplateType.SlugNPC) return;

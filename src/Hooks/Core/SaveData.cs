@@ -146,6 +146,11 @@ public static partial class Hooks
                     miscWorld.PreviousDreams.Add(miscWorld.CurrentDream);
                     miscWorld.CurrentDream = null;
                 }
+
+                if (!miscWorld.HasPearlpupWithPlayerDeadOrAlive)
+                {
+                    miscWorld.PearlpupID = null;
+                }
             }
         }
         catch (Exception e)

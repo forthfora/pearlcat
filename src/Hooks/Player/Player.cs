@@ -570,18 +570,23 @@ public static partial class Hooks
         {
             save.HasPearlpupWithPlayer = false;
         }
+        
 
+        // Can get a reference to pearlpup (i.e. they're in the world somewhere)
         if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup))
         {
             miscProg.HasPearlpup = !pup.dead && pup.abstractCreature.Room == self.abstractCreature.Room;
 
             if (save != null)
             {
-                save.HasPearlpupWithPlayer = miscProg.HasPearlpup;            
+                save.HasPearlpupWithPlayer = miscProg.HasPearlpup;
+
+                save.HasPearlpupWithPlayerDeadOrAlive = pup.abstractCreature.Room == self.abstractCreature.Room;
             }
 
             return;
         }
+
 
         if (self.room == null) return;
 
@@ -591,19 +596,15 @@ public static partial class Hooks
             {
                 if (physicalobject is not Player player) continue;
 
-                if (!player.IsPearlpup()) continue;
-
-                playerModule.PearlpupRef = new(player);
-                return;
+                if (player.IsPearlpup())
+                {
+                    playerModule.PearlpupRef = new(player);
+                    return;
+                }
             }
         }
 
         playerModule.PearlpupRef = null;
-
-        if (save != null)
-        {
-            save.PearlpupID = null;
-        }
     }
 
 

@@ -19,7 +19,7 @@ public class SaveMiscWorld
     // Pearlpup
     public int? PearlpupID { get; set; }
     public bool HasPearlpupWithPlayer { get; set; }
-        
+    public bool HasPearlpupWithPlayerDeadOrAlive { get; set; } = true;
 
     // Five Pebbles
     public int PebblesMeetCount { get; set; }

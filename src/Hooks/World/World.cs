@@ -282,7 +282,9 @@ public partial class Hooks
                 var miscProg = game.GetMiscProgression();
 
                 if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value && !miscProg.HasTrueEnding)
+                {
                     return 0;
+                }
 
                 return int.MaxValue;
             }
