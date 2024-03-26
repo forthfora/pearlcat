@@ -83,7 +83,9 @@ public static class Utils
         //self.graphicsModule?.ReleaseAllInternallyContainedSprites();
 
         if (self.State is HealthState healthState)
+        {
             healthState.health = 1.0f;
+        }
 
         self.State.alive = true;
 
@@ -93,7 +95,9 @@ public static class Utils
         self.abstractCreature.abstractAI?.SetDestination(self.abstractCreature.pos);
 
         if (self is not Player)
+        {
             self.Stun(100);
+        }
 
         self.room.ReviveEffect(self.mainBodyChunk.pos);
     }

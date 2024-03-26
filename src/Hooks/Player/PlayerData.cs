@@ -8,7 +8,7 @@ public static partial class Hooks
 
     public static bool IsFirstPearlcat(this Player player) => player.playerState.playerNumber == GetFirstPearlcatIndex(player.room?.game);
 
-    public static bool IsPearlcatStory(this RainWorldGame game) => game.StoryCharacter == Enums.Pearlcat;
+    public static bool IsPearlcatStory(this RainWorldGame? game) => game?.StoryCharacter == Enums.Pearlcat;
 
     public static bool IsSingleplayer(this Player player) => player.abstractCreature.world.game.Players.Count == 1;
     

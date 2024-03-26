@@ -182,11 +182,15 @@ public static partial class Hooks
         if (miscProg.IsMiraSkipEnabled)
         {
             self.StartFromMira();
+
+            miscProg.IsMiraSkipEnabled = false;
         }
         else if (miscProg.IsSecretEnabled)
         {
             self.StartFromMira();
             self.GiveTrueEnding();
+
+            miscProg.IsSecretEnabled = false;
         }
     }
 }

@@ -414,7 +414,8 @@ public partial class Hooks
     {
         var result = orig(self);
 
-        var miscProg = self.progression.miscProgressionData.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
+        var miscWorld = self.miscWorldSaveData.GetMiscWorld();
 
         if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
         {
@@ -424,7 +425,7 @@ public partial class Hooks
             }
         }
 
-        if (miscProg.IsMiraSkipEnabled)
+        if (miscWorld?.JustMiraSkipped == true)
         {
             return "SS_AI";
         }

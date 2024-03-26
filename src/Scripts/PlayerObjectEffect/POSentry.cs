@@ -677,6 +677,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             {
                 "NA_19 - Halcyon Memories",
                 "Pearlcat_Amnesia",
+                "Pearlcat_Heartmend",
             };
 
             if (songsToStop.Contains(musicPlayer.song.name))

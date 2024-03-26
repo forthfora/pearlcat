@@ -15,99 +15,22 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public SSOracleMeetPearlcat(SSOracleBehavior owner) : base(owner, Enums.SSOracle.Pearlcat_SSSubBehavGeneral, Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
     {
-        if (!oracle.room.game.IsStorySession)
-        {
-            return;
-        }
-
+        if (!oracle.room.game.IsStorySession) return;
+        
         var save = oracle.room.game.GetStorySession.saveState;
 
         var miscWorld = oracle.room.game.GetMiscWorld();
         var miscProg = oracle.room.game.GetMiscProgression();
 
-        if (miscWorld == null)
-        {
-            return;
-        }
+        if (miscWorld == null) return;
+
 
         if (miscWorld.JustMiraSkipped)
         {
-            TakeRMPearl(oracle, false);
-            GiveSSPearl(oracle, false);
-
-            var world = oracle.abstractPhysicalObject.world;
-
-            Player? pup = null;
-
-            if (miscWorld.PearlpupID == null)
-            {
-                var abstractSlugpup = new AbstractCreature(world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC),
-                    null, new(oracle.abstractPhysicalObject.Room.index, -1, -1, 0), world.game.GetNewID());
-
-                abstractSlugpup.MakePearlpup();
-
-                oracle.room.abstractRoom.entities.Add(abstractSlugpup);
-                abstractSlugpup.RealizeInRoom();
-
-                pup = abstractSlugpup.realizedObject as Player;
-            }
-            else
-            {
-                for (int i = world.firstRoomIndex; i < world.firstRoomIndex + world.NumberOfRooms; i++)
-                {
-                    var room = world.GetAbstractRoom(i);
-
-                    for (int j = 0; j < room.creatures.Count; j++)
-                    {
-                        var crit = room.creatures[j];
-
-                        if (miscWorld.PearlpupID == crit.ID.number)
-                        {
-                            var firstPlayer = world.game.FirstAlivePlayer.realizedCreature;
-
-                            crit.ChangeRooms(firstPlayer.abstractCreature.pos);
-
-                            pup = crit.realizedCreature as Player;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (pup != null)
-            {
-                pup.graphicsModule.Reset();
-                pup.playerState.foodInStomach = 3;
-
-                foreach (var chunk in pup.bodyChunks)
-                {
-                    chunk.vel = Vector2.zero;
-                }
-
-                if (pup.dead)
-                {
-                    pup.RevivePlayer();
-                }
-
-                var firstPearlcat = world.game.Players[world.game.GetFirstPearlcatIndex()];
-
-                if (firstPearlcat.realizedCreature is Player player)
-                {
-                    player.slugOnBack.SlugToBack(pup);
-                }
-            }
-
-            foreach (var absPlayer in world.game.AlivePlayers)
-            {
-                if (absPlayer.realizedCreature is Player player)
-                {
-                    player.SuperHardSetPosition(new Vector2(490.0f, 75.0f));
-                }
-            }
-
-            miscWorld.JustMiraSkipped = false;
+            MiraSkipMeet(miscWorld);
             return;
         }
+
 
         if (miscProg.HasTrueEnding)
         {
@@ -289,6 +212,83 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         {
             oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles);
         }
+    }
+
+    private void MiraSkipMeet(SaveMiscWorld miscWorld)
+    {
+        TakeRMPearl(oracle, false);
+        GiveSSPearl(oracle, false);
+
+        var world = oracle.abstractPhysicalObject.world;
+
+        Player? pup = null;
+
+        if (miscWorld.PearlpupID == null && ModManager.MSC)
+        {
+            var abstractSlugpup = new AbstractCreature(world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC),
+                null, new(oracle.abstractPhysicalObject.Room.index, -1, -1, 0), world.game.GetNewID());
+
+            abstractSlugpup.MakePearlpup();
+
+            oracle.room.abstractRoom.entities.Add(abstractSlugpup);
+            abstractSlugpup.RealizeInRoom();
+
+            pup = abstractSlugpup.realizedObject as Player;
+
+            pup?.SuperHardSetPosition(new Vector2(490.0f, 75.0f));
+        }
+        else
+        {
+            for (int i = world.firstRoomIndex; i < world.firstRoomIndex + world.NumberOfRooms; i++)
+            {
+                var room = world.GetAbstractRoom(i);
+
+                for (int j = 0; j < room.creatures.Count; j++)
+                {
+                    var crit = room.creatures[j];
+
+                    if (miscWorld.PearlpupID == crit.ID.number)
+                    {
+                        var firstPlayer = world.game.FirstAlivePlayer.realizedCreature;
+
+                        crit.ChangeRooms(firstPlayer.abstractCreature.pos);
+
+                        pup = crit.realizedCreature as Player;
+
+                        Plugin.Logger.LogWarning("teleported pup");
+                        break;
+                    }
+                }
+            }
+        }
+
+        foreach (var absPlayer in oracle.room.abstractRoom.creatures)
+        {
+            if (absPlayer.realizedCreature is Player player)
+            {
+                player.SuperHardSetPosition(new Vector2(490.0f, 75.0f));
+            }
+        }
+
+        if (pup != null)
+        {
+            pup.graphicsModule.Reset();
+            pup.playerState.foodInStomach = 3;
+
+            if (pup.dead)
+            {
+                pup.RevivePlayer();
+            }
+
+            var firstPearlcat = world.game.Players[world.game.GetFirstPearlcatIndex()];
+
+            if (firstPearlcat.realizedCreature is Player player)
+            {
+                player.slugOnBack.SlugToBack(pup);
+            }
+        }
+
+        miscWorld.JustMiraSkipped = false;
     }
 
     public override void Update()
