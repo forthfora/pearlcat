@@ -72,6 +72,7 @@
       "fade_in_start": 49.0,
       "fade_out_start": 60.0,
       "images": [
+        {"name": "Outro7_5", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "Outro7_4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "Outro7_3", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
         {"name": "Outro7_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},

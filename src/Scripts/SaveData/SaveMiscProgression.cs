@@ -31,6 +31,7 @@ public class SaveMiscProgression
     
     public bool JustAscended { get; set; }
     public bool Ascended { get; set; }
+    public bool AscendedWithPup { get; set; }
 
     public bool UnlockedMira { get; set; }
     public bool HasTrueEnding { get; set; }
@@ -38,6 +39,9 @@ public class SaveMiscProgression
 
     public void ResetSave()
     {
+        StoredPearlColors.Clear();
+        ActivePearlColor = null;
+
         IsNewPearlcatSave = true;
 
         HasPearlpup = false;
@@ -46,7 +50,9 @@ public class SaveMiscProgression
         IsPearlpupSick = false;
         HasOEEnding = false;
 
+        JustAscended = false;
         Ascended = false;
+        AscendedWithPup = false;
 
         UnlockedMira = false;
         HasTrueEnding = false;
