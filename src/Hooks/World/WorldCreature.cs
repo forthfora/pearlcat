@@ -78,8 +78,18 @@ public static partial class Hooks
     {
         var result = orig(self, crit);
 
-        if (crit.representedCreature?.realizedCreature is Player player && player.IsPearlpup())
-            return 0.0f;
+        if (crit.representedCreature?.realizedCreature is Player player)
+        {
+            if (player.IsPearlpup())
+            {
+                return 0.0f;
+            }
+
+            if (player.TryGetPearlcatModule(out var playerModule) && playerModule.IsAdultPearlpup)
+            {
+                return 500f / (self.ProtectExitDistance(crit.BestGuessForPosition().Tile) + (crit.TicksSinceSeen / 2f));
+            }
+        }
 
         return result;
     }

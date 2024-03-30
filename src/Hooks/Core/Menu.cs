@@ -653,6 +653,11 @@ public static partial class Hooks
 
             var visible = true;
 
+            if (fileName == "pup")
+            {
+                visible = save.AscendedWithPup;
+            }
+
             visible = visible && ((save.HasTrueEnding && fileName.Contains("trueend")) || (!save.HasTrueEnding && !fileName.Contains("trueend")));
             illustration.visible = visible;
             return;
@@ -721,14 +726,14 @@ public static partial class Hooks
 
         var angleFrameAddition = 0.0005f;
         var radius = 90.0f;
-        var origin = new Vector2(650, 360);
+        var origin = new Vector2(680, 360);
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
 
-        var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius * 1.7f, origin.y + Mathf.Sin(angle) * radius);
+        var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius * 2.0f, origin.y + Mathf.Sin(angle) * radius);
         illustration.pos = targetPos;
 
-        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, 0.0f, 0.2f, 0.3f);
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Cos(angle) + Mathf.Sin(angle), 2.0f, 0.0f, 0.2f, 0.3f);
         illustration.alpha = 1.0f;
         illustration.color = pearlColors[i].AscendedPearlColorFilter();
         //illustration.color = Color.Lerp(pearlColors[i].MenuPearlColorFilter(), new Color32(207, 187, 101, 255), 0.4f);
@@ -737,8 +742,10 @@ public static partial class Hooks
 
     public static Color AscendedPearlColorFilter(this Color color)
     {
+        //return color;
+
         Color.RGBToHSV(Color.Lerp(color, Color.white, 0.3f), out var hue, out var sat, out var val);
-        return Color.HSVToRGB(hue, Mathf.Lerp(sat, 0.0f, 0.2f), val);
+        return Color.HSVToRGB(hue, sat, val);
     }
     
     private static void UpdatePupHeartIllustration(MenuScene self, MenuDepthIllustration illustration, MenuIllustrationModule illustrationModule)

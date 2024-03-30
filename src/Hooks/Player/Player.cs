@@ -565,10 +565,11 @@ public static partial class Hooks
         var miscProg = self.abstractCreature.Room.world.game.GetMiscProgression();
 
         miscProg.HasPearlpup = false;
-        
+
         if (save != null)
         {
             save.HasPearlpupWithPlayer = false;
+            save.HasPearlpupWithPlayerDeadOrAlive = false;
         }
         
 
@@ -871,8 +872,15 @@ public static partial class Hooks
 
         if (self.deepDivePhase == VoidSeaScene.DeepDivePhase.EggScenario)
         {
-            var save = self.room.abstractRoom.world.game.GetMiscProgression();
-            save.JustAscended = true;
+            var miscProg = Utils.GetMiscProgression();
+            var miscWorld = self.room.abstractRoom.world.game.GetMiscWorld();
+
+            miscProg.JustAscended = true;
+            
+            if (miscWorld?.HasPearlpupWithPlayer == true)
+            {
+                miscProg.AscendedWithPup = true;
+            }
         }
     }
 

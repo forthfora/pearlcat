@@ -2,6 +2,7 @@
 using MonoMod.Cil;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -13,8 +14,15 @@ public partial class Hooks
 
         IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
         On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
+
+        Application.quitting += Application_quitting;
     }
 
+
+    private static void Application_quitting()
+    {
+        Plugin.LogPearlcatDebugInfo();
+    }
 
     // Warp
     private static void PauseMenu_Singal(On.Menu.PauseMenu.orig_Singal orig, Menu.PauseMenu self, Menu.MenuObject sender, string message)

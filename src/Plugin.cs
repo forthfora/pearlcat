@@ -39,20 +39,23 @@ public class Plugin : BaseUnityPlugin
         ApplyInit();
     }
 
+
     public void Update()
     {
         var input = Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.L);
 
         if (input)
         {
-            LogPearlcatDebugInfo(RWCustom.Custom.rainWorld);
+            LogPearlcatDebugInfo();
         }
     }
 
-    public void LogPearlcatDebugInfo(RainWorld rainWorld)
+    public static void LogPearlcatDebugInfo()
     {
         try
         {
+            var rainWorld = RWCustom.Custom.rainWorld;
+
             var miscProg = rainWorld.progression.miscProgressionData;
             var saveState = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetStorySession?.saveState;
 
@@ -99,7 +102,7 @@ public class Plugin : BaseUnityPlugin
                 $"{nameof(SaveMiscProgression.HasOEEnding)}: {pearlcatMiscProg.HasOEEnding}\n" +
                 $"{nameof(SaveMiscProgression.JustAscended)}: {pearlcatMiscProg.JustAscended}\n" +
                 $"{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n" +
-
+                $"{nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n" +
 
                 "\n" +
 

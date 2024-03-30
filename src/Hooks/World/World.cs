@@ -92,6 +92,7 @@ public partial class Hooks
     }
 
 
+    // Manage dreams
     private static void RainWorldGame_ctor(On.RainWorldGame.orig_ctor orig, RainWorldGame self, ProcessManager manager)
     {
         orig(self, manager);
@@ -154,6 +155,7 @@ public partial class Hooks
         orig(saveState, currentRegion, denPosition, ref cyclesSinceLastDream, ref cyclesSinceLastFamilyDream, ref cyclesSinceLastGuideDream, ref inGWOrSHCounter, ref upcomingDream, ref eventDream, ref everSleptInSB, ref everSleptInSB_S01, ref guideHasShownHimselfToPlayer, ref guideThread, ref guideHasShownMoonThisRound, ref familyThread);
     }
 
+    // Remove transit system from the Regions menu
     private static void Region_GetFullRegionOrder(ILContext il)
     {
         var c = new ILCursor(il);
@@ -169,6 +171,7 @@ public partial class Hooks
         });
     }
 
+    // Fix for DevTools timeline object filters, make it copy hunters
     private static void FilterData_FromString(On.PlacedObject.FilterData.orig_FromString orig, PlacedObject.FilterData self, string s)
     {
         orig(self, s);
@@ -179,6 +182,7 @@ public partial class Hooks
         }
     }
 
+    // UNUSED - attempt to delete pearlpup after OE
     private static void RegionState_AdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
     {
         //var save = self.world.game.GetMiscWorld();
@@ -205,6 +209,7 @@ public partial class Hooks
         orig(self);
     }
 
+    // Outer Expanse Ending
     private static void RainWorldGame_BeatGameMode(ILContext il)
     {
         var c = new ILCursor(il);
@@ -247,6 +252,7 @@ public partial class Hooks
         c.Emit(OpCodes.Stloc_0);
     }
 
+    // Block OE ending under some conditions
     private static void OE_GourmandEnding_Update(On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.orig_Update orig, MSCRoomSpecificScript.OE_GourmandEnding self, bool eu)
     {
         if (self.room.world.game.IsPearlcatStory())
@@ -264,6 +270,8 @@ public partial class Hooks
         orig(self, eu);
     }
 
+
+    // Make pup spawns guaranteed when the Pearlpup respawn cheat is enabled and pearlpup is missing
     private static void AbstractRoom_RealizeRoom(ILContext il)
     {
         var c = new ILCursor(il);
@@ -296,6 +304,7 @@ public partial class Hooks
     }
 
 
+    // Make vulture masks raised when pearlcat isn't moving (the only reason i did this is because I found them ugly lol)
     private static void VultureMask_DrawSprites(On.VultureMask.orig_DrawSprites orig, VultureMask self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         //Vector2 vector = Vector2.Lerp(self.firstChunk.lastPos, self.firstChunk.pos, timeStacker);
@@ -325,6 +334,7 @@ public partial class Hooks
             wasPlayer.eatCounter = (int)wasEatCounter;
     }
 
+    // Unlock OE Gate
     private static bool RegionGate_customOEGateRequirements(On.RegionGate.orig_customOEGateRequirements orig, RegionGate self)
     {
         var result = orig(self);
@@ -339,6 +349,7 @@ public partial class Hooks
     }
 
 
+    // Only let pups spawn if pearlpup is missing
     public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
     public static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)
     {
@@ -357,7 +368,8 @@ public partial class Hooks
         return result;
     }
 
-    
+
+    // Unlock certain gates (Bitter Aerie, Metropolis)
     public delegate bool orig_RegionGateMeetRequirement(RegionGate self);
     public static bool GetRegionGateMeetRequirement(orig_RegionGateMeetRequirement orig, RegionGate self)
     {
@@ -400,6 +412,7 @@ public partial class Hooks
     }
 
 
+    // Hide the ID used for pebbles pearl readings
     private static bool SlugcatStats_HiddenOrUnplayableSlugcat(On.SlugcatStats.orig_HiddenOrUnplayableSlugcat orig, SlugcatStats.Name i)
     {
         var result = orig(i);

@@ -14,8 +14,26 @@ public static partial class Hooks
         On.Player.Update += Player_UpdatePearlpup;
 
         On.Player.CanIPickThisUp += Player_CanIPickThisUp;
+
+        On.Player.Update += Player_Update_PearlpupIDCheck;
     }
 
+    // Ensure that any pup with Pearlpup's ID is automatically converted for edge cases
+    private static void Player_Update_PearlpupIDCheck(On.Player.orig_Update orig, Player self, bool eu)
+    {
+        orig(self, eu);
+
+        var miscWorld = self.abstractCreature.world.game.GetMiscWorld();
+
+        if (miscWorld == null) return;
+
+        if (self.abstractCreature.ID.number == miscWorld.PearlpupID && !self.IsPearlpup())
+        {
+            self.abstractCreature.MakePearlpup();
+        }
+    }
+
+    // Stop pearlpup stealing pearls moon is reading
     private static bool Player_CanIPickThisUp(On.Player.orig_CanIPickThisUp orig, Player self, PhysicalObject obj)
     {
         var result = orig(self, obj);
@@ -34,6 +52,7 @@ public static partial class Hooks
         return result;
     }
 
+    // Make next slugpup a pearlpup if respawn is enabled
     private static void Player_ctorPearlpup(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
         orig(self, abstractCreature, world);
@@ -113,6 +132,7 @@ public static partial class Hooks
         }
     }
 
+    // Prevent players from attacking pearlpup
     private static bool Weapon_HitThisObject(On.Weapon.orig_HitThisObject orig, Weapon self, PhysicalObject obj)
     {
         var result = orig(self, obj);
