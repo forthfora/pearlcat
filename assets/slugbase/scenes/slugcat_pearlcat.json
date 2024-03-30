@@ -2,8 +2,8 @@
   "id": "Slugcat_Pearlcat",
   "scene_folder": "slugbase/scenes/slugcat_pearlcat",
   "images": [
-    {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
     {"name": "flat_trueend", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+    {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
     
 
     {"name": "trueend_6", "pos": [0, -25], "depth": 6.0, "shader": "Basic"},
@@ -15,14 +15,14 @@
     {"name": "trueend_0", "pos": [350, 40], "depth": 1.8, "shader": "Normal"},
     
 
-    {"name": "Background", "pos": [0, 0], "depth": 6.0,  "shader": "Basic"},
+    {"name": "background", "pos": [0, 0], "depth": 4.0,  "shader": "Normal"},
+    {"name": "cloud", "pos": [0, 0], "depth": 3.5,  "shader": "Normal"},
+
+    {"name": "train", "pos": [0, 20], "depth": 2.8,  "shader": "Basic"},
 
 
     {"name": "PearlpupScarf", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
-    {"name": "PearlpupTail", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
-
     {"name": "PearlcatBody", "pos": [0, 0], "depth": 2.8, "shader": "Basic"},
-    {"name": "Pearlpup", "pos": [0, 0], "depth": 2.2, "shader": "Basic"},
     
     
     {"name": "pearl0", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
@@ -36,6 +36,10 @@
     {"name": "pearl8", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl9", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
 
+    
+    {"name": "PearlpupTail", "pos": [0, -30], "depth": 2.5, "shader": "Basic"},
+    {"name": "Pearlpup", "pos": [0, -30], "depth": 2.2, "shader": "Basic"},
+
 
     {"name": "PearlcatHead", "pos": [0, 0], "depth": 2.8, "shader": "Basic"},
     
@@ -46,11 +50,11 @@
     {"name": "pearlactive", "pos": [675, 360], "depth": 2.3, "shader": "Basic"},
     {"name": "pearlactivehalo", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     
-    
-    {"name": "Foreground", "pos": [0, 0], "depth": 1.5, "shader": "Basic"}
+
+    {"name": "dust", "pos": [0, 0], "depth": 2.1, "shader": "Basic"}
   ],
   
-  "idle_depths": [2.6],
+  "idle_depths": [2.6, 5.0],
   "glow_pos": [430, 130],
   "mark_pos": [10, 80],
   

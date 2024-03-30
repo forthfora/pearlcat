@@ -423,6 +423,7 @@ public partial class Hooks
         return result;
     }
 
+    // Override shelter for trains and skips
     private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)
     {
         var result = orig(self);
@@ -445,7 +446,7 @@ public partial class Hooks
 
         if (result == "T1_S01")
         {
-            return ModManager.MSC ? "LC_T1_S01" : "SS_S04";
+            return "SS_T1_S01";
         }
 
         return result;
@@ -575,8 +576,8 @@ public partial class Hooks
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
 
-        if (room.roomSettings.name == "LC_T1_S01")
-            room.AddObject(new LC_T1_S01(room));
+        if (room.roomSettings.name == "SS_T1_S01")
+            room.AddObject(new SS_T1_S01(room));
 
 
         if (!room.abstractRoom.firstTimeRealized) return;

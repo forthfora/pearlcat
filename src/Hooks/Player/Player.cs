@@ -3,6 +3,7 @@ using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using MoreSlugcats;
 using RWCustom;
+using Smoke;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -1066,6 +1067,20 @@ public static partial class Hooks
         playerModule.PossessedCreature = new(target.abstractCreature);
 
         self.LoseAllGrasps();
+        self.Stun(10);
+
+        var room = self.room;
+        var pos = self.firstChunk.pos;
+
+        for (int i = 0; i < 5; i++)
+        {
+            room.AddObject(new NeuronSpark(pos));
+        }
+
+        room.AddObject(new Explosion.ExplosionLight(pos, 150f, 1f, 8, Color.white));
+        room.AddObject(new ShockWave(pos, 60f, 0.1f, 8, false));
+
+        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 0.6f, 2.5f + Random.value * 0.5f);
     }
 
     private static void ReleasePossession(Player self, PlayerModule playerModule)
@@ -1077,5 +1092,21 @@ public static partial class Hooks
 
         playerModule.PossessedCreature = null;
         playerModule.PossessionTarget = null;
+
+        var room = self.room;
+        var pos = self.firstChunk.pos;
+
+        for (int i = 0; i < 5; i++)
+        {
+            room.AddObject(new Spark(pos, Custom.RNV(), Color.white, null, 16, 24));
+        }
+
+        room.AddObject(new Explosion.ExplosionSmoke(pos, Custom.RNV() * 2f * Random.value, 1f));
+
+        room.AddObject(new Explosion.ExplosionLight(pos, 150f, 1f, 8, Color.white));
+        room.AddObject(new ShockWave(pos, 60f, 0.3f, 16, false));
+
+        room.PlaySound(SoundID.Bomb_Explode, pos, 0.5f, 1.2f);
+        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 0.6f, 0.3f + Random.value * 0.2f);
     }
 }

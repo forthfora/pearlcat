@@ -1,6 +1,6 @@
 ﻿namespace Pearlcat;
 
-public class LC_T1_S01 : UpdatableAndDeletable
+public class SS_T1_S01 : UpdatableAndDeletable
 {
     public Phase CurrentPhase { get; set; } = Phase.Init;
     
@@ -10,7 +10,7 @@ public class LC_T1_S01 : UpdatableAndDeletable
         End,
     }
 
-    public LC_T1_S01(Room room)
+    public SS_T1_S01(Room room)
     {
         this.room = room;
     }
