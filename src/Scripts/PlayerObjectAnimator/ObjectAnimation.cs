@@ -116,7 +116,7 @@ public abstract class ObjectAnimation
 
             if (!abstractObject.TryGetModule(out var poModule)) continue;
 
-            if (player.room == null)
+            if (player.room == null || addon.Pos == Vector2.zero)
             {
                 addon.AllVisible = false;
                 continue;

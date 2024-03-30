@@ -188,6 +188,9 @@ public static partial class Hooks
         else if (miscProg.IsSecretEnabled)
         {
             self.StartFromMira();
+
+            miscWorld.JustMiraSkipped = false;
+
             self.GiveTrueEnding();
 
             miscProg.IsSecretEnabled = false;

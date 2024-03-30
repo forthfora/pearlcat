@@ -3,6 +3,7 @@ using RWCustom;
 using SlugBase.Features;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static Pearlcat.POEffect;
 using Random = UnityEngine.Random;
 
@@ -108,7 +109,11 @@ public static partial class Hooks
 
         if (abilityInput && !wasAbilityInput)
         {
-            if (!poModule.IsReturningSentry)
+            if (activeObj.IsHeartPearl() && playerModule.IsPossessingCreature)
+            {
+                ReleasePossession(self, playerModule);
+            }
+            else if (!poModule.IsReturningSentry)
             {
                 if (!poModule.IsSentry)
                 {

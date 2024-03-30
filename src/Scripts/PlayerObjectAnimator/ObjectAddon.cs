@@ -194,14 +194,17 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         if (!AllVisible)
         {
             foreach (var i in sLeaser.sprites)
+            {
                 i.isVisible = false;
+            }
 
             return;
         }
 
         foreach (var i in sLeaser.sprites)
+        {
             i.isVisible = true;
-
+        }
 
         var pos = Vector2.Lerp(OverrideLastPos - camPos ?? Pos, OverridePos - camPos ?? Pos, timeStacker);
 
