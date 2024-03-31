@@ -39,6 +39,8 @@ public class SaveMiscProgression
 
     public void ResetSave()
     {
+        Plugin.Logger.LogWarning("RESET MISC PROG");
+
         StoredPearlColors.Clear();
         ActivePearlColor = null;
 

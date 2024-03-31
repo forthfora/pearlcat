@@ -180,8 +180,11 @@ public static class ModuleManager
     public static SaveMiscProgression GetMiscProgression(this RainWorldGame game) => GetMiscProgression(game.rainWorld.progression.miscProgressionData);
     public static SaveMiscProgression GetMiscProgression(this PlayerProgression.MiscProgressionData data)
     {
+        // seems to fail to retrieve misc prog data, so either it's not saved or the loading process fails? 
         if (!data.GetSlugBaseData().TryGet(Plugin.MOD_ID, out SaveMiscProgression save))
         {
+            Plugin.Logger.LogWarning("NEW MISC PROG");
+
             data.GetSlugBaseData().Set(Plugin.MOD_ID, save = new());
         }
 

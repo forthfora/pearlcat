@@ -15,7 +15,7 @@ public partial class Hooks
         IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
         On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
 
-        Application.quitting += Application_quitting;
+        //Application.quitting += Application_quitting;
     }
 
 
