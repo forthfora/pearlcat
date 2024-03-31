@@ -1,0 +1,12 @@
+Template: NONE
+CeilingDrips: 0
+RainIntensity: 0
+RumbleIntensity: 0
+Clouds: 0
+Grime: 0.2282609
+Palette: 30
+EffectColorA: 13
+EffectColorB: 9
+Effects: DayNight-1-20-20, RoofTopView-1-24-94, PixelShift-0.5-333-71, 
+PlacedObjects: DayNightSettings><-72.18747><443.6803><5~8.660254~23~10, 
+FadePalette: 40, 0, 0, 0
