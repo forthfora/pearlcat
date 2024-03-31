@@ -397,6 +397,7 @@ public static partial class Hooks
         {
             radius = 130.0f;
             angleFrameAddition = 0.0005f;
+            origin = new Vector2(675.0f, 350.0f);
         }
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
