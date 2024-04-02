@@ -499,7 +499,7 @@ public static partial class Hooks
             
             if (menuSceneModule.ActivePearlColor == null)
             {
-                if (isPlaceholder)
+                if (isPlaceholder && !save.HasTrueEnding)
                 {
                     illustration.visible = true;
                 }
