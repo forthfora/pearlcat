@@ -1,0 +1,5 @@
+[FIND]LightFixture><1671.679><680.9371><RedLight~17.32051~-10~41, 
+[REPLACE]
+[MERGE]
+PlacedObjects: LightFixture><1667.679><611.9371><RedLight~17.3205~-10~41, 
+[ENDMERGE]
