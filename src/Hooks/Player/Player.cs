@@ -67,8 +67,9 @@ public static partial class Hooks
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
         if (self.TryGetPearlcatModule(out var playerModule) && self.spearOnBack != null)
+        {
             playerModule.WasSpearOnBack = self.spearOnBack.HasASpear;
-
+        }
 
         orig(self, eu);
 
@@ -924,13 +925,7 @@ public static partial class Hooks
 
             if (possessedCreature.realizedCreature?.room == null)
             {
-                self.AbstractizeInventory();
-                
-                self.abstractCreature.Abstractize(possessedCreature.pos);
-
-
-
-                Plugin.Logger.LogWarning("UH");
+                self.SuckedIntoShortCut(possessedCreature.pos.Tile, false);
             }
             else
             {
