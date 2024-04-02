@@ -33,4 +33,6 @@ public class PearlpupPearlModule
 
     // Possession
     public int PossessLaserSprite { get; set; }
+    public int PossessProgressSprite { get; internal set; }
+    public int PossessCircleSprite { get; internal set; }
 }

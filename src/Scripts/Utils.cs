@@ -127,6 +127,7 @@ public static class Utils
         if (creature is Player pup && pup.IsPearlpup())
             return false;
 
+        // possessed creature
         if (self is Player && creature.abstractCreature.controlled)
             return false;
         

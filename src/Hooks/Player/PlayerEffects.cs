@@ -3,7 +3,6 @@ using RWCustom;
 using SlugBase.Features;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using static Pearlcat.POEffect;
 using Random = UnityEngine.Random;
 
@@ -90,6 +89,8 @@ public static partial class Hooks
         stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode * visibilityMult;
         stats.generalVisibilityBonus = 0.4f * visibilityMult;
 
+        playerModule.DisabledEffects.Clear();
+
         UpdateSpearCreation(self, playerModule, effect);
         UpdateAgility(self, playerModule, effect);
         UpdateRevive(self, playerModule, effect);
@@ -131,7 +132,11 @@ public static partial class Hooks
 
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableSpear.Value || self.inVoidSea) return;
+        if (ModOptions.DisableSpear.Value || self.inVoidSea || playerModule.PossessedCreature != null)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.SPEAR_CREATION);
+            return;
+        }
 
         var spearCreationTime = 100;
         playerModule.SpearLerp = Custom.LerpMap(playerModule.SpearTimer, 5, spearCreationTime, 0.0f, 1.0f);
@@ -256,7 +261,11 @@ public static partial class Hooks
         if (playerModule.AgilityOveruseTimer > 0)
             playerModule.AgilityOveruseTimer--;
 
-        if (ModOptions.DisableAgility.Value || self.inVoidSea) return;
+        if (ModOptions.DisableAgility.Value || self.inVoidSea || playerModule.PossessedCreature != null)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.AGILITY);
+            return;
+        }
 
         var maxOveruse = playerModule.ActiveObject?.GetPOEffect().MajorEffect == MajorEffectType.AGILITY ? 180 : 120;
 
@@ -386,7 +395,11 @@ public static partial class Hooks
     
     public static void UpdateRevive(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableRevive.Value || self.inVoidSea) return;
+        if (ModOptions.DisableRevive.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.REVIVE);
+            return;
+        }
 
         if (playerModule.ActiveObject == null || !playerModule.ActiveObject.TryGetModule(out var poModule)) return;
 
@@ -505,6 +518,12 @@ public static partial class Hooks
         var roomObjects = self.room.updateList;
         bool didDeflect = false;
 
+        if (ModOptions.DisableShield.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.SHIELD);
+            return;
+        }
+
         if (playerModule.ShieldActive)
         {
             for (int i = roomObjects.Count - 1; i >= 0; i--)
@@ -527,6 +546,11 @@ public static partial class Hooks
                         // Arena FF is off, only applies to arena sessions
                         if (self.abstractCreature.world.game.IsArenaSession && !self.abstractCreature.world.game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers) continue;
                     }
+
+
+                    // When posessing a creature don't let the spears activate our shield (only relevant for posessing scavs really)
+                    if (playerModule.PossessedCreature?.TryGetTarget(out var possessed) == true && possessed.realizedCreature == weapon.thrownBy) continue;
+
 
                     if (weapon.mode == Weapon.Mode.Thrown && Custom.DistLess(weapon.firstChunk.pos, self.firstChunk.pos, 75.0f))
                     {
@@ -596,7 +620,11 @@ public static partial class Hooks
             ragePearlCounter++;
         }
 
-        if (ModOptions.DisableRage.Value || self.inVoidSea) return;
+        if (ModOptions.DisableRage.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.RAGE);
+            return;
+        }
 
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
@@ -741,12 +769,51 @@ public static partial class Hooks
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE || self.room?.Darkness(self.mainBodyChunk.pos) < 0.75f || playerModule.CamoCount <= 0)
+        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE)
         {
-            playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 0.0f, 0.2f);
+            if (self.room?.Darkness(self.mainBodyChunk.pos) < 0.75f || playerModule.CamoCount <= 0)
+            {
+                playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 0.0f, 0.2f);
+            }
+            // Give these creatures night vision by default
+            else if (playerModule.PossessedCreature?.TryGetTarget(out var creature) == true && self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f)
+            {
+                var nightVisionCreatures = new List<CreatureTemplate.Type>()
+                {
+                    CreatureTemplate.Type.BlackLizard,
+                    CreatureTemplate.Type.LanternMouse,
+                    CreatureTemplate.Type.Spider,
+                    CreatureTemplate.Type.BigSpider,
+                    CreatureTemplate.Type.SpitterSpider,
+                    CreatureTemplate.Type.DaddyLongLegs,
+                    CreatureTemplate.Type.BrotherLongLegs,
+                    CreatureTemplate.Type.Centipede,
+                    CreatureTemplate.Type.Centiwing,
+                    CreatureTemplate.Type.RedCentipede,
+                    CreatureTemplate.Type.SmallCentipede,
+                    CreatureTemplate.Type.Overseer,
+                    CreatureTemplate.Type.MirosBird,
+
+                    MoreSlugcatsEnums.CreatureTemplateType.AquaCenti,
+                    MoreSlugcatsEnums.CreatureTemplateType.Inspector,
+                    MoreSlugcatsEnums.CreatureTemplateType.MotherSpider,
+                    MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs,
+                    MoreSlugcatsEnums.CreatureTemplateType.MirosVulture,
+
+                };
+
+                if (nightVisionCreatures.Contains(creature.creatureTemplate.type))
+                {
+                    playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 100.0f, 0.1f);
+                }
+            }
         }
 
-        if (ModOptions.DisableCamoflague.Value || self.inVoidSea) return;
+        if (ModOptions.DisableCamoflague.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.CAMOFLAGUE);
+            return;
+        }
 
         var camera = self.abstractCreature.world.game.cameras[0];
 

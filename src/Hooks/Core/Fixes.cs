@@ -2,7 +2,6 @@
 using MonoMod.Cil;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 
 namespace Pearlcat;
 
@@ -37,6 +36,8 @@ public partial class Hooks
             {
                 if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
 
+                ReleasePossession(player, playerModule);
+
                 player.UpdateInventorySaveData(playerModule);
 
                 for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
@@ -53,6 +54,7 @@ public partial class Hooks
                     item.destroyOnAbstraction = true;
                     item.Abstractize(item.pos);
                 }
+
 
                 playerModule.JustWarped = true;
             }

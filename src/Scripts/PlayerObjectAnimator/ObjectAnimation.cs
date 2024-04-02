@@ -147,6 +147,12 @@ public abstract class ObjectAnimation
                 addon.DrawSymbolCooldown = false;
             }
 
+            if (playerModule.DisabledEffects.Contains(effect.MajorEffect))
+            {
+                addon.DrawSymbolCooldown = true;
+                addon.SymbolColor = Color.white;
+            }
+
             addon.Symbol = ObjectAddon.SpriteFromPearl(abstractObject);
             addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
 

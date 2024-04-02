@@ -128,14 +128,11 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         else if (pearl.IsHeartPearl())
         {
             UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Heartmend");
+            UpdateHeartSentry(owner, module, pearl);
         }
         else if (pearlType == Enums.Pearls.SS_Pearlcat)
         {
             UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Amnesia");
-        }
-        else if(pearl.IsHeartPearl())
-        {
-            UpdateHeartSentry(owner, module, pearl);
         }
 
         AnimCounter++;
@@ -149,8 +146,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (player == null) return;
 
-        player.mainBodyChunk.vel += Custom.DirVec(player.firstChunk.pos, pearl.firstChunk.pos) * Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 75.0f, 125.0f, 0.0f, 3.0f, 0.8f); 
-        
+        player.mainBodyChunk.vel += Custom.DirVec(player.firstChunk.pos, pearl.firstChunk.pos) * Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 75.0f, 125.0f, 0.0f, 3.0f, 0.8f);
     }
 
     private void UpdateMusicSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect, string songName)
@@ -304,8 +300,9 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         var inGate = player.room?.IsGateRoom() ?? false;
         var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
+        var possessingCreature = playerModule.PossessedCreature != null;
 
-        var canTP = !tooClose && !inGate;
+        var canTP = !tooClose && !inGate && !possessingCreature;
 
         AgilityPos = canTP ? pearl.firstChunk.pos : null;
         AgilityRoom = canTP ? pearl.AbstractPearl.Room : null;
@@ -387,6 +384,8 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                     }
                     else if (physicalObject is Creature crit)
                     {
+                        if (crit.abstractCreature.controlled) continue;
+
                         if (!player.IsHostileToMe(crit) && crit is not Lizard or Scavenger) continue;
 
                         if (crit.dead) continue;

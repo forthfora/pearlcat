@@ -60,22 +60,37 @@ public static partial class Hooks
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {
         if (abstractObject == null)
+        {
             return Color.white;
+        }
 
         if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
         {
             if (dataPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
+            {
                 return GetDataPearlColor(dataPearl.dataPearlType, pebblesPearl.color);
+            }
 
             return GetDataPearlColor(dataPearl.dataPearlType);
         }
 
-        var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
+        if (abstractObject is AbstractCreature abstractCreature)
+        {
+            var critSymbolData = CreatureSymbol.SymbolDataFromCreature(abstractCreature);
 
-        if (symbolData == null)
-            return Color.white;
+            return CreatureSymbol.ColorOfCreature(critSymbolData);
+        }
+        else
+        {
+            var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
+            
+            if (symbolData != null)
+            {
+                return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
+            }
+        }
 
-        return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
+        return Color.white;
     }
 
     public static Color GetDataPearlColor(this DataPearl.AbstractDataPearl.DataPearlType type, int pebblesPearlColor = 0)

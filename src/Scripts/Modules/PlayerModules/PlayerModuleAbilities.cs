@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static Pearlcat.POEffect;
 
@@ -21,6 +22,8 @@ public partial class PlayerModule
     public WeakReference<AbstractCreature>? PossessedCreature { get; set; }
     public bool IsPossessingCreature => PossessedCreature != null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup;
 
+
+    public List<MajorEffectType> DisabledEffects { get; } = new();
 
     public int AgilityCount => ModOptions.DisableAgility.Value ? 0 : MajorEffectCount(MajorEffectType.AGILITY);
     public int CamoCount => ModOptions.DisableCamoflague.Value ? 0 : MajorEffectCount(MajorEffectType.CAMOFLAGUE);

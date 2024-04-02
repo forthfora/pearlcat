@@ -1,9 +1,5 @@
-﻿
-using MoreSlugcats;
-using RWCustom;
+﻿using RWCustom;
 using System;
-using System.Linq.Expressions;
-using System.Security.Permissions;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -54,15 +50,34 @@ public static partial class Hooks
 
         // Possession
         var spriteIndex = sLeaser.sprites.Length;
-        
+
         module.PossessLaserSprite = spriteIndex++;
+        module.PossessProgressSprite = spriteIndex++;
+        module.PossessCircleSprite = spriteIndex++;
 
         Array.Resize(ref sLeaser.sprites, spriteIndex);
 
-        var possessionSprite = sLeaser.sprites[module.PossessLaserSprite] = new FSprite("pixel");
+        var possessLaserSprite = sLeaser.sprites[module.PossessLaserSprite] = new FSprite("pixel")
+        {
+            shader = Utils.Shaders["GateHologram"],
+        };
 
-        possessionSprite.RemoveFromContainer();
-        fgContainer.AddChild(possessionSprite);
+        var progressSprite = sLeaser.sprites[module.PossessProgressSprite] = new FSprite("Futile_White", true)
+        {
+            shader = Utils.Shaders["HoldButtonCircle"]
+        };
+
+        var circleSprite = sLeaser.sprites[module.PossessCircleSprite] = new FSprite("pearlcat_possesscircle")
+        {
+            shader = Utils.Shaders["GateHologram"],
+        };
+
+
+        possessLaserSprite.RemoveFromContainer();
+
+        fgContainer.AddChild(possessLaserSprite);
+        fgContainer.AddChild(progressSprite);
+        fgContainer.AddChild(circleSprite);
     }
 
     private static void DataPearl_DrawSprites_PearlpupPearl(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -123,28 +138,61 @@ public static partial class Hooks
 
         
         var possessLaserSprite = sLeaser.sprites[module.PossessLaserSprite];
+        var possessProgressSprite = sLeaser.sprites[module.PossessProgressSprite];
+        var possessCircleSprite = sLeaser.sprites[module.PossessCircleSprite];
 
         if (playerModule != null && playerModule.PossessionTarget?.TryGetTarget(out var target) == true)
         {
+            var possessionColor = GetObjectColor(target.abstractPhysicalObject);
+
+            // Laser
             possessLaserSprite.isVisible = true;
             
-            var startPos = self.firstChunk.pos - camPos;
-            var targetPos = target.firstChunk.pos - camPos;
+            var startPos = Vector2.Lerp(self.firstChunk.lastPos, self.firstChunk.pos, timeStacker) - camPos;
+            var targetPos = Vector2.Lerp(target.firstChunk.lastPos, target.firstChunk.pos, timeStacker) - camPos;
+
+            // Offset by the radius of the possess circle
+            targetPos -= Custom.DirVec(startPos, targetPos) * 85.0f;
+
+            // Offset by the radius of the heart pearl
+            startPos += Custom.DirVec(startPos, targetPos) * 15.0f;
 
             var dir = Custom.DirVec(startPos, targetPos);
 
-            var laserWidth = 2.5f;
+            var laserWidth = 3.0f;
             var laserLength = Custom.Dist(startPos, targetPos);
 
             possessLaserSprite.rotation = Custom.VecToDeg(dir);
             possessLaserSprite.scaleX = laserWidth;
             possessLaserSprite.scaleY = laserLength;
 
+            possessLaserSprite.color = possessionColor;
+
             possessLaserSprite.SetPosition(startPos + dir * laserLength / 2.0f);
+
+
+            // Progress
+            possessProgressSprite.isVisible = true;
+            
+            possessProgressSprite.alpha = Custom.LerpMap(playerModule.StoreObjectTimer, 0.1f, POSSESSION_DELAY, 0.0f, 1.0f);
+            possessProgressSprite.scale = Custom.LerpMap(playerModule.StoreObjectTimer, 0.0f, POSSESSION_DELAY, 3.5f, 10.0f);
+
+            possessProgressSprite.color = possessionColor;
+
+            possessProgressSprite.SetPosition(target.mainBodyChunk.pos - camPos);
+
+
+            // Reticle
+            possessCircleSprite.isVisible = true;
+            possessCircleSprite.SetPosition(target.mainBodyChunk.pos - camPos);
+
+            possessCircleSprite.color = possessionColor;
         }
         else
         {
             possessLaserSprite.isVisible = false;
+            possessProgressSprite.isVisible = false;
+            possessCircleSprite.isVisible = false;
         }
     }
 

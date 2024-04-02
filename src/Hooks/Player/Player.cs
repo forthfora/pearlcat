@@ -3,14 +3,12 @@ using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using MoreSlugcats;
 using RWCustom;
-using Smoke;
 using System;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using VoidSea;
 using static AbstractPhysicalObject;
-using static Pearlcat.POEffect;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;
@@ -280,6 +278,8 @@ public static partial class Hooks
     }
 
 
+    private const int POSSESSION_DELAY = 80;
+
     private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
     {
         if (self.inVoidSea) return;
@@ -300,7 +300,7 @@ public static partial class Hooks
         // Longer delay removing heart
         if (playerModule.ActiveObject.IsHeartPearl() && !isStoring)
         {
-            storeObjectDelay = 200;
+            storeObjectDelay = POSSESSION_DELAY;
         }
 
 
@@ -399,10 +399,6 @@ public static partial class Hooks
                                 self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, heart.firstChunk.pos, 0.8f, 5.0f);
                                 self.room.AddObject(new ExplosionSpikes(self.room, heart.firstChunk.pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
                             }
-                        }
-                        else
-                        {
-
                         }
                     }
                 }
@@ -1022,7 +1018,10 @@ public static partial class Hooks
 
 
                 if (invalidTarget)
+                {
                     playerModule.PossessionTarget = null;
+                    playerModule.StoreObjectTimer = 0;
+                }
             }
         }
     }
