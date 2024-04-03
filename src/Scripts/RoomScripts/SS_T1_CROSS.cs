@@ -37,6 +37,19 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
         gate.doors[2].closeSpeed = 0f;
 
         gate.doors[1].closedFac = 1.0f;
+
+
+        var startPos = IntVector2.FromVector2(new(109, 4));
+
+        for (int i = 0; i < 2; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                room.GetTile(startPos.x + i, startPos.y + j).Terrain = Room.Tile.TerrainType.Solid;
+            }
+        }
+
+        room.regionGate.ChangeDoorStatus(1, true);
     }
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
