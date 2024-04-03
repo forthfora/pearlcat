@@ -904,7 +904,11 @@ public static partial class Hooks
         {
             var regionLabel = continuePage.regionLabel;
 
-            if (miscProg.IsMiraSkipEnabled)
+            if (Utils.MiraVersionWarning)
+            {
+                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update..."));
+            }
+            else if (miscProg.IsMiraSkipEnabled)
             {
                 regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
 
@@ -920,7 +924,12 @@ public static partial class Hooks
         }
         else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage)
         {
-            if (miscProg.IsSecretEnabled)
+            if (Utils.MiraVersionWarning)
+            {
+                newGamePage.difficultyLabel.text = self.Translate("VERSION WARNING");
+                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Mira Installation requires Pearlcat version 1.3.0 or above! Please update..."));
+            }
+            else if (miscProg.IsSecretEnabled)
             {
                 newGamePage.difficultyLabel.text = self.Translate("PEARLPUP");
                 newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!"));

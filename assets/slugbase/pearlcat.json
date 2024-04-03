@@ -40,7 +40,6 @@
             "meat": 1.0,
             "plants": 1.0,
             "overrides": {
-                "Fly": 1.0,
                 "SlugNPC": 0.0
             }
         },
@@ -67,53 +66,13 @@
         ],
         
         "select_menu_scene": "Slugcat_Pearlcat",
-        "sleep_scene": "Slugcat_Pearlcat_Sleep",
         "select_menu_scene_ascended": "Slugcat_Pearlcat_Ascended",
+
+        "sleep_scene": "Slugcat_Pearlcat_Sleep",
+        
         "title_card": "TitleCard_Pearlcat",
 
         "intro_slideshow": "Pearlcat_Intro",
-        "outro_slideshow": "Pearlcat_Outro",
-
-        "min_tail_offset": -15.0,
-        "max_tail_offset": 15.0,
-        
-        "tail_segment_velocities": {
-            "0": [0.0, -1.5],
-            "1": [0.0, -0.6],
-            "2": [-0.3, 0.0],
-            "3": [-0.3, 0.0],
-            "4": [-0.3, 0.0],
-            "5": [-0.3, 2.5]
-        },
-
-        "ear_l_offset": [-4.5, 1.5],
-        "ear_r_offset": [4.5, 1.5],
-
-        "active_object_offset": [0.0, 50.0],
-
-        "oa_min_fric_speed": 100.0,
-        "oa_max_fric_speed": 70.0,        
-        "oa_min_fric_mult": 0.999,
-        "oa_max_fric_mult": 0.5,
-
-        "oa_cutoff_dist": 50.0, 
-        "oa_cutoff_min_speed": 0.1,
-        "oa_cutoff_max_speed": 12.0,
-        "oa_daze_max_speed": 2.0,
-
-        "oa_max_dist": 1000.0, 
-        "oa_min_speed": 8.0, 
-        "oa_max_speed": 20.0,
-
-        "daze_duration" : 40,
-
-        "oa_min_time": 480,
-        "oa_max_time": 1600,
-
-        "inventory_ui_offset": [0, 90],
-
-        "store_object_delay": 30,
-
-        "train_view_yshift": -20000.0
+        "outro_slideshow": "Pearlcat_Outro"
     }
 }

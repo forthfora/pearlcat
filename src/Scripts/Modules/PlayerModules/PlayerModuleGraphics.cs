@@ -53,9 +53,8 @@ public partial class PlayerModule
 
     public void PickObjectAnimation(Player player)
     {
-        if (!Hooks.MinOATime.TryGet(player, out var minTime)) return;
-
-        if (!Hooks.MaxOATime.TryGet(player, out var maxTime)) return;
+        var minTime = 480;
+        var maxTime = 1600;
 
         var randState = Random.state;
 

@@ -97,6 +97,7 @@ public class TrainView : CustomBgScene
     }
 
     public const float TRAIN_WIND_DIR = 7.0f;
+    private const float TRAIN_VIEW_YSHIFT = -20000.0f;
 
     public override void Update(bool eu)
     {
@@ -105,8 +106,7 @@ public class TrainView : CustomBgScene
         // thank god for this global
         Shader.SetGlobalFloat("_windDir", TRAIN_WIND_DIR);
 
-        if (Hooks.TrainViewYShift.TryGet(room.world.game, out var trainViewYShift))
-            YShift = trainViewYShift;
+        YShift = TRAIN_VIEW_YSHIFT;
 
         // somehow this works flawlessly, not complaining
         if (!IsInit)

@@ -125,11 +125,12 @@ public static partial class Hooks
 
     public static Vector2 GetActiveObjectPos(this Player self, Vector2? overrideOffset = null, float timeStacker = 1.0f)
     {
-        if (!ActiveObjectOffset.TryGet(self, out var activeObjectOffset))
-            activeObjectOffset = Vector2.zero;
+        var activeObjectOffset = new Vector2(0.0f, 50.0f);
 
         if (overrideOffset != null)
+        {
             activeObjectOffset = overrideOffset.Value;
+        }
 
         var playerGraphics = (PlayerGraphics)self.graphicsModule;
 
@@ -156,19 +157,26 @@ public static partial class Hooks
 
         if (abstractObject.realizedObject == null) return;
 
-        if (!MinFricSpeed.TryGet(player, out var minFricSpeed)) return;
-        if (!MaxFricSpeed.TryGet(player, out var maxFricSpeed)) return;
-        if (!MinFric.TryGet(player, out var minFric)) return;
-        if (!MaxFric.TryGet(player, out var maxFric)) return;
 
-        if (!CutoffDist.TryGet(player, out var cutoffDist)) return;
-        if (!CutoffMinSpeed.TryGet(player, out var cutoffMinSpeed)) return;
-        if (!CutoffMaxSpeed.TryGet(player, out var cutoffMaxSpeed)) return;
-        if (!DazeMaxSpeed.TryGet(player, out var dazeMaxSpeed)) return;
+        // Magic numbers ^^
+        var minFricSpeed = 100.0f;
+        var maxFricSpeed = 70.0f;
 
-        if (!MaxDist.TryGet(player, out var maxDist)) return;
-        if (!MinSpeed.TryGet(player, out var minSpeed)) return;
-        if (!MaxSpeed.TryGet(player, out var maxSpeed)) return;
+        var minFricMult = 0.999f;
+        var maxFricMult = 0.5f;
+
+        var cutoffDist = 50.0f;
+
+        var cutoffMinSpeed = 0.1f;
+        var cutoffMaxSpeed = 12.0f;
+
+        var dazeMaxSpeed = 2.0f;
+
+        var maxDist = 1000.0f;
+
+        var minSpeed = 8.0f;
+        var maxSpeed = 20.0f;
+
 
         var firstChunk = abstractObject.realizedObject.firstChunk;
         var dir = (targetPos - firstChunk.pos).normalized;
@@ -176,10 +184,12 @@ public static partial class Hooks
 
         float speed = dist < cutoffDist ? Custom.LerpMap(dist, 0.0f, cutoffDist, cutoffMinSpeed, playerModule.IsDazed ? dazeMaxSpeed : cutoffMaxSpeed) : Custom.LerpMap(dist, cutoffDist, maxDist, minSpeed, maxSpeed);
 
-        firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, minFricSpeed, maxFricSpeed, minFric, maxFric);
+        firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, minFricSpeed, maxFricSpeed, minFricMult, maxFricMult);
         firstChunk.vel += dir * speed;
 
         if (dist < 0.1f)
+        {
             firstChunk.pos = targetPos;
+        }
     }
 }

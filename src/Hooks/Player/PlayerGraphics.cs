@@ -165,9 +165,8 @@ public static partial class Hooks
 
         if (playerModule.EarL == null || playerModule.EarR == null) return;
 
-        if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
-        if (!EarROffset.TryGet(self.player, out var earROffset)) return;
-
+        var earLOffset = new Vector2(-4.5f, 1.5f);
+        var earROffset = new Vector2(4.5f, 1.5f);
 
         playerModule.EarLAttachPos = GetEarAttachPos(self, 1.0f, playerModule, earLOffset);
 
@@ -300,12 +299,11 @@ public static partial class Hooks
 
     public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
     {
-        if (!EarLOffset.TryGet(self.player, out var earLOffset)) return;
+        var earLOffset = new Vector2(-4.5f, 1.5f);
+        var earROffset = new Vector2(4.5f, 1.5f);
 
         playerModule.EarLAttachPos = GetEarAttachPos(self, timestacker, playerModule, earLOffset);
         DrawEar(sLeaser, timestacker, camPos, playerModule.EarL, playerModule.EarLSprite, playerModule.EarLAtlas, playerModule.EarLAttachPos, playerModule.EarLFlipDirection);
-
-        if (!EarROffset.TryGet(self.player, out var earROffset)) return;
 
         playerModule.EarRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
         DrawEar(sLeaser, timestacker, camPos, playerModule.EarR, playerModule.EarRSprite, playerModule.EarRAtlas, playerModule.EarRAttachPos, playerModule.EarRFlipDirection);
@@ -416,8 +414,8 @@ public static partial class Hooks
         // Find the difference between the x positions and convert it into a 0.0 - 1.0 ratio between the two
         var difference = tailPos.x - legsPos.x;
 
-        if (!MinEffectiveOffset.TryGet(self.player, out var minEffectiveOffset)) return;
-        if (!MaxEffectiveOffset.TryGet(self.player, out var maxEffectiveOffset)) return;
+        var minEffectiveOffset = -15.0f;
+        var maxEffectiveOffset = 15.0f;
 
         var leftRightRatio = Mathf.InverseLerp(minEffectiveOffset, maxEffectiveOffset, difference);
 
@@ -926,7 +924,15 @@ public static partial class Hooks
 
         if (excludeFromTailOffsetAnimation.Contains(self.player.animation)) return;
 
-        if (!TailSegmentVelocities.TryGet(self.player, out var tailSegmentVelocities)) return;
+        var tailSegmentVelocities = new Dictionary<int, Vector2>()
+        {
+            { 0, new(0.0f, -1.5f) },
+            { 1, new(0.0f, -0.6f) },
+            { 2, new(-0.3f, 0.0f) },
+            { 3, new(-0.3f, 0.0f) },
+            { 4, new(-0.3f, 0.0f) },
+            { 5, new(-0.3f, 2.5f) },
+        };
 
         for (int i = 0; i < self.tail.Length; i++)
         {

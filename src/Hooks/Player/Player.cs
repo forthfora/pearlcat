@@ -285,7 +285,7 @@ public static partial class Hooks
     {
         if (self.inVoidSea) return;
 
-        if (!StoreObjectDelay.TryGet(self, out var storeObjectDelay)) return;
+        var storeObjectDelay = 30.0f;
 
         var storeInput = self.IsStoreKeybindPressed(playerModule);
         var toStore = self.grasps[0]?.grabbed;
@@ -530,13 +530,17 @@ public static partial class Hooks
 
     private static void UpdatePlayerDaze(Player self, PlayerModule playerModule)
     {
-        if (!DazeDuration.TryGet(self, out var dazeDuration)) return;
+        var dazeDuration = 40;
 
         if (self.dead || self.bodyMode == Player.BodyModeIndex.Stunned || self.Sleeping)
+        {
             playerModule.DazeTimer = dazeDuration;
+        }
 
         if (playerModule.DazeTimer > 0)
+        {
             playerModule.DazeTimer--;
+        }
     }
     
     private static void UpdateTryRevive(Player self, PlayerModule playerModule)
