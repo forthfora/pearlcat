@@ -572,12 +572,14 @@ public partial class Hooks
 
         var miscProg = Utils.GetMiscProgression();
 
-
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
 
         if (room.roomSettings.name == "SS_T1_S01")
             room.AddObject(new SS_T1_S01(room));
+
+        if (room.roomSettings.name == "SS_T1_CROSS")
+            room.AddObject(new SS_T1_CROSS(room));
 
 
         if (!room.abstractRoom.firstTimeRealized) return;
