@@ -37,7 +37,7 @@ public static partial class Hooks
         {
             if (self.oracle.room.game.IsPearlcatStory())
             {
-                var miscProg = self.oracle.room.game.GetMiscProgression();
+                var miscProg = Utils.GetMiscProgression();
 
                 if (miscProg.HasTrueEnding)
                 {
@@ -140,7 +140,7 @@ public static partial class Hooks
         }
 
         var miscWorld = self.owner.oracle.room.game.GetMiscWorld();
-        var miscProg = self.owner.oracle.room.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         var module = self.owner.GetModule();
         var currentLang = Utils.Translator.currentLanguage;

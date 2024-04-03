@@ -560,7 +560,7 @@ public static partial class Hooks
         if (!self.IsFirstPearlcat()) return;
         
         var save = self.abstractCreature.Room.world.game.GetMiscWorld();
-        var miscProg = self.abstractCreature.Room.world.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         miscProg.HasPearlpup = false;
 
@@ -1082,6 +1082,10 @@ public static partial class Hooks
         if (playerModule.PossessedCreature?.TryGetTarget(out var creature) == true)
         {
             creature.controlled = false;
+        }
+        else
+        {
+            return;
         }
 
         playerModule.PossessedCreature = null;

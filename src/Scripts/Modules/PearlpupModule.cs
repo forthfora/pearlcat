@@ -92,9 +92,9 @@ public class PearlpupModule
             AccentColor = Color.Lerp(AccentColor, Color.gray, 0.4f * malnourished);
         }
 
-        var save = self.player.abstractCreature.Room.world.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
-        if (save.IsPearlpupSick)
+        if (miscProg.IsPearlpupSick)
         {
             var sickColor = Custom.hexToColor("98ab95");
 

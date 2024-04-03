@@ -259,7 +259,7 @@ public static partial class Hooks
         UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
 
 
-        var save = self.player.abstractCreature.world.game.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
 
         if (self.RenderAsPup)
         {

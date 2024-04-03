@@ -24,7 +24,6 @@ public static class Utils
     public static InGameTranslator Translator => RainWorld.inGameTranslator;
     public static SaveMiscProgression GetMiscProgression() => RainWorld.GetMiscProgression();
 
-
     public static bool WarpEnabled(this RainWorldGame game) => game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
 
     public static bool IsHeartPearl(this AbstractPhysicalObject? obj) => obj is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl();

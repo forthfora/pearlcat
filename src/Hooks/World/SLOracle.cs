@@ -23,7 +23,7 @@ public static partial class Hooks
         }
 
         var save = self.oracle.room.game.GetMiscWorld();
-        var miscProg = self.oracle.room.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         var t = Utils.Translator;
 
@@ -133,7 +133,7 @@ public static partial class Hooks
     private static void MoonConversation_AddEvents(On.SLOracleBehaviorHasMark.MoonConversation.orig_AddEvents orig, SLOracleBehaviorHasMark.MoonConversation self)
     {
         var save = self.myBehavior.oracle.room.game.GetMiscWorld();
-        var miscProg = self.myBehavior.oracle.room.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
         
         if (self.currentSaveFile != Enums.Pearlcat || save == null)
         {

@@ -75,10 +75,10 @@ public static partial class Hooks
         if (!self.TryGetPearlpupModule(out var module)) return;
 
         var stats = self.slugcatStats;
-        var save = self.abstractCreature.world.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
         
 
-        if (self.Malnourished || save.IsPearlpupSick)
+        if (self.Malnourished || miscProg.IsPearlpupSick)
         {
             stats.throwingSkill = 0;
             stats.runspeedFac = 0.9f;
@@ -95,7 +95,7 @@ public static partial class Hooks
             stats.lungsFac = 0.1f;
         }
 
-        if (save.IsPearlpupSick)
+        if (miscProg.IsPearlpupSick)
         {
             //stats.foodToHibernate = stats.maxFood;
 

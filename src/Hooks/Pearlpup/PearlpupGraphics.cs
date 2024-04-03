@@ -252,7 +252,7 @@ public static partial class Hooks
 
         if (!self.player.TryGetPearlpupModule(out var module)) return;
 
-        var save = self.player.abstractCreature.Room.world.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_scarf", "Scarf", module.ScarfNeckSprite);
         UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", module.FeetSprite);
@@ -260,7 +260,7 @@ public static partial class Hooks
         UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
         UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_head");
 
-        if (save.IsPearlpupSick)
+        if (miscProg.IsPearlpupSick)
         {
             UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face_sick", nameSuffix: "Sick");
         }
@@ -428,7 +428,7 @@ public static partial class Hooks
         earRSprite.color = Color.white;
 
 
-        var miscProg = self.player.abstractCreature.world.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         if (miscProg.IsPearlpupSick)
         {

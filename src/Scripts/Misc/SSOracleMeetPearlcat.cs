@@ -20,7 +20,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         var save = oracle.room.game.GetStorySession.saveState;
 
         var miscWorld = oracle.room.game.GetMiscWorld();
-        var miscProg = oracle.room.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         if (miscWorld == null) return;
 
@@ -254,8 +254,6 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                         crit.ChangeRooms(firstPlayer.abstractCreature.pos);
 
                         pup = crit.realizedCreature as Player;
-
-                        Plugin.Logger.LogWarning("teleported pup");
                         break;
                     }
                 }
@@ -297,7 +295,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         var module = owner.GetModule();
         var miscWorld = oracle.room.game.GetMiscWorld();
-        var miscProg = oracle.room.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         if (miscWorld == null) return;
 

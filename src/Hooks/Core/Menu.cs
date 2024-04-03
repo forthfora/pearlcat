@@ -22,6 +22,7 @@ public static partial class Hooks
         On.Menu.MenuScene.ctor += MenuScene_ctor;
         On.Menu.MenuScene.Update += MenuScene_Update;
 
+        On.Menu.Menu.Update += Menu_Update;
 
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
@@ -52,7 +53,17 @@ public static partial class Hooks
         //IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
     }
 
-  
+
+    public static int MenuPearlAnimStacker { get; set; } = 0;
+
+    private static void Menu_Update(On.Menu.Menu.orig_Update orig, Menu.Menu self)
+    {
+        orig(self);
+
+        MenuPearlAnimStacker++;
+    }
+
+
     private static void StoryGameStatisticsScreen_AddBkgIllustration(On.Menu.StoryGameStatisticsScreen.orig_AddBkgIllustration orig, StoryGameStatisticsScreen self)
     {
 
@@ -208,8 +219,6 @@ public static partial class Hooks
 
             ModuleManager.MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
         }
-
-        MenuPearlAnimStacker = 0;
         
         foreach (var illustration in self.depthIllustrations)
         {
@@ -236,9 +245,6 @@ public static partial class Hooks
 
     public static Color MenuPearlColorFilter(this Color color) => color;
 
-
-
-    public static int MenuPearlAnimStacker { get; set; } = 0;
 
     private static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, MenuScene self)
     {
@@ -267,21 +273,16 @@ public static partial class Hooks
                 UpdateSickScreen(self, illustration, menuSceneModule, illustrationModule);
             }
 
-            if (Input.GetKeyDown("-"))
-            {
-                if (illustration == self.depthIllustrations.First())
-                {
-                    Plugin.Logger.LogWarning("------------------------------");
-                }
+            //if (Input.GetKeyDown("-"))
+            //{
+            //    if (illustration == self.depthIllustrations.First())
+            //    {
+            //        Plugin.Logger.LogWarning("------------------------------");
+            //    }
                 
-                var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-                Plugin.Logger.LogWarning(fileName + " - " + illustration.pos);
-            }
-        }
-
-        if (self.menu is not SlugcatSelectMenu)
-        {
-            MenuPearlAnimStacker += 1; // hacky
+            //    var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+            //    Plugin.Logger.LogWarning(fileName + " - " + illustration.pos);
+            //}
         }
     }
 
@@ -389,14 +390,14 @@ public static partial class Hooks
 
         illustration.visible = true;
 
-        var angleFrameAddition = 0.00075f;
+        var angleFrameAddition = 0.00675f;
         var radius = 150.0f;
         var origin = new Vector2(675, 400);
 
         if (save.HasTrueEnding)
         {
             radius = 130.0f;
-            angleFrameAddition = 0.0005f;
+            angleFrameAddition = 0.0045f;
             origin = new Vector2(675.0f, 350.0f);
         }
 
@@ -631,7 +632,7 @@ public static partial class Hooks
 
         illustration.visible = true;
 
-        var angleFrameAddition = 0.0005f;
+        var angleFrameAddition = 0.0045f;
         var radius = 90.0f;
         var origin = new Vector2(650, 490);
 
@@ -725,7 +726,7 @@ public static partial class Hooks
 
         illustration.visible = true;
 
-        var angleFrameAddition = 0.0005f;
+        var angleFrameAddition = 0.0045f;
         var radius = 90.0f;
         var origin = new Vector2(680, 360);
 
@@ -941,9 +942,6 @@ public static partial class Hooks
                 }
             }
         }
-        
-        // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol
-        MenuPearlAnimStacker += 9;
     }
 
 
@@ -1007,11 +1005,16 @@ public static partial class Hooks
     private static Color HoldButton_MyColor(On.Menu.HoldButton.orig_MyColor orig, HoldButton self, float timeStacker)
     {
         var result = orig(self, timeStacker);
-        var save = Utils.GetMiscProgression();
 
-        if (self.signalText == "START" && save.IsMiraSkipEnabled)
+        // If the misc prog check is outside here, it will break it lol
+        if (self.signalText == "START")
         {
-            return MiraMenuColor;
+            var save = Utils.GetMiscProgression();
+            
+            if (save.IsMiraSkipEnabled)
+            {
+                return MiraMenuColor;
+            }
         }
 
         return result;

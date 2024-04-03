@@ -33,7 +33,7 @@ public class T1_START : UpdatableAndDeletable
         if (!room.fullyLoaded) return;
 
         var game = room.game;
-        var save = room.abstractRoom.world.game.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
 
         // Per player
         foreach (var crit in game.Players)

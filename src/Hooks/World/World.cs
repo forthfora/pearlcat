@@ -103,7 +103,7 @@ public partial class Hooks
 
         var save = self.GetStorySession.saveState;
         var miscWorld = self.GetMiscWorld();
-        var miscProg = self.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         if (miscWorld == null) return;
 
@@ -231,7 +231,7 @@ public partial class Hooks
                 var deathSave = game.GetStorySession.saveState.deathPersistentSaveData;
                 deathSave.karma = deathSave.karmaCap;
                 
-                var miscProg = game.GetMiscProgression();
+                var miscProg = Utils.GetMiscProgression();
 
                 miscProg.IsPearlpupSick = true;
                 miscProg.HasOEEnding = true;
@@ -258,7 +258,7 @@ public partial class Hooks
         if (self.room.world.game.IsPearlcatStory())
         {
             var miscWorld = self.room.world.game.GetMiscWorld();
-            var miscProg = self.room.world.game.GetMiscProgression();
+            var miscProg = Utils.GetMiscProgression();
 
             if (miscWorld?.HasPearlpupWithPlayer == false) return;
 
@@ -287,7 +287,7 @@ public partial class Hooks
             if (game.IsStorySession && game.StoryCharacter == Enums.Pearlcat)
             {
                 var save = game.GetMiscWorld();
-                var miscProg = game.GetMiscProgression();
+                var miscProg = Utils.GetMiscProgression();
 
                 if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value && !miscProg.HasTrueEnding)
                 {
@@ -570,7 +570,7 @@ public partial class Hooks
 
         if (!room.game.IsPearlcatStory()) return;
 
-        var save = room.abstractRoom.world.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
 
         if (room.roomSettings.name == "T1_S01")
@@ -591,7 +591,7 @@ public partial class Hooks
 
 
 
-        if (save.HasTrueEnding) return;
+        if (miscProg.HasTrueEnding) return;
 
         // Agility
         if (room.roomSettings.name == "T1_CAR0")
