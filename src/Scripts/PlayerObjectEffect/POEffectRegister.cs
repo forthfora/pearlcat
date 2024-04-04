@@ -227,17 +227,17 @@ public static partial class POEffectManager
         Spearmasterpearl.MajorEffect = MajorEffectType.RAGE;
 
         IteratorOrange = Color;
-        IteratorOrange.LungsFac = -0.1f;
-        IteratorOrange.RunSpeedFac = -0.1f;
-        IteratorOrange.PoleClimbSpeedFac = -0.1f;
-        IteratorOrange.CorridorClimbSpeedFac = -0.1f;
+        IteratorOrange.LungsFac = 0.05f;
+        IteratorOrange.RunSpeedFac = -0.05f;
+        IteratorOrange.PoleClimbSpeedFac = -0.05f;
+        IteratorOrange.CorridorClimbSpeedFac = -0.05f;
         IteratorOrange.MajorEffect = MajorEffectType.SHIELD;
 
         IteratorBlue = Color;
-        IteratorBlue.LungsFac = -0.1f;
-        IteratorBlue.RunSpeedFac = -0.1f;
-        IteratorBlue.PoleClimbSpeedFac = -0.1f;
-        IteratorBlue.CorridorClimbSpeedFac = -0.1f;
+        IteratorBlue.LungsFac = 0.05f;
+        IteratorBlue.RunSpeedFac = -0.05f;
+        IteratorBlue.PoleClimbSpeedFac = -0.05f;
+        IteratorBlue.CorridorClimbSpeedFac = -0.05f;
         IteratorBlue.MajorEffect = MajorEffectType.AGILITY;
 
 

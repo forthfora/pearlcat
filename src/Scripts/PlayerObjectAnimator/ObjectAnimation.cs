@@ -178,12 +178,6 @@ public abstract class ObjectAnimation
                     addon.Symbol = "pearlcat_glyphsentry";
                 }
 
-                if (addon.IsActiveRagePearl)
-                {
-                    addon.Symbol = "pearlcat_glyphactiverage";
-                }
-
-
                 // ew
                 if (Hooks.TargetPositions.TryGetValue(abstractObject, out var targetPos))
                 {
@@ -204,8 +198,17 @@ public abstract class ObjectAnimation
                 addon.OverrideLastPos = null;
             }
 
+            var returnPos = Hooks.TargetPositions.TryGetValue(abstractObject, out var pos) ? pos.Value : player.GetActiveObjectPos();
+            var returned = Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, returnPos, 8.0f);
 
-            if (poModule.IsReturningSentry && Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, Hooks.TargetPositions.TryGetValue(abstractObject, out var pos) ? pos.Value : player.GetActiveObjectPos(), 8.0f))
+
+            if (addon.IsActiveRagePearl)
+            {
+                returnPos = player.firstChunk.pos;
+                returned = Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, returnPos, 80.0f);
+            }
+
+            if (poModule.IsReturningSentry && returned)
             {
                 abstractObject.realizedObject.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, abstractObject.realizedObject.firstChunk.pos, 0.5f, 3.0f);
                 abstractObject.realizedObject.room.AddObject(new LightningMachine.Impact(abstractObject.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));

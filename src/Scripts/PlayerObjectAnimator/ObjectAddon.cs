@@ -104,7 +104,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         sLeaser.sprites[ActiveRageSprite] = new("pearlcat_activerage")
         {
-            //shader = shaders["Hologram"],
+            shader = shaders["Hologram"],
         };
 
         foreach (var sprite in sLeaser.sprites)

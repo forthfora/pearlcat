@@ -651,7 +651,7 @@ public static partial class Hooks
         }
 
         var origin = self.firstChunk.pos;
-        var angleFrameAddition = Custom.LerpMap(playerModule.RageCount, 1, 6, 0.05f, 0.01f);
+        var angleFrameAddition = -Custom.LerpMap(playerModule.RageCount, 1, 6, 0.05f, 0.025f);
         var radius = 80.0f;
 
         for (int i = 0; i < ragePearls.Count; i++)
@@ -677,7 +677,8 @@ public static partial class Hooks
         var targetEnemyRange = 1000.0f;
         var redirectRange = 25.0f;
 
-        var riccochetVelMult = 1.25f;
+        var riccochetVelMult = 1.0f;
+        var riccochetDamageMult = 1.25f;
 
         Creature? bestEnemy = null;
         List<KeyValuePair<PhysicalObject, float>> availableSentries = new();
@@ -769,36 +770,46 @@ public static partial class Hooks
                 }
 
                 PhysicalObject? bestTarget = null;
+                Vector2? bestTargetPos = null!;
 
                 if (bestSentry != null && bestEnemy != null)
                 {
                     if (player.room.VisualContact(bestSentry.firstChunk.pos, bestEnemy.firstChunk.pos))
                     {
                         bestTarget = bestSentry;
+                        bestTargetPos = bestSentry.firstChunk.pos;
                     }
                     else
                     {
                         bestTarget = bestEnemy;
+                        bestTargetPos = bestEnemy?.mainBodyChunk.pos;
                     }
                 }
                 else if (bestSentry != null)
                 {
                     bestTarget = bestSentry;
+                    bestTargetPos = bestEnemy?.firstChunk.pos;
                 }
                 else
                 {
                     bestTarget = bestEnemy;
+                    bestTargetPos = bestEnemy?.mainBodyChunk.pos;
                 }
 
-                if (bestTarget == null) continue;
+                if (bestTarget == null || bestTargetPos == null) continue;
 
-                var dist = Custom.Dist(weapon.firstChunk.pos, bestTarget.firstChunk.pos);
-                var targetPos = bestTarget.firstChunk.pos + (bestTarget.firstChunk.vel * 2.0f) + ((Vector2.up * dist) / 5.0f) * bestTarget.gravity;
+                var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
+                var targetPos = (Vector2)bestTargetPos + (bestTarget.firstChunk.vel * 2.0f) + ((Vector2.up * dist) / 5.0f) * bestTarget.gravity;
 
                 var dir = Custom.DirVec(weapon.firstChunk.pos, targetPos);
 
                 weapon.firstChunk.vel = dir * (weapon.firstChunk.vel.magnitude * riccochetVelMult);
                 weapon.setRotation = dir;
+
+                if (weapon is Spear spear)
+                {
+                    spear.spearDamageBonus *= riccochetDamageMult;
+                }
 
                 module.VisitedObjects.Add(physObj, new());
             }
