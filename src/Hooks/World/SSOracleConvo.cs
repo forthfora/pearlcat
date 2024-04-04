@@ -640,7 +640,7 @@ public static partial class Hooks
 
         else
         {
-            orig(self); // HACK
+            orig(self);
         }
     }
 }

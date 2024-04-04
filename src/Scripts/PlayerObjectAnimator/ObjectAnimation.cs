@@ -176,7 +176,7 @@ public abstract class ObjectAnimation
                 addon.Symbol = "pearlcat_glyphsentry";
 
 
-                // hacks engaged
+                // ew
                 if (Hooks.TargetPositions.TryGetValue(abstractObject, out var targetPos))
                 {
                     addon.OverridePos ??= abstractObject.realizedObject.firstChunk.pos;

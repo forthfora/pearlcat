@@ -68,8 +68,6 @@ public partial class Hooks
 
         IL.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
 
-        On.RegionState.AdaptWorldToRegionState += RegionState_AdaptWorldToRegionState;
-
         On.DaddyTentacle.Update += DaddyTentacle_Update;
         On.DaddyLongLegs.Update += DaddyLongLegs_Update;
 
@@ -180,33 +178,6 @@ public partial class Hooks
         {
             self.availableToPlayers.Remove(Enums.Pearlcat);
         }
-    }
-
-    // UNUSED - attempt to delete pearlpup after OE
-    private static void RegionState_AdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
-    {
-        //var save = self.world.game.GetMiscWorld();
- 
-        //if (save != null && save.JustBeatAltEnd)
-        //{
-        //    save.JustBeatAltEnd = false;
-
-        //    foreach (var item in self.unrecognizedPopulation)
-        //    {
-        //        Plugin.Logger.LogWarning(item);
-        //        //var obj = SaveState.AbstractPhysicalObjectFromString(self.world, item);
-
-        //        //if (obj.ID.number != save.PearlpupID) continue;
-                
-        //        //self.savedPopulation.Remove(item);
-        //        //Plugin.Logger.LogWarning("ACK");
-        //        //break;
-        //    }
-
-        //    Plugin.Logger.LogWarning("-------------------");
-        //}
-
-        orig(self);
     }
 
     // Outer Expanse Ending
@@ -578,8 +549,11 @@ public partial class Hooks
         if (room.roomSettings.name == "SS_T1_S01")
             room.AddObject(new SS_T1_S01(room));
 
-        if (room.roomSettings.name == "SS_T1_CROSS")
+        if (room.roomSettings.name == "SS_T1_CROSS" && (!Utils.IsMiraActive || true)) // HACK
             room.AddObject(new SS_T1_CROSS(room));
+
+        if (room.roomSettings.name == "SS_T1_LIFT")
+            room.AddObject(new SS_T1_LIFT(room));
 
 
         if (!room.abstractRoom.firstTimeRealized) return;

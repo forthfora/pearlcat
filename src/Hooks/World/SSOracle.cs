@@ -19,7 +19,7 @@ public static partial class Hooks
     {
         if (self.oracle.room.game.IsPearlcatStory()) return;
 
-        orig(self); // HACK
+        orig(self);
     }
 
     private static void SSOracleBehavior_SeePlayer(On.SSOracleBehavior.orig_SeePlayer orig, SSOracleBehavior self)
@@ -36,7 +36,7 @@ public static partial class Hooks
             return;
         }
 
-        orig(self); // HACK
+        orig(self);
     }
 
     private static void SSOracleBehavior_NewAction(On.SSOracleBehavior.orig_NewAction orig, SSOracleBehavior self, Action nextAction)
@@ -62,6 +62,6 @@ public static partial class Hooks
             return;
         }
         
-        orig(self, nextAction); // HACK
+        orig(self, nextAction);
     }
 }
