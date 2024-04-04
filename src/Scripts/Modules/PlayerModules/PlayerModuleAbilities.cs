@@ -15,9 +15,13 @@ public partial class PlayerModule
     public int ShieldTimer { get; set; }
     public float ShieldAlpha { get; set; }
     public float ShieldScale { get; set; }
+
     public int AgilityOveruseTimer { get; set; }
+
     public WeakReference<Creature>? RageTarget { get; set; }
-    
+
+    public int RageAnimTimer { get; set; } = 0;
+
     public WeakReference<Creature>? PossessionTarget { get; set; }
     public WeakReference<AbstractCreature>? PossessedCreature { get; set; }
     public bool IsPossessingCreature => PossessedCreature != null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup;

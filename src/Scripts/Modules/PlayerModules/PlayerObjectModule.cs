@@ -1,4 +1,6 @@
 ﻿
+using System.Runtime.CompilerServices;
+
 namespace Pearlcat;
 
 public class PlayerObjectModule
@@ -8,27 +10,25 @@ public class PlayerObjectModule
     public bool CollideWithObjects { get; set; } = true;
     public bool CollideWithSlopes { get; set; } = true;
     public bool CollideWithTerrain { get; set; } = true;
-
-    public float Gravity { get; set; } = 1.0f;
-    
-    public int PearlGlimmerWait { get; set; }
-    
-    public float WeaponRotationSpeed { get; set; }
-    
     public bool PlayCollisionSound { get; set; } = true;
 
-    public int CurrentCooldownTime { get; set; }
-
-    public int LaserTimer { get; set; }
+    public int PearlGlimmerWait { get; set; }
+    public float WeaponRotationSpeed { get; set; }    
     
+    public float Gravity { get; set; } = 1.0f;
+    
+    public int CurrentCooldownTime { get; set; }
+   
+    public int LaserTimer { get; set; }
     public float LaserLerp { get; set; }
 
     public bool InventoryFlash { get; set; }
 
     public bool IsSentry { get; set; }
-
     public bool IsReturningSentry { get; set; }
-    
+
+    public ConditionalWeakTable<PhysicalObject, StrongBox<bool>> VisitedObjects = new();
+
 
     private int cooldownTimer;
     public int CooldownTimer

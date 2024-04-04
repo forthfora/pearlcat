@@ -21,7 +21,7 @@ public class SleepOA : ObjectAnimation
         if (activeObject != null)
         {
             fallingObjects.Remove(activeObject);
-            activeObject.MoveToTargetPos(player, player.GetActiveObjectPos(new Vector2(0.0f, 30.0f)));
+            activeObject.TryToAnimateToTargetPos(player, player.GetActiveObjectPos(new Vector2(0.0f, 30.0f)));
         }
 
 

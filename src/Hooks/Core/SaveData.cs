@@ -1,5 +1,4 @@
-﻿using SlugBase.SaveData;
-using System;
+﻿using System;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;

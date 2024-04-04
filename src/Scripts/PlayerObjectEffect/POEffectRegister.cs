@@ -92,8 +92,8 @@ public static partial class POEffectManager
         Misc.PoleClimbSpeedFac = 0.05f;
         Misc.CorridorClimbSpeedFac = 0.05f;
 
-        Misc.RollSpeedFac = 0.05f;
-        Misc.SlideSpeedFac = 0.05f;
+        //Misc.RollSpeedFac = 0.05f;
+        //Misc.SlideSpeedFac = 0.05f;
 
         IteratorWhite = Misc;
 
@@ -103,12 +103,12 @@ public static partial class POEffectManager
 
 
         Color = None;
-        Color.LungsFac = 0.05f;
-        Color.RunSpeedFac = -0.05f;
-        Color.PoleClimbSpeedFac = -0.05f;
-        Color.CorridorClimbSpeedFac = -0.05f;
-        Color.RollSpeedFac = -0.05f;
-        Color.SlideSpeedFac = -0.05f;
+        //Color.LungsFac = 0.05f;
+        //Color.RunSpeedFac = -0.05f;
+        //Color.PoleClimbSpeedFac = -0.05f;
+        //Color.CorridorClimbSpeedFac = -0.05f;
+        //Color.RollSpeedFac = -0.05f;
+        //Color.SlideSpeedFac = -0.05f;
 
 
         SL_moon = Color;

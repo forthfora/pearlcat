@@ -153,17 +153,22 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<float> LaserDamage { get; } = Instance.config.Bind(nameof(LaserDamage), 0.2f, new ConfigurableInfo(
         "Damage each red pearl's laser does per shot. Survivor spear damage = 1.0",
         new ConfigAcceptableRange<float>(0.0f, 3.0f), "",
-        "Laser Damage"));
+        "Laser Damage (OLD)"));
 
     public static Configurable<int> LaserWindupTime { get; } = Instance.config.Bind(nameof(LaserWindupTime), 60, new ConfigurableInfo(
         "Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.",
         new ConfigAcceptableRange<int>(5, 300), "",
-        "Laser Windup TIme"));
+        "Laser Windup TIme (OLD)"));
 
     public static Configurable<int> LaserRechargeTime { get; } = Instance.config.Bind(nameof(LaserRechargeTime), 60, new ConfigurableInfo(
         "Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.",
         new ConfigAcceptableRange<int>(5, 300), "",
-        "Laser Recharge Time"));
+        "Laser Recharge Time (OLD)"));
+
+    public static Configurable<bool> OldRedPearlAbility { get; } = Instance.config.Bind(nameof(OldRedPearlAbility), false, new ConfigurableInfo(
+        "Reverts to the old red pearl mechanics - auto targeting lasers.", null, "",
+        "Old Red Pearl Ability?"));
+
 
     #endregion
 
@@ -558,6 +563,7 @@ public sealed class ModOptions : OptionsTemplate
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableMinorEffects);
+        AddCheckBox(OldRedPearlAbility);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableAgility);
@@ -635,6 +641,13 @@ public sealed class ModOptions : OptionsTemplate
             dragger.colorEdge = WarnRed;
             dragger.colorText = WarnRed;
         }
+
+
+        if (GetLabel(OldRedPearlAbility, out label))
+            label.color = Color.red;
+
+        if (GetConfigurable(OldRedPearlAbility, out checkBox))
+            checkBox.colorEdge = Color.red;
 
         #endregion
     }

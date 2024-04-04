@@ -146,18 +146,24 @@ public static partial class Hooks
 
     public static ConditionalWeakTable<AbstractPhysicalObject, StrongBox<Vector2>> TargetPositions { get; } = new();
 
-    public static void MoveToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
+    public static void TryToAnimateToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
     {
         var pos = TargetPositions.GetValue(abstractObject, x => new StrongBox<Vector2>());
         pos.Value = targetPos;
 
         if (abstractObject.TryGetSentry(out _)) return;
 
+        if (abstractObject.TryGetAddon(out var addon) && addon.IsActiveRagePearl) return;
+
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
         if (abstractObject.realizedObject == null) return;
 
+        AnimateToTargetPos(abstractObject, targetPos, playerModule);
+    }
 
+    public static void AnimateToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos, PlayerModule playerModule)
+    {
         // Magic numbers ^^
         var minFricSpeed = 100.0f;
         var maxFricSpeed = 70.0f;

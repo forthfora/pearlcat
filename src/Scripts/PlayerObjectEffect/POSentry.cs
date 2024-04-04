@@ -211,6 +211,8 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         }
     }
 
+
+
     private void UpdateCamoSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         const float MAX_SCALE = 300.0f;
@@ -248,6 +250,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         room.PlaySound(SoundID.HUD_Food_Meter_Deplete_Plop_A, pearl.firstChunk, false, 2.0f, 1.0f);
     }
 
+    
     private void UpdateReviveSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.REVIVE) return;
@@ -290,6 +293,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos);
     }
 
+
     private void UpdateAgilitySentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.AGILITY) return;
@@ -307,6 +311,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         AgilityPos = canTP ? pearl.firstChunk.pos : null;
         AgilityRoom = canTP ? pearl.AbstractPearl.Room : null;
     }
+
 
     private void UpdateSpearSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
@@ -331,6 +336,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         LightSource.setRad = Mathf.Lerp(LightSource.Rad, 300.0f, 0.1f);
         LightSource.setPos = pearl.firstChunk.pos;
     }
+
 
     public void UpdateShieldSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
@@ -457,7 +463,25 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         }
     }
 
+
     public void UpdateRageSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
+    {
+        if (ModOptions.OldRedPearlAbility.Value)
+        {
+            UpdateOldRageSentry(owner, module, pearl, effect);
+            return;
+        }
+
+        if (effect.MajorEffect != MajorEffectType.RAGE) return;
+
+        var player = owner.TryGetPlayerObjectOwner();
+
+        if (player == null) return;
+
+        Hooks.RageTargetLogic(pearl, player);
+    }
+
+    private void UpdateOldRageSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
@@ -558,8 +582,11 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
 
         if (RageTarget == null || !RageTarget.TryGetTarget(out target)) return;
+
         if (RageCounter <= 0)
+        {
             module.CooldownTimer = cooldownTime;
+        }
 
         if (module.CooldownTimer > 0)
         {
@@ -687,6 +714,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         }
     }
 
+
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         sLeaser.sprites = new FSprite[7];
@@ -778,12 +806,13 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             effect.MajorEffect == MajorEffectType.SHIELD
             || effect.MajorEffect == MajorEffectType.AGILITY
             || effect.MajorEffect == MajorEffectType.REVIVE
-            || (effect.MajorEffect == MajorEffectType.RAGE && RageCounter <= 0);
+            || effect.MajorEffect == MajorEffectType.RAGE;
 
         guideSprite.element = Futile.atlasManager.GetElementWithName(effect.MajorEffect switch
         {
             MajorEffectType.AGILITY => "pearlcat_agilitysentry",
             MajorEffectType.REVIVE => "pearlcat_revivesentry",
+            MajorEffectType.RAGE => "pearlcat_ragesentry",
 
             _ => "pearlcat_shieldsentry",
         });
@@ -819,7 +848,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         counterSprite.color = addon.SymbolColor;
         counterSprite.isVisible = false;
 
-        if (effect.MajorEffect == MajorEffectType.RAGE)
+        if (effect.MajorEffect == MajorEffectType.RAGE && ModOptions.OldRedPearlAbility.Value)
         {
             counterSprite.isVisible = true;
             counterSprite.element = Futile.atlasManager.GetElementWithName(ObjectAddon.SpriteFromNumber(RageCounter) ?? "pearlcat_glyphcooldown");

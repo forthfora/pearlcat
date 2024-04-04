@@ -68,6 +68,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         ReviveCounterSprite = spriteIndex++;
         ShieldCounterSprite = spriteIndex++;
 
+        ActiveRageSprite = spriteIndex++;
+
         sLeaser.sprites = new FSprite[spriteIndex];
 
         var shaders = Utils.Shaders;
@@ -100,8 +102,15 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         {
         };
 
+        sLeaser.sprites[ActiveRageSprite] = new("pearlcat_activerage")
+        {
+            //shader = shaders["Hologram"],
+        };
+
         foreach (var sprite in sLeaser.sprites)
+        {
             sprite.isVisible = false;
+        }
 
         AddToContainer(sLeaser, rCam, null!);
     }
@@ -183,6 +192,9 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
     public Vector2 ActiveOffset { get; } = new(17.5f, 10.0f);
     public Vector2 InactiveOffset { get; } = new(7.5f, 5.0f);
 
+    public int ActiveRageSprite { get; set; }
+    public bool IsActiveRagePearl { get; set; }
+
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         if (slatedForDeletetion)
@@ -208,6 +220,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         var pos = Vector2.Lerp(OverrideLastPos - camPos ?? Pos, OverridePos - camPos ?? Pos, timeStacker);
 
+
+        // Halo
         var sprite = sLeaser.sprites[HaloSprite];
         sprite.isVisible = DrawHalo;
         sprite.SetPosition(pos);
@@ -216,6 +230,8 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.color = HaloColor;
         sprite.isVisible = !ModOptions.HidePearls.Value || IsActiveObject;
 
+
+        // Spear
         sprite = sLeaser.sprites[SpearSprite];
         sprite.isVisible = IsActiveObject && !IsSentry;
         sprite.SetPosition(pos);
@@ -223,12 +239,16 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.color = SymbolColor;
         sprite.rotation = Mathf.Lerp(0.0f, 360.0f, DrawSpearLerp);
 
+
+        // Sentry
         sprite = sLeaser.sprites[SentrySprite];
         sprite.isVisible = IsSentry;
         sprite.SetPosition(pos);
         sprite.color = SymbolColor;
         sprite.alpha = 0.15f;
 
+
+        // Symbol
         sprite = sLeaser.sprites[SymbolSprite];
         var offset = IsActiveObject ? ActiveOffset : InactiveOffset;
 
@@ -248,7 +268,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.color = SymbolColor;
 
 
-
+        // Shield
         sprite = sLeaser.sprites[ShieldCounterSprite];
         offset = new Vector2(-17.5f, 7.0f);
 
@@ -267,6 +287,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.color = ShieldCounter == 0 ? Color.Lerp(shieldCounterColor, Color.red, 1.0f) : shieldCounterColor;
 
 
+        // Revive
         sprite = sLeaser.sprites[ReviveCounterSprite];
         offset = new Vector2(-17.5f, -7.0f);
 
@@ -285,6 +306,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.color = ReviveCounter == 0 ? Color.Lerp(reviveCounterColor, Color.red, 1.0f) : reviveCounterColor;
 
 
+        // Laser
         sprite = sLeaser.sprites[LaserSprite];
         sprite.scale = 1.0f;
         sprite.isVisible = IsLaserVisible;
@@ -305,6 +327,13 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         sprite.scaleY = laserLength;
 
         sprite.SetPosition(startPos + dir * laserLength / 2.0f);
+
+        
+        // Active Rage
+        sprite = sLeaser.sprites[ActiveRageSprite];
+        sprite.isVisible = IsActiveRagePearl;
+        sprite.SetPosition(Pos);
+        sprite.color = SymbolColor;
     }
 
     public static string? SpriteFromNumber(int num)

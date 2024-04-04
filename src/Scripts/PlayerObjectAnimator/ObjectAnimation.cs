@@ -170,10 +170,18 @@ public abstract class ObjectAnimation
             
             addon.IsSentry = poModule.IsSentry || poModule.IsReturningSentry;
 
-            if (addon.IsSentry)
+            if (addon.IsSentry || addon.IsActiveRagePearl)
             {
-                addon.CamoLerp = 0.0f;
-                addon.Symbol = "pearlcat_glyphsentry";
+                if (addon.IsSentry)
+                {
+                    addon.CamoLerp = 0.0f;
+                    addon.Symbol = "pearlcat_glyphsentry";
+                }
+
+                if (addon.IsActiveRagePearl)
+                {
+                    addon.Symbol = "pearlcat_glyphactiverage";
+                }
 
 
                 // ew
@@ -229,7 +237,7 @@ public abstract class ObjectAnimation
             var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * AnimTimer;
 
             Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
-            abstractObject.MoveToTargetPos(player, targetPos);
+            abstractObject.TryToAnimateToTargetPos(player, targetPos);
         }
     }
 }

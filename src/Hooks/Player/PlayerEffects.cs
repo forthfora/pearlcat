@@ -2,6 +2,7 @@
 using RWCustom;
 using SlugBase.Features;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Pearlcat.POEffect;
 using Random = UnityEngine.Random;
@@ -76,11 +77,11 @@ public static partial class Hooks
             stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, 0, 2);
 
             stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.01f, 2.5f);
-            stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.75f, float.MaxValue);
+            stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.5f, float.MaxValue);
 
-            stats.corridorClimbSpeedFac = Mathf.Clamp(baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac, 0.75f, float.MaxValue);
-            stats.poleClimbSpeedFac = Mathf.Clamp(baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac, 0.75f, float.MaxValue);
-            stats.bodyWeightFac = Mathf.Clamp(baseStats.bodyWeightFac + effect.BodyWeightFac, 0.75f, float.MaxValue);
+            stats.corridorClimbSpeedFac = Mathf.Clamp(baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac, 0.5f, float.MaxValue);
+            stats.poleClimbSpeedFac = Mathf.Clamp(baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac, 0.5f, float.MaxValue);
+            stats.bodyWeightFac = Mathf.Clamp(baseStats.bodyWeightFac + effect.BodyWeightFac, 0.5f, float.MaxValue);
         }
 
         var visibilityMult = ModOptions.VisibilityMultiplier.Value / 100.0f;
@@ -128,6 +129,7 @@ public static partial class Hooks
             }
         }
     }
+
 
 
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule, POEffect effect)
@@ -255,6 +257,7 @@ public static partial class Hooks
             playerModule.SpearDelay = 0;
         }
     }
+
 
     public static void UpdateAgility(Player self, PlayerModule playerModule, POEffect effect)
     {
@@ -393,6 +396,7 @@ public static partial class Hooks
         }
     }
     
+
     public static void UpdateRevive(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (ModOptions.DisableRevive.Value || self.inVoidSea)
@@ -471,6 +475,7 @@ public static partial class Hooks
             }
         }
     }
+
 
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
@@ -594,7 +599,213 @@ public static partial class Hooks
         }
     }
     
+
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
+    {
+        if (ModOptions.OldRedPearlAbility.Value)
+        {
+            UpdateOldRage(self, playerModule, effect);
+            return;
+        }
+
+        if (ModOptions.DisableRage.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.RAGE);
+            return;
+        }
+
+
+        foreach (var item in playerModule.Inventory)
+        {
+            if (item.TryGetAddon(out var addon))
+            {
+                addon.IsActiveRagePearl = false;
+            }
+        }
+
+        playerModule.RageAnimTimer++;
+
+
+        if (effect.MajorEffect != MajorEffectType.RAGE) return;
+
+        if (self.room == null) return;
+
+        if (!self.Consious) return;
+
+
+        List<PhysicalObject> ragePearls = new();
+
+        foreach (var item in playerModule.Inventory)
+        {
+            var itemEffect = item.GetPOEffect();
+
+            if (itemEffect.MajorEffect != MajorEffectType.RAGE) continue;
+
+            if (item.TryGetSentry(out _)) continue;
+
+            if (item.realizedObject is not DataPearl pearl) continue;
+
+            RageTargetLogic(pearl, self);
+            
+            ragePearls.Add(pearl);
+        }
+
+        var origin = self.firstChunk.pos;
+        var angleFrameAddition = Custom.LerpMap(playerModule.RageCount, 1, 6, 0.05f, 0.01f);
+        var radius = 80.0f;
+
+        for (int i = 0; i < ragePearls.Count; i++)
+        {
+            var ragePearl = ragePearls[i];
+            
+            if (!ragePearl.abstractPhysicalObject.TryGetAddon(out var addon)) continue;
+
+            var angle = (i * Mathf.PI * 2.0f / ragePearls.Count) + angleFrameAddition * playerModule.RageAnimTimer;
+            var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
+
+            addon.IsActiveRagePearl = true;
+
+            AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
+        }
+    }
+
+    public static void RageTargetLogic(DataPearl pearl, Player player)
+    {
+        if (!pearl.abstractPhysicalObject.TryGetModule(out var module)) return;
+
+        var targetSentryRange = 1000.0f;
+        var targetEnemyRange = 1000.0f;
+        var redirectRange = 25.0f;
+
+        var riccochetVelMult = 1.25f;
+
+        Creature? bestEnemy = null;
+        List<KeyValuePair<PhysicalObject, float>> availableSentries = new();
+
+        var shortestEnemyDist = float.MaxValue;
+
+        foreach (var roomObject in pearl.room.physicalObjects)
+        {
+            foreach (var physObj in roomObject)
+            {
+                if (physObj is Weapon weapon)
+                {
+                    if (weapon.mode != Weapon.Mode.Thrown && module.VisitedObjects.TryGetValue(physObj, out _))
+                    {
+                        module.VisitedObjects.Remove(physObj);
+                    }
+                }
+                else if (physObj.abstractPhysicalObject.TryGetSentry(out var otherSentry))
+                {
+                    if (physObj == pearl) continue;
+
+                    if (physObj.abstractPhysicalObject.GetPOEffect().MajorEffect != MajorEffectType.RAGE) continue;
+
+
+                    if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
+
+
+                    var dist = Custom.Dist(physObj.firstChunk.pos, pearl.firstChunk.pos);
+
+                    if (dist > targetSentryRange) continue;
+
+                    availableSentries.Add(new(physObj, dist));
+                }
+                else if (physObj is Creature creature)
+                {
+                    if (creature is Cicada) continue;
+
+                    if (creature is Centipede centipede && centipede.Small) continue;
+
+
+                    if (!player.IsHostileToMe(creature) && !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly)) continue;
+
+                    if (creature.dead) continue;
+
+                    if (creature.VisibilityBonus < -0.5f) continue;
+
+
+                    if (!pearl.room.VisualContact(pearl.firstChunk.pos, creature.mainBodyChunk.pos)) continue;
+
+
+                    var dist = Custom.Dist(creature.mainBodyChunk.pos, pearl.firstChunk.pos);
+
+                    if (dist > targetEnemyRange) continue;
+
+                    if (dist > shortestEnemyDist) continue;
+
+
+                    bestEnemy = creature;
+                    shortestEnemyDist = dist;
+                }
+            }
+        }
+
+        availableSentries.OrderBy(x => x.Value);
+
+        foreach (var roomObj in pearl.room.physicalObjects)
+        {
+            foreach (var physObj in roomObj)
+            {
+                if (!Custom.DistLess(pearl.firstChunk.pos, physObj.firstChunk.pos, redirectRange)) continue;
+
+                if (physObj is not Weapon weapon) continue;
+
+                if (weapon.mode != Weapon.Mode.Thrown) continue;
+
+                if (module.VisitedObjects.TryGetValue(physObj, out _)) continue;
+
+
+                PhysicalObject? bestSentry = null;
+
+                foreach (var sentryDist in availableSentries)
+                {
+                    if (!sentryDist.Key.abstractPhysicalObject.TryGetModule(out var otherSentryModule)) continue;
+
+                    if (otherSentryModule.VisitedObjects.TryGetValue(weapon, out _)) continue;
+
+                    bestSentry = sentryDist.Key;
+                    break;
+                }
+
+                PhysicalObject? bestTarget = null;
+
+                if (bestSentry != null && bestEnemy != null)
+                {
+                    if (player.room.VisualContact(bestSentry.firstChunk.pos, bestEnemy.firstChunk.pos))
+                    {
+                        bestTarget = bestSentry;
+                    }
+                    else
+                    {
+                        bestTarget = bestEnemy;
+                    }
+                }
+                else if (bestSentry != null)
+                {
+                    bestTarget = bestSentry;
+                }
+                else
+                {
+                    bestTarget = bestEnemy;
+                }
+
+                if (bestTarget == null) continue;
+
+                var dist = Custom.Dist(weapon.firstChunk.pos, bestTarget.firstChunk.pos);
+                var targetPos = bestTarget.firstChunk.pos + (bestTarget.firstChunk.vel * 2.0f) + ((Vector2.up * dist) / 5.0f) * bestTarget.gravity;
+
+                var dir = Custom.DirVec(weapon.firstChunk.pos, targetPos);
+
+                weapon.firstChunk.vel = dir * (weapon.firstChunk.vel.magnitude * riccochetVelMult);
+                weapon.setRotation = dir;
+
+                module.VisitedObjects.Add(physObj, new());
+            }
+        }
+    }
+
+    private static void UpdateOldRage(Player self, PlayerModule playerModule, POEffect effect)
     {
         var shootTime = ModOptions.LaserWindupTime.Value;
         var cooldownTime = ModOptions.LaserRechargeTime.Value;
@@ -628,15 +839,13 @@ public static partial class Hooks
 
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
-        if (playerModule.ActiveObject is not AbstractPhysicalObject activePearl) return;
-
         if (self.room == null) return;
 
         if (!self.Consious) return;
 
 
         var playerRoom = self.room;
-        
+
         // search for target
         if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out var target))
         {
@@ -695,7 +904,7 @@ public static partial class Hooks
                         ragePearlCounter++;
                     }
                 }
-                    
+
             }
         }
         else
@@ -766,6 +975,7 @@ public static partial class Hooks
             module.LaserLerp = Custom.LerpMap(module.LaserTimer, shootTime, 0, 0.0f, 1.0f);
         }
     }
+
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
