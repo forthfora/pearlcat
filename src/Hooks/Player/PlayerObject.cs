@@ -121,7 +121,7 @@ public static partial class Hooks
 
 
     // Storage & Removal
-    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false, bool overrideLimit = false)
+    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false, bool overrideLimit = false, bool noSound = false, bool storeBeforeActive = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
@@ -143,7 +143,11 @@ public static partial class Hooks
 
         if (fromGrasp)
         {
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk);
+            if (!noSound)
+            {
+                self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk);
+            }
+
             self.ReleaseGrasp(0);
         }
 
@@ -157,14 +161,19 @@ public static partial class Hooks
             abstractObject = new DataPearl.AbstractDataPearl(self.abstractCreature.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null,
                 new(self.abstractCreature.Room.index, -1, -1, 0), self.abstractCreature.world.game.GetNewID(), -1, -1, null, type as DataPearlType ?? DataPearlType.Misc);
 
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk, false, 1.0f, 0.5f);
-            self.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.5f);
+            if (!noSound)
+            {
+                self.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.5f);
+            }
         }
 
-        self.AddToInventory(abstractObject);
+        self.AddToInventory(abstractObject, storeBeforeActive);
 
-        int targetIndex = playerModule.ActiveObjectIndex ?? 0;
-        self.ActivateObjectInStorage(targetIndex);
+        if (!storeBeforeActive || playerModule.ActiveObjectIndex == null)
+        {
+            int targetIndex = playerModule.ActiveObjectIndex ?? 0;
+            self.ActivateObjectInStorage(targetIndex);
+        }
         
         playerModule.PickObjectAnimation(self);
         playerModule.ShowHUD(30);
@@ -187,7 +196,7 @@ public static partial class Hooks
                 self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 0, 800);
             }
 
-            self.abstractCreature.world.game.AddTextPrompt("Pearl spears will attempt to return to your inventory after being thrown", 0, 800);
+            self.abstractCreature.world.game.AddTextPrompt("Pearl spears will attempt to return to you being thrown, if they are not stuck", 0, 800);
         }
     }
     
@@ -225,18 +234,35 @@ public static partial class Hooks
     }
 
 
-    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool addToEnd = false)
+    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool addToEnd = false, bool storeBeforeActive = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         int targetIndex = playerModule.ActiveObjectIndex ?? 0;
 
         if (addToEnd)
+        {
             playerModule.Inventory.Add(abstractObject);
-       
-        else
+        }
+        else if (storeBeforeActive)
+        {
+            if (playerModule.ActiveObjectIndex != null)
+            {
+                targetIndex -= 1;
+
+                if (targetIndex < 0)
+                {
+                    targetIndex = playerModule.Inventory.Count - 1;
+                }
+            }
+
             playerModule.Inventory.Insert(targetIndex, abstractObject);
-        
+        }
+        else
+        {
+            playerModule.Inventory.Insert(targetIndex, abstractObject);
+        }
+
         abstractObject.MarkAsPlayerObject();
     }
     

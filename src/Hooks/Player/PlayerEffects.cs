@@ -230,7 +230,7 @@ public static partial class Hooks
 
                     ConnectEffect(playerModule.ActiveObject?.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
 
-                    self.room?.PlaySound(Enums.Sounds.Pearlcat_SpearEquip, self.firstChunk, false, 1.0f, Random.Range(1.2f, 1.5f));
+                    self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk, false, 0.5f, Random.Range(2.2f, 2.5f));
 
                     if (playerModule.ActiveObject != null)
                     {
@@ -730,7 +730,7 @@ public static partial class Hooks
 
         var targetSentryRange = 1000.0f;
         var targetEnemyRange = 1000.0f;
-        var redirectRange = isSentry ? 50.0f : 25.0f;
+        var redirectRange = isSentry ? 50.0f : 30.0f;
 
         var riccochetVelMult = 1.25f;
         var riccochetDamageMult = 1.25f;
@@ -875,7 +875,11 @@ public static partial class Hooks
                 //Plugin.Logger.LogWarning(bestTarget?.GetType());
                 //Plugin.Logger.LogWarning(bestTargetPos);
 
-                if (bestTargetPos == null || bestTarget == null) continue;
+                if (bestTargetPos == null || bestTarget == null)
+                {
+                    //pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.8f, 0.75f);
+                    return;
+                }
 
 
                 var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
@@ -901,10 +905,18 @@ public static partial class Hooks
                 var room = pearl.room;
                 var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
 
-                room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, bestTarget == bestEnemy ? 1.0f : 0.5f, bestTarget == bestEnemy ? 1.0f : 3.0f);
+                if (bestTarget == bestEnemy)
+                {
+                    room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.0f, 1.5f);
+                    room.PlaySound(SoundID.Fire_Spear_Explode, pearl.firstChunk.pos, 0.6f, 1.5f);
+                }
+                else
+                {
+                    room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.5f, 3.0f);
+                }
 
-                room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, pearlColor, true));
-                room.AddObject(new ExplosionSpikes(pearl.room, pearl.firstChunk.pos, 5, 10.0f, 10, 5.0f, 20.0f, pearlColor));
+                room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.5f, pearlColor, true));
+                room.AddObject(new ExplosionSpikes(pearl.room, pearl.firstChunk.pos, 10, 15.0f, 15, 5.0f, 70.0f, pearlColor));
 
                 if (pearl.abstractPhysicalObject.TryGetPOGraphics(out var addon))
                 {

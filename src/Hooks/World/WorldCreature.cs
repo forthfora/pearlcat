@@ -41,7 +41,6 @@ public static partial class Hooks
 
         On.ScavengerAI.CollectScore_PhysicalObject_bool += ScavengerAI_CollectScore_PhysicalObject_bool1;
 
-        IL.BigEel.JawsSnap += BigEel_JawsSnap;
 
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
@@ -49,6 +48,64 @@ public static partial class Hooks
 
         On.Creature.SafariControlInputUpdate += Creature_SafariControlInputUpdate;
         On.ArtificialIntelligence.VisualContact_BodyChunk += ArtificialIntelligence_VisualContact_BodyChunk;
+
+        try
+        {
+            IL.BigEel.JawsSnap += BigEel_JawsSnap;
+            IL.Lizard.SpearStick += Lizard_SpearStick;
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("WorldCreature IL Error: \n" + e);
+        }
+    }
+
+
+
+    // Bypass lizard armor if deflected
+    private static void Lizard_SpearStick(ILContext il)
+    {
+        var c = new ILCursor(il);
+
+        var dest = c.DefineLabel();
+
+        c.GotoNext(MoveType.Before,
+            x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitHeadShield)),
+            x => x.MatchBrfalse(out dest));
+
+        c.GotoPrev(MoveType.After,
+            x => x.MatchLdarg(3));
+
+        c.Emit(OpCodes.Pop);
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.Emit(OpCodes.Ldarg_1);
+        c.EmitDelegate<Func<Lizard, Weapon, bool>>((self, weapon) =>
+        {
+            var playerData = self.abstractCreature?.world?.game?.GetAllPlayerData();
+
+            if (playerData == null) return false;
+
+            // wow
+            foreach (var module in playerData)
+            {
+                foreach (var item in module.Inventory)
+                {
+                    if (item.TryGetPOModule(out var poModule))
+                    {
+                        if (poModule.VisitedObjects.TryGetValue(weapon, out _))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        });
+
+        c.Emit(OpCodes.Brtrue, dest);
+        c.Emit(OpCodes.Ldarg, 3);
     }
 
 

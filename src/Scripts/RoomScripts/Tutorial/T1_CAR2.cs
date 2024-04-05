@@ -36,6 +36,7 @@ public class T1_CAR2 : UpdatableAndDeletable
         if (!room.fullyLoaded) return;
 
         var game = room.game;
+        var miscProg = Utils.GetMiscProgression();
 
         if (PhaseTimer == 0)
         {
@@ -69,11 +70,21 @@ public class T1_CAR2 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                if (ModOptions.OldRedPearlAbility.Value)
+                if (miscProg.HasTrueEnding)
+                {
+                    game.AddTextPrompt("Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess", 0, 600);
+
+                    game.AddTextPrompt("To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl", 0, 500);
+
+                    PhaseTimer = 900;
+                }
+                else if (ModOptions.OldRedPearlAbility.Value)
                 {
                     game.AddTextPrompt("RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 600);
                 
                     game.AddTextPrompt("Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 500);
+
+                    PhaseTimer = 900;
                 }
                 else
                 {
@@ -83,9 +94,9 @@ public class T1_CAR2 : UpdatableAndDeletable
 
                     game.AddTextPrompt("Multiple red sentries may chain this effect together - and yes, these batflies are VERY HOSTILE!", 0, 500);
 
+                    PhaseTimer = 1400;
                 }
 
-                PhaseTimer = ModOptions.OldRedPearlAbility.Value ? 900 : 1400;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

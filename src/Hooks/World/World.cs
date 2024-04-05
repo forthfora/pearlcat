@@ -461,7 +461,7 @@ public partial class Hooks
         var minSparkTime = 40;
         var maxSparkTime = 350;
 
-        if (self.mode == Weapon.Mode.Thrown)
+        if (self.mode == Weapon.Mode.Thrown && module.DecayTimer == 0)
         {
             if (!module.WasThrown)
             {
@@ -476,7 +476,7 @@ public partial class Hooks
         }
 
 
-        if (module.SparkTimer <= 0 && module.DecayTimer < 800)
+        if (module.SparkTimer <= 0 && module.DecayTimer < 200)
         {
             module.SparkTimer = Random.Range(minSparkTime, maxSparkTime);
         }
@@ -488,14 +488,21 @@ public partial class Hooks
 
         if (self.mode != Weapon.Mode.Thrown && module.ReturnTimer == -1)
         {
-            module.ReturnTimer = returnTime;
+            if (self.mode == Weapon.Mode.StuckInWall)
+            {
+                module.DecayTimer++;
+            }
+            else
+            {
+                module.ReturnTimer = returnTime;
+            }
         }
 
         if (module.ReturnTimer > 0)
         {
             module.ReturnTimer--;
             
-            if (self.onPlayerBack || self.grabbedBy.Any(x => x.grabber is Player))
+            if (self.onPlayerBack || self.grabbedBy.Any(x => x.grabber is Player) || module.DecayTimer > 0)
             {
                 module.ReturnTimer = -2;
             }
@@ -505,16 +512,44 @@ public partial class Hooks
         {
             module.ReturnTimer = -2;
             
-            if (module.ThrownByPlayer?.TryGetTarget(out var player) == true && player.TryGetPearlcatModule(out var playerModule) && playerModule.Inventory.Count < ModOptions.MaxPearlCount.Value)
+            if (module.ThrownByPlayer?.TryGetTarget(out var player) == true && player.TryGetPearlcatModule(out var playerModule))
             {
                 var color = module.Color;
-            
-                self.room.AddObject(new ShockWave(self.firstChunk.pos, 50.0f, 0.8f, 10));
-                self.room.AddObject(new LightningMachine.Impact(self.firstChunk.pos, 3.0f, color));
+                var prevPos = self.firstChunk.pos;
 
-                self.room.ConnectEffect(player.firstChunk.pos, self.firstChunk.pos, color);
+                var freeHand = player.FreeHand();
 
-                player.StoreObject(self.abstractSpear);
+
+                if ((player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1 || freeHand == -1) && playerModule.Inventory.Count < ModOptions.MaxPearlCount.Value)
+                {
+                    if (self.room != null)
+                    {
+                        self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
+                        self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
+
+                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
+                        self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, player.firstChunk.pos, 1.0f, 1.0f);
+                    }
+
+                    player.StoreObject(self.abstractSpear, noSound: true, storeBeforeActive: true);
+                }
+                else if (freeHand != -1 && player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) == -1)
+                {
+                    if (self.room != null && player.graphicsModule != null)
+                    {
+                        self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
+                        self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
+
+                        var handPos = ((PlayerGraphics)player.graphicsModule).hands[freeHand].pos;
+
+                        self.room.AddObject(new ShockWave(handPos, 15.0f, 0.8f, 10));
+                        self.room.AddObject(new ExplosionSpikes(self.room, handPos, 10, 5.0f, 10, 10.0f, 40.0f, color));
+                        
+                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
+                    }
+
+                    player.SlugcatGrab(self, freeHand);
+                }
             }
         }
     }
@@ -525,18 +560,21 @@ public partial class Hooks
 
         if (!self.abstractSpear.TryGetSpearModule(out var module)) return;
 
-        var color =  module.Color * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.DecayTimer, 0, 1200, 1.0f, 0.5f), Custom.LerpMap(module.DecayTimer, 0, 1200, 1.0f, 0.2f));
+        var color =  module.Color
+            * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.DecayTimer, 0, 200, 1.0f, 0.1f), Custom.LerpMap(module.DecayTimer, 0, 200, 1.0f, 0.05f));
+
+        color = color.RWColorSafety();
 
         sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_spear");
         sLeaser.sprites[0].color = color;
 
-        var randOffset = Custom.DegToVec(Random.value * 360f) * Custom.LerpMap(module.DecayTimer, 400, 1200, 0.25f, 0.0f) * Random.value;
+        var randOffset = Custom.DegToVec(Random.value * 360f) * Custom.LerpMap(module.DecayTimer, 0, 150, 0.25f, 0.0f) * Random.value;
         sLeaser.sprites[0].x += randOffset.x;
         sLeaser.sprites[0].y += randOffset.y;
 
         var thrown = self.mode == Weapon.Mode.Thrown;
 
-        if (module.SparkTimer == 0 || thrown && module.DecayTimer < 800)
+        if (module.SparkTimer == 0 || thrown && module.DecayTimer < 150)
         {
             var startPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * -30.0f;
             var endPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * 30.0f;
@@ -586,11 +624,8 @@ public partial class Hooks
         if (room.roomSettings.name == "SS_T1_S01")
             room.AddObject(new SS_T1_S01(room));
 
-        if (room.roomSettings.name == "SS_T1_CROSS" && (!Utils.IsMiraActive || true)) // HACK
+        if (room.roomSettings.name == "SS_T1_CROSS" && !Utils.IsMiraActive)
             room.AddObject(new SS_T1_CROSS(room));
-
-        if (room.roomSettings.name == "SS_T1_LIFT")
-            room.AddObject(new SS_T1_LIFT(room));
 
 
         if (!room.abstractRoom.firstTimeRealized) return;
@@ -601,6 +636,10 @@ public partial class Hooks
         // Start
         if (room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
+
+        // Rage (+ Possession)
+        if (room.roomSettings.name == "T1_CAR2")
+            room.AddObject(new T1_CAR2(room));
 
 
 
@@ -613,10 +652,6 @@ public partial class Hooks
         // Shield
         if (room.roomSettings.name == "T1_CAR1")
             room.AddObject(new T1_CAR1(room));
-
-        // Rage
-        if (room.roomSettings.name == "T1_CAR2")
-            room.AddObject(new T1_CAR2(room));
 
         // Revive
         if (room.roomSettings.name == "T1_CAR3")

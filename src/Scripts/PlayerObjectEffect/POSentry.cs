@@ -20,6 +20,8 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
 
     public LightSource? LightSource { get; set; }
+    public bool SpearBombArmed { get; set; } = false;
+    public AbstractRoom? SpearBombRoom { get; set; }
 
     public float ShieldTimer { get; set; } = -1;
     public DynamicSoundLoop? ShieldHoldLoop { get; set; }
@@ -317,24 +319,29 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     {
         if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION) return;
 
-        if (!owner.TryGetPOGraphics(out var addon)) return;
+        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-        if (LightSource == null)
+        if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
+
+
+        var armCooldown = 80;
+        var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
+
+        if (tooClose)
         {
-            LightSource = new(pearl.firstChunk.pos, false, addon.SymbolColor, this)
-            {
-                requireUpKeep = true,
-                setRad = 0.0f,
-                setAlpha = 1.0f,
-                flat = false,
-            };
-            room.AddObject(LightSource);
+            module.CooldownTimer = armCooldown;
         }
 
-        LightSource.stayAlive = true;
 
-        LightSource.setRad = Mathf.Lerp(LightSource.Rad, 300.0f, 0.1f);
-        LightSource.setPos = pearl.firstChunk.pos;
+        var shouldArm = module.CooldownTimer == 0;
+
+        if (!SpearBombArmed && shouldArm)
+        {
+            pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.0f, 3.0f);
+        }
+
+        SpearBombArmed = shouldArm;
+        SpearBombRoom = SpearBombArmed ? pearl.room.abstractRoom : null;
     }
 
 
@@ -636,7 +643,9 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         LightSource?.Destroy();
 
         foreach (var shortcut in LockedShortcutsSprites.Values)
+        {
             shortcut.RemoveFromContainer();
+        }
 
         if (OwnerRef.TryGetTarget(out var owner) && owner.TryGetPOModule(out var module))
         {
@@ -662,6 +671,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                     room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
                 }
 
+                // Agility Teleport
                 if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && AgilityRoom == player.abstractCreature.Room)
                 {
                     if (room != null && owner.realizedObject != null)
@@ -691,6 +701,83 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
                     playerModule.FlyTimer = 10;
                     module.CooldownTimer = 1200;
+                }
+
+                // Spear Bomb
+                if (SpearBombArmed && SpearBombRoom == player.abstractCreature.Room)
+                {
+                    if (room != null && owner.realizedObject != null)
+                    {
+                        var pos = owner.realizedObject.firstChunk.pos;
+                        var color = addon.SymbolColor;
+
+                        room.AddObject(new SootMark(room, pos, 40f, true));
+
+                        room.AddObject(new Explosion.ExplosionLight(pos, 280f, 1f, 7, color));
+                        room.AddObject(new Explosion.ExplosionLight(pos, 230f, 1f, 3, new Color(1f, 1f, 1f)));
+
+                        room.AddObject(new ExplosionSpikes(room, pos, 14, 30f, 9f, 7f, 120f, color));
+                        room.AddObject(new ShockWave(pos, 160f, 0.3f, 10, false));
+
+                        room.AddObject(new Explosion(room,
+                            owner.realizedObject,
+                            pos,
+                            7,
+                            125.0f,
+                            10.0f,
+                           2.0f,
+                            280.0f,
+                            0.25f,
+                            player,
+                            0.7f,
+                            160.0f,
+                            1.0f));
+
+                        room.PlaySound(SoundID.Bomb_Explode, pos);
+                        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1.2f, 0.75f);
+
+                        for (int i = 0; i < 25; i++)
+                        {
+                            var randVec = Custom.RNV();
+
+                            if (room.GetTile(pos + randVec * 20f).Solid)
+                            {
+                                if (!room.GetTile(pos - randVec * 20f).Solid)
+                                {
+                                    randVec *= -1f;
+                                }
+                                else
+                                {
+                                    randVec = Custom.RNV();
+                                }
+                            }
+
+                            for (int j = 0; j < 3; j++)
+                            {
+                                room.AddObject(new Spark(pos + randVec * Mathf.Lerp(30f, 60f, Random.value),
+                                    randVec * Mathf.Lerp(7f, 38f, Random.value) + Custom.RNV() * 20f * Random.value,
+                                    Color.Lerp(color, new Color(1f, 1f, 1f), Random.value), null, 11, 28));
+                            }
+
+                            room.AddObject(new Explosion.FlashingSmoke(pos + randVec * 40f * Random.value,
+                                randVec * Mathf.Lerp(4f, 20f, Mathf.Pow(Random.value, 2f)),
+                                1f + 0.05f * Random.value, Color.white,
+                                color, Random.Range(3, 11)));
+                        }
+
+                        for (int i = 0; i < 6; i++)
+                        {
+                            room.AddObject(new ScavengerBomb.BombFragment(pos, Custom.DegToVec((i + Random.value) / 6f * 360f) * Mathf.Lerp(18f, 38f, Random.value)));
+                        }
+
+                        room.ScreenMovement(new Vector2?(pos), default, 1.3f);
+
+
+                        player.RemoveFromInventory(owner);
+
+                        owner.destroyOnAbstraction = true;
+                        owner.Abstractize(owner.pos);
+                    }
                 }
             }
         }
@@ -806,13 +893,15 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             effect.MajorEffect == MajorEffectType.SHIELD
             || effect.MajorEffect == MajorEffectType.AGILITY
             || effect.MajorEffect == MajorEffectType.REVIVE
-            || effect.MajorEffect == MajorEffectType.RAGE;
+            || effect.MajorEffect == MajorEffectType.RAGE
+            || effect.MajorEffect == MajorEffectType.SPEAR_CREATION;
 
         guideSprite.element = Futile.atlasManager.GetElementWithName(effect.MajorEffect switch
         {
             MajorEffectType.AGILITY => "pearlcat_agilitysentry",
             MajorEffectType.REVIVE => "pearlcat_revivesentry",
-            MajorEffectType.RAGE => "pearlcat_ragesentry",
+            MajorEffectType.RAGE => ModOptions.OldRedPearlAbility.Value ? "pearlcat_agilitysentry" : "pearlcat_ragesentry",
+            MajorEffectType.SPEAR_CREATION => "pearlcat_agilitysentry",
 
             _ => "pearlcat_shieldsentry",
         });

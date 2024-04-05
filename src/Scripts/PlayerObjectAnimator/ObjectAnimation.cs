@@ -231,8 +231,8 @@ public abstract class ObjectAnimation
             }
             else
             {
-                addon.LaserLerp = Custom.LerpAndTick(addon.LaserLerp, 0.0f, 0.05f, 0.01f);
-                addon.IsLaserVisible = addon.LaserLerp > 0.01f;
+                addon.LaserLerp = Custom.LerpAndTick(addon.LaserLerp, 0.0f, 0.025f, 0.005f);
+                addon.IsLaserVisible = addon.LaserLerp > 0.02f;
             }
         }
     }
