@@ -53,7 +53,7 @@ public static partial class Hooks
 
     public static void ClearAsPlayerObject(this AbstractPhysicalObject abstractObject)
     {
-        if (!abstractObject.TryGetModule(out var module)) return;
+        if (!abstractObject.TryGetPOModule(out var module)) return;
 
         if (!module.IsCurrentlyStored) return;
 
@@ -108,7 +108,7 @@ public static partial class Hooks
     {        
         orig(self, eu);
 
-        if (!self.abstractPhysicalObject.TryGetModule(out var module)) return;
+        if (!self.abstractPhysicalObject.TryGetPOModule(out var module)) return;
 
 
         if (module.CooldownTimer > 0)
@@ -155,7 +155,7 @@ public static partial class Hooks
     {
         orig(self, eu);
 
-        if (!self.abstractPhysicalObject.TryGetModule(out var module) || !module.IsCurrentlyStored) return;
+        if (!self.abstractPhysicalObject.TryGetPOModule(out var module) || !module.IsCurrentlyStored) return;
 
         self.CollideWithObjects = false;
         self.CollideWithSlopes = false;
@@ -186,7 +186,7 @@ public static partial class Hooks
         foreach (var sprite in sLeaser.sprites)
             sprite.alpha = 1.0f;
 
-        if (!self.abstractPhysicalObject.TryGetAddon(out var addon)) return;
+        if (!self.abstractPhysicalObject.TryGetPOGraphics(out var addon)) return;
 
         addon.ParentGraphics_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
     }

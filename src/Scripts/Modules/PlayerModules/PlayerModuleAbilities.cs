@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RWCustom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Pearlcat.POEffect;
@@ -44,7 +45,7 @@ public partial class PlayerModule
 
         foreach (var pearl in inventory)
         {
-            if (!pearl.TryGetModule(out var module)) continue;
+            if (!pearl.TryGetPOModule(out var module)) continue;
 
             if (pearl.TryGetSentry(out _)) continue;
 
@@ -72,7 +73,7 @@ public partial class PlayerModule
     {
         var result = PutOnCooldown(MajorEffectType.REVIVE, cooldown);
 
-        if (result?.TryGetModule(out var module) == true)
+        if (result?.TryGetPOModule(out var module) == true)
             module.InventoryFlash = true;
 
         if (ModOptions.InventoryPings.Value)
@@ -89,7 +90,7 @@ public partial class PlayerModule
 
         foreach (var pearl in inventory)
         {
-            if (!pearl.TryGetModule(out var module)) continue;
+            if (!pearl.TryGetPOModule(out var module)) continue;
 
             if (pearl.TryGetSentry(out _)) continue;
 
@@ -110,7 +111,7 @@ public partial class PlayerModule
     {
         foreach (var pearl in Inventory)
         {
-            if (!pearl.TryGetModule(out var module)) continue;
+            if (!pearl.TryGetPOModule(out var module)) continue;
 
             if (pearl.GetPOEffect().MajorEffect != MajorEffectType.AGILITY) continue;
 
@@ -125,7 +126,7 @@ public partial class PlayerModule
 
         var obj = SetShieldCooldown(ModOptions.ShieldRechargeTime.Value);
 
-        if (obj?.TryGetModule(out var module) == true)
+        if (obj?.TryGetPOModule(out var module) == true)
             module.InventoryFlash = true;
         
         ShieldTimer = ModOptions.ShieldDuration.Value;
@@ -139,5 +140,9 @@ public partial class PlayerModule
 
         if (ModOptions.InventoryPings.Value)
             ShowHUD(60);
-    }    
+    }
+
+
+    public int RageSpearCooldown { get; set; }
+    public void SetRageSpearCooldown() => RageSpearCooldown = (int)Custom.LerpMap(Inventory.Count(x => x.GetPOEffect().MajorEffect == MajorEffectType.RAGE), 1, 6, 80, 20);
 }

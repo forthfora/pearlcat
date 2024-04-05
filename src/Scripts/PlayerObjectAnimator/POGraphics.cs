@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class ObjectAddon : UpdatableAndDeletable, IDrawable
+public class POGraphics : UpdatableAndDeletable, IDrawable
 {
     public WeakReference<AbstractPhysicalObject> ObjectRef { get; } = null!;
 
-    public ObjectAddon(AbstractPhysicalObject abstractObject)
+    public POGraphics(AbstractPhysicalObject abstractObject)
     {
         if (abstractObject?.realizedObject?.room == null)
         {
@@ -18,7 +18,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
         }
 
         ObjectRef = new(abstractObject);
-        ModuleManager.ObjectsWithAddon.Add(abstractObject, this);
+        ModuleManager.PlayerObjectGraphicsData.Add(abstractObject, this);
 
         abstractObject.realizedObject.room.AddObject(this);
     }
@@ -46,7 +46,7 @@ public class ObjectAddon : UpdatableAndDeletable, IDrawable
 
         if (ObjectRef?.TryGetTarget(out var abstractObject) == true)
         {
-            ModuleManager.ObjectsWithAddon.Remove(abstractObject);
+            ModuleManager.PlayerObjectGraphicsData.Remove(abstractObject);
         }
 
         RemoveFromRoom();

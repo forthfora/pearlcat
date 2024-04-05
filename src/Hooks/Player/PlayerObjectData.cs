@@ -153,7 +153,7 @@ public static partial class Hooks
 
         if (abstractObject.TryGetSentry(out _)) return;
 
-        if (abstractObject.TryGetAddon(out var addon) && addon.IsActiveRagePearl) return;
+        if (abstractObject.TryGetPOGraphics(out var addon) && addon.IsActiveRagePearl) return;
 
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 

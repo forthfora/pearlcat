@@ -69,12 +69,23 @@ public class T1_CAR2 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt("RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 600);
+                if (ModOptions.OldRedPearlAbility.Value)
+                {
+                    game.AddTextPrompt("RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 600);
                 
-                game.AddTextPrompt("Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 500);
+                    game.AddTextPrompt("Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 500);
+                }
+                else
+                {
+                    game.AddTextPrompt("RED symbolizes power. With a red pearl active, all stored red pearls will circle you, and generate temporary spears", 0, 600);
 
+                    game.AddTextPrompt("Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature", 0, 500);
 
-                PhaseTimer = 900;
+                    game.AddTextPrompt("Multiple red sentries may chain this effect together - and yes, these batflies are VERY HOSTILE!", 0, 500);
+
+                }
+
+                PhaseTimer = ModOptions.OldRedPearlAbility.Value ? 900 : 1400;
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

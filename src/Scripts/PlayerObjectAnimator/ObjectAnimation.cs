@@ -34,10 +34,10 @@ public abstract class ObjectAnimation
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!abstractObject.TryGetModule(out var module)) continue;
+            if (!abstractObject.TryGetPOModule(out var module)) continue;
 
-            if (!abstractObject.TryGetAddon(out _))
-                new ObjectAddon(abstractObject);
+            if (!abstractObject.TryGetPOGraphics(out _))
+                new POGraphics(abstractObject);
 
             module.PlayCollisionSound = false;
         }
@@ -65,7 +65,7 @@ public abstract class ObjectAnimation
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!abstractObject.TryGetAddon(out var addon)) continue;
+            if (!abstractObject.TryGetPOGraphics(out var addon)) continue;
             
 
             addon.DrawHalo = true;
@@ -112,9 +112,9 @@ public abstract class ObjectAnimation
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!abstractObject.TryGetAddon(out var addon)) continue;
+            if (!abstractObject.TryGetPOGraphics(out var addon)) continue;
 
-            if (!abstractObject.TryGetModule(out var poModule)) continue;
+            if (!abstractObject.TryGetPOModule(out var poModule)) continue;
 
             if (player.room == null || addon.Pos == Vector2.zero)
             {
@@ -153,7 +153,7 @@ public abstract class ObjectAnimation
                 addon.SymbolColor = Color.white;
             }
 
-            addon.Symbol = ObjectAddon.SpriteFromPearl(abstractObject);
+            addon.Symbol = POGraphics.SpriteFromPearl(abstractObject);
             addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
 
             addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject ? 1.0f : playerModule.CamoLerp;

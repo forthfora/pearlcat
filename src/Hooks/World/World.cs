@@ -5,6 +5,7 @@ using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,6 +14,18 @@ namespace Pearlcat;
 
 public partial class Hooks
 {
+    public static List<string> TrainViewRooms { get; } = new()
+    {
+        "T1_START",
+        "T1_CAR0",
+        "T1_CAR1",
+        "T1_CAR2",
+        "T1_CAR3",
+        "T1_CAREND",
+        "T1_END",
+        "T1_S01",
+    };
+
     public static void ApplyWorldHooks()
     {
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
@@ -32,8 +45,8 @@ public partial class Hooks
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
         On.KingTusks.Tusk.Update += Tusk_Update;
 
-        On.Spear.DrawSprites += Spear_DrawSprites;
-        On.Spear.Update += Spear_Update;
+        On.Spear.DrawSprites += Spear_DrawSprites_PearlSpear;
+        On.Spear.Update += Spear_Update_PearlSpear;
 
         On.BigNeedleWorm.Swish += BigNeedleWorm_Swish;
 
@@ -87,7 +100,11 @@ public partial class Hooks
         On.RainWorldGame.ctor += RainWorldGame_ctor;
 
         On.AboveCloudsView.ctor += AboveCloudsView_ctor;
+
+        On.Spear.Update += Spear_Update_RageSpear;
+        On.Spear.DrawSprites += Spear_DrawSprites_RageSpear;
     }
+
 
 
     // Manage dreams
@@ -153,6 +170,7 @@ public partial class Hooks
         orig(saveState, currentRegion, denPosition, ref cyclesSinceLastDream, ref cyclesSinceLastFamilyDream, ref cyclesSinceLastGuideDream, ref inGWOrSHCounter, ref upcomingDream, ref eventDream, ref everSleptInSB, ref everSleptInSB_S01, ref guideHasShownHimselfToPlayer, ref guideThread, ref guideHasShownMoonThisRound, ref familyThread);
     }
 
+
     // Remove transit system from the Regions menu
     private static void Region_GetFullRegionOrder(ILContext il)
     {
@@ -169,6 +187,7 @@ public partial class Hooks
         });
     }
 
+
     // Fix for DevTools timeline object filters, make it copy hunters
     private static void FilterData_FromString(On.PlacedObject.FilterData.orig_FromString orig, PlacedObject.FilterData self, string s)
     {
@@ -179,6 +198,7 @@ public partial class Hooks
             self.availableToPlayers.Remove(Enums.Pearlcat);
         }
     }
+
 
     // Outer Expanse Ending
     private static void RainWorldGame_BeatGameMode(ILContext il)
@@ -222,6 +242,7 @@ public partial class Hooks
 
         c.Emit(OpCodes.Stloc_0);
     }
+
 
     // Block OE ending under some conditions
     private static void OE_GourmandEnding_Update(On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.orig_Update orig, MSCRoomSpecificScript.OE_GourmandEnding self, bool eu)
@@ -305,6 +326,7 @@ public partial class Hooks
             wasPlayer.eatCounter = (int)wasEatCounter;
     }
 
+
     // Unlock OE Gate
     private static bool RegionGate_customOEGateRequirements(On.RegionGate.orig_customOEGateRequirements orig, RegionGate self)
     {
@@ -318,6 +340,7 @@ public partial class Hooks
 
         return result;
     }
+
 
 
     // Only let pups spawn if pearlpup is missing
@@ -338,6 +361,7 @@ public partial class Hooks
 
         return result;
     }
+
 
 
     // Unlock certain gates (Bitter Aerie, Metropolis)
@@ -383,6 +407,7 @@ public partial class Hooks
     }
 
 
+
     // Hide the ID used for pebbles pearl readings
     private static bool SlugcatStats_HiddenOrUnplayableSlugcat(On.SlugcatStats.orig_HiddenOrUnplayableSlugcat orig, SlugcatStats.Name i)
     {
@@ -422,8 +447,11 @@ public partial class Hooks
 
         return result;
     }
+    
 
-    private static void Spear_Update(On.Spear.orig_Update orig, Spear self, bool eu)
+
+    // Custom Spears
+    private static void Spear_Update_PearlSpear(On.Spear.orig_Update orig, Spear self, bool eu)
     {
         orig(self, eu);
 
@@ -494,23 +522,7 @@ public partial class Hooks
             module.DecayTimer++;
     }
 
-    public static bool TryGetSpearModule(this AbstractSpear spear, out SpearModule module)
-    {
-        var save = spear.Room.world.game.GetMiscWorld();
-
-        if (save == null)
-        {
-            module = null!;
-            return false;
-        }
-
-        if (save.PearlSpears.TryGetValue(spear.ID.number, out module))
-            return true;
-
-        return false;
-    }
-
-    private static void Spear_DrawSprites(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    private static void Spear_DrawSprites_PearlSpear(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
@@ -535,6 +547,34 @@ public partial class Hooks
         }
     }
 
+
+    private static void Spear_DrawSprites_RageSpear(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (!self.TryGetRageSpearModule(out var module)) return;
+
+        sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_ragespear");
+        sLeaser.sprites[0].color = module.Color;
+    }
+
+    private static void Spear_Update_RageSpear(On.Spear.orig_Update orig, Spear self, bool eu)
+    {
+        orig(self, eu);
+
+        if (!self.TryGetRageSpearModule(out var module)) return;
+        
+        if (self.mode != Weapon.Mode.Thrown && self.mode != Weapon.Mode.Carried)
+        {
+            self.room.AddObject(new ShockWave(self.firstChunk.pos, 10.0f, 0.5f, 8));
+
+            self.Destroy();
+        }
+    }
+
+
+
+    // Room & World Loading
     private static void RoomSpecificScript_AddRoomSpecificScript(On.RoomSpecificScript.orig_AddRoomSpecificScript orig, Room room)
     {
         orig(room);
@@ -585,19 +625,6 @@ public partial class Hooks
         if (room.roomSettings.name == "T1_CAR3")
             room.AddObject(new T1_CAR3(room));
     }
-
-
-    public static List<string> TrainViewRooms { get; } = new()
-    {
-        "T1_START",
-        "T1_CAR0",
-        "T1_CAR1",
-        "T1_CAR2",
-        "T1_CAR3",
-        "T1_CAREND",
-        "T1_END",
-        "T1_S01",
-    };
 
     private static void Room_Loaded(On.Room.orig_Loaded orig, Room self)
     {
@@ -670,26 +697,7 @@ public partial class Hooks
             }
         }
     }
-
-
-    private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        if (self.myShelter.room.roomSettings.name == "T1_S01")
-            foreach (var sprite in sLeaser.sprites)
-                sprite.isVisible = false;
-    }
-
-    private static void ShelterDoor_DrawSprites(On.ShelterDoor.orig_DrawSprites orig, ShelterDoor self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        if (self.room.roomSettings.name == "T1_S01")
-            foreach (var sprite in sLeaser.sprites)
-                sprite.isVisible = false;
-    }
-
+    
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
     {
         try
@@ -723,6 +731,28 @@ public partial class Hooks
 
         orig(self, playerShelter, activeGate);
     }
+
+    
+
+    // Shelter
+    private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (self.myShelter.room.roomSettings.name == "T1_S01")
+            foreach (var sprite in sLeaser.sprites)
+                sprite.isVisible = false;
+    }
+
+    private static void ShelterDoor_DrawSprites(On.ShelterDoor.orig_DrawSprites orig, ShelterDoor self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (self.room.roomSettings.name == "T1_S01")
+            foreach (var sprite in sLeaser.sprites)
+                sprite.isVisible = false;
+    }
+
 
 
     // Prevent Player Pearls being saved in the shelter 

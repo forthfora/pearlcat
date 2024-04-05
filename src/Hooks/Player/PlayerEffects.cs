@@ -104,7 +104,7 @@ public static partial class Hooks
 
         var activeObj = playerModule.ActiveObject;
 
-        if (activeObj == null || !activeObj.TryGetModule(out var poModule)) return;
+        if (activeObj == null || !activeObj.TryGetPOModule(out var poModule)) return;
 
         var abilityInput = self.IsSentryKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasSentryInput;
@@ -405,7 +405,7 @@ public static partial class Hooks
             return;
         }
 
-        if (playerModule.ActiveObject == null || !playerModule.ActiveObject.TryGetModule(out var poModule)) return;
+        if (playerModule.ActiveObject == null || !playerModule.ActiveObject.TryGetPOModule(out var poModule)) return;
 
         var abilityInput = self.IsReviveKeybindPressed(playerModule);
         
@@ -495,7 +495,7 @@ public static partial class Hooks
                 {
                     var itemEffect = item.GetPOEffect();
 
-                    if (!item.TryGetModule(out var module)) continue;
+                    if (!item.TryGetPOModule(out var module)) continue;
 
                     if (module.CooldownTimer != 0) continue;
 
@@ -602,6 +602,35 @@ public static partial class Hooks
 
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
+        foreach (var item in playerModule.Inventory)
+        {
+            if (item.TryGetPOGraphics(out var addon))
+            {
+                addon.IsActiveRagePearl = false;
+            }
+        }
+
+        if (effect.MajorEffect != MajorEffectType.RAGE || self.IsStoreKeybindPressed(playerModule))
+        {
+            foreach (var grasp in self.grasps)
+            {
+                if (grasp?.grabbed is not Spear spear) continue;
+
+                if (spear.TryGetRageSpearModule(out _))
+                {
+                    grasp.Release();
+                }
+            }
+        }
+
+        if (playerModule.RageSpearCooldown > 0)
+        {
+            playerModule.RageSpearCooldown--;
+        }
+
+        playerModule.RageAnimTimer++;
+
+
         if (ModOptions.OldRedPearlAbility.Value)
         {
             UpdateOldRage(self, playerModule, effect);
@@ -615,16 +644,7 @@ public static partial class Hooks
         }
 
 
-        foreach (var item in playerModule.Inventory)
-        {
-            if (item.TryGetAddon(out var addon))
-            {
-                addon.IsActiveRagePearl = false;
-            }
-        }
-
-        playerModule.RageAnimTimer++;
-
+        if (self.IsStoreKeybindPressed(playerModule)) return;
 
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
@@ -632,6 +652,8 @@ public static partial class Hooks
 
         if (!self.Consious) return;
 
+        if (self.Sleeping) return;
+        
 
         List<PhysicalObject> ragePearls = new();
 
@@ -646,19 +668,19 @@ public static partial class Hooks
             if (item.realizedObject is not DataPearl pearl) continue;
 
             RageTargetLogic(pearl, self);
-            
+
             ragePearls.Add(pearl);
         }
 
         var origin = self.firstChunk.pos;
-        var angleFrameAddition = -Custom.LerpMap(playerModule.RageCount, 1, 6, 0.05f, 0.025f);
+        var angleFrameAddition = -Custom.LerpMap(ragePearls.Count, 1, 6, 0.05f, 0.025f);
         var radius = 80.0f;
 
         for (int i = 0; i < ragePearls.Count; i++)
         {
             var ragePearl = ragePearls[i];
-            
-            if (!ragePearl.abstractPhysicalObject.TryGetAddon(out var addon)) continue;
+
+            if (!ragePearl.abstractPhysicalObject.TryGetPOGraphics(out var addon)) continue;
 
             var angle = (i * Mathf.PI * 2.0f / ragePearls.Count) + angleFrameAddition * playerModule.RageAnimTimer;
             var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
@@ -667,11 +689,42 @@ public static partial class Hooks
 
             AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
         }
+
+        RageSpearLogic(self, playerModule);
+    }
+
+    private static void RageSpearLogic(Player self, PlayerModule playerModule)
+    {
+        if (self.grasps[0] != null || self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1) return;
+
+        if (playerModule.RageSpearCooldown > 0) return;
+
+
+        var ragePearls = playerModule.Inventory.Where(x => x.GetPOEffect().MajorEffect == MajorEffectType.RAGE).ToList();
+
+        if (ragePearls.Count == 0) return;
+
+
+        var abstractSpear = new AbstractSpear(self.room.world, null, self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.room.game.GetNewID(), false);
+
+        self.room.abstractRoom.AddEntity(abstractSpear);
+
+        abstractSpear.pos = self.abstractCreature.pos;
+        abstractSpear.RealizeInRoom();
+
+        var spear = (Spear)abstractSpear.realizedObject;
+
+
+        var ragePearl = ragePearls[Random.Range(0, ragePearls.Count - 1)];
+
+        spear.MakeRageSpear(ragePearl.GetObjectColor());
+        
+        self.SlugcatGrab(spear, 0);
     }
 
     public static void RageTargetLogic(DataPearl pearl, Player player)
     {
-        if (!pearl.abstractPhysicalObject.TryGetModule(out var module)) return;
+        if (!pearl.abstractPhysicalObject.TryGetPOModule(out var module)) return;
 
         var targetSentryRange = 1000.0f;
         var targetEnemyRange = 1000.0f;
@@ -761,7 +814,7 @@ public static partial class Hooks
 
                 foreach (var sentryDist in availableSentries)
                 {
-                    if (!sentryDist.Key.abstractPhysicalObject.TryGetModule(out var otherSentryModule)) continue;
+                    if (!sentryDist.Key.abstractPhysicalObject.TryGetPOModule(out var otherSentryModule)) continue;
 
                     if (otherSentryModule.VisitedObjects.TryGetValue(weapon, out _)) continue;
 
@@ -826,7 +879,7 @@ public static partial class Hooks
 
         foreach (var item in playerModule.Inventory)
         {
-            if (!item.TryGetModule(out var module)) continue;
+            if (!item.TryGetPOModule(out var module)) continue;
 
             var itemEffect = item.GetPOEffect();
 
@@ -905,7 +958,7 @@ public static partial class Hooks
                 {
                     foreach (var item in playerModule.Inventory)
                     {
-                        if (!item.TryGetModule(out var module)) continue;
+                        if (!item.TryGetPOModule(out var module)) continue;
 
                         var itemEffect = item.GetPOEffect();
 
@@ -945,9 +998,9 @@ public static partial class Hooks
 
         foreach (var item in playerModule.Inventory)
         {
-            if (!item.TryGetModule(out var module)) continue;
+            if (!item.TryGetPOModule(out var module)) continue;
 
-            if (!item.TryGetAddon(out var addon)) continue;
+            if (!item.TryGetPOGraphics(out var addon)) continue;
 
 
             var itemEffect = item.GetPOEffect();

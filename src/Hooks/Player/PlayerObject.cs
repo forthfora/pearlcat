@@ -111,7 +111,7 @@ public static partial class Hooks
 
             if (abstractObject.TryGetSentry(out _) && excludeSentries) continue;
 
-            if (abstractObject.TryGetModule(out var module))
+            if (abstractObject.TryGetPOModule(out var module))
                 module.RemoveSentry(abstractObject);
 
             AbstractedEffect(abstractObject.realizedObject);
@@ -244,10 +244,10 @@ public static partial class Hooks
         playerModule.Inventory.Remove(abstractObject);
         abstractObject.ClearAsPlayerObject();
 
-        if (abstractObject.TryGetAddon(out var addon))
+        if (abstractObject.TryGetPOGraphics(out var addon))
             addon.Destroy();
 
-        if (abstractObject.TryGetModule(out var module))
+        if (abstractObject.TryGetPOModule(out var module))
             module.RemoveSentry(abstractObject);
 
         if (playerModule.Inventory.Count == 0)

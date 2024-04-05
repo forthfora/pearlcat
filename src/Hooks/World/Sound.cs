@@ -58,7 +58,7 @@ public partial class Hooks
     {
         if (chunk.owner != null && chunk.owner.abstractPhysicalObject.IsPlayerObject())
         {
-            if (soundId == SoundID.SS_AI_Marble_Hit_Floor && chunk.owner.abstractPhysicalObject.TryGetModule(out var module) && !module.PlayCollisionSound)
+            if (soundId == SoundID.SS_AI_Marble_Hit_Floor && chunk.owner.abstractPhysicalObject.TryGetPOModule(out var module) && !module.PlayCollisionSound)
             {
                 vol = 0.0f;
             }

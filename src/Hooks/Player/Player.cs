@@ -48,7 +48,10 @@ public static partial class Hooks
         {
             Plugin.Logger.LogError("Player Hooks IL Exception: \n" + e);
         }
+
+        On.Player.ThrownSpear += Player_ThrownSpear;
     }
+
 
 
     private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
@@ -332,7 +335,7 @@ public static partial class Hooks
         {
             if (playerModule.StoreObjectTimer >= 0)
             {
-                if (isStoring || (playerModule.ActiveObject != null && playerModule.ActiveObject.TryGetModule(out var module) && !module.IsReturningSentry))
+                if (isStoring || (playerModule.ActiveObject != null && playerModule.ActiveObject.TryGetPOModule(out var module) && !module.IsReturningSentry))
                 {
                     playerModule.StoreObjectTimer++;
 
@@ -348,7 +351,7 @@ public static partial class Hooks
                         {
                             var activeObj = playerModule.ActiveObject?.realizedObject;
                     
-                            if (playerModule.ActiveObject?.TryGetModule(out module) == true)
+                            if (playerModule.ActiveObject?.TryGetPOModule(out module) == true)
                             {
                                 if (!module.IsReturningSentry)
                                 {
@@ -433,8 +436,8 @@ public static partial class Hooks
 
             if (item.IsPlayerObject()) return;
 
-            if (ModuleManager.ObjectsWithAddon.TryGetValue(item, out var _))
-                ModuleManager.ObjectsWithAddon.Remove(item);
+            if (ModuleManager.PlayerObjectGraphicsData.TryGetValue(item, out var _))
+                ModuleManager.PlayerObjectGraphicsData.Remove(item);
 
             self.StoreObject(item);
         }
@@ -781,7 +784,7 @@ public static partial class Hooks
             {
                 if (!item.TryGetSentry(out var sentry)) continue;
 
-                if (!item.TryGetModule(out var module)) continue;
+                if (!item.TryGetPOModule(out var module)) continue;
 
                 if (module.CooldownTimer != 0 && sentry.ShieldTimer <= 0) continue;
 
@@ -1110,5 +1113,18 @@ public static partial class Hooks
 
         room.PlaySound(SoundID.Bomb_Explode, pos, 0.5f, 1.2f);
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 0.6f, 0.3f + Random.value * 0.2f);
+    }
+
+
+
+    private static void Player_ThrownSpear(On.Player.orig_ThrownSpear orig, Player self, Spear spear)
+    {
+        orig(self, spear);
+
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        if (!spear.TryGetRageSpearModule(out _)) return;
+
+        playerModule.SetRageSpearCooldown();
     }
 }

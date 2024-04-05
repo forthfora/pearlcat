@@ -30,7 +30,7 @@ public class SleepOA : ObjectAnimation
             if (abstractObject.realizedObject == null) continue;
             var realizedObject = abstractObject.realizedObject;
 
-            if (!realizedObject.abstractPhysicalObject.TryGetModule(out var playerObjectModule)) continue;
+            if (!realizedObject.abstractPhysicalObject.TryGetPOModule(out var playerObjectModule)) continue;
 
             realizedObject.gravity = 0.05f;
             realizedObject.CollideWithTerrain = true;

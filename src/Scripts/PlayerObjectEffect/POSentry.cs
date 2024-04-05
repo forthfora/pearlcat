@@ -58,7 +58,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         var effect = owner.GetPOEffect();
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 2.0f);
 
@@ -66,7 +66,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         room.AddObject(new ExplosionSpikes(room, InitialPos, 5, 30.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
         room.AddObject(new LightningMachine.Impact(InitialPos, 0.1f, addon.SymbolColor, true));
 
-        if (!owner.TryGetModule(out var module)) return;
+        if (!owner.TryGetPOModule(out var module)) return;
 
         if (module.CooldownTimer != 0) return;
 
@@ -95,7 +95,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (owner.realizedObject is not DataPearl pearl) return;
 
-        if (!pearl.abstractPhysicalObject.TryGetModule(out var module)) return;
+        if (!pearl.abstractPhysicalObject.TryGetPOModule(out var module)) return;
 
 
         var pearlType = pearl.AbstractPearl.dataPearlType;
@@ -255,7 +255,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     {
         if (effect.MajorEffect != MajorEffectType.REVIVE) return;
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         if (module.CooldownTimer != 0) return;
 
@@ -317,7 +317,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     {
         if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION) return;
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         if (LightSource == null)
         {
@@ -342,7 +342,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     {
         if (effect.MajorEffect != MajorEffectType.SHIELD) return;
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
@@ -485,7 +485,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     {
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         var shootTime = ModOptions.LaserWindupTime.Value;
         var cooldownTime = ModOptions.LaserRechargeTime.Value;
@@ -638,7 +638,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         foreach (var shortcut in LockedShortcutsSprites.Values)
             shortcut.RemoveFromContainer();
 
-        if (OwnerRef.TryGetTarget(out var owner) && owner.TryGetModule(out var module))
+        if (OwnerRef.TryGetTarget(out var owner) && owner.TryGetPOModule(out var module))
         {
             if (ModuleManager.SentryData.TryGetValue(owner, out _))
             {
@@ -652,7 +652,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
             var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-            if (owner.TryGetAddon(out var addon) && playerModule != null && playerModule.PlayerRef.TryGetTarget(out var player))
+            if (owner.TryGetPOGraphics(out var addon) && playerModule != null && playerModule.PlayerRef.TryGetTarget(out var player))
             {
                 if (room != null && owner.realizedObject != null)
                 {
@@ -767,7 +767,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (owner.realizedObject is not DataPearl pearl) return;
 
-        if (!pearl.abstractPhysicalObject.TryGetAddon(out var addon)) return;
+        if (!pearl.abstractPhysicalObject.TryGetPOGraphics(out var addon)) return;
 
         var effect = pearl.abstractPhysicalObject.GetPOEffect();
         
@@ -781,7 +781,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         var counterSprite = sLeaser.sprites[5];
         var holoLightSprite = sLeaser.sprites[6];
 
-        symbolSprite.element = Futile.atlasManager.GetElementWithName(addon.DrawSymbolCooldown && RageCounter > 0 ? "pearlcat_glyphcooldown" : ObjectAddon.SpriteFromPearl(pearl.abstractPhysicalObject));
+        symbolSprite.element = Futile.atlasManager.GetElementWithName(addon.DrawSymbolCooldown && RageCounter > 0 ? "pearlcat_glyphcooldown" : POGraphics.SpriteFromPearl(pearl.abstractPhysicalObject));
         symbolSprite.SetPosition(targetPos + new Vector2(15.0f, 15.0f));
         symbolSprite.color = addon.SymbolColor;
 
@@ -851,7 +851,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         if (effect.MajorEffect == MajorEffectType.RAGE && ModOptions.OldRedPearlAbility.Value)
         {
             counterSprite.isVisible = true;
-            counterSprite.element = Futile.atlasManager.GetElementWithName(ObjectAddon.SpriteFromNumber(RageCounter) ?? "pearlcat_glyphcooldown");
+            counterSprite.element = Futile.atlasManager.GetElementWithName(POGraphics.SpriteFromNumber(RageCounter) ?? "pearlcat_glyphcooldown");
         }
 
 

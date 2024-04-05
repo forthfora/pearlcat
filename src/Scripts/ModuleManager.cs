@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 using Menu;
 using MoreSlugcats;
 using Music;
@@ -126,31 +126,41 @@ public static class ModuleManager
 
     // Player Object
     public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectModule> PlayerObjectData { get; } = new();
-    public static bool TryGetModule(this AbstractPhysicalObject abstractObject, out PlayerObjectModule module)
-    {
-        if (PlayerObjectData.TryGetValue(abstractObject, out module))
-            return true;
-
-        module = null!;
-        return false;
-    }
+    public static bool TryGetPOModule(this AbstractPhysicalObject abstractObject, out PlayerObjectModule module) => PlayerObjectData.TryGetValue(abstractObject, out module);
 
 
     // Object Addon
-    public static ConditionalWeakTable<AbstractPhysicalObject, ObjectAddon> ObjectsWithAddon { get; } = new();
-    public static bool TryGetAddon(this AbstractPhysicalObject abstractObject, out ObjectAddon addon)
-    {
-        if (ObjectsWithAddon.TryGetValue(abstractObject, out addon))
-            return true;
-
-        addon = null!;
-        return false;
-    }
+    public static ConditionalWeakTable<AbstractPhysicalObject, POGraphics> PlayerObjectGraphicsData { get; } = new();
+    public static bool TryGetPOGraphics(this AbstractPhysicalObject abstractObject, out POGraphics module) => PlayerObjectGraphicsData.TryGetValue(abstractObject, out module);
 
 
     // Slugcat Select Menu
     public static ConditionalWeakTable<SlugcatSelectMenu, SlugcatSelectMenuModule> SlugcatSelectMenuData { get; } = new();
     public static SlugcatSelectMenuModule GetModule(this SlugcatSelectMenu self) => SlugcatSelectMenuData.GetValue(self, x => new SlugcatSelectMenuModule(self));
+
+
+    // Pearl Spear
+    public static bool TryGetSpearModule(this AbstractSpear spear, out SpearModule module)
+    {
+        var save = spear.Room.world.game.GetMiscWorld();
+
+        if (save == null)
+        {
+            module = null!;
+            return false;
+        }
+
+        if (save.PearlSpears.TryGetValue(spear.ID.number, out module))
+            return true;
+
+        return false;
+    }
+
+
+    // Rage Spear
+    public static ConditionalWeakTable<Spear, RageSpearModule> RageSpearData { get; } = new();
+    public static bool TryGetRageSpearModule(this Spear spear, out RageSpearModule module) => RageSpearData.TryGetValue(spear, out module);
+    public static void MakeRageSpear(this Spear spear, Color color) => RageSpearData.Add(spear, new(color));
 
 
     // Save Data

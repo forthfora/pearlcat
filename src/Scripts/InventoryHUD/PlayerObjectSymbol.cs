@@ -125,7 +125,7 @@ public class PlayerObjectSymbol
 
         if (TargetObjectRef == null || !TargetObjectRef.TryGetTarget(out var obj)) return;
 
-        if (!obj.TryGetModule(out var poModule)) return;
+        if (!obj.TryGetPOModule(out var poModule)) return;
 
         if (poModule.InventoryFlash)
         {
