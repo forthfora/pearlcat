@@ -1,0 +1,11 @@
+Template: NONE
+DangerType: None
+CeilingDrips: 0
+RainIntensity: 0
+RumbleIntensity: 0
+Clouds: 1
+Grime: 0
+Palette: 29
+EffectColorA: 15
+Effects: Darkness-0.6413044-20-20, 
+FadePalette: 12, 0.1086956, 0.4456522, 0.7173913, 1
