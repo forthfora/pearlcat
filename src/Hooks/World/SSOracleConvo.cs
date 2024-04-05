@@ -444,7 +444,7 @@ public static partial class Hooks
                 self.Translate("However, given a lack of other options, this is the best I can do."), l * 80));
 
             e.Add(new TextEvent(self, 0,
-                self.Translate("You may find them by taking the elevator back up to the surface - that is the one past the murals above my chamber."), l * 80));
+                self.Translate("I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten."), l * 80));
 
             e.Add(new TextEvent(self, 0,
                 self.Translate("Whichever path you take, I hope you find the help that you seek."), l * 80));

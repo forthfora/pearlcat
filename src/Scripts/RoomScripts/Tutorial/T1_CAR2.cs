@@ -88,7 +88,7 @@ public class T1_CAR2 : UpdatableAndDeletable
                 }
                 else
                 {
-                    game.AddTextPrompt("RED symbolizes power. With a red pearl active, all stored red pearls will circle you, and generate temporary spears", 0, 600);
+                    game.AddTextPrompt("RED symbolizes power. With a red pearl active, all stored red pearls will circle you", 0, 600);
 
                     game.AddTextPrompt("Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature", 0, 500);
 
