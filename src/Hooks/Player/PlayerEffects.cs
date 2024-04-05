@@ -690,9 +690,10 @@ public static partial class Hooks
             AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
         }
 
-        RageSpearLogic(self, playerModule);
+        // RageSpearLogic(self, playerModule);
     }
 
+    // Scrapped for now
     private static void RageSpearLogic(Player self, PlayerModule playerModule)
     {
         if (self.grasps[0] != null || self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1) return;
@@ -726,7 +727,7 @@ public static partial class Hooks
     {
         if (!pearl.abstractPhysicalObject.TryGetPOModule(out var module)) return;
 
-        var targetSentryRange = 1000.0f;
+        var targetSentryRange = 500.0f;
         var targetEnemyRange = 1000.0f;
         var redirectRange = 25.0f;
 
@@ -734,7 +735,7 @@ public static partial class Hooks
         var riccochetDamageMult = 1.25f;
 
         Creature? bestEnemy = null;
-        List<KeyValuePair<PhysicalObject, float>> availableSentries = new();
+        List<KeyValuePair<PhysicalObject, float>> availableReds = new();
 
         var shortestEnemyDist = float.MaxValue;
 
@@ -744,17 +745,14 @@ public static partial class Hooks
             {
                 if (physObj is Weapon weapon)
                 {
-                    if (weapon.mode != Weapon.Mode.Thrown && module.VisitedObjects.TryGetValue(physObj, out _))
+                    if (weapon.mode == Weapon.Mode.Carried && module.VisitedObjects.TryGetValue(physObj, out _))
                     {
                         module.VisitedObjects.Remove(physObj);
                     }
                 }
-                else if (physObj.abstractPhysicalObject.TryGetSentry(out var otherSentry))
+                else if (physObj.abstractPhysicalObject.GetPOEffect().MajorEffect == MajorEffectType.RAGE)
                 {
-                    if (physObj == pearl) continue;
-
-                    if (physObj.abstractPhysicalObject.GetPOEffect().MajorEffect != MajorEffectType.RAGE) continue;
-
+                    if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
 
                     if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
 
@@ -763,7 +761,7 @@ public static partial class Hooks
 
                     if (dist > targetSentryRange) continue;
 
-                    availableSentries.Add(new(physObj, dist));
+                    availableReds.Add(new(physObj, dist));
                 }
                 else if (physObj is Creature creature)
                 {
@@ -795,7 +793,7 @@ public static partial class Hooks
             }
         }
 
-        availableSentries.OrderBy(x => x.Value);
+        availableReds.OrderBy(x => x.Value);
 
         foreach (var roomObj in pearl.room.physicalObjects)
         {
@@ -810,49 +808,66 @@ public static partial class Hooks
                 if (module.VisitedObjects.TryGetValue(physObj, out _)) continue;
 
 
-                PhysicalObject? bestSentry = null;
+                PhysicalObject? bestRed = null;
 
-                foreach (var sentryDist in availableSentries)
+                foreach (var sentryDist in availableReds)
                 {
                     if (!sentryDist.Key.abstractPhysicalObject.TryGetPOModule(out var otherSentryModule)) continue;
 
                     if (otherSentryModule.VisitedObjects.TryGetValue(weapon, out _)) continue;
 
-                    bestSentry = sentryDist.Key;
+                    bestRed = sentryDist.Key;
                     break;
                 }
 
                 PhysicalObject? bestTarget = null;
                 Vector2? bestTargetPos = null!;
 
-                if (bestSentry != null && bestEnemy != null)
+                if (bestRed != null && bestEnemy != null)
                 {
-                    if (player.room.VisualContact(bestSentry.firstChunk.pos, bestEnemy.firstChunk.pos))
+                    if (player.room.VisualContact(bestRed.firstChunk.pos, bestEnemy.firstChunk.pos))
                     {
-                        bestTarget = bestSentry;
-                        bestTargetPos = bestSentry.firstChunk.pos;
+                        bestTarget = bestRed;
                     }
                     else
                     {
                         bestTarget = bestEnemy;
-                        bestTargetPos = bestEnemy?.mainBodyChunk.pos;
                     }
                 }
-                else if (bestSentry != null)
+                else if (bestRed != null)
                 {
-                    bestTarget = bestSentry;
-                    bestTargetPos = bestEnemy?.firstChunk.pos;
+                    bestTarget = bestRed;
                 }
-                else
+                else if (bestEnemy != null)
                 {
                     bestTarget = bestEnemy;
-                    bestTargetPos = bestEnemy?.mainBodyChunk.pos;
                 }
 
-                if (bestTarget == null || bestTargetPos == null) continue;
+
+                if (bestTarget != null)
+                {
+                    if (bestTarget == bestEnemy)
+                    {
+                        bestTargetPos = bestEnemy.mainBodyChunk.pos;
+                        
+                        if (bestEnemy is Lizard lizard)
+                        {
+                            bestTargetPos = lizard.bodyChunks[lizard.bodyChunks.Count() / 2].pos;
+                        }
+                    }
+                    else if (bestTarget == bestRed)
+                    {
+                        bestTargetPos = bestRed.firstChunk.pos;
+                    }
+                }
+
+                if (bestTargetPos == null || bestTarget == null) continue;
+
 
                 var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
-                var targetPos = (Vector2)bestTargetPos + (bestTarget.firstChunk.vel * 2.0f) + ((Vector2.up * dist) / 5.0f) * bestTarget.gravity;
+
+                var timeTaken = dist / weapon.firstChunk.vel.magnitude;
+                var targetPos = (Vector2)bestTargetPos + (bestTarget.firstChunk.vel * timeTaken) + (Vector2.down * Mathf.Pow(bestTarget.gravity * timeTaken, 2.0f));
 
                 var dir = Custom.DirVec(weapon.firstChunk.pos, targetPos);
 
@@ -865,6 +880,14 @@ public static partial class Hooks
                 }
 
                 module.VisitedObjects.Add(physObj, new());
+                
+                
+                var room = pearl.room;
+                var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
+
+                room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.5f, bestTarget == bestEnemy ? 0.5f : 3.0f);
+                room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, pearlColor, true));
+
             }
         }
     }
