@@ -5,7 +5,7 @@ using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -457,11 +457,17 @@ public partial class Hooks
 
         if (!self.abstractSpear.TryGetSpearModule(out var module)) return;
 
+        var returnTime = 60;
+        var minSparkTime = 40;
+        var maxSparkTime = 350;
+
         if (self.mode == Weapon.Mode.Thrown)
         {
             if (!module.WasThrown)
-                self.firstChunk.vel *= 1.5f;
-            
+            {
+                self.firstChunk.vel *= 1.25f;
+            }
+
             module.WasThrown = true;
         }
         else
@@ -471,55 +477,46 @@ public partial class Hooks
 
 
         if (module.SparkTimer <= 0 && module.DecayTimer < 800)
-            module.SparkTimer = Random.Range(40, 350);
-
+        {
+            module.SparkTimer = Random.Range(minSparkTime, maxSparkTime);
+        }
         else
+        {
             module.SparkTimer--;
-
-
-        if (self.mode == Weapon.Mode.StuckInCreature && module.ExplodeTimer == -1)
-        {
-            self.room.PlaySound(SoundID.Fire_Spear_Ignite, self.firstChunk, false, 0.7f, 2.5f);
-            module.ExplodeTimer = 40;
         }
-    
-        if (module.ExplodeTimer == 0)
+
+
+        if (self.mode != Weapon.Mode.Thrown && module.ReturnTimer == -1)
         {
-            if (self.stuckInObject != null)
-            {
-                if (self.stuckInObject is Creature creature)
-                    creature.Violence(self.firstChunk, new Vector2?(self.rotation * 12f), self.stuckInChunk, null, Creature.DamageType.Explosion, (self.stuckInAppendage != null) ? 2.2f : 5.0f, 120f);
-
-                self.stuckInChunk.vel += self.rotation * 12f / self.stuckInChunk.mass;
-            }
-
-            for (int i = 0; i < 3; i++)
-                self.room.AddObject(new ExplosiveSpear.SpearFragment(self.firstChunk.pos, Custom.RNV() * Mathf.Lerp(20f, 40f, Random.value)));
-
-            self.room.AddObject(new ShockWave(self.firstChunk.pos, 120.0f, 1.0f, 40));
-
-            var pos = self.firstChunk.pos;
-            self.room.AddObject(new Explosion.ExplosionLight(pos, 160f, 1f, 3, module.Color));
-            self.room.AddObject(new ExplosionSpikes(self.room, pos, 9, 4f, 5f, 5f, 90f, module.Color));
-
-            self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk.pos, Random.Range(1.2f, 1.6f), Random.Range(0.6f, 0.8f));
-            self.room.PlaySound(SoundID.Bomb_Explode, self.firstChunk.pos, Random.Range(0.8f, 1.2f), Random.Range(0.8f, 1.2f));
-
-            self.room.AddObject(new Explosion(self.room, self, pos, 5, 110f, 5f, 1.1f, 60f, 0.3f, self.thrownBy, 0.8f, 0f, 0.7f));
-
-            self.Destroy();
+            module.ReturnTimer = returnTime;
         }
-        else if (module.ExplodeTimer > 0)
+
+        if (module.ReturnTimer > 0)
         {
-            if (module.ExplodeTimer % 3 == 0)
-                self.ConnectEffect(self.firstChunk.pos + Custom.RNV() * 100.0f, module.Color);
+            module.ReturnTimer--;
             
-            module.ExplodeTimer--;   
+            if (self.onPlayerBack || self.grabbedBy.Any(x => x.grabber is Player))
+            {
+                module.ReturnTimer = -2;
+            }
         }
 
+        if (module.ReturnTimer == 0)
+        {
+            module.ReturnTimer = -2;
+            
+            if (module.ThrownByPlayer?.TryGetTarget(out var player) == true && player.TryGetPearlcatModule(out var playerModule) && playerModule.Inventory.Count < ModOptions.MaxPearlCount.Value)
+            {
+                var color = module.Color;
+            
+                self.room.AddObject(new ShockWave(self.firstChunk.pos, 50.0f, 0.8f, 10));
+                self.room.AddObject(new LightningMachine.Impact(self.firstChunk.pos, 3.0f, color));
 
-        if (self.mode == Weapon.Mode.StuckInWall)
-            module.DecayTimer++;
+                self.room.ConnectEffect(player.firstChunk.pos, self.firstChunk.pos, color);
+
+                player.StoreObject(self.abstractSpear);
+            }
+        }
     }
 
     private static void Spear_DrawSprites_PearlSpear(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)

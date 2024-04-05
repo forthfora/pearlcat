@@ -478,7 +478,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (player == null) return;
 
-        Hooks.RageTargetLogic(pearl, player);
+        Hooks.RageTargetLogic(pearl, player, true);
     }
 
     private void UpdateOldRageSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)

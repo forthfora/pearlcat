@@ -1,6 +1,7 @@
 ﻿using MoreSlugcats;
 using RWCustom;
 using SlugBase.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -140,7 +141,7 @@ public static partial class Hooks
             return;
         }
 
-        var spearCreationTime = 100;
+        var spearCreationTime = 30;
         playerModule.SpearLerp = Custom.LerpMap(playerModule.SpearTimer, 5, spearCreationTime, 0.0f, 1.0f);
 
         playerModule.ForceLockSpearOnBack = false;
@@ -667,7 +668,7 @@ public static partial class Hooks
 
             if (item.realizedObject is not DataPearl pearl) continue;
 
-            RageTargetLogic(pearl, self);
+            RageTargetLogic(pearl, self, false);
 
             ragePearls.Add(pearl);
         }
@@ -723,17 +724,19 @@ public static partial class Hooks
         self.SlugcatGrab(spear, 0);
     }
 
-    public static void RageTargetLogic(DataPearl pearl, Player player)
+    public static void RageTargetLogic(DataPearl pearl, Player player, bool isSentry)
     {
         if (!pearl.abstractPhysicalObject.TryGetPOModule(out var module)) return;
 
-        var targetSentryRange = 500.0f;
+        var targetSentryRange = 1000.0f;
         var targetEnemyRange = 1000.0f;
-        var redirectRange = 25.0f;
+        var redirectRange = isSentry ? 50.0f : 25.0f;
 
-        var riccochetVelMult = 1.0f;
+        var riccochetVelMult = 1.25f;
         var riccochetDamageMult = 1.25f;
 
+
+        // Target Finding
         Creature? bestEnemy = null;
         List<KeyValuePair<PhysicalObject, float>> availableReds = new();
 
@@ -752,6 +755,8 @@ public static partial class Hooks
                 }
                 else if (physObj.abstractPhysicalObject.GetPOEffect().MajorEffect == MajorEffectType.RAGE)
                 {
+                    if (physObj == pearl) continue;
+
                     if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
 
                     if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
@@ -793,6 +798,8 @@ public static partial class Hooks
             }
         }
 
+
+        // Redirection
         availableReds.OrderBy(x => x.Value);
 
         foreach (var roomObj in pearl.room.physicalObjects)
@@ -849,10 +856,13 @@ public static partial class Hooks
                     if (bestTarget == bestEnemy)
                     {
                         bestTargetPos = bestEnemy.mainBodyChunk.pos;
-                        
+
                         if (bestEnemy is Lizard lizard)
                         {
-                            bestTargetPos = lizard.bodyChunks[lizard.bodyChunks.Count() / 2].pos;
+                            if (lizard.bodyChunks.Count() >= 2)
+                            {
+                                bestTargetPos = lizard.bodyChunks[lizard.bodyChunks.Count() / 2].pos;
+                            }
                         }
                     }
                     else if (bestTarget == bestRed)
@@ -861,17 +871,23 @@ public static partial class Hooks
                     }
                 }
 
+                //Plugin.Logger.LogWarning("REDIRECT:");
+                //Plugin.Logger.LogWarning(bestTarget?.GetType());
+                //Plugin.Logger.LogWarning(bestTargetPos);
+
                 if (bestTargetPos == null || bestTarget == null) continue;
 
 
                 var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
 
-                var timeTaken = dist / weapon.firstChunk.vel.magnitude;
-                var targetPos = (Vector2)bestTargetPos + (bestTarget.firstChunk.vel * timeTaken) + (Vector2.down * Mathf.Pow(bestTarget.gravity * timeTaken, 2.0f));
+                // Need this to predict motion of target and trajectory due to gravity
+                var targetPredictedPos = (Vector2)bestTargetPos
+                    + (bestTarget.firstChunk.vel * 2.0f)
+                    + (Vector2.up * (dist * weapon.gravity / 20.0f));
 
-                var dir = Custom.DirVec(weapon.firstChunk.pos, targetPos);
+                var dir = Custom.DirVec(weapon.firstChunk.pos, targetPredictedPos);
 
-                weapon.firstChunk.vel = dir * (weapon.firstChunk.vel.magnitude * riccochetVelMult);
+                weapon.firstChunk.vel = dir * Mathf.Clamp(weapon.firstChunk.vel.magnitude * riccochetVelMult, 0.0f, 100.0f);
                 weapon.setRotation = dir;
 
                 if (weapon is Spear spear)
@@ -885,9 +901,16 @@ public static partial class Hooks
                 var room = pearl.room;
                 var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
 
-                room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.5f, bestTarget == bestEnemy ? 0.5f : 3.0f);
-                room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, pearlColor, true));
+                room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, bestTarget == bestEnemy ? 1.0f : 0.5f, bestTarget == bestEnemy ? 1.0f : 3.0f);
 
+                room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, pearlColor, true));
+                room.AddObject(new ExplosionSpikes(pearl.room, pearl.firstChunk.pos, 5, 10.0f, 10, 5.0f, 20.0f, pearlColor));
+
+                if (pearl.abstractPhysicalObject.TryGetPOGraphics(out var addon))
+                {
+                    addon.LaserTarget = targetPredictedPos;
+                    addon.LaserLerp = 1.0f;
+                }
             }
         }
     }

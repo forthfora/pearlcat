@@ -218,13 +218,13 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
             i.isVisible = true;
         }
 
-        var pos = Vector2.Lerp(OverrideLastPos - camPos ?? Pos, OverridePos - camPos ?? Pos, timeStacker);
+        var setPos = Vector2.Lerp(OverrideLastPos - camPos ?? Pos, OverridePos - camPos ?? Pos, timeStacker);
 
 
         // Halo
         var sprite = sLeaser.sprites[HaloSprite];
         sprite.isVisible = DrawHalo;
-        sprite.SetPosition(pos);
+        sprite.SetPosition(setPos);
         sprite.scale = HaloScale;
         sprite.alpha = HaloAlpha;
         sprite.color = HaloColor;
@@ -234,16 +234,16 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
         // Spear
         sprite = sLeaser.sprites[SpearSprite];
         sprite.isVisible = IsActiveObject && !IsSentry;
-        sprite.SetPosition(pos);
+        sprite.SetPosition(setPos);
         sprite.scaleY = IsActiveObject ? DrawSpearLerp : 0.0f;
         sprite.color = SymbolColor;
-        sprite.rotation = Mathf.Lerp(0.0f, 360.0f, DrawSpearLerp);
+        sprite.rotation = 0.0f;
 
 
         // Sentry
         sprite = sLeaser.sprites[SentrySprite];
         sprite.isVisible = IsSentry;
-        sprite.SetPosition(pos);
+        sprite.SetPosition(setPos);
         sprite.color = SymbolColor;
         sprite.alpha = 0.15f;
 
@@ -262,7 +262,7 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
 
         sprite.isVisible = spriteName != null;
 
-        sprite.SetPosition(pos + offset);
+        sprite.SetPosition(setPos + offset);
         sprite.scale = SymbolScale;
         sprite.alpha = spriteName == "pearlcat_glyphcooldown" ? 1.0f : SymbolAlpha;
         sprite.color = SymbolColor;
@@ -279,7 +279,7 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
 
         sprite.isVisible = spriteName != null;
 
-        sprite.SetPosition(pos + offset);
+        sprite.SetPosition(setPos + offset);
         sprite.scale = SymbolScale;
         sprite.alpha = SymbolAlpha;
 
@@ -298,7 +298,7 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
 
         sprite.isVisible = spriteName != null;
 
-        sprite.SetPosition(pos + offset);
+        sprite.SetPosition(setPos + offset);
         sprite.scale = SymbolScale;
         sprite.alpha = SymbolAlpha;
 
@@ -311,10 +311,17 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
         sprite.scale = 1.0f;
         sprite.isVisible = IsLaserVisible;
 
-        sprite.alpha = Custom.LerpMap(LaserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
-        sprite.color = LaserLerp > 0.97f || LaserLerp == 0.0 ? Color.white : SymbolColor;
+        if (ModOptions.OldRedPearlAbility.Value)
+        {
+            sprite.alpha = Custom.LerpMap(LaserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
+            sprite.color = LaserLerp > 0.97f || LaserLerp == 0.0 ? Color.white : SymbolColor;
+        }
+        else
+        {
+            sprite.alpha = LaserLerp; 
+        }
 
-        var startPos = pos;
+        var startPos = ModOptions.OldRedPearlAbility.Value ? setPos : Pos;
         var targetPos = LaserTarget - camPos;
 
         var dir = Custom.DirVec(startPos, targetPos);

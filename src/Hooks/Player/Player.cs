@@ -1123,8 +1123,15 @@ public static partial class Hooks
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
-        if (!spear.TryGetRageSpearModule(out _)) return;
+        if (spear.TryGetRageSpearModule(out _))
+        {
+            playerModule.SetRageSpearCooldown();
+        }
 
-        playerModule.SetRageSpearCooldown();
+        if (spear.abstractSpear.TryGetSpearModule(out var spearModule))
+        {
+            spearModule.ReturnTimer = -1;
+            spearModule.ThrownByPlayer = new(self);
+        }
     }
 }

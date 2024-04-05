@@ -178,11 +178,16 @@ public static partial class Hooks
             var t = Utils.Translator;
 
             if (ModOptions.CustomSpearKeybind.Value)
+            {
                 self.abstractCreature.world.game.AddTextPrompt(
                     t.Translate("Hold (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.AbilityKeybindPlayer1.Value.GetDisplayName() + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
-
+            }
             else
+            {
                 self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 0, 800);
+            }
+
+            self.abstractCreature.world.game.AddTextPrompt("Pearl spears will attempt to return to your inventory after being thrown", 0, 800);
         }
     }
     

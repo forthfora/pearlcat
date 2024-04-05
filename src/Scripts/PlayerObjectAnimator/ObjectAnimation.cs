@@ -224,9 +224,16 @@ public abstract class ObjectAnimation
                 addon.LaserTarget = target.mainBodyChunk.pos;
             }
 
-            addon.IsLaserVisible = hasTarget && effect.MajorEffect == POEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPOEffect().MajorEffect == POEffect.MajorEffectType.RAGE;
-            addon.LaserLerp = poModule.LaserLerp;
-
+            if (ModOptions.OldRedPearlAbility.Value)
+            {
+                addon.IsLaserVisible = hasTarget && effect.MajorEffect == POEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPOEffect().MajorEffect == POEffect.MajorEffectType.RAGE;
+                addon.LaserLerp = poModule.LaserLerp;
+            }
+            else
+            {
+                addon.LaserLerp = Custom.LerpAndTick(addon.LaserLerp, 0.0f, 0.05f, 0.01f);
+                addon.IsLaserVisible = addon.LaserLerp > 0.01f;
+            }
         }
     }
 
