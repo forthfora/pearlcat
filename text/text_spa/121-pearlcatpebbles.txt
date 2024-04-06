@@ -1,0 +1,6 @@
+﻿0-121-pearlcatpebbles
+Esto es un modelo para una celda de bloque viviente. Almacena y procesa residuos orgánicos.
+
+No hay nada interesante. Los bloques de celdas modulares de la ciudad han estado en producción<LINE>durante mucho tiempo y es probable que se abandonen por mucho más ahora que mis creadores se han ido.
+
+A menos que un roedor gigante como tú tenga un interés personal en el diseño de sistemas sépticos,<LINE>hay muy poca información que cualquiera de nosotros disfrute leer.

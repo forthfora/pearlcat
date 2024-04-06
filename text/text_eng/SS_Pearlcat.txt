@@ -1,0 +1,19 @@
+0-1
+What a curious pearl - it does not contain any meaningful data, but the lattice is extremely pure.
+
+Ah, this might require a small lecture on the specifics of a pearl's data structure! But I will make it brief...
+
+Information is etched into the pearl, very finely - it is an incredibly dense and robust form of storage;
+
+The purer a pearl, the finer the etchings - the more data it can store, at the cost of its lifespan.
+
+Forgive my oversimplification, but this pearl possesses extremely intricate etchings - a rarity in this day and age.
+
+I wonder where you found this, <PlayerName>? It must have been made very recently...
+
+...oh? There appears to be a little more on here even, actually. Such little data, it was almost unnoticeable...
+
+It is a... oh... I see where you found this now...
+
+I would hold onto this <PlayerName> - the scavengers would not appreciate its beauty as we do.
+

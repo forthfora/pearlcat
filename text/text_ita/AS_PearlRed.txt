@@ -1,0 +1,10 @@
+﻿0-1
+<CapPlayerName>, che strana scoperta!
+
+Sembra quasi che la struttura di questa perla sia stata messa a punto con precisione, non per l'archiviazione dei dati, ma come punto focale.
+
+Qualsiasi energia immessa sembra essere localizzata in un punto molto preciso - che strano...
+
+Dato il giusto input, potrebbe rivelarsi piuttosto pericoloso, immagino!
+
+Ah, stai attento là fuori, <PlayerName>...
