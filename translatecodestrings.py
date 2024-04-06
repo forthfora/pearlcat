@@ -101,7 +101,10 @@ preserveLangMap = [
     "es"
 ]
 
+dontTranslate = [
+    "es"
+]
+
+
 for lang in langMap.keys():
-    Translate(lang, True, False)
-    
-    #Translate(lang, lang in preserveLangMap, False)
+    Translate(lang, lang in preserveLangMap, lang in dontTranslate)
