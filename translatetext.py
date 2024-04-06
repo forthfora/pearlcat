@@ -12,8 +12,8 @@ DEST = "es"
 
 langMap = {
     "fr": "fre",
-    # "zh-CN": "chi",
-    # "es": "spa",
+    "zh-CN": "chi",
+    "es": "spa",
     "ru": "rus",
     "pt": "por",
     "ko": "kor",
@@ -47,7 +47,7 @@ def Translate(targetLang):
 
                 contents = ''.join(contents)
                 translated = translator.translate(contents, src=SRC, dest=targetLang).text
-
+    
                 text = firstLine + translated
 
                 f = open(os.path.join(output, fileName), "w", encoding='utf-8-sig')
@@ -55,8 +55,8 @@ def Translate(targetLang):
                 f.write(text)
                 f.close()
             
-            except:
-                print("TRANSLATION ERROR")
+            except Exception as e:
+                print("TRANSLATION ERROR: ", e)
 
 for lang in langMap.keys():
     Translate(lang)
