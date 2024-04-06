@@ -106,7 +106,7 @@ toTranslate = {
     "de",
     "ja",
     "zh-CN",
-    "es",
+    #"es",
 }
 
 preserveLangMap = [
@@ -123,15 +123,6 @@ preserveLangMap = [
 ]
 
 dontTranslate = [
-    "ru",
-    "ko",
-    "fr",
-    "pt",
-    "it",
-    "de",
-    "ja",
-    "zh-CN",
-
     "es",
 ]
 

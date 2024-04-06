@@ -11,7 +11,7 @@ public static partial class Hooks
 
         On.SaveState.LoadGame += SaveState_LoadGame;
 
-        On.PlayerProgression.WipeSaveState += PlayerProgression_WipeSaveState;
+        //On.PlayerProgression.WipeSaveState += PlayerProgression_WipeSaveState;
         On.PlayerProgression.WipeAll += PlayerProgression_WipeAll;
     }
 
@@ -169,6 +169,12 @@ public static partial class Hooks
         miscWorld.JustMiraSkipped = false;
 
 
+        if (self.cycleNumber == 0)
+        {
+            miscProg.ResetSave();
+        }
+
+
         if (miscProg.IsMiraSkipEnabled)
         {
             self.StartFromMira();
@@ -188,17 +194,18 @@ public static partial class Hooks
     }
 
 
-    private static void PlayerProgression_WipeSaveState(On.PlayerProgression.orig_WipeSaveState orig, PlayerProgression self, SlugcatStats.Name saveStateNumber)
-    {
-        var miscProg = Utils.GetMiscProgression();
+    // Inferior to checking if cycle number is 0 as it causes the select screen to change before it fades
+    //private static void PlayerProgression_WipeSaveState(On.PlayerProgression.orig_WipeSaveState orig, PlayerProgression self, SlugcatStats.Name saveStateNumber)
+    //{
+    //    var miscProg = Utils.GetMiscProgression();
 
-        if (saveStateNumber == Enums.Pearlcat)
-        {
-            miscProg.ResetSave();
-        }
+    //    if (saveStateNumber == Enums.Pearlcat)
+    //    {
+    //        miscProg.ResetSave();
+    //    }
 
-        orig(self, saveStateNumber);
-    }
+    //    orig(self, saveStateNumber);
+    //}
 
     private static void PlayerProgression_WipeAll(On.PlayerProgression.orig_WipeAll orig, PlayerProgression self)
     {
