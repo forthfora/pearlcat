@@ -84,7 +84,7 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True):
                 output = string + "|" + existingStrings[string] + "\n"
             
             else:
-                translated = "X" if not actuallyTranslate else translator.translate(string, src=SRC, dest=targetLang).text
+                translated = "NO_TRANSLATION" if not actuallyTranslate else translator.translate(string, src=SRC, dest=targetLang).text
                 
                 output = string + "|" + translated + "\n"
             
@@ -110,13 +110,30 @@ toTranslate = {
 }
 
 preserveLangMap = [
+    "ru",
+    "ko",
+    "fr",
+    "pt",
+    "it",
+    "de",
+    "ja",
+
     "zh-CN",
-    "es"
+    "es",
 ]
 
 dontTranslate = [
-    "es"
+    "ru",
+    "ko",
+    "fr",
+    "pt",
+    "it",
+    "de",
+    "ja",
+    "zh-CN",
+
+    "es",
 ]
 
 for lang in toTranslate:
-    Translate(lang, lang in preserveLangMap, lang in dontTranslate)
+    Translate(lang, lang in preserveLangMap, lang not in dontTranslate)
