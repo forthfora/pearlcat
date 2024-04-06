@@ -1,0 +1,576 @@
+﻿If only I had my memories, I might have a clue...|기억만 있다면 단서가 있을지도...
+I do enjoy the company of you and your friend though, <PlayerName>.|그래도 당신과 당신의 친구와 함께 있는 것이 즐겁습니다, <PlayerName>.
+Pebbles_AS_PearlBlue|Pebbles_AS_PearlBlue
+face|얼굴
+pearlcat_support|pearlcat_support
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Pearlcat의 일반적인 가시성에 대한 백분율 승수는 포식자 유인에 영향을 미칩니다. 기본적으로 Pearlcat은 Hunter보다 훨씬 더 잘 보입니다.
+AS|처럼
+ModManager.RefreshModsLists:\n|ModManager.RefreshModsLists:\n
+pearlactiveplaceholder|진주 활성 자리 표시자
+oa_min_fric_mult|oa_min_fric_mult
+.png|.png
+HANDLED: Shield Sentry Sound Exception:\n|처리됨: 실드 센트리 사운드 예외:\n
+Pebbles_AS_PearlRed|Pebbles_AS_PearlRed
+pearlcat_spire5|pearlcat_spire5
+pearlcat_glyphcooldown|pearlcat_glyphcooldown
+JaggedSquare|들쭉날쭉한 사각형
+I think I may still have some use left after all!~|아직 쓸 일이 좀 남아있을 것 같아요!~
+Player 1|플레이어 1
+Clearly an artifical creation. But from where? Sent by who?|분명히 인공적인 창조물입니다. 하지만 어디에서? 누가 보냈습니까?
+) & use the (LEFT) & (RIGHT) directional inputs|) & (왼쪽) 및 (오른쪽) 방향 입력 사용
+strange|이상한
+I see you've returned, yet again.|다시 돌아오셨군요.
+Futile_White|Futile_White
+Basic|기초적인
+Noir |느와르
+pearlcat_spire9|pearlcat_spire9
+pearlpup_face_sick|pearlpup_face_sick
+Music|음악
+Geahgeah |게아게아
+What do you want? To take away more of my life...?|당신은 무엇을 원하십니까? 내 인생을 더 빼앗기 위해...?
+PEARLCAT VOID SEA ENDING|PEARLCAT 보이드 씨 엔딩
+I do not know what to make of this.|나는 이것에 대해 무엇을 해야할지 모르겠습니다.
+Software|소프트웨어
+LizardBubble6|리자드버블6
+---------------------------------------------------------------|-------------------------------------------------- -------------
+5|5
+Hold (|잡고 있다 (
+pearlcat_0|pearlcat_0
+I do not have much else to occupy my time with these days...|요즘 다른 시간을 할애할 일이 별로 없네요...
+pearlcat_revivesentry|pearlcat_revivesentry
+MSC|MSC
+The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|당신이 가진 힘, 그것은 매혹적입니다. 나는 당신과 같은 종류의 것을 본 적이 없습니다.
+Hologram|홀로그램
+Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|불행은 슬프게도 차별하지 않습니다. 시간이 지나면 더 나은 운명이 당신을 기다리고 있기를 바랍니다.
+I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|싸이클들이 잘 지내고 있었으면 좋겠는데... 밖에선 서로 챙기기 힘드실 텐데요.
+Shield Pearl Count|방패 진주 수
+CC|CC
+Please... this all I have left... you have so much... ...why take mine?|제발... 이게 내가 남긴 전부... 당신은 너무 많이... ...왜 내 것을 가져가나요?
+\nCorridorClimb |\n복도 오르기
+tail_segment_velocities|tail_segment_velocities
+I assure you it will be a more than suitable replacement for your primitive needs.|나는 그것이 당신의 원시적 필요에 대한 적절한 대체물 이상이 될 것이라고 확신합니다.
+122626|122626
+Button East|버튼 이스트
+oa_cutoff_dist|oa_cutoff_dist
+oa_min_time|oa_min_time
+Intended to make gameplay more challenging, may change gameplay significantly!|게임 플레이를 더욱 어렵게 만들기 위해 게임 플레이를 크게 변경할 수 있습니다!
+I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|당신이 이 진주에 대해 가치를 두는 유일한 것은 그들의 격자가 얼마나 순수한가? 이것보다 훨씬 세련된 것으로 대체하겠습니다.
+DS|DS
+Player 3|플레이어 3
+henpemaz_splitscreencoop|henpemaz_splitscreencoop
+TheSacrifice|희생
+ear_r|ear_r
+You would be a hard one to forget after all, <PlayerName>!|<PlayerName> 님은 결국 잊기 힘든 분이실 겁니다!
+PlayerArm|PlayerArm
+pearlcat_spire4|pearlcat_spire4
+JetFishEyeA|제트피쉬아이A
+Disable Shield Effect?|실드 효과를 비활성화하시겠습니까?
+Water|물
+YOU!|너!
+So curious... I wonder what it is you're searching for?|너무 궁금해서요... 당신이 찾고 있는 것이 무엇인지 궁금합니다.
+Keybind for Keyboard.|키보드용 키바인드.
+Is my memory so bad to forget how your little one looks? They seem paler...|내 기억력이 너무 나빠서 당신의 어린 아이가 어떻게 생겼는지 잊어버리나요? 더 창백해 보인다...
+SB|SB
+pearlcat_structure4|pearlcat_structure4
+Input a shelter name to have it override where Pearlcat starts a new game.|Pearlcat이 새 게임을 시작하는 위치를 재정의하려면 대피소 이름을 입력하세요.
+Trigger Player|트리거 플레이어
+BigGlyph12|빅글리프12
+Intro5_3|소개5_3
+T1_CAR2|T1_CAR2
+My neighbour, Five Pebbles, is a little temperamental, but means well.|내 이웃인 Five Pebbles는 약간 성질이 급하지만 의미는 좋습니다.
+Visibility Multiplier|가시성 승수
+PLAYTESTERS|플레이테스터
+pearlpup_tail|pearlpup_tail
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|선택하면 대부분의 진주(활성화 시)는 모든 지역의 위협 테마를 원래 있던 지역의 테마로 강제 설정합니다.
+pearlcat_structure6|pearlcat_structure6
+Head|머리
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|선택하면 아래 옵션으로 시작 진주를 재정의합니다. Inventory Override와 달리 새 게임을 시작할 때만 효과적입니까?
+I see you have not found a cure for their illness. Not yet...|나는 당신이 그들의 질병에 대한 치료법을 찾지 못한 것을 봅니다. 아직 아님...
+pearlcat_light0|pearlcat_light0
+I... wish there was more I could do... but even... nevermind in my current state.|나는... 내가 할 수 있는 일이 더 있었으면 좋겠는데... 하지만 심지어... 내 현재 상태에서는 신경쓰지 마세요.
+Agility Pearl Count|민첩성 진주 수
+#|#
+pearlcat_spire1|pearlcat_spire1
+Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|보호를 제공하기 위해 요금이 소비됩니다. 각 진주는 일정 시간이 지나면 개별적으로 충전을 보충합니다.
+.meta|.메타
+Disable Tutorials?|튜토리얼을 비활성화하시겠습니까?
+Outro2_1|아웃트로2_1
+warp|경사
+Hide Pearls?|진주를 숨기시겠습니까?
+98ab95|98ab95
+LC|엘씨
+In any case, you are welcome to stay as long as you like. Anything to ease the pain.|어쨌든 원하는 만큼 머무를 수 있습니다. 고통을 덜기 위해 무엇이든.
+pearlcat_daysky|pearlcat_daysky
+Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|기본(GRAB) 대신 창 생성을 위해 아래의 사용자 지정 키 바인딩을 사용하는 것을 선호합니다.
+Keybind for Player 2.|플레이어 2용 단축키.
+pearlpup_face|pearlpup_face
+pearlcat_agilitysentry|pearlcat_agilitysentry
+And please keep your child under control.|그리고 자녀를 통제하십시오.
+The Pearlcat|펄캣
+PEARLCAT|펄캣
+train_view_yshift|train_view_yshift
+body|몸
+ SAVE|구하다
+I am... sorry.|미안해요.
+Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|기본(GRAB + JUMP) 대신 민첩성 이중 점프를 위해 아래의 사용자 지정 키 바인딩을 사용하는 것을 선호합니다.
+Starting Inventory Override?|재고 무시를 시작하시겠습니까?
+pearlcat_dusksky|pearlcat_dusksky
+SPECEVENT|사양
+General|일반적인
+pearlcat_sentryhalo|pearlcat_sentryhalo
+pearlcat_glyphsentry|pearlcat_glyphsentry
+PEBBLES TAKE RM PEARL|페블스 테이크 RM 펄
+And just who might you be?|그리고 당신은 누구일까요?
+RW_Outro_Theme|RW_Outro_Theme
+.  .  .|. . .
+legs|다리
+oa_cutoff_min_speed|oa_cutoff_min_speed
+Enable Backspear?|백스피어를 사용하시겠습니까?
+_atlases|_atlases
+You're welcome to stay a while... your ability is fascinating.|잠시 머물다 가세요... 당신의 능력은 매력적입니다.
+...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|...당신은... 나를 먹었습니다. 가버려. 당신과... 대화하지 않겠습니다.<LINE>나는... 당신과 대화할 수 없습니다... 왜냐면... 당신이... 나를... 먹었기 때문입니다... ...그리고 왜요?
+And just who might you two be?|그리고 두 분은 누구일까요?
+pearlcat_cloak|pearlcat_cloak
+Failed to parse color {objectType} : {ex.Message}|색상 {objectType} 구문 분석 실패: {ex.Message}
+com.rainworldgame.garrakx.crs.mod|com.rainworldgame.garrakx.crs.mod
+TEXT ERROR|텍스트 오류
+pearlcat_hudshadow|pearlcat_hudshadow
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|분노 진주의 수(빨간색). 재고 무시 시에만 유효합니까? 확인됩니다.
+When checked, disables the rage effect granted by an active pearl.|체크하면 활성화된 진주가 부여하는 분노 효과를 비활성화합니다.
+Songs|노래
+Foreground|전경
+Get... get away... strange... thing.|가... 가... 이상한... 것.
+) & (|) & (
+loadedsoundeffects/ambient|로드된 음향 효과/주변
+GravityDisruptor|중력 교란기
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|왼쪽에 저장된 진주로 교체할 키바인드. 플레이어 1로 제한됩니다.
+Store Input|입력 저장
+Hips|엉덩이
+Accent|악센트
+Back again? I hope you have brought me something this time.|다시? 이번에는 뭔가 가져왔기를 바랍니다.
+pearlcat_hudcooldown|pearlcat_hudcooldown
+...we were built to solve problems. It is a shame not every problem has a solution.|...우리는 문제를 해결하기 위해 만들어졌습니다. 모든 문제에 해결책이 있는 것은 아닙니다.
+Outro3_1|아웃트로3_1
+\nPoleClimb |\n폴 클라이밍
+There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|내가 당신을 막을 수 있는 방법은 없습니다. 그래서 제 요청은 다음과 같습니다.<LINE>날 가만 두거나 빨리 끝내세요.
+Let us see what- oh, again?|다시 볼까요?
+Inventory Override?|재고 무시?
+Pearls may also be deployed as temporary sentries. Press (|진주는 임시 보초로도 배치할 수 있습니다. 누르다 (
+SB_L01|SB_L01
+Your little friend is still quite sick, unfortunately.|불행히도 당신의 작은 친구는 여전히 꽤 아프다.
+ad2424|ad2424
+PEARLCAT WARP END|펄캣 워프엔드
+Hello again, <PlayerName>!|안녕하세요, <PlayerName> 님!
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|선택하면 Pearlcat의 화장품이 비활성화되어 DMS를 통해 사용자 지정 스프라이트를 허용합니다. 이것은 진주 자체를 포함하지 않습니다.
+pup|새끼
+Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|노란색 진주 보호막이 활성화된 후 프레임 시간이 지속됩니다. 기본값은 1.5초입니다.
+oa_min_speed|oa_min_speed
+They are unwell, <PlayerName>, very unwell indeed.|그들은 몸이 좋지 않습니다, <PlayerName>, 정말 몸이 좋지 않습니다.
+L-Stick|엘스틱
+ - |-
+It appears to contain a hymn that once meant a lot to the inhabitants of my city...|한때 우리 도시의 주민들에게 큰 의미가 있었던 찬송가가 포함되어 있는 것 같습니다...
+...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|...현재로서는 당신의 강아지를 위해 할 수 있는 일이 없습니다. 미안해요. 나는... 생각해 볼게.
+The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|그 너머는 당신이 가족을 키우고 내 사업에서 멀리 떨어져 있을 수 있는 안전한 장소가 될 것입니다.
+RW_Outro_Theme_B|RW_Outro_Theme_B
+Player 4|플레이어 4
+bro.mergefix|bro.mergefix
+T1_CAR0|T1_CAR0
+) to deploy, and again to return.|) 배포하고 다시 반환합니다.
+SI|시
+oa_min_fric_speed|oa_min_fric_speed
+Keybind for Player 3.|플레이어 3용 단축키.
+Custom Sentry Keybind?|커스텀 센트리 키바인드?
+Back again? You do visit often...|다시? 자주 방문하시네요...
+I can only hope you have not come... to hurt me more.|당신이 나를 더 아프게 하려고... 오지 않았길 바랄 뿐입니다.
+Balagaga|발라가가
+Looping SFX Error, Outsider often likes to cause this:\n|루핑 SFX 오류, 아웃사이더는 종종 다음과 같은 원인을 좋아합니다.\n
+HoloGrid|홀로그리드
+_AboveCloudsAtmosphereColor|_AboveCloudsAtmosphereColor
+Spear Pearl Count|스피어 펄 카운트
+), or the triggers on controller|) 또는 컨트롤러의 트리거
+.txt|.txt
+My own time is limited, after all...|내 시간은 한정되어 있어 결국...
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|소생 진주의 수(녹색). 재고 무시 시에만 유효합니까? 확인됩니다.
+BigGlyph6|빅글리프6
+oa_max_speed|oa_max_speed
+pearlcat_light2|pearlcat_light2
+min_tail_offset|min_tail_offset
+): swap out a pearl, or change the limit in the Remix options|): 진주를 교체하거나 리믹스 옵션에서 제한을 변경합니다.
+I will tolerate your pressence, so long as you bring me something meaningful.|당신이 나에게 의미 있는 무언가를 가져오는 한 나는 당신의 존재를 참을 것입니다.
+Hides the visuals of inactive pearls and turns you into... cat.|비활성 진주의 영상을 숨기고 당신을... 고양이로 변신시킵니다.
+Welcome back, <PlayerName>, and your little one too.|돌아온 것을 환영합니다, <PlayerName> 님, 그리고 당신의 어린 아이도요.
+ear_l|백작
+Hold (GRAB) with an active common pearl to convert it into a pearl spear|활성 일반 진주로 (GRAB)를 눌러 진주 창으로 변환하십시오.
+When checked, disables the agility effect granted by an active pearl.|체크하면 활성화된 진주가 부여하는 민첩성 효과를 비활성화합니다.
+I am not sure if you are aware, but your child appears very unwell...|알고 계실지 모르겠지만 아이가 많이 안좋아 보여요...
+Your attachment to that thing is unavoidable, I suppose.|그것에 대한 집착은 어쩔 수 없는 것 같아요.
+oa_cutoff_max_speed|oa_cutoff_max_speed
+Oh, hello <PlayerName>!|오, 안녕하세요 <PlayerName>님!
+GW|GW
+1.0.0.0|1.0.0.0
+When checked, disables the revive effect granted by an active pearl.|체크 시 활성 진주가 부여하는 소생 효과를 비활성화합니다.
+Disable Cosmetics?|화장품을 비활성화하시겠습니까?
+slugcat|민달팽이
+scholar|학자
+ruffian|악당
+DistantBkgObject|DistantBkgObject
+3.0|3.0
+T1_END|T1_END
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|각각의 붉은 진주는 추가 레이저를 제공합니다. 그렇습니다. 이 배트플라이는 매우 적대적입니다!
+oa_daze_max_speed|oa_daze_max_speed
+SH|쉿
+ear_r_offset|ear_r_offset
+\r\n|\r\n
+Intro3_3|소개3_3
+CloudDistant|CloudDistant
+scarf|스카프
+Intended for fun, may change gameplay significantly!|재미를 위한 것이므로 게임 플레이가 크게 바뀔 수 있습니다!
+Keyboard|건반
+Cloak|망토
+Sleeve|소매
+pupsick|똥병
+Disable Revive Effect?|부활 효과를 비활성화하시겠습니까?
+Keybind for Player 4.|플레이어 4용 단축키.
+T1_CAREND|T1_CAREND
+Oh, and for direction - there is a gate to the far west of here, where the ground fissues...|아, 그리고 방향을 알려드리자면 여기서 서쪽 끝으로 땅이 갈라지는 문이 있습니다...
+Atlas not found! ({uniqueName})|아틀라스를 찾을 수 없습니다! ({고유 이름})
+q|큐
+Nevermind... this anger is useless...|신경쓰지마라... 이 분노는 소용없다...
+When checked, the inventory HUD will be replaced with a more compact version.|선택하면 인벤토리 HUD가 더 작은 버전으로 대체됩니다.
+You. Again. I still remember what you did...|너. 다시. 나는 아직도 당신이 한 일을 기억합니다 ...
+HologramBehindTerrain|홀로그램뒤에지형
+Oracle Hooks Error:\n|Oracle 후크 오류:\n
+When checked, enables Pearlcat to carry a backspear.|선택하면 Pearlcat이 백스피어를 휴대할 수 있습니다.
+Feet|피트
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|방패 진주의 수(노란색). 재고 무시 시에만 유효합니까? 확인됩니다.
+pixel|픽셀
+_textures|_텍스처
+Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|진주는 임시 보초로도 배치할 수 있습니다. (GRAB + JUMP + DOWN)을 눌러 배치하고 다시 돌아가려면 누르십시오.
+_MultiplyColor|_MultiplyColor
+. . .|. . .
+Press (JUMP + GRAB) while in the air to perform a double jump|공중에서 (JUMP + GRAB)을 누르면 2단 점프를 합니다.
+SU|수
+) or (|) 또는 (
+YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|노란색은 보호를 상징합니다. 저장된 각 노란색 진주는 보호막 충전을 제공합니다.
+DESTROY|파괴하다
+Extra Cheats|추가 치트
+pearlcat_hudsentry|pearlcat_hudsentry
+So curious...|너무 궁금해...
+...and you can gather more of that data you so clearly desire.|...그리고 분명히 원하는 데이터를 더 많이 수집할 수 있습니다.
+I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|특히 당신의 독특한 능력을 감안할 때<LINE>당신이 가져온 진주를 읽는 것이 여전히 행복합니다.
+hips|엉덩이
+Slugcat_Pearlcat|슬러그캣_펄캣
+SS_S04|SS_S04
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|카모 진주 수(검은색). 재고 무시 시에만 유효합니까? 확인됩니다.
+\n|\N
+You... I didn't forget...|너... 잊지 않았어...
+pearlcat_spire3|pearlcat_spire3
+pearlcat_9|pearlcat_9
+Disable Spear Effect?|창 효과를 비활성화하시겠습니까?
+GhostDistortion|유령 왜곡
+pearlcat_hudcircle|pearlcat_hudcircle
+LOAD SAVE DATA IN PLAYER MODULE|플레이어 모듈에 저장 데이터 로드
+Oh! It is good to see you two again!|오! 두 분을 다시 만나서 반가워요!
+NA_19 - Halcyon Memories|NA_19 - Halcyon 추억
+You. I didn't forget...|너. 잊지 않았어...
+pearlcat_4|pearlcat_4
+) with an active common pearl to convert it into a pearl spear|) 활성 일반 진주로 진주 창으로 변환
+Welcome back, I suppose.|다시 오신 것을 환영합니다.
+1.0.0|1.0.0
+Sick|아픈
+I do enjoy the company though... it gets lonely out here.|그래도 나는 회사를 즐긴다... 여기 밖에서는 외로워진다.
+Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|붉은 진주의 레이저가 발사 후 재충전되는 프레임의 시간입니다. 기본값은 1.5초입니다.
+PEARLCAT INIT: VERSION |PEARLCAT 초기화: 버전
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|진주를 활용하는 비범한 능력을 가진 호기심 많은 학자입니다.<LINE><LINE>Remix 구성을 통해 입력, 난이도, 치트 등을 구성하세요!<LINE><LINE>더 많은 Slugcats는 선택 사항이지만 적극 권장합니다.
+VS|VS
+GetSplitScreenHudOffset|GetSplitScreenHudOffset
+...and you have brought your little friend along, of course.|...물론 당신은 당신의 작은 친구를 데리고 왔습니다.
+Think of this mutually, I can 'see' a little further outside this can...|이것을 서로 생각하십시오. 이 캔 밖을 조금 더 '볼' 수 있습니다 ...
+DM|DM
+feet|피트
+...you can manipulate our storage medium in unforseen ways...|...예기치 않은 방식으로 저장 매체를 조작할 수 있습니다...
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|선택하면 진주는 더 이상 활성 여부에 관계없이 능력치 변경을 부여하지 않으며 기본 능력치는 헌터와 유사하게 설정됩니다.
+Keybind for Player 1.|플레이어 1의 단축키.
+PEARLCAT OE ENDING|펄캣 OE 엔딩
+Shield Recharge Time|실드 재충전 시간
+Pebbles_AS_PearlGreen|Pebbles_AS_PearlGreen
+daze_duration|daze_duration
+LF|LF
+Four! Well, if you insist...|넷! 글쎄, 당신이 주장한다면 ...
+inventory_ui_offset|inventory_ui_offset
+And who is your little friend? They are quite adorable!|그리고 당신의 작은 친구는 누구입니까? 그들은 꽤 귀엽다!
+Disable Agility Effect?|민첩성 효과를 비활성화하시겠습니까?
+Rage Pearl Count|레이지 펄 카운트
+CANNOT PLAY|놀 수 없어
+pearlcat_spire8|pearlcat_spire8
+pearlcat_bottomshutter|pearlcat_bottomshutter
+OE_|OE_
+PostModsInit:\n|PostModsInit:\n
+...I am not sure if this is comforting, but...|...이게 위로가 될지는 모르겠지만...
+Debug|디버그
+Compact Inventory HUD?|컴팩트 인벤토리 HUD?
+...that pearl you carry, the purple one, where did you find it?|...네가 가지고 다니는 그 진주, 보라색 진주, 어디서 찾았니?
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|시간이 있으시다면 기꺼이 그 진주를 읽어 드리겠습니다...<LINE>시간을 보내기 위해 할 일이 많지 않습니다.
+Transit System|환승 시스템
+arm|팔
+sleeve|소매
+Hello again.|안녕하세요.
+Cloud|구름
+And why... to me?|그리고 왜... 나한테?
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle.|체크하면 인벤토리를 주기마다 지정된 수의 유색 진주로 설정합니다.
+haloGlyph5|할로글리프5
+Camo Pearl Count|카모 진주 수
+tail|꼬리
+TurtleMan27|터틀맨27
+store_object_delay|store_object_delay
+Chimney Canopy|굴뚝 캐노피
+Version|버전
+Laser Windup TIme|레이저 와인드업 시간
+But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|하지만... 당신이 가지고 있는 표식은, 매우 이례적입니다.<LINE>현지 그룹의 누구도 부여할 수 없는 것입니다...
+LC_T1_S01|LC_T1_S01
+pearlactive|펄액티브
+The Gutter|거터
+OnModsInit:\n|OnModsInit:\n
+You must be very brave to have made it all the way here. Very brave indeed...|여기까지 오셨다니 정말 용감하시네요. 정말 용감하다...
+Assembly-CSharp|어셈블리-CSharp
+.NETFramework,Version=v4.8|.NETFramework, 버전=v4.8
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|민첩성 진주의 수(파란색). 재고 무시 시에만 유효합니까? 확인됩니다.
+pearlcat_3|pearlcat_3
+Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|센트리 펄 배치를 위해 기본값(잡아먹기 + 점프 + 아래) 대신 사용자 지정 키 조합을 사용하는 것을 선호합니다.
+pearlcatSleeve0|pearlcatSleeve0
+pearlcat_topshutter|pearlcat_topshutter
+You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|꽤 먼 곳에서 오셨습니까? 당신은 우리와 소통할 수 있지만, 당신이 가진 마크는 나에게 낯설어요...
+Given your unique abilities, if you are curious as to the contents of those pearls -|당신의 고유한 능력을 감안할 때, 그 진주의 내용물이 궁금하다면-
+The choice is yours.|선택은 당신의 것입니다.
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|기본값(UP + PICKUP)과 달리 아래의 사용자 지정 키 바인딩을 활성화합니다.
+Pebbles_AS_PearlBlack|Pebbles_AS_PearlBlack
+OE|OE
+I hope you are staying safe out there...|당신이 그곳에서 안전하게 지내길 바랍니다...
+soundeffects/ambient|음향 효과/주변
+View|보다
+Face|얼굴
+pearlcat_spear|pearlcat_spear
+I am so sorry.|정말 미안해.
+I would guess they will grow up into quite the scholar themself, someday...|나는 그들이 언젠가는 상당한 학자로 성장할 것이라고 생각합니다 ...
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|수수께끼 같은 에너지와 지식에 대한 갈증으로 무장한 모호한 출신의 학자입니다.<LINE>신체는 약하지만 진주를 아군으로 삼고 있습니다. 여행 중에 무엇을 발견하게 될까요?
+UW|UW
+Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|노란색 진주 보호막이 활성화된 후 재충전되는 데 걸리는 프레임 시간입니다. 기본 40초.
+Pearlpup Respawn?|펄프 리스폰?
+Laser Damage|레이저 손상
+When checked, disables the camoflague effect granted by an active pearl.|체크하면 활성 진주가 부여하는 위장 효과를 비활성화합니다.
+oa_max_fric_mult|oa_max_fric_mult
+I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|나는 당신이 그것들에 저장된 정보를 읽을 수 없기 때문에 당신이 원한다면 내가 당신을 위해 그것들을 읽을 수 있다고 생각합니다.
+Something else new? Allow me to see...|다른 새로운 것이 있습니까? 볼 수 있게 해주세요...
+GateHologram|게이트홀로그램
+oa_max_dist|oa_max_dist
+I very much enjoy the company though... you and your little friend are always welcome here.|나는 회사를 매우 좋아하지만... 당신과 당신의 작은 친구는 언제나 환영합니다.
+PEBBLES GIVE SS PEARL|자갈은 SS 진주를 준다
+Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|붉은 진주의 레이저가 대상을 획득한 후 발사되는 프레임의 시간입니다. 기본값은 1.5초입니다.
+Swap Right|오른쪽으로 바꾸기
+BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|BLUE는 민첩성을 상징합니다. 저장된 각 파란색 진주는 추가 이중 점프를 제공합니다.
+Shield Duration|실드 지속 시간
+pearlpup_scarf|pearlpup_스카프
+active_object_offset|활성_객체_오프셋
+Welcome back, you two!|다시 오신 것을 환영합니다, 두 분!
+3: |삼:
+oa_max_time|oa_max_time
+Disable Rage Effect?|분노 효과를 비활성화하시겠습니까?
+Grab a creature and hold (GRAB) with an active green pearl to revive them|생물을 잡고 활성화된 녹색 진주로 잡아(GRAB) 그들을 소생시키십시오.
+Disable Camoflague Effect?|위장 효과를 비활성화하시겠습니까?
+<LINE>Does not save over the current inventory - it is returned to when unchecked.|<LINE>현재 인벤토리를 저장하지 않습니다. 선택하지 않으면 반환됩니다.
+.NET Framework 4.8|.NET 프레임워크 4.8
+oa_max_fric_speed|oa_max_fric_speed
+MS|석사
+\nRunspeedFac |\nRunspeedFac
+Difficulty|어려움
+BigGlyph10|빅글리프10
+Swap Left|왼쪽 바꾸기
+Inventory Pings?|인벤토리 핑?
+Yes, help yourself. They are not edible.|예, 스스로 도와주십시오. 그들은 먹을 수 없습니다.
+pearlcat_spire2|pearlcat_spire2
+... |...
+HUD|HUD
+Ah, I hope you both stay safe out there...|아, 두 분 모두 밖에서 안전하시길 바랍니다...
+Disable Minor Effects?|사소한 효과를 비활성화하시겠습니까?
+haloGlyph6|할로글리프6
+PFace|피페이스
+Background|배경
+Release|풀어 주다
+Efi|에피
+Midground|미드그라운드
+mayhemmm|신체 상해
+Laser Recharge Time|레이저 재충전 시간
+Your biology... it is both familiar and foreign to me. How curious.|당신의 생물학... 그것은 나에게 익숙하면서도 낯설다. 얼마나 궁금합니다.
+Player 2|플레이어 2
+pearlcat_flyingclouds|pearlcat_flyingclouds
+I have nothing for you, I'm afraid... but I hope you find the answers you seek.|유감스럽게도 나는 당신에게 줄 것이 없습니다... 하지만 당신이 원하는 답을 찾길 바랍니다.
+GATE_UW_LC|GATE_UW_LC
+- Floppy Ears, Scarf|- 플로피 귀, 스카프
+Another one? I shouldn't be surprised. Let's see...|다른 것? 나는 놀라지 말아야 한다. 보자...
+Lolight2|로라이트2
+pearlcat|펄캣
+NON-MSC|비 MSC
+Body|몸
+3600|3600
+And who is your little friend? They are...|그리고 당신의 작은 친구는 누구입니까? 그들은...
+moreslugcats|더 많은 슬러그캣
+BigGlyph2|빅글리프2
+...one which still means a lot to me.|...여전히 저에게 큰 의미가 있는 것입니다.
+pearlcat_structure3|pearlcat_structure3
+DistantBkgObjectAlpha|DistantBkg객체알파
+GATE_SL_MS|GATE_SL_MS
+Scarf|스카프
+slime-cubed.slugbase|슬라임 큐브.슬러그베이스
+<oA>|<아>
+pearl|진주
+Right Bumper|오른쪽 범퍼
+When checked, some abilties will show the inventory when recharged or depleted.|선택하면 일부 능력이 충전되거나 고갈될 때 인벤토리가 표시됩니다.
+pearlcat_clouds|pearlcat_clouds
+pearlcat_7|pearlcat_7
+pearlcat_8|pearlcat_8
+Menu|메뉴
+To retrieve pearls, have an empty main hand, and hold (|진주를 회수하려면 빈 주손으로 (
+T1_CAR3|T1_CAR3
+To store, hold the same keybind with a pearl in your main hand|보관하려면 주 손에 진주가 있는 동일한 키바인드를 잡으십시오.
+com.henpemaz.splitscreencoop|com.henpemaz.splitscreencoop
+-----------------------------------------|-----------------------------------------
+HI|안녕
+T1_START|T1_START
+Pearl Threat Music?|진주 위협 음악?
+pearlpup_head|pearlpup_head
+pearlcatScarfA0|진주고양이스카프A0
+ACK|ACK
+pearlcat_5|pearlcat_5
+Elliot|엘리엇
+-|-
+DschockHorizontalRight|Dschock수평오른쪽
+) while in the air to perform a double jump|) 공중에서 더블 점프를 수행하는 동안
+GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|GREEN은 생명력을 상징합니다. 저장된 각 녹색 진주는 주기당 당신을 포함하여 한 생물을 소생시킬 수 있습니다.
+\nThrowSkill |\n스킬 던지기
+1: |1:
+T1_CAR1|T1_CAR1
+Custom Spear Keybind?|커스텀 스피어 키바인드?
+BM_SB_SUBWAY|BM_SB_SUBWAY
+Joystick[0-9]Button|조이스틱[0-9]버튼
+pearlcat_light1|pearlcat_light1
+face_sick|face_sick
+pearlcat_structure5|pearlcat_structure5
+ear_l_offset|ear_l_offset
+All times here are in frames.<LINE>40 frames = 1 second.|여기에 있는 모든 시간은 프레임 단위입니다.<LINE>40프레임 = 1초.
+- Dialogue, SFX|- 대화, SFX
+When checked, all tutorials will be disabled.|선택하면 모든 튜토리얼이 비활성화됩니다.
+Alternatively, hold (|또는 (
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|...당신은 의사소통의 재능을 가지고 있습니다!<LINE>아마도 당신은 내 이웃 Five Pebbles를 방문했을 것입니다...?
+Custom Agility Keybind?|커스텀 민첩성 키바인드?
+SplitScreen Co-op|SplitScreen Co-op
+pearlcat_hudpearl|pearlcat_hudpearl
+To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|진주를 회수하려면 빈 손을 잡고 (잡아 + 위로)
+He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|그는 현재 나보다 훨씬 더 잘 갖추고 있습니다. 가능하다면 그를 방문하는 것이 좋습니다.<LINE>그는 의료 시설로 설계되지 않았지만 어떤 식으로든 당신을 도울 수 있을 것입니다.
+T1_S01|T1_S01
+Special thanks to the following people!|다음 분들에게 특별히 감사드립니다!
+Pebbles_AS_PearlYellow|Pebbles_AS_PearlYellow
+40|40
+Hello, again. You are very curious. Very curious indeed.|안녕하세요. 당신은 매우 궁금합니다. 정말 궁금합니다.
+BigGlyph11|빅글리프11
+If you do not plan to provide me with any meaningful data, that is your best course of action;|나에게 의미 있는 데이터를 제공할 계획이 없다면 그것이 최선의 조치입니다.
+Storage limit reached (|스토리지 한도 도달(
+...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...오? 그것들을 가져가라, 그것들이 담고 있는 데이터는 나에게 가치가 없다. 나는 그들이 당신에게 훨씬 더 유용 할 것 같아요 ...
+Sidera |시데라
+R-Stick|R-스틱
+Max Pearl Count|최대 진주 수
+You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|당신은 나에게 꽤 공포를 주었다! 요즘 방문자가 자주 없네요;<LINE>대화할 수 있는 당신과 같은 방문자는 훨씬 적습니다...
+WillowWisp|윌로우위스프
+Button West|버튼 웨스트
+Clearly artificial creations. But from where? Sent by who?|분명히 인공적인 창조물입니다. 하지만 어디에서? 누가 보냈습니까?
+Left Bumper|왼쪽 범퍼
+Ah. So you've returned.|아. 그래서 당신은 돌아왔습니다.
+And now here you are, with a perfect copy.|이제 완벽한 사본이 있습니다.
+I must resume my work. I will be waiting here, as always.|작업을 재개해야 합니다. 언제나처럼 여기서 기다리겠습니다.
+pearlcat_structure1|pearlcat_structure1
+Legs|다리
+BigGlyph8|BigGlyph8
+Play around with sentries to see what they do!|그들이 무엇을하는지보기 위해 보초와 놀아 라!
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|체크하면 Pearlpup은 길을 잃을 때마다 다음 주기의 다음 보호소에서 다시 생성됩니다.
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|오른쪽에 저장된 진주로 교체하려면 키바인드하십시오. 플레이어 1로 제한됩니다.
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|창 생성 진주의 수(흰색). 재고 무시 시에만 유효합니까? 확인됩니다.
+slugcatsick|굼벵이
+OVERRODE MSC LOAD ORDER - MOD LOAD ORDER:|MSC 로드 순서 오버로드 - MOD 로드 순서:
+Sound Hooks Error:\n|사운드 후크 오류:\n
+To cycle between pearls, use (|진주 사이를 순환하려면 (
+There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|내가 할 수 있는 일은 아무것도 없다. 나는 의료 시설도 아니고, 그렇다고 해도 내 장비는 깨끗한 것과는 거리가 멀다.
+But it's best not to dwell on the past, don't you agree <PlayerName>?|하지만 과거에 연연하지 않는 것이 가장 좋습니다. <PlayerName>님도 동의하지 않으세요?
+TitleCard_Pearlcat|TitleCard_Pearlcat
+My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|내 감독자들은 당신의 도착에 대해 평화를 이루지 못했습니다. 대중 교통 시스템이 거의 작동하지 않는다는 인상을 받았습니다.
+_|_
+pearlcat_over9|pearlcat_over9
+pearlcat_shieldsentry|pearlcat_shieldsentry
+When checked, disables the shield effect granted by an active pearl.|체크 시 활성 진주가 부여하는 보호막 효과를 비활성화합니다.
+RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|RED는 힘을 상징합니다. 붉은 진주가 활성화되면 가장 가까운 적대적인 생물이 표적이 됩니다.
+I know that quite well.|나는 그것을 아주 잘 알고 있습니다.
+Another? And I shall read this one to you as well...|또 다른? 그리고 나는 이것을 당신에게도 읽어 줄 것입니다 ...
+You are welcome to stay as long as you like. Anything to ease the pain.|원하는 만큼 오래 머물 수 있습니다. 고통을 덜기 위해 무엇이든.
+...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|...하지만... 지금은 귀하의 문제에 대해 생각해 보겠습니다. 아마도 우리 모두를 위한 해결책을 찾을 수 있을 것입니다.
+_sprites|_sprites
+No, I do not care for your little one.|아니, 나는 당신의 어린 아이를 돌보지 않습니다.
+pearlcatFeetA0|진주고양이FeetA0
+This one again? I have better things to do... but...|이거 또? 더 좋은 일이 있지만...
+Button North|버튼 노스
+Death is not the end... even death that seems permanent.|죽음은 끝이 아니다... 영원할 것 같은 죽음도.
+-------------------|-------------------
+And a third? So it is...|그리고 세 번째? 그래서...
+You have a knack for finding these pearls, yes?|당신은 이 진주를 찾는 요령이 있습니다, 그렇죠?
+pearlcat_hudlockedshortcut|pearlcat_hudlocked바로 가기
+Swap Input|입력 바꾸기
+- Artwork|- 삽화
+Pearlcat|펄캣
+Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|각 레드 펄의 레이저는 샷당 피해를 입힙니다. 생존자 창 손상 = 1.0
+Cheats|치트
+\nLungsFac |\nLungsFac
+AS IS|있는 그대로
+I remember this one... don't you? Well...|이거 기억나는데...아니지? 잘...
+Ah, yet another one? You are even better at finding these than I imagined...|아, 또 하나? 생각보다 잘 찾으시네요...
+Read this one too? Yes, yes, here it is...|이것도 읽어? 예, 예, 여기 있습니다...
+Oh... oh no...|오...오 안돼...
+Intro_Roll_C_|Intro_Roll_C_
+head|머리
+I already read this one. I can read it again, I suppose.|나는 이미 이것을 읽었다. 다시 읽을 수 있을 것 같아요.
+OE_SEXTRA|OE_SEXTRA
+I have tried to reconstruct it from memory many times, fruitlessly.|나는 그것을 기억으로부터 여러 번 재구성하려고 노력했지만 결실을 맺지 못했습니다.
+pearlcat_structure2|pearlcat_structure2
+sweat|땀
+_windDir|윈드서
+SL|에스엘
+pearlcat_2|pearlcat_2
+Start Shelter Override|쉘터 오버라이드 시작
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|채울 수 없는 호기심, Pearlcat은 컬렉션 확장을 위해<LINE>다시 한 번 모험을 떠납니다.
+2: |2:
+Button South|버튼 사우스
+When checked, disables the spear creation effect granted by an active pearl.|체크 시 활성 진주가 부여하는 창 생성 효과를 비활성화합니다.
+4: |4:
+fcb103|fcb103
+)|)
+PEBBLESWAIT|페블스웨이트
+Something new to read... it has been too long...|새로운 걸 읽을 수 있어... 너무 오래됐어...
+...there.|...거기.
+Press (|누르다 (
+pearlcat_6|pearlcat_6
+Oh, hello! Hello!|오 안녕하세요! 안녕하세요!
+Custom Keybind?|커스텀 키바인드?
+Hello! I remember you! I remember...|안녕하세요! 나는 당신을 기억합니다! 기억해...
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|어떤 플레이어 컨트롤러 트리거 스와핑이 적용될지. 0은 트리거 스와핑을 비활성화합니다. 누른 상태에서 위 또는 아래로 드래그하여 변경합니다.
+Pebbles_SS_Pearlcat|자갈_SS_펄캣
+This illness, it is unlike any I have seen before - I can say it is likely fatal.|이 질병은 내가 전에 본 것과는 다릅니다. 치명적일 가능성이 높다고 말할 수 있습니다.
+max_tail_offset|max_tail_offset
+SplitScreenCoop.SplitScreenCoop|SplitScreenCoop.SplitScreenCoop
+SS_AI|SS_AI
+by|~에 의해
+Brought me something to read? Or just wasting my time, as per usual?|읽을거리 가져왔어? 아니면 그냥 평소처럼 시간을 낭비하는 건가요?
+0.0|0.0
+PEARLCAT WARP|펄캣 워프
+pearlcat_1|pearlcat_1
+Ability Input|어빌리티 입력
+pearlcatScarfC0|진주고양이스카프C0
+300|300
+Revive Pearl Count|리바이브 펄 카운트
+pearlactivehalo|펄액티브할로
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|활성 진주를 포함하여 한 번에 저장할 수 있는 최대 진주 수입니다. 기본값은 9입니다. 변경하려면 누른 상태에서 위 또는 아래로 끕니다.

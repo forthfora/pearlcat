@@ -1,0 +1,6 @@
+0-121-pearlcatpebbles
+This is a blueprint for a living block cell. It stores and processes organic waste.
+
+There is nothing too interesting here. Modular city cell blocks have been in production for a<LINE>long time, and are likely to be abandoned for even longer now that my creators have departed.
+
+Unless an overgrown rodent like you has an vested interest in septic system design,<LINE>there is very little information here that either of us would enjoy reading.
