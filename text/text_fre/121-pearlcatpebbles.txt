@@ -1,6 +1,0 @@
-﻿0-121-pearlcatpebbles
-Ceci est un plan pour une cellule de bloc vivant. Elle stocke et traite les déchets organiques.
-
-Il n'y a rien de très intéressant ici. Les blocs de cellules urbaines modulaires sont en production depuis longtemps, et sont susceptibles d'être abandonnés encore plus longtemps maintenant que mes créateurs sont partis.
-
-À moins qu'un rongeur envahissant comme vous ait un intérêt direct dans la conception d'une fosse septique,<LINE>il y a très peu d'informations ici que l'un de nous aimerait lire.
