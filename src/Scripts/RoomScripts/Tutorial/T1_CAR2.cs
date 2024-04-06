@@ -92,7 +92,7 @@ public class T1_CAR2 : UpdatableAndDeletable
 
                     game.AddTextPrompt("Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature", 0, 500);
 
-                    game.AddTextPrompt("Multiple red sentries may chain this effect together - and yes, these batflies are VERY HOSTILE!", 0, 500);
+                    game.AddTextPrompt("Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!", 0, 500);
 
                     PhaseTimer = 1400;
                 }

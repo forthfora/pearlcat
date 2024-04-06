@@ -728,12 +728,12 @@ public static partial class Hooks
     {
         if (!pearl.abstractPhysicalObject.TryGetPOModule(out var module)) return;
 
-        var targetSentryRange = 1000.0f;
-        var targetEnemyRange = 1000.0f;
+        var targetSentryRange = 1500.0f;
+        var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
         var riccochetVelMult = 1.25f;
-        var riccochetDamageMult = 1.25f;
+        var riccochetDamageMult = isSentry ? 1.25f : 1.1f;
 
 
         // Target Finding
@@ -757,7 +757,7 @@ public static partial class Hooks
                 {
                     if (physObj == pearl) continue;
 
-                    if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
+                    //if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
 
                     if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
 
@@ -815,7 +815,7 @@ public static partial class Hooks
                 if (module.VisitedObjects.TryGetValue(physObj, out _)) continue;
 
 
-                PhysicalObject? bestRed = null;
+                PhysicalObject? closestRed = null;
 
                 foreach (var sentryDist in availableReds)
                 {
@@ -823,27 +823,27 @@ public static partial class Hooks
 
                     if (otherSentryModule.VisitedObjects.TryGetValue(weapon, out _)) continue;
 
-                    bestRed = sentryDist.Key;
+                    closestRed = sentryDist.Key;
                     break;
                 }
 
                 PhysicalObject? bestTarget = null;
                 Vector2? bestTargetPos = null!;
 
-                if (bestRed != null && bestEnemy != null)
+                if (closestRed != null && bestEnemy != null)
                 {
-                    if (player.room.VisualContact(bestRed.firstChunk.pos, bestEnemy.firstChunk.pos))
+                    if (player.room.VisualContact(closestRed.firstChunk.pos, bestEnemy.firstChunk.pos))
                     {
-                        bestTarget = bestRed;
+                        bestTarget = closestRed;
                     }
                     else
                     {
                         bestTarget = bestEnemy;
                     }
                 }
-                else if (bestRed != null)
+                else if (closestRed != null)
                 {
-                    bestTarget = bestRed;
+                    bestTarget = closestRed;
                 }
                 else if (bestEnemy != null)
                 {
@@ -865,9 +865,9 @@ public static partial class Hooks
                             }
                         }
                     }
-                    else if (bestTarget == bestRed)
+                    else if (bestTarget == closestRed)
                     {
-                        bestTargetPos = bestRed.firstChunk.pos;
+                        bestTargetPos = closestRed.firstChunk.pos;
                     }
                 }
 
