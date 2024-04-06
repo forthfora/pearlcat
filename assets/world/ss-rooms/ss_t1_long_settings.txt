@@ -8,4 +8,5 @@ Palette: 12
 EffectColorA: 15
 Effects: DayNight-0.5543478-20-20, SunBlock-1-11-98, 
 PlacedObjects: DayNightSettings><1359.57><266.1875><-246~93.66025~10~33, LightFixture><2152.887><620.6039><RedLight~17.32051~-10~1, LightFixture><2704.39><616.6674><RedLight~17.32051~-10~48, LightFixture><3397.371><559.1595><RedLight~17.32051~-10~23, LightFixture><1655.904><635.6272><RedLight~17.32051~-10~97, LightFixture><1034.598><594.37><RedLight~17.32051~-10~43, 
+AmbientSounds: OMNI><AM_WIN-StrongWnd2.ogg><761.9463><475.7884><0.326087><1, OMNI><SO_NAT-LilDrips.ogg><579.6401><477.6428><0.2608696><1, OMNI><AM_IND-SuperStructure.ogg><395.4032><480.3715><0.3913043><0.7652174, SPOT><AM_ENV-LightWind.ogg><756.0892><543.821><0.5><0.5695652><4094.089><369.821><-35.35534><-35.35534><0><0.6326088, 
 FadePalette: 8, 0.2826087, 0.2934783, 0.2934783, 0.2826087

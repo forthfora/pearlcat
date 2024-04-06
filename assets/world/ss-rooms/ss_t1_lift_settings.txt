@@ -3,9 +3,13 @@ DangerType: None
 CeilingDrips: 0
 RainIntensity: 0
 RumbleIntensity: 0
-Clouds: 1
-Grime: 0
+Clouds: 0.8804348
+Grime: 0.1086956
 Palette: 29
 EffectColorA: 15
-Effects: Darkness-0.6413044-20-20, 
-FadePalette: 12, 0.4130435, 0.5326087, 0.5978261, 0.6956522
+EffectColorB: 12
+Effects: Darkness-0.6847826-20-20, FairyParticles-0.5108696-36-104, Flies-0.1630435-280-108, RockFlea-0.1304348-302-34, DayNight-0.423913-279-236, 
+PlacedObjects: FairyParticleSettings><86.9252><2721.654><-103~-19.33975~0~1~1~0~1~1.448696~60~495.2173~40~100~5~30~0~360~0~0.1999999~0.1521739~0.2282609~0.05434782~0.1413043~1~0.1195652~7.790894~Pixel~SIN_IO~SIN_IO~0~0~0, LightFixture><1004.647><1981.364><RedLight~17.32051~-10~86, LightFixture><197.6706><2397.604><RedLight~17.32051~-10~64, LightFixture><968.3938><2721.669><RedLight~1.320496~-179~42, LightFixture><173.3215><1653.66><RedLight~17.32051~-10~66, LightFixture><1021.316><1129.828><RedLight~17.32051~-10~57, LightFixture><1055.811><402.0258><RedLight~17.32051~-10~23, LightFixture><32.80008><339.2766><RedLight~-27.67949~180~67, SeedCob><1017.285><284.1969><-226~47~7~10, DeadSeedCob><947.95><197.4978><, ReliableSpear><887.3541><110.5793><, LightSource><602.4288><125.1605><0.0217388~EffectColor2~2~1387~-341~428.6025~0~1~None~0~0, DayNightSettings><320.9472><386.7166><-182~69.66025~10~33, LightSource><1168.95><2968.747><0.1086956~EffectColor1~-93~-32~-393~-8.397461~0~1~None~0~0, LightSource><40.55096><2958.73><0.1086956~EffectColor1~0~100~472~-9.397461~0~1~None~0~0, LightSource><124.7318><656.4139><0.07608695~EffectColor1~0~100~565~-68.39746~0~1~None~0~0, LightSource><129.4096><545.4134><0.08695652~EffectColor1~0~100~563~11.60254~0~1~None~0~0, LightSource><609.7167><3121.947><0.05434782~White~22~-820~262~-353.3975~1~1~Fade~0~0, 
+AmbientSounds: OMNI><AM_WIN-StrongWnd2.ogg><748.1508><469.5763><0.4021739><1, OMNI><AM_IND-SuperStructure.ogg><566.187><468.3102><0.4021739><0.8043478, OMNI><Noise Wind.wav><744.5011><567.8><0.1086956><1, OMNI><SO_WAT-LilDrips.ogg><556.8139><561.4268><0.2391304><1, 
+FadePalette: 8, 0.326087, 0.2608696, 0.2826087, 0.1956522
+WetTerrain: OFF

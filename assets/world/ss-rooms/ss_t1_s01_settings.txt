@@ -7,6 +7,6 @@ EffectColorA: 14
 EffectColorB: 13
 Effects: SunBlock-1-10-96, Moth-0.25-20-20, FairyParticles-0.1086956-286-225, Darkness-0.1086956-285-30, SkyAndLightBloom-0-284-161, DayNight-0-277-103, 
 PlacedObjects: FairyParticleSettings><189.0528><144.2835><-233~155.6603~0~1~1~0~1~1.448696~60~495.2173~40~100~5~30~0~360~0~0.1999999~0.1521739~0.2282609~0.05434782~0.1413043~1~0.1195652~7.790894~Pixel~SIN_IO~SIN_IO~0~0~0, LightSource><679.4203><303.8548><0.1086962~EffectColor1~-95~114~50~86.60254~0~1~None~0~0, 
-AmbientSounds: OMNI><am_env-natwind.ogg><721.964><456.5877><0.4072013><1, OMNI><am_env-citytone.ogg><740.269><530.4037><0.401401><1, 
+AmbientSounds: OMNI><AM_WIN-SubWnd.ogg><721.3547><456.8296><0.3043478><1, OMNI><AM_WIN-HowlingWnd.ogg><736.8251><516.1529><0.1086956><0.7652174, OMNI><AM_IND-SuperStructure.ogg><521.0554><525.7041><0.25><0.7456522, 
 FadePalette: 17, 0.9347826
 RoomSpecificScriptActive: ON

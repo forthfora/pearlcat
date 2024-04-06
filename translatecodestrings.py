@@ -101,7 +101,7 @@ preserveLangMap = [
     "es"
 ]
 
-# for lang in langMap.keys():
-#     Translate(lang, lang in preserveLangMap)
+for lang in langMap.keys():
+    Translate(lang, lang in preserveLangMap)
 
-Translate("zh-CN", True)
+# Translate("zh-CN", True)

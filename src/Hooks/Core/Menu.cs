@@ -873,7 +873,7 @@ public static partial class Hooks
             //self.startButton.buttonBehav.greyedOut = true; // found issues with this, so don't restrict incase of false detection
 
             self.startButton.fillTime = 240.0f;
-            var text = self.Translate("CANNOT PLAY") + "\n" + (miscProg.IsMSCSave ? "MSC" : "NON-MSC") + self.Translate(" SAVE");
+            var text = self.Translate("WARNING") + "\n" + (miscProg.IsMSCSave ? "MSC" : "NON-MSC") + self.Translate(" SAVE");
 
             self.startButton.menuLabel.text = text;
         }
