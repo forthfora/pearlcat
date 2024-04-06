@@ -125,6 +125,7 @@ SB|SB
 L-Stick|L-Stick
 store_object_delay|store_object_delay
 Pearlcat|Perlenkatze
+PEARLCAT|PERLENKATZE
 The Pearlcat|Die Perlenkatze
 Keybind for Player 4.|Tastenkombination für Spieler 4.
 Keybind for Player 1.|Tastenkombination für Spieler 1.
