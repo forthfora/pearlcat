@@ -91,8 +91,14 @@ public class T1_CAR3 : UpdatableAndDeletable
                 
                 game.AddTextPrompt("Grab a creature and hold (GRAB) with an active green pearl to revive them", 0, 600);
 
-
                 PhaseTimer = 1000;
+
+                if (!ModManager.MSC)
+                {
+                    game.AddTextPrompt("(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)", 0, 250);
+                    PhaseTimer += 250;
+                }
+
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

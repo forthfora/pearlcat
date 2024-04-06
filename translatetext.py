@@ -12,8 +12,8 @@ DEST = "es"
 
 langMap = {
     "fr": "fre",
-    "zh-CN": "chi",
-    "es": "spa",
+    # "zh-CN": "chi",
+    # "es": "spa",
     "ru": "rus",
     "pt": "por",
     "ko": "kor",
@@ -58,7 +58,5 @@ def Translate(targetLang):
             except:
                 print("TRANSLATION ERROR")
 
-Translate("ja")
-
-# for lang in langMap.keys():
-#     Translate(lang)
+for lang in langMap.keys():
+    Translate(lang)

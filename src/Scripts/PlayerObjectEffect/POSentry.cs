@@ -1,31 +1,51 @@
 ﻿using RWCustom;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using static Pearlcat.POEffect;
 using MoreSlugcats;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
-using static MoreSlugcats.MoreSlugcatsEnums;
 using Music;
 
 namespace Pearlcat;
 
 public class POSentry : UpdatableAndDeletable, IDrawable
 {
-    public static ConditionalWeakTable<AbstractPhysicalObject, POSentry> SentryData { get; } = new();
-
     public WeakReference<AbstractPhysicalObject> OwnerRef { get; }
     public Vector2 InitialPos { get; }
+
+    public float HaloScale { get; set; } = 1.0f;
+    public float AnimCounter { get; set; }
+
+
     public LightSource? LightSource { get; set; }
+    public bool SpearBombArmed { get; set; } = false;
+    public AbstractRoom? SpearBombRoom { get; set; }
+
+    public float ShieldTimer { get; set; } = -1;
     public DynamicSoundLoop? ShieldHoldLoop { get; set; }
+    public Dictionary<ShortcutData, FSprite> LockedShortcutsSprites { get; } = new();
+
+    public int RageCounter { get; set; } = 3;
+    public WeakReference<Creature>? RageTarget { get; set; }
+
+    public Vector2? AgilityPos { get; set; }
+    public AbstractRoom? AgilityRoom { get; set; }
+
+    public float HoloLightScale { get; set; }
+    public float HoloLightAlpha { get; set; }
+    public bool HoloLightActive { get; set; }
+
+    public bool WasPlayingMusic { get; set; }
+    public float MusicVolume { get; set; }
+
 
     public POSentry(AbstractPhysicalObject owner)
     {
         OwnerRef = new(owner);
 
-        if (SentryData.TryGetValue(owner, out _)) return;
+        if (ModuleManager.SentryData.TryGetValue(owner, out _)) return;
 
         if (owner.realizedObject == null) return;
 
@@ -33,14 +53,14 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
 
-        SentryData.Add(owner, this);
+        ModuleManager.SentryData.Add(owner, this);
 
         room = owner.realizedObject.room;
         InitialPos = player.GetActiveObjectPos();
 
         var effect = owner.GetPOEffect();
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 2.0f);
 
@@ -48,7 +68,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         room.AddObject(new ExplosionSpikes(room, InitialPos, 5, 30.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
         room.AddObject(new LightningMachine.Impact(InitialPos, 0.1f, addon.SymbolColor, true));
 
-        if (!owner.TryGetModule(out var module)) return;
+        if (!owner.TryGetPOModule(out var module)) return;
 
         if (module.CooldownTimer != 0) return;
 
@@ -61,22 +81,6 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             module.CooldownTimer = 40;
         }
     }
-
-    public Dictionary<ShortcutData, FSprite> LockedShortcutsSprites = new();
-
-    public float ShieldTimer { get; set; } = -1;
-    public int RageCounter { get; set; } = 3;
-    public bool WasPlayingMusic { get; set; }
-    public Vector2? AgilityPos { get; set; }
-    public float HoloLightScale { get; set; }
-    public float HoloLightAlpha { get; set; }
-    public bool HoloLightActive { get; set; }
-    public float MusicVolume { get; set; }
-
-    public float HaloScale { get; set; } = 1.0f;
-    public float AnimCounter { get; set; }
-    public WeakReference<Creature>? RageTarget { get; set; }
-
 
     public override void Update(bool eu)
     {
@@ -93,15 +97,14 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (owner.realizedObject is not DataPearl pearl) return;
 
-        if (!pearl.abstractPhysicalObject.TryGetModule(out var module)) return;
+        if (!pearl.abstractPhysicalObject.TryGetPOModule(out var module)) return;
 
 
         var pearlType = pearl.AbstractPearl.dataPearlType;
         var targetPos = InitialPos + new Vector2(0.0f, -40.0f);
 
-        if (pearlType == DataPearlType.RM
-            || pearlType == Enums.Pearls.RM_Pearlcat
-            || pearlType == Enums.Pearls.SS_Pearlcat)
+        // Pearls with floating animation
+        if (pearl.IsHalcyonPearl() || pearl.IsHeartPearl() || pearlType == Enums.Pearls.SS_Pearlcat)
         {
             targetPos.y += Mathf.Sin(AnimCounter / 60.0f) * 20.0f;
         }
@@ -120,9 +123,14 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         UpdateSpearSentry(owner, module, pearl, effect);
         
-        if (pearlType == DataPearlType.RM || pearlType == Enums.Pearls.RM_Pearlcat)
+        if (pearl.IsHalcyonPearl())
         {
             UpdateMusicSentry(owner, module, pearl, effect, "NA_19 - Halcyon Memories");
+        }
+        else if (pearl.IsHeartPearl())
+        {
+            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Heartmend");
+            UpdateHeartSentry(owner, module, pearl);
         }
         else if (pearlType == Enums.Pearls.SS_Pearlcat)
         {
@@ -133,9 +141,21 @@ public class POSentry : UpdatableAndDeletable, IDrawable
     }
 
 
+
+    private void UpdateHeartSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl)
+    {
+        var player = owner.TryGetPlayerObjectOwner();
+
+        if (player == null) return;
+
+        player.mainBodyChunk.vel += Custom.DirVec(player.firstChunk.pos, pearl.firstChunk.pos) * Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 75.0f, 125.0f, 0.0f, 3.0f, 0.8f);
+    }
+
     private void UpdateMusicSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect, string songName)
     {
-        var musicPlayer = room.game.manager.musicPlayer;
+        var musicPlayer = room?.game?.manager?.musicPlayer;
+
+        if (musicPlayer == null || room == null) return;
 
         if (musicPlayer.song != null)
         {
@@ -193,6 +213,8 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         }
     }
 
+
+
     private void UpdateCamoSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         const float MAX_SCALE = 300.0f;
@@ -230,11 +252,12 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         room.PlaySound(SoundID.HUD_Food_Meter_Deplete_Plop_A, pearl.firstChunk, false, 2.0f, 1.0f);
     }
 
+    
     private void UpdateReviveSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.REVIVE) return;
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         if (module.CooldownTimer != 0) return;
 
@@ -272,6 +295,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos);
     }
 
+
     private void UpdateAgilitySentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.AGILITY) return;
@@ -280,68 +304,52 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
 
+        var inGate = player.room?.IsGateRoom() ?? false;
         var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
+        var possessingCreature = playerModule.PossessedCreature != null;
 
-        AgilityPos = tooClose ? null : pearl.firstChunk.pos;
-     
-        /*
-        foreach (var updatable in room.updateList)
-        {
-            if (updatable is not Creature crit) continue;
+        var canTP = !tooClose && !inGate && !possessingCreature;
 
-            if (!Custom.DistLess(pearl.firstChunk.pos, crit.firstChunk.pos, 75.0f)) continue;
-
-            if (crit is Player player)
-            {
-                var stats = new SlugcatStats(player.SlugCatClass, player.Malnourished);
-
-                if (player.TryGetPearlcatModule(out var playerModule))
-                {
-                    stats = player.slugcatStats;
-                }
-
-                player.slugcatStats.runspeedFac = stats.runspeedFac * 1.5f;
-                player.slugcatStats.corridorClimbSpeedFac = stats.corridorClimbSpeedFac * 1.5f;
-                player.slugcatStats.poleClimbSpeedFac = stats.poleClimbSpeedFac * 1.5f;
-
-                if (player.canJump > 0)
-                {
-                    player.jumpBoost = player.SlugCatClass == SlugcatStatsName.Rivulet ? 18.0f : 14.0f;
-                }
-            }
-        }
-        */
+        AgilityPos = canTP ? pearl.firstChunk.pos : null;
+        AgilityRoom = canTP ? pearl.AbstractPearl.Room : null;
     }
+
 
     private void UpdateSpearSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.SPEAR_CREATION) return;
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-        if (LightSource == null)
+        if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
+
+
+        var armCooldown = 80;
+        var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
+
+        if (tooClose)
         {
-            LightSource = new(pearl.firstChunk.pos, false, addon.SymbolColor, this)
-            {
-                requireUpKeep = true,
-                setRad = 0.0f,
-                setAlpha = 1.0f,
-                flat = false,
-            };
-            room.AddObject(LightSource);
+            module.CooldownTimer = armCooldown;
         }
 
-        LightSource.stayAlive = true;
 
-        LightSource.setRad = Mathf.Lerp(LightSource.Rad, 300.0f, 0.1f);
-        LightSource.setPos = pearl.firstChunk.pos;
+        var shouldArm = module.CooldownTimer == 0;
+
+        if (!SpearBombArmed && shouldArm)
+        {
+            pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.0f, 3.0f);
+        }
+
+        SpearBombArmed = shouldArm;
+        SpearBombRoom = SpearBombArmed ? pearl.room.abstractRoom : null;
     }
+
 
     public void UpdateShieldSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.SHIELD) return;
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
@@ -389,6 +397,8 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                     }
                     else if (physicalObject is Creature crit)
                     {
+                        if (crit.abstractCreature.controlled) continue;
+
                         if (!player.IsHostileToMe(crit) && crit is not Lizard or Scavenger) continue;
 
                         if (crit.dead) continue;
@@ -425,7 +435,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             {
                 sprite = new FSprite("pearlcat_hudlockedshortcut")
                 {
-                    shader = room.game.rainWorld.Shaders["Hologram"],
+                    shader = Utils.Shaders["Hologram"],
                     scale = 0.5f,
                 };
 
@@ -460,11 +470,29 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         }
     }
 
+
     public void UpdateRageSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
+    {
+        if (ModOptions.OldRedPearlAbility.Value)
+        {
+            UpdateOldRageSentry(owner, module, pearl, effect);
+            return;
+        }
+
+        if (effect.MajorEffect != MajorEffectType.RAGE) return;
+
+        var player = owner.TryGetPlayerObjectOwner();
+
+        if (player == null) return;
+
+        Hooks.RageTargetLogic(pearl, player, true);
+    }
+
+    private void UpdateOldRageSentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
 
-        if (!owner.TryGetAddon(out var addon)) return;
+        if (!owner.TryGetPOGraphics(out var addon)) return;
 
         var shootTime = ModOptions.LaserWindupTime.Value;
         var cooldownTime = ModOptions.LaserRechargeTime.Value;
@@ -561,8 +589,11 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
 
         if (RageTarget == null || !RageTarget.TryGetTarget(out target)) return;
+
         if (RageCounter <= 0)
+        {
             module.CooldownTimer = cooldownTime;
+        }
 
         if (module.CooldownTimer > 0)
         {
@@ -612,19 +643,25 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         LightSource?.Destroy();
 
         foreach (var shortcut in LockedShortcutsSprites.Values)
-            shortcut.RemoveFromContainer();
-
-        if (OwnerRef.TryGetTarget(out var owner) && owner.TryGetModule(out var module))
         {
-            if (SentryData.TryGetValue(owner, out _))
-                SentryData.Remove(owner);
+            shortcut.RemoveFromContainer();
+        }
+
+        if (OwnerRef.TryGetTarget(out var owner) && owner.TryGetPOModule(out var module))
+        {
+            if (ModuleManager.SentryData.TryGetValue(owner, out _))
+            {
+                ModuleManager.SentryData.Remove(owner);
+            }
 
             if (module.IsSentry)
+            {
                 module.RemoveSentry(owner);
-            
+            }
+
             var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-            if (owner.TryGetAddon(out var addon) && playerModule != null && playerModule.PlayerRef.TryGetTarget(out var player))
+            if (owner.TryGetPOGraphics(out var addon) && playerModule != null && playerModule.PlayerRef.TryGetTarget(out var player))
             {
                 if (room != null && owner.realizedObject != null)
                 {
@@ -634,7 +671,8 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                     room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
                 }
 
-                if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && owner.Room == player.abstractCreature.Room)
+                // Agility Teleport
+                if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && AgilityRoom == player.abstractCreature.Room)
                 {
                     if (room != null && owner.realizedObject != null)
                     {
@@ -664,6 +702,83 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                     playerModule.FlyTimer = 10;
                     module.CooldownTimer = 1200;
                 }
+
+                // Spear Bomb
+                if (SpearBombArmed && SpearBombRoom == player.abstractCreature.Room)
+                {
+                    if (room != null && owner.realizedObject != null)
+                    {
+                        var pos = owner.realizedObject.firstChunk.pos;
+                        var color = addon.SymbolColor;
+
+                        room.AddObject(new SootMark(room, pos, 40f, true));
+
+                        room.AddObject(new Explosion.ExplosionLight(pos, 280f, 1f, 7, color));
+                        room.AddObject(new Explosion.ExplosionLight(pos, 230f, 1f, 3, new Color(1f, 1f, 1f)));
+
+                        room.AddObject(new ExplosionSpikes(room, pos, 14, 30f, 9f, 7f, 120f, color));
+                        room.AddObject(new ShockWave(pos, 160f, 0.3f, 10, false));
+
+                        room.AddObject(new Explosion(room,
+                            owner.realizedObject,
+                            pos,
+                            7,
+                            125.0f,
+                            10.0f,
+                           2.0f,
+                            280.0f,
+                            0.25f,
+                            player,
+                            0.7f,
+                            160.0f,
+                            1.0f));
+
+                        room.PlaySound(SoundID.Bomb_Explode, pos);
+                        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1.2f, 0.75f);
+
+                        for (int i = 0; i < 25; i++)
+                        {
+                            var randVec = Custom.RNV();
+
+                            if (room.GetTile(pos + randVec * 20f).Solid)
+                            {
+                                if (!room.GetTile(pos - randVec * 20f).Solid)
+                                {
+                                    randVec *= -1f;
+                                }
+                                else
+                                {
+                                    randVec = Custom.RNV();
+                                }
+                            }
+
+                            for (int j = 0; j < 3; j++)
+                            {
+                                room.AddObject(new Spark(pos + randVec * Mathf.Lerp(30f, 60f, Random.value),
+                                    randVec * Mathf.Lerp(7f, 38f, Random.value) + Custom.RNV() * 20f * Random.value,
+                                    Color.Lerp(color, new Color(1f, 1f, 1f), Random.value), null, 11, 28));
+                            }
+
+                            room.AddObject(new Explosion.FlashingSmoke(pos + randVec * 40f * Random.value,
+                                randVec * Mathf.Lerp(4f, 20f, Mathf.Pow(Random.value, 2f)),
+                                1f + 0.05f * Random.value, Color.white,
+                                color, Random.Range(3, 11)));
+                        }
+
+                        for (int i = 0; i < 6; i++)
+                        {
+                            room.AddObject(new ScavengerBomb.BombFragment(pos, Custom.DegToVec((i + Random.value) / 6f * 360f) * Mathf.Lerp(18f, 38f, Random.value)));
+                        }
+
+                        room.ScreenMovement(new Vector2?(pos), default, 1.3f);
+
+
+                        player.RemoveFromInventory(owner);
+
+                        owner.destroyOnAbstraction = true;
+                        owner.Abstractize(owner.pos);
+                    }
+                }
             }
         }
 
@@ -675,6 +790,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             {
                 "NA_19 - Halcyon Memories",
                 "Pearlcat_Amnesia",
+                "Pearlcat_Heartmend",
             };
 
             if (songsToStop.Contains(musicPlayer.song.name))
@@ -685,6 +801,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         }
     }
 
+
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         sLeaser.sprites = new FSprite[7];
@@ -693,33 +810,33 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         sLeaser.sprites[1] = new("pearlcat_sentryhalo")
         {
-            //shader = rCam.room.game.rainWorld.Shaders["GateHologram"],
+            //shader = Utils.Shaders["GateHologram"],
         };
 
         sLeaser.sprites[2] = new("pearlcat_shieldsentry")
         {
-            shader = rCam.room.game.rainWorld.Shaders["Hologram"],
+            shader = Utils.Shaders["Hologram"],
         };
 
         sLeaser.sprites[3] = new("Futile_White")
         {
-            shader = rCam.room.game.rainWorld.Shaders["GravityDisruptor"],
+            shader = Utils.Shaders["GravityDisruptor"],
             scale = 0.0f,
         };
 
         sLeaser.sprites[4] = new("pixel")
         {
-            shader = rCam.room.game.rainWorld.Shaders["HologramBehindTerrain"],
+            shader = Utils.Shaders["HologramBehindTerrain"],
         };
 
         sLeaser.sprites[5] = new("pixel")
         {
-            shader = rCam.room.game.rainWorld.Shaders["GateHologram"],
+            shader = Utils.Shaders["GateHologram"],
         };
 
         sLeaser.sprites[6] = new("Futile_White")
         {
-            shader = rCam.game.rainWorld.Shaders["HoloGrid"],
+            shader = Utils.Shaders["HoloGrid"],
             scale = 0.0f,
         };
 
@@ -737,7 +854,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (owner.realizedObject is not DataPearl pearl) return;
 
-        if (!pearl.abstractPhysicalObject.TryGetAddon(out var addon)) return;
+        if (!pearl.abstractPhysicalObject.TryGetPOGraphics(out var addon)) return;
 
         var effect = pearl.abstractPhysicalObject.GetPOEffect();
         
@@ -751,7 +868,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         var counterSprite = sLeaser.sprites[5];
         var holoLightSprite = sLeaser.sprites[6];
 
-        symbolSprite.element = Futile.atlasManager.GetElementWithName(addon.DrawSymbolCooldown && RageCounter > 0 ? "pearlcat_glyphcooldown" : ObjectAddon.SpriteFromPearl(pearl.abstractPhysicalObject));
+        symbolSprite.element = Futile.atlasManager.GetElementWithName(addon.DrawSymbolCooldown && RageCounter > 0 ? "pearlcat_glyphcooldown" : POGraphics.SpriteFromPearl(pearl.abstractPhysicalObject));
         symbolSprite.SetPosition(targetPos + new Vector2(15.0f, 15.0f));
         symbolSprite.color = addon.SymbolColor;
 
@@ -776,12 +893,15 @@ public class POSentry : UpdatableAndDeletable, IDrawable
             effect.MajorEffect == MajorEffectType.SHIELD
             || effect.MajorEffect == MajorEffectType.AGILITY
             || effect.MajorEffect == MajorEffectType.REVIVE
-            || (effect.MajorEffect == MajorEffectType.RAGE && RageCounter <= 0);
+            || effect.MajorEffect == MajorEffectType.RAGE
+            || effect.MajorEffect == MajorEffectType.SPEAR_CREATION;
 
         guideSprite.element = Futile.atlasManager.GetElementWithName(effect.MajorEffect switch
         {
             MajorEffectType.AGILITY => "pearlcat_agilitysentry",
             MajorEffectType.REVIVE => "pearlcat_revivesentry",
+            MajorEffectType.RAGE => ModOptions.OldRedPearlAbility.Value ? "pearlcat_agilitysentry" : "pearlcat_ragesentry",
+            MajorEffectType.SPEAR_CREATION => "pearlcat_agilitysentry",
 
             _ => "pearlcat_shieldsentry",
         });
@@ -817,10 +937,10 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         counterSprite.color = addon.SymbolColor;
         counterSprite.isVisible = false;
 
-        if (effect.MajorEffect == MajorEffectType.RAGE)
+        if (effect.MajorEffect == MajorEffectType.RAGE && ModOptions.OldRedPearlAbility.Value)
         {
             counterSprite.isVisible = true;
-            counterSprite.element = Futile.atlasManager.GetElementWithName(ObjectAddon.SpriteFromNumber(RageCounter) ?? "pearlcat_glyphcooldown");
+            counterSprite.element = Futile.atlasManager.GetElementWithName(POGraphics.SpriteFromNumber(RageCounter) ?? "pearlcat_glyphcooldown");
         }
 
 

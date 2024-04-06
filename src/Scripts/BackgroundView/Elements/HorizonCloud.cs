@@ -22,7 +22,7 @@ public class HorizonCloud : Cloud
 
         sLeaser.sprites[0] = new FSprite("pearlcat_flyingclouds", true)
         {
-            shader = rCam.game.rainWorld.Shaders["CloudDistant"],
+            shader = Utils.Shaders["CloudDistant"],
             anchorY = 1f
         };
 

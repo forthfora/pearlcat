@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using RWCustom;
+using System.Linq;
 using UnityEngine;
 using static Pearlcat.CustomBgElement;
 using Random = UnityEngine.Random;
@@ -14,6 +15,8 @@ public class TrainView : CustomBgScene
 
     public TrainView(Room room) : base(room)
     {
+        var save = Utils.GetMiscProgression();
+
         IsOutside = room.roomSettings.name == "T1_END";
 
         float effectAmount = 10000f - 30000f;
@@ -21,19 +24,13 @@ public class TrainView : CustomBgScene
         StartAltitude = effectAmount - 5500f;
         EndAltitude = effectAmount + 5500f;
 
-        AtmosphereColor = new Color32(149, 107, 107, 255);
+        AtmosphereColor = save.HasTrueEnding ? Custom.hexToColor("22385c") : new Color32(149, 107, 107, 255);
 
-        var daySky = new Simple2DBackgroundIllustration(this, "pearlcat_daysky", new(683.0f, 384.0f))
+        var sky = new Simple2DBackgroundIllustration(this, save.HasTrueEnding ? "pearlcat_nightsky" : "pearlcat_daysky", new(683.0f, 384.0f))
         {
             alpha = 1.0f,
         };
-        AddElement(daySky);
-
-        //var duskSky = new Simple2DBackgroundIllustration(this, "pearlcat_dusksky", new(683.0f, 384.0f))
-        //{
-        //    alpha = 0.5f,
-        //};
-        //AddElement(duskSky);
+        AddElement(sky);
 
         //var fog = new Fog(this)
         //{
@@ -60,7 +57,7 @@ public class TrainView : CustomBgScene
         }
 
         Shader.SetGlobalVector("_AboveCloudsAtmosphereColor", AtmosphereColor);
-        Shader.SetGlobalVector("_MultiplyColor", Color.white);
+        Shader.SetGlobalVector("_MultiplyColor", save.HasTrueEnding ? Custom.hexToColor("9badc7") : Color.white);
 
         var count = (int)BgElementType.END;
         BgElementTimers = new int[count];
@@ -99,15 +96,17 @@ public class TrainView : CustomBgScene
         }
     }
 
+    public const float TRAIN_WIND_DIR = 7.0f;
+    private const float TRAIN_VIEW_YSHIFT = -20000.0f;
+
     public override void Update(bool eu)
     {
         base.Update(eu);
 
         // thank god for this global
-        Shader.SetGlobalFloat("_windDir", 7.0f);
+        Shader.SetGlobalFloat("_windDir", TRAIN_WIND_DIR);
 
-        if (Hooks.TrainViewYShift.TryGet(room.world.game, out var trainViewYShift))
-            YShift = trainViewYShift;
+        YShift = TRAIN_VIEW_YSHIFT;
 
         // somehow this works flawlessly, not complaining
         if (!IsInit)
@@ -255,6 +254,8 @@ public class TrainView : CustomBgScene
     {
         if (type == BgElementType.END) return;
 
+        var save = Utils.GetMiscProgression();
+
         var spriteName = type switch
         {
             BgElementType.VeryCloseCan => "pearlcat_structure1",
@@ -272,8 +273,8 @@ public class TrainView : CustomBgScene
             BgElementType.VeryFarSpire => "pearlcat_spire8",
             BgElementType.FarthestSpire => "pearlcat_spire9",
 
-            BgElementType.FgSupport => "pearlcat_support",
-            BgElementType.BgSupport => "pearlcat_support",
+            BgElementType.FgSupport => save.HasTrueEnding ? "pearlcat_support_night" : "pearlcat_support",
+            BgElementType.BgSupport => save.HasTrueEnding ? "pearlcat_support_night" : "pearlcat_support",
 
             _ => "pearlcat_structure1",
         };

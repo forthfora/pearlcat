@@ -1,0 +1,9 @@
+Template: NONE
+DangerType: None
+Clouds: 1
+Palette: 28
+EffectColorB: 13
+Effects: FairyParticles-0.1086956-20-20, 
+PlacedObjects: HangingPearls><518.4554><434.9449><, HangingPearls><599.4578><446.9455><, LightFixture><413.371><356.6592><RedLight~-232.6795~176.9825~7, CustomDecal><538.2919><186.0544><-12~230~351~209~335~-9~-623~-107~0.09782609~1~0~pearlcatpupdrawings~0.6956522~0~0.6956522~0~0.6956522~0~0.6956522~0, FairyParticleSettings><204.3042><117.4593><5~8.660254~0~1~1~0~1~1.448696~60~495.2173~40~100~5~30~0~360~0~0.1999999~0.1521739~0.2282609~0.05434782~0.1413043~1~0.1195652~7.790894~Pixel~SIN_IO~SIN_IO~0~0~0, 
+AmbientSounds: OMNI><AM_IND-SuperStructure.ogg><729.5003><454.95><0.2065217><1, OMNI><AM_WIN-SubWnd.ogg><725.8335><541.8608><0.3043478><1, OMNI><AM_WIN-HowlingWnd.ogg><481.3088><522.8088><0.1521739><0.7065217, 
+FadePalette: 17, 0.9347826

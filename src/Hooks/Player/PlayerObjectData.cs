@@ -8,253 +8,9 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static void ApplyPlayerObjectDataHooks()
-    {
-        On.DataPearl.DrawSprites += DataPearl_DrawSprites;
-
-        On.Creature.Grab += Creature_Grab;
-
-        On.PhysicalObject.Grabbed += PhysicalObject_Grabbed;
-        On.ScavengerAI.CollectScore_PhysicalObject_bool += ScavengerAI_CollectScore_PhysicalObject_bool;
-
-        On.PhysicalObject.Update += PhysicalObject_Update;
-        On.DataPearl.Update += DataPearl_Update;
-
-        On.AbstractPhysicalObject.Update += AbstractPhysicalObject_Update;
-        On.AbstractPhysicalObject.UsesAPersistantTracker += AbstractPhysicalObject_UsesAPersistantTracker;
-    }
-
-    private static bool AbstractPhysicalObject_UsesAPersistantTracker(On.AbstractPhysicalObject.orig_UsesAPersistantTracker orig, AbstractPhysicalObject abs)
-    {
-        var result = orig(abs);
-
-        if (abs.IsPlayerObject())
-        {
-            return false;
-        }
-
-        return result;
-    }
-    
-    private static void AbstractPhysicalObject_Update(On.AbstractPhysicalObject.orig_Update orig, AbstractPhysicalObject self, int time)
-    {
-        orig(self, time);
-
-        if (self.IsPlayerObject() && self.Room.world.game.GetStorySession is StoryGameSession session)
-        {
-            session.RemovePersistentTracker(self);
-        }
-    }
-
-
-    public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectModule> PlayerObjectData { get; } = new();
-
-    public static bool TryGetModule(this AbstractPhysicalObject abstractObject, out PlayerObjectModule module)
-    {
-        if (PlayerObjectData.TryGetValue(abstractObject, out module))
-            return true;
-
-        module = null!;
-        return false;
-    }
-
-    public static bool TryGetAddon(this AbstractPhysicalObject abstractObject, out ObjectAddon addon)
-    {
-        if (ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out addon))
-            return true;
-
-        addon = null!;
-        return false;
-    }
-
-    public static bool TryGetSentry(this AbstractPhysicalObject self, out POSentry sentry) => POSentry.SentryData.TryGetValue(self, out sentry);
-
-
-    public static void MarkAsPlayerObject(this AbstractPhysicalObject abstractObject)
-    {
-        var module = PlayerObjectData.GetValue(abstractObject, x => new PlayerObjectModule());
-
-        if (module.IsCurrentlyStored) return;
-
-        var physicalObject = abstractObject.realizedObject;
-        
-        if (abstractObject.realizedObject == null) return;
-
-        module.IsCurrentlyStored = true;
-        module.Gravity = physicalObject.gravity;
-
-        module.CollideWithObjects = physicalObject.CollideWithObjects;
-        module.CollideWithSlopes = physicalObject.CollideWithSlopes;
-        module.CollideWithTerrain = physicalObject.CollideWithTerrain;
-
-        if (physicalObject is DataPearl pearl)
-        {
-            module.PearlGlimmerWait = pearl.glimmerWait;
-        }
-
-        if (physicalObject is Weapon weapon)
-        {
-            module.WeaponRotationSpeed = weapon.rotationSpeed;
-        }
-    }
-
-    public static void ClearAsPlayerObject(this AbstractPhysicalObject abstractObject)
-    {
-        if (!abstractObject.TryGetModule(out var module)) return;
-
-        if (!module.IsCurrentlyStored) return;
-
-        var physicalObject = abstractObject.realizedObject;
-        if (physicalObject == null) return;
-
-        module.IsCurrentlyStored = false;
-
-        //physicalObject.gravity = module.Gravity;
-        physicalObject.gravity = 1.0f; // yem
-
-        physicalObject.CollideWithObjects = module.CollideWithObjects;
-        physicalObject.CollideWithSlopes = module.CollideWithSlopes;
-        physicalObject.CollideWithTerrain = module.CollideWithTerrain;
-
-        if (physicalObject is DataPearl pearl)
-        {
-            pearl.glimmerWait = module.PearlGlimmerWait;
-        }
-
-        if (physicalObject is Weapon weapon)
-        {
-            weapon.rotationSpeed = module.WeaponRotationSpeed;
-        }
-    }
-
-
-    private static bool Creature_Grab(On.Creature.orig_Grab orig, Creature self, PhysicalObject obj, int graspUsed, int chunkGrabbed, Creature.Grasp.Shareability shareability, float dominance, bool overrideEquallyDominant, bool pacifying)
-    {
-        var result = orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
-
-        if (obj.abstractPhysicalObject.IsPlayerObject())
-            return false;
-        
-        if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive && player.IsHostileToMe(self))
-        {
-            if (!(self is Centipede && playerModule.ShieldTimer > 0))
-            {
-                DeflectEffect(self.room, self.DangerPos);
-            }
-
-            self.Stun(10);
-            self.ReleaseGrasp(graspUsed);
-
-            playerModule.ActivateVisualShield();
-            return false;
-        }
-
-        return result;
-    }
-
-    // extra grab prevention safety
-    private static void PhysicalObject_Grabbed(On.PhysicalObject.orig_Grabbed orig, PhysicalObject self, Creature.Grasp grasp)
-    {
-        orig(self, grasp);
-
-        if (self.abstractPhysicalObject.IsPlayerObject())
-            grasp.Release();
-    }
-
-    private static int ScavengerAI_CollectScore_PhysicalObject_bool(On.ScavengerAI.orig_CollectScore_PhysicalObject_bool orig, ScavengerAI self, PhysicalObject obj, bool weaponFiltered)
-    {
-        var result = orig(self, obj, weaponFiltered);
-
-        // weird nullref here
-        if (obj?.abstractPhysicalObject != null && obj.abstractPhysicalObject.IsPlayerObject())
-            return 0;
-
-        return result;
-    }
-
-
-    private static void PhysicalObject_Update(On.PhysicalObject.orig_Update orig, PhysicalObject self, bool eu)
-    {        
-        orig(self, eu);
-
-        if (!self.abstractPhysicalObject.TryGetModule(out var module)) return;
-
-
-        if (module.CooldownTimer > 0)
-        {
-            var playerModule = self.room.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
-            var effect = self.abstractPhysicalObject.GetPOEffect();
-            
-            if (effect.MajorEffect != POEffect.MajorEffectType.SHIELD || (playerModule != null && module.CooldownTimer != 0 && playerModule.PlayerRef.TryGetTarget(out var player) && player.airInLungs == 1.0f))
-                module.CooldownTimer--;
-
-            if (module.CooldownTimer == 0 && effect.MajorEffect == POEffect.MajorEffectType.SHIELD)
-            {
-                if (ModOptions.InventoryPings.Value)
-                    playerModule?.ShowHUD(80);
-                
-                module.InventoryFlash = true;
-
-                self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.0f);
-            }
-        }
-
-        if (!module.IsCurrentlyStored) return;
-
-        self.gravity = 0.0f;
-
-        self.CollideWithObjects = false;
-        self.CollideWithSlopes = false;
-        self.CollideWithTerrain = false;
-
-        if (self is Weapon weapon)
-            weapon.rotationSpeed = 0.0f;
-    }
-
-    private static void DataPearl_Update(On.DataPearl.orig_Update orig, DataPearl self, bool eu)
-    {
-        orig(self, eu);
-
-        if (!self.abstractPhysicalObject.TryGetModule(out var module) || !module.IsCurrentlyStored) return;
-
-        self.CollideWithObjects = false;
-        self.CollideWithSlopes = false;
-        self.CollideWithTerrain = false;
-
-        self.glimmerWait = 40;
-    }
-
-    private static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        IDrawable_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
-
-        // SWAP CONTAINERS?
-        //if (!PlayerObjectData.TryGetValue(self, out var _))
-        //{
-        //    self.AddToContainer(sLeaser, rCam, null);
-        //}
-        //else
-        //{
-        //    self.AddToContainer(sLeaser, rCam, rCam.ReturnFContainer("Background"));
-        //}
-    }
-
-    private static void IDrawable_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        foreach (var sprite in sLeaser.sprites)
-            sprite.alpha = 1.0f;
-
-        if (!self.abstractPhysicalObject.TryGetAddon(out var addon)) return;
-
-        addon.ParentGraphics_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
-    }
-
-
     public static bool IsPlayerObject(this AbstractPhysicalObject targetObject)
     {
-        var playerData = GetAllPlayerData(targetObject.world.game);
+        var playerData = targetObject.world.game.GetAllPlayerData();
 
         foreach (var playerModule in playerData)
             if (playerModule.Inventory.Any(abstractObject => abstractObject == targetObject))
@@ -265,6 +21,11 @@ public static partial class Hooks
 
     public static bool IsStorable(this AbstractPhysicalObject abstractObject)
     {
+        if (abstractObject is DataPearl.AbstractDataPearl abstractPearl)
+        {
+            if (abstractPearl.IsHeartPearl()) return false;
+        }
+
         if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.DataPearl) return true;
 
         if (abstractObject.type == AbstractPhysicalObject.AbstractObjectType.PebblesPearl) return true;
@@ -273,31 +34,63 @@ public static partial class Hooks
         
         if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl) return true;
 
-        
+        // Pearl Spear
         if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out _)) return true;
 
         return false;
     }
 
+    public static Player? TryGetPlayerObjectOwner(this AbstractPhysicalObject targetObject)
+    {
+        var playerData = targetObject.world.game.GetAllPlayerData();
+
+        foreach (var playerModule in playerData)
+        {
+            var obj = playerModule.Inventory.FirstOrDefault(abstractObject => abstractObject == targetObject);
+
+            if (obj != null && playerModule.PlayerRef.TryGetTarget(out var player))
+            {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {
         if (abstractObject == null)
+        {
             return Color.white;
+        }
 
         if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
         {
             if (dataPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
+            {
                 return GetDataPearlColor(dataPearl.dataPearlType, pebblesPearl.color);
+            }
 
             return GetDataPearlColor(dataPearl.dataPearlType);
         }
 
-        var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
+        if (abstractObject is AbstractCreature abstractCreature)
+        {
+            var critSymbolData = CreatureSymbol.SymbolDataFromCreature(abstractCreature);
 
-        if (symbolData == null)
-            return Color.white;
+            return CreatureSymbol.ColorOfCreature(critSymbolData);
+        }
+        else
+        {
+            var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
+            
+            if (symbolData != null)
+            {
+                return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
+            }
+        }
 
-        return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
+        return Color.white;
     }
 
     public static Color GetDataPearlColor(this DataPearl.AbstractDataPearl.DataPearlType type, int pebblesPearlColor = 0)
@@ -332,11 +125,12 @@ public static partial class Hooks
 
     public static Vector2 GetActiveObjectPos(this Player self, Vector2? overrideOffset = null, float timeStacker = 1.0f)
     {
-        if (!ActiveObjectOffset.TryGet(self, out var activeObjectOffset))
-            activeObjectOffset = Vector2.zero;
+        var activeObjectOffset = new Vector2(0.0f, 50.0f);
 
         if (overrideOffset != null)
+        {
             activeObjectOffset = overrideOffset.Value;
+        }
 
         var playerGraphics = (PlayerGraphics)self.graphicsModule;
 
@@ -349,32 +143,46 @@ public static partial class Hooks
         return pos;
     }
 
+
     public static ConditionalWeakTable<AbstractPhysicalObject, StrongBox<Vector2>> TargetPositions { get; } = new();
 
-    public static void MoveToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
+    public static void TryToAnimateToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
     {
         var pos = TargetPositions.GetValue(abstractObject, x => new StrongBox<Vector2>());
         pos.Value = targetPos;
 
         if (abstractObject.TryGetSentry(out _)) return;
 
+        if (abstractObject.TryGetPOGraphics(out var addon) && addon.IsActiveRagePearl) return;
+
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
 
         if (abstractObject.realizedObject == null) return;
 
-        if (!MinFricSpeed.TryGet(player, out var minFricSpeed)) return;
-        if (!MaxFricSpeed.TryGet(player, out var maxFricSpeed)) return;
-        if (!MinFric.TryGet(player, out var minFric)) return;
-        if (!MaxFric.TryGet(player, out var maxFric)) return;
+        AnimateToTargetPos(abstractObject, targetPos, playerModule);
+    }
 
-        if (!CutoffDist.TryGet(player, out var cutoffDist)) return;
-        if (!CutoffMinSpeed.TryGet(player, out var cutoffMinSpeed)) return;
-        if (!CutoffMaxSpeed.TryGet(player, out var cutoffMaxSpeed)) return;
-        if (!DazeMaxSpeed.TryGet(player, out var dazeMaxSpeed)) return;
+    public static void AnimateToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos, PlayerModule playerModule)
+    {
+        // Magic numbers ^^
+        var minFricSpeed = 100.0f;
+        var maxFricSpeed = 70.0f;
 
-        if (!MaxDist.TryGet(player, out var maxDist)) return;
-        if (!MinSpeed.TryGet(player, out var minSpeed)) return;
-        if (!MaxSpeed.TryGet(player, out var maxSpeed)) return;
+        var minFricMult = 0.999f;
+        var maxFricMult = 0.5f;
+
+        var cutoffDist = 50.0f;
+
+        var cutoffMinSpeed = 0.1f;
+        var cutoffMaxSpeed = 12.0f;
+
+        var dazeMaxSpeed = 2.0f;
+
+        var maxDist = 1000.0f;
+
+        var minSpeed = 8.0f;
+        var maxSpeed = 20.0f;
+
 
         var firstChunk = abstractObject.realizedObject.firstChunk;
         var dir = (targetPos - firstChunk.pos).normalized;
@@ -382,10 +190,12 @@ public static partial class Hooks
 
         float speed = dist < cutoffDist ? Custom.LerpMap(dist, 0.0f, cutoffDist, cutoffMinSpeed, playerModule.IsDazed ? dazeMaxSpeed : cutoffMaxSpeed) : Custom.LerpMap(dist, cutoffDist, maxDist, minSpeed, maxSpeed);
 
-        firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, minFricSpeed, maxFricSpeed, minFric, maxFric);
+        firstChunk.vel *= Custom.LerpMap(firstChunk.vel.magnitude, minFricSpeed, maxFricSpeed, minFricMult, maxFricMult);
         firstChunk.vel += dir * speed;
 
         if (dist < 0.1f)
+        {
             firstChunk.pos = targetPos;
+        }
     }
 }

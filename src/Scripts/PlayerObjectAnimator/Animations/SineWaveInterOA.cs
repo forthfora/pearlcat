@@ -25,7 +25,7 @@ public class SineWaveInterOA : ObjectAnimation
         if (activeObject != null)
         {
             floatingObjects.Remove(activeObject);
-            activeObject.MoveToTargetPos(player, player.GetActiveObjectPos());
+            activeObject.TryToAnimateToTargetPos(player, player.GetActiveObjectPos());
         }
 
         for (int i = 0; i < floatingObjects.Count; i++)
@@ -37,9 +37,9 @@ public class SineWaveInterOA : ObjectAnimation
             float spacing = 10.0f;
 
             targetPos.x = player.firstChunk.pos.x + spacing * i - floatingObjects.Count / 2.0f * spacing + (spacing / 2.0f);
-            targetPos.y = player.firstChunk.pos.y + 20.0f * Mathf.Sin(animTimer / 30.0f + i * (90.0f / floatingObjects.Count));
+            targetPos.y = player.firstChunk.pos.y + 20.0f * Mathf.Sin(AnimTimer / 30.0f + i * (90.0f / floatingObjects.Count));
 
-            abstractObject.MoveToTargetPos(player, targetPos);
+            abstractObject.TryToAnimateToTargetPos(player, targetPos);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MoreSlugcats;
 using RWCustom;
 using SlugBase.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -77,11 +78,11 @@ public static partial class Hooks
             stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, 0, 2);
 
             stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.01f, 2.5f);
-            stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.75f, float.MaxValue);
+            stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.5f, float.MaxValue);
 
-            stats.corridorClimbSpeedFac = Mathf.Clamp(baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac, 0.75f, float.MaxValue);
-            stats.poleClimbSpeedFac = Mathf.Clamp(baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac, 0.75f, float.MaxValue);
-            stats.bodyWeightFac = Mathf.Clamp(baseStats.bodyWeightFac + effect.BodyWeightFac, 0.75f, float.MaxValue);
+            stats.corridorClimbSpeedFac = Mathf.Clamp(baseStats.corridorClimbSpeedFac + effect.CorridorClimbSpeedFac, 0.5f, float.MaxValue);
+            stats.poleClimbSpeedFac = Mathf.Clamp(baseStats.poleClimbSpeedFac + effect.PoleClimbSpeedFac, 0.5f, float.MaxValue);
+            stats.bodyWeightFac = Mathf.Clamp(baseStats.bodyWeightFac + effect.BodyWeightFac, 0.5f, float.MaxValue);
         }
 
         var visibilityMult = ModOptions.VisibilityMultiplier.Value / 100.0f;
@@ -90,6 +91,8 @@ public static partial class Hooks
         stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode * visibilityMult;
         stats.generalVisibilityBonus = 0.4f * visibilityMult;
 
+        playerModule.DisabledEffects.Clear();
+
         UpdateSpearCreation(self, playerModule, effect);
         UpdateAgility(self, playerModule, effect);
         UpdateRevive(self, playerModule, effect);
@@ -97,34 +100,23 @@ public static partial class Hooks
         UpdateRage(self, playerModule, effect);
         UpdateCamoflague(self, playerModule, effect);
 
-        //if (playerModule.PearlpupRef?.TryGetTarget(out var pup) == true && pup.dangerGrasp != null && pup.graphicsModule != null)
-        //{
-        //    stats.throwingSkill = 2;
-        //    stats.runspeedFac *= 1.5f;
-        //    stats.corridorClimbSpeedFac *= 1.7f;
-        //    stats.poleClimbSpeedFac *= 1.7f;
-        //}
-
-        //Plugin.Logger.LogWarning(
-        //    "\nThrowSkill " + stats.throwingSkill +
-        //    "\nLungsFac " + stats.lungsFac +
-        //    "\nRunspeedFac " + stats.runspeedFac +
-        //    "\nCorridorClimb " + stats.corridorClimbSpeedFac +
-        //    "\nPoleClimb " + stats.poleClimbSpeedFac);
-
 
         if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller != null) return;
 
         var activeObj = playerModule.ActiveObject;
 
-        if (activeObj == null || !activeObj.TryGetModule(out var poModule)) return;
+        if (activeObj == null || !activeObj.TryGetPOModule(out var poModule)) return;
 
         var abilityInput = self.IsSentryKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasSentryInput;
 
         if (abilityInput && !wasAbilityInput)
         {
-            if (!poModule.IsReturningSentry)
+            if (activeObj.IsHeartPearl() && playerModule.IsPossessingCreature)
+            {
+                ReleasePossession(self, playerModule);
+            }
+            else if (!poModule.IsReturningSentry)
             {
                 if (!poModule.IsSentry)
                 {
@@ -140,11 +132,16 @@ public static partial class Hooks
     }
 
 
+
     public static void UpdateSpearCreation(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableSpear.Value || self.inVoidSea) return;
+        if (ModOptions.DisableSpear.Value || self.inVoidSea || playerModule.PossessedCreature != null)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.SPEAR_CREATION);
+            return;
+        }
 
-        var spearCreationTime = 100;
+        var spearCreationTime = 30;
         playerModule.SpearLerp = Custom.LerpMap(playerModule.SpearTimer, 5, spearCreationTime, 0.0f, 1.0f);
 
         playerModule.ForceLockSpearOnBack = false;
@@ -233,7 +230,7 @@ public static partial class Hooks
 
                     ConnectEffect(playerModule.ActiveObject?.realizedObject, abstractSpear.realizedObject.firstChunk.pos);
 
-                    self.room?.PlaySound(Enums.Sounds.Pearlcat_SpearEquip, self.firstChunk, false, 1.0f, Random.Range(1.2f, 1.5f));
+                    self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk, false, 0.5f, Random.Range(2.2f, 2.5f));
 
                     if (playerModule.ActiveObject != null)
                     {
@@ -262,18 +259,23 @@ public static partial class Hooks
         }
     }
 
+
     public static void UpdateAgility(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (playerModule.AgilityOveruseTimer > 0)
             playerModule.AgilityOveruseTimer--;
 
-        if (ModOptions.DisableAgility.Value || self.inVoidSea) return;
+        if (ModOptions.DisableAgility.Value || self.inVoidSea || playerModule.PossessedCreature != null)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.AGILITY);
+            return;
+        }
 
-        var maxOveruse = 120;
+        var maxOveruse = playerModule.ActiveObject?.GetPOEffect().MajorEffect == MajorEffectType.AGILITY ? 180 : 120;
 
         var velocityMult = Custom.LerpMap(playerModule.AgilityCount, 1, 5, 1.0f, 0.75f);
         velocityMult *= Custom.LerpMap(playerModule.AgilityOveruseTimer, 40, maxOveruse, 1.0f, 0.7f);
-
+        //velocityMult *= playerModule.ActiveObject?.GetPOEffect().MajorEffect == MajorEffectType.AGILITY ? 1.25f : 1.0f;
 
         var abilityInput = self.IsAgilityKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasAgilityInput;
@@ -395,14 +397,19 @@ public static partial class Hooks
         }
     }
     
+
     public static void UpdateRevive(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (ModOptions.DisableRevive.Value || self.inVoidSea) return;
+        if (ModOptions.DisableRevive.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.REVIVE);
+            return;
+        }
 
-        if (playerModule.ActiveObject == null || !PlayerObjectData.TryGetValue(playerModule.ActiveObject, out var poModule)) return;
+        if (playerModule.ActiveObject == null || !playerModule.ActiveObject.TryGetPOModule(out var poModule)) return;
 
         var abilityInput = self.IsReviveKeybindPressed(playerModule);
-
+        
         if (effect.MajorEffect != MajorEffectType.REVIVE || !abilityInput)
         {
             playerModule.ReviveTimer = 0;
@@ -470,6 +477,7 @@ public static partial class Hooks
         }
     }
 
+
     public static void UpdateShield(Player self, PlayerModule playerModule, POEffect effect)
     {
         if (playerModule.ShieldTimer > 0)
@@ -488,7 +496,7 @@ public static partial class Hooks
                 {
                     var itemEffect = item.GetPOEffect();
 
-                    if (!item.TryGetModule(out var module)) continue;
+                    if (!item.TryGetPOModule(out var module)) continue;
 
                     if (module.CooldownTimer != 0) continue;
 
@@ -507,12 +515,20 @@ public static partial class Hooks
         }
 
         if (self.airInLungs < 0.1f && playerModule.ShieldActive)
+        {
             playerModule.ActivateVisualShield();
+        }
 
         if (self.room == null) return;
         
         var roomObjects = self.room.updateList;
         bool didDeflect = false;
+
+        if (ModOptions.DisableShield.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.SHIELD);
+            return;
+        }
 
         if (playerModule.ShieldActive)
         {
@@ -524,7 +540,23 @@ public static partial class Hooks
                 {
                     if (weapon.thrownBy == self) continue;
 
-                    if (weapon.thrownBy is Player playerThrownBy && (!self.room.game.rainWorld.options.friendlyFire || playerThrownBy.onBack == self)) continue;
+                    // Thrown by another player
+                    if (weapon.thrownBy is Player playerThrownBy)
+                    {
+                        // Thrown by a player we are on the back of
+                        if (playerThrownBy.onBack == self) continue;
+
+                        // Jolly FF is off, doesn't apply to arena sessions
+                        if (!self.abstractCreature.world.game.IsArenaSession && !Utils.RainWorld.options.friendlyFire) continue;
+                        
+                        // Arena FF is off, only applies to arena sessions
+                        if (self.abstractCreature.world.game.IsArenaSession && !self.abstractCreature.world.game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers) continue;
+                    }
+
+
+                    // When posessing a creature don't let the spears activate our shield (only relevant for posessing scavs really)
+                    if (playerModule.PossessedCreature?.TryGetTarget(out var possessed) == true && possessed.realizedCreature == weapon.thrownBy) continue;
+
 
                     if (weapon.mode == Weapon.Mode.Thrown && Custom.DistLess(weapon.firstChunk.pos, self.firstChunk.pos, 75.0f))
                     {
@@ -563,10 +595,339 @@ public static partial class Hooks
         }
 
         if (didDeflect)
+        {
             playerModule.ActivateVisualShield();
+        }
     }
     
+
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
+    {
+        foreach (var item in playerModule.Inventory)
+        {
+            if (item.TryGetPOGraphics(out var addon))
+            {
+                addon.IsActiveRagePearl = false;
+            }
+        }
+
+        if (effect.MajorEffect != MajorEffectType.RAGE || self.IsStoreKeybindPressed(playerModule))
+        {
+            foreach (var grasp in self.grasps)
+            {
+                if (grasp?.grabbed is not Spear spear) continue;
+
+                if (spear.TryGetRageSpearModule(out _))
+                {
+                    grasp.Release();
+                }
+            }
+        }
+
+        if (playerModule.RageSpearCooldown > 0)
+        {
+            playerModule.RageSpearCooldown--;
+        }
+
+        playerModule.RageAnimTimer++;
+
+
+        if (ModOptions.OldRedPearlAbility.Value)
+        {
+            UpdateOldRage(self, playerModule, effect);
+            return;
+        }
+
+        if (ModOptions.DisableRage.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.RAGE);
+            return;
+        }
+
+
+        if (self.IsStoreKeybindPressed(playerModule)) return;
+
+        if (effect.MajorEffect != MajorEffectType.RAGE) return;
+
+        if (self.room == null) return;
+
+        if (!self.Consious) return;
+
+        if (self.Sleeping) return;
+        
+
+        List<PhysicalObject> ragePearls = new();
+
+        foreach (var item in playerModule.Inventory)
+        {
+            var itemEffect = item.GetPOEffect();
+
+            if (itemEffect.MajorEffect != MajorEffectType.RAGE) continue;
+
+            if (item.TryGetSentry(out _)) continue;
+
+            if (item.realizedObject is not DataPearl pearl) continue;
+
+            RageTargetLogic(pearl, self, false);
+
+            ragePearls.Add(pearl);
+        }
+
+        var origin = self.firstChunk.pos;
+        var angleFrameAddition = -Custom.LerpMap(ragePearls.Count, 1, 6, 0.05f, 0.025f);
+        var radius = 80.0f;
+
+        for (int i = 0; i < ragePearls.Count; i++)
+        {
+            var ragePearl = ragePearls[i];
+
+            if (!ragePearl.abstractPhysicalObject.TryGetPOGraphics(out var addon)) continue;
+
+            var angle = (i * Mathf.PI * 2.0f / ragePearls.Count) + angleFrameAddition * playerModule.RageAnimTimer;
+            var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
+
+            addon.IsActiveRagePearl = true;
+
+            AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
+        }
+
+        // RageSpearLogic(self, playerModule);
+    }
+
+    // Scrapped for now
+    private static void RageSpearLogic(Player self, PlayerModule playerModule)
+    {
+        if (self.grasps[0] != null || self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1) return;
+
+        if (playerModule.RageSpearCooldown > 0) return;
+
+
+        var ragePearls = playerModule.Inventory.Where(x => x.GetPOEffect().MajorEffect == MajorEffectType.RAGE).ToList();
+
+        if (ragePearls.Count == 0) return;
+
+
+        var abstractSpear = new AbstractSpear(self.room.world, null, self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.room.game.GetNewID(), false);
+
+        self.room.abstractRoom.AddEntity(abstractSpear);
+
+        abstractSpear.pos = self.abstractCreature.pos;
+        abstractSpear.RealizeInRoom();
+
+        var spear = (Spear)abstractSpear.realizedObject;
+
+
+        var ragePearl = ragePearls[Random.Range(0, ragePearls.Count - 1)];
+
+        spear.MakeRageSpear(ragePearl.GetObjectColor());
+        
+        self.SlugcatGrab(spear, 0);
+    }
+
+    public static void RageTargetLogic(DataPearl pearl, Player player, bool isSentry)
+    {
+        if (!pearl.abstractPhysicalObject.TryGetPOModule(out var module)) return;
+
+        var targetSentryRange = 1000.0f;
+        var targetEnemyRange = 1000.0f;
+        var redirectRange = isSentry ? 50.0f : 30.0f;
+
+        var riccochetVelMult = 1.25f;
+        var riccochetDamageMult = 1.25f;
+
+
+        // Target Finding
+        Creature? bestEnemy = null;
+        List<KeyValuePair<PhysicalObject, float>> availableReds = new();
+
+        var shortestEnemyDist = float.MaxValue;
+
+        foreach (var roomObject in pearl.room.physicalObjects)
+        {
+            foreach (var physObj in roomObject)
+            {
+                if (physObj is Weapon weapon)
+                {
+                    if (weapon.mode == Weapon.Mode.Carried && module.VisitedObjects.TryGetValue(physObj, out _))
+                    {
+                        module.VisitedObjects.Remove(physObj);
+                    }
+                }
+                else if (physObj.abstractPhysicalObject.GetPOEffect().MajorEffect == MajorEffectType.RAGE)
+                {
+                    if (physObj == pearl) continue;
+
+                    if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
+
+                    if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
+
+
+                    var dist = Custom.Dist(physObj.firstChunk.pos, pearl.firstChunk.pos);
+
+                    if (dist > targetSentryRange) continue;
+
+                    availableReds.Add(new(physObj, dist));
+                }
+                else if (physObj is Creature creature)
+                {
+                    if (creature is Cicada) continue;
+
+                    if (creature is Centipede centipede && centipede.Small) continue;
+
+
+                    if (!player.IsHostileToMe(creature) && !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly)) continue;
+
+                    if (creature.dead) continue;
+
+                    if (creature.VisibilityBonus < -0.5f) continue;
+
+
+                    if (!pearl.room.VisualContact(pearl.firstChunk.pos, creature.mainBodyChunk.pos)) continue;
+
+
+                    var dist = Custom.Dist(creature.mainBodyChunk.pos, pearl.firstChunk.pos);
+
+                    if (dist > targetEnemyRange) continue;
+
+                    if (dist > shortestEnemyDist) continue;
+
+
+                    bestEnemy = creature;
+                    shortestEnemyDist = dist;
+                }
+            }
+        }
+
+
+        // Redirection
+        availableReds.OrderBy(x => x.Value);
+
+        foreach (var roomObj in pearl.room.physicalObjects)
+        {
+            foreach (var physObj in roomObj)
+            {
+                if (!Custom.DistLess(pearl.firstChunk.pos, physObj.firstChunk.pos, redirectRange)) continue;
+
+                if (physObj is not Weapon weapon) continue;
+
+                if (weapon.mode != Weapon.Mode.Thrown) continue;
+
+                if (module.VisitedObjects.TryGetValue(physObj, out _)) continue;
+
+
+                PhysicalObject? bestRed = null;
+
+                foreach (var sentryDist in availableReds)
+                {
+                    if (!sentryDist.Key.abstractPhysicalObject.TryGetPOModule(out var otherSentryModule)) continue;
+
+                    if (otherSentryModule.VisitedObjects.TryGetValue(weapon, out _)) continue;
+
+                    bestRed = sentryDist.Key;
+                    break;
+                }
+
+                PhysicalObject? bestTarget = null;
+                Vector2? bestTargetPos = null!;
+
+                if (bestRed != null && bestEnemy != null)
+                {
+                    if (player.room.VisualContact(bestRed.firstChunk.pos, bestEnemy.firstChunk.pos))
+                    {
+                        bestTarget = bestRed;
+                    }
+                    else
+                    {
+                        bestTarget = bestEnemy;
+                    }
+                }
+                else if (bestRed != null)
+                {
+                    bestTarget = bestRed;
+                }
+                else if (bestEnemy != null)
+                {
+                    bestTarget = bestEnemy;
+                }
+
+
+                if (bestTarget != null)
+                {
+                    if (bestTarget == bestEnemy)
+                    {
+                        bestTargetPos = bestEnemy.mainBodyChunk.pos;
+
+                        if (bestEnemy is Lizard lizard)
+                        {
+                            if (lizard.bodyChunks.Count() >= 2)
+                            {
+                                bestTargetPos = lizard.bodyChunks[lizard.bodyChunks.Count() / 2].pos;
+                            }
+                        }
+                    }
+                    else if (bestTarget == bestRed)
+                    {
+                        bestTargetPos = bestRed.firstChunk.pos;
+                    }
+                }
+
+                //Plugin.Logger.LogWarning("REDIRECT:");
+                //Plugin.Logger.LogWarning(bestTarget?.GetType());
+                //Plugin.Logger.LogWarning(bestTargetPos);
+
+                if (bestTargetPos == null || bestTarget == null)
+                {
+                    //pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.8f, 0.75f);
+                    return;
+                }
+
+
+                var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
+
+                // Need this to predict motion of target and trajectory due to gravity
+                var targetPredictedPos = (Vector2)bestTargetPos
+                    + (bestTarget.firstChunk.vel * 2.0f)
+                    + (Vector2.up * (dist * weapon.gravity / 20.0f));
+
+                var dir = Custom.DirVec(weapon.firstChunk.pos, targetPredictedPos);
+
+                weapon.firstChunk.vel = dir * Mathf.Clamp(weapon.firstChunk.vel.magnitude * riccochetVelMult, 0.0f, 100.0f);
+                weapon.setRotation = dir;
+
+                if (weapon is Spear spear)
+                {
+                    spear.spearDamageBonus *= riccochetDamageMult;
+                }
+
+                module.VisitedObjects.Add(physObj, new());
+                
+                
+                var room = pearl.room;
+                var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
+
+                if (bestTarget == bestEnemy)
+                {
+                    room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.0f, 1.5f);
+                    room.PlaySound(SoundID.Fire_Spear_Explode, pearl.firstChunk.pos, 0.6f, 1.5f);
+                }
+                else
+                {
+                    room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.5f, 3.0f);
+                }
+
+                room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.5f, pearlColor, true));
+                room.AddObject(new ExplosionSpikes(pearl.room, pearl.firstChunk.pos, 10, 15.0f, 15, 5.0f, 70.0f, pearlColor));
+
+                if (pearl.abstractPhysicalObject.TryGetPOGraphics(out var addon))
+                {
+                    addon.LaserTarget = targetPredictedPos;
+                    addon.LaserLerp = 1.0f;
+                }
+            }
+        }
+    }
+
+    private static void UpdateOldRage(Player self, PlayerModule playerModule, POEffect effect)
     {
         var shootTime = ModOptions.LaserWindupTime.Value;
         var cooldownTime = ModOptions.LaserRechargeTime.Value;
@@ -576,7 +937,7 @@ public static partial class Hooks
 
         foreach (var item in playerModule.Inventory)
         {
-            if (!item.TryGetModule(out var module)) continue;
+            if (!item.TryGetPOModule(out var module)) continue;
 
             var itemEffect = item.GetPOEffect();
 
@@ -592,11 +953,13 @@ public static partial class Hooks
             ragePearlCounter++;
         }
 
-        if (ModOptions.DisableRage.Value || self.inVoidSea) return;
+        if (ModOptions.DisableRage.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.RAGE);
+            return;
+        }
 
         if (effect.MajorEffect != MajorEffectType.RAGE) return;
-
-        if (playerModule.ActiveObject is not AbstractPhysicalObject activePearl) return;
 
         if (self.room == null) return;
 
@@ -604,7 +967,7 @@ public static partial class Hooks
 
 
         var playerRoom = self.room;
-        
+
         // search for target
         if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out var target))
         {
@@ -653,7 +1016,7 @@ public static partial class Hooks
                 {
                     foreach (var item in playerModule.Inventory)
                     {
-                        if (!item.TryGetModule(out var module)) continue;
+                        if (!item.TryGetPOModule(out var module)) continue;
 
                         var itemEffect = item.GetPOEffect();
 
@@ -663,7 +1026,7 @@ public static partial class Hooks
                         ragePearlCounter++;
                     }
                 }
-                    
+
             }
         }
         else
@@ -693,9 +1056,9 @@ public static partial class Hooks
 
         foreach (var item in playerModule.Inventory)
         {
-            if (!item.TryGetModule(out var module)) continue;
+            if (!item.TryGetPOModule(out var module)) continue;
 
-            if (!item.TryGetAddon(out var addon)) continue;
+            if (!item.TryGetPOGraphics(out var addon)) continue;
 
 
             var itemEffect = item.GetPOEffect();
@@ -735,14 +1098,54 @@ public static partial class Hooks
         }
     }
 
+
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE || self.room?.Darkness(self.mainBodyChunk.pos) < 0.75f || playerModule.CamoCount <= 0)
+        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE)
         {
-            playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 0.0f, 0.2f);
+            if (self.room?.Darkness(self.mainBodyChunk.pos) < 0.75f || playerModule.CamoCount <= 0)
+            {
+                playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 0.0f, 0.2f);
+            }
+            // Give these creatures night vision by default
+            else if (playerModule.PossessedCreature?.TryGetTarget(out var creature) == true && self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f)
+            {
+                var nightVisionCreatures = new List<CreatureTemplate.Type>()
+                {
+                    CreatureTemplate.Type.BlackLizard,
+                    CreatureTemplate.Type.LanternMouse,
+                    CreatureTemplate.Type.Spider,
+                    CreatureTemplate.Type.BigSpider,
+                    CreatureTemplate.Type.SpitterSpider,
+                    CreatureTemplate.Type.DaddyLongLegs,
+                    CreatureTemplate.Type.BrotherLongLegs,
+                    CreatureTemplate.Type.Centipede,
+                    CreatureTemplate.Type.Centiwing,
+                    CreatureTemplate.Type.RedCentipede,
+                    CreatureTemplate.Type.SmallCentipede,
+                    CreatureTemplate.Type.Overseer,
+                    CreatureTemplate.Type.MirosBird,
+
+                    MoreSlugcatsEnums.CreatureTemplateType.AquaCenti,
+                    MoreSlugcatsEnums.CreatureTemplateType.Inspector,
+                    MoreSlugcatsEnums.CreatureTemplateType.MotherSpider,
+                    MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs,
+                    MoreSlugcatsEnums.CreatureTemplateType.MirosVulture,
+
+                };
+
+                if (nightVisionCreatures.Contains(creature.creatureTemplate.type))
+                {
+                    playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 100.0f, 0.1f);
+                }
+            }
         }
 
-        if (ModOptions.DisableCamoflague.Value || self.inVoidSea) return;
+        if (ModOptions.DisableCamoflague.Value || self.inVoidSea)
+        {
+            playerModule.DisabledEffects.Add(MajorEffectType.CAMOFLAGUE);
+            return;
+        }
 
         var camera = self.abstractCreature.world.game.cameras[0];
 

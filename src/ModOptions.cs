@@ -1,5 +1,4 @@
 ﻿using Menu.Remix.MixedUI;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static DataPearl.AbstractDataPearl;
@@ -154,17 +153,22 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<float> LaserDamage { get; } = Instance.config.Bind(nameof(LaserDamage), 0.2f, new ConfigurableInfo(
         "Damage each red pearl's laser does per shot. Survivor spear damage = 1.0",
         new ConfigAcceptableRange<float>(0.0f, 3.0f), "",
-        "Laser Damage"));
+        "Laser Damage (OLD)"));
 
     public static Configurable<int> LaserWindupTime { get; } = Instance.config.Bind(nameof(LaserWindupTime), 60, new ConfigurableInfo(
         "Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.",
         new ConfigAcceptableRange<int>(5, 300), "",
-        "Laser Windup TIme"));
+        "Laser Windup TIme (OLD)"));
 
     public static Configurable<int> LaserRechargeTime { get; } = Instance.config.Bind(nameof(LaserRechargeTime), 60, new ConfigurableInfo(
         "Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.",
         new ConfigAcceptableRange<int>(5, 300), "",
-        "Laser Recharge Time"));
+        "Laser Recharge Time (OLD)"));
+
+    public static Configurable<bool> OldRedPearlAbility { get; } = Instance.config.Bind(nameof(OldRedPearlAbility), false, new ConfigurableInfo(
+        "Reverts to the old red pearl mechanics - auto targeting lasers.", null, "",
+        "Old Red Pearl Ability?"));
+
 
     #endregion
 
@@ -267,6 +271,7 @@ public sealed class ModOptions : OptionsTemplate
 
     #endregion
 
+
     public const int TAB_COUNT = 7;
 
     public override void Initialize()
@@ -286,6 +291,7 @@ public sealed class ModOptions : OptionsTemplate
         InitCheats(ref tabIndex);
         InitExtraCheats(ref tabIndex);
     }
+
 
     private void InitExtraCheats(ref int tabIndex)
     {
@@ -360,6 +366,7 @@ public sealed class ModOptions : OptionsTemplate
 
         AddTextLabel("Kimi " + Translate("- Additional Artwork"), translate: false);
         AddTextLabel("Linnnnnna " + Translate("- Chinese Translation"), translate: false);
+        AddTextLabel("zbiotr " + Translate("- Spanish Translation"), translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine(1);
@@ -556,6 +563,7 @@ public sealed class ModOptions : OptionsTemplate
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableMinorEffects);
+        AddCheckBox(OldRedPearlAbility);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableAgility);
@@ -634,6 +642,13 @@ public sealed class ModOptions : OptionsTemplate
             dragger.colorText = WarnRed;
         }
 
+
+        if (GetLabel(OldRedPearlAbility, out label))
+            label.color = Color.red;
+
+        if (GetConfigurable(OldRedPearlAbility, out checkBox))
+            checkBox.colorEdge = Color.red;
+
         #endregion
     }
 
@@ -644,23 +659,39 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(UsesCustomStoreKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(3);
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
 
-        DrawKeybinders(StoreKeybindKeyboard, ref Tabs[tabIndex]);
-        AddNewLine(1);
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
 
-        DrawKeybinders(StoreKeybindPlayer1, ref Tabs[tabIndex]);
-        AddNewLine(1);
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
 
-        DrawKeybinders(StoreKeybindPlayer2, ref Tabs[tabIndex]);
-        AddNewLine(1);
+            AddNewLine(9);
+        }
+        else
+        {
+            AddNewLine(3);
 
-        DrawKeybinders(StoreKeybindPlayer3, ref Tabs[tabIndex]);
-        AddNewLine(1);
+            DrawKeybinders(StoreKeybindKeyboard, ref Tabs[tabIndex]);
+            AddNewLine(1);
 
-        DrawKeybinders(StoreKeybindPlayer4, ref Tabs[tabIndex]);
+            DrawKeybinders(StoreKeybindPlayer1, ref Tabs[tabIndex]);
+            AddNewLine(1);
 
-        AddNewLine(1);
+            DrawKeybinders(StoreKeybindPlayer2, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(StoreKeybindPlayer3, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            DrawKeybinders(StoreKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(1);
+        }
+
         DrawBox(ref Tabs[tabIndex]);
     }
 
@@ -671,20 +702,36 @@ public sealed class ModOptions : OptionsTemplate
         AddDragger(SwapTriggerPlayer);
         DrawDraggers(ref Tabs[tabIndex]);
 
-        AddNewLine(3);
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
 
-        DrawKeybinders(SwapLeftKeybind, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapRightKeybind, ref Tabs[tabIndex]);
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
 
-        AddNewLine(2);
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
 
-        DrawKeybinders(SwapKeybindKeyboard, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapKeybindPlayer1, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapKeybindPlayer2, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapKeybindPlayer3, ref Tabs[tabIndex]);
-        DrawKeybinders(SwapKeybindPlayer4, ref Tabs[tabIndex]);
+            AddNewLine(9);
+        }
+        else
+        {
+            AddNewLine(3);
 
-        AddNewLine(-1);
+            DrawKeybinders(SwapLeftKeybind, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapRightKeybind, ref Tabs[tabIndex]);
+
+            AddNewLine(2);
+
+            DrawKeybinders(SwapKeybindKeyboard, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapKeybindPlayer1, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapKeybindPlayer2, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapKeybindPlayer3, ref Tabs[tabIndex]);
+            DrawKeybinders(SwapKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(-1);
+        }
+
         DrawBox(ref Tabs[tabIndex]);
     }
 
@@ -696,33 +743,50 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(CustomAgilityKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(3);
+        if (!Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(3);
+    
+            var abilityOffset = new Vector2(-100.0f, 0.0f);
+            var sentryOffset = new Vector2(140.0f, 0.0f);
 
-        var abilityOffset = new Vector2(-100.0f, 0.0f);
-        var sentryOffset = new Vector2(140.0f, 0.0f);
+            DrawKeybinders(AbilityKeybindKeyboard, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindKeyboard, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindKeyboard, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindKeyboard, ref Tabs[tabIndex], sentryOffset);
-        AddNewLine(1);
+            DrawKeybinders(AbilityKeybindPlayer1, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindPlayer1, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer1, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindPlayer1, ref Tabs[tabIndex], sentryOffset);
-        AddNewLine(1);
+            DrawKeybinders(AbilityKeybindPlayer2, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindPlayer2, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer2, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindPlayer2, ref Tabs[tabIndex], sentryOffset);
-        AddNewLine(1);
+            DrawKeybinders(AbilityKeybindPlayer3, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindPlayer3, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
 
-        DrawKeybinders(AbilityKeybindPlayer3, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindPlayer3, ref Tabs[tabIndex], sentryOffset);
-        AddNewLine(1);
+            DrawKeybinders(AbilityKeybindPlayer4, ref Tabs[tabIndex], abilityOffset, false);
+            DrawKeybinders(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
 
-        DrawKeybinders(AbilityKeybindPlayer4, ref Tabs[tabIndex], abilityOffset, false);
-        DrawKeybinders(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(-2);
+        }
 
-        AddNewLine(-2);
         AddCheckBox(CustomSentryKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
+        
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
+
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddNewLine(6);
+        }
 
         DrawBox(ref Tabs[tabIndex]);
     }

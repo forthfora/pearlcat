@@ -3,11 +3,11 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using RWCustom;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using static Pearlcat.Enums;
 
@@ -22,10 +22,9 @@ public static partial class Hooks
         On.Menu.MenuScene.ctor += MenuScene_ctor;
         On.Menu.MenuScene.Update += MenuScene_Update;
 
+        On.Menu.Menu.Update += Menu_Update;
 
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
-
-        On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
 
         new Hook(
             typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
@@ -37,23 +36,40 @@ public static partial class Hooks
             typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.Public)
         );
 
-        // uses trygoto
-        IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
-
         On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
         On.HUD.HUD.InitSafariHud += HUD_InitSafariHud;
         On.ArenaGameSession.AddHUD += ArenaGameSession_AddHUD;
 
         On.Menu.MenuIllustration.Update += MenuIllustration_Update;
         On.Menu.StoryGameStatisticsScreen.AddBkgIllustration += StoryGameStatisticsScreen_AddBkgIllustration;
+
+        On.Menu.CheckBox.MyColor += CheckBox_MyColor;
+        On.Menu.SlugcatSelectMenu.SetChecked += SlugcatSelectMenu_SetChecked;
+        On.Menu.SlugcatSelectMenu.GetChecked += SlugcatSelectMenu_GetChecked;
+
+        On.Menu.SlugcatSelectMenu.UpdateStartButtonText += SlugcatSelectMenu_UpdateStartButtonText;
+        On.Menu.HoldButton.MyColor += HoldButton_MyColor;
+
+        //IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
     }
+
+
+    public static int MenuPearlAnimStacker { get; set; } = 0;
+
+    private static void Menu_Update(On.Menu.Menu.orig_Update orig, Menu.Menu self)
+    {
+        orig(self);
+
+        MenuPearlAnimStacker++;
+    }
+
 
     private static void StoryGameStatisticsScreen_AddBkgIllustration(On.Menu.StoryGameStatisticsScreen.orig_AddBkgIllustration orig, StoryGameStatisticsScreen self)
     {
 
         if (RainWorld.lastActiveSaveSlot == Enums.Pearlcat)
         {
-            var save = self.manager.rainWorld.GetMiscProgression();
+            var save = Utils.GetMiscProgression();
 
             var sceneID = Scenes.Slugcat_Pearlcat_Statistics_Ascended;
             
@@ -78,18 +94,27 @@ public static partial class Hooks
 
         if (!self.fileName.Contains("pearlcat")) return;
 
-        var save = self.menu.manager.rainWorld.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(self.fileName);
 
-        if (fileName == "Intro3_3" || fileName == "Intro5_3")
+        // INTRO
+        if (fileName == "Intro6")
         {
-            self.visible = ModManager.MSC;
+            self.visible = !Utils.IsMiraActive;
         }
-        else if (fileName == "Outro3_1" || fileName == "Outro2_1")
+        if (fileName == "Intro6_Mira")
         {
-            self.visible = save.HasPearlpup;
+            self.visible = Utils.IsMiraActive;
         }
-        else if (fileName == "AltOutro10_1")
+
+        // VOID SEA ENDING
+        if (fileName == "Outro3_1" || fileName == "Outro2_1")
+        {
+            self.visible = miscProg.HasPearlpup;
+        }
+
+        // OUTER EXPANSE ENDING
+        if (fileName == "AltOutro10_1")
         {
             if (self.alpha == 1.0f)
             {
@@ -124,6 +149,7 @@ public static partial class Hooks
     }
 
 
+
     public delegate bool orig_SlugcatPageHasMark(SlugcatSelectMenu.SlugcatPage self);
     public static bool GetSlugcatPageHasMark(orig_SlugcatPageHasMark orig, SlugcatSelectMenu.SlugcatPage self)
     {
@@ -145,16 +171,14 @@ public static partial class Hooks
 
         return result;
     }
+    
 
-
-    public static readonly ConditionalWeakTable<MenuScene, MenuSceneModule> MenuSceneData = new();
-    public static readonly ConditionalWeakTable<MenuDepthIllustration, MenuIllustrationModule> MenuIllustrationData = new();
     
     private static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, MenuScene self, Menu.Menu menu, MenuObject owner, MenuScene.SceneID sceneID)
     {
         orig(self, menu, owner, sceneID);
        
-        var save = menu.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
 
         if (ModOptions.InventoryOverride.Value || (save.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
         {
@@ -171,7 +195,7 @@ public static partial class Hooks
             foreach (var pearl in pearls)
                 pearlColors.Add(pearl.GetDataPearlColor());
 
-            MenuSceneData.Add(self, new(pearlColors, activePearl?.GetDataPearlColor()));
+            ModuleManager.MenuSceneData.Add(self, new(pearlColors, activePearl?.GetDataPearlColor()));
         }
         else if (save.IsNewPearlcatSave)
         {
@@ -184,7 +208,7 @@ public static partial class Hooks
                 Pearls.AS_PearlBlack.GetDataPearlColor(),
             };
 
-            MenuSceneData.Add(self, new(pearlColors, Pearls.RM_Pearlcat.GetDataPearlColor()));
+            ModuleManager.MenuSceneData.Add(self, new(pearlColors, Pearls.RM_Pearlcat.GetDataPearlColor()));
         }
         else
         {
@@ -193,10 +217,8 @@ public static partial class Hooks
             if (pearls.Count > 11)
                 pearls.RemoveRange(11, pearls.Count - 11);
 
-            MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
+            ModuleManager.MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
         }
-
-        MenuPearlAnimStacker = 0;
         
         foreach (var illustration in self.depthIllustrations)
         {
@@ -217,12 +239,12 @@ public static partial class Hooks
                 }
             }
 
-            MenuIllustrationData.Add(illustration, new(illustration, index));
+            ModuleManager.MenuIllustrationData.Add(illustration, new(illustration, index));
         }
     }
 
     public static Color MenuPearlColorFilter(this Color color) => color;
-    public static int MenuPearlAnimStacker = 0;
+
 
     private static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, MenuScene self)
     {
@@ -230,9 +252,9 @@ public static partial class Hooks
 
         foreach (var illustration in self.depthIllustrations)
         {
-            if (!MenuSceneData.TryGetValue(self, out var menuSceneModule)) continue;
+            if (!ModuleManager.MenuSceneData.TryGetValue(self, out var menuSceneModule)) continue;
 
-            if (!MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
+            if (!ModuleManager.MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
 
             if (self.sceneID == Scenes.Slugcat_Pearlcat)
             {
@@ -251,21 +273,296 @@ public static partial class Hooks
                 UpdateSickScreen(self, illustration, menuSceneModule, illustrationModule);
             }
 
-            //if (Input.GetKey("-"))
+            //if (Input.GetKeyDown("-"))
             //{
+            //    if (illustration == self.depthIllustrations.First())
+            //    {
+            //        Plugin.Logger.LogWarning("------------------------------");
+            //    }
+                
             //    var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-
-            //    if (illustration.depth > 4.8f)
-            //        Plugin.Logger.LogWarning("-----------------------------------------");
-
             //    Plugin.Logger.LogWarning(fileName + " - " + illustration.pos);
             //}
         }
+    }
 
-        if (self.menu is not SlugcatSelectMenu)
+
+    private static void UpdateSelectScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    {
+        var save = Utils.GetMiscProgression();
+        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+        if (illustrationModule.Index == -2)
         {
-            MenuPearlAnimStacker += 1; // hacky
+            var visible = true;
+
+            if (fileName.Contains("Pearlpup"))
+            {
+                visible = save.HasPearlpup || (save.IsNewPearlcatSave && ModManager.MSC);
+            }
+
+            visible = visible && ((save.HasTrueEnding && fileName.Contains("trueend")) || (!save.HasTrueEnding && !fileName.Contains("trueend")));
+            illustration.visible = visible;
+
+            if (fileName.Contains("pupheart"))
+            {
+                UpdatePupHeartIllustration(self, illustration, illustrationModule);
+            }
+
+            return;
         }
+
+        if (illustrationModule.Index == -1)
+        {
+            if (menuSceneModule.ActivePearlColor == null)
+            {
+                illustration.visible = false;
+                return;
+            }
+
+            if (fileName == "pearlactivehalo")
+            {
+                illustration.sprite.SetAnchor(Vector2.one * 0.5f);
+                illustration.sprite.scale = 0.3f;
+
+                illustration.pos = menuSceneModule.ActivePearlPos;
+                return;
+            }
+
+
+            var trueEndPos = new Vector2(690, 490);
+
+            if (save.HasTrueEnding && illustrationModule.InitialPos != trueEndPos)
+            {
+                illustrationModule.InitialPos = trueEndPos;
+                illustrationModule.SetPos = trueEndPos;
+                illustrationModule.Vel = Vector2.zero;
+
+                illustration.pos = trueEndPos;
+            }
+
+
+            var activePearlColor = menuSceneModule.ActivePearlColor;
+
+            illustration.visible = true;
+            illustration.color = (Color)activePearlColor;
+            illustration.sprite.scale = 0.3f;
+
+
+            var pos = illustration.pos;
+            var spritePos = illustration.sprite.GetPosition();
+            var mousePos = self.menu.mousePosition;
+
+            var setPos = illustrationModule.SetPos;
+
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
+            {
+                illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
+            }
+
+            var dir = (setPos - pos).normalized;
+            var dist = Custom.Dist(setPos, pos);
+            var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
+
+            illustrationModule.Vel *= Custom.LerpMap(illustrationModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.Vel += dir * speed;
+
+            illustration.pos += illustrationModule.Vel;
+
+            illustrationModule.SetPos = illustrationModule.InitialPos;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+
+            menuSceneModule.ActivePearlPos = illustration.pos;
+
+            return;
+        }
+
+        var pearlColors = menuSceneModule.PearlColors;
+
+        var count = pearlColors.Count;
+        var i = illustrationModule.Index;
+
+        if (i >= count)
+        {
+            illustration.visible = false;
+            return;
+        }
+
+        illustration.visible = true;
+
+        var angleFrameAddition = 0.00675f;
+        var radius = 150.0f;
+        var origin = new Vector2(675, 400);
+
+        if (save.HasTrueEnding)
+        {
+            radius = 130.0f;
+            angleFrameAddition = 0.0045f;
+            origin = new Vector2(675.0f, 350.0f);
+        }
+
+        var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
+
+        var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
+        illustration.pos = targetPos;
+
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 0.0f, 1.0f, 0.3f, 0.25f);
+        illustration.color = pearlColors[i].MenuPearlColorFilter();
+    }
+
+    private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    {
+        var save = Utils.GetMiscProgression();
+        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+        illustration.alpha = 1.0f;
+
+        var pearlcatSad = (save.IsPearlpupSick || (!save.HasPearlpup && save.DidHavePearlpup)) && !save.HasTrueEnding;
+
+        if (illustrationModule.Index == -2)
+        {
+            var visible = true;
+
+            if (fileName == "pcat_nopup")
+            {
+                visible = !save.DidHavePearlpup;
+            }
+            else if (fileName == "pcat_withpup")
+            {
+                visible = !pearlcatSad && save.HasPearlpup;
+            }
+            else if (fileName == "pcat_sad")
+            {
+                visible = pearlcatSad;
+            }
+            else if (fileName == "pup")
+            {
+                visible = save.HasPearlpup && !save.IsPearlpupSick;
+            }
+            else if (fileName == "pup_sick")
+            {
+                visible = save.HasPearlpup && save.IsPearlpupSick;
+            }
+            else if (fileName == "scarf")
+            {
+                visible = pearlcatSad;
+            }
+            else if (fileName == "pup_drawings")
+            {
+                visible = save.HasPearlpup && !save.IsPearlpupSick;
+            }
+            else if (fileName == "sleep1")
+            {
+                if (pearlcatSad || save.HasPearlpup)
+                {
+                    illustration.pos = new(609, 27);
+                }
+            }
+
+            var trueEndVisible = save.HasTrueEnding == fileName.Contains("trueend") || fileName.Contains("sleep1");
+
+            illustration.visible = visible && trueEndVisible;
+
+            if (fileName.Contains("pupheart"))
+            {
+                UpdatePupHeartIllustration(self, illustration, illustrationModule);
+            }
+
+            return;
+        }
+
+        if (illustrationModule.Index == -1)
+        {
+
+            if (fileName == "pearlactivehalo")
+            {
+                illustration.sprite.SetAnchor(Vector2.one * 0.5f);
+                illustration.sprite.scale = 0.3f;
+                illustration.visible = menuSceneModule.ActivePearlColor != null; 
+
+                illustration.pos = menuSceneModule.ActivePearlPos;
+                return;
+            }
+
+            var sadPos = new Vector2(870, 330);
+
+            if (pearlcatSad && illustrationModule.InitialPos != sadPos)
+            {
+                illustrationModule.InitialPos = sadPos;
+                illustrationModule.SetPos = sadPos;
+                illustrationModule.Vel = Vector2.zero;
+
+                illustration.pos = sadPos;
+            }
+
+            bool isPlaceholder = fileName == "pearlactiveplaceholder";
+            var activePearlColor = Color.white;
+            
+            if (menuSceneModule.ActivePearlColor == null)
+            {
+                if (isPlaceholder && !save.HasTrueEnding)
+                {
+                    illustration.visible = true;
+                }
+                else
+                {
+                    illustration.visible = false;
+                    return;
+                }
+            }
+            else if (isPlaceholder)
+            {
+                illustration.visible = false;
+                return;
+            }
+            else
+            {
+                activePearlColor = (Color)menuSceneModule.ActivePearlColor;
+            }
+
+            illustration.visible = true;
+            illustration.color = MenuPearlColorFilter(activePearlColor);
+            illustration.sprite.scale = isPlaceholder ? 1.0f : 0.3f;
+
+            var pos = illustration.pos;
+            var spritePos = illustration.sprite.GetPosition();
+            var mousePos = self.menu.mousePosition;
+
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.SetPos) < 90.0f)
+                illustrationModule.Vel += (spritePos - mousePos).normalized * 1.5f;
+
+
+            var dir = (illustrationModule.SetPos - pos).normalized;
+            var dist = Custom.Dist(illustrationModule.SetPos, pos);
+            var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
+
+            illustrationModule.Vel *= Custom.LerpMap(illustrationModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.Vel += dir * speed;
+
+            illustration.pos += illustrationModule.Vel;
+
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+
+            menuSceneModule.ActivePearlPos = illustration.pos;
+            return;
+        }
+
+        var pearlColors = menuSceneModule.PearlColors;
+
+        var count = pearlColors.Count;
+        var i = illustrationModule.Index;
+
+        if (i >= count)
+        {
+            illustration.visible = false;
+            return;
+        }
+
+        illustration.visible = true;
+        illustration.sprite.scale = 0.35f;
+        illustration.color = pearlColors[i].MenuPearlColorFilter();
+
+        illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin((MenuPearlAnimStacker + i * 50.0f) / 50.0f) * 25.0f;
     }
 
     private static void UpdateSickScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
@@ -302,22 +599,22 @@ public static partial class Hooks
             var spritePos = illustration.sprite.GetPosition();
             var mousePos = self.menu.mousePosition;
 
-            var setPos = illustrationModule.setPos;
+            var setPos = illustrationModule.SetPos;
 
             if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+                illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
 
 
             var dir = (setPos - pos).normalized;
             var dist = Custom.Dist(setPos, pos);
             var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
 
-            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-            illustrationModule.vel += dir * speed;
+            illustrationModule.Vel *= Custom.LerpMap(illustrationModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.Vel += dir * speed;
 
-            illustration.pos += illustrationModule.vel;
+            illustration.pos += illustrationModule.Vel;
 
-            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
@@ -335,9 +632,9 @@ public static partial class Hooks
 
         illustration.visible = true;
 
-        var angleFrameAddition = 0.0005f;
+        var angleFrameAddition = 0.0045f;
         var radius = 90.0f;
-        var origin = new Vector2(670, 470);
+        var origin = new Vector2(650, 490);
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
 
@@ -349,221 +646,24 @@ public static partial class Hooks
         illustration.color = pearlColors[i].MenuPearlColorFilter();
     }
 
-    private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
-    {
-        var save = self.menu.manager.rainWorld.GetMiscProgression();
-        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-
-        illustration.alpha = 1.0f;
-
-        if (illustrationModule.Index == -2)
-        {
-            if (fileName == "sweat")
-            {
-                illustration.visible = menuSceneModule.ActivePearlColor == null;
-            }
-            else if (fileName == "slugcat")
-            {
-                illustration.visible = !save.IsPearlpupSick;
-            }
-            else if (fileName == "slugcatsick")
-            {
-                illustration.visible = save.IsPearlpupSick;
-            }
-            else if (fileName == "pup")
-            {
-                illustration.visible = save.HasPearlpup && !save.IsPearlpupSick;
-            }
-            else if (fileName == "pupsick")
-            {
-                illustration.visible = save.HasPearlpup && save.IsPearlpupSick;
-            }
-            
-            return;
-        }
-
-        if (illustrationModule.Index == -1)
-        {
-
-            if (fileName == "pearlactivehalo")
-            {
-                illustration.sprite.SetAnchor(Vector2.one * 0.5f);
-                illustration.sprite.scale = 0.3f;
-                illustration.visible = menuSceneModule.ActivePearlColor != null; 
-
-                illustration.pos = menuSceneModule.ActivePearlPos;
-                return;
-            }
-
-            bool isPlaceholder = fileName == "pearlactiveplaceholder";
-            var activePearlColor = Color.white;
-            
-            if (menuSceneModule.ActivePearlColor == null)
-            {
-                if (isPlaceholder)
-                {
-                    illustration.visible = true;
-                }
-                else
-                {
-                    illustration.visible = false;
-                    return;
-                }
-            }
-            else if (isPlaceholder)
-            {
-                illustration.visible = false;
-                return;
-            }
-            else
-            {
-                activePearlColor = (Color)menuSceneModule.ActivePearlColor;
-            }
-
-            illustration.visible = true;
-            illustration.color = MenuPearlColorFilter(activePearlColor);
-            illustration.sprite.scale = isPlaceholder ? 1.0f : 0.3f;
-
-            var pos = illustration.pos;
-            var spritePos = illustration.sprite.GetPosition();
-            var mousePos = self.menu.mousePosition;
-
-            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 90.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 1.5f;
-
-
-            var dir = (illustrationModule.setPos - pos).normalized;
-            var dist = Custom.Dist(illustrationModule.setPos, pos);
-            var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
-
-            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-            illustrationModule.vel += dir * speed;
-
-            illustration.pos += illustrationModule.vel;
-
-            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
-
-            menuSceneModule.ActivePearlPos = illustration.pos;
-            return;
-        }
-
-        var pearlColors = menuSceneModule.PearlColors;
-
-        var count = pearlColors.Count;
-        var i = illustrationModule.Index;
-
-        if (i >= count)
-        {
-            illustration.visible = false;
-            return;
-        }
-
-        illustration.visible = true;
-        illustration.sprite.scale = 0.35f;
-        illustration.color = pearlColors[i].MenuPearlColorFilter();
-
-        illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin((MenuPearlAnimStacker + i * 50.0f) / 50.0f) * 25.0f;
-    }
-
-    private static void UpdateSelectScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
-    {
-        var save = self.menu.manager.rainWorld.GetMiscProgression();
-        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-
-        if (illustrationModule.Index == -2)
-        {
-            if (fileName == "pup")
-                illustration.visible = save.HasPearlpup;
-
-            if (save.HasPearlpup)
-                if (fileName == "body" || fileName == "tail" || fileName == "legs")
-                    illustration.pos.x = illustrationModule.InitialPos.x - 20.0f;
-
-            return;
-        }
-
-        if (illustrationModule.Index == -1)
-        {
-            if (menuSceneModule.ActivePearlColor == null)
-            {
-                illustration.visible = false;
-                return;
-            }
-
-            if (fileName == "pearlactivehalo")
-            {
-                illustration.sprite.SetAnchor(Vector2.one * 0.5f);
-                illustration.sprite.scale = 0.3f;
-
-                illustration.pos = menuSceneModule.ActivePearlPos;
-                return;
-            }
-
-            var activePearlColor = menuSceneModule.ActivePearlColor;
-
-            illustration.visible = true;
-            illustration.color = (Color)activePearlColor;
-            illustration.sprite.scale = 0.3f;
-
-
-            var pos = illustration.pos;
-            var spritePos = illustration.sprite.GetPosition();
-            var mousePos = self.menu.mousePosition;
-            // var mouseVel = (self.menu.mousePosition - self.menu.lastMousePos).magnitude;
-            // Custom.LerpMap(mouseVel, 0.0f, 100.0f, 1.0f, 6.0f);
-
-            var setPos = illustrationModule.setPos - Vector2.right * (save.HasPearlpup ? 30.0f : 0.0f);
-
-            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
-
-
-            var dir = (setPos - pos).normalized;
-            var dist = Custom.Dist(setPos, pos);
-            var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
-
-            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-            illustrationModule.vel += dir * speed;
-
-            illustration.pos += illustrationModule.vel;
-
-            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
-            menuSceneModule.ActivePearlPos = illustration.pos;
-            return;
-        }
-
-        var pearlColors = menuSceneModule.PearlColors;
-
-        var count = pearlColors.Count;
-        var i = illustrationModule.Index;
-
-        if (i >= count)
-        {
-            illustration.visible = false;
-            return;
-        }
-
-        illustration.visible = true;
-
-        var angleFrameAddition = 0.00075f;
-        var radius = 120.0f;
-        var origin = new Vector2(680, 400);
-
-        if (save.HasPearlpup)
-            origin.x -= 20.0f;
-
-        var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
-
-        Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius * 1.25f);
-        illustration.pos = targetPos;
-
-        illustration.sprite.scale = Custom.LerpMap(Mathf.Cos(angle), 0.0f, 1.0f, 0.2f, 0.35f);
-        illustration.color = pearlColors[i].MenuPearlColorFilter();
-    }
-
     private static void UpdateAscendedScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
-        if (illustrationModule.Index == -2) return;
+        if (illustrationModule.Index == -2)
+        {
+            var save = Utils.GetMiscProgression();
+            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+
+            var visible = true;
+
+            if (fileName == "pup")
+            {
+                visible = save.AscendedWithPup;
+            }
+
+            visible = visible && ((save.HasTrueEnding && fileName.Contains("trueend")) || (!save.HasTrueEnding && !fileName.Contains("trueend")));
+            illustration.visible = visible;
+            return;
+        }
 
         if (illustrationModule.Index == -1)
         {
@@ -587,7 +687,7 @@ public static partial class Hooks
             var activePearlColor = menuSceneModule.ActivePearlColor;
 
             illustration.visible = true;
-            illustration.color = (Color)activePearlColor * Custom.HSL2RGB(1.0f, 0.2f, 1.0f);
+            illustration.color = ((Color)activePearlColor).AscendedPearlColorFilter();
             illustration.sprite.scale = 0.25f;
             illustration.alpha = 1.0f;
 
@@ -595,20 +695,20 @@ public static partial class Hooks
             var spritePos = illustration.sprite.GetPosition();
             var mousePos = self.menu.mousePosition;
 
-            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.setPos) < 120.0f)
-                illustrationModule.vel += (spritePos - mousePos).normalized * 2.0f;
+            if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.SetPos) < 120.0f)
+                illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
 
 
-            var dir = (illustrationModule.setPos - pos).normalized;
-            var dist = Custom.Dist(illustrationModule.setPos, pos);
+            var dir = (illustrationModule.SetPos - pos).normalized;
+            var dist = Custom.Dist(illustrationModule.SetPos, pos);
             var speed = Custom.LerpMap(dist, 0.0f, 5.0f, 0.1f, 1.0f);
 
-            illustrationModule.vel *= Custom.LerpMap(illustrationModule.vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
-            illustrationModule.vel += dir * speed;
+            illustrationModule.Vel *= Custom.LerpMap(illustrationModule.Vel.magnitude, 2.0f, 0.5f, 0.97f, 0.5f);
+            illustrationModule.Vel += dir * speed;
 
-            illustration.pos += illustrationModule.vel;
+            illustration.pos += illustrationModule.Vel;
 
-            illustrationModule.setPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
@@ -626,21 +726,93 @@ public static partial class Hooks
 
         illustration.visible = true;
 
-        var angleFrameAddition = 0.0005f;
+        var angleFrameAddition = 0.0045f;
         var radius = 90.0f;
-        var origin = new Vector2(650, 360);
+        var origin = new Vector2(680, 360);
 
         var angle = (i * Mathf.PI * 2.0f / count) + angleFrameAddition * MenuPearlAnimStacker;
 
-        var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius * 1.7f, origin.y + Mathf.Sin(angle) * radius);
+        var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius * 2.0f, origin.y + Mathf.Sin(angle) * radius);
         illustration.pos = targetPos;
 
-        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, 0.0f, 0.2f, 0.3f);
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Cos(angle) + Mathf.Sin(angle), 2.0f, 0.0f, 0.2f, 0.3f);
         illustration.alpha = 1.0f;
-        illustration.color = pearlColors[i].MenuPearlColorFilter();
+        illustration.color = pearlColors[i].AscendedPearlColorFilter();
         //illustration.color = Color.Lerp(pearlColors[i].MenuPearlColorFilter(), new Color32(207, 187, 101, 255), 0.4f);
     }
 
+
+    public static Color AscendedPearlColorFilter(this Color color)
+    {
+        //return color;
+
+        Color.RGBToHSV(Color.Lerp(color, Color.white, 0.3f), out var hue, out var sat, out var val);
+        return Color.HSVToRGB(hue, sat, val);
+    }
+    
+    private static void UpdatePupHeartIllustration(MenuScene self, MenuDepthIllustration illustration, MenuIllustrationModule illustrationModule)
+    {
+        var miscProg = Utils.GetMiscProgression();
+
+        if (!miscProg.HasTrueEnding)
+        {
+            illustration.visible = false;
+            return;
+        }
+
+        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+        illustration.visible = true;
+
+        var initialScale = 0.3f;
+        var isCore = fileName == "pupheartcore";
+
+        if (illustration.sprite.scale == 1.0f)
+        {
+            illustration.sprite.scale = initialScale;
+            illustration.sprite.SetAnchor(new Vector2(0.5f, 0.5f));
+        }
+
+        var currentScale = illustration.sprite.scale;
+        
+        const int beatFrequency = 80;
+        const int coreBeatOffset = 10;
+
+        var beat = MenuPearlAnimStacker % beatFrequency == 0;
+        var coreBeat = (MenuPearlAnimStacker - coreBeatOffset) % beatFrequency == 0;
+
+        if (isCore)
+        {
+            if (coreBeat)
+            {
+                illustration.sprite.scale = 0.4f;
+            }
+            else
+            {
+                illustration.sprite.scale = Mathf.Lerp(currentScale, initialScale, 0.1f);
+            }
+        }
+        else
+        {
+            if (beat)
+            {
+                illustration.sprite.scale = 0.45f;
+                self.menu.PlaySound(Sounds.Pearlcat_Heartbeat, 0.0f, 0.3f, 1.0f);
+            }
+            else if (coreBeat)
+            {
+                illustration.sprite.scale = 0.4f;
+            }
+            else
+            {
+                illustration.sprite.scale = Mathf.Lerp(currentScale, initialScale, 0.1f);
+            }
+        }
+    }
+
+
+
+    public static string SecretPassword { get; set; } = "mira";
+    public static int SecretIndex { get; set; } = 0;
 
     private static void SlugcatPage_ctor(On.Menu.SlugcatSelectMenu.SlugcatPage.orig_ctor orig, SlugcatSelectMenu.SlugcatPage self, Menu.Menu menu, MenuObject owner, int pageIndex, SlugcatStats.Name slugcatNumber)
     {
@@ -648,102 +820,241 @@ public static partial class Hooks
 
         if (slugcatNumber != Enums.Pearlcat) return;
 
-        var save = menu.manager.rainWorld.GetMiscProgression();
+        var save = Utils.GetMiscProgression();
         var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault().GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
 
         // screw pebbles pearls you get ORANGE    
         self.effectColor = color ?? Color.white;
 
         self.markOffset = save.HasPearlpup ? new(0.0f, 50.0f) : new(20.0f, 50.0f);
+
+        if (SecretIndex == SecretPassword.Length)
+        {
+            save.IsSecretEnabled = !save.IsSecretEnabled;
+            save.HasTrueEnding = save.IsSecretEnabled;
+        }
+
+        SecretIndex = 0;
     }
 
     private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)
     {
         orig(self);
 
-        MenuPearlAnimStacker += 9; // only reason this is not 1 is cause i was stupid earlier in development and it would be a PITA to fix it otherwise lol
-
         var page = self.slugcatPages[self.slugcatPageIndex];
+        var module = self.GetModule();
+        var miraSkipCheckbox = module.MiraCheckbox;
 
-        if (page.slugcatNumber == Enums.Pearlcat)
+        var miscProg = Utils.GetMiscProgression();
+        var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked;
+
+        var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
+        var miraSkipAvailable = !disableSave && Utils.IsMiraActive && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding && !miscProg.UnlockedMira && ModManager.MSC;
+
+        if (miraSkipAvailable)
         {
-            var save = self.manager.rainWorld.progression.miscProgressionData.GetMiscProgression();
-            var disableSave = !save.IsNewPearlcatSave && save.IsMSCSave != ModManager.MSC && !self.restartChecked;
+            miraSkipCheckbox.pos = Vector2.Lerp(miraSkipCheckbox.pos, module.CheckboxUpPos, 0.2f);
+            miraSkipCheckbox.buttonBehav.greyedOut = false;
+            miraSkipCheckbox.selectable = true;
+        }
+        else
+        {
+            miraSkipCheckbox.pos = Vector2.Lerp(miraSkipCheckbox.pos, module.CheckboxDownPos, 0.2f);
+            miraSkipCheckbox.buttonBehav.greyedOut = true;
+            miraSkipCheckbox.selectable = false;
+            miraSkipCheckbox.Checked = false;
+        }
 
-            if (disableSave)
+
+        if (!isPearlcatPage) return;
+
+        if (disableSave)
+        {
+            //self.startButton.buttonBehav.greyedOut = true; // found issues with this, so don't restrict incase of false detection
+
+            self.startButton.fillTime = 240.0f;
+            var text = self.Translate("WARNING") + "\n" + (miscProg.IsMSCSave ? "MSC" : "NON-MSC") + self.Translate(" SAVE");
+
+            self.startButton.menuLabel.text = text;
+        }
+
+
+        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding;
+
+        if (SecretIndex >= SecretPassword.Length)
+        {
+            self.manager.RequestMainProcessSwitch(ProcessManager.ProcessID.SlugcatSelect);
+        }
+        else if (canSecretOccur)
+        {
+            if (Input.anyKey)
             {
-                self.startButton.buttonBehav.greyedOut = true;
-                var text = "CANNOT PLAY" + "\n" + (save.IsMSCSave ? "MSC" : "NON-MSC") + " SAVE";
-
-                self.startButton.menuLabel.text = text;
+                if (Input.GetKey(SecretPassword[SecretIndex].ToString()))
+                {
+                    SecretIndex++;
+                }
+                else if (SecretIndex == 0 || !Input.GetKey(SecretPassword[SecretIndex - 1].ToString()))
+                {
+                    SecretIndex = 0;
+                }
             }
         }
 
-        
-        //Music.MusicPlayer musicPlayer = self.manager.musicPlayer;
+        if (page is SlugcatSelectMenu.SlugcatPageContinue continuePage && module.OriginalRegionLabelText != null)
+        {
+            var regionLabel = continuePage.regionLabel;
 
-        //if (self.slugcatPages[self.slugcatPageIndex].slugcatNumber.ToString() == Plugin.SLUGCAT_ID)
-        //{
-        //    musicPlayer.RequestHalcyonSong("NA_19 - Halcyon Memories");
+            if (Utils.MiraVersionWarning)
+            {
+                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update..."));
+            }
+            else if (miscProg.IsMiraSkipEnabled)
+            {
+                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
 
-        //    MoreSlugcats.HalcyonSong? halcyonSong = null;
-        //    if (musicPlayer.song is MoreSlugcats.HalcyonSong song && musicPlayer.song != null) halcyonSong = song;
-        //    if (musicPlayer.nextSong is MoreSlugcats.HalcyonSong nextSong && musicPlayer.nextSong != null) halcyonSong = nextSong;
+                if (miscProg.IsMSCSave && !miscProg.HasPearlpup)
+                {
+                    regionLabel.text += self.Translate(" Pearlpup will be revived.");
+                }
+            }
+            else
+            {
+                regionLabel.text = module.OriginalRegionLabelText;
+            }
+        }
+        else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage)
+        {
+            if (Utils.MiraVersionWarning)
+            {
+                newGamePage.difficultyLabel.text = self.Translate("VERSION WARNING");
+                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Mira Installation requires Pearlcat version 1.3.0 or above! Please update..."));
+            }
+            else if (miscProg.IsSecretEnabled)
+            {
+                newGamePage.difficultyLabel.text = self.Translate("PEARLPUP");
+                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!"));
+            }
+            else
+            {
+                var infoLabel = newGamePage.infoLabel;
 
-        //    if (halcyonSong != null)
-        //    {
-        //        halcyonSong.volume = 0.5f;
-        //        halcyonSong.baseVolume = 0.5f;
-        //        halcyonSong.setVolume = 0.5f;
-        //        halcyonSong.droneVolume = 0.5f;
-        //    }
-        //}
-        //else
-        //{
-        //    musicPlayer.RequestIntroRollMusic();
-
-        //    Music.IntroRollMusic? introRollSong = null;
-        //    if (musicPlayer.song is Music.IntroRollMusic song && musicPlayer.song != null) introRollSong = song;
-        //    if (musicPlayer.nextSong is Music.IntroRollMusic nextSong && musicPlayer.nextSong != null) introRollSong = nextSong;
-
-        //    if (introRollSong != null)
-        //    {
-        //        introRollSong.StartPlaying();
-        //        introRollSong.StartMusic();
-        //    }
-        //}
+                if (miscProg.IsMiraSkipEnabled)
+                {
+                    infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
+                }
+                else
+                {
+                    if (SlugBase.SlugBaseCharacter.TryGet(Enums.Pearlcat, out var registry))
+                    {
+                        infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate(registry.Description));
+                    }
+                }
+            }
+        }
     }
 
 
-    // fix for dev tools w/ custom ambient SFX, thanks Bro
-    private static void TriggersPage_ctor(On.DevInterface.TriggersPage.orig_ctor orig, DevInterface.TriggersPage self, DevInterface.DevUI owner, string IDstring, DevInterface.DevUINode parentNode, string name)
+
+    public const string MIRA_SKIP_ID = "PEARLCAT_MIRA_SKIP";
+    public static Color MiraMenuColor { get; } = Custom.hexToColor("9487c9");
+
+    private static Color CheckBox_MyColor(On.Menu.CheckBox.orig_MyColor orig, CheckBox self, float timeStacker)
     {
-        orig(self, owner, IDstring, parentNode, name);
+        var result = orig(self, timeStacker);
 
-        List<string> songs = new();
-
-        string[] files = AssetManager.ListDirectory("Music" + Path.DirectorySeparatorChar.ToString() + "Songs");
-        
-        foreach (string file in files)
+        if (self.IDString == MIRA_SKIP_ID)
         {
-            string noExtension = Path.GetFileNameWithoutExtension(file);
-
-            if (!songs.Contains(noExtension) && Path.GetExtension(file).ToLower() != ".meta")
-                songs.Add(noExtension);
+            return MiraMenuColor;
         }
 
-        self.songNames = songs.ToArray();
+        return result;
     }
 
-    private static void SoundPage_ctor(ILContext il)
+    private static void SlugcatSelectMenu_SetChecked(On.Menu.SlugcatSelectMenu.orig_SetChecked orig, SlugcatSelectMenu self, CheckBox box, bool c)
+    {
+        var save = Utils.GetMiscProgression();
+        
+        if (box.IDString == MIRA_SKIP_ID)
+        {
+            save.IsMiraSkipEnabled = c;
+            self.UpdateStartButtonText();
+            return;
+        }
+
+        orig(self, box, c);
+    }
+
+    private static bool SlugcatSelectMenu_GetChecked(On.Menu.SlugcatSelectMenu.orig_GetChecked orig, SlugcatSelectMenu self, CheckBox box)
+    {
+        var result = orig(self, box);
+        
+        if (box.IDString == MIRA_SKIP_ID)
+        {
+            var save = Utils.GetMiscProgression();
+            return save.IsMiraSkipEnabled;
+        }
+
+        return result;
+    }
+
+    private static void SlugcatSelectMenu_UpdateStartButtonText(On.Menu.SlugcatSelectMenu.orig_UpdateStartButtonText orig, SlugcatSelectMenu self)
+    {
+        var save = Utils.GetMiscProgression();
+
+        if (save.IsMiraSkipEnabled)
+        {
+            self.startButton.fillTime = 240.0f;
+            self.startButton.menuLabel.text = self.Translate("FIND MIRA...");
+            return;
+        }
+
+        orig(self);
+    }
+
+    private static Color HoldButton_MyColor(On.Menu.HoldButton.orig_MyColor orig, HoldButton self, float timeStacker)
+    {
+        var result = orig(self, timeStacker);
+
+        // If the misc prog check is outside here, it will break it lol
+        if (self.signalText == "START")
+        {
+            var save = Utils.GetMiscProgression();
+            
+            if (save.IsMiraSkipEnabled)
+            {
+                return MiraMenuColor;
+            }
+        }
+
+        return result;
+    }
+
+
+    // Skip intro cutscene if secret (nvm I want people to see geahgeahg's work, they can already skip if they want lol)
+    private static void SlugcatSelectMenu_StartGame(ILContext il)
     {
         var c = new ILCursor(il);
 
-        if (c.TryGotoNext(MoveType.Before, x => x.MatchLdstr("soundeffects/ambient")))
+        c.GotoNext(MoveType.After,
+            x => x.MatchCallOrCallvirt<SlugcatSelectMenu>(nameof(SlugcatSelectMenu.ContinueStartedGame))
+        );
+
+        var dest = il.DefineLabel();
+
+        c.GotoNext(MoveType.After,
+            x => x.MatchLdstr("s"),
+            x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey)),
+            x => x.MatchBrtrue(out dest)
+        );
+
+        c.Emit(OpCodes.Ldarg_0);
+        c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((self) =>
         {
-            c.MoveAfterLabels();
-            c.Emit(OpCodes.Ldstr, "loadedsoundeffects/ambient");
-            c.Remove();
-        }
+            var save = Utils.GetMiscProgression();
+
+            return save.IsSecretEnabled;
+        });
+
+        c.Emit(OpCodes.Brtrue, dest);
     }
 }

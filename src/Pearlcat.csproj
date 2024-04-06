@@ -37,6 +37,10 @@
       <public>False</public>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ImprovedInput">
+      <HintPath>..\..\Backups\Rain World\Rain World References\ImprovedInput.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\Mono.Cecil.dll</HintPath>
       <public>False</public>
@@ -63,7 +67,10 @@
     </Reference>
     <Reference Include="SlugBase">
       <HintPath>..\..\Backups\Rain World\Rain World References\SlugBase.dll</HintPath>
-      <public>False</public>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\Unity.Mathematics.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">

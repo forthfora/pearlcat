@@ -36,6 +36,7 @@ public class T1_CAR2 : UpdatableAndDeletable
         if (!room.fullyLoaded) return;
 
         var game = room.game;
+        var miscProg = Utils.GetMiscProgression();
 
         if (PhaseTimer == 0)
         {
@@ -69,12 +70,33 @@ public class T1_CAR2 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
-                game.AddTextPrompt("RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 600);
+                if (miscProg.HasTrueEnding)
+                {
+                    game.AddTextPrompt("Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess", 0, 600);
+
+                    game.AddTextPrompt("To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl", 0, 500);
+
+                    PhaseTimer = 900;
+                }
+                else if (ModOptions.OldRedPearlAbility.Value)
+                {
+                    game.AddTextPrompt("RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 600);
                 
-                game.AddTextPrompt("Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 500);
+                    game.AddTextPrompt("Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!", 0, 500);
 
+                    PhaseTimer = 900;
+                }
+                else
+                {
+                    game.AddTextPrompt("RED symbolizes power. With a red pearl active, all stored red pearls will circle you", 0, 600);
 
-                PhaseTimer = 900;
+                    game.AddTextPrompt("Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature", 0, 500);
+
+                    game.AddTextPrompt("Multiple red sentries may chain this effect together - and yes, these batflies are VERY HOSTILE!", 0, 500);
+
+                    PhaseTimer = 1400;
+                }
+
                 CurrentPhase = Phase.End;
             }
             else if (CurrentPhase == Phase.End)

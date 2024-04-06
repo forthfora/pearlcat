@@ -17,6 +17,10 @@ public static class Enums
         public static Conversation.ID Pearlcat_SSConvoTakeRMPearl = new(nameof(Pearlcat_SSConvoTakeRMPearl), true);
         public static Conversation.ID Pearlcat_SSConvoSickPup = new(nameof(Pearlcat_SSConvoSickPup), true);
 
+        public static Conversation.ID Pearlcat_SSConvoUnlockMira = new(nameof(Pearlcat_SSConvoUnlockMira), true);
+
+        public static Conversation.ID Pearlcat_SSConvoFirstMeetTrueEnd = new(nameof(Pearlcat_SSConvoFirstMeetTrueEnd), true);
+
         public static Conversation.ID Pearlcat_SSConvoSSPearl = new(nameof(Pearlcat_SSConvoSSPearl), true);
         public static Conversation.ID Pearlcat_SSConvoASPearlBlue = new(nameof(Pearlcat_SSConvoASPearlBlue), true);
         public static Conversation.ID Pearlcat_SSConvoASPearlRed = new(nameof(Pearlcat_SSConvoASPearlRed), true);
@@ -49,6 +53,8 @@ public static class Enums
 
         public static SoundID Pearlcat_ShieldHold = new(nameof(Pearlcat_ShieldHold), true);
         public static SoundID Pearlcat_CamoFade = new(nameof(Pearlcat_CamoFade), true);
+
+        public static SoundID Pearlcat_Heartbeat = new(nameof(Pearlcat_Heartbeat), true);
     }
 
     public static class Pearls
@@ -61,6 +67,8 @@ public static class Enums
         public static DataPearlType AS_PearlGreen = new(nameof(AS_PearlGreen), false);
         public static DataPearlType AS_PearlRed = new(nameof(AS_PearlRed), false);
         public static DataPearlType AS_PearlBlack = new(nameof(AS_PearlBlack), false);
+
+        public static DataPearlType Heart_Pearlpup = new(nameof(Heart_Pearlpup), false);
     }
 
     public static class Scenes
@@ -80,19 +88,6 @@ public static class Enums
         public static SceneID Dream_Pearlcat_Pearlpup = new(nameof(Dream_Pearlcat_Pearlpup), false);
         public static SceneID Dream_Pearlcat_Moon_Sick = new(nameof(Dream_Pearlcat_Moon_Sick), false);
         public static SceneID Dream_Pearlcat_Sick = new(nameof(Dream_Pearlcat_Sick), false);
-
-        // DEPRECATED
-        //public static SlideShowID PearlcatIntro = new(nameof(PearlcatIntro), true);
-        //public static SlideShowID PearlcatOutro = new(nameof(PearlcatOutro), true);
-
-        //public static SceneID Pearlcat_Intro_1 = new(nameof(Pearlcat_Intro_1), false);
-        //public static SceneID Pearlcat_Intro_2 = new(nameof(Pearlcat_Intro_2), false);
-
-        //public static SceneID Pearlcat_Outro_1 = new(nameof(Pearlcat_Outro_1), false);
-        //public static SceneID Pearlcat_Outro_2 = new(nameof(Pearlcat_Outro_2), false);
-
-        //public static SceneID Pearlcat_AltOutro_1 = new(nameof(Pearlcat_AltOutro_1), false);
-        //public static SceneID Pearlcat_AltOutro_2 = new(nameof(Pearlcat_AltOutro_2), false);
     }
 
     public static class Dreams

@@ -4,9 +4,7 @@
   "images": [
     {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
-    {"name": "Background", "pos": [0, 0], "depth": 10.0, "shader": "Basic"},
-    {"name": "Glow", "pos": [0, 0], "depth": 6.0, "shader": "Basic"},
-    {"name": "Slugcat", "pos": [0, 0], "depth": 3.0, "shader": "Basic"}
+    {"name": "slugcat", "pos": [0, 0], "depth": 3.0, "shader": "Basic"}
   ],
   
   "idle_depths": [3.0],

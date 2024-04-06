@@ -17,6 +17,8 @@ public class T1_START : UpdatableAndDeletable
         SentryTutorial,
 
         End,
+
+        Sleep,
     }
 
     public T1_START(Room room)
@@ -31,6 +33,7 @@ public class T1_START : UpdatableAndDeletable
         if (!room.fullyLoaded) return;
 
         var game = room.game;
+        var save = Utils.GetMiscProgression();
 
         // Per player
         foreach (var crit in game.Players)
@@ -44,23 +47,27 @@ public class T1_START : UpdatableAndDeletable
 
                 player.controller = new PearlcatController(new(this, player.playerState.playerNumber));
 
-                if (player.TryGetPearlcatModule(out var playerModule) && !ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value && player.playerState.playerNumber == 0)
+                if (!save.HasTrueEnding)
                 {
-                    // Clear default pearls
-                    for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+                    // Remove Default Inventory
+                    if (player.TryGetPearlcatModule(out var playerModule) && !ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value && player.playerState.playerNumber == 0)
                     {
-                        var item = playerModule.Inventory[i];
+                        // Clear default pearls
+                        for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+                        {
+                            var item = playerModule.Inventory[i];
 
-                        if (item is DataPearl.AbstractDataPearl dataPearl)
-                            if (dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == Enums.Pearls.AS_PearlBlack)
-                                continue;
+                            if (item is DataPearl.AbstractDataPearl dataPearl)
+                                if (dataPearl.IsHalcyonPearl() || dataPearl.dataPearlType == Enums.Pearls.AS_PearlBlack)
+                                    continue;
 
-                        player.RemoveFromInventory(item);
-                        item.destroyOnAbstraction = true;
-                        item.Abstractize(item.pos);
+                            player.RemoveFromInventory(item);
+                            item.destroyOnAbstraction = true;
+                            item.Abstractize(item.pos);
+                        }
+
+                        player.UpdateInventorySaveData(playerModule);
                     }
-
-                    player.UpdateInventorySaveData(playerModule);
                 }
             }
             else if (CurrentPhase == Phase.StoreTutorial || CurrentPhase == Phase.End)
@@ -84,84 +91,120 @@ public class T1_START : UpdatableAndDeletable
         }
 
 
-        if (PhaseTimer == 0)
+        if (save.HasTrueEnding)
         {
-            if (CurrentPhase == Phase.Init)
+            if (PhaseTimer == 0)
             {
-                if (room.BeingViewed)
+                if (CurrentPhase == Phase.Init)
                 {
-                    room.LockAndHideShortcuts();
+                    if (room.BeingViewed)
+                    {
+                        room.LockAndHideShortcuts();
 
-                    room.game.cameras[0].hud.foodMeter.visibleCounter = 0;
-                    room.game.cameras[0].hud.foodMeter.fade = 0f;
-                    room.game.cameras[0].hud.foodMeter.lastFade = 0f;
-                    
-                    if (ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat)
-                    {
-                        CurrentPhase = Phase.End;
-                    }
-                    else
-                    {
-                        CurrentPhase = Phase.SwapTutorial;
+                        room.game.cameras[0].hud.foodMeter.visibleCounter = 0;
+                        room.game.cameras[0].hud.foodMeter.fade = 0f;
+                        room.game.cameras[0].hud.foodMeter.lastFade = 0f;
+
+                        CurrentPhase = Phase.Sleep;
                         PhaseTimer = 300;
                     }
                 }
-            }
-            else if (CurrentPhase == Phase.SwapTutorial)
-            {
-                var t = room.game.rainWorld.inGameTranslator;
-
-                game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + ModOptions.SwapLeftKeybind.Value + ") & (" + ModOptions.SwapRightKeybind.Value + t.Translate("), or the triggers on controller"), 0, 600);
-
-                game.AddTextPrompt(
-                    t.Translate("Alternatively, hold (") + ModOptions.SwapKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.SwapKeybindPlayer1.Value.GetDisplayName() + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
-
-                PhaseTimer = 1100;
-                CurrentPhase = Phase.StoreTutorial;
-            }
-            else if (CurrentPhase == Phase.StoreTutorial)
-            {
-                var t = room.game.rainWorld.inGameTranslator;
-
-                if (ModOptions.UsesCustomStoreKeybind.Value)
-                    game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + ModOptions.StoreKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + ")", 0, 800);
- 
-                else
-                    game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 600);
-
-                game.AddTextPrompt("To store, hold the same keybind with a pearl in your main hand", 0, 400);
-
-                PhaseTimer = 800;
-                CurrentPhase = Phase.SentryTutorial;
-            }
-            else if (CurrentPhase == Phase.SentryTutorial)
-            {
-                var t = room.game.rainWorld.inGameTranslator;
-
-                if (ModOptions.CustomSentryKeybind.Value)
+                else if (CurrentPhase == Phase.Sleep)
                 {
-                    game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + ModOptions.SentryKeybindKeyboard.Value + t.Translate(") or (")
-                        + ModOptions.SentryKeybindPlayer1.Value.GetDisplayName() + t.Translate(") to deploy, and again to return."), 0, 600);
+                    CurrentPhase = Phase.End;
                 }
-                else
+                else if (CurrentPhase == Phase.End)
                 {
-                    game.AddTextPrompt("Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.", 0, 800);
+                    room.UnlockAndShowShortcuts();
+                    PhaseTimer = -1;
                 }
-
-                game.AddTextPrompt("Play around with sentries to see what they do!", 0, 200);
-
-                PhaseTimer = 700;
-                CurrentPhase = Phase.End;
             }
-            else if (CurrentPhase == Phase.End)
+            else if (PhaseTimer > 0)
             {
-                room.UnlockAndShowShortcuts();
-                PhaseTimer = -1;
+                PhaseTimer--;
             }
         }
-        else if (PhaseTimer > 0)
+        else
         {
-            PhaseTimer--;
+            if (PhaseTimer == 0)
+            {
+                if (CurrentPhase == Phase.Init)
+                {
+                    if (room.BeingViewed)
+                    {
+                        room.LockAndHideShortcuts();
+
+                        room.game.cameras[0].hud.foodMeter.visibleCounter = 0;
+                        room.game.cameras[0].hud.foodMeter.fade = 0f;
+                        room.game.cameras[0].hud.foodMeter.lastFade = 0f;
+
+                        if (ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat)
+                        {
+                            CurrentPhase = Phase.End;
+                        }
+                        else
+                        {
+                            CurrentPhase = Phase.SwapTutorial;
+                            PhaseTimer = 300;
+                        }
+                    }
+                }
+                else if (CurrentPhase == Phase.SwapTutorial)
+                {
+                    var t = Utils.Translator;
+
+                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + ModOptions.SwapLeftKeybind.Value + ") & (" + ModOptions.SwapRightKeybind.Value + t.Translate("), or the triggers on controller"), 0, 600);
+
+                    game.AddTextPrompt(
+                        t.Translate("Alternatively, hold (") + ModOptions.SwapKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.SwapKeybindPlayer1.Value.GetDisplayName() + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
+
+                    PhaseTimer = 1100;
+                    CurrentPhase = Phase.StoreTutorial;
+                }
+                else if (CurrentPhase == Phase.StoreTutorial)
+                {
+                    var t = Utils.Translator;
+
+                    if (ModOptions.UsesCustomStoreKeybind.Value)
+                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + ModOptions.StoreKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + ")", 0, 800);
+
+                    else
+                        game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 600);
+
+                    game.AddTextPrompt("To store, hold the same keybind with a pearl in your main hand", 0, 400);
+
+                    PhaseTimer = 800;
+                    CurrentPhase = Phase.SentryTutorial;
+                }
+                else if (CurrentPhase == Phase.SentryTutorial)
+                {
+                    var t = Utils.Translator;
+
+                    if (ModOptions.CustomSentryKeybind.Value)
+                    {
+                        game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + ModOptions.SentryKeybindKeyboard.Value + t.Translate(") or (")
+                            + ModOptions.SentryKeybindPlayer1.Value.GetDisplayName() + t.Translate(") to deploy, and again to return."), 0, 600);
+                    }
+                    else
+                    {
+                        game.AddTextPrompt("Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.", 0, 800);
+                    }
+
+                    game.AddTextPrompt("Play around with sentries to see what they do!", 0, 200);
+
+                    PhaseTimer = 700;
+                    CurrentPhase = Phase.End;
+                }
+                else if (CurrentPhase == Phase.End)
+                {
+                    room.UnlockAndShowShortcuts();
+                    PhaseTimer = -1;
+                }
+            }
+            else if (PhaseTimer > 0)
+            {
+                PhaseTimer--;
+            }
         }
     }
 

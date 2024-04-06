@@ -1,7 +1,5 @@
 ﻿using HUD;
-using JollyCoop.JollyHUD;
 using RWCustom;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -126,9 +124,9 @@ public class InventoryHUD : HudPart
                     const float GAP = 17.5f;
                     float spacing = GAP * i;
 
-                    if (!Hooks.InventoryUIOffset.TryGet(player, out var offset)) continue;
 
-                    var itemPos = truePos + offset;
+                    var inventoryOffset = new Vector2(0.0f, 90.0f);
+                    var itemPos = truePos + inventoryOffset;
                 
                     itemPos.x += spacing;
                     itemPos.x -= (activeIndex ?? 0.0f) * GAP;

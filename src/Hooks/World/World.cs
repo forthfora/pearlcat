@@ -14,6 +14,18 @@ namespace Pearlcat;
 
 public partial class Hooks
 {
+    public static List<string> TrainViewRooms { get; } = new()
+    {
+        "T1_START",
+        "T1_CAR0",
+        "T1_CAR1",
+        "T1_CAR2",
+        "T1_CAR3",
+        "T1_CAREND",
+        "T1_END",
+        "T1_S01",
+    };
+
     public static void ApplyWorldHooks()
     {
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
@@ -29,15 +41,13 @@ public partial class Hooks
         On.ShelterDoor.DrawSprites += ShelterDoor_DrawSprites;
         On.ShelterDoor.DoorGraphic.DrawSprites += DoorGraphic_DrawSprites;
 
-        //On.GlobalRain.Update += GlobalRain_Update;
 
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
         On.KingTusks.Tusk.Update += Tusk_Update;
 
-        On.Spear.DrawSprites += Spear_DrawSprites;
-        On.Spear.Update += Spear_Update;
+        On.Spear.DrawSprites += Spear_DrawSprites_PearlSpear;
+        On.Spear.Update += Spear_Update_PearlSpear;
 
-        //On.DartMaggot.ShotUpdate += DartMaggot_ShotUpdate;
         On.BigNeedleWorm.Swish += BigNeedleWorm_Swish;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
@@ -71,8 +81,6 @@ public partial class Hooks
 
         IL.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
 
-        On.RegionState.AdaptWorldToRegionState += RegionState_AdaptWorldToRegionState;
-
         On.DaddyTentacle.Update += DaddyTentacle_Update;
         On.DaddyLongLegs.Update += DaddyLongLegs_Update;
 
@@ -90,8 +98,16 @@ public partial class Hooks
 
         On.DreamsState.StaticEndOfCycleProgress += DreamsState_StaticEndOfCycleProgress;
         On.RainWorldGame.ctor += RainWorldGame_ctor;
+
+        On.AboveCloudsView.ctor += AboveCloudsView_ctor;
+
+        On.Spear.Update += Spear_Update_RageSpear;
+        On.Spear.DrawSprites += Spear_DrawSprites_RageSpear;
     }
 
+
+
+    // Manage dreams
     private static void RainWorldGame_ctor(On.RainWorldGame.orig_ctor orig, RainWorldGame self, ProcessManager manager)
     {
         orig(self, manager);
@@ -102,9 +118,10 @@ public partial class Hooks
 
         var save = self.GetStorySession.saveState;
         var miscWorld = self.GetMiscWorld();
-        var miscProg = self.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         if (miscWorld == null) return;
+
 
         if (miscWorld.HasPearlpupWithPlayer)
         {
@@ -122,6 +139,28 @@ public partial class Hooks
                 }
             }
         }
+        else if (miscProg.HasTrueEnding)
+        {
+            var canDream = Random.Range(0.0f, 1.0f) < 0.1f;
+
+            if (canDream)
+            {
+                var dreamPool = new List<DreamsState.DreamID>()
+                {
+                    Enums.Dreams.Dream_Pearlcat_Sick,
+                    Enums.Dreams.Dream_Pearlcat_Pearlpup,
+                    Enums.Dreams.Dream_Pearlcat_Pebbles,
+                    Enums.Dreams.Dream_Pearlcat_Moon_Sick,
+                };
+
+                var randState = Random.state;
+                Random.InitState((int)DateTime.Now.Ticks);
+
+                self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], true);
+
+                Random.state = randState;
+            }
+        }
     }
 
     private static void DreamsState_StaticEndOfCycleProgress(On.DreamsState.orig_StaticEndOfCycleProgress orig, SaveState saveState, string currentRegion, string denPosition, ref int cyclesSinceLastDream, ref int cyclesSinceLastFamilyDream, ref int cyclesSinceLastGuideDream, ref int inGWOrSHCounter, ref DreamsState.DreamID upcomingDream, ref DreamsState.DreamID eventDream, ref bool everSleptInSB, ref bool everSleptInSB_S01, ref bool guideHasShownHimselfToPlayer, ref int guideThread, ref bool guideHasShownMoonThisRound, ref int familyThread)
@@ -131,6 +170,8 @@ public partial class Hooks
         orig(saveState, currentRegion, denPosition, ref cyclesSinceLastDream, ref cyclesSinceLastFamilyDream, ref cyclesSinceLastGuideDream, ref inGWOrSHCounter, ref upcomingDream, ref eventDream, ref everSleptInSB, ref everSleptInSB_S01, ref guideHasShownHimselfToPlayer, ref guideThread, ref guideHasShownMoonThisRound, ref familyThread);
     }
 
+
+    // Remove transit system from the Regions menu
     private static void Region_GetFullRegionOrder(ILContext il)
     {
         var c = new ILCursor(il);
@@ -146,6 +187,8 @@ public partial class Hooks
         });
     }
 
+
+    // Fix for DevTools timeline object filters, make it copy hunters
     private static void FilterData_FromString(On.PlacedObject.FilterData.orig_FromString orig, PlacedObject.FilterData self, string s)
     {
         orig(self, s);
@@ -157,187 +200,7 @@ public partial class Hooks
     }
 
 
-    private static void Leech_Attached(On.Leech.orig_Attached orig, Leech self)
-    {
-        orig(self);
-
-        if (self.grasps.FirstOrDefault()?.grabbed is not Player player) return;
-
-        if (!player.TryGetPearlcatModule(out var module)) return;
-
-
-        if (module.ShieldActive)
-            module.ActivateVisualShield();
-                
-        if (module.ShieldTimer > 0)
-        {
-            self.Stun(80);
-            self.LoseAllGrasps();
-        }
-    }
-
-    private static float TempleGuardAI_ThrowOutScore(On.TempleGuardAI.orig_ThrowOutScore orig, TempleGuardAI self, Tracker.CreatureRepresentation crit)
-    {
-        var result = orig(self, crit);
-
-        if (crit.representedCreature?.realizedCreature is Player player && player.IsPearlpup())
-            return 0.0f;
-
-        return result;
-    }
-
-    private static void BigEel_JawsSnap(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchLdsfld<SoundID>(nameof(SoundID.Leviathan_Crush_NPC)));
-
-        c.GotoPrev(MoveType.After,
-            x => x.MatchConvI4(),
-            x => x.MatchBlt(out _));
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Action<BigEel>>((self) =>
-        {
-            var didRevive = false;
-
-            for (int i = self.clampedObjects.Count - 1; i >= 0; i--)
-            {
-                var clampedObj = self.clampedObjects[i];
-                var obj = clampedObj.chunk?.owner;
-
-                if (obj == null) continue;
-
-                if (obj is not Player player) continue;
-
-                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
-
-                if (playerModule.ReviveCount <= 0) continue;
-
-                if (player.graphicsModule != null)
-                    self.graphicsModule.ReleaseSpecificInternallyContainedObjectSprites(player);
-
-                foreach (var item in playerModule.PostDeathInventory)
-                {
-                    if (item == obj.abstractPhysicalObject)
-                        self.clampedObjects.Remove(clampedObj);
-
-                    var graphics = item.realizedObject?.graphicsModule;
-                    
-                    if (graphics == null) continue;
-
-                    self.graphicsModule.ReleaseSpecificInternallyContainedObjectSprites(graphics);
-                }
-                
-                self.Stun(100);
-
-                self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, player.firstChunk, false, 2.0f, 0.5f);
-                self.room.AddObject(new ShockWave(player.firstChunk.pos, 700f, 0.6f, 90, false));
-
-                didRevive = true;
-            }
-
-            if (didRevive)
-                self.clampedObjects.Clear();
-
-            //foreach (var item in self.clampedObjects)
-            //    Plugin.Logger.LogWarning(item?.chunk?.owner?.GetType());
-        });
-    }
-
-    private static int ScavengerAI_CollectScore_PhysicalObject_bool1(On.ScavengerAI.orig_CollectScore_PhysicalObject_bool orig, ScavengerAI self, PhysicalObject obj, bool weaponFiltered)
-    {
-        var result = orig(self, obj, weaponFiltered);
-
-        if (obj?.abstractPhysicalObject is AbstractSpear spear && spear.TryGetSpearModule(out _))
-            return 12;
-
-        return result;
-    }
-
-
-    private static void DaddyLongLegs_Update(On.DaddyLongLegs.orig_Update orig, DaddyLongLegs self, bool eu)
-    {
-        orig(self, eu);
-
-        var killedPlayers = new List<Player>();
-
-        for (int i = self.eatObjects.Count - 1; i >= 0; i--)
-        {
-            var eatObj = self.eatObjects[i];
-
-            if (eatObj.chunk.owner is not Player player) continue;
-
-            if (!player.TryGetPearlcatModule(out var module)) continue;
-
-            if (module.ReviveCount <= 0 && module.ShieldTimer <= 0) continue;
-
-            if (eatObj.progression < 0.25f) continue;
-
-            if (module.ShieldTimer <= 0 && !killedPlayers.Contains(player))
-            {
-                killedPlayers.Add(player);
-                player.Die();
-            }
-
-            eatObj.progression = 0.0f;
-
-            self.digestingCounter = 0;
-            self.Stun(20);
-
-            player.ChangeCollisionLayer(1);
-            self.eatObjects.Remove(eatObj);
-        }
-    }
-
-    private static void DaddyTentacle_Update(On.DaddyTentacle.orig_Update orig, DaddyTentacle self)
-    {
-        orig(self);
-
-        var grabbedPlayer = self.grabChunk?.owner as Player;
-
-        if ((grabbedPlayer != null || self.grabChunk?.owner == grabbedPlayer?.slugOnBack?.slugcat) && grabbedPlayer?.TryGetPearlcatModule(out var playerModule) == true && playerModule.ShieldActive)
-        {
-            playerModule.ActivateVisualShield();
-
-            if (playerModule.ShieldTimer > 0)
-            {
-                if (self.grabChunk != null)
-                    self.room.DeflectEffect(self.grabChunk.pos);
-                
-                self.stun = 100;
-            }
-        }
-    }
-
-
-    private static void RegionState_AdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
-    {
-        //var save = self.world.game.GetMiscWorld();
- 
-        //if (save != null && save.JustBeatAltEnd)
-        //{
-        //    save.JustBeatAltEnd = false;
-
-        //    foreach (var item in self.unrecognizedPopulation)
-        //    {
-        //        Plugin.Logger.LogWarning(item);
-        //        //var obj = SaveState.AbstractPhysicalObjectFromString(self.world, item);
-
-        //        //if (obj.ID.number != save.PearlpupID) continue;
-                
-        //        //self.savedPopulation.Remove(item);
-        //        //Plugin.Logger.LogWarning("ACK");
-        //        //break;
-        //    }
-
-        //    Plugin.Logger.LogWarning("-------------------");
-        //}
-
-        orig(self);
-    }
-
+    // Outer Expanse Ending
     private static void RainWorldGame_BeatGameMode(ILContext il)
     {
         var c = new ILCursor(il);
@@ -359,7 +222,7 @@ public partial class Hooks
                 var deathSave = game.GetStorySession.saveState.deathPersistentSaveData;
                 deathSave.karma = deathSave.karmaCap;
                 
-                var miscProg = game.GetMiscProgression();
+                var miscProg = Utils.GetMiscProgression();
 
                 miscProg.IsPearlpupSick = true;
                 miscProg.HasOEEnding = true;
@@ -380,19 +243,27 @@ public partial class Hooks
         c.Emit(OpCodes.Stloc_0);
     }
 
+
+    // Block OE ending under some conditions
     private static void OE_GourmandEnding_Update(On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.orig_Update orig, MSCRoomSpecificScript.OE_GourmandEnding self, bool eu)
     {
         if (self.room.world.game.IsPearlcatStory())
         {
             var miscWorld = self.room.world.game.GetMiscWorld();
-            var miscProg = self.room.world.game.GetMiscProgression();
+            var miscProg = Utils.GetMiscProgression();
 
-            if (miscWorld?.HasPearlpupWithPlayer == false || miscProg.HasOEEnding) return;
+            if (miscWorld?.HasPearlpupWithPlayer == false) return;
+
+            if (miscProg.HasOEEnding) return;
+
+            if (miscProg.HasTrueEnding) return;
         }
 
         orig(self, eu);
     }
 
+
+    // Make pup spawns guaranteed when the Pearlpup respawn cheat is enabled and pearlpup is missing
     private static void AbstractRoom_RealizeRoom(ILContext il)
     {
         var c = new ILCursor(il);
@@ -408,9 +279,12 @@ public partial class Hooks
             if (game.IsStorySession && game.StoryCharacter == Enums.Pearlcat)
             {
                 var save = game.GetMiscWorld();
+                var miscProg = Utils.GetMiscProgression();
 
-                if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value)
+                if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value && !miscProg.HasTrueEnding)
+                {
                     return 0;
+                }
 
                 return int.MaxValue;
             }
@@ -422,6 +296,7 @@ public partial class Hooks
     }
 
 
+    // Make vulture masks raised when pearlcat isn't moving (the only reason i did this is because I found them ugly lol)
     private static void VultureMask_DrawSprites(On.VultureMask.orig_DrawSprites orig, VultureMask self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         //Vector2 vector = Vector2.Lerp(self.firstChunk.lastPos, self.firstChunk.pos, timeStacker);
@@ -451,6 +326,8 @@ public partial class Hooks
             wasPlayer.eatCounter = (int)wasEatCounter;
     }
 
+
+    // Unlock OE Gate
     private static bool RegionGate_customOEGateRequirements(On.RegionGate.orig_customOEGateRequirements orig, RegionGate self)
     {
         var result = orig(self);
@@ -464,67 +341,9 @@ public partial class Hooks
         return result;
     }
 
-    private static void WormGrassPatch_Update(On.WormGrass.WormGrassPatch.orig_Update orig, WormGrass.WormGrassPatch self)
-    {
-        orig(self);
-
-        for (int i = self.trackedCreatures.Count - 1; i >= 0; i--)
-        {
-            var trackedCreature = self.trackedCreatures[i];
-            if (trackedCreature.creature is not Player player) continue;
-
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
-
-            if (playerModule.ShieldTimer > 0)
-                self.trackedCreatures.Remove(trackedCreature);
-        }
-    }
-
-    private static void Worm_Attached(On.WormGrass.Worm.orig_Attached orig, WormGrass.Worm self)
-    {
-        orig(self);
-
-        if (self.attachedChunk?.owner is not Player player) return;
-
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
-
-        if (self.patch?.trackedCreatures == null) return;
 
 
-        var playerPull = self.patch.trackedCreatures.FirstOrDefault(x => x.creature == self.attachedChunk.owner);
-
-        if (playerPull == null) return;
-
-        if (!playerModule.ShieldActive) return;
-
-        DeflectEffect(self.room, self.pos);
-        playerModule.ActivateVisualShield();
-        
-        if (playerModule.ShieldTimer > 0)
-            self.attachedChunk = null;
-    }
-
-    private static void AttachedBee_Update(On.SporePlant.AttachedBee.orig_Update orig, SporePlant.AttachedBee self, bool eu)
-    {
-        orig(self, eu);
-
-        if (self.attachedChunk?.owner is not Player player) return;
-
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
-
-        if (playerModule.ShieldActive)
-        {
-            playerModule.ActivateVisualShield();
-        }
-
-        if (playerModule.ShieldTimer > 0)
-        {
-            self.BreakStinger();
-            self.stingerOut = false;
-        }
-    }
-
-
+    // Only let pups spawn if pearlpup is missing
     public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
     public static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)
     {
@@ -544,57 +363,8 @@ public partial class Hooks
     }
 
 
-    private static void BigNeedleWorm_Swish(On.BigNeedleWorm.orig_Swish orig, BigNeedleWorm self)
-    {
-        orig(self);
 
-        foreach (var crit in self.abstractCreature.Room.world.game.Players)
-        {
-
-            if (crit.realizedCreature is not Player player) continue;
-
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
-
-            if (!playerModule.ShieldActive) continue;
-
-            if (self.impaleChunk == null || self.impaleChunk.owner != player) continue;
-
-            self.swishCounter = 0;
-            self.firstChunk.vel = Vector2.zero;
-
-            self.impaleChunk = null;
-
-            self.Stun(40);
-
-            self.room.DeflectEffect(self.firstChunk.pos);
-            playerModule.ActivateVisualShield();
-        }
-    }
-
-    private static void DartMaggot_ShotUpdate(On.DartMaggot.orig_ShotUpdate orig, DartMaggot self)
-    {
-        orig(self);
-
-        foreach (var crit in self.room.world.game.Players)
-        {
-            if (crit.realizedCreature is not Player player) continue;
-
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
-
-            if (!playerModule.ShieldActive) continue;
-
-            if (!Custom.DistLess(player.firstChunk.pos, self.firstChunk.pos, 50.0f)) continue;
-
-            self.mode = DartMaggot.Mode.Free;
-
-            self.firstChunk.vel = Vector2.zero;
-            
-            self.room.DeflectEffect(self.firstChunk.pos);
-            playerModule.ActivateVisualShield();
-        }
-    }
-
-    
+    // Unlock certain gates (Bitter Aerie, Metropolis)
     public delegate bool orig_RegionGateMeetRequirement(RegionGate self);
     public static bool GetRegionGateMeetRequirement(orig_RegionGateMeetRequirement orig, RegionGate self)
     {
@@ -637,6 +407,8 @@ public partial class Hooks
     }
 
 
+
+    // Hide the ID used for pebbles pearl readings
     private static bool SlugcatStats_HiddenOrUnplayableSlugcat(On.SlugcatStats.orig_HiddenOrUnplayableSlugcat orig, SlugcatStats.Name i)
     {
         var result = orig(i);
@@ -647,31 +419,55 @@ public partial class Hooks
         return result;
     }
 
+    // Override shelter for trains and skips
     private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)
     {
         var result = orig(self);
 
-        if (self.saveStateNumber == Enums.Pearlcat && self.progression.miscProgressionData.GetMiscProgression().IsNewPearlcatSave)
+        var miscProg = Utils.GetMiscProgression();
+        var miscWorld = self.miscWorldSaveData.GetMiscWorld();
+
+        if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
+        {
             if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
+            {
                 return ModOptions.StartShelterOverride.Value;
+            }
+        }
+
+        if (miscWorld?.JustMiraSkipped == true)
+        {
+            return "SS_AI";
+        }
 
         if (result == "T1_S01")
-            return ModManager.MSC ? "LC_T1_S01" : "SS_S04";
+        {
+            return "SS_T1_S01";
+        }
 
         return result;
     }
+    
 
-    private static void Spear_Update(On.Spear.orig_Update orig, Spear self, bool eu)
+
+    // Custom Spears
+    private static void Spear_Update_PearlSpear(On.Spear.orig_Update orig, Spear self, bool eu)
     {
         orig(self, eu);
 
         if (!self.abstractSpear.TryGetSpearModule(out var module)) return;
 
-        if (self.mode == Weapon.Mode.Thrown)
+        var returnTime = 60;
+        var minSparkTime = 40;
+        var maxSparkTime = 350;
+
+        if (self.mode == Weapon.Mode.Thrown && module.DecayTimer == 0)
         {
             if (!module.WasThrown)
-                self.firstChunk.vel *= 1.5f;
-            
+            {
+                self.firstChunk.vel *= 1.25f;
+            }
+
             module.WasThrown = true;
         }
         else
@@ -680,92 +476,105 @@ public partial class Hooks
         }
 
 
-        if (module.SparkTimer <= 0 && module.DecayTimer < 800)
-            module.SparkTimer = Random.Range(40, 350);
-
+        if (module.SparkTimer <= 0 && module.DecayTimer < 200)
+        {
+            module.SparkTimer = Random.Range(minSparkTime, maxSparkTime);
+        }
         else
+        {
             module.SparkTimer--;
-
-
-        if (self.mode == Weapon.Mode.StuckInCreature && module.ExplodeTimer == -1)
-        {
-            self.room.PlaySound(SoundID.Fire_Spear_Ignite, self.firstChunk, false, 0.7f, 2.5f);
-            module.ExplodeTimer = 40;
         }
-    
-        if (module.ExplodeTimer == 0)
+
+
+        if (self.mode != Weapon.Mode.Thrown && module.ReturnTimer == -1)
         {
-            if (self.stuckInObject != null)
+            if (self.mode == Weapon.Mode.StuckInWall)
             {
-                if (self.stuckInObject is Creature creature)
-                    creature.Violence(self.firstChunk, new Vector2?(self.rotation * 12f), self.stuckInChunk, null, Creature.DamageType.Explosion, (self.stuckInAppendage != null) ? 2.2f : 5.0f, 120f);
-
-                self.stuckInChunk.vel += self.rotation * 12f / self.stuckInChunk.mass;
+                module.DecayTimer++;
             }
-
-            for (int i = 0; i < 3; i++)
-                self.room.AddObject(new ExplosiveSpear.SpearFragment(self.firstChunk.pos, Custom.RNV() * Mathf.Lerp(20f, 40f, Random.value)));
-
-            self.room.AddObject(new ShockWave(self.firstChunk.pos, 120.0f, 1.0f, 40));
-
-            var pos = self.firstChunk.pos;
-            self.room.AddObject(new Explosion.ExplosionLight(pos, 160f, 1f, 3, module.Color));
-            self.room.AddObject(new ExplosionSpikes(self.room, pos, 9, 4f, 5f, 5f, 90f, module.Color));
-
-            self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk.pos, Random.Range(1.2f, 1.6f), Random.Range(0.6f, 0.8f));
-            self.room.PlaySound(SoundID.Bomb_Explode, self.firstChunk.pos, Random.Range(0.8f, 1.2f), Random.Range(0.8f, 1.2f));
-
-            self.room.AddObject(new Explosion(self.room, self, pos, 5, 110f, 5f, 1.1f, 60f, 0.3f, self.thrownBy, 0.8f, 0f, 0.7f));
-
-            self.Destroy();
+            else
+            {
+                module.ReturnTimer = returnTime;
+            }
         }
-        else if (module.ExplodeTimer > 0)
+
+        if (module.ReturnTimer > 0)
         {
-            if (module.ExplodeTimer % 3 == 0)
-                self.ConnectEffect(self.firstChunk.pos + Custom.RNV() * 100.0f, module.Color);
+            module.ReturnTimer--;
             
-            module.ExplodeTimer--;   
+            if (self.onPlayerBack || self.grabbedBy.Any(x => x.grabber is Player) || module.DecayTimer > 0)
+            {
+                module.ReturnTimer = -2;
+            }
         }
 
-
-        if (self.mode == Weapon.Mode.StuckInWall)
-            module.DecayTimer++;
-    }
-
-    public static bool TryGetSpearModule(this AbstractSpear spear, out SpearModule module)
-    {
-        var save = spear.Room.world.game.GetMiscWorld();
-
-        if (save == null)
+        if (module.ReturnTimer == 0)
         {
-            module = null!;
-            return false;
+            module.ReturnTimer = -2;
+            
+            if (module.ThrownByPlayer?.TryGetTarget(out var player) == true && player.TryGetPearlcatModule(out var playerModule))
+            {
+                var color = module.Color;
+                var prevPos = self.firstChunk.pos;
+
+                var freeHand = player.FreeHand();
+
+
+                if ((player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1 || freeHand == -1) && playerModule.Inventory.Count < ModOptions.MaxPearlCount.Value)
+                {
+                    if (self.room != null)
+                    {
+                        self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
+                        self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
+
+                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
+                        self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, player.firstChunk.pos, 1.0f, 1.0f);
+                    }
+
+                    player.StoreObject(self.abstractSpear, noSound: true, storeBeforeActive: true);
+                }
+                else if (freeHand != -1 && player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) == -1)
+                {
+                    if (self.room != null && player.graphicsModule != null)
+                    {
+                        self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
+                        self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
+
+                        var handPos = ((PlayerGraphics)player.graphicsModule).hands[freeHand].pos;
+
+                        self.room.AddObject(new ShockWave(handPos, 15.0f, 0.8f, 10));
+                        self.room.AddObject(new ExplosionSpikes(self.room, handPos, 10, 5.0f, 10, 10.0f, 40.0f, color));
+                        
+                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
+                    }
+
+                    player.SlugcatGrab(self, freeHand);
+                }
+            }
         }
-
-        if (save.PearlSpears.TryGetValue(spear.ID.number, out module))
-            return true;
-
-        return false;
     }
 
-    private static void Spear_DrawSprites(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    private static void Spear_DrawSprites_PearlSpear(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
         if (!self.abstractSpear.TryGetSpearModule(out var module)) return;
 
-        var color =  module.Color * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.DecayTimer, 0, 1200, 1.0f, 0.5f), Custom.LerpMap(module.DecayTimer, 0, 1200, 1.0f, 0.2f));
+        var color =  module.Color
+            * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.DecayTimer, 0, 200, 1.0f, 0.1f), Custom.LerpMap(module.DecayTimer, 0, 200, 1.0f, 0.05f));
+
+        color = color.RWColorSafety();
 
         sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_spear");
         sLeaser.sprites[0].color = color;
 
-        var randOffset = Custom.DegToVec(Random.value * 360f) * Custom.LerpMap(module.DecayTimer, 400, 1200, 0.25f, 0.0f) * Random.value;
+        var randOffset = Custom.DegToVec(Random.value * 360f) * Custom.LerpMap(module.DecayTimer, 0, 150, 0.25f, 0.0f) * Random.value;
         sLeaser.sprites[0].x += randOffset.x;
         sLeaser.sprites[0].y += randOffset.y;
 
         var thrown = self.mode == Weapon.Mode.Thrown;
 
-        if (module.SparkTimer == 0 || thrown && module.DecayTimer < 800)
+        if (module.SparkTimer == 0 || thrown && module.DecayTimer < 150)
         {
             var startPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * -30.0f;
             var endPos = self.firstChunk.pos + Custom.DegToVec(sLeaser.sprites[0].rotation) * 30.0f;
@@ -774,83 +583,49 @@ public partial class Hooks
     }
 
 
-    // Shield deflects tusks
-    private static void Tusk_ShootUpdate(On.KingTusks.Tusk.orig_ShootUpdate orig, KingTusks.Tusk self, float speed)
+    private static void Spear_DrawSprites_RageSpear(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        orig(self, speed);
+        orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (self.mode != KingTusks.Tusk.Mode.ShootingOut) return;
+        if (!self.TryGetRageSpearModule(out var module)) return;
 
-        foreach (var crit in self.vulture.abstractCreature.Room.world.game.Players)
+        sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_ragespear");
+        sLeaser.sprites[0].color = module.Color;
+    }
+
+    private static void Spear_Update_RageSpear(On.Spear.orig_Update orig, Spear self, bool eu)
+    {
+        orig(self, eu);
+
+        if (!self.TryGetRageSpearModule(out var module)) return;
+        
+        if (self.mode != Weapon.Mode.Thrown && self.mode != Weapon.Mode.Carried)
         {
-            if (crit.realizedCreature is not Player player) continue;   
-            
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
-            
-            if (!playerModule.ShieldActive) continue;
+            self.room.AddObject(new ShockWave(self.firstChunk.pos, 10.0f, 0.5f, 8));
 
-
-            var pos = self.chunkPoints[0, 0] + self.shootDir * (20.0f + speed);
-
-            if (!Custom.DistLess(player.firstChunk.pos, pos, 50.0f)) continue;
-
-            self.mode = KingTusks.Tusk.Mode.Dangling;
-
-            self.room.DeflectEffect(pos);
-
-            self.head.pos += Custom.DirVec(self.head.pos, self.chunkPoints[1, 0]) * 100f;
-            self.head.vel += Custom.DirVec(self.head.pos, self.chunkPoints[1, 0]) * 100f;
-            
-            self.chunkPoints[0, 2] = self.shootDir * speed * 0.4f;
-            self.chunkPoints[1, 2] = self.shootDir * speed * 0.6f;
-
-            var rand = Custom.RNV();
-            self.chunkPoints[0, 0] += rand * 4f;
-            self.chunkPoints[0, 2] += rand * 6f;
-            self.chunkPoints[1, 0] -= rand * 4f;
-            self.chunkPoints[1, 2] -= rand * 6f;
-
-            playerModule.ActivateVisualShield();
+            self.Destroy();
         }
     }
 
-    private static void Tusk_Update(On.KingTusks.Tusk.orig_Update orig, KingTusks.Tusk self)
-    {
-        orig(self);
 
-        if (self.impaleChunk != null && self.impaleChunk.owner is Player impaledPlayer)
-            if (impaledPlayer.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0)
-                self.mode = KingTusks.Tusk.Mode.Dangling;
-    }
 
-    // nevermind, rain shader looks weird at this angle
-    private static void GlobalRain_Update(On.GlobalRain.orig_Update orig, GlobalRain self)
-    {
-        orig(self);
-
-        foreach (var crit in self.game.Players)
-        {
-            if (crit.realizedCreature is not Player player) continue;
-
-            if (player.room == null || !player.room.BeingViewed) continue;
-
-            if (player.room.roomSettings.name == "T1_END")
-                self.rainDirection = 40.0f;
-        }
-    }
-
+    // Room & World Loading
     private static void RoomSpecificScript_AddRoomSpecificScript(On.RoomSpecificScript.orig_AddRoomSpecificScript orig, Room room)
     {
         orig(room);
 
         if (!room.game.IsPearlcatStory()) return;
 
+        var miscProg = Utils.GetMiscProgression();
 
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
 
-        if (room.roomSettings.name == "LC_T1_S01")
-            room.AddObject(new LC_T1_S01(room));
+        if (room.roomSettings.name == "SS_T1_S01")
+            room.AddObject(new SS_T1_S01(room));
+
+        if (room.roomSettings.name == "SS_T1_CROSS" && !Utils.IsMiraActive)
+            room.AddObject(new SS_T1_CROSS(room));
 
 
         if (!room.abstractRoom.firstTimeRealized) return;
@@ -862,6 +637,14 @@ public partial class Hooks
         if (room.roomSettings.name == "T1_START")
             room.AddObject(new T1_START(room));
 
+        // Rage (+ Possession)
+        if (room.roomSettings.name == "T1_CAR2")
+            room.AddObject(new T1_CAR2(room));
+
+
+
+        if (miscProg.HasTrueEnding) return;
+
         // Agility
         if (room.roomSettings.name == "T1_CAR0")
             room.AddObject(new T1_CAR0(room));
@@ -870,27 +653,10 @@ public partial class Hooks
         if (room.roomSettings.name == "T1_CAR1")
             room.AddObject(new T1_CAR1(room));
 
-        // Rage
-        if (room.roomSettings.name == "T1_CAR2")
-            room.AddObject(new T1_CAR2(room));
-
         // Revive
         if (room.roomSettings.name == "T1_CAR3")
             room.AddObject(new T1_CAR3(room));
     }
-
-
-    public static List<string> TrainViewRooms { get; } = new()
-    {
-        "T1_START",
-        "T1_CAR0",
-        "T1_CAR1",
-        "T1_CAR2",
-        "T1_CAR3",
-        "T1_CAREND",
-        "T1_END",
-        "T1_S01",
-    };
 
     private static void Room_Loaded(On.Room.orig_Loaded orig, Room self)
     {
@@ -904,16 +670,26 @@ public partial class Hooks
     {
         orig(self);
 
+        var save = Utils.GetMiscProgression();
+
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {
             var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.1f;
             self.ScreenMovement(null, Vector2.right * 3.0f, intensity);
-        }
-        else
-        {
-            Shader.SetGlobalFloat("_windDir", ModManager.MSC ? -1f : 1f);
+
+            if (save.HasTrueEnding)
+            {
+                foreach (var camera in self.game.cameras)
+                {
+                    if (camera.paletteA != 301)
+                    {
+                        camera.ChangeMainPalette(301);
+                    }
+                }
+            }
         }
 
+        // Outside train wind effect
         if (self.roomSettings.name == "T1_END")
         {
             foreach (var updatable in self.updateList)
@@ -953,26 +729,7 @@ public partial class Hooks
             }
         }
     }
-
-
-    private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        if (self.myShelter.room.roomSettings.name == "T1_S01")
-            foreach (var sprite in sLeaser.sprites)
-                sprite.isVisible = false;
-    }
-
-    private static void ShelterDoor_DrawSprites(On.ShelterDoor.orig_DrawSprites orig, ShelterDoor self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        if (self.room.roomSettings.name == "T1_S01")
-            foreach (var sprite in sLeaser.sprites)
-                sprite.isVisible = false;
-    }
-
+    
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
     {
         try
@@ -1007,6 +764,28 @@ public partial class Hooks
         orig(self, playerShelter, activeGate);
     }
 
+    
+
+    // Shelter
+    private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (self.myShelter.room.roomSettings.name == "T1_S01")
+            foreach (var sprite in sLeaser.sprites)
+                sprite.isVisible = false;
+    }
+
+    private static void ShelterDoor_DrawSprites(On.ShelterDoor.orig_DrawSprites orig, ShelterDoor self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
+    {
+        orig(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (self.room.roomSettings.name == "T1_S01")
+            foreach (var sprite in sLeaser.sprites)
+                sprite.isVisible = false;
+    }
+
+
 
     // Prevent Player Pearls being saved in the shelter 
     private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
@@ -1022,70 +801,14 @@ public partial class Hooks
         return result;
     }
 
-    public static void AddTextPrompt(this RainWorldGame game, string text, int wait, int time, bool darken = false, bool? hideHud = null)
+    // Reset this here instead, better for compat
+    private static void AboveCloudsView_ctor(On.AboveCloudsView.orig_ctor orig, AboveCloudsView self, Room room, RoomSettings.RoomEffect effect)
     {
-        hideHud ??= ModManager.MMF;
-        game.cameras.First().hud.textPrompt.AddMessage(game.manager.rainWorld.inGameTranslator.Translate(text), wait, time, darken, (bool)hideHud);
-    } 
+        if (Shader.GetGlobalFloat("_windDir") == TrainView.TRAIN_WIND_DIR)
+        {
+            Shader.SetGlobalFloat("_windDir", ModManager.MSC ? -1.0f : 1.0f);
+        }
 
-
-    public static void LockAndHideShortcuts(this Room room)
-    {
-        room.LockShortcuts();
-        room.HideShortcuts();
-    }
-    public static void UnlockAndShowShortcuts(this Room room)
-    {
-        room.UnlockShortcuts();
-        room.ShowShortcuts();
-
-        room.game.cameras.First().hud.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom);
-    }
-
-    public static void LockShortcuts(this Room room)
-    {
-        foreach (var shortcut in room.shortcutsIndex)
-            if (!room.lockedShortcuts.Contains(shortcut))
-                room.lockedShortcuts.Add(shortcut);
-    }
-    public static void UnlockShortcuts(this Room room) => room.lockedShortcuts.Clear();
-
-    public static void HideShortcuts(this Room room)
-    {
-        var rCam = room.game.cameras.First();
-
-        if (rCam.room != room) return;
-
-        var shortcutGraphics = rCam.shortcutGraphics;
-
-        for (int i = 0; i < room.shortcuts.Length; i++)
-            if (shortcutGraphics.entranceSprites.Length > i && shortcutGraphics.entranceSprites[i, 0] != null)
-                shortcutGraphics.entranceSprites[i, 0].isVisible = false;
-    }
-    public static void ShowShortcuts(this Room room)
-    {
-        var rCam = room.game.cameras.First();
-
-        if (rCam.room != room) return;
-
-        var shortcutGraphics = rCam.shortcutGraphics;
-
-        for (int i = 0; i < room.shortcuts.Length; i++)
-            if (shortcutGraphics.entranceSprites[i, 0] != null)
-                shortcutGraphics.entranceSprites[i, 0].isVisible = true;
-    }
-
-    public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId)
-    {
-        var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
-
-        if (miscWorld == null) return;
-
-        var strId = dreamId.value;
-
-        if (miscWorld.PreviousDreams.Contains(strId)) return;
-
-        miscWorld.CurrentDream = strId;
-        SlugBase.Assets.CustomDreams.QueueDream(storyGame, dreamId);
+        orig(self, room, effect);
     }
 }

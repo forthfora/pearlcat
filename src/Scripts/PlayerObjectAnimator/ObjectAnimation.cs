@@ -8,6 +8,9 @@ namespace Pearlcat;
 
 public abstract class ObjectAnimation
 {
+    public int AnimTimer { get; set; } = 0;
+
+
     public ObjectAnimation(Player player) => InitAnimation(player);
 
     public virtual void InitAnimation(Player self)
@@ -20,9 +23,6 @@ public abstract class ObjectAnimation
             HaloEffectStackers.Add((1.0f / playerModule.Inventory.Count) * i);
     }
 
-
-    public int animTimer = 0;
-
     public virtual void Update(Player player)
     {
         if (!player.TryGetPearlcatModule(out var playerModule)) return;
@@ -34,19 +34,20 @@ public abstract class ObjectAnimation
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!abstractObject.TryGetModule(out var module)) continue;
+            if (!abstractObject.TryGetPOModule(out var module)) continue;
 
-            if (!abstractObject.TryGetAddon(out _))
-                new ObjectAddon(abstractObject);
+            if (!abstractObject.TryGetPOGraphics(out _))
+                new POGraphics(abstractObject);
 
             module.PlayCollisionSound = false;
         }
 
-        animTimer++;
+        AnimTimer++;
 
         UpdateHaloEffects(player);
         UpdateSymbolEffects(player);
     }
+
 
 
     public List<float> HaloEffectStackers { get; set; } = new();
@@ -60,14 +61,15 @@ public abstract class ObjectAnimation
 
         for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
+            var abstractObject = playerModule.Inventory[i];
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!ObjectAddon.ObjectsWithAddon.TryGetValue(abstractObject, out var addon)) continue;
+            if (!abstractObject.TryGetPOGraphics(out var addon)) continue;
             
+
             addon.DrawHalo = true;
-            float haloEffectTimer = HaloEffectStackers[i];
+            var haloEffectTimer = HaloEffectStackers[i];
 
             addon.ActiveHaloColor = Hooks.GetObjectColor(abstractObject) * new Color(1.0f, 0.25f, 0.25f);
 
@@ -87,14 +89,18 @@ public abstract class ObjectAnimation
 
 
             if (haloEffectTimer < 0.0f)
+            {
                 HaloEffectDir = 1;
-
+            }
             else if (haloEffectTimer > 1.0f)
+            {
                 HaloEffectDir = -1;
+            }
 
             HaloEffectStackers[i] += HaloEffectDir * HaloEffectFrameAddition;
         }
     }
+
 
     public virtual void UpdateSymbolEffects(Player player)
     {
@@ -106,11 +112,11 @@ public abstract class ObjectAnimation
 
             if (abstractObject.realizedObject == null) continue;
 
-            if (!abstractObject.TryGetAddon(out var addon)) continue;
+            if (!abstractObject.TryGetPOGraphics(out var addon)) continue;
 
-            if (!abstractObject.TryGetModule(out var poModule)) continue;
+            if (!abstractObject.TryGetPOModule(out var poModule)) continue;
 
-            if (player.room == null)
+            if (player.room == null || addon.Pos == Vector2.zero)
             {
                 addon.AllVisible = false;
                 continue;
@@ -141,7 +147,13 @@ public abstract class ObjectAnimation
                 addon.DrawSymbolCooldown = false;
             }
 
-            addon.Symbol = ObjectAddon.SpriteFromPearl(abstractObject);
+            if (playerModule.DisabledEffects.Contains(effect.MajorEffect))
+            {
+                addon.DrawSymbolCooldown = true;
+                addon.SymbolColor = Color.white;
+            }
+
+            addon.Symbol = POGraphics.SpriteFromPearl(abstractObject);
             addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
 
             addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject ? 1.0f : playerModule.CamoLerp;
@@ -158,13 +170,15 @@ public abstract class ObjectAnimation
             
             addon.IsSentry = poModule.IsSentry || poModule.IsReturningSentry;
 
-            if (addon.IsSentry)
+            if (addon.IsSentry || addon.IsActiveRagePearl)
             {
-                addon.CamoLerp = 0.0f;
-                addon.Symbol = "pearlcat_glyphsentry";
+                if (addon.IsSentry)
+                {
+                    addon.CamoLerp = 0.0f;
+                    addon.Symbol = "pearlcat_glyphsentry";
+                }
 
-
-                // hacks engaged
+                // ew
                 if (Hooks.TargetPositions.TryGetValue(abstractObject, out var targetPos))
                 {
                     addon.OverridePos ??= abstractObject.realizedObject.firstChunk.pos;
@@ -184,8 +198,17 @@ public abstract class ObjectAnimation
                 addon.OverrideLastPos = null;
             }
 
+            var returnPos = Hooks.TargetPositions.TryGetValue(abstractObject, out var pos) ? pos.Value : player.GetActiveObjectPos();
+            var returned = Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, returnPos, 8.0f);
 
-            if (poModule.IsReturningSentry && Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, Hooks.TargetPositions.TryGetValue(abstractObject, out var pos) ? pos.Value : player.GetActiveObjectPos(), 8.0f))
+
+            if (addon.IsActiveRagePearl)
+            {
+                returnPos = player.firstChunk.pos;
+                returned = Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, returnPos, 80.0f);
+            }
+
+            if (poModule.IsReturningSentry && returned)
             {
                 abstractObject.realizedObject.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, abstractObject.realizedObject.firstChunk.pos, 0.5f, 3.0f);
                 abstractObject.realizedObject.room.AddObject(new LightningMachine.Impact(abstractObject.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
@@ -201,11 +224,19 @@ public abstract class ObjectAnimation
                 addon.LaserTarget = target.mainBodyChunk.pos;
             }
 
-            addon.IsLaserVisible = hasTarget && effect.MajorEffect == POEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPOEffect().MajorEffect == POEffect.MajorEffectType.RAGE;
-            addon.LaserLerp = poModule.LaserLerp;
-
+            if (ModOptions.OldRedPearlAbility.Value)
+            {
+                addon.IsLaserVisible = hasTarget && effect.MajorEffect == POEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPOEffect().MajorEffect == POEffect.MajorEffectType.RAGE;
+                addon.LaserLerp = poModule.LaserLerp;
+            }
+            else
+            {
+                addon.LaserLerp = Custom.LerpAndTick(addon.LaserLerp, 0.0f, 0.025f, 0.005f);
+                addon.IsLaserVisible = addon.LaserLerp > 0.02f;
+            }
         }
     }
+
 
     public void AnimateOrbit(Player player, Vector2 origin, float radius, float angleFrameAddition, List<AbstractPhysicalObject> abstractObjects)
     {
@@ -213,10 +244,10 @@ public abstract class ObjectAnimation
         {
             var abstractObject = abstractObjects[i];
 
-            var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * animTimer;
+            var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * AnimTimer;
 
             Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
-            abstractObject.MoveToTargetPos(player, targetPos);
+            abstractObject.TryToAnimateToTargetPos(player, targetPos);
         }
     }
 }

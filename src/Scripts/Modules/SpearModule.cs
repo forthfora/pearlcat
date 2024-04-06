@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -11,13 +12,16 @@ public class SpearModule
         PearlType = pearlType;
     }
 
-    [JsonConverter(typeof(ColorHandler))]
+    [JsonConverter(typeof(JsonColorHandler))]
     public Color Color { get; set; }
     public string PearlType { get; set; }
 
     public bool WasThrown { get; set; }
     public int SparkTimer { get; set; }
-    public int DecayTimer { get; set; }
-    public int ExplodeTimer { get; set; } = -1;
 
+    public WeakReference<Player>? ThrownByPlayer { get; set; }
+    public int ReturnTimer { get; set; } = -2;
+
+
+    public int DecayTimer { get; set; }
 }

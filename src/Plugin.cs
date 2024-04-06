@@ -19,7 +19,7 @@ namespace Pearlcat;
 
 [BepInDependency("slime-cubed.slugbase")]
 [BepInDependency("com.rainworldgame.garrakx.crs.mod")]
-[BepInDependency("com.henpemaz.splitscreencoop", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("improved-input-config", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInPlugin(MOD_ID, MOD_ID, "1.0.0")]
 
 public class Plugin : BaseUnityPlugin
@@ -39,24 +39,27 @@ public class Plugin : BaseUnityPlugin
         ApplyInit();
     }
 
+
     public void Update()
     {
         var input = Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.L);
 
         if (input)
         {
-            LogPearlcatDebugInfo(RWCustom.Custom.rainWorld);
+            LogPearlcatDebugInfo();
         }
     }
 
-    public void LogPearlcatDebugInfo(RainWorld rainWorld)
+    public static void LogPearlcatDebugInfo()
     {
         try
         {
+            var rainWorld = RWCustom.Custom.rainWorld;
+
             var miscProg = rainWorld.progression.miscProgressionData;
             var saveState = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetStorySession?.saveState;
 
-            var pearlcatMiscProg = rainWorld.GetMiscProgression();
+            var pearlcatMiscProg = Utils.GetMiscProgression();
             var pearlcatMiscWorld = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetMiscWorld();
 
             var message =
@@ -98,7 +101,13 @@ public class Plugin : BaseUnityPlugin
 
                 $"{nameof(SaveMiscProgression.HasOEEnding)}: {pearlcatMiscProg.HasOEEnding}\n" +
                 $"{nameof(SaveMiscProgression.JustAscended)}: {pearlcatMiscProg.JustAscended}\n" +
-                $"{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n";
+                $"{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n" +
+                $"{nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n" +
+
+                "\n" +
+
+                $"{nameof(SaveMiscProgression.DidHavePearlpup)}: {pearlcatMiscProg.DidHavePearlpup}\n" +
+                $"{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n";
 
 
             if (saveState != null && pearlcatMiscWorld != null)
@@ -112,11 +121,6 @@ public class Plugin : BaseUnityPlugin
 
                     $"\n-------------------\n" +
                     $"PEARLCAT MISC WORLD:\n" +
-                    $"{nameof(SaveMiscWorld.IsNewGame)}: {pearlcatMiscWorld.IsNewGame}\n" +
-                    $"{nameof(SaveMiscWorld.IsPearlcatStory)}: {pearlcatMiscWorld.IsPearlcatStory}\n" +
-
-                    "\n" +
-
                     $"{nameof(SaveMiscWorld.Inventory)}:\n{string.Join("\n", pearlcatMiscWorld.Inventory.Select(x => $"{x.Key}:\n  {string.Join("\n  ", x.Value)}"))}\n" +
 
                     "\n" +
@@ -146,6 +150,7 @@ public class Plugin : BaseUnityPlugin
                     $"{nameof(SaveMiscWorld.HasPearlpupWithPlayer)}: {pearlcatMiscWorld.HasPearlpupWithPlayer}\n" +
 
                     "\n" +
+
 
                     $"{nameof(SaveMiscWorld.JustBeatAltEnd)}: {pearlcatMiscWorld.JustBeatAltEnd}\n";
             }

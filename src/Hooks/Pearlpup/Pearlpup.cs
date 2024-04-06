@@ -1,9 +1,5 @@
-﻿
-using MonoMod.RuntimeDetour;
-using MoreSlugcats;
-using System;
+﻿using MoreSlugcats;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -19,71 +15,25 @@ public static partial class Hooks
 
         On.Player.CanIPickThisUp += Player_CanIPickThisUp;
 
-        On.RedsIllness.RedsIllnessEffect.CanShowPlayer += RedsIllnessEffect_CanShowPlayer;
-
-        On.RedsIllness.AddFood += RedsIllness_AddFood;
-        On.RedsIllness.AddQuarterFood += RedsIllness_AddQuarterFood;
-
-        //new Hook(
-        //    typeof(RedsIllness).GetProperty(nameof(RedsIllness.FoodFac), BindingFlags.Instance | BindingFlags.NonPublic).GetGetMethod(),
-        //    typeof(Hooks).GetMethod(nameof(GetRedsIllnessFoodFac), BindingFlags.Static | BindingFlags.Public)
-        //);
+        On.Player.Update += Player_Update_PearlpupIDCheck;
     }
 
-    //public delegate float orig_RedsIllnessFoodFac(RedsIllness self);
-    //public static float GetRedsIllnessFoodFac(orig_RedsIllnessFoodFac orig, RedsIllness self)
-    //{
-    //    if (self.player?.IsPearlpup() == true)
-    //        return 0.5f;
-
-    //    return orig(self);
-    //}
-
-    private static void RedsIllness_AddFood(On.RedsIllness.orig_AddFood orig, RedsIllness self, int i)
+    // Ensure that any pup with Pearlpup's ID is automatically converted for edge cases
+    private static void Player_Update_PearlpupIDCheck(On.Player.orig_Update orig, Player self, bool eu)
     {
-        if (!self.player.IsPearlpup())
+        orig(self, eu);
+
+        var miscWorld = self.abstractCreature.world.game.GetMiscWorld();
+
+        if (miscWorld == null) return;
+
+        if (self.abstractCreature.ID.number == miscWorld.PearlpupID && !self.IsPearlpup())
         {
-            orig(self, i);
-            return;
+            self.abstractCreature.MakePearlpup();
         }
-
-        var foodFac = 1.0f;
-        var num = Math.Min(i * foodFac, self.player.slugcatStats.maxFood - self.player.playerState.foodInStomach);
-
-        self.totFoodCounter += num / foodFac;
-        self.floatFood += num;
-        self.UpdateFood();
     }
 
-    private static void RedsIllness_AddQuarterFood(On.RedsIllness.orig_AddQuarterFood orig, RedsIllness self)
-    {
-        if (!self.player.IsPearlpup())
-        {
-            orig(self);
-            return;
-        }
-
-        var foodFac = 1.0f;
-        var num = Math.Min(0.25f * foodFac, self.player.slugcatStats.maxFood - self.player.playerState.foodInStomach);
-
-        self.totFoodCounter += num / foodFac;
-        self.floatFood += num;
-        self.UpdateFood();
-    }
-
-
-    private static bool RedsIllnessEffect_CanShowPlayer(On.RedsIllness.RedsIllnessEffect.orig_CanShowPlayer orig, Player player)
-    {
-        var result = orig(player);
-
-        if (player.IsPearlpup())
-        {
-            return false;
-        }
-
-        return result;
-    }
-
+    // Stop pearlpup stealing pearls moon is reading
     private static bool Player_CanIPickThisUp(On.Player.orig_CanIPickThisUp orig, Player self, PhysicalObject obj)
     {
         var result = orig(self, obj);
@@ -102,6 +52,7 @@ public static partial class Hooks
         return result;
     }
 
+    // Make next slugpup a pearlpup if respawn is enabled
     private static void Player_ctorPearlpup(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
         orig(self, abstractCreature, world);
@@ -124,10 +75,10 @@ public static partial class Hooks
         if (!self.TryGetPearlpupModule(out var module)) return;
 
         var stats = self.slugcatStats;
-        var save = self.abstractCreature.world.game.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
         
 
-        if (self.Malnourished || save.IsPearlpupSick)
+        if (self.Malnourished || miscProg.IsPearlpupSick)
         {
             stats.throwingSkill = 0;
             stats.runspeedFac = 0.9f;
@@ -144,7 +95,7 @@ public static partial class Hooks
             stats.lungsFac = 0.1f;
         }
 
-        if (save.IsPearlpupSick)
+        if (miscProg.IsPearlpupSick)
         {
             //stats.foodToHibernate = stats.maxFood;
 
@@ -181,6 +132,7 @@ public static partial class Hooks
         }
     }
 
+    // Prevent players from attacking pearlpup
     private static bool Weapon_HitThisObject(On.Weapon.orig_HitThisObject orig, Weapon self, PhysicalObject obj)
     {
         var result = orig(self, obj);

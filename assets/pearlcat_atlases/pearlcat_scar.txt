@@ -1,0 +1,20 @@
+{"frames": {
+
+"pearlcatScar.png":
+{
+	"frame": {"x":2,"y":2,"w":14,"h":19},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":19},
+	"sourceSize": {"w":14,"h":19}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "pearlcat_scar.png",
+	"format": "RGBA8888",
+	"size": {"w":18,"h":23},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:81446d8a18f723613701b942af613f78:8bdf5c1ff5cf8b023e85af8d2aa0c6af:0853c5f7bf6d1d4c89b18d184342c9cb$"
+}
+}

@@ -1,12 +1,76 @@
-﻿using RWCustom;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
 public static partial class Hooks
 {
+    public static void GivePearls(this Player self, PlayerModule playerModule)
+    {
+        var miscWorld = self.room.game.GetMiscWorld();
+        var miscProg = Utils.GetMiscProgression();
+
+        var shouldGivePearls = true;
+
+        if (miscWorld != null)
+        {
+            shouldGivePearls = !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber);
+        }
+
+        if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
+        {
+            playerModule.GivenPearls = false;
+        }
+
+        if (!(shouldGivePearls || ModOptions.InventoryOverride.Value) || playerModule.GivenPearls) return;
+
+
+        List<DataPearlType> pearls;
+        var overrideLimit = false;
+
+        if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
+        {
+            pearls = ModOptions.GetOverridenInventory(self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession);
+        }
+        else
+        {
+            // Defaults
+            pearls = new List<DataPearlType>()
+            {
+                Enums.Pearls.AS_PearlBlue,
+                Enums.Pearls.AS_PearlYellow,
+                Enums.Pearls.AS_PearlGreen,
+                Enums.Pearls.AS_PearlBlack,
+                Enums.Pearls.AS_PearlRed,
+            };
+
+            if (!playerModule.IsAdultPearlpup)
+            {
+                var specialPearl = (self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession) ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc;
+                
+                pearls.Add(specialPearl);
+            }
+
+            overrideLimit = true;
+        }
+
+        foreach (var pearlType in pearls)
+        {
+            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
+            self.StoreObject(pearl, overrideLimit: overrideLimit);
+        }
+
+        playerModule.GivenPearls = true;
+
+        if (miscWorld != null && !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber))
+        {
+            miscWorld.PlayersGivenPearls.Add(self.playerState.playerNumber);
+        }
+    }
+
+
+    // Realization & Abstraction
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
         if (self.room == null) return;
@@ -34,8 +98,6 @@ public static partial class Hooks
             abstractObject.MarkAsPlayerObject();
             abstractObject.realizedObject?.RealizedEffect();
         }
-        
-        //self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk.pos);
     }
 
     public static void AbstractizeInventory(this Player self, bool excludeSentries = false)
@@ -49,156 +111,17 @@ public static partial class Hooks
 
             if (abstractObject.TryGetSentry(out _) && excludeSentries) continue;
 
-            if (abstractObject.TryGetModule(out var module))
+            if (abstractObject.TryGetPOModule(out var module))
                 module.RemoveSentry(abstractObject);
 
             AbstractedEffect(abstractObject.realizedObject);
             abstractObject.Abstractize(abstractObject.pos);
-
         }
-
-        //if (playerModule.Inventory.Count > 0)
-        //    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk.pos);
     }
 
 
-    public static void RealizedEffect(this PhysicalObject? physicalObject)
-    {
-        if (physicalObject?.room == null) return;
-
-        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectColor(physicalObject.abstractPhysicalObject)));
-        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 15.0f, 0.07f, 10, false));
-    }
-
-    public static void AbstractedEffect(this PhysicalObject? physicalObject)
-    {
-        if (physicalObject?.room == null) return;
-
-        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectColor(physicalObject.abstractPhysicalObject)));
-        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 25.0f, 0.07f, 10, false));
-    }
-
-    public static void DeathEffect(this PhysicalObject? physicalObject)
-    {
-        if (physicalObject?.room == null) return;
-
-        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 150.0f, 0.8f, 10, false));
-    }
-
-    public static void SwapEffect(this PhysicalObject? physicalObject, PhysicalObject? newObject)
-    {
-        if (physicalObject?.room == null || newObject == null) return;
-
-        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _) || newObject.abstractPhysicalObject.TryGetSentry(out _)) return;
-
-        var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, newObject.firstChunk.pos, 0, Mathf.Lerp(0.8f, 1.0f, Random.value))
-        {
-            intensity = 0.35f,
-            lifeTime = 7.0f,
-            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
-        };
-        physicalObject.room.AddObject(lightningBoltOld);
-
-        var lightningBoltNew = new MoreSlugcats.LightningBolt(newObject.firstChunk.pos, physicalObject.firstChunk.pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
-        {
-            intensity = 0.75f,
-            lifeTime = 12.0f,
-            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
-        };
-        physicalObject.room.AddObject(lightningBoltNew);
-    }
-
-    public static void SwapEffect(this PhysicalObject? physicalObject, Vector2 nextPos)
-    {
-        if (physicalObject?.room == null) return;
-
-        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _)) return;
-
-        var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, nextPos, 0, Mathf.Lerp(0.8f, 1.0f, Random.value))
-        {
-            intensity = 0.35f,
-            lifeTime = 7.0f,
-            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
-        };
-        physicalObject.room.AddObject(lightningBoltOld);
-
-        var lightningBoltNew = new MoreSlugcats.LightningBolt(nextPos, physicalObject.firstChunk.pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
-        {
-            intensity = 0.75f,
-            lifeTime = 12.0f,
-            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
-        };
-        physicalObject.room.AddObject(lightningBoltNew);
-    }
-
-    public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null)
-    {
-        if (physicalObject?.room == null) return;
-
-        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _)) return;
-
-        var color = overrideColor ?? GetObjectColor(physicalObject.abstractPhysicalObject);
-
-        var lightningBolt = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
-        {
-            intensity = 0.75f,
-            lifeTime = 12.0f,
-            lightningType = Custom.RGB2HSL(color).x,
-        };
-        physicalObject.room.AddObject(lightningBolt);
-    }
-
-    public static void ConnectEffect(this Room? room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f)
-    {
-        if (room == null) return;
-
-        var lightningBolt = new MoreSlugcats.LightningBolt(startPos, targetPos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
-        {
-            intensity = intensity,
-            lifeTime = lifeTime,
-            lightningType = Custom.RGB2HSL(color).x,
-        };
-
-        room.AddObject(lightningBolt);
-    }
-
-    public static void DeflectEffect(this Room? room, Vector2 pos)
-    {
-        if (room == null) return;
-
-        for (int i = 0; i < 5; i++)
-            room.AddObject(new Spark(pos, Custom.RNV(), Color.white, null, 16, 24));
-
-        room.AddObject(new Explosion.ExplosionLight(pos, 150f, 1f, 8, Color.white));
-        room.AddObject(new ShockWave(pos, 60f, 0.1f, 8, false));
-
-        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 0.6f, 1.5f + Random.value * 0.5f);
-    }
-
-    public static void ReviveEffect(this Room? room, Vector2 pos)
-    {
-        if (room == null) return;
-
-        room.AddObject(new Explosion.ExplosionLight(pos, 100.0f, 1.0f, 3, Color.white));
-        room.AddObject(new ShockWave(pos, 250.0f, 0.07f, 6, false));
-
-        room.AddObject(new ShockWave(pos, 30.0f, 20.0f, 20));
-
-        for (int i = 0; i < 4; i++)
-        {
-            var randVec = Custom.RNV() * 150.0f;
-            room.ConnectEffect(pos, pos + randVec, Color.green, 1.5f, 80);
-        }
-
-        room.PlaySound(SoundID.UI_Slugcat_Die, pos, 1.0f, 1.0f);
-
-        room.PlaySound(SoundID.Fire_Spear_Explode, pos, 0.5f, 0.7f);
-        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 3.0f, 0.4f);
-    }
-
-
-
-    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false, bool overrideLimit = false)
+    // Storage & Removal
+    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false, bool overrideLimit = false, bool noSound = false, bool storeBeforeActive = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
@@ -208,7 +131,7 @@ public static partial class Hooks
         {
             if (save?.ShownFullInventoryTutorial == false && !ModOptions.DisableTutorials.Value)
             {
-                var t = self.abstractCreature.world.game.rainWorld.inGameTranslator;
+                var t = Utils.Translator;
 
                 save.ShownFullInventoryTutorial = true;
                 self.abstractCreature.world.game.AddTextPrompt(t.Translate("Storage limit reached (") + ModOptions.MaxPearlCount.Value + t.Translate("): swap out a pearl, or change the limit in the Remix options"), 40, 600);
@@ -220,7 +143,11 @@ public static partial class Hooks
 
         if (fromGrasp)
         {
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk);
+            if (!noSound)
+            {
+                self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk);
+            }
+
             self.ReleaseGrasp(0);
         }
 
@@ -234,14 +161,19 @@ public static partial class Hooks
             abstractObject = new DataPearl.AbstractDataPearl(self.abstractCreature.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null,
                 new(self.abstractCreature.Room.index, -1, -1, 0), self.abstractCreature.world.game.GetNewID(), -1, -1, null, type as DataPearlType ?? DataPearlType.Misc);
 
-            self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk, false, 1.0f, 0.5f);
-            self.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.5f);
+            if (!noSound)
+            {
+                self.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.5f);
+            }
         }
 
-        self.AddToInventory(abstractObject);
+        self.AddToInventory(abstractObject, storeBeforeActive);
 
-        int targetIndex = playerModule.ActiveObjectIndex ?? 0;
-        self.ActivateObjectInStorage(targetIndex);
+        if (!storeBeforeActive || playerModule.ActiveObjectIndex == null)
+        {
+            int targetIndex = playerModule.ActiveObjectIndex ?? 0;
+            self.ActivateObjectInStorage(targetIndex);
+        }
         
         playerModule.PickObjectAnimation(self);
         playerModule.ShowHUD(30);
@@ -252,32 +184,22 @@ public static partial class Hooks
         {
             save.ShownSpearCreationTutorial = true;
 
-            var t = self.abstractCreature.world.game.rainWorld.inGameTranslator;
+            var t = Utils.Translator;
 
             if (ModOptions.CustomSpearKeybind.Value)
+            {
                 self.abstractCreature.world.game.AddTextPrompt(
                     t.Translate("Hold (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.AbilityKeybindPlayer1.Value.GetDisplayName() + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
-
+            }
             else
+            {
                 self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 0, 800);
+            }
+
+            self.abstractCreature.world.game.AddTextPrompt("Pearl spears will attempt to return to you being thrown, if they are not stuck", 0, 800);
         }
     }
     
-    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool addToEnd = false)
-    {
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-        int targetIndex = playerModule.ActiveObjectIndex ?? 0;
-
-        if (addToEnd)
-            playerModule.Inventory.Add(abstractObject);
-       
-        else
-            playerModule.Inventory.Insert(targetIndex, abstractObject);
-        
-        abstractObject.MarkAsPlayerObject();
-    }
-
     public static void RetrieveActiveObject(this Player self)
     {
         if (self.FreeHand() <= -1) return;
@@ -311,6 +233,39 @@ public static partial class Hooks
         self.UpdateInventorySaveData(playerModule);
     }
 
+
+    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool addToEnd = false, bool storeBeforeActive = false)
+    {
+        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+
+        int targetIndex = playerModule.ActiveObjectIndex ?? 0;
+
+        if (addToEnd)
+        {
+            playerModule.Inventory.Add(abstractObject);
+        }
+        else if (storeBeforeActive)
+        {
+            if (playerModule.ActiveObjectIndex != null)
+            {
+                targetIndex -= 1;
+
+                if (targetIndex < 0)
+                {
+                    targetIndex = playerModule.Inventory.Count - 1;
+                }
+            }
+
+            playerModule.Inventory.Insert(targetIndex, abstractObject);
+        }
+        else
+        {
+            playerModule.Inventory.Insert(targetIndex, abstractObject);
+        }
+
+        abstractObject.MarkAsPlayerObject();
+    }
+    
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
@@ -320,10 +275,10 @@ public static partial class Hooks
         playerModule.Inventory.Remove(abstractObject);
         abstractObject.ClearAsPlayerObject();
 
-        if (abstractObject.TryGetAddon(out var addon))
+        if (abstractObject.TryGetPOGraphics(out var addon))
             addon.Destroy();
 
-        if (abstractObject.TryGetModule(out var module))
+        if (abstractObject.TryGetPOModule(out var module))
             module.RemoveSentry(abstractObject);
 
         if (playerModule.Inventory.Count == 0)
@@ -332,30 +287,8 @@ public static partial class Hooks
         InventoryHUD.Symbols.Remove(abstractObject);
     }
 
-    public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
-    {
-        if (ModOptions.InventoryOverride.Value) return;
 
-        var save = self.room.game.GetMiscWorld();
-
-        if (save == null) return;
-
-        List<string> inventory = new();
-
-        foreach (var item in playerModule.Inventory)
-            inventory.Add(item.ToString());
-
-
-        save.Inventory[self.playerState.playerNumber] = inventory;
-
-        if (playerModule.Inventory.Count == 0)
-        {
-            playerModule.ActiveObjectIndex = null;
-            save.ActiveObjectIndex[self.playerState.playerNumber] = null;
-        }
-    }
-
-    
+    // Selection
     public static void SelectNextObject(this Player self)
     {
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
@@ -422,4 +355,28 @@ public static partial class Hooks
         self.UpdateInventorySaveData(playerModule);
     }
 
+
+    // Save
+    public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
+    {
+        if (ModOptions.InventoryOverride.Value) return;
+
+        var save = self.room.game.GetMiscWorld();
+
+        if (save == null) return;
+
+        List<string> inventory = new();
+
+        foreach (var item in playerModule.Inventory)
+            inventory.Add(item.ToString());
+
+
+        save.Inventory[self.playerState.playerNumber] = inventory;
+
+        if (playerModule.Inventory.Count == 0)
+        {
+            playerModule.ActiveObjectIndex = null;
+            save.ActiveObjectIndex[self.playerState.playerNumber] = null;
+        }
+    }
 }

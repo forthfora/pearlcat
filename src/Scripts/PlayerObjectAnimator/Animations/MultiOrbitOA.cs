@@ -62,7 +62,7 @@ public class MultiOrbitOA : ObjectAnimation
         AnimateOrbit(player, headPos + (OrbitPearls_5.Count == 0 ? OrbitPearls_5_Offset : OrbitPearls_3_Offset), RADIUS_3, F_ADDITION_3, OrbitPearls_3);
         AnimateOrbit(player, headPos + OrbitPearls_2_Offset, RADIUS_2, F_ADDITION_2, OrbitPearls_2);
 
-        playerModule.ActiveObject?.MoveToTargetPos(player, player.GetActiveObjectPos());
+        playerModule.ActiveObject?.TryToAnimateToTargetPos(player, player.GetActiveObjectPos());
         prevActiveObject = playerModule.ActiveObject;
     }
 
