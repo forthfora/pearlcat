@@ -8,4 +8,4 @@ Grime: 0
 Palette: 29
 EffectColorA: 15
 Effects: Darkness-0.6413044-20-20, 
-FadePalette: 12, 0.1086956, 0.4456522, 0.7173913, 1
+FadePalette: 12, 0.4130435, 0.5326087, 0.5978261, 0.6956522

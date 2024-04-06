@@ -13,6 +13,6 @@ Palette: 300
 EffectColorA: 13
 EffectColorB: 13
 Effects: SkyAndLightBloom-0.1391985-20-20, SunBlock-1-24.13049-105.2367, Brightness-0.1681983-297.864-24.66406, Contrast-0.179798-283.8523-112.0352, 
-PlacedObjects: ReliableSpear><631.7249><284.4404><, ReliableSpear><694.759><281.9821><, ReliableSpear><662.6988><285.1266><, 
+PlacedObjects: ReliableSpear><539.5366><270.2408><, ReliableSpear><743.7571><271.6132><, ReliableSpear><591.9617><275.2192><, 
 AmbientSounds: OMNI><pearlcat-traininside.ogg><733.1489><563.826><0.2042037><1, OMNI><am_win-strongwnd2.ogg><722.9367><473.0112><0.6056048><1, OMNI><msc-subtundra.ogg><614.0377><376.9755><0.7042037><1, 
 RoomSpecificScriptActive: ON
