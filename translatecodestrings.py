@@ -96,6 +96,19 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True):
     f.close()
 
 
+
+toTranslate = {
+    "ru",
+    "ko",
+    "fr",
+    "pt",
+    "it",
+    "de",
+    "ja",
+    "zh-CN",
+    "es",
+}
+
 preserveLangMap = [
     "zh-CN",
     "es"
@@ -105,6 +118,5 @@ dontTranslate = [
     "es"
 ]
 
-
-for lang in langMap.keys():
+for lang in toTranslate:
     Translate(lang, lang in preserveLangMap, lang in dontTranslate)
