@@ -9,13 +9,13 @@ Esto es un análisis de varias diluciones y proporciones químicas para medios l
 
 Está dañada y no se puede leer.
 
-Es un documento histórico que contiene información sobre varias espadas y otras armas. No se usaban en combate,<LINE>sino en una variedad de rituales rutinarios y festivales espirituales.
+Es un documento histórico que contiene información sobre varias espadas y otras armas.<LINE>No se usaban en combate, sino en una variedad de rituales rutinarios y festivales espirituales.
 
-Esto es el esquema de un organismo propuesto. Un autómata de recuperación residual. Hay muy poco<LINE>de qué explicar como para que una criatura simple como tú lo entendería.
+Esto es el esquema de un organismo propuesto. Un autómata de recuperación residual.<LINE>Hay muy poco de qué explicar como para que una criatura simple como tú lo entendería.
 
 Es una colección de fotografías que muestran a un grupo de monjes contorsionando sus cuerpos de varias formas. Me causan mucha gracia...
 
-Una descripción de un lenguaje codificado manualmente que se desarrolló tarde en la dinastía hegemónica Amarilla. Utilizaba secuencias<LINE>de gestos y expresiones faciales para describir conceptos a personas incapaces de hablar. Lástima que no puedo usar esto contigo.
+Una descripción de un lenguaje codificado manualmente que se desarrolló tarde en la dinastía hegemónica Amarilla. Utilizaba secuencias<LINE>de gestos y expresiones faciales para describir conceptos a personas incapaces de hablar. Qué lástima que no pueda usar esto contigo.
 
 Tal salvajismo. Esta perla ha sido tallada como decoración. Si bien la información que contiene no tiene <LINE>importancia particular, los métodos primitivos utilizados para perforar esta perla podrían haber destruido fácilmente algo más complejo.<LINE>Es una pena verlos profanar la historia en aras de baratijas brillantes.
 
@@ -41,47 +41,47 @@ La superficie de esta perla ha sido rayada miles de veces por algún objeto afil
 
 Hay una imagen de pancartas en esta, pero se ha desteñido hasta el punto de corrupción.
 
-No queda nada, está demasiado desteñida para leer.
+No queda nada, está demasiado desteñida como para leerla.
 
 Son instrucciones de desarrollo para el esqueleto de una criatura, seguramente utilizadas para algún propósito mundano, nada que puedas entender.
 
-Esta contiene una secuencia numérica que codifica todos los números de identificación<LINE>registrados para aquellos que residian en mi ciudad. No recuerdo ni uno.
+Esta contiene una secuencia numérica que codifica todos los números de identificación<LINE>registrados para aquellos que residian en mi ciudad. No recuerdo ni una.
 
-Parte de una serie de números, probablemente utilizada como cifra. Puedes quedártelo, supongo.
+Parte de una serie de números, probablemente utilizada como cifra. Puedes quedártela, supongo.
 
 Esta perla está llena hasta el tope, una hazaña tremenda. Sin embargo, parece que<LINE>solo contiene una única imagen excesivamente grande, que resulta estar completamente en blanco.
 
 Qué extraño, solo un número «8» se ha escrito en ella y nada más. Me pregunto qué habrían hecho los demás con esta...
 
-Es un plano antiguo para soportes de construcción. Estos no resistirían la prueba del tiempo.
+Es un plano antiguo para soportes de construcción. Estos no resistirían el paso del tiempo.
 
-Esta es una revista de investigación muy temprana, que equipara el fluido vacío con la antimateria. Si bien esa comparación<LINE>funciona metafóricamente, malinterpreta fundamentalmente la verdadera naturaleza del fluido.
+Esta es una revista de investigación muy temprana, que equipara el fluido vacío con la antimateria.<LINE>Si bien esa comparación funciona metafóricamente, malinterpreta fundamentalmente la verdadera naturaleza del fluido.
 
-Un registro de mantenimiento de una inspección de rutina de mi superestructura. No hay problemas que reportar...<LINE>Todavía era nuevo cuando se escribió este registro.
+Un registro de mantenimiento de una inspección de rutina de mi superestructura.<LINE>No hay problemas que reportar... Todavía era nuevo cuando se escribió este registro.
 
 Esto es un código fuente incompleto para una simulación compleja de nuestro mundo, conocida como La Máquina del Mundo.<LINE>Sin embargo, la ascensión pública concluyó mucho antes de que su autor pudiera terminarla. Una parte interesante de la historia, al menos.
 
-Es un dibujo de un niño pequeño, que representa la semejanza de un títere iterador. Específicamente, presumo<LINE>que esto representa mi títere, pero el dibujo es demasiado tosco para decirlo con certeza. Qué gracioso.
+Es un dibujo de un niño pequeño, que representa la semejanza de un títere iterador. Específicamente, presumo<LINE>que esto representa mi títere, pero el dibujo está tan poco pulido como para decirlo con certeza. Qué ameno.
 
-Esto se lee como si alguien intentara copiar un libro solo de memoria.<LINE>Muchos capítulos solo están parcialmente escritos, y algunos no existen.
+Esto se lee como si alguien intentara copiar un libro solamente de memoria.<LINE>Muchos capítulos solo están parcialmente escritos y algunos ni existen.
 
-Un himno clásico de una dinastía temprana. Es muy breve y repetitivo,<LINE>pero disfruto de su simplicidad.
+Un himno clásico de una dinastía antingua.<LINE>Es muy breve y repetitivo, pero disfruto de su simplicidad.
 
-Es un registro de un sensor que monitorea las condiciones en la superficie. Finaliza abruptamente<LINE>después de un tiempo, ya que el sensor sufrió daños irreparables por las fuertes lluvias.
+Es un registro de un sensor que monitorea las condiciones en la superficie.<LINE>Finaliza abruptamente después de un tiempo, ya que el sensor sufrió daños irreparables por las fuertes lluvias.
 
 Hay una lista de 71 números en esta perla, y son algunos de los números de más mala suerte que he visto alguna vez.
 
-«Querido diario...», y luego nada. No me interesa terminarla.
+«Querido diario...» y luego nada. No me interesa terminarla.
 
 Un modelo de una sección de tuberías que transportan fluidos. Las juntas están diseñadas para promover el autosellado. Todo fue construido para durar.
 
-Es un catálogo de muchos tipos de tés y sus técnicas de preparación.<LINE>No poseo la capacidad de beber té, así que esto no me sirve. Puedes quedártelo.
+Es un catálogo de muchos tipos de té y sus técnicas de preparación.<LINE>No poseo la capacidad de beber té, así que esto no me sirve. Puedes quedártela.
 
-Es el planno para un pequeño filtro de purificación de incienso.<LINE>Una comprensible necesidad antes de la partida de mis creadores. Uno para el que no tengo uso.
+Es el plano para un pequeño filtro de purificación de incienso.<LINE>Una comprensible necesidad antes de la partida de mis creadores. Uno para el que no tengo uso.
 
 Una imagen de cinco botellas de agua paradas sobre una superficie de plantas que se alimentan por filtración.<LINE>Un reflejo del deseo por algo negado. Una pintura de la última dinastía literaria Roja del famoso pintor<LINE>Veintiún Radios de una Rueda de Piedra, ¡un verdadero visionario! Al menos hay algunas cosas que todavía puedo disfrutar.
 
-Preferiría no hablar del contenido registrado en esta perla.Es mejor dejar algunas<LINE>cosas sean desconocidas. Un yo más joven podría haber mentido y haberte dicho que estaba en blanco.
+Preferiría no hablar del contenido registrado en esta perla. Es mejor dejar que algunas<LINE>cosas sean desconocidas. Un yo más joven podría haber mentido y haberte dicho que estaba en blanco.
 
 Esquemas antiguos de una máquina de filtración de gas, muy irregulares y sin optimizar. Justo lo que necesitaba.
 
@@ -89,6 +89,6 @@ Esta perla contiene una serie de rompecabezas diseñadas para ejercitar la mente
 
 Esta es una perla maliciosa. Los datos no tienen sentido, pero la forma en que están formateados provocaría que las maquinarias antiguas<LINE>se atascaran en una recursividad infinita al intentar leerlas. Afortunadamente, incluso en mi estado actual, soy más sofisticado que eso.
 
-Esta contiene la imagen de una perla... y dentro de esa la misma imagen. Esto es o<LINE>una broma o un método para probar la densidad recursiva de una perla. Ninguno de los dos vale mi tiempo.
+Esta contiene la imagen de una perla... y dentro de esa la misma imagen. Esto es o una broma<LINE>o un método para probar la densidad recursiva de una perla. Ninguno de los dos vale mi tiempo.
 
 Qué curioso. Mientras que esta perla está agrietada y es ininteligible, una pequeña planta ha crecido en su interior.

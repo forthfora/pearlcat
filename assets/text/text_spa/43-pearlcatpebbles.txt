@@ -3,15 +3,15 @@ Es un registro de conversación, todo en texto sin formato. No es cómodo para m
 
 «1681.662 - PRIVADO<LINE>Siete Soles Rojos, Persiguiendo al Viento
 
-PV: ¿Tuvieron contacto con Cinco Guijarros últimamente?
+PV: ¿Tuviste algún contacto con Cinco Guijarros últimamente?
 
-SSR: ¡No desde hace mucho, en realidad! A menos que cuente preocuparse por él.
+SSR: ¡No desde hace mucho, de hecho! A menos que preocuparme por él cuente.
 
-PV: Uno de sus vecinos, Inocencia sin Parangón, envió un supervisor a su lata y consiguió algunas imágenes.<LINE>Se hicieron públicas en el grupo local, en un esfuerzo por ser cruel, supongo.<LINE>No hay otra forma de decirlo. Tiene un aspecto horrible.
+PV: Uno de sus vecinos, Inocencia sin Parangón, envió un supervisor a su lata y consiguió algunas imágenes.<LINE>Se hicieron públicas en el grupo local en un esfuerzo por ser cruel, supongo.<LINE>No hay otra forma de describirlo, se ve horrible.
 
 SSR: Cuéntame.
 
-PV: Tiene la putrefacción, y muy grave. Unos grandes quistes se han movilizado y se están diseminando hacia abajo, por las patas occidentales y del medio.<LINE>Él te hace caso, y otros más en estos momentos, así que deberías hablar con él.
+PV: Contrajo gravemente la putrefacción. Grandes quistes se han movilizado y se están dispersando hacia abajo, por las patas occidentales y del medio.<LINE>Él te hace caso, y otros más en estos momentos, así que deberías hablar con él.
 
 SSR: Intentaré contactarlo. ¿Luna lo sabe?
 
@@ -19,4 +19,4 @@ PV: Luna lleva un tiempo sin estar disponible».
 
 Ya es inútil ser rencoroso. Es evidente para mí ahora que estaban tratando de ayudar, a su manera.
 
-No lo vi tan claro en ese entonces.
+No lo había visto tan claro en ese entonces.
