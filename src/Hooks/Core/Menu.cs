@@ -879,7 +879,7 @@ public static partial class Hooks
         }
 
 
-        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding;
+        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding && ModManager.MSC;
 
         if (SecretIndex >= SecretPassword.Length)
         {
