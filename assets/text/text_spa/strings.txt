@@ -784,3 +784,4 @@ Hello again, <PlayerName>!|¡Hola otra vez, <PlayerName>!
 Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|Por cierto, perdón si parezco un poco lenta, estamos diseñados para operar con millones de neuronas, en lugar de, bueno...
 Noir |Noir 
 BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|AZUL simboliza agilidad. Cada perla azul almacenada proporcionará un doble salto adicional
+PEARLCAT|EL PERLINO

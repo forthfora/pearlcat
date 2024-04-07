@@ -27,6 +27,7 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True):
 
     strings = [
         "Pearlcat",
+        "PEARLCAT",
         "The Pearlcat",
         "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.",
         "A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?",
