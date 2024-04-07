@@ -3,4 +3,4 @@
 
 Esto es inútil. Los datos son una confirmación de envío a una parcela de cultivo automatizada.
 
-Un desperdicio del complejo de memoria de cristal en el que se imprimió. Me hubiera gustado actualizarla para usarla como almacenamiento, pero el mensaje<LINE>se ha grabado repetidamente en la perla miles de veces. Probablemente para evitar la reutilización o la pérdida de datos.
+Un desperdicio del complejo de memoria de cristal en el que se imprimió. Me hubiera gustado actualizarla para usarla como almacenamiento,<LINE>pero el mensaje se ha grabado repetidamente en la perla miles de veces. Probablemente para evitar la reutilización o la pérdida de datos.

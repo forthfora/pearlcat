@@ -1,604 +1,604 @@
-﻿|NO_TRANSLATION
-You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|NO_TRANSLATION
-He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|Él está mucho mejor equipado que yo en este momento. Te recomendaría que le hicieras una visita, si es que puedes.<LINE>A pesar de que no fue diseñado como un centro médico, es posible que pueda ayudarte de alguna manera.
-{nameof(SaveMiscProgression.DidHavePearlpup)}: {pearlcatMiscProg.DidHavePearlpup}\n|NO_TRANSLATION
-Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read...|NO_TRANSLATION
+﻿|SIN TRADUCCIÓN
+You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|No obstante, pareces estar recuperándote por ti mismo. ¡Tu tenacidad ante cualquier cosa que haya ocurrido es admirable!
+He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|Él está mucho mejor equipado que yo actualmente; te recomendaría que le hagas una visita, si puedes.<LINE>Aunque no fue diseñado como una instalación medica, es posible que pueda ayudarte de alguna forma.
+{nameof(SaveMiscProgression.DidHavePearlpup)}: {pearlcatMiscProg.DidHavePearlpup}\n|{nameof(SaveMiscProgression.DidHavePearlpup)}: {pearlcatMiscProg.DidHavePearlpup}\n
+Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read...|Dado que has heredado los rasgos de tu madre, si quieres hacer que estas visitas valgan la pena mi tiempo, tráeme algo para leer...
 Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Multiplicador del porcentaje sobre cuán visible es el Perlino frente a los depredadores. Por defecto, es significativamente más visible que incluso el Cazador.
 Intended for fun, may change gameplay significantly!|Diseñado para divertirse, ¡puede cambiar de manera significativa las partidas!
 DistantBkgObjectAlpha|DistantBkgObjectAlpha
-Swaps the active pearl to the right.|NO_TRANSLATION
-PEARLCAT LOG DEBUG INFO ERROR: \n|NO_TRANSLATION
+Swaps the active pearl to the right.|Cambia la perla activa hacia la derecha.
+PEARLCAT LOG DEBUG INFO ERROR: \n|ERROR DE INFORMACIÓN DEL DEPURADOR DE REGISTROS DE PEARLCAT: \n
 I do not have much else to occupy my time with these days...|No tengo mucho más en lo que ocupar mi tiempo estos días...
 I do enjoy the company of you and your friend though, <PlayerName>.|Aunque disfruto de la compañía de ti y tu amigo, <PlayerName>.
-I know that quite well.|Lo sé muy bien.
-Please... this all I have left... you have so much... ...why take mine?|Por favor... es todo lo que me queda... tienes tantos... ...¿por qué tomas los míos?
+I know that quite well.|Eso lo sé muy bien.
+Please... this all I have left... you have so much... ...why take mine?|Por favor... es todo lo que me queda... tienes tantas... ¿por qué tomas las mías?
 OE_|OE_
-You and your family are always welcome here - please visit often!|NO_TRANSLATION
+You and your family are always welcome here - please visit often!|Tú y tu familia son siempre bienvenidos aquí. ¡Por favor, visiten más a menudo!
 . . .|. . .
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.|NO_TRANSLATION
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.|Si tienes tiempo de sobra, estaría más que contenta de leer esas perlas...<LINE>No hay mucho que hacer como para pasar el tiempo.
 Pearls may also be deployed as temporary sentries. Press (|Pulsa (
-When checked, disables the revive effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de revivir otorgado por una perla activa.
+When checked, disables the revive effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de resurrección otorgada por una perla activa.
 Sidera |Sidera 
-...well, given your unique set of skills... if you ever need something read...|NO_TRANSLATION
-...and what happened to your parent...|NO_TRANSLATION
+...well, given your unique set of skills... if you ever need something read...|Bueno... dado tu conjunto único de habilidades, si alguna vez necesitas leer algo...
+...and what happened to your parent...|... y lo que pasó con tu progenitor...
 pearlcat_support|pearlcat_support
-Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!|NO_TRANSLATION
-pearlcat_glyphheart|NO_TRANSLATION
+Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!|Múltiples perlas rojas pueden encadenar juntas este efecto. ¡Y sí, estos moscamurciélagos son MUY HOSTILES!
+pearlcat_glyphheart|pearlcat_glyphheart
 WillowWisp|WillowWisp
 T1_CAR2|T1_CAR2
-When checked, disables the agility effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de agilidad otorgado por una perla activa.
+When checked, disables the agility effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de agilidad otorgada por una perla activa.
 Shield Pearl Count|Total de perlas de escudo
-You. I didn't forget...|Tú. No me olvidé...
-Please, stay as long as you'd like, I can't begin to imagine what you've been through.|NO_TRANSLATION
+You. I didn't forget...|Tú. No olvidé...
+Please, stay as long as you'd like, I can't begin to imagine what you've been through.|Quédate todo el tiempo que quieras, no puedo ni imaginarme por lo que has pasado.
 _sprites|_sprites
 DschockHorizontalRight|DschockHorizontalRight
-I already read this one. I can read it again, I suppose.|Ya leí esta. Puedo leerla otra vez, supongo.
-To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl|NO_TRANSLATION
+I already read this one. I can read it again, I suppose.|Ya he leído esta. Puedo leerla otra vez, supongo.
+To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl|Para dejar de poseer, intenta desplegar la perla como centinela o intenta sacarla
 pup|pup
-), or the triggers on controller|), o los gatillos del mando
+), or the triggers on controller|) o los gatillos del control
 I must resume my work. I will be waiting here, as always.|Debo continuar mi trabajo. Te estaré esperando aquí, como siempre.
 com.rainworldgame.garrakx.crs.mod|com.rainworldgame.garrakx.crs.mod
 T1_START|T1_START
-Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|NO_TRANSLATION
+Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|Tu CORAZÓN te permitirá poseer a otros. Con él activo, mantén la visual con una criatura e intenta sacar la perla para poseerla
 ad2424|ad2424
-PREVENTED PEARLPUP GRASP RELEASE|NO_TRANSLATION
-You're more than welcome to stay a while... your ability will always be a little miracle to me...|NO_TRANSLATION
-And a third? So it is...|¿La tercera? Sí, lo es...
-I remember this one... don't you? Well...|Me acuerdo de esta, ¿tú no? Bueno...
-I have tried to reconstruct it from memory many times, fruitlessly.|He intentado muchas veces reconstruirlo de memoria, pero en vano.
-There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|No hay nada que pueda hacer. No soy un centro médico, e incluso si lo fuera mi equipo está lejos de ser impecable.
-GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|Las VERDES simbolizan vitalidad. Cada perla verde almacenada puede revivir una criatura por ciclo, incluyéndote a ti.
+PREVENTED PEARLPUP GRASP RELEASE|LIBERACIÓN PREVENIDA DEL AGARRE DE LA CRÍA DEL PERLINO
+You're more than welcome to stay a while... your ability will always be a little miracle to me...|Eres más que bienvenido a quedarte un rato... tu habilidad siempre será un pequeño milagro para mí.
+And a third? So it is...|¿La tercera?, así es...
+I remember this one... don't you? Well...|Recuerdo esta... ¿Tú no?, bueno...
+I have tried to reconstruct it from memory many times, fruitlessly.|He intentado, infructuosamente, reconstruirlo de memoria muchas veces.
+There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|No hay nada que pueda hacer. No soy una instalación médica,<LINE>e incluso si lo fuera mi equipamiento está lejos de ser impecable.
+GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|VERDE simboliza vitalidad. Cada perla verde almacenada puede resucitar a una criatura por ciclo, incluyéndote a ti
 scholar|erudito
-So curious... I wonder what it is you're searching for?|Tan curioso... me pregunto qué es lo que estás buscando.
+So curious... I wonder what it is you're searching for?|Tan curioso... Me pregunto qué es lo que estás buscando.
 It appears to contain a hymn that once meant a lot to the inhabitants of my city...|Parece contener un himno que alguna vez significó mucho para los habitantes de mi ciudad...
-Oh, hello there!|NO_TRANSLATION
+Oh, hello there!|Oh, ¡buenas!
 ---------------------------------------------------------------|---------------------------------------------------------------
-Who... who is there?|NO_TRANSLATION
-JOLLY: {ModManager.JollyCoop}\n|NO_TRANSLATION
-29193d|NO_TRANSLATION
+Who... who is there?|¿Quién... Quién anda ahí?
+JOLLY: {ModManager.JollyCoop}\n|JOLLY: {ModManager.JollyCoop}\n
+29193d|29193d
 tail|tail
 ): swap out a pearl, or change the limit in the Remix options|): saca una perla o cambia el límite en los ajustes de Remix
 pearlcat_1|pearlcat_1
 Extra Cheats|Más trucos
 PEARLCAT WARP END|PEARLCAT WARP END
 ) & use the (LEFT) & (RIGHT) directional inputs|) y usa los direccionales (IZQUIERDA) y (DERECHA)
-Disable Revive Effect?|Desactivar efecto de revivir
+Disable Revive Effect?|Desactivar efecto de resurr.
 Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Tiempo en fotogramas para que un láser de perlas rojas dispare después de adquirir un objetivo. Predeterminado: 1,5 segundos.
-The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|El poder que tienes es fascinante. Nunca he visto nada parecido en tu especie.
-------------------------------|NO_TRANSLATION
+The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|El poder que tienes es fascinante. Nunca he visto nada parecido de tu especie.
+------------------------------|------------------------------
 BigGlyph10|BigGlyph10
 slime-cubed.slugbase|slime-cubed.slugbase
-I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Asumo que lo único que valoras de estas perlas es cuán pura es su estructura, así que te la voy a sustituir por una mucho más refinada.
-WorldCreature IL Error: \n|NO_TRANSLATION
-Surely it must be another little beast with a pearl for a heart?|NO_TRANSLATION
-The company of you and your friend makes my day, strange scholar.|NO_TRANSLATION
+I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Asumo que lo único que valoras de estas perlas es cuán pura es su estructura, así que te la voy a sustituir por otra mucho más refinada.
+WorldCreature IL Error: \n|WorldCreature IL Error: \n
+Surely it must be another little beast with a pearl for a heart?|Debe ser, seguramente, otra pequeña bestia con una perla por corazón.
+The company of you and your friend makes my day, strange scholar.|La compañía de ti y tu amigo me alegran el día, extraño erudito.
 pearl|pearl
 Pebbles_AS_PearlBlack|Pebbles_AS_PearlBlack
-Custom Agility Keybind?|Botón de agilidad personalizado
+Custom Agility Keybind?|Botón personalizado de agilidad
 DS|DS
 UW|UW
 Pebbles_AS_PearlRed|Pebbles_AS_PearlRed
 Something else new? Allow me to see...|¿Algo nuevo? Déjame ver...
 122626|122626
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|Si de por casualidad te sobra el tiempo, estaría más que feliz de leer esas perlas...<LINE>No hay mucho más que hacer para pasar el tiempo.
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|Si de casualidad te sobra el tiempo, estaría más que contenta de leer esas perlas...<LINE>No hay mucho que hacer como para pasar el tiempo.
 Software|Software
-Laser Damage (OLD)|NO_TRANSLATION
+Laser Damage (OLD)|Daño del láser (ANTIGUO)
 pearlcat_structure6|pearlcat_structure6
-- Floppy Ears, Scarf|- Orejas largas y suaves, y bufanda
-ERROR UPDATING SAVE ON CYCLE COMPLETION:\n|NO_TRANSLATION
+- Floppy Ears, Scarf|- Orejas<LINE>flexibles y bufanda
+ERROR UPDATING SAVE ON CYCLE COMPLETION:\n|ERROR ACTUALIZANDO EL GUARDADO EN LA TERMINACIÓN DEL CICLO:\n
 Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
 GATE_UW_LC|GATE_UW_LC
 Ah, yet another one? You are even better at finding these than I imagined...|Ah, ¿otra más? Eres incluso mejor encontrándolas de lo que me imaginaba...
-PEARLCAT VERSION: {Plugin.VERSION}\n|NO_TRANSLATION
+PEARLCAT VERSION: {Plugin.VERSION}\n|VERSIÓN DE PEARLCAT: {Plugin.VERSION}\n
 HoloGrid|HoloGrid
 Ah. So you've returned.|Ah. Así que has vuelto.
-{nameof(SaveMiscWorld.PearlpupID)}: {pearlcatMiscWorld.PearlpupID ?? -1}\n|NO_TRANSLATION
-Get... get away... strange... thing.|La... largo... bicho... extraño.
+{nameof(SaveMiscWorld.PearlpupID)}: {pearlcatMiscWorld.PearlpupID ?? -1}\n|{nameof(SaveMiscWorld.PearlpupID)}: {pearlcatMiscWorld.PearlpupID ?? -1}\n
+Get... get away... strange... thing.|La... Largo... bicho... extraño.
 MS|MS
-...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|... Me... comiste. Por favor, lárgate. No hablaré... contigo.<LINE>Yo... NO PUEDO hablar contigo... porque... me comiste... ...¿por qué?
-pearlcat_nightsky|NO_TRANSLATION
-Ah, you didn't happen to find a way to tell me about your travels, did you?|NO_TRANSLATION
-I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?|NO_TRANSLATION
-{Plugin.MOD_ID}:store_pearl|NO_TRANSLATION
+...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|Me... comiste. Lárgate. No hablaré... contigo.<LINE>Yo... NO puedo hablar contigo... porque me... comiste... ¿y por qué?
+pearlcat_nightsky|pearlcat_nightsky
+Ah, you didn't happen to find a way to tell me about your travels, did you?|Ah, no pudiste encontrar una manera de hablarme sobre tus viajes, ¿verdad?
+I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?|No te mentiré, tengo mucha curiosidad por saber cómo... sobreviviste y cómo terminaste de regreso...
+{Plugin.MOD_ID}:store_pearl|{Plugin.MOD_ID}:store_pearl
 pearlcat_hudshadow|pearlcat_hudshadow
-Ah, you have returned? You look about as sickly as I remember.|NO_TRANSLATION
-Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.|NO_TRANSLATION
+Ah, you have returned? You look about as sickly as I remember.|Ah, ¿has regresado? Te ves más o menos enfermizo de lo que recuerdo
+Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.|Abre la interfaz del inventario al mantenerlo pulsado, permitiendo cambiar la perla activa con las teclas de movimiento.
 DistantBkgObject|DistantBkgObject
 JaggedSquare|JaggedSquare
 pearlcat_daysky|pearlcat_daysky
 Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|Tiempo en fotogramas que tarda el escudo de perlas amarillas en recargarse tras ser activado. Predeterminado: 40 segundos.
-...and don't look to me, it's not my fault...|NO_TRANSLATION
-pcat_withpup|NO_TRANSLATION
-I'm sorry... it's wrong to be so invasive, it's none of my business really.|NO_TRANSLATION
-Edit keybinds through the normal input menu.|NO_TRANSLATION
-You would be a hard one to forget after all, strange scholar!|NO_TRANSLATION
-VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|NO_TRANSLATION
-Pearlcat|Perlino
-FORCE CREATURE RELEASE UNDER ROOM|NO_TRANSLATION
-PEARLCAT SAYS HELLO FROM INIT! (VERSION: |NO_TRANSLATION
-I'll be waiting right here - not like I can go far, anyways~|NO_TRANSLATION
-pearlcat_bottomshutter_night|NO_TRANSLATION
+...and don't look to me, it's not my fault...|... y no me mires, no es mi culpa...
+pcat_withpup|pcat_withpup
+I'm sorry... it's wrong to be so invasive, it's none of my business really.|Lo siento... Está mal ser tan invasivo, no es de mi incumbencia realmente.
+Edit keybinds through the normal input menu.|Edita los botones a través del menú de entrada normal.
+You would be a hard one to forget after all, strange scholar!|Después de todo, ¡sería difícil olvidarte, extraño erudito!
+VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|ADVERTENCIA SOBRE LA VERSIÓN<LINE>¡La instalación de Mira requiere la versión 1.3.0 o superior del Perlino! Se le recomienda actualizar...
+Pearlcat|El Perlino
+FORCE CREATURE RELEASE UNDER ROOM|FORZAR LIBERACIÓN DE CRIATURAS DEBAJO DE LA SALA
+PEARLCAT SAYS HELLO FROM INIT! (VERSION: |¡EL PERLINO SALUDA DESDE INIT! (VERSIÓN: 
+I'll be waiting right here - not like I can go far, anyways~|Te estaré esperando aquí mismo; no es como si pudiera ir muy lejos de todos modos~
+pearlcat_bottomshutter_night|pearlcat_bottomshutter_night
 Something new to read... it has been too long...|Algo nuevo para leer... ha pasado tanto tiempo...
-...are you alright, little one? The modifications to your body are quite... unusual.|NO_TRANSLATION
-I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|NO_TRANSLATION
+...are you alright, little one? The modifications to your body are quite... unusual.|¿Estás bien, pequeño? Los cambios en tu cuerpo son bastante... inusuales.
+I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Me encantaría estudiarlo, para así ayudar a tratar mi propia aflicción, pero requeriría la... eliminación del aumento.
 I am... sorry.|Lo... siento.
 Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|Con una curiosidad insaciable, el Perlino se aventura una vez más<LINE>en busca de expandir su colección.
-...but, you are not like I remember them? Am I misremembering so badly?|NO_TRANSLATION
+...but, you are not like I remember them? Am I misremembering so badly?|Pero... no eres como lo recuerdo a él. ¿Acaso estoy recordando tan mal?
 NA_19 - Halcyon Memories|NA_19 - Halcyon Memories
-pearlcat_ragespear|NO_TRANSLATION
+pearlcat_ragespear|pearlcat_ragespear
 To store, hold the same keybind with a pearl in your main hand|Para almacenarlas, sostén una en la mano principal y mantén la misma acción
-\n-------------------\n|NO_TRANSLATION
-AltOutro10_1|NO_TRANSLATION
-{nameof(SaveMiscWorld.PebblesMeetCount)}: {pearlcatMiscWorld.PebblesMeetCount}\n|NO_TRANSLATION
+\n-------------------\n|\n-------------------\n
+AltOutro10_1|AltOutro10_1
+{nameof(SaveMiscWorld.PebblesMeetCount)}: {pearlcatMiscWorld.PebblesMeetCount}\n|{nameof(SaveMiscWorld.PebblesMeetCount)}: {pearlcatMiscWorld.PebblesMeetCount}\n
 Disable Spear Effect?|Desactivar efecto de lanza
-pearlcatHipsAPearlpupSick|NO_TRANSLATION
-acursed|NO_TRANSLATION
+pearlcatHipsAPearlpupSick|pearlcatHipsAPearlpupSick
+acursed|acursed
 AS|COMO
 All times here are in frames.<LINE>40 frames = 1 second.|Todos los tiempos aquí están en fotogramas.<LINE>40 fotogramas = 1 segundo.
-You... I still remember what you did.|NO_TRANSLATION
+You... I still remember what you did.|Tu... Aún recuerdo lo que hiciste.
 300|300
-Starting Inventory Override?|Anulación de inventario inicial
-{Plugin.MOD_ID}:ability|NO_TRANSLATION
+Starting Inventory Override?|Anulación del inventario inicial
+{Plugin.MOD_ID}:ability|{Plugin.MOD_ID}:ability
 Menu|Menú
 loadedsoundeffects/ambient|loadedsoundeffects/ambient
-Improved Input Config is active!|NO_TRANSLATION
+Improved Input Config is active!|¡Improved Input Config está activado!
 1.0.0|1.0.0
 Nevermind... this anger is useless...|Olvídalo... esta ira es inútil...
 pearlactive|pearlactive
 soundeffects/ambient|soundeffects/ambient
-Oh... the memories can hurt a little... but I shouldn't well on them.|NO_TRANSLATION
-Press (JUMP + GRAB) while in the air to perform a double jump|Presiona (SALTAR + AGARRAR) mientras estás en el aire para realizar un doble salto.
+Oh... the memories can hurt a little... but I shouldn't well on them.|Oh... los recuerdos pueden doler un poco... pero no debería mortificarme por ellos.
+Press (JUMP + GRAB) while in the air to perform a double jump|Pulsa (SALTAR + AGARRAR) mientras estás en el aire para realizar un doble salto.
 Rage Pearl Count|Total de perlas de ira
 pearlcat_8|pearl_8
 I see you have not found a cure for their illness. Not yet...|Veo que no has encontrado una cura para su enfermedad. No todavía...
 GateHologram|GateHologram
-I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|NO_TRANSLATION
+I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|Me alegra que hayas encontrado tu propia solución... incluso si es una perversión aborrecible de la ley natural.
 Enable Backspear?|Activar portalanzas
 Hello again.|Hola otra vez.
-Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.|NO_TRANSLATION
+Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.|Botón personalizado para realizar ciertas habilidades de perlas, configura cuáles usan el botón en los ajustes de Remix del Perlino.
 pearlcat_sentryhalo|pearlcat_sentryhalo
 face_sick|face_sick
 warp|warp
-Ability KB|NO_TRANSLATION
+Ability KB|BP: Habil.
 pearlcat_flyingclouds|pearlcat_flyingclouds
-{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n|NO_TRANSLATION
-{nameof(SaveMiscWorld.JustBeatAltEnd)}: {pearlcatMiscWorld.JustBeatAltEnd}\n|NO_TRANSLATION
-FIND MIRA...|NO_TRANSLATION
-I am not sure if you are aware, but your child appears very unwell...|No sé si lo sabes, pero tu hijo no parece encontrarse muy bien...
-DM|MD
+{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n|{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n
+{nameof(SaveMiscWorld.JustBeatAltEnd)}: {pearlcatMiscWorld.JustBeatAltEnd}\n|{nameof(SaveMiscWorld.JustBeatAltEnd)}: {pearlcatMiscWorld.JustBeatAltEnd}\n
+FIND MIRA...|ENCONTRAR MIRA...
+I am not sure if you are aware, but your child appears very unwell...|No sé si lo sabes, pero tu cría parece encontrarse muy mal...
+DM|DM
 Disable Cosmetics?|Desactivar cosméticos
 Efi|Efi
 Visibility Multiplier|Multiplicador de visibilidad
-ERROR REMOVING PERSISTENT TRACKERS FROM STORED OBJECTS: \n|NO_TRANSLATION
-They are unwell, <PlayerName>, very unwell indeed.|Se encuentra mal, <PlayerName>. Muy mal, de hecho.
+ERROR REMOVING PERSISTENT TRACKERS FROM STORED OBJECTS: \n|ERROR AL ELIMINAR RASTREADORES PERSISTENTES DE OBJETOS ALMACENADOS: \n
+They are unwell, <PlayerName>, very unwell indeed.|Se encuentra mal, <PlayerName>. Ciertamente muy mal.
 Shield Recharge Time|Tiempo de recarga del escudo
 BigGlyph11|BigGlyph11
 pearlcat_revivesentry|pearlcat_revivesentry
 When checked, some abilties will show the inventory when recharged or depleted.|Si se encuentra marcada, algunas habilidades mostrarán el inventario al estar recargadas o agotadas.
-...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|... pero... veré qué puedo hacer sobre tu problema, por ahora. Quizás pueda encontrar una solución para nosotros dos.
+...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|Pero... veré qué puedo hacer por tu problema, por ahora. Quizás pueda encontrar una solución para nosotros dos.
 When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|Si se encuentra marcada, las perlas ya no otorgarán cambios de estadísticas, ya sean activas o no, y las estadísticas base se configurarán para ser similares a las del Cazador.
-Sentry P3|NO_TRANSLATION
+Sentry P3|P3: Centin.
 Welcome back, I suppose.|Bienvenido de vuelta, supongo.
-pearlcat_ragesentry|NO_TRANSLATION
-Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer...|NO_TRANSLATION
+pearlcat_ragesentry|pearlcat_ragesentry
+Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer...|De otro modo, debo continuar mi trabajo, parece que el camino hacia mi propia curación es, desafortunadamente, más largo...
 pearlcat_spear|pearlcat_spear
-I do enjoy the company though... it gets lonely out here.|Aunque disfruto de la compañía; se siente muy solitario aquí.
+I do enjoy the company though... it gets lonely out here.|Aunque disfruto de la compañía... aquí fuera se siente muy solitario.
 Cheats|Trucos
-...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|... no hay nada que pueda hacer por tu cría en este momento. Lo siento. Veré... qué puedo hacer.
-You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|¡Vaya susto me diste! No recibo muchas visitas estos días;<LINE>mucho menos por visitantes como tú, con los que puedo hablar...
-I'll always enjoy your company... it gets lonely out here.|NO_TRANSLATION
+...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|No hay nada que pueda hacer por tu cría actualmente... Lo siento. Yo... veré qué puedo hacer.
+You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|¡Qué susto me has dado! No recibo muchas visitas estos días,<LINE>mucho menos por visitantes como tú, con los que puedo hablar...
+I'll always enjoy your company... it gets lonely out here.|Siempre disfrutaré de tu compañía... aquí fuera se siente muy solitario.
 I am so sorry.|Lo siento mucho.
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Pero... la marca que posees es muy inusual.<LINE>No es algo que cualquiera en el grupo local pueda otorgar...
 When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|Si se encuentra marcada, la mayoría de las perlas (cuando están activas) forzarán el tema de amenazas para todas las regiones al tema de la región de las que eran originalmente.
-{nameof(SaveMiscWorld.HasPearlpupWithPlayer)}: {pearlcatMiscWorld.HasPearlpupWithPlayer}\n|NO_TRANSLATION
-...did they have a child? ...could you be?|NO_TRANSLATION
+{nameof(SaveMiscWorld.HasPearlpupWithPlayer)}: {pearlcatMiscWorld.HasPearlpupWithPlayer}\n|{nameof(SaveMiscWorld.HasPearlpupWithPlayer)}: {pearlcatMiscWorld.HasPearlpupWithPlayer}\n
+...did they have a child? ...could you be?|¿Tuvo una cría?... ¿Tú podrías ser...?
 HANDLED: Shield Sentry Sound Exception:\n|MANEJADO: Excepción de sonido de centinela escudo:\n
 Max Pearl Count|N.º máximo de perlas
-Pearlcat_Amnesia|NO_TRANSLATION
-Debug|NO_TRANSLATION
+Pearlcat_Amnesia|Pearlcat_Amnesia
+Debug|Depurador
 98ab95|98ab95
-Sentry P4|NO_TRANSLATION
+Sentry P4|J4: Centin.
 pearlpup_tail|pearlpup_tail
-{nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n|NO_TRANSLATION
+{nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n|{nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n
 Hold (GRAB) with an active common pearl to convert it into a pearl spear|Mantén (AGARRAR) con una perla común activa para convertirla en una lanza perlada
 Lolight2|Lolight2
-Another? And I shall read this one to you as well...|¿Otra? Y te leeré esta también...
+Another? And I shall read this one to you as well...|¿Otra?, te la voy a leer también...
 Death is not the end... even death that seems permanent.|La muerte no es el final... ni siquiera la que parece permanente.
 BigGlyph12|BigGlyph12
 PFace|PFace
 L-Stick|Palanca izquierda
-Oh, hello strange scholar!|NO_TRANSLATION
+Oh, hello strange scholar!|Oh, ¡hola, extraño erudito!
 T1_END|T1_END
 SL|SL
 JetFishEyeA|JetFishEyeA
 To cycle between pearls, use (|Para cambiar de perla, utiliza (
 pearlcatScarfA0|pearlcatScarfA0
 Store Input|Almacenar
-a486c2|NO_TRANSLATION
+a486c2|a486c2
 You're welcome to stay a while... your ability is fascinating.|Eres bienvenido a quedarte un rato... tu habilidad es fascinante.
 - Artwork|-<LINE>Trabajo artístico
-PLAYTESTERS|TESTERS
-Number of rage pearls (red). Effective only when Inventory Override? is checked.|Número de perlas de ira (rojas). Solo es efectivo si «Anulación de inventario» está marcada.
-And a nasty scar, poor thing... I can't imagine where you got that, or even where you came from...?|NO_TRANSLATION
+PLAYTESTERS|PLAYTESTERS
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|Número de perlas de ira (rojas). Solo es efectivo si «Anulación del inventario» está marcada.
+And a nasty scar, poor thing... I can't imagine where you got that, or even where you came from...?|Y una cicatriz fea, pobrecito... No puedo visualizar de dónde la recibiste, o siquiera de dónde viniste...
 .txt|.txt
-For the number of visits you pay me, how could there only be one of you?|NO_TRANSLATION
+For the number of visits you pay me, how could there only be one of you?|Para la cantidad de visitas que me haces, ¿cómo podría haber solo uno de ustedes?
 BigGlyph6|BigGlyph6
-I... I have nothing more to say...|NO_TRANSLATION
-Revive Pearl Count|Total de perlas de revivir
-MISC WORLD NOT FOUND! (not in story session?)\n|NO_TRANSLATION
-I have so little... please don't take... this... this is all I have...|NO_TRANSLATION
+I... I have nothing more to say...|Yo... Yo no tengo nada más que decir...
+Revive Pearl Count|Total de perlas de resurr.
+MISC WORLD NOT FOUND! (not in story session?)\n|¡MUNDO MISCELÁNEO NO ENCONTRADO! (¿tal vez no en la sesión de historia?)\n
+I have so little... please don't take... this... this is all I have...|Tengo tan poco... no tomes... esto... esto es todo lo que tengo...
 The Gutter|La Alcantarilla
 Music|Música
 Left Bumper|Bumper izquierdo
-Think of this mutually, I can 'see' a little further outside this can...|Piénsalo mutuamente, puedo "ver" un poco más allá de esta lata...
-Hello again, strange scholar...|NO_TRANSLATION
-ERROR UPDATING SAVE BEFORE CYCLE START:\n|NO_TRANSLATION
-When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Si se encuentra marcada, anula las perlas del inicio con los ajustes de abajo. A diferencia de «Anulación de inventario», este solo es efectivo al comienzo de una nueva partida.
+Think of this mutually, I can 'see' a little further outside this can...|Piénsalo solidariamente, puedo "ver" un poco más allá de esta lata...
+Hello again, strange scholar...|Hola otra vez, extraño erudito...
+ERROR UPDATING SAVE BEFORE CYCLE START:\n|ERROR ACTUALIZANDO EL GUARDADO ANTES DEL INICIO DEL CICLO:\n
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Si se encuentra marcada, anula las perlas del inicio con los ajustes de abajo. A diferencia de «Anulación del inventario», este solo es efectivo al comienzo de una nueva partida.
 Keybind for Player 3.|Botón para el jugador 3.
 pearlcat_bottomshutter|pearlcat_bottomshutte
-Transit System|Sistema de Transporte Público
-Pearl Spear Count: {pearlcatMiscWorld.PearlSpears.Keys.Count}\n|NO_TRANSLATION
-I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...|NO_TRANSLATION
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|NO_TRANSLATION
-Your survival gives me some hope, little one.|NO_TRANSLATION
-VERSION WARNING|NO_TRANSLATION
+Transit System|Sistema de Transporte
+Pearl Spear Count: {pearlcatMiscWorld.PearlSpears.Keys.Count}\n|Total de lanzas perladas: {pearlcatMiscWorld.PearlSpears.Keys.Count}\n
+I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...|Ojalá pudieras contarme qué pasó en tus viajes... Apenas recuerdo la última vez que vi más allá de esta cámara...
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|Si se encuentra marcada, establece el inventario a la cantidad especificada de perlas coloridas de abajo en cada ciclo. No guarda sobre el inventario actual; se regresa al ser desmarcada.
+Your survival gives me some hope, little one.|Tu supervivencia me da algo de esperanza, pequeño.
+VERSION WARNING|ADVERTENCIA SOBRE LA VERSIÓN
 q|q
-pearlcatScar|NO_TRANSLATION
-Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Número de perlas de agilidad (azules). Solo es efectivo si «Anulación de inventario» está marcada.
+pearlcatScar|pearlcatScar
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Número de perlas de agilidad (azules). Solo es efectivo si «Anulación del inventario» está marcada.
 Disable Rage Effect?|Desactivar efecto de ira
 Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|Tiempo en fotogramas para que un láser de perlas rojas recargue después de disparar. Predeterminado: 1,5 segundos.
-.NET Framework 4.8|NO_TRANSLATION
-Geahgeah |Geahgeah
+.NET Framework 4.8|.NET Framework 4.8
+Geahgeah |Geahgeah 
 SU|SU
-Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.|NO_TRANSLATION
-1.0.0.0|NO_TRANSLATION
-I still don't have much to offer, sadly... aside from my pearl readings, and company of course! ~|NO_TRANSLATION
-Button North|Botón norte
-ffffff|NO_TRANSLATION
-Is the implant... painful? Not that it matters, of course. Just noting some common ground.|NO_TRANSLATION
+Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.|Perdón, no debería entrometerme demasiado. Después de todo, yo también estoy en un mal estado.
+1.0.0.0|1.0.0.0
+I still don't have much to offer, sadly... aside from my pearl readings, and company of course! ~|Aún no tengo mucho que ofrecer, desafortunadamente... ¡fuera de mi lectura de perlas y mi compañía, por supuesto! ~
+Button North|Botón Norte
+ffffff|ffffff
+Is the implant... painful? Not that it matters, of course. Just noting some common ground.|¿Es... doloroso el implante? No es que importe, por supuesto. Solo tomo nota de algunos puntos en común.
 ) & (|) y (
-Back again? You do visit often...|¿Volviste otra vez? Sí que visitas frecuentemente...
+Back again? You do visit often...|¿Volviste otra vez?, sí que visitas muy a menudo...
 pearlactivehalo|pearlactivehalo
-...familiar ...help... please...|NO_TRANSLATION
-RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|Las ROJAS simbolizan poder. Con una perla roja activa, la criatura hostil más cercana será el objetivo.
-Hello again, strange scholar!|NO_TRANSLATION
-Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|NO_TRANSLATION
-Reverts to the old red pearl mechanics - auto targeting lasers.|NO_TRANSLATION
+...familiar ...help... please...|... familar... ayuda... por favor...
+RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|ROJO simboliza poder. Con una perla roja activa, la criatura hostil más cercana será el objetivo
+Hello again, strange scholar!|¡Hola otra vez, extraño erudito!
+Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|Ah, lo siento... está mal ser tan invansivo y, de todos modos, no debería ser tan sentimental.
+Reverts to the old red pearl mechanics - auto targeting lasers.|Revierte a la mecánica antigua de perlas rojas; habilidad de láseres de objetivos automáticos.
 _windDir|_windDir
 Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Activa los botones personalizados de abajo, en lugar de los predeterminados (ARRIBA + RECOGER).
 HologramBehindTerrain|HologramBehindTerrain
-You really do remind me so much of your mother...|NO_TRANSLATION
+You really do remind me so much of your mother...|Me recuerdas muchísimo a tu madre...
 Special thanks to the following people!|AGRADECIMIENTOS ESPECIALES
-9487c9|NO_TRANSLATION
+9487c9|9487c9
 Intended to make gameplay more challenging, may change gameplay significantly!|Diseñado para que la experiencia sea más desafiante, ¡puede cambiar de manera significativa las partidas!
 T1_CAR3|T1_CAR3
 General|General
-START OF BEPINEX LOG|NO_TRANSLATION
-Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.|NO_TRANSLATION
-sleep1|NO_TRANSLATION
-The Pearlcat|El perlino
+START OF BEPINEX LOG|REGISTRO DEL INICIO DE BEPINEX
+Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.|Por favor, intenta no presionarme demasiado; con la cantidad de neuronas que tengo... digamos que mi mente se nubla un poco.
+sleep1|sleep1
+The Pearlcat|El Perlino
 0.0|0.0
 YOU!|¡TÚ!
-Button West|Botón oeste
-trueend|NO_TRANSLATION
+Button West|Botón Oeste
+trueend|trueend
 If you do not plan to provide me with any meaningful data, that is your best course of action;|Si no planeas proveerme ningún dato importante, ese es tu mejor rumbo;
- Pearlpup will be revived.|NO_TRANSLATION
+ Pearlpup will be revived.| la Cría del Perlino será resucitada.
 pearlcat_structure5|pearlcat_structure5
 You are welcome to stay as long as you like. Anything to ease the pain.|Eres bienvenido a quedarte todo el tiempo que quieras. Lo que sea para aliviar el dolor.
 Disable Agility Effect?|Desactivar efecto de agilidad
 pearlcat_hudlockedshortcut|pearlcat_hudlockedshortcut
-What do you want? To take away more of my life...?|¿Qué quieres? ¿Vas a quitarme más de mi vida...?
-Start Shelter Override|Anulación de refugio inicial
-Button South|Botón sur
-Some time ago now, I encountered a scholar and their dying pup...|NO_TRANSLATION
+What do you want? To take away more of my life...?|¿Qué quieres?, ¿vas a quitarme más de mi vida?...
+Start Shelter Override|Anulación del refugio inicial
+Button South|Botón Sur
+Some time ago now, I encountered a scholar and their dying pup...|Hace tiempo atrás, me encontré con un erudito y su cría moribunda...
 Read this one too? Yes, yes, here it is...|¿Leo esta también? De acuerdo, aquí va...
 _MultiplyColor|_MultiplyColor
 pearlcat_spire3|pearlcat_spire3
-{nameof(SaveMiscWorld.MoonSickPupMeetCount)}: {pearlcatMiscWorld.MoonSickPupMeetCount}\n|NO_TRANSLATION
+{nameof(SaveMiscWorld.MoonSickPupMeetCount)}: {pearlcatMiscWorld.MoonSickPupMeetCount}\n|{nameof(SaveMiscWorld.MoonSickPupMeetCount)}: {pearlcatMiscWorld.MoonSickPupMeetCount}\n
 pearlcat_clouds|pearlcat_clouds
-And please keep your child under control.|Y, por favor, mantén a tu hijo controlado.
-PEARLCAT MISC WORLD:\n|NO_TRANSLATION
-Clearly an artifical creation. But from where? Sent by who?|Es, evidentemente, una creación artificial. Pero ¿de dónde?, ¿enviada por quién?
-...there.|... listo.
-pup_sick|NO_TRANSLATION
-Welc- Hello. Hello again.|NO_TRANSLATION
-Alternatively, hold (|Alternativamente, mantén (
+And please keep your child under control.|Y, por favor, mantén a tu cría controlada.
+PEARLCAT MISC WORLD:\n|MUNDO MISCELÁNEO DEL PERLINO:\n
+Clearly an artifical creation. But from where? Sent by who?|Una creación artificial, evidentemente. Pero ¿de dónde?, ¿enviada por quién?
+...there.|Listo.
+pup_sick|pup_sick
+Welc- Hello. Hello again.|Bienve... Hola. Hola otra vez.
+Alternatively, hold (|De otro modo, mantén (
 LizardBubble6|LizardBubble6
 pearlcat_shieldsentry|pearlcat_shieldsentry
-RESET PEARLCAT MISC PROGRESSION|NO_TRANSLATION
-Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|NO_TRANSLATION
-{Plugin.MOD_ID}:swap_right|NO_TRANSLATION
-pearlcat_topshutter_night|NO_TRANSLATION
+RESET PEARLCAT MISC PROGRESSION|REINICIAR PROGRESIÓN MISCELÁNEA DEL PERLINO
+Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|¡La instalación de Mira requiere de la versión 1.3.0 o superior del Perlino! Se le recomienda actualizar...
+{Plugin.MOD_ID}:swap_right|{Plugin.MOD_ID}:swap_right
+pearlcat_topshutter_night|pearlcat_topshutter_night
 I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|Espero que los ciclos te hayan tratado bien... Debe ser difícil cuidarse unos a otros ahí fuera.
 When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Si se encuentra marcada, los cosméticos del Perlino se desactivarán con la intención de permitir sprites personalizados a través de DMS. Esto no incluye las perlas en sí.
-Ability P3|NO_TRANSLATION
-, pearlcatMiscWorld.ActiveObjectIndex)}\n|NO_TRANSLATION
-8f1800|NO_TRANSLATION
-PEARLCAT STATISTICS SCREEN: |NO_TRANSLATION
-You. Again. I still remember what you did...|Otra vez... tú. Aún recuerdo lo que hiciste...
+Ability P3|J3: Habil.
+, pearlcatMiscWorld.ActiveObjectIndex)}\n|, pearlcatMiscWorld.ActiveObjectIndex)}\n
+8f1800|8f1800
+PEARLCAT STATISTICS SCREEN: |PANTALLA DE ESTADÍSTICAS DEL PERLINO: 
+You. Again. I still remember what you did...|Tú. Otra vez. Aún recuerdo lo que hiciste...
 pearlcatScarfC0|pearlcatScarfC0
-Store Pearl|NO_TRANSLATION
-Let us see what- oh, again?|Veamos qué... ah, ¿otra vez?
+Store Pearl|Alm. de perla
+Let us see what- oh, again?|Veamos qué... oh, ¿otra vez?
 _atlases|_atlases
-{nameof(SaveMiscProgression.HasOEEnding)}: {pearlcatMiscProg.HasOEEnding}\n|NO_TRANSLATION
+{nameof(SaveMiscProgression.HasOEEnding)}: {pearlcatMiscProg.HasOEEnding}\n|{nameof(SaveMiscProgression.HasOEEnding)}: {pearlcatMiscProg.HasOEEnding}\n
 Songs|Canciones
 #|#
-improved-input-config|NO_TRANSLATION
+improved-input-config|improved-input-config
 LC|LC
 head|head
 .png|.png
 Disable Shield Effect?|Desactivar efecto de escudo
-CRS VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == |NO_TRANSLATION
+CRS VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == |VERSIÓN DE CRS: {ModManager.ActiveMods.FirstOrDefault(x => x.id == 
 Is my memory so bad to forget how your little one looks? They seem paler...|¿Tan mala es mi memoria como para olvidar cómo se ve tu pequeño? Parece más pálido...
 Cloud|Cloud
-{Plugin.MOD_ID}:sentry_pearl|NO_TRANSLATION
+{Plugin.MOD_ID}:sentry_pearl|{Plugin.MOD_ID}:sentry_pearl
 pearlcat_spire8|pearlcat_spire8
-I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten.|NO_TRANSLATION
-pearlcat_hudheart|NO_TRANSLATION
+I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten.|Supongo que puedes encontrarlos cerca del área a la que llegaste; es decir, a través del pozo de acceso, si lo has olvidado
+pearlcat_hudheart|pearlcat_hudheart
 And who is your little friend? They are...|¿Y quién es tu amiguito? Él...
 Oh, hello! Hello!|Oh, ¡saludos!
-{nameof(SaveState.cycleNumber)}: {saveState.cycleNumber}\n|NO_TRANSLATION
+{nameof(SaveState.cycleNumber)}: {saveState.cycleNumber}\n|{nameof(SaveState.cycleNumber)}: {saveState.cycleNumber}\n
 T1_CAREND|T1_CAREND
 OnModsInit:\n|OnModsInit:\n
 pearlcatSleeve0|pearlcatSleeve0
 ear_r|ear_r
 Hide Pearls?|Ocultar perlas
-Sentry Pearl|NO_TRANSLATION
+Sentry Pearl|Perla cent.
 hips|hips
-.  .  .|. . .
-You have a knack for finding these pearls, yes?|Tienes madera para encontrar estas perlas, ¿verdad?
-...that pearl you carry, the purple one, where did you find it?|... esa perla que llevas, la morada, ¿de dónde la encontraste?
+.  .  .|.  .  .
+You have a knack for finding these pearls, yes?|Tienes madera para encontrar estas perlas, ¿no es así?
+...that pearl you carry, the purple one, where did you find it?|Esa perla que llevas, la morada, ¿de dónde la encontraste?
 haloGlyph6|haloGlyph6
-I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...|NO_TRANSLATION
+I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...|¡Estoy bormeando, por supuesto! Mi imaginación será suficiente, aunque la curiosidad me quema por dentro...
 Player 4|Jugador 4
-...we were built to solve problems. It is a shame not every problem has a solution.|... fuimos construidos para resolver problemas. Es una pena que no todos los problemas tengan solución.
-pearlpup_cloak|NO_TRANSLATION
+...we were built to solve problems. It is a shame not every problem has a solution.|... Fuimos construidos para resolver problemas. Es una pena que no todos los problemas tengan solución.
+pearlpup_cloak|pearlpup_cloak
 Storage limit reached (|Límite de almacenamiento alcanzado (
-Laser Recharge Time (OLD)|NO_TRANSLATION
+Laser Recharge Time (OLD)|Tiempo de recarga del láser (ANTIGUO)
 You would be a hard one to forget after all, <PlayerName>!|¡Serías difícil de olvidar después de todo, <PlayerName>!
 TurtleMan27|TurtleMan27
-- Spanish Translation|-<LINE>Traducción al español
-Hello! Strange scholar, it is good to see you!|NO_TRANSLATION
+- Spanish Translation|-Traducción<LINE>al español
+Hello! Strange scholar, it is good to see you!|¡Hola! ¡Extraño erudito, qué bueno volver a verte!
 pearlcat_glyphsentry|pearlcat_glyphsentry
 ) or (|) o (
-But it's best not to dwell on the past, don't you agree <PlayerName>?|Pero es mejor no residir en el pasado, ¿no estás de acuerdo, <PlayerName>?
-And who is your little friend? They are quite adorable!|¿Y quién es tu amiguito? ¡Es muy adorable!
+But it's best not to dwell on the past, don't you agree <PlayerName>?|Pero es mejor no vivir por el pasado, ¿no estás de acuerdo, <PlayerName>?
+And who is your little friend? They are quite adorable!|¿Y quién es tu amiguito?, ¡es muy adorable!
 Keybind for Keyboard.|Botón para el teclado.
 3600|3600
 And now here you are, with a perfect copy.|Y ahora estás aquí con una copia perfecta.
 _AboveCloudsAtmosphereColor|_AboveCloudsAtmosphereColor
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Un erudito curioso con la habilidad inusual de sacarle provecho a las perlas.<LINE><LINE>¡Configura controles, dificultades, trucos y más a través de la configuración de Remix!<LINE><LINE>More Slugcats es opcional, pero altamente recomendable.
-SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == |NO_TRANSLATION
+A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Un erudito curioso con la extraordinaria habilidad de aprovechar las perlas a su beneficio.<LINE><LINE>¡Configura controles, dificultades, trucos y más a través de la configuración de Remix!<LINE><LINE>More Slugcats es opcional, pero altamente recomendable.
+SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == |VERSIÓN DE SLUGBASE: {ModManager.ActiveMods.FirstOrDefault(x => x.id == 
 SS_AI|SS_AI
-694646|NO_TRANSLATION
+694646|694646
 pearlcat_5|pearlcat_5
 pearlcat_hudsentry|pearlcat_hudsentry
 pearlcat_structure1|pearlcat_structure1
 legs|legs
-Hello, again. You are very curious. Very curious indeed.|Hola, de nuevo. Eres muy curioso. Demasiado curioso, de hecho.
-{nameof(SaveMiscProgression.StoredPearlColors)}:\n{string.Join(|NO_TRANSLATION
+Hello, again. You are very curious. Very curious indeed.|Hola, de nuevo. Eres muy curioso. Ciertamente muy curioso.
+{nameof(SaveMiscProgression.StoredPearlColors)}:\n{string.Join(|{nameof(SaveMiscProgression.StoredPearlColors)}:\n{string.Join(
 Midground|Midground
-Ah... you seem, familiar...? ...but in such a strange way...|NO_TRANSLATION
+Ah... you seem, familiar...? ...but in such a strange way...|Ah... pareces familiar... pero de una manera tan extraña...
 pearlcatFeetA0|pearlcatFeetA0
-Whichever path you take, I hope you find the help that you seek.|NO_TRANSLATION
+Whichever path you take, I hope you find the help that you seek.|Sea cual sea el camino que elijas, espero que encuentres la ayuda que buscas.
 Ability Input|Habilidades
-pearlcat_ribbon|NO_TRANSLATION
-Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|NO_TRANSLATION
-Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|A qué jugador se aplicará la acción de cambiar con los gatillos del mando. 0 la desactiva. Mantén y arrastra hacia arriba o abajo para cambiar.
+pearlcat_ribbon|pearlcat_ribbon
+Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|Considerando el estado en el que te fuiste, pensé que era imposible volver a verte... pero aquí estás.
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|A qué jugador se le aplicará la acción de cambiar con los gatillos del control. 0 la desactiva. Mantén y arrastra hacia arriba o abajo para cambiar.
 Trigger Player|Jugador de los gatillos
  SAVE| SAVE
-I can only hope you have not come... to hurt me more.|Solo puedo esperar que no hayas venido... a hacerme más daño.
+I can only hope you have not come... to hurt me more.|Solo puedo esperar que no hayas venido... a lastimarme más.
 SB|SB
-...you can manipulate our storage medium in unforseen ways...|... puedes manipular nuestros medios de almacenamiento de formas imprevistas...
+...you can manipulate our storage medium in unforseen ways...|Puedes manipular nuestros medios de almacenamiento de formas imprevistas...
 Given your unique abilities, if you are curious as to the contents of those pearls -|Dadas tus habilidades únicas, si tienes curiosidad sobre el contenido de esas perlas...
-TIME: {DateTime.UtcNow}\n|NO_TRANSLATION
+TIME: {DateTime.UtcNow}\n|TIEMPO: {DateTime.UtcNow}\n
 View|Visualización
-pupheartcore|NO_TRANSLATION
+pupheartcore|pupheartcore
 pearlcat_topshutter|pearlcat_topshutter
  - | - 
-Custom Sentry Keybind?|Botón de centinela personalizado
+Custom Sentry Keybind?|Botón personalizado de centinela
 arm|arm
 R-Stick|Palanca derecha
 _textures|_textures
 Keybind for Player 4.|Botón para el jugador 4.
 And just who might you two be?|¿Y quiénes podrían ser ustedes dos?
-Has it really been so long...? And considering your current state, you've been through a lot...|NO_TRANSLATION
+Has it really been so long...? And considering your current state, you've been through a lot...|¿De verdad ha pasado tanto tiempo?... y considerando yu estado actual, has pasado por mucho...
 3.0|3.0
 _|_
 Keybind to swap to the stored pearl to the right. Limited to Player 1.|Botón para cambiar la perla almacenada hacia la derecha. Limitado al jugador 1.
 Foreground|Foreground
-pearlpup_sleeve|NO_TRANSLATION
+pearlpup_sleeve|pearlpup_sleeve
 pearlcat_2|pearlcat_2
-START PEARL THREAT |NO_TRANSLATION
+START PEARL THREAT |INICIAR AMENAZA DE PERLA
 pearlcat_light1|pearlcat_light1
-I do enjoy the company of you and your friend though, strange schoar.|NO_TRANSLATION
+I do enjoy the company of you and your friend though, strange schoar.|Aunque disfruto de la compañía de ti y tu amigo, extraño erudito.
 Pebbles_AS_PearlBlue|Pebbles_AS_PearlBlue
 I have nothing for you, I'm afraid... but I hope you find the answers you seek.|Me temo que no tengo nada para ti... pero espero que encuentres las respuestas que buscas.
-When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|Si se encuentra marcada, la cría del Perlino reaparecerá en el próximo refugio del siguiente ciclo cada vez que se pierda.
-When checked, enables Pearlcat to carry a backspear.|Cuando se encuentra marcada, permite al Perlino llevar una lanza en la espalda.
-{nameof(SaveMiscProgression.JustAscended)}: {pearlcatMiscProg.JustAscended}\n|NO_TRANSLATION
-Oh, and for direction - there is a gate to the far west of here, where the ground fissues...|Ah, y como dirección: hay una puerta al extremo oeste de aquí, donde el suelo se agrieta...
-This one again? I have better things to do... but...|¿Esta otra vez? Tengo mejores cosas que hacer... pero...
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|Si se encuentra marcada, la Cría del Perlino reaparecerá en el próximo refugio del siguiente ciclo cada vez que se pierda.
+When checked, enables Pearlcat to carry a backspear.|Si se encuentra marcada, permite al Perlino llevar una lanza en la espalda.
+{nameof(SaveMiscProgression.JustAscended)}: {pearlcatMiscProg.JustAscended}\n|{nameof(SaveMiscProgression.JustAscended)}: {pearlcatMiscProg.JustAscended}\n
+Oh, and for direction - there is a gate to the far west of here, where the ground fissues...|Ah, y para darte indicaciones: hay una puerta al extremo oeste de aquí, donde el suelo se agrieta...
+This one again? I have better things to do... but...|¿Esta otra vez?, tengo mejores cosas que hacer... pero...
 I assure you it will be a more than suitable replacement for your primitive needs.|Te aseguro que será un reemplazo más que adecuado para tus necesidades primitivas.
 .meta|.meta
-However, given a lack of other options, this is the best I can do.|NO_TRANSLATION
+However, given a lack of other options, this is the best I can do.|Sin embargo, dada la carencia de otras opciones, esto es lo mejor que puedo hacer.
 Sick|Sick
-I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Aún estoy más que contenta de leer cualquier perla que me traigas;<LINE>especialmente dadas tus habilidades únicas.
+I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Todavía estoy más que contenta de leer cualquier perla que me traigas;<LINE>dadas especialmente tus habilidades únicas.
 Your little friend is still quite sick, unfortunately.|Por desgracia, tu amiguito todavía se encuentra muy enfermo.
 by|por
-I've accepted my fate - and one day, you will meet an end too...|NO_TRANSLATION
-\n  |NO_TRANSLATION
+I've accepted my fate - and one day, you will meet an end too...|He aceptado my destino... y, algún día, tú encontrarás un final también...
+\n  |\n  
 pearlcat_hudcooldown|pearlcat_hudcooldown
-664054|NO_TRANSLATION
+664054|664054
 SI|SI
-{nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n|NO_TRANSLATION
+{nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n|{nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n
 Ah, I hope you both stay safe out there...|Ah, tengan cuidado ahí fuera...
 pearlcat_4|pearlcat_4
-I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|NO_TRANSLATION
+I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|Noté que el aumento te mantenía con vida tan pronto como regresaste aquí. No lo digo a la ligera, pero no entiendo cómo funciona.
 pearlcat_light2|pearlcat_light2
 If only I had my memories, I might have a clue...|Si tan solo tuviera mis recuerdos, podría tener una idea...
-Ability P4|NO_TRANSLATION
-Sentry KB|NO_TRANSLATION
-}\n|NO_TRANSLATION
-{nameof(SaveMiscWorld.ActiveObjectIndex)}:\n{string.Join(|NO_TRANSLATION
-Play around with sentries to see what they do!|¡Experimenta con los centinelas para ver las funciones de cada uno!
-STOP PEARL THREAT|NO_TRANSLATION
+Ability P4|J4: Habil.
+Sentry KB|BP: Centin.
+}\n|}\n
+{nameof(SaveMiscWorld.ActiveObjectIndex)}:\n{string.Join(|{nameof(SaveMiscWorld.ActiveObjectIndex)}:\n{string.Join(
+Play around with sentries to see what they do!|¡Experimenta con los centinelas para ver qué hace cada uno!
+STOP PEARL THREAT|DETENER AMENAZA DE PERLA
 TEXT ERROR|ERROR DE TEXTO
 sleeve|sleeve
-I very much enjoy the company though... you and your little friend are always welcome here.|Aunque disfruto mucho de la compañía; tú y tu amiguito son siempre bienvenidos aquí.
-...and you can gather more of that data you so clearly desire.|... y podrás reunir más de esos datos que tanto deseas.
-...one which still means a lot to me.|... uno que todavía significa mucho para mí.
+I very much enjoy the company though... you and your little friend are always welcome here.|Aunque disfruto mucho de la compañía... tú y tu amiguito son siempre bienvenidos aquí.
+...and you can gather more of that data you so clearly desire.|Y podrás reunir más de esos datos que tanto deseas.
+...one which still means a lot to me.|Uno que todavía significa mucho para mí...
 Outro2_1|Outro2_1
 In any case, you are welcome to stay as long as you like. Anything to ease the pain.|En cualquier caso, eres bienvenido a quedarte todo el tiempo que quieras. Lo que sea para aliviar el dolor.
 Hold (|Mantén (
-...are you alright, little one? The modifications to your body are quite... extreme.|NO_TRANSLATION
-Button East|Botón este
-)?.version ?? |NO_TRANSLATION
+...are you alright, little one? The modifications to your body are quite... extreme.|¿Estás bien, pequeño?... los cambios en tu cuerpo son muy... extremos.
+Button East|Botón Este
+)?.version ?? |)?.versión ?? 
 pearlpup_head|pearlpup_head
 GravityDisruptor|GravityDisruptor
 \n|\n
-I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|NO_TRANSLATION
-Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|NO_TRANSLATION
+I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|No puedo garantizar nada: estas locomotoras no han estado operativas desde que mi instalación fue puesta en aislamiento.
+Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|Empezar al inicio de la historia de Mira...<LINE>¡El mundo será preservado y las perlas se trasladarán
 OE|OE
 My own time is limited, after all...|Mi propio tiempo es limitado, después de todo...
-) to deploy, and again to return.|) para usarlas como centinelas temporales, y pulsa otra vez para que regresen.
+) to deploy, and again to return.|) para desplegarlas como centinelas temporales y pulsa otra vez para que regresen.
 Player 1|Jugador 1
-MSC: {ModManager.MSC}\n|NO_TRANSLATION
-{nameof(SaveState.denPosition)}: {saveState.denPosition}\n|NO_TRANSLATION
+MSC: {ModManager.MSC}\n|MSC: {ModManager.MSC}\n
+{nameof(SaveState.denPosition)}: {saveState.denPosition}\n|{nameof(SaveState.denPosition)}: {saveState.denPosition}\n
 Balagaga|Balagaga
 Hologram|Hologram
 pearlcat_spire5|pearlcat_spire5
-No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|NO_TRANSLATION
+No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|No, no soy tan egoísta como para sacrificarte por capricho; la cura ni siquiera está garantizada.
 pearlcat_hudcircle|pearlcat_hudcircle
-{Plugin.MOD_ID}:swap_left|NO_TRANSLATION
+{Plugin.MOD_ID}:swap_left|{Plugin.MOD_ID}:swap_left
 pearlcat_3|pearlcat_3
 Keyboard|Teclado
-Good luck, mysterious scholar.|NO_TRANSLATION
+Good luck, mysterious scholar.|Buena suerte, erudito misterioso
 And just who might you be?|¿Y quién podrías ser tú?
-{Plugin.MOD_ID}:swap_pearl|NO_TRANSLATION
-Hides the visuals of inactive pearls and turns you into... cat.|Oculta la visibilidad de las perlas inactivas y te convierte en el... felino.
-mira|NO_TRANSLATION
+{Plugin.MOD_ID}:swap_pearl|{Plugin.MOD_ID}:swap_pearl
+Hides the visuals of inactive pearls and turns you into... cat.|Oculta la visibilidad de las perlas inactivas y te convierte en... el felino.
+mira|mira
 body|body
-Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|La desgracia no discrimina, lamentablemente. Ojalá que te espere un destino mejor con el tiempo.
- |NO_TRANSLATION
-Ability P1|NO_TRANSLATION
-MERGEFIX VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == |NO_TRANSLATION
-Player Hooks IL Exception: \n|NO_TRANSLATION
-It doesn't matter I suppose, you may stay, so long as you don't disturb my work...|NO_TRANSLATION
+Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|Desafortunadamente, la desgracia no discrimina. Ojalá que te espere un destino mejor con el tiempo.
+ | 
+Ability P1|J1: Habil.
+MERGEFIX VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == |VERSIÓN DE MERGEFIX: {ModManager.ActiveMods.FirstOrDefault(x => x.id == 
+Player Hooks IL Exception: \n|Excepción IL de hooks del jugador: \n
+It doesn't matter I suppose, you may stay, so long as you don't disturb my work...|Supongo que no importa. Puedes quedarte, siempre y cuando no interrumpas mi trabajo...
 CloudDistant|CloudDistant
-, pearlcatMiscWorld.PearlIDsBroughtToPebbles.Keys)}\n|NO_TRANSLATION
+, pearlcatMiscWorld.PearlIDsBroughtToPebbles.Keys)}\n|, pearlcatMiscWorld.PearlIDsBroughtToPebbles.Keys)}\n
 ear_l|ear_l
-Oh, hello! Hello...|NO_TRANSLATION
-Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...|NO_TRANSLATION
+Oh, hello! Hello...|Oh, ¡hola! Hola...
+Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...|Ah, no te voy a mentir... tengo curiosidad por saber cómo terminaste aquí y qué ocurrió en tus viajes...
 Atlas not found! ({uniqueName})|¡Atlas no encontrado! ({uniqueName})
 Legs|Legs
 Background|Background
-PEBBLES TAKE RM PEARL|PEBBLES TAKE RM PEARL
-Back again? I hope you have brought me something this time.|¿Has vuelto? Espero que me hayas traído algo esta vez.
-...hello?|NO_TRANSLATION
-pearlcat_milock|NO_TRANSLATION
-SleevePearlpup|NO_TRANSLATION
+PEBBLES TAKE RM PEARL|GUIJARROS TOMA LA PERLA RM
+Back again? I hope you have brought me something this time.|¿Volviste de nuevo? Espero que me hayas traído algo esta vez.
+...hello?|... ¿Hola?
+pearlcat_milock|pearlcat_milock
+SleevePearlpup|SleevePearlpup
 pearlcat_agilitysentry|pearlcat_agilitysentry
-...help... please...|NO_TRANSLATION
-T1|NO_TRANSLATION
-pearlpup_adulttail|NO_TRANSLATION
-PEBBLES GIVE SS PEARL|PEBBLES GIVE SS PEARL
-Swap Right|Cambiar a la derecha
+...help... please...|... ayuda... por favor...
+T1|T1
+pearlpup_adulttail|pearlpup_adulttail
+PEBBLES GIVE SS PEARL|GUIJARROS DA PERLA SS
+Swap Right|Cambio a la der.
 Pebbles_AS_PearlYellow|Pebbles_AS_PearlYellow
 4: |4: 
-Grab a creature and hold (GRAB) with an active green pearl to revive them|Agarra a una criatura y mantén (AGARRAR) con una perla verde activa para revivirla
-!PEARLCAT DEBUG INFO LOG!\n|NO_TRANSLATION
-.NETFramework,Version=v4.8|NO_TRANSLATION
+Grab a creature and hold (GRAB) with an active green pearl to revive them|Agarra a una criatura y mantén (AGARRAR) con una perla verde activa para resucitarla
+!PEARLCAT DEBUG INFO LOG!\n|¡REGISTRO DE INFORMACIÓN DEL DEPURADOR DE PEARLCAT!\n
+.NETFramework,Version=v4.8|.NETFramework,Version=v4.8
 Keybind to swap to the stored pearl to the left. Limited to Player 1.|Botón para cambiar la perla almacenada hacia la izquierda. Limitado al jugador 1.
-Pearlcat + Improved Input Config integration init!|NO_TRANSLATION
+Pearlcat + Improved Input Config integration init!|¡Init de integración de Pearlcat + Improved Input Config!
 pearlcat_7|pearl_7
 pearlpup_scarf|pearlpup_scarf
-22385c|NO_TRANSLATION
+22385c|22385c
 The choice is yours.|La decisión es tuya.
-Deploys the active pearl as a sentry, or returns it if it is already deployed.|NO_TRANSLATION
+Deploys the active pearl as a sentry, or returns it if it is already deployed.|Despliega la perla activa como centinela y la regresa si ya está desplegada.
 Scarf|Scarf
-Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Daño que hace cada láser de perlas rojas por disparo. Daño de lanza del Superviviente = 1.0
+Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Daño que hace cada láser de perlas rojas por disparo. Daño de lanza del Superviviente = 1,0
 Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|Preferir utilizar los botones personalizados de abajo para la creación de lanzas, en lugar de los predeterminados (AGARRAR)
 pearlcat_over9|pearlcat_over9
 fcb103|fcb103
-Swaps the active pearl to the left.|NO_TRANSLATION
+Swaps the active pearl to the left.|Cambia la perla activa hacia la izquierda.
 Spear Pearl Count|Total de perlas de lanza
-I think I may still have some use left after all!~|¡Tal vez me quede aún algo de utilidad después de todo!~
+I think I may still have some use left after all!~|¡Tal vez me quede algo de utilidad todavía después de todo!~
 pearlcat_hudpearl|pearlcat_hudpearl
 VS|VS
-When checked, the inventory HUD will be replaced with a more compact version.|Si se encuentra marcada, el HUD del inventario se reemplazará por una versión más compacta.
-pcat_nopup|NO_TRANSLATION
+When checked, the inventory HUD will be replaced with a more compact version.|Si se encuentra marcada, el HUD del inventario será reemplazado por una versión más compacta.
+pcat_nopup|pcat_nopup
 There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|No hay nada que pueda hacer para detenerte, así que te pido lo siguiente:<LINE>Déjame en paz o haz que termine de una vez.
-A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Un erudito de origen oscuro, armado con una energía enigmática y sed de conocimiento.<LINE>Frágil físicamente, pero con perlas como aliadas... ¿Qué descubrirás en tus viajes?
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Un erudito de origen incierto, armado de una energía enigmática y sed de conocimiento.<LINE>Frágil físicamente, pero con perlas como aliadas... ¿qué descubrirás en tus viajes?
 Custom Keybind?|Botón personalizado
-Sentry P2|NO_TRANSLATION
+Sentry P2|J2: Centin.
 Oh... oh no...|Oh... oh, no...
 pearlcat_9|pearlcat_9
-RegionGate_Heater|NO_TRANSLATION
-Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|NO_TRANSLATION
+RegionGate_Heater|RegionGate_Heater
+Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|Bueno, si mi memoria no me falla, es un placer verte de nuevo... extraño erudito.
 Yes, help yourself. They are not edible.|Sí, sírvete. No son comestibles.
-{nameof(SaveMiscProgression.IsNewPearlcatSave)}: {pearlcatMiscProg.IsNewPearlcatSave}\n|NO_TRANSLATION
+{nameof(SaveMiscProgression.IsNewPearlcatSave)}: {pearlcatMiscProg.IsNewPearlcatSave}\n|{nameof(SaveMiscProgression.IsNewPearlcatSave)}: {pearlcatMiscProg.IsNewPearlcatSave}\n
 When checked, all tutorials will be disabled.|Si se encuentra marcada, todos los tutoriales estarán desactivados.
 Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Número máximo de perlas que se pueden almacenar a la vez, incluyendo la activa. El valor predeterminado es 9. Mantén y arrastra hacia arriba o abajo para cambiar.
 SPECEVENT|SPECEVENT
-Sentry P1|NO_TRANSLATION
-My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|Mis supervisores no han hecho las paces con tu llegada; tenía la impresión de que el sistema de transporte público estaba prácticamente inoperable.
+Sentry P1|J1: Centin.
+My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|Mis supervisores no han hecho las paces con tu llegada; creía que el sistema de transporte estaba prácticamente inoperable.
 Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|Las cargas se consumen para proveer protección. Cada perla se recarga sola después de un tiempo.
 Press (|Pulsa (
-Hello. Again.|NO_TRANSLATION
+Hello. Again.|Hola. Otra vez.
 Outro3_1|Outro3_1
-{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n|NO_TRANSLATION
-pearlcat_activerage|NO_TRANSLATION
+{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n|{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n
+pearlcat_activerage|pearlcat_activerage
 Feet|Feet
-Skip to Mira Storyline|NO_TRANSLATION
-To retrieve pearls, have an empty main hand, and hold (|Para sacar perlas, ten una mano principal vacía y mantén (
-Number of revive pearls (green). Effective only when Inventory Override? is checked.|Número de perlas de revivir (verdes). Solo es efectivo si «Anulación de inventario» está marcada.
-PEARLCAT MISC PROGRESSION:\n|NO_TRANSLATION
-You're more than welcome to stay a while... your ability will always be a miracle to me...|NO_TRANSLATION
+Skip to Mira Storyline|Saltarse a la trama de Mira
+To retrieve pearls, have an empty main hand, and hold (|Para sacar las perlas, ten una mano principal vacía y mantén (
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|Número de perlas de resurrección (verdes). Solo es efectivo si «Anulación del inventario» está marcada.
+PEARLCAT MISC PROGRESSION:\n|PROGRESIÓN MISCELÁNEA DEL PERLINO:\n
+You're more than welcome to stay a while... your ability will always be a miracle to me...|Eres más que bienvenido a quedarte un rato... tu habilidad siempre será un milagro para mí...
 I will tolerate your pressence, so long as you bring me something meaningful.|Toleraré tu presencia, siempre y cuando me traigas algo importante.
 Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|Tiempo en fotogramas que dura el escudo de perlas amarillas después de activarse. Predeterminado: 1,5 segundos.
 Futile_White|Futile_Whit
-{nameof(SaveState.malnourished)}: {saveState.malnourished}\n|NO_TRANSLATION
+{nameof(SaveState.malnourished)}: {saveState.malnourished}\n|{nameof(SaveState.malnourished)}: {saveState.malnourished}\n
 Player 2|Jugador 2
 scarf|scarf
-So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...|NO_TRANSLATION
-pearlcat_possesscircle|NO_TRANSLATION
-PEARLPUP|NO_TRANSLATION
-To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Para sacar perlas, ten una mano principal vacía y mantén (AGARRAR + ARRIBA)
-Look at yourself! You know how it feels, to be within an inch of death...|NO_TRANSLATION
-DID NOT PREVENT RELEASE|NO_TRANSLATION
-Oh! It is good to see you two again!|¡Oh! ¡Es agradable ver a ustedes dos otra vez!
-))}\n|NO_TRANSLATION
-{nameof(SaveMiscWorld.PearlIDsBroughtToPebbles)}: {string.Join(|NO_TRANSLATION
+So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...|Así que, por favor, tráeme más, siempre y cuando no sea demasiado peligroso para ti... Estas visitas realmente son lo más destacado de mis días aquí...
+pearlcat_possesscircle|pearlcat_possesscircle
+PEARLPUP|LA CRÍA DEL PERLINO
+To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Para sacar las perlas, ten una mano principal vacía y mantén (AGARRAR + ARRIBA)
+Look at yourself! You know how it feels, to be within an inch of death...|¡Mírate!, sabes lo que se siente estar a un centrímetro de la muerte...
+DID NOT PREVENT RELEASE|NO IMPIDIÓ LA LIBERACIÓN DE AGARRE
+Oh! It is good to see you two again!|¡Oh!, ¡es agradable ver a ustedes dos de vuelta!
+))}\n|))}\n
+{nameof(SaveMiscWorld.PearlIDsBroughtToPebbles)}: {string.Join(|{nameof(SaveMiscWorld.PearlIDsBroughtToPebbles)}: {string.Join(
 )|)
-, pearlcatMiscProg.StoredPearlColors)}\n|NO_TRANSLATION
-GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n|NO_TRANSLATION
-pupheart|NO_TRANSLATION
-YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|Las AMARILLAS simbolizan protección. Cada perla amarilla almacenada proporciona una carga de escudo.
-Kimi |NO_TRANSLATION
-You are just a lot to take in for little old me! A fascinating power, the gift of communication;|NO_TRANSLATION
+, pearlcatMiscProg.StoredPearlColors)}\n|, pearlcatMiscProg.StoredPearlColors)}\n
+GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n|VERSIÓND DEL JUEGO: {RainWorld.GAME_VERSION_STRING}\n
+pupheart|pupheart
+YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|AMARILLO simboliza protección. Cada perla amarilla almacenada proporciona una carga de escudo.
+Kimi |Kimi 
+You are just a lot to take in for little old me! A fascinating power, the gift of communication;|¡Eres demasiado como para que una ancianita como yo pueda asimilar!<LINE>Un poder fascinante, el don de la comunicación;
 Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|Preferir utilizar los botones personalizados para desplegar las perlas centinela, en lugar de los predeterminados (AGARRAR + SALTAR + ABAJO)
-Pearl Ability|NO_TRANSLATION
+Pearl Ability|Hab. de perla
 Accent|Accent
-pearlpup_feet|NO_TRANSLATION
-Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Cada perla roja proporciona un láser adicional. Y sí, ¡estas moscas-murciélago son MUY HOSTILES!
-Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Número de perlas de escudo (amarillas). Solo es efectivo si «Anulación de inventario» está marcada.
+pearlpup_feet|pearlpup_feet
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Cada perla roja proporciona un láser adicional. ¡Y sí, estos moscamurciélagos son MUY HOSTILES!
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Número de perlas de escudo (amarillas). Solo es efectivo si «Anulación del inventario» está marcada.
 Keybind for Player 1.|Botón para el jugador 1.
 pearlcat_spire4|pearlcat_spire4
-Oh...? Hello! Hello...|NO_TRANSLATION
-pcat_sad|NO_TRANSLATION
-Custom Spear Keybind?|Botón de lanza personalizado
+Oh...? Hello! Hello...|¿Oh?... ¡Hola! Hola...
+pcat_sad|pcat_sad
+Custom Spear Keybind?|Botón personalizado de lanza
 T1_CAR1|T1_CAR1
-Looping SFX Error, Outsider often likes to cause this:\n|Error de efectos de sonido en bucle, el outsider le gusta causar esto frecuentemente:\n
-Oh, hello <PlayerName>!|Ah, ¡hola, <PlayerName>!
-Intro6_Mira|NO_TRANSLATION
-I see you've returned, yet again.|Veo que has regresado, una vez más.
-CURRENT MAIN LOOP: {rainWorld.processManager?.currentMainLoop?.GetType()}\n|NO_TRANSLATION
+Looping SFX Error, Outsider often likes to cause this:\n|Error de efectos de sonido en bucle, al Forastero le gusta causar frecuentemente:\n
+Oh, hello <PlayerName>!|Oh, ¡hola, <PlayerName>!
+Intro6_Mira|Intro6_Mira
+I see you've returned, yet again.|Veo que has regresado una vez más.
+CURRENT MAIN LOOP: {rainWorld.processManager?.currentMainLoop?.GetType()}\n|BUCLE PRINCIPAL ACTUAL: {rainWorld.processManager?.currentMainLoop?.GetType()}\n
 PlayerArm|PlayerArm
-REMIX: {ModManager.MMF}\n|NO_TRANSLATION
-pup_drawings|NO_TRANSLATION
-...I am not sure if this is comforting, but...|... No estoy seguro de si esto es reconfortante, pero...
-Why did you come back here...? I can only imagine it brings back some painful memories.|NO_TRANSLATION
+REMIX: {ModManager.MMF}\n|REMIX: {ModManager.MMF}\n
+pup_drawings|pup_drawings
+...I am not sure if this is comforting, but...|No estoy seguro de si esto es reconfortante, pero...
+Why did you come back here...? I can only imagine it brings back some painful memories.|¿Por qué has vuelto aquí?... solo me puedo figurar que me trae algunos recuerdos dolorosos.
 Your attachment to that thing is unavoidable, I suppose.|Tu cariño a esa criatura es inevitable, supongo.
 Right Bumper|Bumper derecho
 Agility Pearl Count|Total de perlas de agilidad
@@ -606,181 +606,181 @@ Shield Duration|Duración del escudo
 <oA>|<oA>
 So curious...|Tan curioso...
 1: |1: 
-I'm just so glad you're safe, too many things have come into my memory, only to be washed away...|NO_TRANSLATION
+I'm just so glad you're safe, too many things have come into my memory, only to be washed away...|Solo me alegra mucho que estés a salvo. Demasiadas cosas han venido a mi memoria, solo para ser borradas...
 LF|LF
-START|NO_TRANSLATION
+START|INICIO
 40|40
 feet|feet
 Face|Face
 I would guess they will grow up into quite the scholar themself, someday...|Me imagino que él crecerá y se convertirá en un erudito de primera algún día...
-PFeet|NO_TRANSLATION
-Four! Well, if you insist...|¡Ya van cuatro! Bueno, si insistes...
-WARNING|NO_TRANSLATION
-REDIRECT:|NO_TRANSLATION
+PFeet|PFeet
+Four! Well, if you insist...|¡Cuatro! Bueno, si insistes...
+WARNING|ADVERTENCIA
+REDIRECT:|REDIRECCIONAR:
 I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|Supongo que, viendo que no puedes leer la información almacenada en ellas, puedo leerlas por ti, si lo deseas.
-CREATED NEW MISC PROG|NO_TRANSLATION
+CREATED NEW MISC PROG|NUEVO PROGRESO MISCELÁNEO CREADO
 Hello! I remember you! I remember...|¡Hola! ¡Te recuerdo! Recuerdo...
 pearlcat_structure2|pearlcat_structure2
-(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)|NO_TRANSLATION
+(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)|(desafortunadamente, para que la Cría del Perlino aparezca, es necesario que el DLC Downpour esté activado)
 The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|La extensión más allá sería un lugar seguro para que cries a tu familia... y te mantengas lejos de mis asuntos.
-NON-MSC|NON-MSC
-s|NO_TRANSLATION
+NON-MSC|NO MSC
+s|s
 Chimney Canopy|Dosel de Chimeneas
 haloGlyph5|haloGlyph5
 Head|Head
-HoldButtonCircle|NO_TRANSLATION
-I believe that child was you.|NO_TRANSLATION
-9badc7|NO_TRANSLATION
+HoldButtonCircle|HoldButtonCircle
+I believe that child was you.|Creo que esa cría eras tú
+9badc7|9badc7
 And why... to me?|¿Y por qué... a mí?
 pearlcat_glyphcooldown|pearlcat_glyphcooldown
-Input a shelter name to have it override where Pearlcat starts a new game.|Escribe el nombre de un refugio para que anule el lugar donde el Perlino inicia una nueva partida.
+Input a shelter name to have it override where Pearlcat starts a new game.|Escribe el nombre de un refugio para que anule el lugar donde el Perlino comienza una nueva partida.
 ... |... 
 CC|CC
 Hips|Hips
-I very much enjoy the company though... you and your family are always welcome here.|NO_TRANSLATION
-It would be pointless to ask why...|NO_TRANSLATION
+I very much enjoy the company though... you and your family are always welcome here.|Aunque disfruto mucho de la compañía... tú y tu familia son siempre bienvenidos aquí.
+It would be pointless to ask why...|Sería inútil preguntar por qué...
 pearlcat_structure3|pearlcat_structure3
 Body|Body
 Disable Camoflague Effect?|Desactivar efecto de camuflaje
 Welcome back, you two!|¡Bienvenidos de vuelta!
 PEARLCAT OE ENDING|PEARLCAT OE ENDING
-Number of camo pearls (black). Effective only when Inventory Override? is checked.|Número de perlas de camuflaje (negras). Solo es efectivo si «Anulación de inventario» está marcada.
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|Número de perlas de camuflaje (negras). Solo es efectivo si «Anulación del inventario» está marcada.
 Oracle Hooks Error:\n|Oracle Hooks Error:\n
 AS IS|COMO ES
-Linnnnnna |NO_TRANSLATION
+Linnnnnna |Linnnnnna 
 pearlcat_6|pearlcat_6
-{nameof(SaveMiscWorld.ShownFullInventoryTutorial)}: {pearlcatMiscWorld.ShownFullInventoryTutorial}\n|NO_TRANSLATION
+{nameof(SaveMiscWorld.ShownFullInventoryTutorial)}: {pearlcatMiscWorld.ShownFullInventoryTutorial}\n|{nameof(SaveMiscWorld.ShownFullInventoryTutorial)}: {pearlcatMiscWorld.ShownFullInventoryTutorial}\n
 Assembly-CSharp|Assembly-CSharp
-Pearl spears will attempt to return to you being thrown, if they are not stuck|NO_TRANSLATION
+Pearl spears will attempt to return to you being thrown, if they are not stuck|Las lanzas perladas intentarán regresar hacia ti cuando las arrojes, si no están clavadas.
 PEBBLESWAIT|PEBBLESWAIT
 PEARLCAT WARP|PEARLCAT WARP
-Welcome back, <PlayerName>, and your little one too.|Bienvenido de vuelta, <PlayerName>, y también a tu pequeño.
+Welcome back, <PlayerName>, and your little one too.|Bienvenido de vuelta, <PlayerName>, y a tu pequeño también.
 \r\n|\r\n
 T1_CAR0|T1_CAR0
-{nameof(SaveMiscProgression.ActivePearlColor)}: {pearlcatMiscProg.ActivePearlColor}\n|NO_TRANSLATION
-You...|NO_TRANSLATION
-You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|¿Vienes de muy lejos? Puedes comunicarte con nosotros, pero la marca que posees me resulta extraña...
+{nameof(SaveMiscProgression.ActivePearlColor)}: {pearlcatMiscProg.ActivePearlColor}\n|{nameof(SaveMiscProgression.ActivePearlColor)}: {pearlcatMiscProg.ActivePearlColor}\n
+You...|Tú...
+You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|¿Vienes de muy lejos? Puedes comunicarte con nosotros, pero la marca que tienes me resulta extraña...
 GATE_SL_MS|GATE_SL_MS
 MSC|MSC
-) with an active common pearl to convert it into a pearl spear|) con una perla común activa para convertirla en una lanza de perla
-Inventory Override?|Anulación de inventario
+) with an active common pearl to convert it into a pearl spear|) con una perla común activa para convertirla en una lanza perlada
+Inventory Override?|Anulación del inventario
 Pebbles_AS_PearlGreen|Pebbles_AS_PearlGreen
-...and you have brought your little friend along, of course.|... y has traído a tu pequeño amigo, por supuesto.
-Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.|NO_TRANSLATION
+...and you have brought your little friend along, of course.|... Y has traído a tu pequeño amigo, por supuesto.
+Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.|Almacena la perla que tienes en la mano principal y saca la perla activa si tu mano principal está vacía.
 pearlcat_spire2|pearlcat_spire2
-Old Red Pearl Ability?|NO_TRANSLATION
-850000|NO_TRANSLATION
+Old Red Pearl Ability?|Hab. antigua de perlas rojas
+850000|850000
 Pearl Threat Music?|Mús. de amenazas de perlas
-Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Número de perlas de creación de lanzas (blancas). Solo es efectivo si «Anulación de inventario» está marcada.
-I have sent a request for the stationary cargo transports in my city to resume operation.|NO_TRANSLATION
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Número de perlas de creación de lanzas (blancas). Solo es efectivo si «Anulación del inventario» está marcada.
+I have sent a request for the stationary cargo transports in my city to resume operation.|He enviado una solicitud para que los transportes estacionarios de carga en mi ciudad reanuden sus operaciones
 Disable Minor Effects?|Desactivar efectos menores
 - Additional Artwork|- Trabajo<LINE>artístico adicional
 HUD|HUD
 Version|Versión
 Camo Pearl Count|Total de perlas de camuflaje
 Keybind for Player 2.|Botón para el jugador 2.
-pearlcat_support_night|NO_TRANSLATION
+pearlcat_support_night|pearlcat_support_night
 Difficulty|Dificultad
-Is that you, little scholar? I'm speechless...|NO_TRANSLATION
-{nameof(SaveMiscProgression.IsMSCSave)}: {pearlcatMiscProg.IsMSCSave}\n|NO_TRANSLATION
+Is that you, little scholar? I'm speechless...|¿Eres tú, pequeño erudito?, no tengo palabras...
+{nameof(SaveMiscProgression.IsMSCSave)}: {pearlcatMiscProg.IsMSCSave}\n|{nameof(SaveMiscProgression.IsMSCSave)}: {pearlcatMiscProg.IsMSCSave}\n
 No, I do not care for your little one.|No, no me importa tu pequeño.
 Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|Preferir utilizar los botones personalizados de abajo para la agilidad de doble salto, en lugar de los predeterminados (AGARRAR + SALTAR)
 SH|SH
-...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|... ¡tienes el don de la comunicación!<LINE>¿Acaso le hiciste una visita a mi vecino, Cinco Guijarros?...
-You... I didn't forget...|Tú... No olvidé...
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!|NO_TRANSLATION
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|¡Tienes el don de la comunicación!<LINE>¿Acaso le hiciste una visita a mi vecino Cinco Guijarros?...
+You... I didn't forget...|Tú... no olvidé...
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!|WIP: ¡aún no hay ningún final nuevo!<LINE>Si encuentras algún bug o error, notifíquelo a forthbridge (si es posible, en inglés).
 mayhemmm|mayhemmm
-Clearly artificial creations. But from where? Sent by who?|Son, evidentemente, creaciones artificiales. Pero ¿de dónde?, ¿enviadas por quién?
+Clearly artificial creations. But from where? Sent by who?|Creaciones artificiales, evidentemente. Pero ¿de dónde?, ¿enviadas por quién?
 GW|GW
 pixel|pixel
-Welcome back, <PlayerName>!|NO_TRANSLATION
-Sleeve|Manga
+Welcome back, <PlayerName>!|¡Bienvenido de vuelta, <PlayerName>!
+Sleeve|Sleeve
 I hope you are staying safe out there...|Espero que te mantengas a salvo ahí fuera...
-...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|... ¿eh? Llévatelas, los datos que contienen no me sirven de nada. Supongo que serán mucho más útiles para ti...
+...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|¿Eh?, llévatelas. Los datos que contienen no me sirven de nada. Supongo que serán mucho más útiles para ti...
 pearlcat_light0|pearlcat_light0
-{nameof(SaveMiscWorld.Inventory)}:\n{string.Join(|NO_TRANSLATION
-Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|NO_TRANSLATION
+{nameof(SaveMiscWorld.Inventory)}:\n{string.Join(|{nameof(SaveMiscWorld.Inventory)}:\n{string.Join(
+Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|Lanzar cualquier arma dentro del radio de una perla roja, hará que esta se dirija a la criatura hostil más cercana.
 I do not know what to make of this.|No sé qué pensar.
-The surviving scholar returns once more... how poetic.|NO_TRANSLATION
-Sound Hooks Error:\n|Sound Hooks Error:\n
+The surviving scholar returns once more... how poetic.|El erudito sobreviviente regresa una vez más... cuán poético.
+Sound Hooks Error:\n|Error de hooks de sonido:\n
 OE_SEXTRA|OE_SEXTRA
-For now, my only lens into the outside is those pearls you carry.|NO_TRANSLATION
-A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|NO_TRANSLATION
-Was it really so long ago that you were only half my height...?|NO_TRANSLATION
-zbiotr |NO_TRANSLATION
-Swap Input|Cambios
-Swap Pearl|NO_TRANSLATION
+For now, my only lens into the outside is those pearls you carry.|Por ahora, mi único prisma hacia el exterior esas perlas que llevas.
+A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|Un erudito con la habilidad de manipular perlas?... Oh... ¡sí! ¡Lo recuerdo!
+Was it really so long ago that you were only half my height...?|¿Fue realmente hace tanto tiempo que solo medías la mitad de mi estatura?...
+zbiotr |zbiotr 
+Swap Input|Cambiar
+Pearl Swap|Cambio de perla
 Player 3|Jugador 3
 5|5
 I... wish there was more I could do... but even... nevermind in my current state.|Yo... desearía poder hacer más... pero... ni siquiera lo lograría en mi estado actual.
 BigGlyph2|BigGlyph2
 This illness, it is unlike any I have seen before - I can say it is likely fatal.|Esta enfermedad no se parece a ninguna que haya visto antes; puedo decir que probablemente sea letal.
-SS_T1_CROSS|NO_TRANSLATION
+SS_T1_CROSS|SS_T1_CROSS
 pearlpup_face_sick|pearlpup_face_sick
-When checked, disables the rage effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de ira otorgado por una perla activa.
+When checked, disables the rage effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de ira otorgada por una perla activa.
 BigGlyph8|BigGlyph8
-, pearlcatMiscWorld.Inventory.Select(x => $|NO_TRANSLATION
+, pearlcatMiscWorld.Inventory.Select(x => $|, pearlcatMiscWorld.Inventory.Select(x => $
 Failed to parse color {objectType} : {ex.Message}|No se pudo analizar el color {objectType}: {ex.Message}
 face|face
 - Dialogue, SFX|- Diálogos y<LINE>efectos de sonido
-When checked, disables the shield effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de escudo otorgado por una perla activa.
-When checked, disables the camoflague effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de camuflaje otorgado por una perla activa.
+When checked, disables the shield effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de escudo otorgada por una perla activa.
+When checked, disables the camoflague effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de camuflaje otorgada por una perla activa.
 PostModsInit:\n|PostModsInit:\n
 HI|HI
-Pearlpup Respawn?|Reaparición de la cría
-{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n|NO_TRANSLATION
-Swap Left|Cambiar a la izquierda
+Pearlpup Respawn?|Reaparición de la Cría
+{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n|{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n
+Swap Left|Cambio a la izq.
 pearlcat_cloak|pearlcat_cloak
 Brought me something to read? Or just wasting my time, as per usual?|¿Me trajiste algo para leer? ¿O solo me haces perder el tiempo, como de costumbre?
-thing|NO_TRANSLATION
-...scholar?|NO_TRANSLATION
+thing|bicho
+...scholar?|... ¿Erudito?
 strange|extraño
 Water|Water
 2: |2: 
 Joystick[0-9]Button|Joystick[0-9]Button
 Cloak|Cloak
-Pearlcat_Heartmend|NO_TRANSLATION
-...ah... are those still a fascination to you? You really are no different from your mother...|NO_TRANSLATION
-Ability P2|NO_TRANSLATION
-Pearlpup|NO_TRANSLATION
+Pearlcat_Heartmend|Pearlcat_Heartmend
+...ah... are those still a fascination to you? You really are no different from your mother...|Ah... ¿siguen siendo una fascinación para ti? Realmente no eres diferente a tu madre...
+Ability P2|J2: Habil.
+Pearlpup|Pearlpup
 pearlcat_spire1|pearlcat_spire1
-When checked, disables the spear creation effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de creación de lanzas otorgado por una perla activa.
-You must be very brave to have made it all the way here. Very brave indeed...|Debes ser muy valiente como para haber llegado hasta aquí. Muy valiente, de hecho...
+When checked, disables the spear creation effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de creación de lanzas otorgada por una perla activa.
+You must be very brave to have made it all the way here. Very brave indeed...|Debes ser muy valiente como para haber llegado hasta aquí. Muy valiente, en efecto...
 My neighbour, Five Pebbles, is a little temperamental, but means well.|Mi vecino, Cinco Guijarros, es un poco temperamental, pero tiene buenas intenciones.
 -|-
 pearlactiveplaceholder|pearlactiveplaceholder
 Basic|Basic
-Another one? I shouldn't be surprised. Let's see...|¿Otra? No debería sorprenderme. Veamos...
+Another one? I shouldn't be surprised. Let's see...|¿Otra?, no debería sorprenderme. Veamos...
 pearlcat_structure4|pearlcat_structure4
 3: |3: 
-Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|Pulsa (AGARRAR + SALTAR + ABAJO) para usarlas como centinelas temporales, y pulsa otra vez para que regresen.
-RED symbolizes power. With a red pearl active, all stored red pearls will circle you|NO_TRANSLATION
-You are... so familiar...|NO_TRANSLATION
-{nameof(SaveMiscWorld.PebblesMetSickPup)}: {pearlcatMiscWorld.PebblesMetSickPup}\n|NO_TRANSLATION
+Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|Pulsa (AGARRAR + SALTAR + ABAJO) para desplegarlas como centinelas temporales y pulsa otra vez para que regresen.
+RED symbolizes power. With a red pearl active, all stored red pearls will circle you|ROJO simboliza poder. Con una perla roja activa, todas las perlas rojas almacenadas te circunvolarán
+You are... so familiar...|Eres... tan familiar...
+{nameof(SaveMiscWorld.PebblesMetSickPup)}: {pearlcatMiscWorld.PebblesMetSickPup}\n|{nameof(SaveMiscWorld.PebblesMetSickPup)}: {pearlcatMiscWorld.PebblesMetSickPup}\n
 pearlcat_0|pearlcat_0
 Inventory Pings?|Avisos del inventario
 pearlcat_spire9|pearlcat_spire9
-If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond.|NO_TRANSLATION
-SS_T1_S01|NO_TRANSLATION
-Intro6|NO_TRANSLATION
-I may not have the facilities to aid you, however...|NO_TRANSLATION
+If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond.|Si pudiste comunicarte conmigo por el sistema de transporte, solo puedo asumir que podrás comunicarte con otros mucho más allá.
+SS_T1_S01|SS_T1_S01
+Intro6|Intro6
+I may not have the facilities to aid you, however...|Puede que no tenga las instalaciones para ayudarte, sin embargo...
 ) while in the air to perform a double jump|) en el aire para realizar un doble salto
 - Chinese Translation|-<LINE>Traducción al chino
 T1_S01|T1_S01
 Disable Tutorials?|Desactivar tutoriales
-I won't be going anywhere any time soon... if you need company, you know who to visit!|NO_TRANSLATION
+I won't be going anywhere any time soon... if you need company, you know who to visit!|No iré a ningún lado pronto... si necesitas compañía, ¡ya sabes a quién visitar!
 Elliot|Elliot
 Your biology... it is both familiar and foreign to me. How curious.|Tu biología... es tan familiar como extraña para mí. Qué curioso.
-PEARLCAT_MIRA_SKIP|NO_TRANSLATION
-VANILLA SAVE STATE:\n|NO_TRANSLATION
+PEARLCAT_MIRA_SKIP|PEARLCAT_MIRA_SKIP
+VANILLA SAVE STATE:\n|ESTADO DE GUARDADO VANILLA:\n
 pearlpup_face|pearlpup_face
-Compact Inventory HUD?|HUD de inventario compacto
+Compact Inventory HUD?|HUD compacto del inventario
 SB_L01|SB_L01
-pearlcat|perlino
-{nameof(SaveMiscProgression.HasPearlpup)}: {pearlcatMiscProg.HasPearlpup}\n|NO_TRANSLATION
-Laser Windup TIme (OLD)|NO_TRANSLATION
-So... anything for me to read?|NO_TRANSLATION
+pearlcat|pearlcat
+{nameof(SaveMiscProgression.HasPearlpup)}: {pearlcatMiscProg.HasPearlpup}\n|{nameof(SaveMiscProgression.HasPearlpup)}: {pearlcatMiscProg.HasPearlpup}\n
+Laser Windup TIme (OLD)|Tiempo de preparación del láser (ANTIGUO)
+So... anything for me to read?|Entonces... ¿algo que pueda leer?
 Hello again, <PlayerName>!|¡Hola otra vez, <PlayerName>!
-Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|NO_TRANSLATION
+Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|Por cierto, perdón si parezco un poco lenta, estamos diseñados para operar con millones de neuronas, en lugar de, bueno...
 Noir |Noir 
-BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|Las AZULES simbolizan agilidad. Cada perla azul almacenada proporcionará un doble salto adicional
+BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|AZUL simboliza agilidad. Cada perla azul almacenada proporcionará un doble salto adicional

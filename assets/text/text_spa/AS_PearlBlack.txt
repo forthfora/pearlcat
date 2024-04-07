@@ -5,8 +5,8 @@ Está en blanco, pero no del todo.
 
 Cualquier intento de acceso serían devoluciones de datos, nada...
 
-Sin denegaciones, sin confirmaciones, sin errores. Nada.
+Sin desautorizaciones, sin confirmaciones, sin errores. Nada.
 
 Me gustaría experimentar más a fondo, pero en mi estado actual...
 
-Será mejor que te quedes con esta, <PlayerName>; no sería prudente que juegue con lo que no entiendo.
+Será mejor que te quedes con esta, <PlayerName>. No sería prudente para mí jugar con lo que no entiendo.

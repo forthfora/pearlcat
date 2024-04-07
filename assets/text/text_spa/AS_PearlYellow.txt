@@ -1,10 +1,10 @@
 ﻿0-1
-<CapPlayerName>, hay algo bastante inquietante en esta perla.
+<CapPlayerName>, hay algo bastante inquietante sobre esta perla.
 
 La superficie está cubierta de microarañazos, pero aún hay más que han... ¿curado?
 
-Espero que no hayas sido tú quien los hizo, ¡hay mejores cosas para roer, estoy segura de eso!
+Espero que no hayas sido tú quien los hizo, ¡estoy segura que hay mejores cosas para roer!
 
-Pero... eso no explicaría el...
+Pero... eso no explicaría cómo...
 
-Ah, probablemente lo estoy pensando de más. Desafortunadamente, no hay datos que extraer de esta perla. No en su estado actual.
+Eh, probablemente estoy pensando demasiado las cosas.<LINE>Desafortunadamente, no hay datos que se puedan recoger de esta perla. No en su estado actual.
