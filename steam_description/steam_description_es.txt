@@ -13,7 +13,7 @@ Guijarros ayuda al Perlino, y ahora leerá tus perlas también.
 [/list][/b]
 [h1][b]+ ¡Habilidades únicas por cada perla que almacenes, dependiendo del color![/b][/h1]
 
-[b][u]Este mod NO requiere del DLC [i]More Slugcats[/i]. Sin embargo, es altamente recomendable.[/u]
+[b][u]Este mod NO requiere del DLC More Slugcats. Sin embargo, es altamente recomendable.[/u]
 
 [b]CRÉDITOS:[/b]
 [b][list]
@@ -24,7 +24,7 @@ Guijarros ayuda al Perlino, y ahora leerá tus perlas también.
     [*]zbiotr - Traducción al español
     [*]Kimi - Trabajo artístico adicional
 [/list][/b]
-[b][i]PLAYTESTERS[/i]:[/b]
+[b]PLAYTESTERS:[/b]
 [b][list]
     [*] TurtleMan27
     [*] Balagaga
