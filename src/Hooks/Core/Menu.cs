@@ -50,7 +50,7 @@ public static partial class Hooks
         On.Menu.SlugcatSelectMenu.UpdateStartButtonText += SlugcatSelectMenu_UpdateStartButtonText;
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
 
-        //IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
+        IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
     }
 
 
@@ -1030,7 +1030,6 @@ public static partial class Hooks
     }
 
 
-    // Skip intro cutscene if secret (nvm I want people to see geahgeahg's work, they can already skip if they want lol)
     private static void SlugcatSelectMenu_StartGame(ILContext il)
     {
         var c = new ILCursor(il);

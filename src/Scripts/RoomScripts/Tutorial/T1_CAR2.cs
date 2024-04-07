@@ -49,18 +49,25 @@ public class T1_CAR2 : UpdatableAndDeletable
                 {
                     room.LockAndHideShortcuts();
                     
-                    var abstractPearl = new DataPearl.AbstractDataPearl(room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null,
-                        new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID(), -1, -1, null, TutorialPearlType);
+                    if (!miscProg.HasTrueEnding)
+                    {
+                        var abstractPearl = new DataPearl.AbstractDataPearl(room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null,
+                            new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID(), -1, -1, null, TutorialPearlType);
 
-                    room.abstractRoom.entities.Add(abstractPearl);
-                    abstractPearl.RealizeInRoom();
+                        room.abstractRoom.entities.Add(abstractPearl);
+                        abstractPearl.RealizeInRoom();
 
-                    var pearl = abstractPearl.realizedObject;
-                    pearl.firstChunk.HardSetPosition(TutorialPearlPos);
+                        var pearl = abstractPearl.realizedObject;
+                        pearl.firstChunk.HardSetPosition(TutorialPearlPos);
 
 
-                    TutorialPearl = abstractPearl;
-                    CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
+                        TutorialPearl = abstractPearl;
+                        CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
+                    }
+                    else
+                    {
+                        CurrentPhase = Phase.Tutorial;
+                    }
                 }
             }
             else if (CurrentPhase == Phase.PreTutorial)
