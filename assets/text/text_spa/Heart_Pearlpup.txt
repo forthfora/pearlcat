@@ -1,7 +1,7 @@
 ﻿0-1
 <CapPlayerName>... esta pulsa cálidamente...
 
-No estoy tan segura de que esta sea una perla de datos; su apariencia es inmensamente diferente de cualquiera que haya visto antes.
+No estoy tan segura de que esta sea una perla de datos, su apariencia es inmensamente diferente de cualquiera que haya visto antes.
 
 Y su contenido es difícil de distinguir, una compleja maraña de emociones quizás...
 
