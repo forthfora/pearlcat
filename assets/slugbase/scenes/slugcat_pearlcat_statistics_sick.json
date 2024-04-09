@@ -4,15 +4,14 @@
   "images": [
     {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
     
-    {"name": "Background", "pos": [0, 50], "depth": 6.0, "shader": "Normal"},
+    {"name": "Background", "pos": [300, -50], "depth": 6.0, "shader": "Normal"},
 
-    {"name": "Pearlcat", "pos": [0, 20], "depth": 3.0, "shader": "Basic"},
+    {"name": "Pearlcat", "pos": [300, -80], "depth": 3.0, "shader": "Basic"},
 
-    {"name": "Plants", "pos": [0, 0], "depth": 2.5, "shader": "Normal"},
+    {"name": "Plants", "pos": [300, -100], "depth": 2.5, "shader": "Normal"},
 
-    {"name": "Grass", "pos": [400, 210], "depth": 1.6, "shader": "Normal"}
+    {"name": "Grass", "pos": [700, 110], "depth": 2.0, "shader": "Normal"}
   ],
   
-  "idle_depths": [3.0],
-  "select_menu_pos": [300, -100]
+  "idle_depths": [3.0]
 }
