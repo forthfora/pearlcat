@@ -886,6 +886,8 @@ public static partial class Hooks
             {
                 miscProg.AscendedWithPup = true;
             }
+
+            SlugBase.Assets.CustomScene.SetSelectMenuScene(self.room.game.GetStorySession.saveState, Enums.Scenes.Slugcat_Pearlcat_Ascended);
         }
     }
 

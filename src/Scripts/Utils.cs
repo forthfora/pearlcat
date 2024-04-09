@@ -243,7 +243,7 @@ public static class Utils
     }
 
 
-    public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId, bool isTrueEndDream = false)
+    public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId, bool isRecurringDream = false)
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
         var miscProg = GetMiscProgression();
@@ -251,13 +251,9 @@ public static class Utils
         if (miscWorld == null) return;
 
         var strId = dreamId.value;
-
-        if (miscWorld.PreviousDreams.Contains(strId))
-        {
-            // Dreams occur randomly if adult pearlpup
-            if (!miscProg.HasTrueEnding || !isTrueEndDream) return;
-        }
-
+        
+        if (miscWorld.PreviousDreams.Contains(strId) && !isRecurringDream) return;
+        
         miscWorld.CurrentDream = strId;
         SlugBase.Assets.CustomDreams.QueueDream(storyGame, dreamId);
     }
@@ -451,6 +447,8 @@ public static class Utils
         miscWorld.PebblesMeetCount = 0;
 
         baseMiscWorld.SLOracleState.ForceResetState(Enums.Pearlcat);
+
+        SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat);
     }
 
     public static void StartFromMira(this SaveState saveState)
@@ -480,5 +478,7 @@ public static class Utils
         baseMiscWorld.SLOracleState.playerEncounters = 2;
 
         miscWorld.JustMiraSkipped = true;
+
+        SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
     }
 }

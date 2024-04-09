@@ -123,7 +123,7 @@ public partial class Hooks
         if (miscWorld == null) return;
 
 
-        if (miscWorld.HasPearlpupWithPlayer)
+        if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
         {
             var canDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.2f;
 
@@ -139,26 +139,36 @@ public partial class Hooks
                 }
             }
         }
-        else if (miscProg.HasTrueEnding)
+        else
         {
             var canDream = Random.Range(0.0f, 1.0f) < 0.1f;
 
             if (canDream)
             {
-                var dreamPool = new List<DreamsState.DreamID>()
+                var dreamPool = new List<DreamsState.DreamID>();
+
+                if (miscProg.HasTrueEnding)
                 {
-                    Enums.Dreams.Dream_Pearlcat_Sick,
-                    Enums.Dreams.Dream_Pearlcat_Pearlpup,
-                    Enums.Dreams.Dream_Pearlcat_Pebbles,
-                    Enums.Dreams.Dream_Pearlcat_Moon_Sick,
-                };
+                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick);
+                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pearlpup);
+                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pebbles);
+                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Moon_Sick);
+                }
+                else if (!miscWorld.HasPearlpupWithPlayerDeadOrAlive && (miscProg.AscendedWithPup || miscProg.DidHavePearlpup))
+                {
+                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pearlpup);
+                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick);
+                }
 
-                var randState = Random.state;
-                Random.InitState((int)DateTime.Now.Ticks);
+                if (dreamPool.Count > 0)
+                {
+                    var randState = Random.state;
+                    Random.InitState((int)DateTime.Now.Ticks);
 
-                self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], true);
+                    self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], true);
 
-                Random.state = randState;
+                    Random.state = randState;
+                }
             }
         }
     }
@@ -224,13 +234,21 @@ public partial class Hooks
                 
                 var miscProg = Utils.GetMiscProgression();
 
+
                 miscProg.IsPearlpupSick = true;
                 miscProg.HasOEEnding = true;
+
 
                 var miscWorld = game.GetMiscWorld();
 
                 if (miscWorld != null)
+                {
                     miscWorld.JustBeatAltEnd = true;
+                }
+
+
+                SlugBase.Assets.CustomScene.SetSelectMenuScene(game.GetStorySession.saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
+                
 
                 Plugin.Logger.LogInfo("PEARLCAT OE ENDING");
 
@@ -764,8 +782,7 @@ public partial class Hooks
         orig(self, playerShelter, activeGate);
     }
 
-    
-
+   
     // Shelter
     private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {

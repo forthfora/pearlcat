@@ -663,6 +663,16 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public bool HasRMPearl(Oracle oracle)
     {
+        var miscWorld = oracle.room.game.GetMiscWorld();
+
+        if (miscWorld != null)
+        {
+            if (miscWorld.PebblesTookHalcyonPearl)
+            {
+                return false;
+            }
+        }
+
         foreach (var roomObject in oracle.room.physicalObjects)
         {
             foreach (var physicalObject in roomObject)
@@ -681,7 +691,12 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public void TakeRMPearl(Oracle oracle, bool withEffect = true)
     {
-        // Plugin.Logger.LogInfo("PEBBLES TAKE RM PEARL");
+        var miscWorld = oracle.room.game.GetMiscWorld();
+
+        if (miscWorld != null)
+        {
+            miscWorld.PebblesTookHalcyonPearl = true;
+        }
 
         for (int roomObjIndex = oracle.room.physicalObjects.Length - 1; roomObjIndex >= 0; roomObjIndex--)
         {
@@ -748,8 +763,6 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public void GiveSSPearl(Oracle oracle, bool withEffect = true)
     {
-        // Plugin.Logger.LogInfo("PEBBLES GIVE SS PEARL");
-
         foreach (var roomObject in oracle.room.physicalObjects)
         {
             foreach (var physicalObject in roomObject)

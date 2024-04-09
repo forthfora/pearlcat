@@ -12,7 +12,7 @@ public static partial class Hooks
         On.SaveState.LoadGame += SaveState_LoadGame;
 
         //On.PlayerProgression.WipeSaveState += PlayerProgression_WipeSaveState;
-        On.PlayerProgression.WipeAll += PlayerProgression_WipeAll;
+        //On.PlayerProgression.WipeAll += PlayerProgression_WipeAll;
     }
 
     // Assess and update save data at the end of the cycle
@@ -60,22 +60,6 @@ public static partial class Hooks
         {
             miscWorld.PearlpupID = null;
         }
-
-
-        // Menu Scene
-        if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.JustAscended)
-        {
-            SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
-        }
-        else if (saveState.deathPersistentSaveData.ascended)
-        {
-            SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat_Ascended);
-        }
-        else
-        {
-            SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat);
-        }
-
 
         // Dreams
         if (miscWorld.CurrentDream != null && !miscWorld.PreviousDreams.Contains(miscWorld.CurrentDream))
@@ -174,6 +158,8 @@ public static partial class Hooks
         if (self.cycleNumber == 0)
         {
             miscProg.ResetSave();
+
+            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
         }
 
 
@@ -209,12 +195,12 @@ public static partial class Hooks
     //    orig(self, saveStateNumber);
     //}
 
-    private static void PlayerProgression_WipeAll(On.PlayerProgression.orig_WipeAll orig, PlayerProgression self)
-    {
-        var miscProg = Utils.GetMiscProgression();
+    //private static void PlayerProgression_WipeAll(On.PlayerProgression.orig_WipeAll orig, PlayerProgression self)
+    //{
+    //    var miscProg = Utils.GetMiscProgression();
 
-        miscProg.ResetSave();
+    //    miscProg.ResetSave();
 
-        orig(self);
-    }
+    //    orig(self);
+    //}
 }

@@ -26,6 +26,7 @@ public class SaveMiscWorld
     public bool PebblesMetSickPup { get; set; }
     public Dictionary<int, int> PearlIDsBroughtToPebbles { get; } = new();
     public int UniquePearlsBroughtToPebbles => PearlIDsBroughtToPebbles.Keys.Count;
+    public bool PebblesTookHalcyonPearl { get; set; } = false;
     
 
     // Looks to the Moon

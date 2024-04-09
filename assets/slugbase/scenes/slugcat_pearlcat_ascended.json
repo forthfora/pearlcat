@@ -19,8 +19,6 @@
     
     {"name": "slugcat_head", "pos": [0, 0], "depth": 2.4, "shader": "Basic"},
     
-    {"name": "pup", "pos": [0, -50], "depth": 1.5, "shader": "Basic"},
-    
     {"name": "pearlactivehalo", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearlactive", "pos": [700, 600], "depth": 2.3, "shader": "Basic"}
   ],
