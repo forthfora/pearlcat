@@ -44,6 +44,8 @@ public static partial class Hooks
 
 
         // Meta
+        miscProg.IsMSCSave = ModManager.MSC;
+
         miscProg.IsNewPearlcatSave = false;
         miscProg.Ascended = saveState.deathPersistentSaveData.ascended;
 

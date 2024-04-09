@@ -8,7 +8,7 @@ public class SaveMiscProgression
 {
     // Meta
     public bool IsNewPearlcatSave { get; set; } = true;
-    public bool IsMSCSave { get; set; }
+    public bool IsMSCSave { get; set; } = ModManager.MSC;
     
     public bool IsMiraSkipEnabled { get; set; }
     public bool IsSecretEnabled { get; set; }
