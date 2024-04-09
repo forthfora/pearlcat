@@ -10,9 +10,6 @@ public static partial class Hooks
         On.WinState.CycleCompleted += WinState_CycleCompleted;
 
         On.SaveState.LoadGame += SaveState_LoadGame;
-
-        //On.PlayerProgression.WipeSaveState += PlayerProgression_WipeSaveState;
-        //On.PlayerProgression.WipeAll += PlayerProgression_WipeAll;
     }
 
     // Assess and update save data at the end of the cycle
@@ -157,9 +154,7 @@ public static partial class Hooks
 
         if (self.cycleNumber == 0)
         {
-            miscProg.ResetSave();
-
-            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
+            miscProg.ResetSave(self);
         }
 
 
@@ -180,27 +175,4 @@ public static partial class Hooks
             miscProg.IsSecretEnabled = false;
         }
     }
-
-
-    // Inferior to checking if cycle number is 0 as it causes the select screen to change before it fades
-    //private static void PlayerProgression_WipeSaveState(On.PlayerProgression.orig_WipeSaveState orig, PlayerProgression self, SlugcatStats.Name saveStateNumber)
-    //{
-    //    var miscProg = Utils.GetMiscProgression();
-
-    //    if (saveStateNumber == Enums.Pearlcat)
-    //    {
-    //        miscProg.ResetSave();
-    //    }
-
-    //    orig(self, saveStateNumber);
-    //}
-
-    //private static void PlayerProgression_WipeAll(On.PlayerProgression.orig_WipeAll orig, PlayerProgression self)
-    //{
-    //    var miscProg = Utils.GetMiscProgression();
-
-    //    miscProg.ResetSave();
-
-    //    orig(self);
-    //}
 }
