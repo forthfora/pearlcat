@@ -301,8 +301,12 @@ public static partial class Hooks
                 visible = save.HasPearlpup || (save.IsNewPearlcatSave && ModManager.MSC);
             }
 
-            visible = visible && ((save.HasTrueEnding && fileName.Contains("trueend")) || (!save.HasTrueEnding && !fileName.Contains("trueend")));
+
+            // visible &= save.ShowAltSelect == fileName.EndsWith("_alt");
+            visible &= save.HasTrueEnding == fileName.Contains("trueend");
+
             illustration.visible = visible;
+
 
             if (fileName.Contains("pupheart"))
             {
