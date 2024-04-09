@@ -20,10 +20,17 @@
     
     {"name": "trueend_slugcat", "pos": [0, -75], "depth": 2.8, "shader": "Basic"},
     
+    
     {"name": "PearlpupScarf", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
+    
+    
     {"name": "PearlcatBody", "pos": [0, 0], "depth": 2.8, "shader": "Basic"},
+
     
+    {"name": "PearlpupTail", "pos": [0, -20], "depth": 2.5, "shader": "Basic"},
+    {"name": "Pearlpup", "pos": [0, -20], "depth": 2.2, "shader": "Basic"},
     
+
     {"name": "pearl0", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl2", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
@@ -34,10 +41,6 @@
     {"name": "pearl7", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl8", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     {"name": "pearl9", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    
-    
-    {"name": "PearlpupTail", "pos": [0, -30], "depth": 2.5, "shader": "Basic"},
-    {"name": "Pearlpup", "pos": [0, -30], "depth": 2.2, "shader": "Basic"},
     
     
     {"name": "PearlcatHead", "pos": [0, 0], "depth": 2.8, "shader": "Basic"},

@@ -406,7 +406,7 @@ public static partial class Hooks
         var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
         illustration.pos = targetPos;
 
-        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 0.0f, 1.0f, 0.3f, 0.25f);
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), -1.0f, 1.0f, 0.35f, 0.25f);
         illustration.color = pearlColors[i].MenuPearlColorFilter();
     }
 
@@ -641,7 +641,7 @@ public static partial class Hooks
         var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius * 1.7f, origin.y + Mathf.Sin(angle) * radius);
         illustration.pos = targetPos;
 
-        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, 0.0f, 0.2f, 0.3f);
+        illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, -1.0f, 0.2f, 0.3f);
         illustration.alpha = 1.0f;
         illustration.color = pearlColors[i].MenuPearlColorFilter();
     }
