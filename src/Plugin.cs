@@ -25,7 +25,6 @@ namespace Pearlcat;
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";
-    public const string SLUGCAT_ID = "Pearlcat";
 
     public static string MOD_NAME = "";
     public static string VERSION = "";
