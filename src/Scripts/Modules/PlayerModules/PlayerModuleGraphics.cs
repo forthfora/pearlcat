@@ -147,10 +147,10 @@ public partial class PlayerModule
     public Color BaseAccentColor { get; set; }
     public Color BaseCloakColor { get; set; }
 
-    public static Color DefaultBodyColor => Custom.hexToColor("122626");
+    public static Color DefaultBodyColor => Custom.hexToColor("283b2c");
     public static Color DefaultFaceColor => Color.white;
     public static Color DefaultAccentColor => Color.white;
-    public static Color DefaultCloakColor => Custom.hexToColor("ad2424");
+    public static Color DefaultCloakColor => Custom.hexToColor("ca471b");
 
     public Color ActiveColor => ActiveObject?.GetObjectColor() ?? Color.white;
 

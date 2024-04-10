@@ -26,12 +26,14 @@
         "karma": 3,
         "karma_cap": 4,
         
-        "back_spear": false,
         "the_mark": true,
         "the_glow": true,
+
+        "has_dreams": true,
+
+        "back_spear": false,
         
         "auto_grab_batflies": false,
-        "has_dreams": true,
         "perma_unlock_gates": false,
         
         "diet": {
@@ -44,11 +46,11 @@
             }
         },
         
-        "color": "122626",
+        "color": "283b2c",
         "custom_colors": [
             {
                 "name": "Body",
-                "story": "122626"
+                "story": "283b2c"
             },
             {
                 "name": "Eyes",
@@ -60,7 +62,7 @@
             },
             {
                 "name": "Cloak",
-                "story": "ad2424",
+                "story": "ca471b",
                 "arena": [ "ffffff", "edab03", "cd557a", "315ab1" ]
             }
         ],
