@@ -446,8 +446,6 @@ public static class Utils
 
         miscWorld.PebblesMeetCount = 0;
 
-        baseMiscWorld.SLOracleState.ForceResetState(Enums.Pearlcat);
-
         SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat);
     }
 
