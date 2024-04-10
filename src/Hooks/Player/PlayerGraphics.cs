@@ -768,7 +768,7 @@ public static partial class Hooks
 
         playerModule.Cloak.UpdateColor(sLeaser);
 
-        playerModule.SetInvertTailColors = upsideDown;
+        playerModule.SetInvertTailColors = upsideDown && !playerModule.IsPearlpupAppearance;
 
 
         if (playerModule.IsPearlpupAppearance)
