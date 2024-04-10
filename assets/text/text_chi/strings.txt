@@ -374,7 +374,7 @@ Button East|Button East
 LC|LC
 Enables custom keybinds below, as opposed to the default (UP + PICKUP).|启用下方的自定义按键，而非默认的（上 + 拾取）。
 He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|他目前的设备比我好得多 - 如果可以的话，我建议你去拜访他。<LINE>虽然他不是作为医疗设施而设计的，但他也许能够以某种方式帮助到你。
-scholar|scholar
+scholar|学者
 Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|Mira Installation需要珍珠猫1.3.0版本或更高版本！请更新……
 I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|你一回到这里，我就注意到了维持你生命的增生物 - 我不是轻易说这些话的，但它的工作原理我真的无法理解。
 pearlcat_hudpearl|pearlcat_hudpearl
@@ -640,7 +640,7 @@ Laser Windup TIme (OLD)|激光扭曲时间（旧）
 pearlcat_nightsky|Pearlcat_nightsky
 - Dialogue, SFX|- 对话、特效
 REMIX: {ModManager.MMF}\n|REMIX: {ModManager.MMF}\n
-strange|strange
+strange|奇怪
 RESET PEARLCAT MISC PROGRESSION|RESET PEARLCAT MISC PROGRESSION
 The Pearlcat|珍珠猫
 PEARLCAT_MIRA_SKIP|PEARLCAT_MIRA_SKIP
