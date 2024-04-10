@@ -125,7 +125,7 @@ public partial class Hooks
 
         if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
         {
-            var canDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.2f;
+            var canDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.35f;
 
             if (canDream)
             {
@@ -141,7 +141,7 @@ public partial class Hooks
         }
         else
         {
-            var canDream = Random.Range(0.0f, 1.0f) < 0.1f;
+            var canDream = Random.Range(0.0f, 1.0f) < 0.2f;
 
             if (canDream)
             {
