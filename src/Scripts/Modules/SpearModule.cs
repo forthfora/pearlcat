@@ -19,9 +19,10 @@ public class SpearModule
     public bool WasThrown { get; set; }
     public int SparkTimer { get; set; }
 
-    public WeakReference<Player>? ThrownByPlayer { get; set; }
     public int ReturnTimer { get; set; } = -2;
-
-
     public int DecayTimer { get; set; }
+
+
+    [JsonIgnore]
+    public WeakReference<Player>? ThrownByPlayer { get; set; }
 }

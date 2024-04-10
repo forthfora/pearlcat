@@ -192,7 +192,6 @@ public static class ModuleManager
         if (!data.GetSlugBaseData().TryGet(Plugin.MOD_ID, out SaveMiscProgression save))
         {
             data.GetSlugBaseData().Set(Plugin.MOD_ID, save = new());
-            Plugin.Logger.LogWarning("CREATED NEW MISC PROG");
         }
 
         return save;
