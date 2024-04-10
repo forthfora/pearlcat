@@ -25,7 +25,7 @@ public static partial class Hooks
         var save = self.oracle.room.game.GetMiscWorld();
         var miscProg = Utils.GetMiscProgression();
 
-        var t = Utils.Translator;
+        var t = self;
 
         void SayStart(string text) => self.dialogBox.Interrupt(t.Translate(text), 10);
 
