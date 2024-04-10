@@ -283,11 +283,11 @@ public partial class PlayerModule
         }
         else
         {
-            newEarL[0] = new(self, 4.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+            newEarL[0] = new(self, 3.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
             newEarL[1] = new(self, 2.5f, 6.0f, newEarL[0], 0.85f, 1.0f, 0.05f, true);
             newEarL[2] = new(self, 0.5f, 4.0f, newEarL[1], 0.85f, 1.0f, 0.05f, true);
 
-            newEarR[0] = new(self, 4.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
+            newEarR[0] = new(self, 3.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
             newEarR[1] = new(self, 2.5f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.05f, true);
             newEarR[2] = new(self, 0.5f, 4.0f, newEarR[1], 0.85f, 1.0f, 0.05f, true);
         }
