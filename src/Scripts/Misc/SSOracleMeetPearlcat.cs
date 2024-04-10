@@ -475,19 +475,24 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                     }
                     else if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
                     {
-                        owner.LockShortcuts();
-                        owner.getToWorking = 0.0f;
-
                         if (!miscWorld.PebblesMetSickPup)
                         {
+                            owner.LockShortcuts();
+                            owner.getToWorking = 0.0f;
+
                             owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+
+                            ConvoCount++;
                         }
                         else if (Utils.IsMiraActive && !miscProg.UnlockedMira)
                         {
-                            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
-                        }
+                            owner.LockShortcuts();
+                            owner.getToWorking = 0.0f;
 
-                        ConvoCount++;
+                            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
+
+                            ConvoCount++;
+                        }
                     }
                 }
             }
