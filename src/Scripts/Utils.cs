@@ -472,8 +472,8 @@ public static class Utils
         miscWorld.PebblesMetSickPup = true;
 
 
-        baseMiscWorld.SLOracleState.playerEncountersWithMark = 2;
-        baseMiscWorld.SLOracleState.playerEncounters = 2;
+        baseMiscWorld.SLOracleState.playerEncountersWithMark = 0;
+        baseMiscWorld.SLOracleState.playerEncounters = 1;
 
         miscWorld.JustMiraSkipped = true;
 
