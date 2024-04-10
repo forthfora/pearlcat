@@ -10,7 +10,22 @@ public static partial class Hooks
         On.WinState.CycleCompleted += WinState_CycleCompleted;
 
         On.SaveState.LoadGame += SaveState_LoadGame;
+
+        On.PlayerProgression.WipeAll += PlayerProgression_WipeAll;
     }
+
+
+
+    // Reset misc progression when the slot is reset
+    private static void PlayerProgression_WipeAll(On.PlayerProgression.orig_WipeAll orig, PlayerProgression self)
+    {
+        var miscProg = Utils.GetMiscProgression();
+
+        miscProg.ResetSave();
+
+        orig(self);
+    }
+
 
     // Assess and update save data at the end of the cycle
     private static void WinState_CycleCompleted(On.WinState.orig_CycleCompleted orig, WinState self, RainWorldGame game)
@@ -154,7 +169,9 @@ public static partial class Hooks
 
         if (self.cycleNumber == 0)
         {
-            miscProg.ResetSave(self);
+            miscProg.ResetSave();
+
+            SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
         }
 
 

@@ -37,7 +37,7 @@ public class SaveMiscProgression
     public bool HasTrueEnding { get; set; }
 
 
-    public void ResetSave(SaveState saveState)
+    public void ResetSave()
     {
         StoredPearlColors.Clear();
         ActivePearlColor = null;
@@ -59,7 +59,5 @@ public class SaveMiscProgression
 
         IsMSCSave = ModManager.MSC;
         UnlockedMira = !ModManager.MSC;
-
-        SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat);
     }
 }
