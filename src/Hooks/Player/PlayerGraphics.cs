@@ -654,7 +654,7 @@ public static partial class Hooks
         feetSprite.MoveBehindOtherNode(cloakSprite);
         feetSprite.MoveInFrontOfOtherNode(legsSprite);
 
-        var upsideDown = self.head.pos.y < self.legs.pos.y || self.player.bodyMode == Player.BodyModeIndex.ZeroG;
+        var upsideDown = self.head.pos.y < (self.legs.pos.y - 3.0f) && self.player.bodyMode != Player.BodyModeIndex.ZeroG;
 
         if (upsideDown)
         {
@@ -678,7 +678,7 @@ public static partial class Hooks
             earRSprite.MoveBehindOtherNode(cloakSprite);
         }
 
-        if (self.player.firstChunk.vel.x <= 0.3f)
+        if (Mathf.Abs(self.player.firstChunk.vel.x) <= 1.0f || self.player.bodyMode == Player.BodyModeIndex.ClimbingOnBeam)
         {
             armLSprite.MoveBehindOtherNode(bodySprite);
             armRSprite.MoveBehindOtherNode(bodySprite);
@@ -750,7 +750,7 @@ public static partial class Hooks
         handLSprite.color = accentColor;
         handRSprite.color = accentColor;
 
-        scarfSprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.4f)).RWColorSafety();
+        scarfSprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.6f)).RWColorSafety();
 
         sleeveLSprite.color = cloakColor;
         sleeveRSprite.color = cloakColor;
@@ -768,7 +768,7 @@ public static partial class Hooks
 
         playerModule.Cloak.UpdateColor(sLeaser);
 
-        playerModule.SetInvertTailColors = self.player.inVoidSea && upsideDown;
+        playerModule.SetInvertTailColors = upsideDown;
 
 
         if (playerModule.IsPearlpupAppearance)
