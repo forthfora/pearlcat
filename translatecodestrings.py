@@ -22,7 +22,7 @@ langMap = {
     "es": "spa"
 }
 
-def Translate(targetLang, preserveExisting, actuallyTranslate = True):
+def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTranslatedLines = False):
     print("TRANSLATING: " + targetLang)
 
     strings = [
@@ -88,6 +88,9 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True):
                 translated = "NO_TRANSLATION" if not actuallyTranslate else translator.translate(string, src=SRC, dest=targetLang).text
                 
                 output = string + "|" + translated + "\n"
+
+                if printTranslatedLines:
+                    print(output)
             
             f.write(output)
         
@@ -107,8 +110,7 @@ toTranslate = {
     "de",
     "ja",
     "zh-CN",
-    
-    # "es",
+    "es",
 }
 
 preserveLangMap = [
@@ -119,7 +121,6 @@ preserveLangMap = [
     "it",
     "de",
     "ja",
-
     "zh-CN",
     "es",
 ]
@@ -133,9 +134,8 @@ dontTranslate = [
     # "de",
     # "ja",
     # "zh-CN",
-
-    "es",
+    # "es",
 ]
 
 for lang in toTranslate:
-    Translate(lang, lang in preserveLangMap, lang not in dontTranslate)
+    Translate(lang, lang in preserveLangMap, lang not in dontTranslate, True)
