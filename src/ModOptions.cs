@@ -169,6 +169,9 @@ public sealed class ModOptions : OptionsTemplate
         "Reverts to the old red pearl mechanics - auto targeting lasers.", null, "",
         "Old Red Pearl Ability?"));
 
+    public static Configurable<bool> DisableImprovedInputConfig { get; } = Instance.config.Bind(nameof(DisableImprovedInputConfig), false, new ConfigurableInfo(
+        "When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.", null, "",
+        "Disable Improved Input Config?"));
 
     #endregion
 
@@ -772,9 +775,17 @@ public sealed class ModOptions : OptionsTemplate
             AddNewLine(-2);
         }
 
+
         AddCheckBox(CustomSentryKeybind);
+
+        if (Hooks.IsImprovedInputInstalled)
+        {
+            AddCheckBox(DisableImprovedInputConfig);
+        }
+
         DrawCheckBoxes(ref Tabs[tabIndex]);
         
+
         if (Hooks.IsImprovedInputActive)
         {
             AddNewLine(6);
@@ -789,6 +800,16 @@ public sealed class ModOptions : OptionsTemplate
         }
 
         DrawBox(ref Tabs[tabIndex]);
+
+
+        if (GetLabel(DisableImprovedInputConfig, out var label))
+        {
+            label.color = WarnRed;
+        }
+        if (GetConfigurable(DisableImprovedInputConfig, out OpCheckBox checkBox))
+        {
+            checkBox.colorEdge = WarnRed;
+        }
     }
 
 

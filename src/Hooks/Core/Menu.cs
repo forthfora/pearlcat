@@ -51,6 +51,8 @@ public static partial class Hooks
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
 
         IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
+
+        On.Menu.InputOptionsMenu.ctor += InputOptionsMenu_ctor;
     }
 
 
@@ -1055,5 +1057,16 @@ public static partial class Hooks
         });
 
         c.Emit(OpCodes.Brtrue, dest);
+    }
+
+
+    private static void InputOptionsMenu_ctor(On.Menu.InputOptionsMenu.orig_ctor orig, InputOptionsMenu self, ProcessManager manager)
+    {
+        if (IsImprovedInputInstalled)
+        {
+            InitIICKeybinds();
+        }
+
+        orig(self, manager);
     }
 }

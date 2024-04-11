@@ -732,7 +732,7 @@ public static partial class Hooks
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
         var riccochetVelMult = 1.25f;
-        var riccochetDamageMult = isSentry ? 1.25f : 1.1f;
+        var riccochetDamageMult = isSentry ? 1.25f : 2.0f;
 
 
         // Target Finding
@@ -756,7 +756,7 @@ public static partial class Hooks
                 {
                     if (physObj == pearl) continue;
 
-                    //if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
+                    if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
 
                     if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
 
@@ -862,6 +862,10 @@ public static partial class Hooks
                             {
                                 bestTargetPos = lizard.bodyChunks[lizard.bodyChunks.Count() / 2].pos;
                             }
+                        }
+                        if (bestEnemy is Vulture vulture)
+                        {
+                            bestTargetPos = vulture.Head().pos;
                         }
                     }
                     else if (bestTarget == closestRed)

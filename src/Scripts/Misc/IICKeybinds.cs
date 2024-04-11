@@ -8,14 +8,23 @@ public static class IICKeybinds
 {
     public static void InitKeybinds()
     {
-        Plugin.Logger.LogInfo("Pearlcat + Improved Input Config integration init!");
+        var t = Utils.Translator;
 
-        StoreKeybind.Description = "Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.";
-        SwapKeybind.Description = "Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.";
-        SwapLeftKeybind.Description = "Swaps the active pearl to the left.";
-        SwapRightKeybind.Description = "Swaps the active pearl to the right.";
-        SentryKeybind.Description = "Deploys the active pearl as a sentry, or returns it if it is already deployed.";
-        AbilityKeybind.Description = "Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.";
+        StoreKeybind.Description = t.Translate("Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.");
+        SwapKeybind.Description = t.Translate("Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.");
+        SwapLeftKeybind.Description = t.Translate("Swaps the active pearl to the left.");
+        SwapRightKeybind.Description = t.Translate("Swaps the active pearl to the right.");
+        SentryKeybind.Description = t.Translate("Deploys the active pearl as a sentry, or returns it if it is already deployed.");
+        AbilityKeybind.Description = t.Translate("Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.");
+
+        var hide = ModOptions.DisableImprovedInputConfig.Value;
+
+        StoreKeybind.HideConfig = hide;
+        SwapKeybind.HideConfig = hide;
+        SwapLeftKeybind.HideConfig = hide;
+        SwapRightKeybind.HideConfig = hide;
+        SentryKeybind.HideConfig = hide;
+        AbilityKeybind.HideConfig = hide;
     }
 
     public static readonly PlayerKeybind StoreKeybind = PlayerKeybind.Register($"{Plugin.MOD_ID}:store_pearl", Plugin.MOD_NAME, "Store Pearl", KeyCode.None, KeyCode.None);

@@ -6,7 +6,8 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
-    public static bool IsImprovedInputActive => ModManager.ActiveMods.Any(x => x.id == "improved-input-config");
+    public static bool IsImprovedInputInstalled => ModManager.ActiveMods.Any(x => x.id == "improved-input-config");
+    public static bool IsImprovedInputActive => IsImprovedInputInstalled && !ModOptions.DisableImprovedInputConfig.Value;
 
     public static void InitIICKeybinds() => IICKeybinds.InitKeybinds();
 

@@ -76,8 +76,8 @@ public static partial class Hooks
 
             AssetLoader.LoadAssets();
 
-            // Only init this if IIC is active
-            if (IsImprovedInputActive)
+            // Only init this if IIC is installed
+            if (IsImprovedInputInstalled)
             {
                 InitIICKeybinds();
             }
