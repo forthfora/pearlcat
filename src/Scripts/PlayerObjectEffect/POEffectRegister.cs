@@ -84,7 +84,7 @@ public static partial class POEffectManager
         None = new();
 
         Misc = None;
-        Misc.ThrowingSkill = 0.2f;
+        Misc.ThrowingSkill = 0.5f;
         Misc.MajorEffect = MajorEffectType.SPEAR_CREATION;
         Misc.ActiveMultiplier = 2.0f;
         Misc.LungsFac = -0.05f;

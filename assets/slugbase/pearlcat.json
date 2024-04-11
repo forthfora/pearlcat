@@ -13,7 +13,7 @@
         "food_min": 6,
         "food_max": 9,
         
-        "throw_skill": [1, 0],
+        "throw_skill": [0, 0],
         
         "weight": [0.95, 0.9],
         "lung_capacity": [1.0, 1.0],
