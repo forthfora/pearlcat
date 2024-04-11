@@ -743,7 +743,10 @@ public static partial class Hooks
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
         var riccochetVelMult = 1.25f;
-        var riccochetDamageMult = isSentry ? 1.25f : 2.0f;
+
+        var riccochetDamageMult = 2.0f;
+        var riccochetDamageMultUpDownThrow = 3.0f;
+        var riccochetDamageMultSentry = 1.25f;
 
 
         // Target Finding
@@ -896,6 +899,30 @@ public static partial class Hooks
                 }
 
 
+                if (weapon is Spear spear)
+                {
+                    var mult = 1.0f;
+
+                    if (isSentry)
+                    {
+                        mult = riccochetDamageMultSentry;
+                    }
+                    else
+                    {
+                        if (weapon.throwDir.y != 0)
+                        {
+                            mult = riccochetDamageMultUpDownThrow;
+                        }
+                        else
+                        {
+                            mult = riccochetDamageMult;
+                        }
+                    }
+
+                    spear.spearDamageBonus *= mult;
+                }
+
+
                 var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
 
                 // Need this to predict motion of target and trajectory due to gravity
@@ -908,14 +935,10 @@ public static partial class Hooks
                 weapon.firstChunk.vel = dir * Mathf.Clamp(weapon.firstChunk.vel.magnitude * riccochetVelMult, 0.0f, 100.0f);
                 weapon.setRotation = dir;
 
-                if (weapon is Spear spear)
-                {
-                    spear.spearDamageBonus *= riccochetDamageMult;
-                }
 
                 module.VisitedObjects.Add(physObj, new());
                 
-                
+
                 var room = pearl.room;
                 var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
 
@@ -1117,12 +1140,8 @@ public static partial class Hooks
     {
         if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE)
         {
-            if (self.room?.Darkness(self.mainBodyChunk.pos) < 0.75f || playerModule.CamoCount <= 0)
-            {
-                playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 0.0f, 0.2f);
-            }
             // Give these creatures night vision by default
-            else if (playerModule.PossessedCreature?.TryGetTarget(out var creature) == true && self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f)
+            if (playerModule.PossessedCreature?.TryGetTarget(out var creature) == true && self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f)
             {
                 var nightVisionCreatures = new List<CreatureTemplate.Type>()
                 {
@@ -1152,6 +1171,10 @@ public static partial class Hooks
                 {
                     playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 100.0f, 0.1f);
                 }
+            }
+            else
+            {
+                playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 0.0f, 0.2f);
             }
         }
 

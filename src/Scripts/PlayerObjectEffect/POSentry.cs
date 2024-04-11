@@ -231,7 +231,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                 HoloLightAlpha = Mathf.Lerp(HoloLightAlpha, 0.0f, 0.01f);
             }
 
-            HoloLightScale = Mathf.Lerp(HoloLightScale, MAX_SCALE, 0.04f);
+            HoloLightScale = Mathf.Lerp(HoloLightScale, MAX_SCALE, 0.03f);
         }
         
         if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE) return;
