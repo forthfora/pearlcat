@@ -221,17 +221,15 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         if (HoloLightActive)
         {
-            if (HoloLightScale >= MAX_SCALE * 0.99f)
+            HoloLightAlpha = Mathf.Lerp(HoloLightAlpha, 0.0f, Custom.LerpMap(HoloLightAlpha, 1.0f, 0.4f, 0.001f, 0.01f));
+
+            if (HoloLightAlpha <= 0.02f)
             {
+                HoloLightAlpha = 0.0f;
                 HoloLightActive = false;
             }
-            
-            if (HoloLightScale >= MAX_SCALE * 0.25f)
-            {
-                HoloLightAlpha = Mathf.Lerp(HoloLightAlpha, 0.0f, 0.01f);
-            }
-
-            HoloLightScale = Mathf.Lerp(HoloLightScale, MAX_SCALE, 0.03f);
+         
+            HoloLightScale = Mathf.Lerp(HoloLightScale, MAX_SCALE, 0.04f);
         }
         
         if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE) return;
@@ -239,7 +237,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         if (module.CooldownTimer != 0) return;
 
         module.CooldownTimer = 200;
- 
+
         HoloLightScale = 0.0f;
         HoloLightAlpha = 1.0f;
         HoloLightActive = true;

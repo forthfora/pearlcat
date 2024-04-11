@@ -678,7 +678,7 @@ public static partial class Hooks
             earRSprite.MoveBehindOtherNode(cloakSprite);
         }
 
-        if (Mathf.Abs(self.player.firstChunk.vel.x) <= 1.0f || self.player.bodyMode == Player.BodyModeIndex.ClimbingOnBeam)
+        if ((Mathf.Abs(self.player.firstChunk.vel.x) <= 1.0f && self.player.bodyMode != Player.BodyModeIndex.Crawl) || self.player.bodyMode == Player.BodyModeIndex.ClimbingOnBeam)
         {
             armLSprite.MoveBehindOtherNode(bodySprite);
             armRSprite.MoveBehindOtherNode(bodySprite);

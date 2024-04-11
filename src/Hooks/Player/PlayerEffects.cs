@@ -39,7 +39,7 @@ public static partial class Hooks
             combinedEffect.RollSpeedFac += effect.RollSpeedFac * mult;
             combinedEffect.SlideSpeedFac += effect.SlideSpeedFac * mult;
         }
-        
+
         if (playerModule.ActiveObject != null)
         {
             var effect = playerModule.ActiveObject.GetPOEffect();
@@ -54,7 +54,7 @@ public static partial class Hooks
         var effect = playerModule.CurrentPOEffect;
         var stats = self.slugcatStats;
         var baseStats = playerModule.BaseStats;
-    
+
         if (ModOptions.DisableMinorEffects.Value)
         {
             if (!self.Malnourished)
@@ -155,7 +155,7 @@ public static partial class Hooks
         if (playerModule.SpearCount <= 0) return;
 
         playerModule.ForceLockSpearOnBack = self.spearOnBack != null && (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20);
-        
+
         bool IsHoldingFoodOrPlayer(Player player)
         {
             var grasps = player.grasps;
@@ -191,7 +191,7 @@ public static partial class Hooks
 
         //Plugin.Logger.LogWarning(self.eatCounter);
 
-        if (abilityInput && ((self.spearOnBack == null && !holdingSpear) || 
+        if (abilityInput && ((self.spearOnBack == null && !holdingSpear) ||
             (self.spearOnBack != null && (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) && !(holdingSpear && self.spearOnBack.HasASpear) && !(self.spearOnBack.HasASpear && self.onBack != null))))
         {
             playerModule.ForceLockSpearOnBack = true;
@@ -406,7 +406,7 @@ public static partial class Hooks
             self.Stun(60);
         }
     }
-    
+
 
     public static void UpdateRevive(Player self, PlayerModule playerModule, POEffect effect)
     {
@@ -419,7 +419,7 @@ public static partial class Hooks
         if (playerModule.ActiveObject == null || !playerModule.ActiveObject.TryGetPOModule(out var poModule)) return;
 
         var abilityInput = self.IsReviveKeybindPressed(playerModule);
-        
+
         if (effect.MajorEffect != MajorEffectType.REVIVE || !abilityInput)
         {
             playerModule.ReviveTimer = 0;
@@ -499,7 +499,7 @@ public static partial class Hooks
 
             playerModule.ShieldAlpha = Mathf.Lerp(playerModule.ShieldAlpha, 1.0f, 0.25f);
             playerModule.ShieldScale = Mathf.Lerp(playerModule.ShieldScale, 6.0f, 0.4f);
-            
+
             if (playerModule.ShieldTimer % 3 == 0)
             {
                 foreach (var item in playerModule.Inventory)
@@ -530,7 +530,7 @@ public static partial class Hooks
         }
 
         if (self.room == null) return;
-        
+
         var roomObjects = self.room.updateList;
         bool didDeflect = false;
 
@@ -545,7 +545,7 @@ public static partial class Hooks
             for (int i = roomObjects.Count - 1; i >= 0; i--)
             {
                 var obj = roomObjects[i];
-             
+
                 if (obj is Weapon weapon)
                 {
                     if (weapon.thrownBy == self) continue;
@@ -558,7 +558,7 @@ public static partial class Hooks
 
                         // Jolly FF is off, doesn't apply to arena sessions
                         if (!self.abstractCreature.world.game.IsArenaSession && !Utils.RainWorld.options.friendlyFire) continue;
-                        
+
                         // Arena FF is off, only applies to arena sessions
                         if (self.abstractCreature.world.game.IsArenaSession && !self.abstractCreature.world.game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers) continue;
                     }
@@ -586,7 +586,7 @@ public static partial class Hooks
 
                         if (playerModule.ShieldTimer <= 0)
                             spit.room.DeflectEffect(spit.pos);
-                        
+
                         didDeflect = true;
                     }
                 }
@@ -609,7 +609,7 @@ public static partial class Hooks
             playerModule.ActivateVisualShield();
         }
     }
-    
+
 
     public static void UpdateRage(Player self, PlayerModule playerModule, POEffect effect)
     {
@@ -664,7 +664,7 @@ public static partial class Hooks
         if (!self.Consious) return;
 
         if (self.Sleeping) return;
-        
+
 
         List<PhysicalObject> ragePearls = new();
 
@@ -730,7 +730,7 @@ public static partial class Hooks
         var ragePearl = ragePearls[Random.Range(0, ragePearls.Count - 1)];
 
         spear.MakeRageSpear(ragePearl.GetObjectColor());
-        
+
         self.SlugcatGrab(spear, 0);
     }
 
@@ -872,10 +872,7 @@ public static partial class Hooks
 
                         if (bestEnemy is Lizard lizard)
                         {
-                            if (lizard.bodyChunks.Count() >= 2)
-                            {
-                                bestTargetPos = lizard.bodyChunks[lizard.bodyChunks.Count() / 2].pos;
-                            }
+                            bestTargetPos = lizard.mainBodyChunk.pos;
                         }
                         if (bestEnemy is Vulture vulture)
                         {
@@ -912,6 +909,7 @@ public static partial class Hooks
                         if (weapon.throwDir.y != 0)
                         {
                             mult = riccochetDamageMultUpDownThrow;
+                            pearl.room.PlaySound(SoundID.HUD_Food_Meter_Fill_Plop_A, pearl.firstChunk.pos, 1.5f, 3.0f);
                         }
                         else
                         {
@@ -937,7 +935,7 @@ public static partial class Hooks
 
 
                 module.VisitedObjects.Add(physObj, new());
-                
+
 
                 var room = pearl.room;
                 var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
@@ -1138,7 +1136,7 @@ public static partial class Hooks
 
     public static void UpdateCamoflague(Player self, PlayerModule playerModule, POEffect effect)
     {
-        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE)
+        if (effect.MajorEffect != MajorEffectType.CAMOFLAGUE || playerModule.ActiveObject == null || playerModule.ActiveObject.TryGetSentry(out _))
         {
             // Give these creatures night vision by default
             if (playerModule.PossessedCreature?.TryGetTarget(out var creature) == true && self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f)
@@ -1214,18 +1212,8 @@ public static partial class Hooks
             playerModule.CamoColor = totalColor / samples.Count;
         }
 
-        //var prevCamo = playerModule.CamoLerp;
 
         playerModule.CamoLerp = shouldCamo ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, camoSpeed) : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, camoSpeed);
-
-        //if (shouldCamo && prevCamo < 0.9f && playerModule.CamoLerp > 0.9f)
-        //{
-        //    self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlAbstract, self.firstChunk, false, 0.5f, Random.Range(0.8f, 1.2f));
-        //}
-        //else if (!shouldCamo && prevCamo > 0.9 && playerModule.CamoLerp < 0.9f)
-        //{
-        //    self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRealize, self.firstChunk, false, 0.7f, Random.Range(0.8f, 1.2f));
-        //}
 
         if (effect.MajorEffect == MajorEffectType.CAMOFLAGUE && playerModule.CamoCount > 0 && self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f)
         {
