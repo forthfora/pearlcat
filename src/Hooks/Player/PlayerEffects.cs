@@ -213,10 +213,21 @@ public static partial class Hooks
 
                     var dataPearlType = (playerModule.ActiveObject as DataPearl.AbstractDataPearl)?.dataPearlType.value;
 
-                    var save = self.abstractCreature.Room.world.game.GetMiscWorld();
-                    var spearModule = new SpearModule(playerModule.ActiveColor, dataPearlType ?? "");
 
-                    save?.PearlSpears.Add(abstractSpear.ID.number, spearModule);
+                    var spearModule = new SpearModule(playerModule.ActiveColor, dataPearlType ?? "");
+                    var save = self.abstractCreature.Room.world.game.GetMiscWorld();
+
+                    // Story
+                    if (save != null)
+                    {
+                        save.PearlSpears.Add(abstractSpear.ID.number, spearModule);
+                    }
+                    // Non-Story (e.g. Arena / Sandbox)
+                    else
+                    {
+                        ModuleManager.TempPearlSpearData.Add(abstractSpear, spearModule);
+                    }
+
 
                     if (self.spearOnBack != null && (holdingSpear || self.onBack != null))
                     {

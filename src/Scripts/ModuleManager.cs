@@ -140,20 +140,17 @@ public static class ModuleManager
 
 
     // Pearl Spear
+    public static ConditionalWeakTable<AbstractSpear, SpearModule> TempPearlSpearData { get; } = new();
     public static bool TryGetSpearModule(this AbstractSpear spear, out SpearModule module)
     {
         var save = spear.Room.world.game.GetMiscWorld();
 
         if (save == null)
         {
-            module = null!;
-            return false;
+            return TempPearlSpearData.TryGetValue(spear, out module);
         }
 
-        if (save.PearlSpears.TryGetValue(spear.ID.number, out module))
-            return true;
-
-        return false;
+        return save.PearlSpears.TryGetValue(spear.ID.number, out module);
     }
 
 
@@ -168,17 +165,6 @@ public static class ModuleManager
     public static SaveMiscWorld GetMiscWorld(this MiscWorldSaveData data)
     {
         if (!data.GetSlugBaseData().TryGet(Plugin.MOD_ID, out SaveMiscWorld save))
-        {
-            data.GetSlugBaseData().Set(Plugin.MOD_ID, save = new());
-        }
-
-        return save;
-    }
-
-    public static SaveDeathPersistent GetDeathPersistent(this RainWorldGame game) => GetDeathPersistent(game.GetStorySession.saveState.deathPersistentSaveData);
-    public static SaveDeathPersistent GetDeathPersistent(this DeathPersistentSaveData data)
-    {
-        if (!data.GetSlugBaseData().TryGet(Plugin.MOD_ID, out SaveDeathPersistent save))
         {
             data.GetSlugBaseData().Set(Plugin.MOD_ID, save = new());
         }
