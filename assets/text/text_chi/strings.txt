@@ -46,7 +46,7 @@ I am... sorry.|我……很抱歉。
 Cloak|Cloak
 Pearl Ability|珍珠能力
 .png|.png
-Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|在红色珍珠的范围内投掷武器会使其追踪到附近的敌对生物身上
+Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|在红色珍珠的范围内投掷武器会将武器投射追踪到附近的敌对生物身上
 Skip to Mira Storyline|跳过米拉的故事情节
 9487c9|9487C9
 Hello! Strange scholar, it is good to see you!|你好！奇怪的学者，很高兴见到你！
@@ -448,7 +448,7 @@ T1_CAR3|T1_CAR3
 Keybind for Player 2.|玩家 2 的按键。
 I have nothing for you, I'm afraid... but I hope you find the answers you seek.|恐怕我没有什么可以给你的……但我希望你能找到你想要的答案。
 Camo Pearl Count|迷彩珍珠数量
-Laser Windup TIme (OLD)|激光扭曲时间（旧）
+Laser Windup TIme (OLD)|激光蓄能时间（旧）
 The Gutter|排水沟
 Good luck, mysterious scholar.|祝你好运，神秘的学者。
 ) or (|）或者（
