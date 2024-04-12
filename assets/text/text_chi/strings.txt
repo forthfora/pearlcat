@@ -64,7 +64,7 @@ GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n|GAME VERSION: {RainWorld.GAME_VE
 You're welcome to stay a while... your ability is fascinating.|欢迎你留在这一段时间……你的能力令人着迷。
 1: |1: 
 \r\n|\r\n
-PEARLPUP|珍珠
+PEARLPUP|珍珠猫幼崽
 {nameof(SaveMiscProgression.ActivePearlColor)}: {pearlcatMiscProg.ActivePearlColor}\n|{nameof(SaveMiscProgression.ActivePearlColor)}: {pearlcatMiscProg.ActivePearlColor}\n
 This one again? I have better things to do... but...|又一个？我还有更重要的事情要做……但……
 feet|feet
@@ -148,7 +148,7 @@ pearlcat_support|pearlcat_support
 pearlcat_clouds|pearlcat_clouds
 {nameof(SaveMiscWorld.PebblesMeetCount)}: {pearlcatMiscWorld.PebblesMeetCount}\n|{nameof(SaveMiscWorld.PebblesMeetCount)}: {pearlcatMiscWorld.PebblesMeetCount}\n
 Intro6_Mira|Intro6_mira
-strange|奇怪
+strange|奇怪的
 I do enjoy the company of you and your friend though, <PlayerName>.|不过，我确实很喜欢和你以及你的朋友在一起，<PlayerName>。
 body|body
 Oh...? Hello! Hello...|哦……？你好！你好……
@@ -188,7 +188,7 @@ pearlcat_structure6|pearlcat_structure6
 PlayerArm|PlayerArm
 0.0|0.0
 AS|AS
-PREVENTED PEARLPUP GRASP RELEASE|防止珍珠掌握释放
+PREVENTED PEARLPUP GRASP RELEASE|PREVENTED PEARLPUP GRASP RELEASE
 T1_CAR2|T1_CAR2
 SB_L01|SB_L01
 When checked, enables Pearlcat to carry a backspear.|选中后，珍珠猫可以像猎手一样在背后背一根长矛。
@@ -249,7 +249,7 @@ MSC: {ModManager.MSC}\n|MSC: {ModManager.MSC}\n
 ca471b|CA471B
 {nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n|{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n
 To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|要想取回珍珠，在主手为空的情况下按住（抓取 + 上）
-Pearlpup|珍珠
+Pearlpup|Pearlpup
 ...that pearl you carry, the purple one, where did you find it?|……那颗你带着的紫色珍珠，你是在哪里找到的？
 Ah... you seem, familiar...? ...but in such a strange way...|啊……你看起来，有点眼熟……？……但是以一种很奇怪的方式……
 VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|版本警告<Line>Mira Installation需要珍珠猫1.3.0版本或更高版本！请更新……
@@ -304,7 +304,7 @@ Inventory Pings?|背包提示？
 ...are you alright, little one? The modifications to your body are quite... extreme.|……你还好吗，小家伙？你身体的改造相当……极端。
 pearlcat_light2|pearlcat_light2
 Think of this mutually, I can 'see' a little further outside this can...|换位思考一下，我可以'看到'这个罐子外面更远一点的地方……
-When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|检查后，禁用改进的输入配置支持，恢复为混音配置。退出并重新输入混音菜单以生效。
+When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|选中后，禁用改进的输入配置支持，恢复为Remix配置。退出并重新进入Remix菜单以生效。
 Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|护盾珍珠数量（黄色）。仅在选中背包覆盖？后生效。
 Pearlcat_Amnesia|PEARLCAT_AMNESIA
 UW|UW
@@ -314,7 +314,7 @@ When checked, disables the shield effect granted by an active pearl.|选中后�
 I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|我很想研究它，以帮助我治疗自己的痛苦，但是这需要……移除增生物。
 pcat_nopup|PCAT_NOPUP
 SS_T1_S01|SS_T1_S01
-Failed to parse color {objectType} : {ex.Message}|无法解析颜色 {objectType} : {ex.Message}
+Failed to parse color {objectType} : {ex.Message}|Failed to parse color {objectType} : {ex.Message}
 When checked, disables the spear creation effect granted by an active pearl.|选中后，禁用激活的珍珠所赋予的造矛效果。
 Joystick[0-9]Button|Joystick[0-9]Button
 Hide Pearls?|隐藏珍珠？
@@ -410,7 +410,7 @@ CloudDistant|CloudDistant
 {nameof(SaveMiscProgression.StoredPearlColors)}:\n{string.Join(|{nameof(SaveMiscProgression.StoredPearlColors)}:\n{string.Join(
 {nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n|{nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n
 pearlcatFeetA0|pearlcatFeetA0
-acursed|acursed
+acursed|讨厌的
 Disable Cosmetics?|禁用装饰物？
 Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|从米拉的故事情节开始时开始……<line>世界将被保存，珍珠将延续下去！
 pearl|pearl
@@ -460,7 +460,7 @@ pearlcat_4|pearlcat_4
 Body|Body
 HANDLED: Shield Sentry Sound Exception:\n|HANDLED: Shield Sentry Sound Exception:\n
 pearlcatScar|珍珠
-I have sent a request for the stationary cargo transports in my city to resume operation.|我已发出请求，要求我所在城市的固定式货物运输恢复运营。
+I have sent a request for the stationary cargo transports in my city to resume operation.|我已发出请求，要求我所在城市的固定式货物运输恢复运行。
 Custom Agility Keybind?|自定义敏捷按键？
  Pearlpup will be revived.| 珍珠猫幼崽将被复活。
 My neighbour, Five Pebbles, is a little temperamental, but means well.|我的邻居，五块卵石，虽然有点小脾气，但他是好意的。
@@ -481,7 +481,7 @@ Pearl Spear Count: {pearlcatMiscWorld.PearlSpears.Keys.Count}\n|珍珠矛数量:
 8f1800|8F1800
 Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
 Grab a creature and hold (GRAB) with an active green pearl to revive them|在绿色珍珠激活的情况下，抓住一个生物并按住（抓取）以复活他们
-Linnnnnna |linnnnna
+Linnnnnna |Linnnnnna 
 Sentry KB|哨兵 KB
 pcat_withpup|PCAT_WITHPUP
 SleevePearlpup|SleevePearlpup
@@ -499,7 +499,7 @@ pup_drawings|pup_drawings
 RED symbolizes power. With a red pearl active, all stored red pearls will circle you|红色象征力量。当激活红色珍珠时，所有存储的红色珍珠都会环绕你
 SB|SB
 {nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n|{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n
-thing|thing
+thing|东西
 ...are you alright, little one? The modifications to your body are quite... unusual.|……你还好吗，小家伙？你身体的改造相当……不寻常。
 pearlcatScarfA0|pearlcatScarfA0
 Surely it must be another little beast with a pearl for a heart?|当然，它肯定是另一只用珍珠作为心脏的小野兽吧？
