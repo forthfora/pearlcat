@@ -3,6 +3,9 @@
   "scene_folder": "slugbase/scenes/slugcat_pearlcat_sleep",
   "images": [
     {"name": "flat_trueend", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+    {"name": "flat_sad", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+    {"name": "flat_sick", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+    {"name": "flat_nopup", "pos": [0, 0], "depth": -1.0, "flatmode": true},
     {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
     {"name": "trueend", "pos": [630, 30], "depth": 3.0, "shader": "Basic"},

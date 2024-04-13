@@ -231,9 +231,8 @@ public static partial class Hooks
         }
 
 
-        var illustrations = self.flatIllustrations;
-        illustrations.AddRange(self.depthIllustrations.ConvertAll(x => (MenuIllustration)x));
-
+        var illustrations = self.flatIllustrations.Concat(self.depthIllustrations);
+        
         foreach (var illustration in illustrations)
         {
             var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
@@ -311,6 +310,16 @@ public static partial class Hooks
         if (illustrationModule.Index == -2)
         {
             var visible = true;
+
+            if (fileName == "flat")
+            {
+                visible = save.HasPearlpup || (save.IsNewPearlcatSave && ModManager.MSC);
+            }
+            else if (fileName == "flat_nopup")
+            {
+                visible = !save.HasPearlpup || (save.IsNewPearlcatSave && !ModManager.MSC);
+            }
+
 
             if (fileName.Contains("Pearlpup"))
             {
@@ -439,6 +448,25 @@ public static partial class Hooks
         {
             var visible = true;
 
+            // Flat
+            if (fileName == "flat")
+            {
+                visible = !pearlcatSad && save.HasPearlpup;
+            }
+            else if (fileName == "flat_sad")
+            {
+                visible = pearlcatSad;
+            }
+            else if (fileName == "flat_sick")
+            {
+                visible = save.HasPearlpup && save.IsPearlpupSick;
+            }
+            else if (fileName == "flat_nopup")
+            {
+                visible = !save.DidHavePearlpup;
+            }
+
+            // Depth
             if (fileName == "pcat_nopup")
             {
                 visible = !save.DidHavePearlpup;

@@ -3,6 +3,7 @@
   "scene_folder": "slugbase/scenes/slugcat_pearlcat",
   "images": [
     {"name": "flat_trueend", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+    {"name": "flat_nopup", "pos": [0, 0], "depth": -1.0, "flatmode": true},
     {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
     
     
