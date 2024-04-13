@@ -283,6 +283,7 @@ public static partial class Hooks
 
 
     private const int POSSESSION_DELAY = 80;
+    private const int REMOVE_HEART_DELAY = 320;
 
     private static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
     {
@@ -304,7 +305,7 @@ public static partial class Hooks
         // Longer delay removing heart
         if (playerModule.ActiveObject.IsHeartPearl() && !isStoring)
         {
-            storeObjectDelay = POSSESSION_DELAY;
+            storeObjectDelay = playerModule.PossessionTarget == null ? REMOVE_HEART_DELAY : POSSESSION_DELAY;
         }
 
 
@@ -1115,6 +1116,9 @@ public static partial class Hooks
 
         room.PlaySound(SoundID.Bomb_Explode, pos, 0.5f, 1.2f);
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 0.6f, 0.3f + Random.value * 0.2f);
+
+        self.InitiateGraphicsModule();
+        self.graphicsModule?.Reset();
     }
 
 
