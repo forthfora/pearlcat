@@ -179,6 +179,9 @@ public static partial class Hooks
             {
                 miscProg.ResetSave();
 
+                miscProg.IsSecretEnabled = true;
+
+
                 self.StartFromMira();
                 miscWorld.JustMiraSkipped = false;
 
