@@ -637,6 +637,8 @@ public partial class Hooks
         if (!room.game.IsPearlcatStory()) return;
 
         var miscProg = Utils.GetMiscProgression();
+        var everVisited = room.game.GetStorySession.saveState.regionStates[room.world.region.regionNumber].roomsVisited.Contains(room.abstractRoom.name);
+
 
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
@@ -648,34 +650,43 @@ public partial class Hooks
             room.AddObject(new SS_T1_CROSS(room));
 
 
-        if (!room.abstractRoom.firstTimeRealized) return;
-
 
         // Tutorial
+        if (!everVisited)
+        {
+            // Start
+            if (room.roomSettings.name == "T1_START")
+            {
+                room.AddObject(new T1_START(room));
+            }
 
-        // Start
-        if (room.roomSettings.name == "T1_START")
-            room.AddObject(new T1_START(room));
+            // Rage (+ Possession)
+            if (room.roomSettings.name == "T1_CAR2")
+            {
+                room.AddObject(new T1_CAR2(room));
+            }
 
-        // Rage (+ Possession)
-        if (room.roomSettings.name == "T1_CAR2")
-            room.AddObject(new T1_CAR2(room));
+            if (!miscProg.HasTrueEnding)
+            {
+                // Agility
+                if (room.roomSettings.name == "T1_CAR0")
+                {
+                    room.AddObject(new T1_CAR0(room));
+                }
 
+                // Shield
+                if (room.roomSettings.name == "T1_CAR1")
+                {
+                    room.AddObject(new T1_CAR1(room));
+                }
 
-
-        if (miscProg.HasTrueEnding) return;
-
-        // Agility
-        if (room.roomSettings.name == "T1_CAR0")
-            room.AddObject(new T1_CAR0(room));
-
-        // Shield
-        if (room.roomSettings.name == "T1_CAR1")
-            room.AddObject(new T1_CAR1(room));
-
-        // Revive
-        if (room.roomSettings.name == "T1_CAR3")
-            room.AddObject(new T1_CAR3(room));
+                // Revive
+                if (room.roomSettings.name == "T1_CAR3")
+                {
+                    room.AddObject(new T1_CAR3(room));
+                }
+            }
+        }
     }
 
     private static void Room_Loaded(On.Room.orig_Loaded orig, Room self)

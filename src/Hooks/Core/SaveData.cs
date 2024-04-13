@@ -104,13 +104,6 @@ public static partial class Hooks
                 if (type is not DataPearlType dataPearlType) continue;
 
 
-                if (dataPearlType == Enums.Pearls.Heart_Pearlpup)
-                {
-                    heartIsActive = true;
-                    continue;
-                }
-
-
                 var potentialPebblesColor = 0;
 
                 if (dataPearlType == DataPearlType.PebblesPearl && split.Length >= 6 && int.TryParse(split[6], out var result))
@@ -118,13 +111,24 @@ public static partial class Hooks
                     potentialPebblesColor = result;
                 }
 
-                if (i == activeIndex)
+
+                if (dataPearlType == Enums.Pearls.Heart_Pearlpup)
                 {
-                    miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
+                    if (i == activeIndex)
+                    {
+                        heartIsActive = true;
+                    }
                 }
                 else
                 {
-                    miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
+                    if (i == activeIndex)
+                    {
+                        miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
+                    }
+                    else
+                    {    
+                        miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
+                    }
                 }
             }
         }

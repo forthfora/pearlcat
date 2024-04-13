@@ -436,8 +436,7 @@ public static class Utils
 
         var miscProg = GetMiscProgression();
         var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
-        var baseMiscWorld = saveState.miscWorldSaveData;
-
+        
         if (miscWorld == null) return;
 
 
@@ -447,6 +446,12 @@ public static class Utils
         miscWorld.PebblesMeetCount = 0;
 
         SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat);
+
+        // So the tutorial scripts can be added again
+        foreach (var regionState in saveState.regionStates)
+        {
+            regionState.roomsVisited.RemoveAll(x => x.StartsWith("T1_"));
+        }
     }
 
     public static void StartFromMira(this SaveState saveState)
