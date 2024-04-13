@@ -173,9 +173,27 @@ public static partial class Hooks
 
         if (self.cycleNumber == 0)
         {
-            miscProg.ResetSave();
-
             SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
+            
+            if (miscProg.IsSecretEnabled)
+            {
+                miscProg.ResetSave();
+
+                self.StartFromMira();
+                miscWorld.JustMiraSkipped = false;
+
+                self.GiveTrueEnding();
+            }
+            else if (miscProg.IsMiraSkipEnabled)
+            {
+                miscProg.ResetSave();
+
+                miscProg.IsMiraSkipEnabled = true;
+            }
+            else
+            {
+                miscProg.ResetSave();
+            }
         }
 
 
@@ -184,16 +202,6 @@ public static partial class Hooks
             self.StartFromMira();
 
             miscProg.IsMiraSkipEnabled = false;
-        }
-        else if (miscProg.IsSecretEnabled)
-        {
-            self.StartFromMira();
-
-            miscWorld.JustMiraSkipped = false;
-
-            self.GiveTrueEnding();
-
-            miscProg.IsSecretEnabled = false;
         }
     }
 }

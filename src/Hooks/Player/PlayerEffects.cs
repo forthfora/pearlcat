@@ -742,7 +742,7 @@ public static partial class Hooks
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
-        var riccochetVel = 70.0f;
+        var riccochetVelMult = 1.25f;
 
         var riccochetDamageMult = 1.5f;
         var riccochetDamageMultUpDownThrow = 3.0f;
@@ -909,7 +909,7 @@ public static partial class Hooks
                         if (weapon.throwDir.y != 0)
                         {
                             mult = riccochetDamageMultUpDownThrow;
-                            pearl.room.PlaySound(SoundID.HUD_Food_Meter_Fill_Plop_A, pearl.firstChunk.pos, 1.5f, 3.0f);
+                            pearl.room.PlaySound(SoundID.Coral_Circuit_Jump_Explosion, pearl.firstChunk.pos, 1.5f, 2.0f);
                         }
                         else
                         {
@@ -930,7 +930,7 @@ public static partial class Hooks
 
                 var dir = Custom.DirVec(weapon.firstChunk.pos, targetPredictedPos);
 
-                weapon.firstChunk.vel = dir * riccochetVel;
+                weapon.firstChunk.vel = dir * Mathf.Clamp(weapon.firstChunk.vel.magnitude * riccochetVelMult, 0.0f, 100.0f);
                 weapon.setRotation = dir;
 
 

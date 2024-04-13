@@ -246,7 +246,6 @@ public static class Utils
     public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId, bool isRecurringDream = false)
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
-        var miscProg = GetMiscProgression();
 
         if (miscWorld == null) return;
 
@@ -450,7 +449,7 @@ public static class Utils
         // So the tutorial scripts can be added again
         foreach (var regionState in saveState.regionStates)
         {
-            regionState.roomsVisited.RemoveAll(x => x.StartsWith("T1_"));
+            regionState?.roomsVisited?.RemoveAll(x => x?.StartsWith("T1_") == true);
         }
     }
 

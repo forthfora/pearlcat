@@ -59,5 +59,9 @@ public class SaveMiscProgression
 
         IsMSCSave = ModManager.MSC;
         UnlockedMira = !ModManager.MSC;
+
+
+        IsSecretEnabled = false;
+        IsMiraSkipEnabled = false;
     }
 }

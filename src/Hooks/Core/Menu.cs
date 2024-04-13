@@ -209,8 +209,16 @@ public static partial class Hooks
                 Pearls.AS_PearlGreen.GetDataPearlColor(),
                 Pearls.AS_PearlBlack.GetDataPearlColor(),
             };
+            
+            var activeColor = Pearls.RM_Pearlcat.GetDataPearlColor();
 
-            ModuleManager.MenuSceneData.Add(self, new(pearlColors, Pearls.RM_Pearlcat.GetDataPearlColor()));
+            if (save.HasTrueEnding)
+            {
+                activeColor = Pearls.AS_PearlRed.GetDataPearlColor();
+                pearlColors.Remove((activeColor));
+            }
+
+            ModuleManager.MenuSceneData.Add(self, new(pearlColors, activeColor));
         }
         else
         {
