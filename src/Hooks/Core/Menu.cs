@@ -229,8 +229,12 @@ public static partial class Hooks
 
             ModuleManager.MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
         }
-        
-        foreach (var illustration in self.depthIllustrations)
+
+
+        var illustrations = self.flatIllustrations;
+        illustrations.AddRange(self.depthIllustrations.ConvertAll(x => (MenuIllustration)x));
+
+        foreach (var illustration in illustrations)
         {
             var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
@@ -262,7 +266,7 @@ public static partial class Hooks
 
         var illustrations = self.flatMode ? self.flatIllustrations : self.depthIllustrations.ConvertAll(x => (MenuIllustration)x);
 
-        foreach (var illustration in self.depthIllustrations)
+        foreach (var illustration in illustrations)
         {
             if (!ModuleManager.MenuSceneData.TryGetValue(self, out var menuSceneModule)) continue;
 

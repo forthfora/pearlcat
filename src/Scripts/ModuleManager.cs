@@ -105,8 +105,8 @@ public static class ModuleManager
 
 
     // Menu Scene
-    public static readonly ConditionalWeakTable<MenuScene, MenuSceneModule> MenuSceneData = new();
-    public static readonly ConditionalWeakTable<MenuDepthIllustration, MenuIllustrationModule> MenuIllustrationData = new();
+    public static ConditionalWeakTable<MenuScene, MenuSceneModule> MenuSceneData { get; } = new();
+    public static ConditionalWeakTable<MenuIllustration, MenuIllustrationModule> MenuIllustrationData { get; } = new();
 
 
     // Five Pebbles
@@ -115,7 +115,7 @@ public static class ModuleManager
 
 
     // Music Player
-    public static readonly ConditionalWeakTable<MusicPlayer, MusicPlayerModule> MusicPlayerData = new();
+    public static ConditionalWeakTable<MusicPlayer, MusicPlayerModule> MusicPlayerData { get; } = new();
     public static MusicPlayerModule GetModule(this MusicPlayer self) => MusicPlayerData.GetValue(self, x => new MusicPlayerModule());
 
 
