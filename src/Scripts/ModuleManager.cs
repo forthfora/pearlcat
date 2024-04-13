@@ -154,12 +154,6 @@ public static class ModuleManager
     }
 
 
-    // Rage Spear
-    public static ConditionalWeakTable<Spear, RageSpearModule> RageSpearData { get; } = new();
-    public static bool TryGetRageSpearModule(this Spear spear, out RageSpearModule module) => RageSpearData.TryGetValue(spear, out module);
-    public static void MakeRageSpear(this Spear spear, Color color) => RageSpearData.Add(spear, new(color));
-
-
     // Save Data
     public static SaveMiscWorld? GetMiscWorld(this RainWorldGame game) => game.IsStorySession ? GetMiscWorld(game.GetStorySession.saveState.miscWorldSaveData) : null;
     public static SaveMiscWorld GetMiscWorld(this MiscWorldSaveData data)

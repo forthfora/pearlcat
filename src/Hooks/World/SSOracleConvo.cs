@@ -144,7 +144,7 @@ public static partial class Hooks
 
         var module = self.owner.GetModule();
         var currentLang = Utils.Translator.currentLanguage;
-        var l = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean ? 8 : 0;
+        var l = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean ? 2 : 0;
 
         var id = self.id;
         var e = self.events;

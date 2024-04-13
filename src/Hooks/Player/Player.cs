@@ -1123,13 +1123,6 @@ public static partial class Hooks
     {
         orig(self, spear);
 
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-
-        if (spear.TryGetRageSpearModule(out _))
-        {
-            playerModule.SetRageSpearCooldown();
-        }
-
         if (spear.abstractSpear.TryGetSpearModule(out var spearModule))
         {
             spearModule.ReturnTimer = -1;

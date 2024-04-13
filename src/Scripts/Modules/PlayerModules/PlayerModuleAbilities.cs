@@ -141,8 +141,4 @@ public partial class PlayerModule
         if (ModOptions.InventoryPings.Value)
             ShowHUD(60);
     }
-
-
-    public int RageSpearCooldown { get; set; }
-    public void SetRageSpearCooldown() => RageSpearCooldown = (int)Custom.LerpMap(Inventory.Count(x => x.GetPOEffect().MajorEffect == MajorEffectType.RAGE), 1, 6, 80, 20);
 }

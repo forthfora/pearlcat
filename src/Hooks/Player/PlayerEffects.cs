@@ -621,24 +621,6 @@ public static partial class Hooks
             }
         }
 
-        if (effect.MajorEffect != MajorEffectType.RAGE || self.IsStoreKeybindPressed(playerModule))
-        {
-            foreach (var grasp in self.grasps)
-            {
-                if (grasp?.grabbed is not Spear spear) continue;
-
-                if (spear.TryGetRageSpearModule(out _))
-                {
-                    grasp.Release();
-                }
-            }
-        }
-
-        if (playerModule.RageSpearCooldown > 0)
-        {
-            playerModule.RageSpearCooldown--;
-        }
-
         playerModule.RageAnimTimer++;
 
 
@@ -666,7 +648,8 @@ public static partial class Hooks
         if (self.Sleeping) return;
 
 
-        List<PhysicalObject> ragePearls = new();
+        // Get all rage pearls in inventory
+        List<DataPearl> ragePearls = new();
 
         foreach (var item in playerModule.Inventory)
         {
@@ -678,11 +661,11 @@ public static partial class Hooks
 
             if (item.realizedObject is not DataPearl pearl) continue;
 
-            RageTargetLogic(pearl, self, false);
-
             ragePearls.Add(pearl);
         }
 
+
+        // Update the pearls positions and abilities
         var origin = self.firstChunk.pos;
         var angleFrameAddition = -Custom.LerpMap(ragePearls.Count, 1, 6, 0.05f, 0.025f);
         var radius = 80.0f;
@@ -699,39 +682,9 @@ public static partial class Hooks
             addon.IsActiveRagePearl = true;
 
             AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
+
+            RageTargetLogic(ragePearl, self, false);
         }
-
-        // RageSpearLogic(self, playerModule);
-    }
-
-    // Scrapped for now
-    private static void RageSpearLogic(Player self, PlayerModule playerModule)
-    {
-        if (self.grasps[0] != null || self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1) return;
-
-        if (playerModule.RageSpearCooldown > 0) return;
-
-
-        var ragePearls = playerModule.Inventory.Where(x => x.GetPOEffect().MajorEffect == MajorEffectType.RAGE).ToList();
-
-        if (ragePearls.Count == 0) return;
-
-
-        var abstractSpear = new AbstractSpear(self.room.world, null, self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.room.game.GetNewID(), false);
-
-        self.room.abstractRoom.AddEntity(abstractSpear);
-
-        abstractSpear.pos = self.abstractCreature.pos;
-        abstractSpear.RealizeInRoom();
-
-        var spear = (Spear)abstractSpear.realizedObject;
-
-
-        var ragePearl = ragePearls[Random.Range(0, ragePearls.Count - 1)];
-
-        spear.MakeRageSpear(ragePearl.GetObjectColor());
-
-        self.SlugcatGrab(spear, 0);
     }
 
     public static void RageTargetLogic(DataPearl pearl, Player player, bool isSentry)
@@ -744,9 +697,9 @@ public static partial class Hooks
 
         var riccochetVelMult = 1.25f;
 
-        var riccochetDamageMult = 1.5f;
-        var riccochetDamageMultUpDownThrow = 3.0f;
-        var riccochetDamageMultSentry = 1.25f;
+        var riccochetDamageMult = 1.25f;
+        var riccochetDamageMultUpDownThrow = 2.0f;
+        var riccochetDamageMultSentry = 1.1f;
 
 
         // Target Finding
@@ -770,7 +723,16 @@ public static partial class Hooks
                 {
                     if (physObj == pearl) continue;
 
-                    if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
+                    if (isSentry)
+                    {
+                        // Sentry redirections only target other sentries
+                        if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
+                    }
+                    else
+                    {
+                        // Inventory redirections can target sentries and active red pearls (so in theory they could even ping off another Pearlcat's red pearls)
+                        if (!physObj.abstractPhysicalObject.TryGetPOGraphics(out var graphics) || !graphics.IsActiveRagePearl) continue;
+                    }
 
                     if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
 
@@ -909,7 +871,7 @@ public static partial class Hooks
                         if (weapon.throwDir.y != 0)
                         {
                             mult = riccochetDamageMultUpDownThrow;
-                            pearl.room.PlaySound(SoundID.Coral_Circuit_Jump_Explosion, pearl.firstChunk.pos, 1.5f, 2.0f);
+                            pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.5f, 5.0f);
                         }
                         else
                         {

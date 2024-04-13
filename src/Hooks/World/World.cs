@@ -100,9 +100,6 @@ public partial class Hooks
         On.RainWorldGame.ctor += RainWorldGame_ctor;
 
         On.AboveCloudsView.ctor += AboveCloudsView_ctor;
-
-        On.Spear.Update += Spear_Update_RageSpear;
-        On.Spear.DrawSprites += Spear_DrawSprites_RageSpear;
     }
 
 
@@ -601,32 +598,6 @@ public partial class Hooks
             self.room.ConnectEffect(startPos, endPos, module.Color, thrown ? 0.5f : 0.75f, thrown ? 6 : 12);
         }
     }
-
-
-    private static void Spear_DrawSprites_RageSpear(On.Spear.orig_DrawSprites orig, Spear self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        if (!self.TryGetRageSpearModule(out var module)) return;
-
-        sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName("pearlcat_ragespear");
-        sLeaser.sprites[0].color = module.Color;
-    }
-
-    private static void Spear_Update_RageSpear(On.Spear.orig_Update orig, Spear self, bool eu)
-    {
-        orig(self, eu);
-
-        if (!self.TryGetRageSpearModule(out var module)) return;
-        
-        if (self.mode != Weapon.Mode.Thrown && self.mode != Weapon.Mode.Carried)
-        {
-            self.room.AddObject(new ShockWave(self.firstChunk.pos, 10.0f, 0.5f, 8));
-
-            self.Destroy();
-        }
-    }
-
 
 
     // Room & World Loading
