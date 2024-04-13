@@ -698,7 +698,7 @@ public static partial class Hooks
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
-        var riccochetVel = 100.0f;
+        var riccochetVel = 75.0f;
 
         var riccochetDamageMult = 1.25f;
         var riccochetDamageMultUpDownThrow = 2.0f;
@@ -738,6 +738,9 @@ public static partial class Hooks
                         {
                             // Active red check
                             if (!physObj.abstractPhysicalObject.TryGetPOGraphics(out var graphics) || !graphics.IsActiveRagePearl) continue;
+
+                            // Underground check
+                            if (player.canJump > 0 && physObj.firstChunk.pos.y < player.firstChunk.pos.y + 20.0f) continue;
                         }
                     }
 
@@ -891,17 +894,19 @@ public static partial class Hooks
 
 
                 var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
+
                 var time = dist / riccochetVel;
 
                 var targetPredictedPos = (Vector2)bestTargetPos;
                 targetPredictedPos += bestTarget.firstChunk.vel * time;
                 targetPredictedPos += Vector2.up * 0.5f * weapon.gravity * Mathf.Pow(time, 2.0f); // s = 1/2 * a * t^2
 
-
                 var dir = Custom.DirVec(weapon.firstChunk.pos, targetPredictedPos);
 
                 weapon.firstChunk.vel = dir * riccochetVel;
                 weapon.setRotation = dir;
+                weapon.rotationSpeed = 0.0f;
+                weapon.throwModeFrames = 180;
 
 
                 module.VisitedObjects.Add(physObj, new());

@@ -260,6 +260,8 @@ public static partial class Hooks
     {
         orig(self);
 
+        var illustrations = self.flatMode ? self.flatIllustrations : self.depthIllustrations.ConvertAll(x => (MenuIllustration)x);
+
         foreach (var illustration in self.depthIllustrations)
         {
             if (!ModuleManager.MenuSceneData.TryGetValue(self, out var menuSceneModule)) continue;
@@ -297,7 +299,7 @@ public static partial class Hooks
     }
 
 
-    private static void UpdateSelectScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    private static void UpdateSelectScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
         var save = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
@@ -420,7 +422,7 @@ public static partial class Hooks
         illustration.color = pearlColors[i].MenuPearlColorFilter();
     }
 
-    private static void UpdateSleepScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    private static void UpdateSleepScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
         var save = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
@@ -575,7 +577,7 @@ public static partial class Hooks
         illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin((MenuPearlAnimStacker + i * 50.0f) / 50.0f) * 25.0f;
     }
 
-    private static void UpdateSickScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    private static void UpdateSickScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
@@ -656,7 +658,7 @@ public static partial class Hooks
         illustration.color = pearlColors[i].MenuPearlColorFilter();
     }
 
-    private static void UpdateAscendedScreen(MenuScene self, MenuDepthIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
+    private static void UpdateAscendedScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
         if (illustrationModule.Index == -2)
         {
@@ -760,7 +762,7 @@ public static partial class Hooks
         return Color.HSVToRGB(hue, sat, val);
     }
     
-    private static void UpdatePupHeartIllustration(MenuScene self, MenuDepthIllustration illustration, MenuIllustrationModule illustrationModule)
+    private static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration, MenuIllustrationModule illustrationModule)
     {
         var miscProg = Utils.GetMiscProgression();
 
