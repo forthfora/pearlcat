@@ -676,13 +676,16 @@ public static partial class Hooks
 
             if (!ragePearl.abstractPhysicalObject.TryGetPOGraphics(out var addon)) continue;
 
+            addon.IsActiveRagePearl = true;
+
             var angle = (i * Mathf.PI * 2.0f / ragePearls.Count) + angleFrameAddition * playerModule.RageAnimTimer;
             var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
-            addon.IsActiveRagePearl = true;
-
             AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
+        }
 
+        foreach (var ragePearl in ragePearls)
+        {
             RageTargetLogic(ragePearl, self, false);
         }
     }
@@ -691,7 +694,7 @@ public static partial class Hooks
     {
         if (!pearl.abstractPhysicalObject.TryGetPOModule(out var module)) return;
 
-        var targetSentryRange = 1500.0f;
+        var targetPearlRange = 1500.0f;
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
@@ -743,7 +746,7 @@ public static partial class Hooks
 
                     var dist = Custom.Dist(physObj.firstChunk.pos, pearl.firstChunk.pos);
 
-                    if (dist > targetSentryRange) continue;
+                    if (dist > targetPearlRange) continue;
 
                     availableReds.Add(new(physObj, dist));
                 }
@@ -796,13 +799,13 @@ public static partial class Hooks
 
                 PhysicalObject? closestRed = null;
 
-                foreach (var sentryDist in availableReds)
+                foreach (var redDist in availableReds)
                 {
-                    if (!sentryDist.Key.abstractPhysicalObject.TryGetPOModule(out var otherSentryModule)) continue;
+                    if (!redDist.Key.abstractPhysicalObject.TryGetPOModule(out var otherSentryModule)) continue;
 
                     if (otherSentryModule.VisitedObjects.TryGetValue(weapon, out _)) continue;
 
-                    closestRed = sentryDist.Key;
+                    closestRed = redDist.Key;
                     break;
                 }
 
@@ -892,12 +895,7 @@ public static partial class Hooks
 
                 var targetPredictedPos = (Vector2)bestTargetPos;
                 targetPredictedPos += bestTarget.firstChunk.vel * time;
-
-                if (!Custom.DistLess(pearl.firstChunk.pos, targetPredictedPos, 100.0f))
-                {
-                    // d = 1/2 * a * t^2
-                    targetPredictedPos += Vector2.up * 0.5f * weapon.gravity * Mathf.Pow(time, 2.0f);
-                }
+                targetPredictedPos += Vector2.up * 0.5f * weapon.gravity * Mathf.Pow(time, 2.0f); // s = 1/2 * a * t^2
 
 
                 var dir = Custom.DirVec(weapon.firstChunk.pos, targetPredictedPos);
