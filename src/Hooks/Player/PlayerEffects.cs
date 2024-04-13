@@ -695,11 +695,11 @@ public static partial class Hooks
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
-        var riccochetVelMult = 1.25f;
+        var riccochetVel = 100.0f;
 
         var riccochetDamageMult = 1.25f;
         var riccochetDamageMultUpDownThrow = 2.0f;
-        var riccochetDamageMultSentry = 1.1f;
+        var riccochetDamageMultSentry = 1.25f;
 
 
         // Target Finding
@@ -731,7 +731,11 @@ public static partial class Hooks
                     else
                     {
                         // Inventory redirections can target sentries and active red pearls (so in theory they could even ping off another Pearlcat's red pearls)
-                        if (!physObj.abstractPhysicalObject.TryGetPOGraphics(out var graphics) || !graphics.IsActiveRagePearl) continue;
+                        if (!physObj.abstractPhysicalObject.TryGetSentry(out _))
+                        {
+                            // Active red check
+                            if (!physObj.abstractPhysicalObject.TryGetPOGraphics(out var graphics) || !graphics.IsActiveRagePearl) continue;
+                        }
                     }
 
                     if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
@@ -871,28 +875,34 @@ public static partial class Hooks
                         if (weapon.throwDir.y != 0)
                         {
                             mult = riccochetDamageMultUpDownThrow;
-                            pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.5f, 5.0f);
+                            pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.75f, 0.7f);
                         }
                         else
                         {
                             mult = riccochetDamageMult;
                         }
                     }
-
+                        
                     spear.spearDamageBonus *= mult;
                 }
 
 
                 var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
+                var time = dist / riccochetVel;
 
-                // Need this to predict motion of target and trajectory due to gravity
-                var targetPredictedPos = (Vector2)bestTargetPos
-                    + (bestTarget.firstChunk.vel * 2.0f)
-                    + (Vector2.up * (dist * weapon.gravity / 20.0f));
+                var targetPredictedPos = (Vector2)bestTargetPos;
+                targetPredictedPos += bestTarget.firstChunk.vel * time;
+
+                if (!Custom.DistLess(pearl.firstChunk.pos, targetPredictedPos, 100.0f))
+                {
+                    // d = 1/2 * a * t^2
+                    targetPredictedPos += Vector2.up * 0.5f * weapon.gravity * Mathf.Pow(time, 2.0f);
+                }
+
 
                 var dir = Custom.DirVec(weapon.firstChunk.pos, targetPredictedPos);
 
-                weapon.firstChunk.vel = dir * Mathf.Clamp(weapon.firstChunk.vel.magnitude * riccochetVelMult, 0.0f, 100.0f);
+                weapon.firstChunk.vel = dir * riccochetVel;
                 weapon.setRotation = dir;
 
 
@@ -917,7 +927,7 @@ public static partial class Hooks
 
                 if (pearl.abstractPhysicalObject.TryGetPOGraphics(out var addon))
                 {
-                    addon.LaserTarget = targetPredictedPos;
+                    addon.LaserTarget = (Vector2)bestTargetPos;
                     addon.LaserLerp = 1.0f;
                 }
             }
