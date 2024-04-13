@@ -163,28 +163,28 @@ public static partial class Hooks
 
 
 
-        c.Emit(OpCodes.Dup); // need 2 bools: the delegate will consume 1 and the branch the other
+        //c.Emit(OpCodes.Dup); // need 2 bools: the delegate will consume 1 and the branch the other
 
-        c.Emit(OpCodes.Ldarg_0);
-        c.Emit(OpCodes.Ldarg_3); // Body Chunk
-        c.EmitDelegate<Func<bool, Lizard, BodyChunk, BodyChunk>>((wasRedPearlWeapon, self, bodyChunk) =>
-        {
-            if (wasRedPearlWeapon)
-            {
-                // Prevent hitting head directly, this won't actually deal damage unless it's considered a mouth shot (which means unwanted additional checks)
-                if (bodyChunk.index == 0 || bodyChunk.index == 1)
-                {
-                    if (self.bodyChunks.Length >= 3)
-                    {
-                        bodyChunk = self.bodyChunks[UnityEngine.Random.Range(2, self.bodyChunks.Length - 1)];
-                    }
-                }
-            }
+        //c.Emit(OpCodes.Ldarg_0);
+        //c.Emit(OpCodes.Ldarg_3); // Body Chunk
+        //c.EmitDelegate<Func<bool, Lizard, BodyChunk, BodyChunk>>((wasRedPearlWeapon, self, bodyChunk) =>
+        //{
+        //    if (wasRedPearlWeapon)
+        //    {
+        //        // Prevent hitting head directly, this won't actually deal damage unless it's considered a mouth shot (which means unwanted additional checks)
+        //        if (bodyChunk.index == 0 || bodyChunk.index == 1)
+        //        {
+        //            if (self.bodyChunks.Length >= 3)
+        //            {
+        //                bodyChunk = self.bodyChunks[UnityEngine.Random.Range(2, self.bodyChunks.Length - 1)];
+        //            }
+        //        }
+        //    }
 
-            return bodyChunk;
-        });
+        //    return bodyChunk;
+        //});
 
-        c.Emit(OpCodes.Starg, 3);
+        //c.Emit(OpCodes.Starg, 3);
 
 
         c.Emit(OpCodes.Brtrue, dest); // branch past HitHead check

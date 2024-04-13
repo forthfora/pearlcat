@@ -878,10 +878,10 @@ public static partial class Hooks
                     }
                     else
                     {
-                        if (weapon.throwDir.y != 0)
+                        if (weapon.throwDir.y != 0 && weapon.throwModeFrames < 90)
                         {
                             mult = riccochetDamageMultUpDownThrow;
-                            pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.75f, 0.7f);
+                            pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.5f, 6.0f);
                         }
                         else
                         {
@@ -908,9 +908,7 @@ public static partial class Hooks
                 weapon.rotationSpeed = 0.0f;
                 weapon.throwModeFrames = 180;
 
-
                 module.VisitedObjects.Add(physObj, new());
-
 
                 var room = pearl.room;
                 var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
