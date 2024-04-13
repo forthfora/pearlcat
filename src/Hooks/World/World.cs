@@ -549,6 +549,7 @@ public partial class Hooks
                         self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, player.firstChunk.pos, 1.0f, 1.0f);
                     }
 
+                    self.AllGraspsLetGoOfThisObject(true);
                     player.StoreObject(self.abstractSpear, noSound: true, storeBeforeActive: true);
                 }
                 else if (freeHand != -1 && player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) == -1)
@@ -566,6 +567,7 @@ public partial class Hooks
                         self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
                     }
 
+                    self.AllGraspsLetGoOfThisObject(true);
                     player.SlugcatGrab(self, freeHand);
                 }
             }

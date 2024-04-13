@@ -260,7 +260,7 @@ public static partial class Hooks
                     e.Add(new WaitEvent(self, 40));
 
                     e.Add(new TextEvent(self, 0,
-                        self.Translate("Oh, and for direction - there is a gate to the far west of here, where the ground fissues..."), l * 80));
+                        self.Translate("Oh, and for direction - there is a gate to the far west of here, where the ground fissures..."), l * 80));
 
                     e.Add(new TextEvent(self, 0,
                         self.Translate("The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business."), l * 80));

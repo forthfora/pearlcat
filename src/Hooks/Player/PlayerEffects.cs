@@ -742,9 +742,9 @@ public static partial class Hooks
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
-        var riccochetVelMult = 1.25f;
+        var riccochetVel = 70.0f;
 
-        var riccochetDamageMult = 2.0f;
+        var riccochetDamageMult = 1.5f;
         var riccochetDamageMultUpDownThrow = 3.0f;
         var riccochetDamageMultSentry = 1.25f;
 
@@ -930,7 +930,7 @@ public static partial class Hooks
 
                 var dir = Custom.DirVec(weapon.firstChunk.pos, targetPredictedPos);
 
-                weapon.firstChunk.vel = dir * Mathf.Clamp(weapon.firstChunk.vel.magnitude * riccochetVelMult, 0.0f, 100.0f);
+                weapon.firstChunk.vel = dir * riccochetVel;
                 weapon.setRotation = dir;
 
 
