@@ -47,7 +47,7 @@ I am... sorry.|Lo... siento.
 Cloak|Cloak
 Pearl Ability|Habil. de perla
 .png|.png
-Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|Lanzar cualquier arma dentro del radio de una perla roja, hará que esta se dirija a la criatura hostil más cercana
+Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|Lanzar cualquier arma, dentro del radio de una perla roja, hará que esta se dirija a la criatura hostil más cercana
 Skip to Mira Storyline|Omitir a la trama de Mira
 9487c9|9487c9
 Hello! Strange scholar, it is good to see you!|¡Hola! ¡Qué bueno volver a verte, extraño erudito!
@@ -82,7 +82,7 @@ And now here you are, with a perfect copy.|Y ahora estás aquí con una copia pe
 I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Asumo que lo único que valoras de estas perlas es cuán pura es su estructura, así que te la voy a sustituir por otra mucho más refinada.
 {Plugin.MOD_ID}:sentry_pearl|{Plugin.MOD_ID}:sentry_pearl
 Number of revive pearls (green). Effective only when Inventory Override? is checked.|Número de perlas de resurrección (verdes). Solo es efectivo si «Anulación del inventario» está marcada.
-Sentry Pearl|Perla cent.
+Sentry Pearl|Perla centin.
 ...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|No hay nada que pueda hacer por tu cría actualmente... lo siento. Yo... veré qué puedo hacer.
 _sprites|_sprites
 Intro6|Intro6
@@ -104,7 +104,7 @@ PFace|PFace
 pearlpup_sleeve|pearlpup_sleeve
 I still don't have much to offer, sadly... aside from my pearl readings, and company of course! ~|Desafortunadamente, aún no tengo mucho que ofrecer... ¡fuera de mis lecturas de perlas y mi compañía, por supuesto! ~
 pearlcat_9|pearlcat_9
-...scholar?|... ¿Erudito?
+...scholar?|¿Erudito?...
 Number of rage pearls (red). Effective only when Inventory Override? is checked.|Número de perlas de ira (rojas). Solo es efectivo si «Anulación del inventario» está marcada.
 Ability P3|J3: Habil.
 LC|LC
@@ -305,7 +305,7 @@ Inventory Pings?|Avisos del inventario
 ...are you alright, little one? The modifications to your body are quite... extreme.|¿Te encuentras bien, pequeño?... los cambios en tu cuerpo son muy... extremos.
 pearlcat_light2|pearlcat_light2
 Think of this mutually, I can 'see' a little further outside this can...|Piénsalo solidariamente, puedo "ver" un poco más allá de esta lata...
-When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|Cuando se verifica, deshabilita el soporte de configuración de entrada mejorado, volviendo a la configuración de remix.Salga y vuelva a ingresar el menú Remix para entrar en vigencia.
+When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|Si se encuentra marcada, desactiva el soporte para Improved Input Config, revirtiendo a los ajustes de Remix. Sal y vuelve a entrar al menú de Remix para que surte efecto.
 Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Número de perlas de escudo (amarillas). Solo es efectivo si «Anulación del inventario» está marcada.
 Pearlcat_Amnesia|Pearlcat_Amnesia
 UW|UW
@@ -366,7 +366,7 @@ pearlcat_topshutter_night|pearlcat_topshutter_night
 pearlcat_spire9|pearlcat_spire9
 The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|El poder que tienes es fascinante. Nunca he visto nada parecido de tu especie.
 1.0.0|1.0.0
-...you can manipulate our storage medium in unforseen ways...|Puedes manipular nuestros medios de almacenamiento de formas imprevistas...
+...you can manipulate our storage medium in unforseen ways...|... Puedes manipular nuestros medios de almacenamiento de formas imprevistas...
 Swaps the active pearl to the right.|Cambia la perla activa hacia la derecha.
 pearlcat_structure2|pearlcat_structure2
 ...we were built to solve problems. It is a shame not every problem has a solution.|Fuimos construidos para resolver problemas... es una pena que no todos los problemas tengan solución.
@@ -420,7 +420,7 @@ pearlpup_adulttail|pearlpup_adulttail
 Yes, help yourself. They are not edible.|Sí, sírvete. No son comestibles.
 )|)
 The choice is yours.|La decisión es tuya.
-Swap Pearl|Pearl de intercambio
+Swap Pearl|Cambiar perla
 Hello again, strange scholar!|¡Hola otra vez, extraño erudito!
 Keybind for Player 1.|Botón para el jugador 1.
 Sidera |Sidera 
@@ -463,7 +463,7 @@ Body|Body
 HANDLED: Shield Sentry Sound Exception:\n|HANDLED: Shield Sentry Sound Exception:\n
 pearlcatScar|pearlcatScar
 I have sent a request for the stationary cargo transports in my city to resume operation.|He enviado una solicitud para que los transportes inmóviles de carga en mi ciudad reanuden sus operaciones.
-Custom Agility Keybind?|Botón personalizado de agilidad
+Custom Agility Keybind?|Botón personalizado de agil.
  Pearlpup will be revived.| La Cría del Perlino será resucitada.
 My neighbour, Five Pebbles, is a little temperamental, but means well.|Mi vecino, Cinco Guijarros, es un poco temperamental, pero tiene buenas intenciones.
 To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl|Para dejar de poseer, intenta desplegar la perla como centinela o intenta sacarla
@@ -501,7 +501,7 @@ pup_drawings|pup_drawings
 RED symbolizes power. With a red pearl active, all stored red pearls will circle you|ROJO simboliza poder. Con una perla roja activa, todas las perlas rojas almacenadas te circunvolarán
 SB|SB
 {nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n|{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n
-thing|maldito
+thing|execrable
 ...are you alright, little one? The modifications to your body are quite... unusual.|¿Te encuentras bien, pequeño? Los cambios en tu cuerpo son bastante... inusuales.
 pearlcatScarfA0|pearlcatScarfA0
 Surely it must be another little beast with a pearl for a heart?|Debe ser, obvia y seguramente, otra pequeña bestia con una perla por corazón.
@@ -550,7 +550,7 @@ Pearl spears will attempt to return to you being thrown, if they are not stuck|L
 The company of you and your friend makes my day, strange scholar.|La compañía de ti y tu amigo me alegran el día, extraño erudito.
 pearlcat_8|pearl_8
 Face|Face
-Custom Sentry Keybind?|Botón personalizado de centinela
+Custom Sentry Keybind?|Botón personalizado de centin.
 I must resume my work. I will be waiting here, as always.|Debo continuar mi trabajo. Te estaré esperando aquí, como siempre.
 JaggedSquare|JaggedSquare
 HoldButtonCircle|HoldButtonCircle
@@ -747,7 +747,7 @@ pearlcat_ragesentry|pearlcat_ragesentry
 So... anything for me to read?|Así que... ¿algo que pueda leer?
 Pearlpup Respawn?|Reaparición de la Cría
 Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|Pulsa (AGARRAR + SALTAR + ABAJO) para desplegarlas como centinelas temporales y pulsa otra vez para que regresen.
-Disable Improved Input Config?|¿Desactivar la configuración de entrada mejorada?
+Disable Improved Input Config?|Desactivar IIC
 STOP PEARL THREAT|STOP PEARL THREAT
 Version|Versión
 300|300
