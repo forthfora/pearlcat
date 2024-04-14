@@ -69,7 +69,7 @@ public class Plugin : BaseUnityPlugin
 
                 "\n" +
 
-                $"PEARLCAT VERSION: {Plugin.VERSION}\n" +
+                $"PEARLCAT VERSION: {VERSION}\n" +
                 $"SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "slime-cubed.slugbase")?.version ?? "NOT FOUND"}\n" +
                 $"CRS VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "crs")?.version ?? "NOT FOUND"}\n" +
                 $"MERGEFIX VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "bro.mergefix")?.version ?? "NOT FOUND"}\n" +

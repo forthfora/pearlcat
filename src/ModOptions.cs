@@ -177,99 +177,99 @@ public sealed class ModOptions : OptionsTemplate
 
     #region Keybind Options
 
-    public static Configurable<KeyCode> SwapLeftKeybind = Instance.config.Bind(nameof(SwapLeftKeybind), KeyCode.A, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapLeftKeybind { get; } = Instance.config.Bind(nameof(SwapLeftKeybind), KeyCode.A, new ConfigurableInfo(
         "Keybind to swap to the stored pearl to the left. Limited to Player 1.", null, "", "Swap Left"));
 
-    public static Configurable<KeyCode> SwapRightKeybind = Instance.config.Bind(nameof(SwapRightKeybind), KeyCode.D, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapRightKeybind { get; } = Instance.config.Bind(nameof(SwapRightKeybind), KeyCode.D, new ConfigurableInfo(
         "Keybind to swap to the stored pearl to the right. Limited to Player 1.", null, "", "Swap Right"));
 
 
 
-    public static Configurable<KeyCode> SwapKeybindKeyboard = Instance.config.Bind(nameof(SwapKeybindKeyboard), KeyCode.LeftAlt, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindKeyboard { get; } = Instance.config.Bind(nameof(SwapKeybindKeyboard), KeyCode.LeftAlt, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
-    public static Configurable<KeyCode> SwapKeybindPlayer1 = Instance.config.Bind(nameof(SwapKeybindPlayer1), KeyCode.Joystick1Button3, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindPlayer1 { get; } = Instance.config.Bind(nameof(SwapKeybindPlayer1), KeyCode.Joystick1Button3, new ConfigurableInfo(
         "Keybind for Player 1.", null, "", "Player 1"));
 
-    public static Configurable<KeyCode> SwapKeybindPlayer2 = Instance.config.Bind(nameof(SwapKeybindPlayer2), KeyCode.Joystick2Button3, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindPlayer2 { get; } = Instance.config.Bind(nameof(SwapKeybindPlayer2), KeyCode.Joystick2Button3, new ConfigurableInfo(
         "Keybind for Player 2.", null, "", "Player 2"));
 
-    public static Configurable<KeyCode> SwapKeybindPlayer3 = Instance.config.Bind(nameof(SwapKeybindPlayer3), KeyCode.Joystick3Button3, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindPlayer3 { get; } = Instance.config.Bind(nameof(SwapKeybindPlayer3), KeyCode.Joystick3Button3, new ConfigurableInfo(
         "Keybind for Player 3.", null, "", "Player 3"));
 
-    public static Configurable<KeyCode> SwapKeybindPlayer4 = Instance.config.Bind(nameof(SwapKeybindPlayer4), KeyCode.Joystick4Button3, new ConfigurableInfo(
+    public static Configurable<KeyCode> SwapKeybindPlayer4 { get; } = Instance.config.Bind(nameof(SwapKeybindPlayer4), KeyCode.Joystick4Button3, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Player 4"));
 
-    public static Configurable<int> SwapTriggerPlayer = Instance.config.Bind(nameof(SwapTriggerPlayer), 1, new ConfigurableInfo(
+    public static Configurable<int> SwapTriggerPlayer { get; } = Instance.config.Bind(nameof(SwapTriggerPlayer), 1, new ConfigurableInfo(
         "Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.",
         new ConfigAcceptableRange<int>(0, 4), "",
         "Trigger Player"));
 
 
-    public static Configurable<bool> CustomSpearKeybind = Instance.config.Bind(nameof(CustomSpearKeybind), false, new ConfigurableInfo(
+    public static Configurable<bool> CustomSpearKeybind { get; } = Instance.config.Bind(nameof(CustomSpearKeybind), false, new ConfigurableInfo(
         "Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)",
         null, "", "Custom Spear Keybind?"));
 
-    public static Configurable<bool> CustomAgilityKeybind = Instance.config.Bind(nameof(CustomAgilityKeybind), false, new ConfigurableInfo(
+    public static Configurable<bool> CustomAgilityKeybind { get; } = Instance.config.Bind(nameof(CustomAgilityKeybind), false, new ConfigurableInfo(
         "Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)",
         null, "", "Custom Agility Keybind?"));
 
 
 
-    public static Configurable<KeyCode> AbilityKeybindKeyboard = Instance.config.Bind(nameof(AbilityKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
+    public static Configurable<KeyCode> AbilityKeybindKeyboard { get; } = Instance.config.Bind(nameof(AbilityKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Ability KB"));
 
-    public static Configurable<KeyCode> AbilityKeybindPlayer1 = Instance.config.Bind(nameof(AbilityKeybindPlayer1), KeyCode.Joystick1Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> AbilityKeybindPlayer1 { get; } = Instance.config.Bind(nameof(AbilityKeybindPlayer1), KeyCode.Joystick1Button4, new ConfigurableInfo(
         "Keybind for Player 1.", null, "", "Ability P1"));
 
-    public static Configurable<KeyCode> AbilityKeybindPlayer2 = Instance.config.Bind(nameof(AbilityKeybindPlayer2), KeyCode.Joystick2Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> AbilityKeybindPlayer2 { get; } = Instance.config.Bind(nameof(AbilityKeybindPlayer2), KeyCode.Joystick2Button4, new ConfigurableInfo(
         "Keybind for Player 2.", null, "", "Ability P2"));
 
-    public static Configurable<KeyCode> AbilityKeybindPlayer3 = Instance.config.Bind(nameof(AbilityKeybindPlayer3), KeyCode.Joystick3Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> AbilityKeybindPlayer3 { get; } = Instance.config.Bind(nameof(AbilityKeybindPlayer3), KeyCode.Joystick3Button4, new ConfigurableInfo(
         "Keybind for Player 3.", null, "", "Ability P3"));
 
-    public static Configurable<KeyCode> AbilityKeybindPlayer4 = Instance.config.Bind(nameof(AbilityKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> AbilityKeybindPlayer4 { get; } = Instance.config.Bind(nameof(AbilityKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Ability P4"));
 
 
 
-    public static Configurable<bool> UsesCustomStoreKeybind = Instance.config.Bind(nameof(UsesCustomStoreKeybind), false, new ConfigurableInfo(
+    public static Configurable<bool> UsesCustomStoreKeybind { get; } = Instance.config.Bind(nameof(UsesCustomStoreKeybind), false, new ConfigurableInfo(
         "Enables custom keybinds below, as opposed to the default (UP + PICKUP).",
         null, "", "Custom Keybind?"));
 
-    public static Configurable<KeyCode> StoreKeybindKeyboard = Instance.config.Bind(nameof(StoreKeybindKeyboard), KeyCode.LeftControl, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindKeyboard { get; } = Instance.config.Bind(nameof(StoreKeybindKeyboard), KeyCode.LeftControl, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
-    public static Configurable<KeyCode> StoreKeybindPlayer1 = Instance.config.Bind(nameof(StoreKeybindPlayer1), KeyCode.Joystick1Button6, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindPlayer1 { get; } = Instance.config.Bind(nameof(StoreKeybindPlayer1), KeyCode.Joystick1Button6, new ConfigurableInfo(
         "Keybind for Player 1.", null, "", "Player 1"));
 
-    public static Configurable<KeyCode> StoreKeybindPlayer2 = Instance.config.Bind(nameof(StoreKeybindPlayer2), KeyCode.Joystick2Button6, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindPlayer2 { get; } = Instance.config.Bind(nameof(StoreKeybindPlayer2), KeyCode.Joystick2Button6, new ConfigurableInfo(
         "Keybind for Player 2.", null, "", "Player 2"));
 
-    public static Configurable<KeyCode> StoreKeybindPlayer3 = Instance.config.Bind(nameof(StoreKeybindPlayer3), KeyCode.Joystick3Button6, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindPlayer3 { get; } = Instance.config.Bind(nameof(StoreKeybindPlayer3), KeyCode.Joystick3Button6, new ConfigurableInfo(
         "Keybind for Player 3.", null, "", "Player 3"));
 
-    public static Configurable<KeyCode> StoreKeybindPlayer4 = Instance.config.Bind(nameof(StoreKeybindPlayer4), KeyCode.Joystick4Button6, new ConfigurableInfo(
+    public static Configurable<KeyCode> StoreKeybindPlayer4 { get; } = Instance.config.Bind(nameof(StoreKeybindPlayer4), KeyCode.Joystick4Button6, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Player 4"));
 
 
-    public static Configurable<bool> CustomSentryKeybind = Instance.config.Bind(nameof(CustomSentryKeybind), true, new ConfigurableInfo(
+    public static Configurable<bool> CustomSentryKeybind { get; } = Instance.config.Bind(nameof(CustomSentryKeybind), true, new ConfigurableInfo(
         "Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)",
         null, "", "Custom Sentry Keybind?"));
 
-    public static Configurable<KeyCode> SentryKeybindKeyboard = Instance.config.Bind(nameof(SentryKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
+    public static Configurable<KeyCode> SentryKeybindKeyboard { get; } = Instance.config.Bind(nameof(SentryKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Sentry KB"));
 
-    public static Configurable<KeyCode> SentryKeybindPlayer1 = Instance.config.Bind(nameof(SentryKeybindPlayer1), KeyCode.Joystick1Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> SentryKeybindPlayer1 { get; } = Instance.config.Bind(nameof(SentryKeybindPlayer1), KeyCode.Joystick1Button4, new ConfigurableInfo(
         "Keybind for Player 1.", null, "", "Sentry P1"));
 
-    public static Configurable<KeyCode> SentryKeybindPlayer2 = Instance.config.Bind(nameof(SentryKeybindPlayer2), KeyCode.Joystick2Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> SentryKeybindPlayer2 { get; } = Instance.config.Bind(nameof(SentryKeybindPlayer2), KeyCode.Joystick2Button4, new ConfigurableInfo(
         "Keybind for Player 2.", null, "", "Sentry P2"));
 
-    public static Configurable<KeyCode> SentryKeybindPlayer3 = Instance.config.Bind(nameof(SentryKeybindPlayer3), KeyCode.Joystick3Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> SentryKeybindPlayer3 { get; } = Instance.config.Bind(nameof(SentryKeybindPlayer3), KeyCode.Joystick3Button4, new ConfigurableInfo(
         "Keybind for Player 3.", null, "", "Sentry P3"));
 
-    public static Configurable<KeyCode> SentryKeybindPlayer4 = Instance.config.Bind(nameof(SentryKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
+    public static Configurable<KeyCode> SentryKeybindPlayer4 { get; } = Instance.config.Bind(nameof(SentryKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Sentry P4"));
 
     #endregion

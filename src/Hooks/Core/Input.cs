@@ -19,6 +19,7 @@ public static partial class Hooks
     public static bool IsAbilityPressedIIC(this Player player) => IICKeybinds.IsAbilityPressed(player);
 
 
+
     // Inventory
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
@@ -48,7 +49,6 @@ public static partial class Hooks
             _ => false
         };
     }
-
 
     public static bool IsSwapKeybindPressed(this Player player)
     {
@@ -98,19 +98,6 @@ public static partial class Hooks
         return player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapRightKeybind.Value);
     }
     
-    // DEPRECATED
-    public static int GetNumberPressed(this Player player)
-    {
-        //if (player.input[0].controllerType != Options.ControlSetup.Preset.KeyboardSinglePlayer)
-        //    return -1;
-
-        //for (int number = 0; number <= 9; number++)
-        //    if (Input.GetKey(number.ToString()))
-        //        return number;
-
-        return -1;
-    }
-
 
 
     // Ability
@@ -179,7 +166,6 @@ public static partial class Hooks
         return input.pckp;
     }
 
-    // DEPRECATED
     public static bool IsReviveKeybindPressed(this Player player, PlayerModule playerModule)
     {
         var input = playerModule.UnblockedInput;
@@ -188,6 +174,7 @@ public static partial class Hooks
 
 
 
+    // Display
     public static string GetDisplayName(this KeyCode keyCode)
     {
         var keyCodeChar = Regex.Replace(keyCode.ToString(), "Joystick[0-9]Button", "");
@@ -212,5 +199,110 @@ public static partial class Hooks
 
             _ => keyCode.ToString(),
         };
+    }
+
+    public static KeyCode GetStoreKeybindIIC(int playerNum) => IICKeybinds.GetStoreKeybind(playerNum);
+    public static KeyCode GetSwapKeybindIIC(int playerNum) => IICKeybinds.GetSwapKeybind(playerNum);
+    public static KeyCode GetSwapLeftKeybindIIC(int playerNum) => IICKeybinds.GetSwapLeftKeybind(playerNum);
+    public static KeyCode GetSwapRightKeybindIIC(int playerNum) => IICKeybinds.GetSwapRightKeybind(playerNum);
+    public static KeyCode GetSentryKeybindIIC(int playerNum) => IICKeybinds.GetSentryKeybind(playerNum);
+    public static KeyCode GetAbilityKeybindIIC(int playerNum) => IICKeybinds.GetAbilityKeybind(playerNum);
+
+
+
+    public static string GetStoreKeybindDisplayName(int playerNum)
+    {
+        if (IsImprovedInputActive)
+        {
+            return GetStoreKeybindIIC(playerNum).GetDisplayName();
+        }
+
+        return (playerNum switch
+        {
+            0 => ModOptions.StoreKeybindKeyboard.Value,
+            1 => ModOptions.StoreKeybindPlayer1.Value,
+            2 => ModOptions.StoreKeybindPlayer2.Value,
+            3 => ModOptions.StoreKeybindPlayer3.Value,
+            4 => ModOptions.StoreKeybindPlayer4.Value,
+
+            _ => ModOptions.StoreKeybindKeyboard.Value
+        }).GetDisplayName();
+    }
+
+    public static string GetSwapKeybindDisplayName(int playerNum)
+    {
+        if (IsImprovedInputActive)
+        {
+            return GetSwapKeybindIIC(playerNum).GetDisplayName();
+        }
+
+        return (playerNum switch
+        {
+            0 => ModOptions.SwapKeybindKeyboard.Value,
+            1 => ModOptions.SwapKeybindPlayer1.Value,
+            2 => ModOptions.SwapKeybindPlayer2.Value,
+            3 => ModOptions.SwapKeybindPlayer3.Value,
+            4 => ModOptions.SwapKeybindPlayer4.Value,
+
+            _ => ModOptions.SwapKeybindKeyboard.Value
+        }).GetDisplayName();
+    }
+    public static string GetSentryKeybindDisplayName(int playerNum)
+    {
+        if (IsImprovedInputActive)
+        {
+            return GetSentryKeybindIIC(playerNum).GetDisplayName();
+        }
+
+        return (playerNum switch
+        {
+            0 => ModOptions.SentryKeybindKeyboard.Value,
+            1 => ModOptions.SentryKeybindPlayer1.Value,
+            2 => ModOptions.SentryKeybindPlayer2.Value,
+            3 => ModOptions.SentryKeybindPlayer3.Value,
+            4 => ModOptions.SentryKeybindPlayer4.Value,
+
+            _ => ModOptions.SentryKeybindKeyboard.Value
+        }).GetDisplayName();
+    }
+
+    public static string GetAbilityKeybindDisplayName(int playerNum)
+    {
+        if (IsImprovedInputActive)
+        {
+            return GetAbilityKeybindIIC(playerNum).GetDisplayName();
+        }
+
+        return (playerNum switch
+        {
+            0 => ModOptions.AbilityKeybindKeyboard.Value,
+            1 => ModOptions.AbilityKeybindPlayer1.Value,
+            2 => ModOptions.AbilityKeybindPlayer2.Value,
+            3 => ModOptions.AbilityKeybindPlayer3.Value,
+            4 => ModOptions.AbilityKeybindPlayer4.Value,
+
+            _ => ModOptions.AbilityKeybindKeyboard.Value
+        }).GetDisplayName();
+    }
+
+
+    public static string GetSwapLeftKeybindDisplayName(int playerNum)
+    {
+        if (IsImprovedInputActive)
+        {
+            return GetSwapLeftKeybindIIC(playerNum).GetDisplayName();
+        }
+
+        return ModOptions.SwapLeftKeybind.Value.GetDisplayName();
+    }
+
+    public static string GetSwapRightKeybindDisplayName(int playerNum)
+    {
+        if (IsImprovedInputActive)
+        {
+            return GetSwapRightKeybindIIC(playerNum).GetDisplayName();
+        }
+
+        return ModOptions.SwapRightKeybind.Value.GetDisplayName();
     }
 }

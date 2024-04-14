@@ -132,7 +132,7 @@ public static class Utils
         
         var AI = creature.abstractCreature.abstractAI?.RealAI;
 
-        if (self is Player && AI is LizardAI or ScavengerAI or BigNeedleWormAI or DropBugAI or CicadaAI or MoreSlugcats.InspectorAI)
+        if (self is Player && AI is LizardAI or ScavengerAI or BigNeedleWormAI or DropBugAI or CicadaAI or InspectorAI)
         {
             var aggression = AI.CurrentPlayerAggression(self.abstractCreature);
 

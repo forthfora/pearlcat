@@ -215,6 +215,13 @@ public static partial class Hooks
 
 
                     var spearModule = new SpearModule(playerModule.ActiveColor, dataPearlType ?? "");
+
+                    if (playerModule.ActiveObject is PebblesPearl.AbstractPebblesPearl pebblesPearl)
+                    {
+                        spearModule.PebblesColor = pebblesPearl.color;
+                    }
+
+
                     var save = self.abstractCreature.Room.world.game.GetMiscWorld();
 
                     // Story

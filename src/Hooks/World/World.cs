@@ -605,11 +605,6 @@ public partial class Hooks
     {
         orig(room);
 
-        if (!room.game.IsPearlcatStory()) return;
-
-        var miscProg = Utils.GetMiscProgression();
-        var everVisited = room.game.GetStorySession.saveState.regionStates[room.world.region.regionNumber].roomsVisited.Contains(room.abstractRoom.name);
-
 
         if (room.roomSettings.name == "T1_S01")
             room.AddObject(new T1_S01(room));
@@ -621,6 +616,10 @@ public partial class Hooks
             room.AddObject(new SS_T1_CROSS(room));
 
 
+        if (!room.game.IsPearlcatStory()) return;
+
+        var miscProg = Utils.GetMiscProgression();
+        var everVisited = room.game.GetStorySession.saveState.regionStates[room.world.region.regionNumber].roomsVisited.Contains(room.abstractRoom.name);
 
         // Tutorial
         if (!everVisited)

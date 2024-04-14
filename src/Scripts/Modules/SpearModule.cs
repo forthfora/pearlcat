@@ -15,6 +15,7 @@ public class SpearModule
     [JsonConverter(typeof(JsonColorHandler))]
     public Color Color { get; set; }
     public string PearlType { get; set; }
+    public int PebblesColor { get; set; }
 
     public bool WasThrown { get; set; }
     public int SparkTimer { get; set; }

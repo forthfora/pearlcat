@@ -27,26 +27,32 @@ public static class IICKeybinds
         AbilityKeybind.HideConfig = hide;
     }
 
-    public static readonly PlayerKeybind StoreKeybind = PlayerKeybind.Register($"{Plugin.MOD_ID}:store_pearl", Plugin.MOD_NAME, "Store Pearl", KeyCode.None, KeyCode.None);
+    public static PlayerKeybind StoreKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:store_pearl", Plugin.MOD_NAME, "Store Pearl", KeyCode.None, KeyCode.None);
     public static bool IsStorePressed(Player player) => player.IsPressed(StoreKeybind);
+    public static KeyCode GetStoreKeybind(int playerNum) => StoreKeybind.CurrentBinding(playerNum);
 
 
-    public static readonly PlayerKeybind SwapKeybind = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_pearl", Plugin.MOD_NAME, "Swap Pearl", KeyCode.LeftAlt, KeyCode.JoystickButton3);
+    public static PlayerKeybind SwapKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_pearl", Plugin.MOD_NAME, "Swap Pearl", KeyCode.LeftAlt, KeyCode.JoystickButton3);
     public static bool IsSwapPressed(Player player) => player.IsPressed(SwapKeybind);
+    public static KeyCode GetSwapKeybind(int playerNum) => SwapKeybind.CurrentBinding(playerNum);
 
 
-    public static readonly PlayerKeybind SwapLeftKeybind = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_left", Plugin.MOD_NAME, "Swap Left", KeyCode.A, KeyCode.None);
+    public static PlayerKeybind SwapLeftKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_left", Plugin.MOD_NAME, "Swap Left", KeyCode.A, KeyCode.None);
     public static bool IsSwapLeftPressed(Player player) => player.IsPressed(SwapLeftKeybind);
+    public static KeyCode GetSwapLeftKeybind(int playerNum) => SwapLeftKeybind.CurrentBinding(playerNum);
 
 
-    public static readonly PlayerKeybind SwapRightKeybind = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_right", Plugin.MOD_NAME, "Swap Right", KeyCode.D, KeyCode.None);
+    public static PlayerKeybind SwapRightKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_right", Plugin.MOD_NAME, "Swap Right", KeyCode.D, KeyCode.None);
     public static bool IsSwapRightPressed(Player player) => player.IsPressed(SwapRightKeybind);
+    public static KeyCode GetSwapRightKeybind(int playerNum) => SwapRightKeybind.CurrentBinding(playerNum);
 
 
-    public static readonly PlayerKeybind SentryKeybind = PlayerKeybind.Register($"{Plugin.MOD_ID}:sentry_pearl", Plugin.MOD_NAME, "Sentry Pearl", KeyCode.C, KeyCode.JoystickButton4);
+    public static PlayerKeybind SentryKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:sentry_pearl", Plugin.MOD_NAME, "Sentry Pearl", KeyCode.C, KeyCode.JoystickButton4);
     public static bool IsSentryPressed(Player player) => player.IsPressed(SentryKeybind);
+    public static KeyCode GetSentryKeybind(int playerNum) => SentryKeybind.CurrentBinding(playerNum);
 
 
-    public static readonly PlayerKeybind AbilityKeybind = PlayerKeybind.Register($"{Plugin.MOD_ID}:ability", Plugin.MOD_NAME, "Pearl Ability", KeyCode.None, KeyCode.None);
+    public static PlayerKeybind AbilityKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:ability", Plugin.MOD_NAME, "Pearl Ability", KeyCode.None, KeyCode.None);
     public static bool IsAbilityPressed(Player player) => player.IsPressed(AbilityKeybind);
+    public static KeyCode GetAbilityKeybind(int playerNum) => AbilityKeybind.CurrentBinding(playerNum);
 }

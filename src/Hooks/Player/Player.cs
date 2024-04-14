@@ -106,15 +106,10 @@ public static partial class Hooks
         bool agilityInput = self.IsAgilityKeybindPressed(playerModule) && allowInput;
         bool sentryInput = self.IsSentryKeybindPressed(playerModule) && allowInput;
 
-        int numPressed = self.IsFirstPearlcat() && allowInput ? self.GetNumberPressed() : -1;
 
         playerModule.BlockInput = false;
 
-        if (numPressed >= 0)
-        {
-            self.ActivateObjectInStorage(numPressed - 1);
-        }
-        else if (swapLeftInput && !playerModule.WasSwapLeftInput)
+        if (swapLeftInput && !playerModule.WasSwapLeftInput)
         {
             self.SelectPreviousObject();
         }

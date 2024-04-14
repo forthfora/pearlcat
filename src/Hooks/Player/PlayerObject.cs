@@ -158,8 +158,18 @@ public static partial class Hooks
 
             ExtEnumBase.TryParse(typeof(DataPearlType), spearModule.PearlType, false, out var type);
 
-            abstractObject = new DataPearl.AbstractDataPearl(self.abstractCreature.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null,
-                new(self.abstractCreature.Room.index, -1, -1, 0), self.abstractCreature.world.game.GetNewID(), -1, -1, null, type as DataPearlType ?? DataPearlType.Misc);
+            if (type as DataPearlType == DataPearlType.PebblesPearl)
+            {
+                abstractObject = new PebblesPearl.AbstractPebblesPearl(self.abstractCreature.world, null,
+                    new(self.abstractCreature.Room.index, -1, -1, 0), self.abstractCreature.world.game.GetNewID(),
+                    -1, -1, null, spearModule.PebblesColor, 0);
+            }
+            else
+            {
+                abstractObject = new DataPearl.AbstractDataPearl(self.abstractCreature.world, AbstractObjectType.DataPearl, null,
+                    new(self.abstractCreature.Room.index, -1, -1, 0), self.abstractCreature.world.game.GetNewID(),
+                    -1, -1, null, type as DataPearlType ?? DataPearlType.Misc);
+            }
 
             if (!noSound)
             {
@@ -189,7 +199,7 @@ public static partial class Hooks
             if (ModOptions.CustomSpearKeybind.Value)
             {
                 self.abstractCreature.world.game.AddTextPrompt(
-                    t.Translate("Hold (") + ModOptions.AbilityKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.AbilityKeybindPlayer1.Value.GetDisplayName() + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
+                    t.Translate("Hold (") + GetAbilityKeybindDisplayName(0) + t.Translate(") or (") + GetAbilityKeybindDisplayName(1) + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
             }
             else
             {

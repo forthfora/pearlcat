@@ -153,10 +153,10 @@ public class T1_START : UpdatableAndDeletable
                 {
                     var t = Utils.Translator;
 
-                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + ModOptions.SwapLeftKeybind.Value + ") & (" + ModOptions.SwapRightKeybind.Value + t.Translate("), or the triggers on controller"), 0, 600);
+                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + Hooks.GetSwapLeftKeybindDisplayName(0) + ") & (" + Hooks.GetSwapRightKeybindDisplayName(0) + t.Translate("), or the triggers on controller"), 0, 600);
 
                     game.AddTextPrompt(
-                        t.Translate("Alternatively, hold (") + ModOptions.SwapKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.SwapKeybindPlayer1.Value.GetDisplayName() + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
+                        t.Translate("Alternatively, hold (") + Hooks.GetSwapKeybindDisplayName(0) + t.Translate(") or (") + Hooks.GetSwapKeybindDisplayName(1) + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
 
                     PhaseTimer = 1100;
                     CurrentPhase = Phase.StoreTutorial;
@@ -166,7 +166,7 @@ public class T1_START : UpdatableAndDeletable
                     var t = Utils.Translator;
 
                     if (ModOptions.UsesCustomStoreKeybind.Value)
-                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + ModOptions.StoreKeybindKeyboard.Value + t.Translate(") or (") + ModOptions.StoreKeybindPlayer1.Value.GetDisplayName() + ")", 0, 800);
+                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + Hooks.GetStoreKeybindDisplayName(0) + t.Translate(") or (") + Hooks.GetStoreKeybindDisplayName(1) + ")", 0, 800);
 
                     else
                         game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 600);
@@ -182,8 +182,8 @@ public class T1_START : UpdatableAndDeletable
 
                     if (ModOptions.CustomSentryKeybind.Value)
                     {
-                        game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + ModOptions.SentryKeybindKeyboard.Value + t.Translate(") or (")
-                            + ModOptions.SentryKeybindPlayer1.Value.GetDisplayName() + t.Translate(") to deploy, and again to return."), 0, 600);
+                        game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + Hooks.GetSentryKeybindDisplayName(0) + t.Translate(") or (")
+                            + Hooks.GetSentryKeybindDisplayName(1) + t.Translate(") to deploy, and again to return."), 0, 600);
                     }
                     else
                     {
