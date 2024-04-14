@@ -180,7 +180,14 @@ public static partial class Hooks
         var keyCodeChar = Regex.Replace(keyCode.ToString(), "Joystick[0-9]Button", "");
 
         if (!int.TryParse(keyCodeChar, out var buttonNum))
-            return keyCode.ToString();
+        {
+            keyCodeChar = keyCode.ToString().Replace("JoystickButton", "");
+
+            if (!int.TryParse(keyCodeChar, out buttonNum))
+            {
+                return keyCode.ToString();
+            }
+        }
 
         var t = Utils.Translator;
 
@@ -229,6 +236,7 @@ public static partial class Hooks
 
         return (controller ? ModOptions.SwapKeybindPlayer1.Value : ModOptions.SwapKeybindKeyboard.Value).GetDisplayName();
     }
+
     public static string GetSentryKeybindDisplayName(bool controller)
     {
         if (IsImprovedInputActive)
