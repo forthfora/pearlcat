@@ -199,7 +199,7 @@ public static partial class Hooks
             if (ModOptions.CustomSpearKeybind.Value)
             {
                 self.abstractCreature.world.game.AddTextPrompt(
-                    t.Translate("Hold (") + GetAbilityKeybindDisplayName(0) + t.Translate(") or (") + GetAbilityKeybindDisplayName(1) + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
+                    t.Translate("Hold (") + GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + GetAbilityKeybindDisplayName(true) + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
             }
             else
             {

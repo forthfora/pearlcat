@@ -201,106 +201,70 @@ public static partial class Hooks
         };
     }
 
-    public static KeyCode GetStoreKeybindIIC(int playerNum) => IICKeybinds.GetStoreKeybind(playerNum);
-    public static KeyCode GetSwapKeybindIIC(int playerNum) => IICKeybinds.GetSwapKeybind(playerNum);
-    public static KeyCode GetSwapLeftKeybindIIC(int playerNum) => IICKeybinds.GetSwapLeftKeybind(playerNum);
-    public static KeyCode GetSwapRightKeybindIIC(int playerNum) => IICKeybinds.GetSwapRightKeybind(playerNum);
-    public static KeyCode GetSentryKeybindIIC(int playerNum) => IICKeybinds.GetSentryKeybind(playerNum);
-    public static KeyCode GetAbilityKeybindIIC(int playerNum) => IICKeybinds.GetAbilityKeybind(playerNum);
+    public static KeyCode GetStoreKeybindIIC(bool controller) => IICKeybinds.GetStoreKeybind(controller);
+    public static KeyCode GetSwapKeybindIIC(bool controller) => IICKeybinds.GetSwapKeybind(controller);
+    public static KeyCode GetSwapLeftKeybindIIC(bool controller) => IICKeybinds.GetSwapLeftKeybind(controller);
+    public static KeyCode GetSwapRightKeybindIIC(bool controller) => IICKeybinds.GetSwapRightKeybind(controller);
+    public static KeyCode GetSentryKeybindIIC(bool controller) => IICKeybinds.GetSentryKeybind(controller);
+    public static KeyCode GetAbilityKeybindIIC(bool controller) => IICKeybinds.GetAbilityKeybind(controller);
 
 
 
-    public static string GetStoreKeybindDisplayName(int playerNum)
+    public static string GetStoreKeybindDisplayName(bool controller)
     {
         if (IsImprovedInputActive)
         {
-            return GetStoreKeybindIIC(playerNum).GetDisplayName();
+            return GetStoreKeybindIIC(controller).GetDisplayName();
         }
 
-        return (playerNum switch
-        {
-            0 => ModOptions.StoreKeybindKeyboard.Value,
-            1 => ModOptions.StoreKeybindPlayer1.Value,
-            2 => ModOptions.StoreKeybindPlayer2.Value,
-            3 => ModOptions.StoreKeybindPlayer3.Value,
-            4 => ModOptions.StoreKeybindPlayer4.Value,
-
-            _ => ModOptions.StoreKeybindKeyboard.Value
-        }).GetDisplayName();
+        return (controller ? ModOptions.StoreKeybindPlayer1.Value : ModOptions.StoreKeybindKeyboard.Value).GetDisplayName();
     }
 
-    public static string GetSwapKeybindDisplayName(int playerNum)
+    public static string GetSwapKeybindDisplayName(bool controller)
     {
         if (IsImprovedInputActive)
         {
-            return GetSwapKeybindIIC(playerNum).GetDisplayName();
+            return GetSwapKeybindIIC(controller).GetDisplayName();
         }
 
-        return (playerNum switch
-        {
-            0 => ModOptions.SwapKeybindKeyboard.Value,
-            1 => ModOptions.SwapKeybindPlayer1.Value,
-            2 => ModOptions.SwapKeybindPlayer2.Value,
-            3 => ModOptions.SwapKeybindPlayer3.Value,
-            4 => ModOptions.SwapKeybindPlayer4.Value,
-
-            _ => ModOptions.SwapKeybindKeyboard.Value
-        }).GetDisplayName();
+        return (controller ? ModOptions.SwapKeybindPlayer1.Value : ModOptions.SwapKeybindKeyboard.Value).GetDisplayName();
     }
-    public static string GetSentryKeybindDisplayName(int playerNum)
+    public static string GetSentryKeybindDisplayName(bool controller)
     {
         if (IsImprovedInputActive)
         {
-            return GetSentryKeybindIIC(playerNum).GetDisplayName();
+            return GetSentryKeybindIIC(controller).GetDisplayName();
         }
 
-        return (playerNum switch
-        {
-            0 => ModOptions.SentryKeybindKeyboard.Value,
-            1 => ModOptions.SentryKeybindPlayer1.Value,
-            2 => ModOptions.SentryKeybindPlayer2.Value,
-            3 => ModOptions.SentryKeybindPlayer3.Value,
-            4 => ModOptions.SentryKeybindPlayer4.Value,
-
-            _ => ModOptions.SentryKeybindKeyboard.Value
-        }).GetDisplayName();
+        return (controller ? ModOptions.SentryKeybindPlayer1.Value : ModOptions.SentryKeybindKeyboard.Value).GetDisplayName();
     }
 
-    public static string GetAbilityKeybindDisplayName(int playerNum)
+    public static string GetAbilityKeybindDisplayName(bool controller)
     {
         if (IsImprovedInputActive)
         {
-            return GetAbilityKeybindIIC(playerNum).GetDisplayName();
+            return GetAbilityKeybindIIC(controller).GetDisplayName();
         }
 
-        return (playerNum switch
-        {
-            0 => ModOptions.AbilityKeybindKeyboard.Value,
-            1 => ModOptions.AbilityKeybindPlayer1.Value,
-            2 => ModOptions.AbilityKeybindPlayer2.Value,
-            3 => ModOptions.AbilityKeybindPlayer3.Value,
-            4 => ModOptions.AbilityKeybindPlayer4.Value,
-
-            _ => ModOptions.AbilityKeybindKeyboard.Value
-        }).GetDisplayName();
+        return (controller ? ModOptions.AbilityKeybindPlayer1.Value : ModOptions.AbilityKeybindKeyboard.Value).GetDisplayName();
     }
 
 
-    public static string GetSwapLeftKeybindDisplayName(int playerNum)
+    public static string GetSwapLeftKeybindDisplayName(bool controller)
     {
         if (IsImprovedInputActive)
         {
-            return GetSwapLeftKeybindIIC(playerNum).GetDisplayName();
+            return GetSwapLeftKeybindIIC(controller).GetDisplayName();
         }
 
         return ModOptions.SwapLeftKeybind.Value.GetDisplayName();
     }
 
-    public static string GetSwapRightKeybindDisplayName(int playerNum)
+    public static string GetSwapRightKeybindDisplayName(bool controller)
     {
         if (IsImprovedInputActive)
         {
-            return GetSwapRightKeybindIIC(playerNum).GetDisplayName();
+            return GetSwapRightKeybindIIC(controller).GetDisplayName();
         }
 
         return ModOptions.SwapRightKeybind.Value.GetDisplayName();
