@@ -302,7 +302,7 @@ To cycle between pearls, use (|Para cambiar de perla, utiliza (
 PEARLCAT MISC WORLD:\n|PEARLCAT MISC WORLD:\n
 When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|Si se encuentra marcada, la mayoría de las perlas (cuando están activas) forzarán el tema de amenazas para todas las regiones al tema de la región de las que eran originalmente.
 Inventory Pings?|Avisos del inventario
-...are you alright, little one? The modifications to your body are quite... extreme.|¿Te encuentras bien, pequeño?... los cambios en tu cuerpo son muy... extremos.
+...are you alright, little one? The modifications to your body are quite... extreme.|¿Te encuentras bien, pequeño?... Los cambios en tu cuerpo son muy... extremos.
 pearlcat_light2|pearlcat_light2
 Think of this mutually, I can 'see' a little further outside this can...|Piénsalo solidariamente, puedo "ver" un poco más allá de esta lata...
 When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|Si se encuentra marcada, desactiva el soporte para Improved Input Config, revirtiendo a los ajustes de Remix. Sal y vuelve a entrar al menú de Remix para que surte efecto.
@@ -312,7 +312,7 @@ UW|UW
 MS|MS
 The Pearlcat|El Perlino
 When checked, disables the shield effect granted by an active pearl.|Si se encuentra marcada, desactiva el efecto de escudo otorgada por una perla activa.
-I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Me encantaría estudiarlo, para así ayudar a tratar mi propia aflicción, pero requeriría la... eliminación del aumento.
+I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Me encantaría estudiarlo para así ayudar a tratar mi propia aflicción, pero requeriría la... eliminación del aumento.
 pcat_nopup|pcat_nopup
 SS_T1_S01|SS_T1_S01
 Failed to parse color {objectType} : {ex.Message}|No se pudo analizar el color {objectType}: {ex.Message}
@@ -502,7 +502,7 @@ RED symbolizes power. With a red pearl active, all stored red pearls will circle
 SB|SB
 {nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n|{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n
 thing|execrable
-...are you alright, little one? The modifications to your body are quite... unusual.|¿Te encuentras bien, pequeño? Los cambios en tu cuerpo son bastante... inusuales.
+...are you alright, little one? The modifications to your body are quite... unusual.|¿Te encuentras bien, pequeño?... Los cambios en tu cuerpo son muy... inusuales.
 pearlcatScarfA0|pearlcatScarfA0
 Surely it must be another little beast with a pearl for a heart?|Debe ser, obvia y seguramente, otra pequeña bestia con una perla por corazón.
 Elliot|Elliot
@@ -546,7 +546,7 @@ Atlas not found! ({uniqueName})|Atlas not found! ({uniqueName})
 Given your unique abilities, if you are curious as to the contents of those pearls -|Dadas tus habilidades únicas, si tienes curiosidad sobre el contenido de esas perlas...;
 You and your family are always welcome here - please visit often!|Tú y tu familia son siempre bienvenidos aquí. ¡Por favor, visiten más a menudo!
 Futile_White|Futile_Whit
-Pearl spears will attempt to return to you being thrown, if they are not stuck|Las lanzas perladas intentarán regresar hacia ti cuando las arrojes, si no están clavadas
+Pearl spears will attempt to return to you being thrown, if they are not stuck|Si no están atascadas, las lanzas perladas intentarán regresar hacia ti tras lanzarlas
 The company of you and your friend makes my day, strange scholar.|La compañía de ti y tu amigo me alegran el día, extraño erudito.
 pearlcat_8|pearl_8
 Face|Face
