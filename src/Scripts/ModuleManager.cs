@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using Menu;
+﻿using Menu;
 using MoreSlugcats;
 using Music;
 using SlugBase.SaveData;
