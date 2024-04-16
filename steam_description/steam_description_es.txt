@@ -1,13 +1,13 @@
-[h1][b]¡Un erudito enigmático de una tierra lejana, dotado de la extraordinaria habilidad de aprovechar las perlas![/b][/h1]
+[h1][b]¡Una erudita enigmática de una tierra lejana, dotada de la extraordinaria habilidad de emplear perlas![/b][/h1]
 
-[h1][b]Armado de este conocimiento, enfrenta los peligros y protege a tu cría; todo en tu viaje por descubrir el mundo y sus misterios...[/b][/h1]
+[h1][b]Armada de este conocimiento, enfrenta los peligros y protege a tu cría; todo en tu viaje por descubrir el mundo y sus misterios...[/b][/h1]
 
 [h1][b]CARACTERÍSTICAS:[/b][/h1]
 [b][list]
     [*]Lleva y almacena muchas perlas a la vez.
     
     [*]¡Interacciones exclusivas con Guijarros y Luna!
-Guijarros ayuda al Perlino, y ahora leerá tus perlas también.
+Guijarros ayuda a Perlina y ahora leerá tus perlas también.
     
     [*]Nuevas cinemáticas y dos finales.
 [/list][/b]
