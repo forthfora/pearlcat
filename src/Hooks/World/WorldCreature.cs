@@ -90,7 +90,7 @@ public static partial class Hooks
         c.Emit(OpCodes.Ldarg_1); // BodyChunk
         c.EmitDelegate<Func<Lizard, BodyChunk, bool>>((self, bodyChunk) =>
         {
-            if (bodyChunk.owner is not Spear weapon) return false;
+            if (bodyChunk?.owner is not Spear weapon) return false;
 
             var playerData = self.abstractCreature?.world?.game?.GetAllPlayerData();
 

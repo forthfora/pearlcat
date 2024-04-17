@@ -54,8 +54,8 @@
     {"name": "pearlactivehalo", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
     
     
-    {"name": "trueend_dust", "pos": [0, 0], "depth": 2.1, "shader": "Basic"},
-    {"name": "dust", "pos": [0, 0], "depth": 2.1, "shader": "Basic"}
+    {"name": "trueend_dust", "pos": [0, 0], "depth": 1.8, "shader": "Basic"},
+    {"name": "dust", "pos": [0, 0], "depth": 1.8, "shader": "Basic"}
   ],
   
   "idle_depths": [2.6, 5.0],

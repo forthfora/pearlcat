@@ -101,7 +101,7 @@ public sealed class ModOptions : OptionsTemplate
 
     public static Configurable<int> SpearPearlCount { get; } = Instance.config.Bind(nameof(SpearPearlCount), 1, new ConfigurableInfo(
         "Number of spear creation pearls (white). Effective only when Inventory Override? is checked.",
-        new ConfigAcceptableRange<int>(0, 100), "",
+        new ConfigAcceptableRange<int>(0, int.MaxValue), "",
         "Spear Pearl Count"));
 
     public static Configurable<int> RevivePearlCount { get; } = Instance.config.Bind(nameof(RevivePearlCount), 1, new ConfigurableInfo(
@@ -296,67 +296,19 @@ public sealed class ModOptions : OptionsTemplate
     }
 
 
-    private void InitExtraCheats(ref int tabIndex)
-    {
-        AddTab(ref tabIndex, "Extra Cheats");
-        Tabs[tabIndex].colorButton = WarnRed;
-
-        var text = Translate("All times here are in frames.<LINE>40 frames = 1 second.");
-        AddTextLabel(text);
-        DrawTextLabels(ref Tabs[tabIndex]);
-
-        AddNewLine(1);
-
-        AddSlider(ShieldRechargeTime, sliderTextLeft: "40", sliderTextRight: "3600");
-        AddSlider(ShieldDuration, sliderTextLeft: "5", sliderTextRight: "300");
-        
-        AddSlider(LaserWindupTime, sliderTextLeft: "5", sliderTextRight: "300");
-        AddSlider(LaserRechargeTime, sliderTextLeft: "5", sliderTextRight: "300");
-        AddFloatSlider(LaserDamage, sliderTextLeft: "0.0", sliderTextRight: "3.0");
-
-        DrawSliders(ref Tabs[tabIndex]);
-        DrawFloatSliders(ref Tabs[tabIndex]);
-
-        AddNewLine(1);
-
-        if (GetLabel(text, out var label))
-            label.color = WarnRed;
-
-        if (GetConfigurable(ShieldRechargeTime, out OpSlider slider))
-            slider.colorEdge = slider.colorLine = Color.yellow;
-
-        if (GetConfigurable(ShieldDuration, out slider))
-            slider.colorEdge = slider.colorLine = Color.yellow;
-
-
-        if (GetConfigurable(LaserWindupTime, out slider))
-            slider.colorEdge = slider.colorLine = Color.red;
-
-        if (GetConfigurable(LaserRechargeTime, out slider))
-            slider.colorEdge = slider.colorLine = Color.red;
-
-        if (GetConfigurable(LaserDamage, out OpFloatSlider floatSlider))
-            floatSlider.colorEdge = floatSlider.colorLine = Color.red;
-
-        DrawBox(ref Tabs[tabIndex]);
-    }
 
     private void InitGeneral(ref int tabIndex)
     {
         AddTab(ref tabIndex, "General");
+            
 
-        AddCheckBox(PearlThreatMusic);
-        AddCheckBox(CompactInventoryHUD);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        AddCheckBox(DisableTutorials);
-        AddCheckBox(DisableCosmetics);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        AddNewLine(1);
-
-        AddTextLabel("Special thanks to the following people!", bigText: true);
+        // CREDITS
+        AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+    
+        AddTextLabel("CREDITS", bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
+
+        AddAndDrawLargeDivider(ref Tabs[tabIndex]);
 
         AddNewLine(1);
 
@@ -374,8 +326,15 @@ public sealed class ModOptions : OptionsTemplate
 
         AddNewLine(1);
 
+
+        // PLAYTESTERS
+        AddNewLine(1);
+        AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+
         AddTextLabel("PLAYTESTERS", bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
+
+        AddAndDrawLargeDivider(ref Tabs[tabIndex]);
 
         AddNewLine(1);
 
@@ -393,8 +352,22 @@ public sealed class ModOptions : OptionsTemplate
         DrawTextLabels(ref Tabs[tabIndex]);
 
 
-        AddNewLine(1);
+        // OPTIONS
+        AddNewLine(0.5f);
+
+        AddCheckBox(PearlThreatMusic);
+        AddCheckBox(CompactInventoryHUD);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddCheckBox(DisableTutorials);
+        AddCheckBox(DisableCosmetics);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddNewLine(0.5f);
+
+
         DrawBox(ref Tabs[tabIndex]);
+
 
         if (GetConfigurable(DisableCosmetics, out OpCheckBox checkBox))
             checkBox.colorEdge = WarnRed;
@@ -410,6 +383,276 @@ public sealed class ModOptions : OptionsTemplate
             label.color = WarnRed;
     }
 
+
+
+    private void InitStoreInput(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Store Input");
+
+        AddCheckBox(UsesCustomStoreKeybind);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
+
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddNewLine(9);
+        }
+        else
+        {
+            AddNewLine(3);
+
+            AddAndDrawKeybinder(StoreKeybindKeyboard, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(StoreKeybindPlayer1, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(StoreKeybindPlayer2, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(StoreKeybindPlayer3, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(StoreKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(1);
+        }
+
+        DrawBox(ref Tabs[tabIndex]);
+    }
+
+    private void InitSwapInput(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Swap Input");
+
+        AddDragger(SwapTriggerPlayer);
+        DrawDraggers(ref Tabs[tabIndex]);
+
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
+
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddNewLine(9);
+        }
+        else
+        {
+            AddNewLine(3);
+
+            AddAndDrawKeybinder(SwapLeftKeybind, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapRightKeybind, ref Tabs[tabIndex]);
+
+            AddNewLine(2);
+
+            AddAndDrawKeybinder(SwapKeybindKeyboard, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapKeybindPlayer1, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapKeybindPlayer2, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapKeybindPlayer3, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(-1);
+        }
+
+        DrawBox(ref Tabs[tabIndex]);
+    }
+
+    private void InitAbilityInput(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Ability Input");
+
+        AddCheckBox(CustomSpearKeybind);
+        AddCheckBox(CustomAgilityKeybind);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        if (!Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(3);
+    
+            var abilityOffset = new Vector2(-100.0f, 0.0f);
+            var sentryOffset = new Vector2(140.0f, 0.0f);
+
+            AddAndDrawKeybinder(AbilityKeybindKeyboard, ref Tabs[tabIndex], abilityOffset, false);
+            AddAndDrawKeybinder(SentryKeybindKeyboard, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(AbilityKeybindPlayer1, ref Tabs[tabIndex], abilityOffset, false);
+            AddAndDrawKeybinder(SentryKeybindPlayer1, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(AbilityKeybindPlayer2, ref Tabs[tabIndex], abilityOffset, false);
+            AddAndDrawKeybinder(SentryKeybindPlayer2, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(AbilityKeybindPlayer3, ref Tabs[tabIndex], abilityOffset, false);
+            AddAndDrawKeybinder(SentryKeybindPlayer3, ref Tabs[tabIndex], sentryOffset);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(AbilityKeybindPlayer4, ref Tabs[tabIndex], abilityOffset, false);
+            AddAndDrawKeybinder(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
+
+            AddNewLine(-2);
+        }
+
+
+        AddCheckBox(CustomSentryKeybind);
+
+        if (Hooks.IsImprovedInputInstalled)
+        {
+            AddCheckBox(DisableImprovedInputConfig);
+        }
+
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+        
+
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
+
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddNewLine(6);
+        }
+
+        DrawBox(ref Tabs[tabIndex]);
+
+
+        if (GetLabel(DisableImprovedInputConfig, out var label))
+        {
+            label.color = WarnRed;
+        }
+        if (GetConfigurable(DisableImprovedInputConfig, out OpCheckBox checkBox))
+        {
+            checkBox.colorEdge = WarnRed;
+        }
+    }
+
+
+
+    private void InitDifficulty(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Difficulty");
+        Tabs[tabIndex].colorButton = WarnRed;
+
+        var warningText = "Intended to make gameplay more challenging, may change gameplay significantly!";
+        AddTextLabel(warningText, bigText: true);
+        DrawTextLabels(ref Tabs[tabIndex]);
+
+
+        AddNewLine(1);
+        AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
+        AddNewLine(-1);
+
+
+        AddCheckBox(InventoryPings);
+        AddCheckBox(HidePearls);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddCheckBox(DisableMinorEffects);
+        AddCheckBox(OldRedPearlAbility);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddCheckBox(DisableAgility);
+        AddCheckBox(DisableCamoflague);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+        
+        AddCheckBox(DisableRage);
+        AddCheckBox(DisableRevive);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddCheckBox(DisableShield);
+        AddCheckBox(DisableSpear);
+        DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddDragger(VisibilityMultiplier);
+        DrawDraggers(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+        DrawBox(ref Tabs[tabIndex]);
+
+        #region Color Changes
+
+        if (GetLabel(warningText, out var label))
+            label.color = WarnRed;
+
+
+        if (GetLabel(DisableMinorEffects, out label))
+            label.color = WarnRed;
+
+        if (GetLabel(DisableAgility, out label))
+            label.color = Color.cyan;
+
+        if (GetLabel(DisableCamoflague, out label))
+            label.color = Color.grey;
+
+        if (GetLabel(DisableRage, out label))
+            label.color = Color.red;
+
+        if (GetLabel(DisableRevive, out label))
+            label.color = Color.green;
+
+        if (GetLabel(DisableShield, out label))
+            label.color = Color.yellow;
+
+        if (GetLabel(DisableSpear, out label))
+            label.color = Color.white;
+
+
+        if (GetConfigurable(DisableMinorEffects, out OpCheckBox checkBox))
+            checkBox.colorEdge = WarnRed;
+
+        if (GetConfigurable(DisableAgility, out checkBox))
+            checkBox.colorEdge = Color.cyan;
+
+        if (GetConfigurable(DisableCamoflague, out checkBox))
+            checkBox.colorEdge = Color.grey;
+
+        if (GetConfigurable(DisableRage, out checkBox))
+            checkBox.colorEdge = Color.red;
+
+        if (GetConfigurable(DisableRevive, out checkBox))
+            checkBox.colorEdge = Color.green;
+
+        if (GetConfigurable(DisableShield, out checkBox))
+            checkBox.colorEdge = Color.yellow;
+
+        if (GetConfigurable(DisableSpear, out checkBox))
+            checkBox.colorEdge = Color.white;
+
+        if (GetLabel(VisibilityMultiplier, out label))
+            label.color = WarnRed;
+
+        if (GetConfigurable(VisibilityMultiplier, out OpDragger dragger))
+        {
+            dragger.colorEdge = WarnRed;
+            dragger.colorText = WarnRed;
+        }
+
+
+        if (GetLabel(OldRedPearlAbility, out label))
+            label.color = Color.red;
+
+        if (GetConfigurable(OldRedPearlAbility, out checkBox))
+            checkBox.colorEdge = Color.red;
+
+        #endregion
+    }
+
     private void InitCheats(ref int tabIndex)
     {
         AddTab(ref tabIndex, "Cheats");
@@ -419,7 +662,13 @@ public sealed class ModOptions : OptionsTemplate
         
         AddTextLabel(warningText, bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
-        
+
+
+        AddNewLine(1);
+        AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
+        AddNewLine(-1);
+
+
         AddDragger(MaxPearlCount);
         DrawDraggers(ref Tabs[tabIndex]);
 
@@ -550,267 +799,65 @@ public sealed class ModOptions : OptionsTemplate
             dragger.colorText = Color.white;
         }
     }
-
-    private void InitDifficulty(ref int tabIndex)
+    
+    private void InitExtraCheats(ref int tabIndex)
     {
-        AddTab(ref tabIndex, "Difficulty");
+        AddTab(ref tabIndex, "Extra Cheats");
         Tabs[tabIndex].colorButton = WarnRed;
 
-        var warningText = "Intended to make gameplay more challenging, may change gameplay significantly!";
-        AddTextLabel(warningText, bigText: true);
+        var text = Translate("All times here are in frames.<LINE>40 frames = 1 second.");
+        AddTextLabel(text);
         DrawTextLabels(ref Tabs[tabIndex]);
-         
-
-        AddCheckBox(InventoryPings);
-        AddCheckBox(HidePearls);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        AddCheckBox(DisableMinorEffects);
-        AddCheckBox(OldRedPearlAbility);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        AddCheckBox(DisableAgility);
-        AddCheckBox(DisableCamoflague);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-        
-        AddCheckBox(DisableRage);
-        AddCheckBox(DisableRevive);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        AddCheckBox(DisableShield);
-        AddCheckBox(DisableSpear);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        AddDragger(VisibilityMultiplier);
-        DrawDraggers(ref Tabs[tabIndex]);
 
         AddNewLine(1);
-        DrawBox(ref Tabs[tabIndex]);
 
-        #region Color Changes
+        AddIntSlider(ShieldRechargeTime, sliderTextLeft: "40", sliderTextRight: "3600");
+        AddIntSlider(ShieldDuration, sliderTextLeft: "5", sliderTextRight: "300");
 
-        if (GetLabel(warningText, out var label))
-            label.color = WarnRed;
-
-
-        if (GetLabel(DisableMinorEffects, out label))
-            label.color = WarnRed;
-
-        if (GetLabel(DisableAgility, out label))
-            label.color = Color.cyan;
-
-        if (GetLabel(DisableCamoflague, out label))
-            label.color = Color.grey;
-
-        if (GetLabel(DisableRage, out label))
-            label.color = Color.red;
-
-        if (GetLabel(DisableRevive, out label))
-            label.color = Color.green;
-
-        if (GetLabel(DisableShield, out label))
-            label.color = Color.yellow;
-
-        if (GetLabel(DisableSpear, out label))
-            label.color = Color.white;
-
-
-        if (GetConfigurable(DisableMinorEffects, out OpCheckBox checkBox))
-            checkBox.colorEdge = WarnRed;
-
-        if (GetConfigurable(DisableAgility, out checkBox))
-            checkBox.colorEdge = Color.cyan;
-
-        if (GetConfigurable(DisableCamoflague, out checkBox))
-            checkBox.colorEdge = Color.grey;
-
-        if (GetConfigurable(DisableRage, out checkBox))
-            checkBox.colorEdge = Color.red;
-
-        if (GetConfigurable(DisableRevive, out checkBox))
-            checkBox.colorEdge = Color.green;
-
-        if (GetConfigurable(DisableShield, out checkBox))
-            checkBox.colorEdge = Color.yellow;
-
-        if (GetConfigurable(DisableSpear, out checkBox))
-            checkBox.colorEdge = Color.white;
-
-        if (GetLabel(VisibilityMultiplier, out label))
-            label.color = WarnRed;
-
-        if (GetConfigurable(VisibilityMultiplier, out OpDragger dragger))
+        if (OldRedPearlAbility.Value)
         {
-            dragger.colorEdge = WarnRed;
-            dragger.colorText = WarnRed;
-        }
+            AddIntSlider(LaserWindupTime, sliderTextLeft: "5", sliderTextRight: "300");
+            AddIntSlider(LaserRechargeTime, sliderTextLeft: "5", sliderTextRight: "300");
+            AddFloatSlider(LaserDamage, sliderTextLeft: "0.0", sliderTextRight: "3.0");
 
-
-        if (GetLabel(OldRedPearlAbility, out label))
-            label.color = Color.red;
-
-        if (GetConfigurable(OldRedPearlAbility, out checkBox))
-            checkBox.colorEdge = Color.red;
-
-        #endregion
-    }
-
-    private void InitStoreInput(ref int tabIndex)
-    {
-        AddTab(ref tabIndex, "Store Input");
-
-        AddCheckBox(UsesCustomStoreKeybind);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        if (Hooks.IsImprovedInputActive)
-        {
-            AddNewLine(6);
-
-            AddTextLabel("Improved Input Config is active!", bigText: true);
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddTextLabel("Edit keybinds through the normal input menu.");
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddNewLine(9);
+            DrawIntSliders(ref Tabs[tabIndex]);
+            DrawFloatSliders(ref Tabs[tabIndex]);
         }
         else
         {
-            AddNewLine(3);
+            DrawIntSliders(ref Tabs[tabIndex]);
 
-            DrawKeybinders(StoreKeybindKeyboard, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            DrawKeybinders(StoreKeybindPlayer1, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            DrawKeybinders(StoreKeybindPlayer2, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            DrawKeybinders(StoreKeybindPlayer3, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            DrawKeybinders(StoreKeybindPlayer4, ref Tabs[tabIndex]);
-
-            AddNewLine(1);
-        }
-
-        DrawBox(ref Tabs[tabIndex]);
-    }
-
-    private void InitSwapInput(ref int tabIndex)
-    {
-        AddTab(ref tabIndex, "Swap Input");
-
-        AddDragger(SwapTriggerPlayer);
-        DrawDraggers(ref Tabs[tabIndex]);
-
-        if (Hooks.IsImprovedInputActive)
-        {
-            AddNewLine(6);
-
-            AddTextLabel("Improved Input Config is active!", bigText: true);
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddTextLabel("Edit keybinds through the normal input menu.");
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddNewLine(9);
-        }
-        else
-        {
-            AddNewLine(3);
-
-            DrawKeybinders(SwapLeftKeybind, ref Tabs[tabIndex]);
-            DrawKeybinders(SwapRightKeybind, ref Tabs[tabIndex]);
-
-            AddNewLine(2);
-
-            DrawKeybinders(SwapKeybindKeyboard, ref Tabs[tabIndex]);
-            DrawKeybinders(SwapKeybindPlayer1, ref Tabs[tabIndex]);
-            DrawKeybinders(SwapKeybindPlayer2, ref Tabs[tabIndex]);
-            DrawKeybinders(SwapKeybindPlayer3, ref Tabs[tabIndex]);
-            DrawKeybinders(SwapKeybindPlayer4, ref Tabs[tabIndex]);
-
-            AddNewLine(-1);
-        }
-
-        DrawBox(ref Tabs[tabIndex]);
-    }
-
-    private void InitAbilityInput(ref int tabIndex)
-    {
-        AddTab(ref tabIndex, "Ability Input");
-
-        AddCheckBox(CustomSpearKeybind);
-        AddCheckBox(CustomAgilityKeybind);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        if (!Hooks.IsImprovedInputActive)
-        {
-            AddNewLine(3);
-    
-            var abilityOffset = new Vector2(-100.0f, 0.0f);
-            var sentryOffset = new Vector2(140.0f, 0.0f);
-
-            DrawKeybinders(AbilityKeybindKeyboard, ref Tabs[tabIndex], abilityOffset, false);
-            DrawKeybinders(SentryKeybindKeyboard, ref Tabs[tabIndex], sentryOffset);
-            AddNewLine(1);
-
-            DrawKeybinders(AbilityKeybindPlayer1, ref Tabs[tabIndex], abilityOffset, false);
-            DrawKeybinders(SentryKeybindPlayer1, ref Tabs[tabIndex], sentryOffset);
-            AddNewLine(1);
-
-            DrawKeybinders(AbilityKeybindPlayer2, ref Tabs[tabIndex], abilityOffset, false);
-            DrawKeybinders(SentryKeybindPlayer2, ref Tabs[tabIndex], sentryOffset);
-            AddNewLine(1);
-
-            DrawKeybinders(AbilityKeybindPlayer3, ref Tabs[tabIndex], abilityOffset, false);
-            DrawKeybinders(SentryKeybindPlayer3, ref Tabs[tabIndex], sentryOffset);
-            AddNewLine(1);
-
-            DrawKeybinders(AbilityKeybindPlayer4, ref Tabs[tabIndex], abilityOffset, false);
-            DrawKeybinders(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
-
-            AddNewLine(-2);
+            AddNewLine(11);
         }
 
 
-        AddCheckBox(CustomSentryKeybind);
+        AddNewLine(1);
 
-        if (Hooks.IsImprovedInputInstalled)
-        {
-            AddCheckBox(DisableImprovedInputConfig);
-        }
-
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-        
-
-        if (Hooks.IsImprovedInputActive)
-        {
-            AddNewLine(6);
-
-            AddTextLabel("Improved Input Config is active!", bigText: true);
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddTextLabel("Edit keybinds through the normal input menu.");
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddNewLine(6);
-        }
-
-        DrawBox(ref Tabs[tabIndex]);
-
-
-        if (GetLabel(DisableImprovedInputConfig, out var label))
-        {
+        if (GetLabel(text, out var label))
             label.color = WarnRed;
-        }
-        if (GetConfigurable(DisableImprovedInputConfig, out OpCheckBox checkBox))
+
+        if (GetConfigurable(ShieldRechargeTime, out OpSlider slider))
+            slider.colorEdge = slider.colorLine = Color.yellow;
+
+        if (GetConfigurable(ShieldDuration, out slider))
+            slider.colorEdge = slider.colorLine = Color.yellow;
+
+
+        if (OldRedPearlAbility.Value)
         {
-            checkBox.colorEdge = WarnRed;
+            if (GetConfigurable(LaserWindupTime, out slider))
+                slider.colorEdge = slider.colorLine = Color.red;
+
+            if (GetConfigurable(LaserRechargeTime, out slider))
+                slider.colorEdge = slider.colorLine = Color.red;
+
+            if (GetConfigurable(LaserDamage, out OpFloatSlider floatSlider))
+                floatSlider.colorEdge = floatSlider.colorLine = Color.red;
         }
+
+        DrawBox(ref Tabs[tabIndex]);
     }
+
 
 
     public static List<DataPearlType> GetOverridenInventory(bool hasRM)
