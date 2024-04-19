@@ -405,89 +405,6 @@ public sealed class ModOptions : OptionsTemplate
 
 
 
-    private void InitStoreInput(ref int tabIndex)
-    {
-        AddTab(ref tabIndex, "Store Input");
-
-        AddCheckBox(UsesCustomStoreKeybind);
-        DrawCheckBoxes(ref Tabs[tabIndex]);
-
-        if (Hooks.IsImprovedInputActive)
-        {
-            AddNewLine(6);
-
-            AddTextLabel("Improved Input Config is active!", bigText: true);
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddTextLabel("Edit keybinds through the normal input menu.");
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddNewLine(9);
-        }
-        else
-        {
-            AddNewLine(3);
-
-            AddAndDrawKeybinder(StoreKeybindKeyboard, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            AddAndDrawKeybinder(StoreKeybindPlayer1, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            AddAndDrawKeybinder(StoreKeybindPlayer2, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            AddAndDrawKeybinder(StoreKeybindPlayer3, ref Tabs[tabIndex]);
-            AddNewLine(1);
-
-            AddAndDrawKeybinder(StoreKeybindPlayer4, ref Tabs[tabIndex]);
-
-            AddNewLine(1);
-        }
-
-        DrawBox(ref Tabs[tabIndex]);
-    }
-
-    private void InitSwapInput(ref int tabIndex)
-    {
-        AddTab(ref tabIndex, "Swap Input");
-
-        AddDragger(SwapTriggerPlayer);
-        DrawDraggers(ref Tabs[tabIndex]);
-
-        if (Hooks.IsImprovedInputActive)
-        {
-            AddNewLine(6);
-
-            AddTextLabel("Improved Input Config is active!", bigText: true);
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddTextLabel("Edit keybinds through the normal input menu.");
-            DrawTextLabels(ref Tabs[tabIndex]);
-
-            AddNewLine(9);
-        }
-        else
-        {
-            AddNewLine(3);
-
-            AddAndDrawKeybinder(SwapLeftKeybind, ref Tabs[tabIndex]);
-            AddAndDrawKeybinder(SwapRightKeybind, ref Tabs[tabIndex]);
-
-            AddNewLine(2);
-
-            AddAndDrawKeybinder(SwapKeybindKeyboard, ref Tabs[tabIndex]);
-            AddAndDrawKeybinder(SwapKeybindPlayer1, ref Tabs[tabIndex]);
-            AddAndDrawKeybinder(SwapKeybindPlayer2, ref Tabs[tabIndex]);
-            AddAndDrawKeybinder(SwapKeybindPlayer3, ref Tabs[tabIndex]);
-            AddAndDrawKeybinder(SwapKeybindPlayer4, ref Tabs[tabIndex]);
-
-            AddNewLine(-1);
-        }
-
-        DrawBox(ref Tabs[tabIndex]);
-    }
-
     private void InitAbilityInput(ref int tabIndex)
     {
         AddTab(ref tabIndex, "Ability Input");
@@ -498,7 +415,11 @@ public sealed class ModOptions : OptionsTemplate
 
         if (!Hooks.IsImprovedInputActive)
         {
-            AddNewLine(3);
+            AddNewLine(0.75f);
+            AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+            AddNewLine(0.25f);
+
+            AddNewLine(2);
     
             var abilityOffset = new Vector2(-100.0f, 0.0f);
             var sentryOffset = new Vector2(140.0f, 0.0f);
@@ -523,6 +444,10 @@ public sealed class ModOptions : OptionsTemplate
             AddAndDrawKeybinder(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
 
             AddNewLine(-2);
+
+            AddNewLine(1);
+            AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+            AddNewLine(-1);
         }
 
 
@@ -538,6 +463,10 @@ public sealed class ModOptions : OptionsTemplate
 
         if (Hooks.IsImprovedInputActive)
         {
+            AddNewLine(1);
+            AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+            AddNewLine(-1);
+
             AddNewLine(6);
 
             AddTextLabel("Improved Input Config is active!", bigText: true);
@@ -560,6 +489,97 @@ public sealed class ModOptions : OptionsTemplate
         {
             checkBox.colorEdge = WarnRed;
         }
+    }
+
+    private void InitSwapInput(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Swap Input");
+
+        AddDragger(SwapTriggerPlayer);
+        DrawDraggers(ref Tabs[tabIndex], offsetX: 150.0f);
+
+        AddNewLine(1);
+        AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+        AddNewLine(-1);
+
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
+
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddNewLine(9);
+        }
+        else
+        {
+            AddNewLine(4);
+
+            AddAndDrawKeybinder(SwapLeftKeybind, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapRightKeybind, ref Tabs[tabIndex]);
+
+            AddNewLine(-1);
+            AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+            AddNewLine(2.5f);
+
+            AddAndDrawKeybinder(SwapKeybindKeyboard, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapKeybindPlayer1, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapKeybindPlayer2, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapKeybindPlayer3, ref Tabs[tabIndex]);
+            AddAndDrawKeybinder(SwapKeybindPlayer4, ref Tabs[tabIndex]);
+
+            AddNewLine(-1.5f);
+        }
+
+        DrawBox(ref Tabs[tabIndex]);
+    }
+
+    private void InitStoreInput(ref int tabIndex)
+    {
+        AddTab(ref tabIndex, "Store Input");
+
+        AddCheckBox(UsesCustomStoreKeybind);
+        DrawCheckBoxes(ref Tabs[tabIndex], 150.0f);
+
+        AddNewLine(1);
+        AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+        AddNewLine(-1);
+
+        if (Hooks.IsImprovedInputActive)
+        {
+            AddNewLine(6);
+
+            AddTextLabel("Improved Input Config is active!", bigText: true);
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddTextLabel("Edit keybinds through the normal input menu.");
+            DrawTextLabels(ref Tabs[tabIndex]);
+
+            AddNewLine(9);
+        }
+        else
+        {
+            AddNewLine(4);
+
+            AddAndDrawKeybinder(StoreKeybindKeyboard, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(StoreKeybindPlayer1, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(StoreKeybindPlayer2, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(StoreKeybindPlayer3, ref Tabs[tabIndex]);
+            AddNewLine(1);
+
+            AddAndDrawKeybinder(StoreKeybindPlayer4, ref Tabs[tabIndex]);
+        }
+
+        DrawBox(ref Tabs[tabIndex]);
     }
 
 
@@ -586,6 +606,11 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(DisableMinorEffects);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
+        AddNewLine(1);
+        AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
+        AddNewLine(-1);
+
+
         AddCheckBox(DisableAgility);
         AddCheckBox(DisableCamoflague);
         DrawCheckBoxes(ref Tabs[tabIndex]);
@@ -597,6 +622,10 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(DisableShield);
         AddCheckBox(DisableSpear);
         DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+        AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
+        AddNewLine(-1);
 
         AddDragger(VisibilityMultiplier);
         DrawDraggers(ref Tabs[tabIndex]);
@@ -715,6 +744,10 @@ public sealed class ModOptions : OptionsTemplate
         AddCheckBox(PearlpupRespawn);
         AddCheckBox(EnableBackSpear);
         DrawCheckBoxes(ref Tabs[tabIndex]);
+
+        AddNewLine(1);
+        AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
+        AddNewLine(-1);
 
         // lazy fix
         AddCheckBox(InventoryOverride);

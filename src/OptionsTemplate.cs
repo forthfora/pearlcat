@@ -402,14 +402,14 @@ public abstract class OptionsTemplate : OptionInterface
         DraggerTextLabels.Add(new OpLabel(new Vector2(), new Vector2(), text, FLabelAlignment.Left));
     }
 
-    protected void DrawDraggers(ref OpTab tab)
+    protected void DrawDraggers(ref OpTab tab, float offsetX = 0.0f)
     {
         if (DraggerConfigurables.Count != DraggerTextLabels.Count) return;
 
         float width = MarginX.y - MarginX.x;
         float elementWidth = (width - (DRAGGER_COUNT - 1) * 0.5f * SPACING) / DRAGGER_COUNT;
         Pos.y -= DRAGGER_SIZE;
-        float _posX = Pos.x;
+        float _posX = Pos.x + offsetX;
 
         for (int i = 0; i < DraggerConfigurables.Count; ++i)
         {
