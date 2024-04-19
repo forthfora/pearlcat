@@ -1,5 +1,5 @@
 ﻿|SIN TRADUCCIÓN
-START|COMENZAR
+START|START
 Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|Tu CORAZÓN te permitirá poseer a otros. Con él activo, mantén la visual con una criatura e intenta sacar la perla para poseerla
 pearlcat_0|pearlcat_0
 Pearls may also be deployed as temporary sentries. Press (|Pulsa (
@@ -252,7 +252,7 @@ ca471b|CA471B
 To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Para sacar perlas, ten una mano principal vacía y mantén (AGARRAR + ARRIBA)
 Pearlpup|La Cría de Perlina
 ...that pearl you carry, the purple one, where did you find it?|Esa perla que llevas, la morada, ¿de dónde la encontraste?
-Ah... you seem, familiar...? ...but in such a strange way...|Ah, pareces... familiar... pero de una manera tan extraña...
+Ah... you seem, familiar...? ...but in such a strange way...|Ah... pareces familiar... pero de una forma tan extraña...
 VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|ADVERTENCIA SOBRE LA VERSIÓN<LINE>¡La instalación de Mira requiere la versión 1.3.0 o superior del mod Perlina! Se le recomienda actualizar...
 GATE_UW_LC|GATE_UW_LC
 Oh, and for direction - there is a gate to the far west of here, where the ground fissures...|Oh, y para darte indicaciones: hay una puerta al extremo oeste de aquí, donde el suelo se agrieta...
@@ -328,7 +328,7 @@ mayhemmm|mayhemmm
 Left Bumper|Bumper izquierdo
 Your biology... it is both familiar and foreign to me. How curious.|Tu biología... es tan familiar como extraña para mí. Qué curioso.
 Ability P4|J4: Habil.
-...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|¡Tienes el don de la comunicación!, ¿acaso le hiciste una visita a mi vecino Cinco Guijarros?...
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|¡Tienes el don de la comunicación!, ¿acaso le hiciste una visita a mi vecino, Cinco Guijarros?...
 I assure you it will be a more than suitable replacement for your primitive needs.|Te aseguro que será un reemplazo más que adecuado para tus necesidades primitivas.
 T1|T1
 You. Again. I still remember what you did...|Tú... otra vez. Aún recuerdo lo que hiciste...
@@ -377,7 +377,7 @@ VANILLA SAVE STATE:\n|VANILLA SAVE STATE:\n
 pearlcat_hudcooldown|pearlcat_hudcooldown
 haloGlyph6|haloGlyph6
 Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|Ah, lo siento... está mal ser tan invasiva y, de todos modos, no debería ser tan sentimental.
-Alternatively, hold (|De otro modo, mantén (
+Alternatively, hold (|Como alternativa, mantén (
 Welcome back, <PlayerName>!|¡Bienvenida de vuelta, <PlayerName>!
 s|s
 Whichever path you take, I hope you find the help that you seek.|Sea cual sea el camino que elijas, espero que encuentres la ayuda que buscas.
@@ -411,7 +411,7 @@ CloudDistant|CloudDistant
 {nameof(SaveMiscProgression.StoredPearlColors)}:\n{string.Join(|{nameof(SaveMiscProgression.StoredPearlColors)}:\n{string.Join(
 {nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n|{nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n
 pearlcatFeetA0|pearlcatFeetA0
-acursed|bicho
+acursed|criatura
 Disable Cosmetics?|Desactivar cosméticos
 Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|Empezar al inicio de la trama de Mira...<LINE>¡El mundo será preservado y las perlas se trasladarán!
 pearl|pearl
@@ -465,7 +465,7 @@ pearlcatScar|pearlcatScar
 I have sent a request for the stationary cargo transports in my city to resume operation.|He enviado una solicitud para que los transportes inmóviles de carga en mi ciudad reanuden sus operaciones.
 Custom Agility Keybind?|Botón personalizado de agil.
  Pearlpup will be revived.| La Cría de Perlina será resucitada.
-My neighbour, Five Pebbles, is a little temperamental, but means well.|Mi vecino Cinco Guijarros es un poco temperamental, pero tiene buenas intenciones.
+My neighbour, Five Pebbles, is a little temperamental, but means well.|Mi vecino, Cinco Guijarros, es un poco temperamental, pero tiene buenas intenciones.
 To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl|Para dejar de poseer, intenta desplegar la perla como centinela o intenta sacarla
 {nameof(SaveState.cycleNumber)}: {saveState.cycleNumber}\n|{nameof(SaveState.cycleNumber)}: {saveState.cycleNumber}\n
 HoloGrid|HoloGrid
@@ -474,7 +474,7 @@ pearlcat_cloak|pearlcat_cloak
 I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|No puedo garantizar nada, estas locomotoras no han estado operativas desde que mi instalación fue puesta en aislamiento...
 Hello, again. You are very curious. Very curious indeed.|Hola... de nuevo. Eres muy curiosa. Ciertamente muy curiosa.
 pearlpup_tail|pearlpup_tail
-FIND MIRA...|FIND MIRA...
+FIND MIRA...|HALLAR A MIRA...
 RegionGate_Heater|RegionGate_Heater
 TurtleMan27|TurtleMan27
 Clearly an artifical creation. But from where? Sent by who?|Una creación artificial, evidentemente. Pero ¿de dónde?, ¿enviada por quién?
