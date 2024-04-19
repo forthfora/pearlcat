@@ -68,14 +68,26 @@ public partial class PlayerModule
 
         Random.state = randState;
 
-        foreach (var abstractObject in Inventory)
+        if (!ModOptions.HidePearls.Value)
         {
-            abstractObject.realizedObject?.SwapEffect(player.firstChunk.pos);
+            for (int i = 0; i < Inventory.Count; i++)
+            {
+                var abstractObject = Inventory[i];
+
+                if (i >= Hooks.MaxPearlsWithEffects) break;
+
+                abstractObject.realizedObject?.SwapEffect(player.firstChunk.pos);
+            }
         }
     }
 
     public ObjectAnimation GetObjectAnimation(Player player)
     {
+        if (ModOptions.HidePearls.Value)
+        {
+            return new BasicOrbitOA(player);
+        }
+
         List<ObjectAnimation> animationPool = new()
         {
             new BasicOrbitOA(player),

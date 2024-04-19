@@ -509,8 +509,17 @@ public static partial class Hooks
 
             if (playerModule.ShieldTimer % 3 == 0)
             {
-                foreach (var item in playerModule.Inventory)
+                for (int i = 0; i < playerModule.Inventory.Count; i++)
                 {
+                    var item = playerModule.Inventory[i];
+
+                    if (i >= MaxPearlsWithEffects) break;
+
+                    if (ModOptions.HidePearls.Value)
+                    {
+                        if (item != playerModule.ActiveObject) continue;
+                    }
+
                     var itemEffect = item.GetPOEffect();
 
                     if (!item.TryGetPOModule(out var module)) continue;
@@ -518,7 +527,9 @@ public static partial class Hooks
                     if (module.CooldownTimer != 0) continue;
 
                     if (itemEffect.MajorEffect == MajorEffectType.SHIELD && !item.TryGetSentry(out _))
+                    {
                         item.realizedObject.ConnectEffect(self.firstChunk.pos);
+                    }
                 }
             }
 

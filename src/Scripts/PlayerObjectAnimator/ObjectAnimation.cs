@@ -153,10 +153,16 @@ public abstract class ObjectAnimation
                 addon.SymbolColor = Color.white;
             }
 
+            if (ModOptions.HidePearls.Value && !addon.IsActiveObject)
+            {
+                addon.DrawSymbolCooldown = false;
+            }
+
+
             addon.Symbol = POGraphics.SpriteFromPearl(abstractObject);
             addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
 
-            addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject ? 1.0f : playerModule.CamoLerp;
+            addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject && !addon.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
 
             if ((!ModOptions.HidePearls.Value || addon.IsActiveObject) && effect.MajorEffect == POEffect.MajorEffectType.CAMOFLAGUE)
                 addon.CamoLerp = 0.0f;

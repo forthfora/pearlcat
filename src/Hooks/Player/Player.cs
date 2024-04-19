@@ -458,10 +458,20 @@ public static partial class Hooks
         }
         else if (playerModule.CurrentObjectAnimation is SleepOA or FreeFallOA)
         {
-            foreach (var abstractObject in playerModule.Inventory)
+            for (int i = 0; i < playerModule.Inventory.Count; i++)
             {
-                if (abstractObject.TryGetSentry(out _)) continue;
+                var abstractObject = playerModule.Inventory[i];
+
+                // just handle this before it gets out of hand
+                if (i >= MaxPearlsWithEffects) break;
                 
+                if (abstractObject.TryGetSentry(out _)) continue;
+
+                if (ModOptions.HidePearls.Value)
+                {
+                    if (playerModule.ActiveObject != abstractObject) continue;
+                }
+
                 abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
             }
 
@@ -669,12 +679,16 @@ public static partial class Hooks
 
             playerModule.PostDeathInventory.Add(abstractObject);
 
-            if (playerModule.ReviveCount <= 0)
-            {
-                var randVec = Custom.RNV() * 150.0f;
-                self.room?.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80);
 
-                DeathEffect(abstractObject.realizedObject);
+            if (!ModOptions.HidePearls.Value && i < MaxPearlsWithEffects)
+            {
+                if (playerModule.ReviveCount <= 0)
+                {
+                    var randVec = Custom.RNV() * 150.0f;
+
+                    self.room?.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80);
+                    DeathEffect(abstractObject.realizedObject);
+                }
             }
         }
     }

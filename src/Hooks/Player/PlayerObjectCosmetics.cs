@@ -6,6 +6,9 @@ namespace Pearlcat;
 
 public static partial class Hooks
 {
+    public static int MaxPearlsWithEffects => Utils.RainWorld.options.quality == Options.Quality.LOW ? 3 : 9;
+
+
     public static void RealizedEffect(this PhysicalObject? physicalObject)
     {
         if (physicalObject?.room == null) return;

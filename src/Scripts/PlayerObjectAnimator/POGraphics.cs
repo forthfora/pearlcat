@@ -138,7 +138,9 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
         var ParentSprite = sLeaser.sprites.FirstOrDefault();
 
         foreach (var sprite in sLeaser.sprites)
+        {
             sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, ModOptions.HidePearls.Value ? 0.0f : 0.1f);
+        }
 
         Pos = ParentSprite.GetPosition();
     }

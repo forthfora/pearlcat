@@ -37,7 +37,7 @@ public sealed class ModOptions : OptionsTemplate
 
 
 
-    // INVENTORY COSMETIC
+    // INVENTORY COSMETICS
     public static Configurable<bool> HidePearls { get; } = Instance.config.Bind(nameof(HidePearls), false, new ConfigurableInfo(
         "Hides the visuals of inactive pearls and turns you into... cat.", null, "",
         "Hide Pearls?"));
@@ -55,7 +55,7 @@ public sealed class ModOptions : OptionsTemplate
     // MISC GAMEPLAY
     public static Configurable<int> MaxPearlCount { get; } = Instance.config.Bind(nameof(MaxPearlCount), 9, new ConfigurableInfo(
         "Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.",
-        new ConfigAcceptableRange<int>(1, 100), "",
+        new ConfigAcceptableRange<int>(1, int.MaxValue), "",
         "Max Pearl Count"));
     
     public static Configurable<string> StartShelterOverride { get; } = Instance.config.Bind(nameof(StartShelterOverride), "", new ConfigurableInfo(
@@ -124,27 +124,27 @@ public sealed class ModOptions : OptionsTemplate
 
     public static Configurable<int> RevivePearlCount { get; } = Instance.config.Bind(nameof(RevivePearlCount), 1, new ConfigurableInfo(
         "Number of revive pearls (green). Effective only when Inventory Override? is checked.",
-        new ConfigAcceptableRange<int>(0, 100), "",
+        new ConfigAcceptableRange<int>(0, int.MaxValue), "",
         "Revive Pearl Count"));
 
     public static Configurable<int> AgilityPearlCount { get; } = Instance.config.Bind(nameof(AgilityPearlCount), 1, new ConfigurableInfo(
         "Number of agility pearls (blue). Effective only when Inventory Override? is checked.",
-        new ConfigAcceptableRange<int>(0, 100), "",
+        new ConfigAcceptableRange<int>(0, int.MaxValue), "",
         "Agility Pearl Count"));
 
     public static Configurable<int> RagePearlCount { get; } = Instance.config.Bind(nameof(RagePearlCount), 1, new ConfigurableInfo(
         "Number of rage pearls (red). Effective only when Inventory Override? is checked.",
-        new ConfigAcceptableRange<int>(0, 100), "",
+        new ConfigAcceptableRange<int>(0, int.MaxValue), "",
         "Rage Pearl Count"));
 
     public static Configurable<int> ShieldPearlCount { get; } = Instance.config.Bind(nameof(ShieldPearlCount), 1, new ConfigurableInfo(
         "Number of shield pearls (yellow). Effective only when Inventory Override? is checked.",
-        new ConfigAcceptableRange<int>(0, 100), "",
+        new ConfigAcceptableRange<int>(0, int.MaxValue), "",
         "Shield Pearl Count"));
 
     public static Configurable<int> CamoPearlCount { get; } = Instance.config.Bind(nameof(CamoPearlCount), 1, new ConfigurableInfo(
         "Number of camo pearls (black). Effective only when Inventory Override? is checked.",
-        new ConfigAcceptableRange<int>(0, 100), "",
+        new ConfigAcceptableRange<int>(0, int.MaxValue), "",
         "Camo Pearl Count"));
 
 

@@ -80,8 +80,10 @@ public static partial class Hooks
         if (self.inVoidSea) return;
 
 
-        foreach (var abstractObject in playerModule.Inventory)
+        for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
+            var abstractObject = playerModule.Inventory[i];
+            
             if (abstractObject == null) continue;
 
             if (abstractObject.realizedObject != null)
@@ -96,7 +98,14 @@ public static partial class Hooks
             abstractObject.RealizeInRoom();
 
             abstractObject.MarkAsPlayerObject();
-            abstractObject.realizedObject?.RealizedEffect();
+
+            if (i < MaxPearlsWithEffects)
+            {
+                if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
+                {
+                    abstractObject.realizedObject?.RealizedEffect();
+                }
+            }
         }
     }
 
@@ -105,16 +114,27 @@ public static partial class Hooks
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
 
-        foreach (var abstractObject in playerModule.Inventory)
+        for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
+            var abstractObject = playerModule.Inventory[i];
+            
             if (abstractObject.realizedObject == null) continue;
 
             if (abstractObject.TryGetSentry(out _) && excludeSentries) continue;
 
             if (abstractObject.TryGetPOModule(out var module))
+            {
                 module.RemoveSentry(abstractObject);
+            }
 
-            AbstractedEffect(abstractObject.realizedObject);
+            if (i < MaxPearlsWithEffects)
+            {
+                if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
+                {
+                    AbstractedEffect(abstractObject.realizedObject);
+                }
+            }
+            
             abstractObject.Abstractize(abstractObject.pos);
         }
     }

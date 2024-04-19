@@ -14,9 +14,12 @@ public class FreeFallOA : ObjectAnimation
 
         for (int i = 0; i < playerModule.Inventory.Count; i++)
         {
-            AbstractPhysicalObject abstractObject = playerModule.Inventory[i];
+            var abstractObject = playerModule.Inventory[i];
 
+            if (ModOptions.HidePearls.Value && abstractObject != playerModule.ActiveObject) continue;
+            
             if (abstractObject.realizedObject == null) continue;
+            
             var realizedObject = abstractObject.realizedObject;
 
             if (!realizedObject.abstractPhysicalObject.TryGetPOModule(out var playerObjectModule)) continue;
