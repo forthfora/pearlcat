@@ -125,7 +125,7 @@ public abstract class OptionsTemplate : OptionInterface
         CheckBoxesTextLabels.Add(new(new(), new(), text, FLabelAlignment.Left));
     }
 
-    protected void DrawCheckBoxes(ref OpTab tab) // changes pos.y but not pos.x
+    protected void DrawCheckBoxes(ref OpTab tab, float offsetX = 0.0f) // changes pos.y but not pos.x
     {
         if (CheckBoxConfigurables.Count != CheckBoxesTextLabels.Count) return;
 
@@ -134,7 +134,7 @@ public abstract class OptionsTemplate : OptionInterface
 
         Pos.y -= CHECKBOX_SIZE;
 
-        var _posX = Pos.x;
+        var _posX = Pos.x + offsetX;
 
         for (int checkBoxIndex = 0; checkBoxIndex < CheckBoxConfigurables.Count; ++checkBoxIndex)
         {

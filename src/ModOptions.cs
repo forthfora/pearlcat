@@ -12,30 +12,20 @@ public sealed class ModOptions : OptionsTemplate
     public static void RegisterOI()
     {
         if (MachineConnector.GetRegisteredOI(Plugin.MOD_ID) != Instance)
+        {
             MachineConnector.SetRegisteredOI(Plugin.MOD_ID, Instance);
+        }
     }
 
 
-    public static readonly Color WarnRed = new(0.85f, 0.35f, 0.4f);
-
-    #region Options
-
-    public static Configurable<bool> PearlThreatMusic { get; } = Instance.config.Bind(nameof(PearlThreatMusic), false, new ConfigurableInfo(
-        "When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.", null, "",
-        "Pearl Threat Music?"));
-
-    public static Configurable<bool> EnableBackSpear { get; } = Instance.config.Bind(nameof(EnableBackSpear), false, new ConfigurableInfo(
-        "When checked, enables Pearlcat to carry a backspear.", null, "",
-        "Enable Backspear?"));
+    public static Color WarnRed { get; } = new(0.85f, 0.35f, 0.4f);
 
 
-    public static Configurable<bool> CompactInventoryHUD { get; } = Instance.config.Bind(nameof(CompactInventoryHUD), false, new ConfigurableInfo(
-        "When checked, the inventory HUD will be replaced with a more compact version.", null, "",
-        "Compact Inventory HUD?"));
 
-    public static Configurable<bool> InventoryPings { get; } = Instance.config.Bind(nameof(InventoryPings), false, new ConfigurableInfo(
-        "When checked, some abilties will show the inventory when recharged or depleted.", null, "",
-        "Inventory Pings?"));
+    // OPTIONS
+    public static Configurable<bool> PearlpupRespawn { get; } = Instance.config.Bind(nameof(PearlpupRespawn), false, new ConfigurableInfo(
+        "When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.", null, "",
+        "Pearlpup Respawn?"));
 
     public static Configurable<bool> DisableCosmetics { get; } = Instance.config.Bind(nameof(DisableCosmetics), false, new ConfigurableInfo(
         "When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.", null, "",
@@ -45,21 +35,48 @@ public sealed class ModOptions : OptionsTemplate
         "When checked, all tutorials will be disabled.", null, "",
         "Disable Tutorials?"));
 
-    public static Configurable<bool> PearlpupRespawn { get; } = Instance.config.Bind(nameof(PearlpupRespawn), false, new ConfigurableInfo(
-        "When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.", null, "",
-        "Pearlpup Respawn?"));
 
+
+    // INVENTORY COSMETIC
+    public static Configurable<bool> HidePearls { get; } = Instance.config.Bind(nameof(HidePearls), false, new ConfigurableInfo(
+        "Hides the visuals of inactive pearls and turns you into... cat.", null, "",
+        "Hide Pearls?"));
+    
+    public static Configurable<bool> InventoryPings { get; } = Instance.config.Bind(nameof(InventoryPings), false, new ConfigurableInfo(
+        "When checked, some abilties will show the inventory when recharged or depleted.", null, "",
+        "Inventory Pings?"));
+
+    public static Configurable<bool> CompactInventoryHUD { get; } = Instance.config.Bind(nameof(CompactInventoryHUD), false, new ConfigurableInfo(
+        "When checked, the inventory HUD will be replaced with a more compact version.", null, "",
+        "Compact Inventory HUD?"));
+
+
+
+    // MISC GAMEPLAY
     public static Configurable<int> MaxPearlCount { get; } = Instance.config.Bind(nameof(MaxPearlCount), 9, new ConfigurableInfo(
         "Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.",
         new ConfigAcceptableRange<int>(1, 100), "",
         "Max Pearl Count"));
     
+    public static Configurable<string> StartShelterOverride { get; } = Instance.config.Bind(nameof(StartShelterOverride), "", new ConfigurableInfo(
+        "Input a shelter name to have it override where Pearlcat starts a new game.", null, "", "Start Shelter Override"));
+
     public static Configurable<int> VisibilityMultiplier { get; } = Instance.config.Bind(nameof(VisibilityMultiplier), 100, new ConfigurableInfo(
         "Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.",
         new ConfigAcceptableRange<int>(0, 300), "",
         "Visibility Multiplier"));
+    
+    public static Configurable<bool> EnableBackSpear { get; } = Instance.config.Bind(nameof(EnableBackSpear), false, new ConfigurableInfo(
+        "When checked, enables Pearlcat to carry a backspear.", null, "",
+        "Enable Backspear?"));
+
+    public static Configurable<bool> PearlThreatMusic { get; } = Instance.config.Bind(nameof(PearlThreatMusic), false, new ConfigurableInfo(
+        "When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.", null, "",
+        "Pearl Threat Music?"));
 
 
+
+    // DISABLE ABILITIES
     public static Configurable<bool> DisableMinorEffects { get; } = Instance.config.Bind(nameof(DisableMinorEffects), false, new ConfigurableInfo(
         "When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.", null, "",
         "Disable Minor Effects?"));
@@ -90,6 +107,7 @@ public sealed class ModOptions : OptionsTemplate
 
 
 
+    // INVENTORY OVERRIDE
     public static Configurable<bool> InventoryOverride { get; } = Instance.config.Bind(nameof(InventoryOverride), false, new ConfigurableInfo(
         "When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.", null, "",
         "Inventory Override?"));
@@ -130,16 +148,8 @@ public sealed class ModOptions : OptionsTemplate
         "Camo Pearl Count"));
 
 
-    public static Configurable<string> StartShelterOverride { get; } = Instance.config.Bind(nameof(StartShelterOverride), "", new ConfigurableInfo(
-        "Input a shelter name to have it override where Pearlcat starts a new game.", null, "", "Start Shelter Override"));
 
-
-
-    public static Configurable<bool> HidePearls { get; } = Instance.config.Bind(nameof(HidePearls), false, new ConfigurableInfo(
-        "Hides the visuals of inactive pearls and turns you into... cat.", null, "",
-        "Hide Pearls?"));
-
-
+    // ABILITY CONFIG
     public static Configurable<int> ShieldRechargeTime { get; } = Instance.config.Bind(nameof(ShieldRechargeTime), 1600, new ConfigurableInfo(
         "Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.",
         new ConfigAcceptableRange<int>(40, 3200), "",
@@ -149,6 +159,8 @@ public sealed class ModOptions : OptionsTemplate
         "Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.",
         new ConfigAcceptableRange<int>(5, 300), "",
         "Shield Duration"));
+
+
 
     public static Configurable<float> LaserDamage { get; } = Instance.config.Bind(nameof(LaserDamage), 0.2f, new ConfigurableInfo(
         "Damage each red pearl's laser does per shot. Survivor spear damage = 1.0",
@@ -165,24 +177,26 @@ public sealed class ModOptions : OptionsTemplate
         new ConfigAcceptableRange<int>(5, 300), "",
         "Laser Recharge Time (OLD)"));
 
+
     public static Configurable<bool> OldRedPearlAbility { get; } = Instance.config.Bind(nameof(OldRedPearlAbility), false, new ConfigurableInfo(
         "Reverts to the old red pearl mechanics - auto targeting lasers.", null, "",
         "Old Red Pearl Ability?"));
 
+
+
+    // KEYBIND OPTIONS
     public static Configurable<bool> DisableImprovedInputConfig { get; } = Instance.config.Bind(nameof(DisableImprovedInputConfig), false, new ConfigurableInfo(
         "When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.", null, "",
         "Disable Improved Input Config?"));
 
-    #endregion
 
-    #region Keybind Options
 
+    // SWAP
     public static Configurable<KeyCode> SwapLeftKeybind { get; } = Instance.config.Bind(nameof(SwapLeftKeybind), KeyCode.A, new ConfigurableInfo(
         "Keybind to swap to the stored pearl to the left. Limited to Player 1.", null, "", "Swap Left"));
 
     public static Configurable<KeyCode> SwapRightKeybind { get; } = Instance.config.Bind(nameof(SwapRightKeybind), KeyCode.D, new ConfigurableInfo(
         "Keybind to swap to the stored pearl to the right. Limited to Player 1.", null, "", "Swap Right"));
-
 
 
     public static Configurable<KeyCode> SwapKeybindKeyboard { get; } = Instance.config.Bind(nameof(SwapKeybindKeyboard), KeyCode.LeftAlt, new ConfigurableInfo(
@@ -200,22 +214,15 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<KeyCode> SwapKeybindPlayer4 { get; } = Instance.config.Bind(nameof(SwapKeybindPlayer4), KeyCode.Joystick4Button3, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Player 4"));
 
+    
     public static Configurable<int> SwapTriggerPlayer { get; } = Instance.config.Bind(nameof(SwapTriggerPlayer), 1, new ConfigurableInfo(
         "Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.",
         new ConfigAcceptableRange<int>(0, 4), "",
         "Trigger Player"));
 
 
-    public static Configurable<bool> CustomSpearKeybind { get; } = Instance.config.Bind(nameof(CustomSpearKeybind), false, new ConfigurableInfo(
-        "Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)",
-        null, "", "Custom Spear Keybind?"));
 
-    public static Configurable<bool> CustomAgilityKeybind { get; } = Instance.config.Bind(nameof(CustomAgilityKeybind), false, new ConfigurableInfo(
-        "Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)",
-        null, "", "Custom Agility Keybind?"));
-
-
-
+    // ABILITY
     public static Configurable<KeyCode> AbilityKeybindKeyboard { get; } = Instance.config.Bind(nameof(AbilityKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Ability KB"));
 
@@ -232,11 +239,17 @@ public sealed class ModOptions : OptionsTemplate
         "Keybind for Player 4.", null, "", "Ability P4"));
 
 
+    public static Configurable<bool> CustomSpearKeybind { get; } = Instance.config.Bind(nameof(CustomSpearKeybind), false, new ConfigurableInfo(
+        "Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)",
+        null, "", "Custom Spear Keybind?"));
 
-    public static Configurable<bool> UsesCustomStoreKeybind { get; } = Instance.config.Bind(nameof(UsesCustomStoreKeybind), false, new ConfigurableInfo(
-        "Enables custom keybinds below, as opposed to the default (UP + PICKUP).",
-        null, "", "Custom Keybind?"));
+    public static Configurable<bool> CustomAgilityKeybind { get; } = Instance.config.Bind(nameof(CustomAgilityKeybind), false, new ConfigurableInfo(
+        "Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)",
+        null, "", "Custom Agility Keybind?"));
 
+
+
+    // STORE
     public static Configurable<KeyCode> StoreKeybindKeyboard { get; } = Instance.config.Bind(nameof(StoreKeybindKeyboard), KeyCode.LeftControl, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Keyboard"));
 
@@ -253,10 +266,13 @@ public sealed class ModOptions : OptionsTemplate
         "Keybind for Player 4.", null, "", "Player 4"));
 
 
-    public static Configurable<bool> CustomSentryKeybind { get; } = Instance.config.Bind(nameof(CustomSentryKeybind), true, new ConfigurableInfo(
-        "Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)",
-        null, "", "Custom Sentry Keybind?"));
+    public static Configurable<bool> UsesCustomStoreKeybind { get; } = Instance.config.Bind(nameof(UsesCustomStoreKeybind), false, new ConfigurableInfo(
+        "Enables custom keybinds below, as opposed to the default (UP + PICKUP).",
+        null, "", "Custom Keybind?"));
 
+
+
+    // SENTRY
     public static Configurable<KeyCode> SentryKeybindKeyboard { get; } = Instance.config.Bind(nameof(SentryKeybindKeyboard), KeyCode.C, new ConfigurableInfo(
         "Keybind for Keyboard.", null, "", "Sentry KB"));
 
@@ -272,9 +288,14 @@ public sealed class ModOptions : OptionsTemplate
     public static Configurable<KeyCode> SentryKeybindPlayer4 { get; } = Instance.config.Bind(nameof(SentryKeybindPlayer4), KeyCode.Joystick4Button4, new ConfigurableInfo(
         "Keybind for Player 4.", null, "", "Sentry P4"));
 
-    #endregion
+
+    public static Configurable<bool> CustomSentryKeybind { get; } = Instance.config.Bind(nameof(CustomSentryKeybind), true, new ConfigurableInfo(
+        "Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)",
+        null, "", "Custom Sentry Keybind?"));
 
 
+
+    // MENU
     public const int TAB_COUNT = 7;
 
     public override void Initialize()
@@ -294,7 +315,6 @@ public sealed class ModOptions : OptionsTemplate
         InitCheats(ref tabIndex);
         InitExtraCheats(ref tabIndex);
     }
-
 
 
     private void InitGeneral(ref int tabIndex)
@@ -564,7 +584,6 @@ public sealed class ModOptions : OptionsTemplate
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableMinorEffects);
-        AddCheckBox(OldRedPearlAbility);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
         AddCheckBox(DisableAgility);
@@ -581,6 +600,11 @@ public sealed class ModOptions : OptionsTemplate
 
         AddDragger(VisibilityMultiplier);
         DrawDraggers(ref Tabs[tabIndex]);
+
+        AddNewLine(-3);
+
+        AddCheckBox(OldRedPearlAbility);
+        DrawCheckBoxes(ref Tabs[tabIndex], 235.0f);
 
         AddNewLine(1);
         DrawBox(ref Tabs[tabIndex]);
