@@ -153,7 +153,7 @@ public class T1_START : UpdatableAndDeletable
                 {
                     var t = Utils.Translator;
 
-                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + Hooks.GetSwapLeftKeybindDisplayName(false) + ") & (" + Hooks.GetSwapRightKeybindDisplayName(false) + t.Translate("), or the triggers on controller"), 0, 600);
+                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + Hooks.GetSwapLeftKeybindDisplayName(false) + t.Translate(") & (") + Hooks.GetSwapRightKeybindDisplayName(false) + t.Translate("), or the triggers on controller"), 0, 600);
 
                     game.AddTextPrompt(
                         t.Translate("Alternatively, hold (") + Hooks.GetSwapKeybindDisplayName(false) + t.Translate(") or (") + Hooks.GetSwapKeybindDisplayName(true) + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
