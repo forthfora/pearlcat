@@ -394,29 +394,6 @@ public static partial class Hooks
         }
     }
 
-    private static void DartMaggot_ShotUpdate(On.DartMaggot.orig_ShotUpdate orig, DartMaggot self)
-    {
-        orig(self);
-
-        foreach (var crit in self.room.world.game.Players)
-        {
-            if (crit.realizedCreature is not Player player) continue;
-
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
-
-            if (!playerModule.ShieldActive) continue;
-
-            if (!Custom.DistLess(player.firstChunk.pos, self.firstChunk.pos, 50.0f)) continue;
-
-            self.mode = DartMaggot.Mode.Free;
-
-            self.firstChunk.vel = Vector2.zero;
-
-            self.room.DeflectEffect(self.firstChunk.pos);
-            playerModule.ActivateVisualShield();
-        }
-    }
-
 
     // King Vulture
     private static void Tusk_ShootUpdate(On.KingTusks.Tusk.orig_ShootUpdate orig, KingTusks.Tusk self, float speed)

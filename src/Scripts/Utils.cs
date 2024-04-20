@@ -72,6 +72,8 @@ public static class Utils
         self.airInLungs = 1.0f;
         self.aerobicLevel = 0.0f;
 
+        self.bodyMode = Player.BodyModeIndex.Default;
+
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
         playerModule.PickObjectAnimation(self);

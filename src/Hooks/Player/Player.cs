@@ -680,7 +680,7 @@ public static partial class Hooks
             playerModule.PostDeathInventory.Add(abstractObject);
 
 
-            if (!ModOptions.HidePearls.Value && i < MaxPearlsWithEffects)
+            if (i < MaxPearlsWithEffects)
             {
                 if (playerModule.ReviveCount <= 0)
                 {
@@ -839,10 +839,10 @@ public static partial class Hooks
     private static void Creature_Violence(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
     {
         // sin number 2
-        if (self is Player player && player.TryGetPearlcatModule(out var playerModule) && source != null)
+        if (self is Player player && player.TryGetPearlcatModule(out var playerModule))
         {
             bool shouldShield = playerModule.ShieldActive;
-            var attacker = source.owner;
+            var attacker = source?.owner;
 
             if (attacker is JetFish)
                 shouldShield = false;

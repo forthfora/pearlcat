@@ -550,7 +550,7 @@ public static partial class Hooks
         if (self.room == null) return;
 
         var roomObjects = self.room.updateList;
-        bool didDeflect = false;
+        bool shouldActivate = false;
 
         if (ModOptions.DisableShield.Value || self.inVoidSea)
         {
@@ -593,36 +593,39 @@ public static partial class Hooks
                         weapon.firstChunk.vel *= -0.2f;
 
                         weapon.room.DeflectEffect(weapon.firstChunk.pos);
-                        didDeflect = true;
+                        shouldActivate = true;
                     }
                 }
                 else if (obj is LizardSpit spit)
                 {
-                    if (Custom.DistLess(spit.pos, self.firstChunk.pos, 75.0f))
+                    if (playerModule.ShieldTimer > 0 && Custom.DistLess(spit.pos, self.firstChunk.pos, 75.0f))
                     {
                         spit.vel = Vector2.zero;
 
                         if (playerModule.ShieldTimer <= 0)
+                        {
                             spit.room.DeflectEffect(spit.pos);
-
-                        didDeflect = true;
+                        }
                     }
                 }
                 else if (obj is DartMaggot dart)
                 {
-                    if (Custom.DistLess(dart.firstChunk.pos, self.firstChunk.pos, 75.0f))
+                    if (dart.mode != DartMaggot.Mode.Free)
                     {
-                        dart.mode = DartMaggot.Mode.Free;
-                        dart.firstChunk.vel = Vector2.zero;
+                        if (Custom.DistLess(dart.firstChunk.pos, self.firstChunk.pos, 75.0f))
+                        {
+                            dart.mode = DartMaggot.Mode.Free;
+                            dart.firstChunk.vel = Vector2.zero;
 
-                        dart.room.DeflectEffect(dart.firstChunk.pos);
-                        didDeflect = true;
+                            dart.room.DeflectEffect(dart.firstChunk.pos);
+                            shouldActivate = true;
+                        }
                     }
                 }
             }
         }
 
-        if (didDeflect)
+        if (shouldActivate)
         {
             playerModule.ActivateVisualShield();
         }

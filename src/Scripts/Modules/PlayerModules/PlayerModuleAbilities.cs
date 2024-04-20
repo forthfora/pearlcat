@@ -125,19 +125,22 @@ public partial class PlayerModule
 
         var obj = SetShieldCooldown(ModOptions.ShieldRechargeTime.Value);
 
-        if (obj?.TryGetPOModule(out var module) == true)
-            module.InventoryFlash = true;
-        
         ShieldTimer = ModOptions.ShieldDuration.Value;
+        ShieldTimer *= (int)(ActiveObject?.GetPOEffect().MajorEffect == MajorEffectType.SHIELD ? 2.0f : 1.0f);
 
-        if (PlayerRef.TryGetTarget(out var player) && player.TryGetPearlcatModule(out var playerModule))
+        if (PlayerRef.TryGetTarget(out var player))
         {
             player.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, player.firstChunk);
-
-            ShieldTimer *= (int)(playerModule.ActiveObject?.GetPOEffect().MajorEffect == MajorEffectType.SHIELD ? 2.0f : 1.0f);
+        }
+        
+        if (obj?.TryGetPOModule(out var module) == true)
+        {
+            module.InventoryFlash = true;
         }
 
         if (ModOptions.InventoryPings.Value)
+        {
             ShowHUD(60);
+        }
     }
 }
