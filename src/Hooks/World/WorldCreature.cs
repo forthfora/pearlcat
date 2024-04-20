@@ -58,7 +58,7 @@ public static partial class Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("WorldCreature IL Error: \n" + e);
+            Plugin.Logger.LogError("WorldCreature IL Error: \n" + e + "\n" + e.StackTrace);
         }
     }
 

@@ -1092,10 +1092,11 @@ public static partial class Hooks
         var dest = il.DefineLabel();
 
         c.GotoNext(MoveType.After,
-            x => x.MatchLdstr("s"),
+            x => x.MatchLdstr("s"));
+
+        c.GotoNext(MoveType.After,
             x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey)),
-            x => x.MatchBrtrue(out dest)
-        );
+            x => x.MatchBrtrue(out dest));
 
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((self) =>

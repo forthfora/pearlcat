@@ -462,9 +462,9 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                 }
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Plugin.Logger.LogWarning("HANDLED: Shield Sentry Sound Exception:\n" + ex);
+            Plugin.Logger.LogWarning("HANDLED: Shield Sentry Sound Exception:\n" + e + "\n" + e.StackTrace);
         }
     }
 
