@@ -50,9 +50,16 @@ public static partial class Hooks
         On.Menu.SlugcatSelectMenu.UpdateStartButtonText += SlugcatSelectMenu_UpdateStartButtonText;
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
 
-        IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
-
         On.Menu.InputOptionsMenu.ctor += InputOptionsMenu_ctor;
+
+        try
+        {
+            IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("Menu IL Error: " + e + "\n" + e.StackTrace);
+        }
     }
 
 

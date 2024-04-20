@@ -75,18 +75,15 @@ public partial class Hooks
 
         On.VultureMask.DrawSprites += VultureMask_DrawSprites;
 
-        IL.AbstractRoom.RealizeRoom += AbstractRoom_RealizeRoom;
 
         On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.Update += OE_GourmandEnding_Update;
 
-        IL.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
 
         On.DaddyTentacle.Update += DaddyTentacle_Update;
         On.DaddyLongLegs.Update += DaddyLongLegs_Update;
 
         On.ScavengerAI.CollectScore_PhysicalObject_bool += ScavengerAI_CollectScore_PhysicalObject_bool1;
 
-        IL.BigEel.JawsSnap += BigEel_JawsSnap;
 
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
@@ -94,12 +91,22 @@ public partial class Hooks
 
         On.PlacedObject.FilterData.FromString += FilterData_FromString;
 
-        IL.Region.GetFullRegionOrder += Region_GetFullRegionOrder;
-
         On.DreamsState.StaticEndOfCycleProgress += DreamsState_StaticEndOfCycleProgress;
         On.RainWorldGame.ctor += RainWorldGame_ctor;
 
         On.AboveCloudsView.ctor += AboveCloudsView_ctor;
+        
+        try
+        {
+            IL.AbstractRoom.RealizeRoom += AbstractRoom_RealizeRoom;
+            IL.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
+            IL.BigEel.JawsSnap += BigEel_JawsSnap;
+            IL.Region.GetFullRegionOrder += Region_GetFullRegionOrder;
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("World IL Hook Error:\n" + e + "\n" + e.StackTrace);
+        }
     }
 
 

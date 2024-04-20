@@ -91,7 +91,7 @@ public static partial class Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("OnModsInit:\n" + e.Message);
+            Plugin.Logger.LogError("OnModsInit:\n" + e.Message + "\n" + e.StackTrace);
         }
         finally
         {
@@ -107,7 +107,7 @@ public static partial class Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("PostModsInit:\n" + e.Message);
+            Plugin.Logger.LogError("PostModsInit:\n" + e.Message + "\n" + e.StackTrace);
         }
         finally
         {

@@ -8,7 +8,14 @@ public static partial class Hooks
 {
     public static void ApplySlideShowHooks()
     {
-        IL.RainWorldGame.GoToRedsGameOver += RainWorldGame_GoToRedsGameOver;
+        try
+        {
+            IL.RainWorldGame.GoToRedsGameOver += RainWorldGame_GoToRedsGameOver;
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("Slide Show Hooks IL Error: " + e + "\n" + e.StackTrace);
+        }
     }
 
     private static void RainWorldGame_GoToRedsGameOver(ILContext il)

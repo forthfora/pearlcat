@@ -12,10 +12,11 @@ public partial class Hooks
     {
         On.Menu.PauseMenu.Singal += PauseMenu_Singal;
 
-        IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
         On.DevInterface.TriggersPage.ctor += TriggersPage_ctor;
 
         Application.quitting += Application_quitting;
+
+        IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
     }
 
 
