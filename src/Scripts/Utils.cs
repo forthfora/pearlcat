@@ -73,6 +73,7 @@ public static class Utils
         self.aerobicLevel = 0.0f;
 
         self.bodyMode = Player.BodyModeIndex.Default;
+        self.animation = Player.AnimationIndex.None;
 
         if (!self.TryGetPearlcatModule(out var playerModule)) return;
 
