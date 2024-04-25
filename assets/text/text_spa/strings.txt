@@ -54,7 +54,7 @@ Hello! Strange scholar, it is good to see you!|¡Hola! ¡Qué bueno volver a ver
 It would be pointless to ask why...|Sería inútil preguntar el porqué...
 pearlcat_spear|pearlcat_spear
 Disable Spear Effect?|Desactivar efecto de lanza
-Revive Pearl Count|Total de perlas de resurr.
+Revive Pearl Count|Total de perlas de resurrección
 I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|Vi que el aumento te mantenía con vida tan pronto como regresaste aquí. No digo esto a la ligera, pero no entiendo cómo funciona.
 Pebbles_AS_PearlRed|Pebbles_AS_PearlRed
 Midground|Midground
@@ -239,7 +239,6 @@ PEARLCAT LOG DEBUG INFO ERROR: \n|PEARLCAT LOG DEBUG INFO ERROR: \n
 pearlactivehalo|pearlactivehalo
 Press (JUMP + GRAB) while in the air to perform a double jump|Pulsa (SALTAR + AGARRAR) mientras estás en el aire para realizar un doble salto
 I... I have nothing more to say...|No... No tengo nada más que decir...
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|Si por casualidad te sobra el tiempo, estaría más que contenta de leer esas perlas...<LINE>No hay mucho que hacer como para pasar el tiempo.
 YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|AMARILLO simboliza protección. Cada perla amarilla almacenada proporciona una carga de escudo
 Oh, hello! Hello...|Oh, ¡hola! Hola...
 And a third? So it is...|¿La tercera? Así es...
@@ -253,7 +252,7 @@ To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Para sacar per
 Pearlpup|La Cría de Perlina
 ...that pearl you carry, the purple one, where did you find it?|Esa perla que llevas, la morada, ¿de dónde la encontraste?
 Ah... you seem, familiar...? ...but in such a strange way...|Ah... pareces familiar... pero de una forma tan extraña...
-VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|ADVERTENCIA SOBRE LA VERSIÓN<LINE>¡La instalación de Mira requiere la versión 1.3.0 o superior del mod Perlina! Se le recomienda actualizar...
+VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|ADVERTENCIA SOBRE LA VERSIÓN<LINE>¡La instalación de Mira requiere la versión 1.3.0 o superior de Perlina! Por favor, actualiza...
 GATE_UW_LC|GATE_UW_LC
 Oh, and for direction - there is a gate to the far west of here, where the ground fissures...|Oh, y para darte indicaciones: hay una puerta al extremo oeste de aquí, donde el suelo se agrieta...
 Ah, I hope you both stay safe out there...|Ah, espero que los dos tengan cuidado ahí fuera...
@@ -273,7 +272,7 @@ pupheartcore|pupheartcore
 Legs|Legs
 pearlcat_hudpearl|pearlcat_hudpearl
 You are... so familiar...|Eres tan... familiar...
-Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|¡La instalación de Mira requiere la versión 1.3.0 o superior del mod Perlina! Se le recomienda actualizar...
+Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|¡La instalación de Mira requiere la versión 1.3.0 o superior de Perlina! Por favor, actualiza...
 pearlcat_hudlockedshortcut|pearlcat_hudlockedshortcut
 {nameof(SaveMiscProgression.HasPearlpup)}: {pearlcatMiscProg.HasPearlpup}\n|{nameof(SaveMiscProgression.HasPearlpup)}: {pearlcatMiscProg.HasPearlpup}\n
 My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|Mis supervisores no han hecho las paces con tu llegada, creía que el sistema de transporte público estaba prácticamente inoperable.
@@ -296,7 +295,7 @@ BigGlyph11|BigGlyph11
 _|_
 Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|A qué jugador se le aplicará la acción de cambiar con los gatillos del control. 0 la desactiva. Mantén y arrastra hacia arriba o abajo para cambiar.
 ...I am not sure if this is comforting, but...|No estoy segura de si sirva como consuelo, pero...
-I do enjoy the company of you and your friend though, strange schoar.|Aunque disfruto tu compañía y la de tu amigo, extraño erudito.
+I do enjoy the company of you and your friend though, strange scholar.|Aunque disfruto tu compañía y la de tu amigo, extraño erudito.
 pearlcat_glyphsentry|pearlcat_glyphsentry
 To cycle between pearls, use (|Para cambiar de perla, utiliza (
 PEARLCAT MISC WORLD:\n|PEARLCAT MISC WORLD:\n
@@ -463,7 +462,7 @@ Body|Body
 HANDLED: Shield Sentry Sound Exception:\n|HANDLED: Shield Sentry Sound Exception:\n
 pearlcatScar|pearlcatScar
 I have sent a request for the stationary cargo transports in my city to resume operation.|He enviado una solicitud para que los transportes inmóviles de carga en mi ciudad reanuden sus operaciones.
-Custom Agility Keybind?|Botón personalizado de agil.
+Custom Agility Keybind?|Botón person. de agilidad
  Pearlpup will be revived.| La Cría de Perlina será resucitada.
 My neighbour, Five Pebbles, is a little temperamental, but means well.|Mi vecino, Cinco Guijarros, es un poco temperamental, pero tiene buenas intenciones.
 To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl|Para dejar de poseer, intenta desplegar la perla como centinela o intenta sacarla
@@ -550,7 +549,7 @@ Pearl spears will attempt to return to you being thrown, if they are not stuck|S
 The company of you and your friend makes my day, strange scholar.|Tu compañía y la de tu amigo me alegran el día, extraño erudito.
 pearlcat_8|pearl_8
 Face|Face
-Custom Sentry Keybind?|Botón personalizado de centin.
+Custom Sentry Keybind?|Botón person. de centinela
 I must resume my work. I will be waiting here, as always.|Debo continuar mi trabajo. Te estaré esperando aquí, como siempre.
 JaggedSquare|JaggedSquare
 HoldButtonCircle|HoldButtonCircle

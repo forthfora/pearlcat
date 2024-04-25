@@ -238,7 +238,6 @@ PEARLCAT LOG DEBUG INFO ERROR: \n|PEARLCAT LOG DEBUG INFO ERROR: \n
 pearlactivehalo|pearlactivehalo
 Press (JUMP + GRAB) while in the air to perform a double jump|按下（跳跃 + 抓取）以在空中进行二段跳
 I... I have nothing more to say...|我……我无话可说……
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|如如果你碰巧有空，我会非常乐意读取那些珍珠……<LINE>没有其他事情可以来打发时间了。
 YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|黄色象征保护。每颗存储的黄色珍珠都会提供一点护盾充能。
 Oh, hello! Hello...|哦，你好！你好……
 And a third? So it is...|还有第三个？所以它是……
@@ -295,7 +294,7 @@ BigGlyph11|BigGlyph11
 _|_
 Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|决定将应用哪个玩家的扳机交换。0以禁用扳机交换。按住并向上或向下拖动以更改数值。
 ...I am not sure if this is comforting, but...|……我不确定这是否能够起到安慰作用，但……
-I do enjoy the company of you and your friend though, strange schoar.|我确实很喜欢你和你朋友的陪伴，奇怪的学者。
+I do enjoy the company of you and your friend though, strange scholar.|我确实很喜欢你和你朋友的陪伴，奇怪的学者。
 pearlcat_glyphsentry|Pearlcat_glyphsentry
 To cycle between pearls, use (|要在珍珠之间循环，使用（
 PEARLCAT MISC WORLD:\n|PEARLCAT MISC WORLD:

@@ -238,7 +238,6 @@ PEARLCAT LOG DEBUG INFO ERROR: \n|펄 캣 로그 디버그 정보 오류 : \ n
 pearlactivehalo|펄액티브할로
 Press (JUMP + GRAB) while in the air to perform a double jump|공중에서 (JUMP + GRAB)을 누르면 2단 점프를 합니다.
 I... I have nothing more to say...|나는 ... 더 이상 할 말이 없다 ...
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|시간이 있으시다면 기꺼이 그 진주를 읽어 드리겠습니다...<LINE>시간을 보내기 위해 할 일이 많지 않습니다.
 YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|노란색은 보호를 상징합니다. 저장된 각 노란색 진주는 보호막 충전을 제공합니다.
 Oh, hello! Hello...|오 안녕하세요!안녕하세요...
 And a third? So it is...|그리고 세 번째? 그래서...
@@ -295,7 +294,7 @@ BigGlyph11|빅글리프11
 _|_
 Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|어떤 플레이어 컨트롤러 트리거 스와핑이 적용될지. 0은 트리거 스와핑을 비활성화합니다. 누른 상태에서 위 또는 아래로 드래그하여 변경합니다.
 ...I am not sure if this is comforting, but...|...이게 위로가 될지는 모르겠지만...
-I do enjoy the company of you and your friend though, strange schoar.|나는 당신과 당신의 친구의 회사, 이상한 schoar를 즐깁니다.
+I do enjoy the company of you and your friend though, strange scholar.|그래도 나는 당신과 당신의 친구와 함께 있는 것이 즐겁습니다, 이상한 학자여.
 pearlcat_glyphsentry|pearlcat_glyphsentry
 To cycle between pearls, use (|진주 사이를 순환하려면 (
 PEARLCAT MISC WORLD:\n|Pearlcat Misc World : \ n
