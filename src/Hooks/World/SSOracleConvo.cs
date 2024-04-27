@@ -35,7 +35,7 @@ public static partial class Hooks
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Func<string, SSOracleBehavior, string>>((origText, self) =>
         {
-            if (self.oracle.room.game.IsPearlcatStory())
+            if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles())
             {
                 var miscProg = Utils.GetMiscProgression();
 
@@ -133,7 +133,7 @@ public static partial class Hooks
     
     private static void PebblesConversation_AddEvents(On.SSOracleBehavior.PebblesConversation.orig_AddEvents orig, PebblesConversation self)
     {
-        if (!self.owner.oracle.room.game.IsPearlcatStory())
+        if (!self.owner.oracle.room.game.IsPearlcatStory() || !self.owner.IsPebbles())
         {
             orig(self);
             return;

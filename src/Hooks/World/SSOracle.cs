@@ -17,14 +17,14 @@ public static partial class Hooks
 
     private static void SSOracleBehavior_UpdateStoryPearlCollection(On.SSOracleBehavior.orig_UpdateStoryPearlCollection orig, SSOracleBehavior self)
     {
-        if (self.oracle.room.game.IsPearlcatStory()) return;
+        if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles()) return;
 
         orig(self);
     }
 
     private static void SSOracleBehavior_SeePlayer(On.SSOracleBehavior.orig_SeePlayer orig, SSOracleBehavior self)
     {
-        if (self.oracle.room.game.IsPearlcatStory() && self.action != Enums.SSOracle.Pearlcat_SSActionGeneral)
+        if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles() && self.action != Enums.SSOracle.Pearlcat_SSActionGeneral)
         {
             if (self.timeSinceSeenPlayer < 0)
             {
@@ -41,7 +41,7 @@ public static partial class Hooks
 
     private static void SSOracleBehavior_NewAction(On.SSOracleBehavior.orig_NewAction orig, SSOracleBehavior self, Action nextAction)
     {
-        if (self.oracle.room.game.IsPearlcatStory() && self.action != Enums.SSOracle.Pearlcat_SSActionGeneral && self.action != Action.ThrowOut_KillOnSight)
+        if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles() && self.action != Enums.SSOracle.Pearlcat_SSActionGeneral && self.action != Action.ThrowOut_KillOnSight)
         {
             if (self.currSubBehavior.ID == Enums.SSOracle.Pearlcat_SSSubBehavGeneral) return;
 

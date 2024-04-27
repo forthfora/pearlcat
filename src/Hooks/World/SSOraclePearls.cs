@@ -24,7 +24,7 @@ public static partial class Hooks
     {
         orig(self, eu);
 
-        if (!self.oracle.room.game.IsPearlcatStory()) return;
+        if (!self.oracle.room.game.IsPearlcatStory() || !self.IsPebbles()) return;
 
         if (self.timeSinceSeenPlayer == -1) return;
 

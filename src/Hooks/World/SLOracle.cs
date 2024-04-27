@@ -16,7 +16,7 @@ public static partial class Hooks
 
     private static void SLOracleBehaviorHasMark_ThirdAndUpGreeting(On.SLOracleBehaviorHasMark.orig_ThirdAndUpGreeting orig, SLOracleBehaviorHasMark self)
     {
-        if (!self.oracle.room.game.IsPearlcatStory())
+        if (!self.oracle.room.game.IsPearlcatStory() || !self.IsMoon())
         {
             orig(self);
             return;
@@ -104,7 +104,7 @@ public static partial class Hooks
 
     private static string SLOracleBehaviorHasMark_NameForPlayer(On.SLOracleBehaviorHasMark.orig_NameForPlayer orig, SLOracleBehaviorHasMark self, bool capitalized)
     {
-        if (!self.oracle.room.game.IsPearlcatStory())
+        if (!self.oracle.room.game.IsPearlcatStory() || !self.IsMoon())
         {
             return orig(self, capitalized);
         }
@@ -134,8 +134,8 @@ public static partial class Hooks
     {
         var save = self.myBehavior.oracle.room.game.GetMiscWorld();
         var miscProg = Utils.GetMiscProgression();
-        
-        if (self.currentSaveFile != Enums.Pearlcat || save == null)
+
+        if (self.currentSaveFile != Enums.Pearlcat || self.myBehavior?.oracle?.IsMoon() == false || save == null)
         {
             orig(self);
             return;

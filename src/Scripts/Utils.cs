@@ -34,6 +34,13 @@ public static class Utils
     public static bool IsHalcyonPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == MoreSlugcatsEnums.DataPearlType.RM;
 
 
+    public static bool IsPebbles(this SSOracleBehavior behavior) => behavior?.oracle?.IsPebbles() ?? false;
+    public static bool IsMoon(this SLOracleBehavior behavior) => behavior?.oracle?.IsMoon() ?? false;
+
+    public static bool IsPebbles(this Oracle oracle) => oracle?.ID == Oracle.OracleID.SS;
+    public static bool IsMoon(this Oracle oracle) => oracle?.ID == Oracle.OracleID.SL;
+
+
     public static void TryRevivePlayer(this Player self, PlayerModule playerModule)
     {
         if (playerModule.ReviveCount <= 0) return;

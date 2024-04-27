@@ -20,7 +20,7 @@ namespace Pearlcat;
 [BepInDependency("slime-cubed.slugbase")]
 [BepInDependency("com.rainworldgame.garrakx.crs.mod")]
 [BepInDependency("improved-input-config", BepInDependency.DependencyFlags.SoftDependency)]
-[BepInPlugin(MOD_ID, MOD_ID, "1.2.2")]
+[BepInPlugin(MOD_ID, MOD_ID, "1.2.3")]
 
 public class Plugin : BaseUnityPlugin
 {
