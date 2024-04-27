@@ -69,6 +69,8 @@ public static class Enums
         public static DataPearlType AS_PearlBlack = new(nameof(AS_PearlBlack), false);
 
         public static DataPearlType Heart_Pearlpup = new(nameof(Heart_Pearlpup), false);
+
+        public static DataPearlType CW_Pearlcat = new(nameof(CW_Pearlcat), false);
     }
 
     public static class Scenes

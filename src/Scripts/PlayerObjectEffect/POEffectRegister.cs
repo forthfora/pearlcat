@@ -9,7 +9,11 @@ public static partial class POEffectManager
     public static POEffect None;
     public static POEffect Color;
 
+    public static POEffect SS;
     public static POEffect MI;
+
+    public static POEffect CW;
+
 
     // Vanilla & MSC
     public static POEffect Misc;
@@ -53,7 +57,6 @@ public static partial class POEffectManager
     public static POEffect IteratorBlue;
 
     public static POEffect RM;
-    public static POEffect SS;
 
 
     // Modded
@@ -287,6 +290,18 @@ public static partial class POEffectManager
         MI.RollSpeedFac = 0.3f;
         MI.SlideSpeedFac = 0.3f;
 
+        CW = None;
+        CW.MajorEffect = MajorEffectType.AGILITY;
+        CW.ActiveMultiplier = 3.0f;
+        CW.LungsFac = -0.3f;
+        CW.RunSpeedFac = 0.3f;
+        CW.PoleClimbSpeedFac = 0.3f;
+        CW.CorridorClimbSpeedFac = 0.3f;
+        CW.RollSpeedFac = 0.3f;
+        CW.SlideSpeedFac = 0.3f;
+
+
+
 
         // Custom threat themes take too long to load
         //AS_PearlBlue.ThreatMusic = "AS";
@@ -392,6 +407,7 @@ public static partial class POEffectManager
         PearlEffects.Add(Enums.Pearls.AS_PearlYellow, AS_PearlYellow);
         PearlEffects.Add(Enums.Pearls.AS_PearlBlack, AS_PearlBlack);
 
+        PearlEffects.Add(Enums.Pearls.CW_Pearlcat, CW);
 
         CustomPearlEffects.Add(nameof(HowlingRift), HowlingRift);
         CustomPearlEffects.Add(nameof(DrainageSystemPlus), DrainageSystemPlus);

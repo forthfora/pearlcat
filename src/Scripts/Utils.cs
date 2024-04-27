@@ -493,4 +493,8 @@ public static class Utils
 
         SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
     }
+
+
+    public static bool IsCWActive => ModManager.ActiveMods.Any(x => x.id == "myr.chasing_wind");
+    public static void InitCWIntegration() => CWIntegration.Init();
 }

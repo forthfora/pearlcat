@@ -8,3 +8,5 @@
 [ADD]AS_PearlBlack : 121212 : ffffff : AS_PearlBlack
 
 [ADD]Heart_Pearlpup : ffffff : ffffff : Heart_Pearlpup
+
+[ADD]CW_Pearlcat : ffffff : 7dbaff : CW_Pearlcat

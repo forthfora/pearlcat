@@ -96,7 +96,9 @@ public static partial class Hooks
     public static Color GetDataPearlColor(this DataPearl.AbstractDataPearl.DataPearlType type, int pebblesPearlColor = 0)
     {
         if (type == null)
+        {
             return Color.white;
+        }
 
         if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
         {
@@ -117,6 +119,11 @@ public static partial class Hooks
 
                     return new(1f, 122f / 255f, 2f / 255f);
             }
+        }
+
+        if (type == Enums.Pearls.CW_Pearlcat)
+        {
+            return Custom.hexToColor("0077ff");
         }
 
         return DataPearl.UniquePearlMainColor(type);

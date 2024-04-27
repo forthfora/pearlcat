@@ -82,6 +82,11 @@ public static partial class Hooks
                 InitIICKeybinds();
             }
 
+            if (Utils.IsCWActive)
+            {
+                Utils.InitCWIntegration();
+            }
+
             var initMessage = "PEARLCAT SAYS HELLO FROM INIT! (VERSION: " + Plugin.VERSION + ")";
 
             Debug.Log(initMessage);

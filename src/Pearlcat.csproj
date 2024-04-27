@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -30,6 +30,10 @@
     <Reference Include="BepInEx">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\core\BepInEx.dll</HintPath>
       <public>False</public>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CWStuff">
+      <HintPath>..\..\Backups\Rain World\Rain World References\CWStuff.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="HOOKS-Assembly-CSharp">

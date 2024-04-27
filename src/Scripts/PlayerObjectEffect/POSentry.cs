@@ -104,7 +104,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         var targetPos = InitialPos + new Vector2(0.0f, -40.0f);
 
         // Pearls with floating animation
-        if (pearl.IsHalcyonPearl() || pearl.IsHeartPearl() || pearlType == Enums.Pearls.SS_Pearlcat)
+        if (pearl.IsHalcyonPearl() || pearl.IsHeartPearl() || pearlType == Enums.Pearls.SS_Pearlcat || pearlType == Enums.Pearls.CW_Pearlcat)
         {
             targetPos.y += Mathf.Sin(AnimCounter / 60.0f) * 20.0f;
         }
@@ -135,6 +135,10 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         else if (pearlType == Enums.Pearls.SS_Pearlcat)
         {
             UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Amnesia");
+        }
+        else if (pearlType == Enums.Pearls.CW_Pearlcat)
+        {
+            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Heartmend");
         }
 
         AnimCounter++;
@@ -296,7 +300,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
     private void UpdateAgilitySentry(AbstractPhysicalObject owner, PlayerObjectModule module, DataPearl pearl, POEffect effect)
     {
-        if (effect.MajorEffect != MajorEffectType.AGILITY) return;
+        if (effect.MajorEffect != MajorEffectType.AGILITY || pearl.AbstractPearl.dataPearlType == Enums.Pearls.CW_Pearlcat) return;
 
         var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
@@ -875,7 +879,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         haloSprite.color = addon.SymbolColor;
         haloSprite.scale = HaloScale;
 
-        if (effect.MajorEffect == MajorEffectType.NONE)
+        if (effect.MajorEffect == MajorEffectType.NONE || pearl.AbstractPearl.dataPearlType == Enums.Pearls.CW_Pearlcat)
         {
             haloSprite.color = addon.ActiveHaloColor;
             haloSprite.element = Futile.atlasManager.GetElementWithName("LizardBubble6");
@@ -903,6 +907,12 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
             _ => "pearlcat_shieldsentry",
         });
+
+        if (pearl.AbstractPearl.dataPearlType == Enums.Pearls.CW_Pearlcat)
+        {
+            guideSprite.isVisible = false;
+        }
+
 
         shieldSprite.SetPosition(targetPos);
         shieldSprite.scale = Mathf.Lerp(shieldSprite.scale, ShieldTimer > 5 ? 8.0f : 0.0f, 0.1f);

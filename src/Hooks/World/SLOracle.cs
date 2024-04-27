@@ -135,7 +135,7 @@ public static partial class Hooks
         var save = self.myBehavior.oracle.room.game.GetMiscWorld();
         var miscProg = Utils.GetMiscProgression();
 
-        if (self.currentSaveFile != Enums.Pearlcat || self.myBehavior?.oracle?.IsMoon() == false || save == null)
+        if (self.currentSaveFile != Enums.Pearlcat || self.myBehavior.oracle.IsMoon() || save == null)
         {
             orig(self);
             return;

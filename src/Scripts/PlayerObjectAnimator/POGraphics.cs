@@ -402,6 +402,10 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
         {
             return "pearlcat_glyphheart";
         }
+        else if (dataPearlType == Enums.Pearls.CW_Pearlcat)
+        {
+            return "pearlcat_glyphcw";
+        }
 
         var effect = obj.GetPOEffect();
         return SpriteFromMajorEffect(effect.MajorEffect);

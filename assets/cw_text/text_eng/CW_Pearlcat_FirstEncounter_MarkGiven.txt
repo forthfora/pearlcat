@@ -1,0 +1,13 @@
+SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+WAIT : 10
+SPECIAL : SHOWBRAINPIC
+Hello?
+WAIT : 5
+...
+WAIT : 5
+I believe this small gift should help you find what you seek. 
+SPECIAL : FOODMAX+KARMA10
+WAIT : 5
+You can exit my structure by using the access shaft on the left.
+WAIT : 5

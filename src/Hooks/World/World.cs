@@ -95,6 +95,8 @@ public partial class Hooks
         On.RainWorldGame.ctor += RainWorldGame_ctor;
 
         On.AboveCloudsView.ctor += AboveCloudsView_ctor;
+
+        On.DataPearl.UniquePearlHighLightColor += DataPearl_UniquePearlHighLightColor;
         
         try
         {
@@ -107,6 +109,7 @@ public partial class Hooks
         {
             Plugin.Logger.LogError("World IL Hook Error:\n" + e + "\n" + e.StackTrace);
         }
+
     }
 
 
@@ -817,5 +820,17 @@ public partial class Hooks
         }
 
         orig(self, room, effect);
+    }
+
+
+
+    private static Color? DataPearl_UniquePearlHighLightColor(On.DataPearl.orig_UniquePearlHighLightColor orig, DataPearl.AbstractDataPearl.DataPearlType pearlType)
+    {
+        if (pearlType == Enums.Pearls.CW_Pearlcat)
+        {
+            return Custom.hexToColor("0077ff");
+        }
+
+        return orig(pearlType);
     }
 }

@@ -20,8 +20,8 @@ public static partial class POEffectManager
         { 0.1f, MajorEffectType.SHIELD },
         { 0.16f, MajorEffectType.SHIELD },
 
-        { 0.33f, MajorEffectType.REVIVE },
-        { 0.64f, MajorEffectType.AGILITY },
+        { 0.32f, MajorEffectType.REVIVE },
+        { 0.55f, MajorEffectType.AGILITY },
 
         { 1.0f, MajorEffectType.RAGE },
     };
@@ -83,11 +83,15 @@ public static partial class POEffectManager
         var sat = hsl.y;
         var lit = hsl.z;
 
-        if (lit > 0.85 || sat < 0.15f)
-            return Misc;
-        
-        if (lit < 0.1f)
+        if (lit < 0.05f)
+        {
             return AS_PearlBlack;
+        }
+        
+        if (lit > 0.95f || sat < 0.1f)
+        {
+            return Misc;
+        }
 
         var effect = Color;
         effect.MajorEffect = GetEffectByHue(hue);
