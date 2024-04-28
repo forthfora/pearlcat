@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -97,6 +98,7 @@ public partial class Hooks
         On.AboveCloudsView.ctor += AboveCloudsView_ctor;
 
         On.DataPearl.UniquePearlHighLightColor += DataPearl_UniquePearlHighLightColor;
+        On.Room.PlaySound_SoundID_BodyChunk += Room_PlaySound_SoundID_BodyChunk;
         
         try
         {
@@ -111,7 +113,6 @@ public partial class Hooks
         }
 
     }
-
 
 
     // Manage dreams
@@ -490,7 +491,7 @@ public partial class Hooks
         {
             if (!module.WasThrown)
             {
-                self.firstChunk.vel *= 1.25f;
+                self.firstChunk.vel *= 2.0f;
             }
 
             module.WasThrown = true;
@@ -833,4 +834,50 @@ public partial class Hooks
 
         return orig(pearlType);
     }
+
+    private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk(On.Room.orig_PlaySound_SoundID_BodyChunk orig, Room self, SoundID soundId, BodyChunk chunk)
+    {
+        if (chunk?.owner is Spear spear && spear.abstractSpear.TryGetSpearModule(out var spearModule) && spearModule.DecayTimer == 0)
+        {
+            if (soundId == SoundID.Spear_Bounce_Off_Creauture_Shell)
+            {
+                return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
+            }
+
+            if (soundId == SoundID.Spear_Stick_In_Creature)
+            {
+                return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
+            }
+
+            if (soundId == SoundID.Spear_Stick_In_Ground)
+            {
+                return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
+            }
+
+            if (soundId == SoundID.Spear_Stick_In_Wall)
+            {
+                return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
+            }
+
+            if (soundId == SoundID.Spear_Dislodged_From_Creature)
+            {
+                return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
+            }
+
+            if (soundId == SoundID.Slugcat_Throw_Spear)
+            {
+                return self.PlaySound(soundId, chunk, false, 1f, 1.2f);
+            }
+
+            if (soundId == SoundID.Spear_Bounce_Off_Wall)
+            {
+                self.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, chunk, false, 0.5f, Random.Range(1.5f, 2.0f));
+
+                return self.PlaySound(soundId, chunk, false, 1f, 1.2f);
+            }
+        }
+
+        return orig(self, soundId, chunk);
+    }
+
 }
