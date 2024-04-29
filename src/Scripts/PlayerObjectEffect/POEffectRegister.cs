@@ -9,10 +9,22 @@ public static partial class POEffectManager
     public static POEffect None;
     public static POEffect Color;
 
+
+
+    // Custom
+    public static POEffect AS_PearlBlue;
+    public static POEffect AS_PearlGreen;
+    public static POEffect AS_PearlRed;
+    public static POEffect AS_PearlYellow;
+    public static POEffect AS_PearlBlack;
+
+    public static POEffect RM;
     public static POEffect SS;
+
     public static POEffect MI;
 
     public static POEffect CW;
+
 
 
     // Vanilla & MSC
@@ -56,31 +68,77 @@ public static partial class POEffectManager
     public static POEffect IteratorOrange;
     public static POEffect IteratorBlue;
 
-    public static POEffect RM;
 
 
-    // Modded
-    public static POEffect AS_PearlBlue;
-    public static POEffect AS_PearlGreen;
-    public static POEffect AS_PearlRed;
-    public static POEffect AS_PearlYellow;
-    public static POEffect AS_PearlBlack;
+    public static void RegisterEffects()
+    {
+        PearlEffects.Clear();
+        CustomPearlEffects.Clear();
 
-    public static POEffect HowlingRift;
-    public static POEffect DrainageSystemPlus;
-
-    public static POEffect LW_Tower;
-    public static POEffect LW_Grotto;
-    public static POEffect LW_Coast;
-
-    public static POEffect US_Tower;
-    public static POEffect US_Undertower;
-
-    public static POEffect DSH_Unlore_1;
-    public static POEffect DSH_Unlore_2;
-    public static POEffect DSH_Unlore_3;
+        SetEffects();
 
 
+
+        PearlEffects.Add(DataPearlType.Misc, Misc);
+        PearlEffects.Add(DataPearlType.Misc2, Misc);
+
+        PearlEffects.Add(DataPearlType.SL_moon, SL_moon);
+        PearlEffects.Add(DataPearlType.SL_chimney, SL_chimney);
+        PearlEffects.Add(DataPearlType.SL_bridge, SL_bridge);
+        PearlEffects.Add(DataPearlType.SB_filtration, SB_filtration);
+        PearlEffects.Add(DataPearlType.SB_ravine, SB_ravine);
+        PearlEffects.Add(DataPearlType.SU, SU);
+        PearlEffects.Add(DataPearlType.HI, HI);
+        PearlEffects.Add(DataPearlType.GW, GW);
+        PearlEffects.Add(DataPearlType.DS, DS);
+        PearlEffects.Add(DataPearlType.SH, SH);
+        PearlEffects.Add(DataPearlType.CC, CC);
+        PearlEffects.Add(DataPearlType.UW, UW);
+        PearlEffects.Add(DataPearlType.LF_bottom, LF_bottom);
+        PearlEffects.Add(DataPearlType.LF_west, LF_west);
+
+        PearlEffects.Add(DataPearlType.SI_top, SI_top);
+        PearlEffects.Add(DataPearlType.SI_west, SI_west);
+
+        PearlEffects.Add(DataPearlType.Red_stomach, Red_stomach);
+
+        if (ModManager.MSC)
+        {
+            PearlEffects.Add(DataPearlTypeMSC.BroadcastMisc, Misc);
+
+            PearlEffects.Add(DataPearlTypeMSC.VS, VS);
+            PearlEffects.Add(DataPearlTypeMSC.SU_filt, SU_filt);
+            PearlEffects.Add(DataPearlTypeMSC.OE, OE);
+            PearlEffects.Add(DataPearlTypeMSC.LC, LC);
+            PearlEffects.Add(DataPearlTypeMSC.LC_second, LC_second);
+            PearlEffects.Add(DataPearlTypeMSC.MS, MS);
+            PearlEffects.Add(DataPearlTypeMSC.DM, DM);
+
+            PearlEffects.Add(DataPearlTypeMSC.Rivulet_stomach, Rivulet_stomach);
+            PearlEffects.Add(DataPearlTypeMSC.Spearmasterpearl, Spearmasterpearl);
+
+            PearlEffects.Add(DataPearlTypeMSC.SI_chat3, SI_chat3);
+            PearlEffects.Add(DataPearlTypeMSC.SI_chat4, SI_chat4);
+            PearlEffects.Add(DataPearlTypeMSC.SI_chat5, SI_chat5);
+
+            PearlEffects.Add(DataPearlTypeMSC.CL, RM);
+            PearlEffects.Add(DataPearlTypeMSC.RM, RM);
+        }
+
+
+
+        PearlEffects.Add(Enums.Pearls.RM_Pearlcat, RM);
+        PearlEffects.Add(Enums.Pearls.SS_Pearlcat, SS);
+        PearlEffects.Add(Enums.Pearls.Heart_Pearlpup, MI);
+
+        PearlEffects.Add(Enums.Pearls.AS_PearlBlue, AS_PearlBlue);
+        PearlEffects.Add(Enums.Pearls.AS_PearlRed, AS_PearlRed);
+        PearlEffects.Add(Enums.Pearls.AS_PearlGreen, AS_PearlGreen);
+        PearlEffects.Add(Enums.Pearls.AS_PearlYellow, AS_PearlYellow);
+        PearlEffects.Add(Enums.Pearls.AS_PearlBlack, AS_PearlBlack);
+
+        PearlEffects.Add(Enums.Pearls.CW_Pearlcat, CW);
+    }
 
     public static void SetEffects()
     {
@@ -95,9 +153,6 @@ public static partial class POEffectManager
         Misc.PoleClimbSpeedFac = 0.05f;
         Misc.CorridorClimbSpeedFac = 0.05f;
 
-        //Misc.RollSpeedFac = 0.05f;
-        //Misc.SlideSpeedFac = 0.05f;
-
         IteratorWhite = Misc;
 
         IteratorBlack = Misc;
@@ -106,14 +161,7 @@ public static partial class POEffectManager
 
 
         Color = None;
-        //Color.LungsFac = 0.05f;
-        //Color.RunSpeedFac = -0.05f;
-        //Color.PoleClimbSpeedFac = -0.05f;
-        //Color.CorridorClimbSpeedFac = -0.05f;
-        //Color.RollSpeedFac = -0.05f;
-        //Color.SlideSpeedFac = -0.05f;
-
-
+        
         SL_moon = Color;
         SL_moon.MajorEffect = MajorEffectType.SHIELD;
         SL_moon.ThreatMusic = "SL";
@@ -131,7 +179,7 @@ public static partial class POEffectManager
         SB_filtration.ThreatMusic = "SB";
 
         SB_ravine = Color;
-        SB_ravine.MajorEffect = MajorEffectType.RAGE;
+        SB_ravine.MajorEffect = MajorEffectType.CAMOFLAGUE;
         SB_ravine.ThreatMusic = "SB";
 
         SU = Color;
@@ -175,10 +223,11 @@ public static partial class POEffectManager
         SI_west.ThreatMusic = "SI";
 
         SI_top = Color;
-        SI_top.MajorEffect = MajorEffectType.AGILITY;
+        SI_top.MajorEffect = MajorEffectType.CAMOFLAGUE;
         SI_top.ThreatMusic = "SI";
 
-
+        
+        // MSC
         VS = Color;
         VS.MajorEffect = MajorEffectType.RAGE;
         VS.ThreatMusic = "VS";
@@ -220,6 +269,7 @@ public static partial class POEffectManager
         SI_chat5.ThreatMusic = "SI";
 
 
+        // Special
         Red_stomach = Color;
         Red_stomach.MajorEffect = MajorEffectType.RAGE;
 
@@ -244,7 +294,8 @@ public static partial class POEffectManager
         IteratorBlue.MajorEffect = MajorEffectType.AGILITY;
 
 
-        // Custom Pearls
+
+        // Custom
         AS_PearlBlue = Color;
         AS_PearlBlue.MajorEffect = MajorEffectType.AGILITY;
 
@@ -299,128 +350,5 @@ public static partial class POEffectManager
         CW.CorridorClimbSpeedFac = 0.3f;
         CW.RollSpeedFac = 0.3f;
         CW.SlideSpeedFac = 0.3f;
-
-
-
-
-        // Custom threat themes take too long to load
-        //AS_PearlBlue.ThreatMusic = "AS";
-        //AS_PearlGreen.ThreatMusic = "AS";
-        //AS_PearlRed.ThreatMusic = "AS";
-        //AS_PearlYellow.ThreatMusic = "AS";
-        //AS_PearlBlack.ThreatMusic = "AS";
-
-
-        HowlingRift = Color;
-        HowlingRift.MajorEffect = MajorEffectType.RAGE;
-
-        DrainageSystemPlus = Color;
-        DrainageSystemPlus.MajorEffect = MajorEffectType.REVIVE;
-
-        LW_Tower = Color;
-        LW_Tower.MajorEffect = MajorEffectType.REVIVE;
-
-        LW_Grotto = Color;
-        LW_Grotto.MajorEffect = MajorEffectType.AGILITY;
-
-        LW_Coast = Color;
-        LW_Coast.MajorEffect = MajorEffectType.RAGE;
-
-        US_Tower = Color;
-        US_Tower.MajorEffect = MajorEffectType.RAGE;
-
-        US_Undertower = Color;
-        US_Undertower.MajorEffect = MajorEffectType.RAGE;
-
-        DSH_Unlore_1 = Color;
-        DSH_Unlore_1.MajorEffect = MajorEffectType.REVIVE;
-
-        DSH_Unlore_2 = Color;
-        DSH_Unlore_2.MajorEffect = MajorEffectType.RAGE;
-
-        DSH_Unlore_3 = Color;
-        DSH_Unlore_3.MajorEffect = MajorEffectType.AGILITY;
-
-
-    }
-
-    public static void RegisterEffects()
-    {
-        PearlEffects.Clear();
-        CustomPearlEffects.Clear();
-
-        SetEffects();
-
-        PearlEffects.Add(DataPearlType.Misc, Misc);
-        PearlEffects.Add(DataPearlType.Misc2, Misc);
-
-        PearlEffects.Add(DataPearlType.SL_moon, SL_moon);
-        PearlEffects.Add(DataPearlType.SL_chimney, SL_chimney);
-        PearlEffects.Add(DataPearlType.SL_bridge, SL_bridge);
-        PearlEffects.Add(DataPearlType.SB_filtration, SB_filtration);
-        PearlEffects.Add(DataPearlType.SB_ravine, SB_ravine);
-        PearlEffects.Add(DataPearlType.SU, SU);
-        PearlEffects.Add(DataPearlType.HI, HI);
-        PearlEffects.Add(DataPearlType.GW, GW);
-        PearlEffects.Add(DataPearlType.DS, DS);
-        PearlEffects.Add(DataPearlType.SH, SH);
-        PearlEffects.Add(DataPearlType.CC, CC);
-        PearlEffects.Add(DataPearlType.UW, UW);
-        PearlEffects.Add(DataPearlType.LF_bottom, LF_bottom);
-        PearlEffects.Add(DataPearlType.LF_west, LF_west);
-
-        PearlEffects.Add(DataPearlType.SI_top, SI_top);
-        PearlEffects.Add(DataPearlType.SI_west, SI_west);
-
-        PearlEffects.Add(DataPearlType.Red_stomach, Red_stomach);
-
-        if (ModManager.MSC)
-        {
-            PearlEffects.Add(DataPearlTypeMSC.BroadcastMisc, Misc);
-
-            PearlEffects.Add(DataPearlTypeMSC.VS, VS);
-            PearlEffects.Add(DataPearlTypeMSC.SU_filt, SU_filt);
-            PearlEffects.Add(DataPearlTypeMSC.OE, OE);
-            PearlEffects.Add(DataPearlTypeMSC.LC, LC);
-            PearlEffects.Add(DataPearlTypeMSC.LC_second, LC_second);
-            PearlEffects.Add(DataPearlTypeMSC.MS, MS);
-            PearlEffects.Add(DataPearlTypeMSC.DM, DM);
-
-            PearlEffects.Add(DataPearlTypeMSC.Rivulet_stomach, Rivulet_stomach);
-            PearlEffects.Add(DataPearlTypeMSC.Spearmasterpearl, Spearmasterpearl);
-
-            PearlEffects.Add(DataPearlTypeMSC.SI_chat3, SI_chat3);
-            PearlEffects.Add(DataPearlTypeMSC.SI_chat4, SI_chat4);
-            PearlEffects.Add(DataPearlTypeMSC.SI_chat5, SI_chat5);
-
-            PearlEffects.Add(DataPearlTypeMSC.CL, RM);
-            PearlEffects.Add(DataPearlTypeMSC.RM, RM);
-        }
-
-        PearlEffects.Add(Enums.Pearls.RM_Pearlcat, RM);
-        PearlEffects.Add(Enums.Pearls.SS_Pearlcat, SS);
-        PearlEffects.Add(Enums.Pearls.Heart_Pearlpup, MI);
-
-        PearlEffects.Add(Enums.Pearls.AS_PearlBlue, AS_PearlBlue);
-        PearlEffects.Add(Enums.Pearls.AS_PearlRed, AS_PearlRed);
-        PearlEffects.Add(Enums.Pearls.AS_PearlGreen, AS_PearlGreen);
-        PearlEffects.Add(Enums.Pearls.AS_PearlYellow, AS_PearlYellow);
-        PearlEffects.Add(Enums.Pearls.AS_PearlBlack, AS_PearlBlack);
-
-        PearlEffects.Add(Enums.Pearls.CW_Pearlcat, CW);
-
-        CustomPearlEffects.Add(nameof(HowlingRift), HowlingRift);
-        CustomPearlEffects.Add(nameof(DrainageSystemPlus), DrainageSystemPlus);
-
-        CustomPearlEffects.Add(nameof(LW_Tower), LW_Tower);
-        CustomPearlEffects.Add(nameof(LW_Grotto), LW_Grotto);
-        CustomPearlEffects.Add(nameof(LW_Coast), LW_Coast);
-
-        CustomPearlEffects.Add(nameof(US_Tower), US_Tower);
-        CustomPearlEffects.Add(nameof(US_Undertower), US_Undertower);
-
-        CustomPearlEffects.Add(nameof(DSH_Unlore_1), DSH_Unlore_1);
-        CustomPearlEffects.Add(nameof(DSH_Unlore_2), DSH_Unlore_2);
-        CustomPearlEffects.Add(nameof(DSH_Unlore_3), DSH_Unlore_3);
     }
 }
