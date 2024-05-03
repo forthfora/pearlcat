@@ -41,4 +41,10 @@ public class SaveMiscWorld
     // Dreams
     public string? CurrentDream { get; set; }
     public List<string> PreviousDreams { get; } = new();
+
+
+
+    // Chasing Wind
+    public int CWMeetCount { get; set; }
+    public int CWMeetSickCount { get; set; }
 }

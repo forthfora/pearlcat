@@ -76,7 +76,8 @@ public static partial class Hooks
 
             AssetLoader.LoadAssets();
 
-            // Only init this if IIC is installed
+
+            // Init Soft Dependencies
             if (IsImprovedInputInstalled)
             {
                 InitIICKeybinds();
@@ -86,6 +87,7 @@ public static partial class Hooks
             {
                 Utils.InitCWIntegration();
             }
+
 
             var initMessage = "PEARLCAT SAYS HELLO FROM INIT! (VERSION: " + Plugin.VERSION + ")";
 
