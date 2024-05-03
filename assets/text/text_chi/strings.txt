@@ -72,6 +72,7 @@ sleeve|sleeve
 When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|选中后，每个循环都会将背包中的珍珠都设为下列指定数量的珍珠。不覆盖当前背包 - 取消选中后返还覆盖前的珍珠。
 I'll be waiting right here - not like I can go far, anyways~|我会在这里等着 - 反正我也走不了多远~
 SU|SU
+pearlcat-name|珍珠猫
 Pearlcat|珍珠猫
 When checked, all tutorials will be disabled.|选中后，禁用所有的教程。
 Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|珍珠猫的好奇心永无止境，他们再次踏入冒险之旅<LINE>以求扩充他们的收藏
@@ -620,7 +621,7 @@ You really do remind me so much of your mother...|你确实确实让我想起了
 Oracle Hooks Error:\n|Oracle Hooks Error:
 You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|尽管如此，你似乎一切都很顺利，无论发生什么，你的坚韧都令人钦佩！
 40|40
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|一位好奇的学者，具有利用珍珠发挥优势的非凡能力。<LINE><LINE>通过Remix配置来配置输入、难度、作弊等！<LINE><LINE>更多蛞蝓猫是可选的，但强烈推荐。
+pearlcat-description|一位好奇的学者，具有利用珍珠发挥优势的非凡能力。<LINE><LINE>通过Remix配置来配置输入、难度、作弊等！<LINE><LINE>更多蛞蝓猫是可选的，但强烈推荐。
 9badc7|9BADC7
 Laser Damage (OLD)|激光伤害（旧）
 Was it really so long ago that you were only half my height...?|在很久以前你真的只有我一半高吗……？

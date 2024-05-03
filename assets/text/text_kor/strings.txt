@@ -620,7 +620,7 @@ You really do remind me so much of your mother...|당신은 정말로 당신의 
 Oracle Hooks Error:\n|Oracle 후크 오류:\n
 You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|그럼에도 불구하고 당신은 스스로를 위해 잘 지내고있는 것 같습니다.
 40|40
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|진주를 활용하는 비범한 능력을 가진 호기심 많은 학자입니다.<LINE><LINE>Remix 구성을 통해 입력, 난이도, 치트 등을 구성하세요!<LINE><LINE>더 많은 Slugcats는 선택 사항이지만 적극 권장합니다.
+pearlcat-description|진주를 활용하는 비범한 능력을 가진 호기심 많은 학자입니다.<LINE><LINE>Remix 구성을 통해 입력, 난이도, 치트 등을 구성하세요!<LINE><LINE>더 많은 Slugcats는 선택 사항이지만 적극 권장합니다.
 9badc7|9BADC7
 Laser Damage (OLD)|레이저 손상 (오래)
 Was it really so long ago that you were only half my height...?|정말 오래 전에 당신이 내 키의 절반에 불과 했습니까 ...?

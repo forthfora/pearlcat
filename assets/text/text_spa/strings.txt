@@ -73,6 +73,7 @@ sleeve|sleeve
 When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|Si se encuentra marcada, establece el inventario a la cantidad especificada de perlas coloridas de abajo en cada ciclo. No guarda sobre el inventario actual; se regresa al ser desmarcada.
 I'll be waiting right here - not like I can go far, anyways~|Te estaré esperando aquí mismo, no es como si pudiera ir lejos, de todos modos~
 SU|SU
+pearlcat-name|Perlina
 Pearlcat|Perlina
 When checked, all tutorials will be disabled.|Si se encuentra marcada, todos los tutoriales estarán desactivados.
 Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|Con una curiosidad insaciable, Perlina se aventura una vez más<LINE>en busca de expandir su colección
@@ -612,7 +613,7 @@ L-Stick|Palanca izquierda
 Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Número de perlas de agilidad (azules). Solo es efectivo si «Anulación del inventario» está marcada.
 Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|Tiempo en fotogramas que dura el escudo de perlas amarillas después de activarse. Predeterminado: 1,5 segundos.
 Your little friend is still quite sick, unfortunately.|Por desgracia, tu amiguito todavía se encuentra muy enfermo.
-Music|Music
+Music|Música
 {nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n|{nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n
 - Artwork|-<LINE>Trabajo artístico
 PostModsInit:\n|PostModsInit:\n
@@ -622,7 +623,7 @@ You really do remind me so much of your mother...|Sí que me recuerdas mucho a t
 Oracle Hooks Error:\n|Oracle Hooks Error:\n
 You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|No obstante, pareces estar recuperándote por ti mismo. ¡Tu tenacidad ante cualquier adversidad es admirable!
 40|40
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Una erudita curiosa con la extraordinaria habilidad de emplear perlas a su beneficio.<LINE><LINE>¡Configura controles, dificultades, trucos y más a través de los ajustes de Remix!<LINE><LINE>More Slugcats es opcional, pero altamente recomendable.
+pearlcat-description|Una erudita curiosa con la extraordinaria habilidad de emplear perlas a su beneficio.<LINE><LINE>¡Configura los controles, la dificultad, los trucos y más a través de los ajustes de Remix!<LINE><LINE>More Slugcats es opcional, pero altamente recomendable.
 9badc7|9badc7
 Laser Damage (OLD)|Daño del láser (ANTIGUO)
 Was it really so long ago that you were only half my height...?|¿Fue realmente hace tanto tiempo que solo medías la mitad de mi estatura?...

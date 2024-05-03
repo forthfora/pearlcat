@@ -617,7 +617,7 @@ You really do remind me so much of your mother...|Mi ricordi davvero così tanto
 Oracle Hooks Error:\n|Errore hook Oracle:\n
 You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|Sembra che tu stia andando bene per te stesso, la tua tenacia da qualunque cosa accada è ammirevole!
 40|40
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Uno studioso curioso con l'insolita capacità di sfruttare le perle a proprio vantaggio.<LINE><LINE>Configura input, difficoltà, cheat e altro tramite la configurazione Remix!<LINE><LINE>Più Slugcats è facoltativo, ma fortemente consigliato.
+pearlcat-description|Uno studioso curioso con l'insolita capacità di sfruttare le perle a proprio vantaggio.<LINE><LINE>Configura input, difficoltà, cheat e altro tramite la configurazione Remix!<LINE><LINE>Più Slugcats è facoltativo, ma fortemente consigliato.
 9badc7|9BADC7
 Laser Damage (OLD)|Danno laser (vecchio)
 Was it really so long ago that you were only half my height...?|Era davvero tanto tempo fa che eri solo metà della mia altezza ...?

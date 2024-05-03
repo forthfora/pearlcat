@@ -620,7 +620,7 @@ You really do remind me so much of your mother...|あなたは本当にあなた
 Oracle Hooks Error:\n|Oracle フック エラー:\n
 You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|それにもかかわらず、あなたは自分のためにうまくやっているようです、起こったことからのあなたの粘り強さは賞賛に値します！
 40|40
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|真珠を有利に利用する珍しい能力を持つ好奇心旺盛な学者です。<LINE><LINE>Remix config 経由で入力、難易度、チートなどを設定します!<LINE><LINE>Slugcat の追加はオプションですが、強くお勧めします。
+pearlcat-description|真珠を有利に利用する珍しい能力を持つ好奇心旺盛な学者です。<LINE><LINE>Remix config 経由で入力、難易度、チートなどを設定します!<LINE><LINE>Slugcat の追加はオプションですが、強くお勧めします。
 9badc7|9BADC7
 Laser Damage (OLD)|レーザー損傷（古い）
 Was it really so long ago that you were only half my height...?|あなたが私の身長の半分しかなかったのは本当にずっと前でした...？
