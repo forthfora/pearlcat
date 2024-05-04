@@ -237,7 +237,6 @@ PEARLCAT LOG DEBUG INFO ERROR: \n|Erreur d'information de débogage du journal d
 pearlactivehalo|pearlactivehalo
 Press (JUMP + GRAB) while in the air to perform a double jump|Appuyez sur (JUMP + GRAB) en l'air pour effectuer un double saut
 I... I have nothing more to say...|Je ... je n'ai plus rien à dire ...
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.|S'il vous arrive d'avoir un moment à perdre, je serais plus qu'heureux de lire ces perles...<LINE>Il n'y a pas grand-chose d'autre à faire pour passer le temps.
 YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|Le JAUNE symbolise la protection. Chaque perle jaune stockée fournira une charge de bouclier
 Oh, hello! Hello...|Oh salut!Bonjour...
 And a third? So it is...|Et un troisième ? Donc c'est...
@@ -294,7 +293,7 @@ BigGlyph11|BigGlyphe11
 _|_
 Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.|À quel contrôleur de joueur l'échange de déclencheur s'appliquera. 0 désactive l'échange de déclencheurs. Maintenez et faites glisser vers le haut ou vers le bas pour changer.
 ...I am not sure if this is comforting, but...|... Je ne sais pas si c'est réconfortant, mais...
-I do enjoy the company of you and your friend though, strange schoar.|J'apprécie la compagnie de vous et de votre ami, étrange Schoar.
+I do enjoy the company of you and your friend though, strange scholar.|J'apprécie la compagnie de vous et de votre ami, étrange érudit.
 pearlcat_glyphsentry|pearlcat_glyphsentry
 To cycle between pearls, use (|Pour passer d'une perle à l'autre, utilisez (
 PEARLCAT MISC WORLD:\n|PEARLCAT MISC WORLD: \ n
@@ -619,7 +618,7 @@ You really do remind me so much of your mother...|Tu me rappelles vraiment ta m�
 Oracle Hooks Error:\n|Erreur de crochets Oracle :\n
 You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|Vous semblez bien faire pour vous-même, votre ténacité de tout ce qui s'est produite est admirable!
 40|40
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Un érudit curieux avec la capacité inhabituelle d'exploiter les perles à leur avantage.<LINE><LINE>Configurez les entrées, la difficulté, les astuces et plus via la configuration Remix !<LINE><LINE>Plus de Slugcats est facultatif, mais fortement recommandé.
+pearlcat-description|Un érudit curieux avec la capacité inhabituelle d'exploiter les perles à leur avantage.<LINE><LINE>Configurez les entrées, la difficulté, les astuces et plus via la configuration Remix !<LINE><LINE>Plus de Slugcats est facultatif, mais fortement recommandé.
 9badc7|9badc7
 Laser Damage (OLD)|Dommages laser (vieux)
 Was it really so long ago that you were only half my height...?|Était-ce vraiment si longtemps que tu n'étais que la moitié de ma taille ...?

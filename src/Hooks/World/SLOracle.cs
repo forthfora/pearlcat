@@ -264,7 +264,7 @@ public static partial class Hooks
 
                                 if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
                                 {
-                                    Say("I do enjoy the company of you and your friend though, strange schoar.", 0, 5);
+                                    Say("I do enjoy the company of you and your friend though, strange scholar.", 0, 5);
 
                                     Say("You're welcome to stay a while... your ability is fascinating.", 0, 5);
                                     return;
@@ -272,7 +272,7 @@ public static partial class Hooks
 
                                 Say("I do enjoy the company though... it gets lonely out here.", 0, 5);
 
-                                SayNoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.");
+                                SayNoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
                                 return;
                             }
 
@@ -808,7 +808,7 @@ public static partial class Hooks
 
                             Say("I do enjoy the company though... it gets lonely out here.", 0, 5);
 
-                            SayNoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to ppass the time.");
+                            SayNoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
                             return;
                         }
 
