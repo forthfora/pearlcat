@@ -142,7 +142,10 @@ public class POGraphics : UpdatableAndDeletable, IDrawable
             sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, ModOptions.HidePearls.Value ? 0.0f : 0.1f);
         }
 
-        Pos = ParentSprite.GetPosition();
+        if (ParentSprite is not null)
+        {
+            Pos = ParentSprite.GetPosition();
+        }
     }
 
 

@@ -51,6 +51,8 @@ public class POSentry : UpdatableAndDeletable, IDrawable
 
         var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
+        if (playerModule == null) return;
+        
         if (!playerModule.PlayerRef.TryGetTarget(out var player)) return;
 
         ModuleManager.SentryData.Add(owner, this);
@@ -138,7 +140,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
         }
         else if (pearlType == Enums.Pearls.CW_Pearlcat)
         {
-            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Heartmend");
+            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Chatoyance");
         }
 
         AnimCounter++;
@@ -793,6 +795,7 @@ public class POSentry : UpdatableAndDeletable, IDrawable
                 "NA_19 - Halcyon Memories",
                 "Pearlcat_Amnesia",
                 "Pearlcat_Heartmend",
+                "Pearlcat_Chatoyance",
             };
 
             if (songsToStop.Contains(musicPlayer.song.name))

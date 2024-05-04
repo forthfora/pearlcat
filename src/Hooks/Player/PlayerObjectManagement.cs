@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using RWCustom;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -169,6 +170,12 @@ public static partial class Hooks
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
         IDrawable_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
+
+        if (self.AbstractPearl.dataPearlType == Enums.Pearls.CW_Pearlcat)
+        {
+            sLeaser.sprites[0].color = Custom.hexToColor("ffffff");
+            sLeaser.sprites[1].color = Custom.hexToColor("1175d9");
+        }
 
         // SWAP CONTAINERS?
         //if (!PlayerObjectData.TryGetValue(self, out var _))
