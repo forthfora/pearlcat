@@ -16,6 +16,7 @@ public partial class Hooks
 
         Application.quitting += Application_quitting;
 
+        // (this already has a try catch)
         IL.DevInterface.SoundPage.ctor += SoundPage_ctor;
     }
 

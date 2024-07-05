@@ -26,13 +26,13 @@ public static partial class Hooks
 
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
-        new Hook(
-            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
+        _ = new Hook(
+            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasMark), BindingFlags.Static | BindingFlags.Public)
         );
 
-        new Hook(
-            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasGlow), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
+        _ = new Hook(
+            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasGlow), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.Public)
         );
 
@@ -883,6 +883,11 @@ public static partial class Hooks
         {
             save.IsSecretEnabled = !save.IsSecretEnabled;
             save.HasTrueEnding = save.IsSecretEnabled;
+
+            if (self.menu is SlugcatSelectMenu selectMenu)
+            {
+                selectMenu.slugcatPageIndex = selectMenu.indexFromColor(Enums.Pearlcat);
+            }
         }
 
         SecretIndex = 0;
@@ -1092,13 +1097,13 @@ public static partial class Hooks
         var dest = il.DefineLabel();
 
         c.GotoNext(MoveType.After,
-            x => x.MatchLdstr("s"));
+            x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey)));
 
         c.GotoNext(MoveType.After,
-            x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey)),
             x => x.MatchBrtrue(out dest));
 
         c.Emit(OpCodes.Ldarg_0);
+
         c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((self) =>
         {
             var save = Utils.GetMiscProgression();
