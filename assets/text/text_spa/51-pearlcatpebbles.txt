@@ -1,6 +1,6 @@
 ﻿0-51-pearlcatpebbles
 Esta perla no era para ti.
 
-...
+. . .
 
-Ha cumplido su propósito.
+... Ha cumplido su propósito.

@@ -1,19 +1,19 @@
 ﻿0-1
-Qué perla curiosa: no contiene ningún dato significativo, pero la red es extremadamente pura.
+Qué perla curiosa; no contiene ningún dato significativo, pero la red es extremadamente pura.
 
-Ah, ¡esto podría requerir una pequeña lección sobre los detalles de la estructura de datos de una perla! Pero seré breve...
+Ah, ¡puede que esto requiera una pequeña clase sobre los detalles de la estructura de datos de una perla! Pero haré que sea breve...
 
-La información está grabada en la perla, muy finamente. Es una forma de almacenamiento increíblemente densa y robusta.
+La información es grabada en la perla muy finamente; es una forma de almacenamiento increíblemente densa y robusta.
 
 Cuanto más pura es una perla, más finos son los grabados; más datos puede almacenar a costa de su vida útil.
 
-Perdón por mi simplificación, pero esta perla posee grabados extremadamente elaborados. Una rareza hoy en día.
+Perdón por mi simplificación excesiva, pero esta perla posee grabados extremadamente elaborados; una rareza hoy en día.
 
 Me pregunto de dónde la encontraste, <PlayerName>. Debe haber sido hecha muy recientemente...
 
-¿Eh?, parece que hay un poco más aquí incluso. Tan pocos datos, era casi imperceptible...
+... ¿Oh? Parece que hay un poco más aquí incluso. Tan pocos datos, era casi imperceptible...
 
-Es una... oh... Ahora ya veo de dónde la encontraste...
+Es un... oh... Ahora ya veo de dónde la encontraste...
 
-Me quedaría con esta, <PlayerName>. Los carroñeros no apreciarían su belleza como nosotros.
+La voy a conservar, <PlayerName>; los carroñeros no apreciarían su belleza como nosotros.
 

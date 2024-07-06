@@ -1,5 +1,5 @@
 ﻿0-1
-¿Eh? Esta perla es muy extraña.
+¿Oh? Esta perla es muy extraña.
 
 Está en blanco, pero no del todo.
 
@@ -7,6 +7,6 @@ Cualquier intento de acceso serían devoluciones de datos, nada...
 
 Sin desautorizaciones, sin confirmaciones, sin errores. Nada.
 
-Me gustaría experimentar más a fondo, pero en mi estado actual...
+Me gustaría experimentar con ella más a fondo, pero en mi estado actual...
 
-Será mejor que te quedes con esta, <PlayerName>. No sería prudente para mí jugar con lo que no entiendo.
+Será mejor que te la quedes, <PlayerName>; sería imprudente de mí jugar con lo que no entiendo.
