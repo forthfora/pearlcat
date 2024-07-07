@@ -604,7 +604,7 @@ Player 1|플레이어 1
 Disable Rage Effect?|분노 효과를 비활성화하시겠습니까?
 Lolight2|로라이트2
 When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|선택하면 Pearlcat의 화장품이 비활성화되어 DMS를 통해 사용자 지정 스프라이트를 허용합니다. 이것은 진주 자체를 포함하지 않습니다.
-WARNING |경고 
+WARNING|경고
 pearlcat_over9|pearlcat_over9
 L-Stick|엘스틱
 Number of agility pearls (blue). Effective only when Inventory Override? is checked.|민첩성 진주의 수(파란색). 재고 무시 시에만 유효합니까? 확인됩니다.

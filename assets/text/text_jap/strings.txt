@@ -604,7 +604,7 @@ Player 1|プレイヤー 1
 Disable Rage Effect?|激怒効果を無効にしますか?
 Lolight2|ロライト2
 When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|チェックすると、Pearlcat のコスメティクスが無効になり、DMS 経由でカスタム スプライトを許可するようになります。これには真珠そのものは含まれません。
-WARNING |警告 
+WARNING|警告
 pearlcat_over9|パールキャット_over9
 L-Stick|Lスティック
 Number of agility pearls (blue). Effective only when Inventory Override? is checked.|アジリティーパール（青）の数。インベントリ上書き時のみ有効?にチェックが入っています。
