@@ -602,7 +602,7 @@ Player 1|Jogador 1
 Disable Rage Effect?|Desativar o efeito de raiva?
 Lolight2|Lolight2
 When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Quando marcado, os cosméticos de Pearlcat serão desativados, destinados a permitir sprites personalizados via DMS. Isso não inclui as próprias pérolas.
-WARNING|AVISO
+WARNING |AVISO 
 pearlcat_over9|pearlcat_over9
 L-Stick|L-stick
 Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Número de pérolas de agilidade (azul). Efetivo somente quando Substituição de estoque? está checado.

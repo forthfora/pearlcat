@@ -604,7 +604,7 @@ Player 1|Игрок 1
 Disable Rage Effect?|Отключить эффект ярости?
 Lolight2|Лолайт2
 When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Если флажок установлен, косметика Pearlcat будет отключена, что позволит использовать пользовательские спрайты через DMS. Это не считая самих жемчужин.
-WARNING|ПРЕДУПРЕЖДЕНИЕ
+WARNING |ПРЕДУПРЕЖДЕНИЕ 
 pearlcat_over9|Pearlcat_over9
 L-Stick|L-образный стержень
 Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Количество жемчужин ловкости (синих). Действует только при переопределении инвентаря? проверено.

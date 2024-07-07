@@ -605,7 +605,7 @@ Player 1|玩家 1
 Disable Rage Effect?|禁用愤怒效果？
 Lolight2|Lolight2
 When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|选中后，禁用珍珠猫的外观，旨在允许通过DMS自定义贴图。这并不包括珍珠本身。
-WARNING|WARNING
+WARNING |WARNING 
 pearlcat_over9|pearlcat_over9
 L-Stick|左操作杆
 Number of agility pearls (blue). Effective only when Inventory Override? is checked.|敏捷珍珠数量（蓝色）。仅在选中背包覆盖？后生效。
