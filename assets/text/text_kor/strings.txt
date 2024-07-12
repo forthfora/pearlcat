@@ -198,7 +198,7 @@ You're more than welcome to stay a while... your ability will always be a miracl
 ...hello?|...안녕하세요?
 BigGlyph2|빅글리프2
 pearlcat_structure4|pearlcat_structure4
-NON-MSC|비 MSC
+NON-MSC|비MSC
 pearlpup_face|pearlpup_face
 Scarf|스카프
 You are just a lot to take in for little old me! A fascinating power, the gift of communication;|당신은 작은 늙은 나를 위해 가져갈 것이 많습니다!매혹적인 힘, 의사 소통의 선물;
