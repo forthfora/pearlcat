@@ -1,6 +1,6 @@
 ¿Qué es esto? Está pulsando...
-Dudo que esto sea una perla de datos, pese a su aspecto hacia fuera.
-Si tuviera que arriesgar una suposición, sería que es solamente un pequeño<LINE>componente de un sistema mayor; el funcionamiento interno es bastante complejo.
-... Se siente curiosamente mal sostenerla, es como si alguna vez hubiera servido una función muy importante.
-Por favor, consérvala... o tal vez incluso regrésala a donde la encontraste, si no es mucha molestia.
-Ah, supongo que solo sería sentimental. En su estado actual, no puedo imaginar que siga siendo de mucha utilidad para nadie.
+Dudo que esto sea una perla de datos, pese a su aspecto exterior.
+Si tuviera que arriesgar una suposición, sería que es solamente un pequeño<LINE>componente de un sistema mayor; su funcionamiento interno es bastante complejo.
+... Se siente curiosamente mal sostenerla, es como si alguna vez haya servido una función muy importante.
+Por favor, consérvala... tal vez incluso regrésala a donde la encontraste, si no es mucha molestia.
+Ah, supongo que esta solo sería sentimental. En su estado actual, no puedo imaginar que siga siendo de mucha utilidad para nadie.
