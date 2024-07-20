@@ -166,7 +166,7 @@ public class T1_START : UpdatableAndDeletable
                     var t = Utils.Translator;
 
                     if (ModOptions.UsesCustomStoreKeybind.Value)
-                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + Hooks.GetStoreKeybindDisplayName(false) + t.Translate(") or (") + Hooks.GetStoreKeybindDisplayName(true) + ")", 0, 800);
+                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + Hooks.GetStoreKeybindDisplayName(false) + t.Translate(") or (") + Hooks.GetStoreKeybindDisplayName(true) + t.Translate(")"), 0, 800);
 
                     else
                         game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 600);

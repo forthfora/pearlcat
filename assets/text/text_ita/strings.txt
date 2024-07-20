@@ -196,7 +196,7 @@ You're more than welcome to stay a while... your ability will always be a miracl
 ...hello?|...Ciao?
 BigGlyph2|BigGlyph2
 pearlcat_structure4|pearlcat_structure4
-NON-MSC|NON MSC
+NON-MSC|NON-MSC
 pearlpup_face|pearlpup_face
 Scarf|Sciarpa
 You are just a lot to take in for little old me! A fascinating power, the gift of communication;|Sei solo molto da prendere per me!Un potere affascinante, il dono della comunicazione;

@@ -127,7 +127,7 @@ public static partial class Hooks
             prefix = string.Concat(prefix[0].ToString().ToUpper(), prefix.Substring(1));
         }
 
-        return prefix + (damagedSpeech ? "... " : " ") + name;
+        return prefix + (damagedSpeech ? t.Translate("... ") : " ") + name;
     }
 
     private static void MoonConversation_AddEvents(On.SLOracleBehaviorHasMark.MoonConversation.orig_AddEvents orig, SLOracleBehaviorHasMark.MoonConversation self)
