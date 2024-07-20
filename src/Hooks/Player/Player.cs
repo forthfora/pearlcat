@@ -30,11 +30,6 @@ public static partial class Hooks
 
         On.Player.SpearOnBack.Update += SpearOnBack_Update;
 
-        _ = new Hook(
-            typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
-        );
-
         On.Player.ctor += Player_ctor;
         On.Creature.Grasp.Release += Grasp_Release;
 
@@ -42,6 +37,11 @@ public static partial class Hooks
 
         On.Player.ThrownSpear += Player_ThrownSpear;
         On.Player.Stun += PlayerOnStun;
+
+        _ = new Hook(
+            typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
+        );
 
         try
         {
@@ -51,7 +51,6 @@ public static partial class Hooks
         {
             Plugin.Logger.LogError("Player Hooks IL Exception: \n" + e);
         }
-
     }
 
 

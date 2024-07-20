@@ -92,7 +92,7 @@ public static partial class Hooks
             for (int i = 0; i < inventory.Count; i++)
             {
                 var item = inventory[i];
-                var split = item.Split(new string[] { "<oA>" }, StringSplitOptions.None);
+                var split = item.Split(["<oA>"], StringSplitOptions.None);
 
                 if (split.Length < 5) continue;
 

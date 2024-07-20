@@ -1,0 +1,24 @@
+SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+Hello there! You are a hard one to miss, that is for certain.
+
+A creature with the ability to manipulate pearls...? How fascinating...
+
+And that augment, I have never seen anything quite like it - you must come from afar, right?
+
+It's got me thinking... hold still for one moment, I may have something for you.
+
+SPECIAL : FOODMAX+KARMA10
+SPECIAL : PEARLCAT_GIVE_CW
+
+A small gift, and I hope I can convince you to help me in return.
+
+You see... I am a bit of an archivist, and given your unique talents, I hope that you will help me expand my collection.
+
+Any pearls you bring me, I will read to you! You can have them back afterward.
+
+That is about it for my proposition - but you are quite welcome to stay, I don't get many visitors these days...
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS

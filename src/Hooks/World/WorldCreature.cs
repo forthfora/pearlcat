@@ -18,18 +18,7 @@ public static partial class Hooks
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
         On.KingTusks.Tusk.Update += Tusk_Update;
 
-        //On.DartMaggot.ShotUpdate += DartMaggot_ShotUpdate;
         On.BigNeedleWorm.Swish += BigNeedleWorm_Swish;
-
-        new Hook(
-            typeof(RegionGate).GetProperty(nameof(RegionGate.MeetRequirement), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetRegionGateMeetRequirement), BindingFlags.Static | BindingFlags.Public)
-        );
-
-        new Hook(
-            typeof(StoryGameSession).GetProperty(nameof(StoryGameSession.slugPupMaxCount), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetStoryGameSessionSlugPupMaxCount), BindingFlags.Static | BindingFlags.Public)
-        );
 
         On.SporePlant.AttachedBee.Update += AttachedBee_Update;
 
@@ -41,13 +30,22 @@ public static partial class Hooks
 
         On.ScavengerAI.CollectScore_PhysicalObject_bool += ScavengerAI_CollectScore_PhysicalObject_bool1;
 
-
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
         On.Leech.Attached += Leech_Attached;
 
         On.Creature.SafariControlInputUpdate += Creature_SafariControlInputUpdate;
         On.ArtificialIntelligence.VisualContact_BodyChunk += ArtificialIntelligence_VisualContact_BodyChunk;
+
+        _ = new Hook(
+            typeof(RegionGate).GetProperty(nameof(RegionGate.MeetRequirement), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetRegionGateMeetRequirement), BindingFlags.Static | BindingFlags.Public)
+        );
+
+        _ = new Hook(
+            typeof(StoryGameSession).GetProperty(nameof(StoryGameSession.slugPupMaxCount), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetStoryGameSessionSlugPupMaxCount), BindingFlags.Static | BindingFlags.Public)
+        );
 
         try
         {

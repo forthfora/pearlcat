@@ -91,4 +91,4 @@ This is a malicious pearl. The data is meaningless, but the way it is formatted 
 
 This contains the image of a pearl... and within that the same image. This is either<LINE>a joke, or a method of testing a pearl's recursive density. Neither are worth my time.
 
-Curious. While this pearl is cracked and unintelligble, a small plant has grown inside.
+Curious. While this pearl is cracked and unintelligible, a small plant has grown inside.

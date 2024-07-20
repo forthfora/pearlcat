@@ -1,0 +1,34 @@
+SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+Oh... and at last, here you are - welcome!
+
+I have been following your little journey through my superstructure quite closely...
+
+...and I must say, you certainly are a unique one!
+
+I have never seen such extraordinary powers demonstrated in your kind.
+
+I have been thinking: perhaps I may have a little something that interests you?
+
+Ah, please hold still, this will take just a moment...
+
+SPECIAL : FOODMAX+KARMA10
+SPECIAL : PEARLCAT_GIVE_CW
+
+...and there you go! I am very interested to see the effects you can gain from this one.
+
+. . .
+
+I must be honest with you, that was more than just a gift - I am a bit of a archivist myself, and I could really use your talents.
+
+You see, I am quite interested in seeing the contents of your collection, and whatever else you may find out there.
+
+If you allow me to read and document your data pearls, I would be in your debt - and you can keep them afterwards, of course!
+
+...well, that is about all I have to say. Please don't be afraid to stop by again sometime.
+
+And keep my proposition in mind!
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS

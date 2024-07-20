@@ -22,14 +22,21 @@
   </Target>
 
   <ItemGroup>
+      <Reference Include="../lib/*.dll">
+          <Private>False</Private>
+      </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="*.dll">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\utils\PUBLIC-Assembly-CSharp.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\core\BepInEx.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="CWStuff">
@@ -38,7 +45,6 @@
     </Reference>
     <Reference Include="HOOKS-Assembly-CSharp">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\plugins\HOOKS-Assembly-CSharp.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="ImprovedInput">
@@ -47,22 +53,18 @@
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\Mono.Cecil.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="MonoMod">
       <HintPath>..\..\Backups\Rain World\Rain World References\BepInEx\core\MonoMod.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="MonoMod.RuntimeDetour">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\MonoMod.RuntimeDetour.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="MonoMod.Utils">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\MonoMod.Utils.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
@@ -79,7 +81,6 @@
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
@@ -88,80 +89,14 @@
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-      <public>False</public>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\..\Backups\Rain World\Rain World References\RainWorld_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System">
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Core">
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Data">
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Drawing">
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.IO.Compression.FileSystem">
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Numerics">
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Runtime.Serialization">
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Xml">
-      <public>False</public>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Xml.Linq">
-      <public>False</public>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

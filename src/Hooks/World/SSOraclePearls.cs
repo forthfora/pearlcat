@@ -13,8 +13,8 @@ public static partial class Hooks
         On.PebblesPearl.Update += PebblesPearl_Update;
         On.SSOracleBehavior.Update += SSOracleBehavior_Update;
 
-        new Hook(
-            typeof(PebblesPearl).GetProperty(nameof(PebblesPearl.NotCarried), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
+        _ = new Hook(
+            typeof(PebblesPearl).GetProperty(nameof(PebblesPearl.NotCarried), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
             typeof(Hooks).GetMethod(nameof(GetPebblesPearlNotCarried), BindingFlags.Static | BindingFlags.Public)
         );
     }

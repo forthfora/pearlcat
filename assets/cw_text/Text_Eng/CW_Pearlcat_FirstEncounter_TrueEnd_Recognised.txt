@@ -1,0 +1,23 @@
+SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+Hello there! You are a hard one to miss.
+
+I have something to ask... have you been here before?
+
+There is something quite familiar about your presence.
+
+A creature with the ability to manipulate pearls...? I wouldn't forget that, but surely...
+
+...ah sorry, I shouldn't get caught up in malfunctioning memory arrays. You are welcome to visit anytime!
+
+And given your talents, I do hope you find the time to visit me often; I'd be more than happy to read those pearls of yours for you.
+
+I have to admit, you leave me with so many questions about your biology, but I won't pry.
+
+Well, I suppose that's about it from me - I bid you good luck on your travels!
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS
+
+...it was a red-cloaked creature... but didn't they have a child...? How could I forget these details...

@@ -31,7 +31,6 @@ public partial class Hooks
     {
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
 
-
         On.RegionState.AdaptRegionStateToWorld += RegionState_AdaptRegionStateToWorld;
 
         On.Room.Loaded += Room_Loaded;
@@ -41,7 +40,6 @@ public partial class Hooks
 
         On.ShelterDoor.DrawSprites += ShelterDoor_DrawSprites;
         On.ShelterDoor.DoorGraphic.DrawSprites += DoorGraphic_DrawSprites;
-
 
         On.KingTusks.Tusk.ShootUpdate += Tusk_ShootUpdate;
         On.KingTusks.Tusk.Update += Tusk_Update;
@@ -57,16 +55,6 @@ public partial class Hooks
         
         On.GateKarmaGlyph.ctor += GateKarmaGlyph_ctor;
 
-        new Hook(
-            typeof(RegionGate).GetProperty(nameof(RegionGate.MeetRequirement), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetRegionGateMeetRequirement), BindingFlags.Static | BindingFlags.Public)
-        );
-
-        new Hook(
-            typeof(StoryGameSession).GetProperty(nameof(StoryGameSession.slugPupMaxCount), BindingFlags.Instance | BindingFlags.Public).GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetStoryGameSessionSlugPupMaxCount), BindingFlags.Static | BindingFlags.Public)
-        );
-
         On.SporePlant.AttachedBee.Update += AttachedBee_Update;
 
         On.WormGrass.WormGrassPatch.Update += WormGrassPatch_Update;
@@ -76,15 +64,12 @@ public partial class Hooks
 
         On.VultureMask.DrawSprites += VultureMask_DrawSprites;
 
-
         On.MoreSlugcats.MSCRoomSpecificScript.OE_GourmandEnding.Update += OE_GourmandEnding_Update;
-
 
         On.DaddyTentacle.Update += DaddyTentacle_Update;
         On.DaddyLongLegs.Update += DaddyLongLegs_Update;
 
         On.ScavengerAI.CollectScore_PhysicalObject_bool += ScavengerAI_CollectScore_PhysicalObject_bool1;
-
 
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
@@ -99,7 +84,17 @@ public partial class Hooks
 
         On.DataPearl.UniquePearlHighLightColor += DataPearl_UniquePearlHighLightColor;
         On.Room.PlaySound_SoundID_BodyChunk += Room_PlaySound_SoundID_BodyChunk;
-        
+
+        _ = new Hook(
+            typeof(RegionGate).GetProperty(nameof(RegionGate.MeetRequirement), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetRegionGateMeetRequirement), BindingFlags.Static | BindingFlags.Public)
+        );
+
+        _ = new Hook(
+            typeof(StoryGameSession).GetProperty(nameof(StoryGameSession.slugPupMaxCount), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetStoryGameSessionSlugPupMaxCount), BindingFlags.Static | BindingFlags.Public)
+        );
+
         try
         {
             IL.AbstractRoom.RealizeRoom += AbstractRoom_RealizeRoom;
@@ -111,7 +106,6 @@ public partial class Hooks
         {
             Plugin.Logger.LogError("World IL Hook Error:\n" + e + "\n" + e.StackTrace);
         }
-
     }
 
 

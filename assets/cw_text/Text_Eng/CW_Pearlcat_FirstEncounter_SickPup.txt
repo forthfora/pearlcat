@@ -1,0 +1,24 @@
+SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+Ah, hello.
+
+I will not lie, I have been tracking your journey through my facility, and it is clear that your child is deeply unwell.
+
+I am very sorry - I cannot do anything for them, if that is why you have come to me.
+
+I am no medical facility, and I am dealing with an infection of my own... I have an idea of how it feels.
+
+. . .
+
+...though, perhaps there is something I can give to help you?
+
+Please hold still, this will take just a moment...
+
+SPECIAL : FOODMAX+KARMA10
+SPECIAL : PEARLCAT_GIVE_CW
+
+You two are welcome to come back anytime, to rest here.
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS

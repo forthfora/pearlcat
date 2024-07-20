@@ -1,0 +1,23 @@
+﻿SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+¡Hola!Eres difícil de perder.
+
+Tengo algo que preguntar ... ¿Has estado aquí antes?
+
+Hay algo bastante familiar en tu presencia.
+
+¿Una criatura con la capacidad de manipular las perlas ...?No olvidaría eso, pero seguramente ...
+
+... Ah, lo siento, no debería quedar atrapado en matrices de memoria de mal funcionamiento.¡Puede visitar en cualquier momento!
+
+Y dados sus talentos, espero que encuentre el tiempo para visitarme a menudo;Estaría más que feliz de leer esas perlas tuyas para ti.
+
+Tengo que admitir que me dejas con tantas preguntas sobre tu biología, pero no me haré.
+
+Bueno, supongo que eso es de mi parte, ¡te doy buena suerte en tus viajes!
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS
+
+... Era una criatura con clavícula roja ... pero ¿no tenían un hijo ...?¿Cómo podría olvidar estos detalles ...

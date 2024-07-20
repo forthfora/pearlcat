@@ -1,0 +1,24 @@
+﻿SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+Ah, bonjour.
+
+Je ne mentirai pas, j'ai suivi votre voyage à travers mes installations, et il est clair que votre enfant est profondément malade.
+
+Je suis vraiment désolé - je ne peux rien faire pour eux, si c'est pourquoi vous êtes venu à moi.
+
+Je ne suis pas un établissement médical, et je fais face à une infection à moi ... j'ai une idée de ce que ça fait.
+
+...
+
+... Mais peut-être qu'il y a quelque chose que je peux donner pour vous aider?
+
+S'il vous plaît bien tenir, cela ne prendra qu'un moment ...
+
+SPECIAL : FOODMAX+KARMA10
+SPECIAL : PEARLCAT_GIVE_CW
+
+Vous êtes invités à revenir à tout moment, pour vous reposer ici.
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS

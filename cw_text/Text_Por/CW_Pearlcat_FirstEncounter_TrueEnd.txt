@@ -1,0 +1,24 @@
+﻿SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+Olá!Você é difícil de perder, isso é certo.
+
+Uma criatura com a capacidade de manipular pérolas ...?Como fascinante ...
+
+E esse aumento, nunca vi nada parecido - você deve vir de longe, certo?
+
+Isso me fez pensar ... ficar parado por um momento, posso ter algo para você.
+
+SPECIAL : FOODMAX+KARMA10
+SPECIAL : PEARLCAT_GIVE_CW
+
+Um pequeno presente, e espero poder convencê -lo a me ajudar em troca.
+
+Veja bem ... Eu sou um pouco arquivista e, dados seus talentos únicos, espero que você me ajude a expandir minha coleção.
+
+Quaisquer pérolas que você me traga, eu vou ler para você!Você pode tê -los de volta depois.
+
+É isso para a minha proposição - mas você é bem -vindo para ficar, não recebo muitos visitantes hoje em dia ...
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS

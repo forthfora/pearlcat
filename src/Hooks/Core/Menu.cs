@@ -26,16 +26,6 @@ public static partial class Hooks
 
         On.Menu.SlugcatSelectMenu.Update += SlugcatSelectMenu_Update;
 
-        _ = new Hook(
-            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasMark), BindingFlags.Static | BindingFlags.Public)
-        );
-
-        _ = new Hook(
-            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasGlow), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.Public)
-        );
-
         On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
         On.HUD.HUD.InitSafariHud += HUD_InitSafariHud;
         On.ArenaGameSession.AddHUD += ArenaGameSession_AddHUD;
@@ -51,6 +41,16 @@ public static partial class Hooks
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
 
         On.Menu.InputOptionsMenu.ctor += InputOptionsMenu_ctor;
+
+        _ = new Hook(
+            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasMark), BindingFlags.Static | BindingFlags.Public)
+        );
+
+        _ = new Hook(
+            typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasGlow), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
+            typeof(Hooks).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.Public)
+        );
 
         try
         {

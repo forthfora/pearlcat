@@ -2,8 +2,10 @@ import os
 
 from googletrans import Translator
 
-ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text/text_eng') 
-OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text') 
+#ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text/text_eng') 
+#OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text') 
+ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/cw_text/Text_Eng') 
+OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/cw_text') 
 
 translator = Translator()
 
@@ -42,13 +44,28 @@ def Translate(targetLang):
                 contents = f.readlines()
                 f.close()
 
-                firstLine = contents[0]
-                contents.pop(0)
+                translatedList = []
 
-                contents = ''.join(contents)
-                translated = translator.translate(contents, src=SRC, dest=targetLang).text
-    
-                text = firstLine + translated
+                for line in contents:
+                    if line == '\n':
+                        translatedList.append(line)
+                        continue
+                    
+                    # If the file uses the standard '0-1' first line format, we should skip that
+                    # if line == contents[0]:
+                    #    translatedList.append(line)
+                    #    continue
+
+                    # Skip special events
+                    if line.startswith("SPECIAL :"):
+                        translatedList.append(line)
+                        continue
+
+                    translated = translator.translate(line, src=SRC, dest=targetLang).text
+
+                    translatedList.append(translated + '\n')
+
+                text = ''.join(translatedList)
 
                 f = open(os.path.join(output, fileName), "w", encoding='utf-8-sig')
                 

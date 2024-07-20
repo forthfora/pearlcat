@@ -1,0 +1,24 @@
+﻿SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+¡Hola!Eres difícil de perder, eso es seguro.
+
+¿Una criatura con la capacidad de manipular las perlas ...?Que fascinante...
+
+Y ese aumento, nunca he visto algo así, debes venir de lejos, ¿verdad?
+
+Me hace pensar ... mantente quieto por un momento, puedo tener algo para ti.
+
+SPECIAL : FOODMAX+KARMA10
+SPECIAL : PEARLCAT_GIVE_CW
+
+Un pequeño regalo, y espero poder convencerte de que me ayude a cambio.
+
+Verá ... Soy un poco archivero, y dado sus talentos únicos, espero que me ayude a expandir mi colección.
+
+¡Cualquier perla que me traigas, te leeré!Puedes recuperarlos después.
+
+Eso es todo para mi propuesta, pero puede quedarse bien, no recibo muchos visitantes en estos días ...
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS
