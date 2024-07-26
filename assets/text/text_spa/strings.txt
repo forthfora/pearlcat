@@ -155,7 +155,7 @@ Hold (|Mantén pulsado (
 ) or (|) o (
 ) with an active common pearl to convert it into a pearl spear|) con una perla común activa para convertirla en una lanza perlada
 Hold (GRAB) with an active common pearl to convert it into a pearl spear|Mantén pulsado (AGARRAR) con una perla común activa para convertirla en una lanza perlada
-Pearl spears will attempt to return to you being thrown, if they are not stuck|Si no se encuentran atascadas, las lanzas perladas intentarán regresar hacia ti tras ser lanzadas
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|Si no se encuentran atascadas, las lanzas perladas intentarán regresar hacia ti tras ser lanzadas
 Oh! It is good to see you two again!|¡Oh! ¡Un gusto volver a verlos!
 Is my memory so bad to forget how your little one looks? They seem paler...|¿Tan mala es mi memoria como para olvidar cómo se ve tu pequeño? Parece más pálido...
 Oh... oh no...|Oh... Oh, no...

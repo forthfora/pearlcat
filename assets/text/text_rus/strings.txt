@@ -543,7 +543,7 @@ Atlas not found! ({uniqueName})|Атлас не найден! ({уникальн
 Given your unique abilities, if you are curious as to the contents of those pearls -|Учитывая ваши уникальные способности, если вас интересует содержимое этих жемчужин...
 You and your family are always welcome here - please visit often!|Вы и ваша семья всегда рады здесь - пожалуйста, часто посещайте!
 Futile_White|бесполезный_белый
-Pearl spears will attempt to return to you being thrown, if they are not stuck|Жемчужные Спирс попытается вернуться к вам, если они брошены, если они не застряли
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|Жемчужные Спирс попытается вернуться к вам, если они брошены, если они не застряли
 The company of you and your friend makes my day, strange scholar.|Компания вас и вашего друга делают мой день, странный ученый.
 pearlcat_8|жемчужная кошка_8
 Face|Лицо

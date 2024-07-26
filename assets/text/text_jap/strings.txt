@@ -543,7 +543,7 @@ Atlas not found! ({uniqueName})|アトラスが見つかりません! （{ユニ
 Given your unique abilities, if you are curious as to the contents of those pearls -|あなたのユニークな能力を考えると、その真珠の中身が気になるなら -
 You and your family are always welcome here - please visit often!|あなたとあなたの家族はいつでもここで大歓迎です - 頻繁に訪問してください！
 Futile_White|無駄な白
-Pearl spears will attempt to return to you being thrown, if they are not stuck|パール・スピアーズは、彼らが立ち往生していなければ、あなたに投げ込まれようとします
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|パール・スピアーズは、彼らが立ち往生していなければ、あなたに投げ込まれようとします
 The company of you and your friend makes my day, strange scholar.|あなたとあなたの友人の会社は私の日、奇妙な学者を作ります。
 pearlcat_8|パールキャット_8
 Face|顔

@@ -543,7 +543,7 @@ Atlas not found! ({uniqueName})|Atlas nicht gefunden! ({einzigartiger Name})
 Given your unique abilities, if you are curious as to the contents of those pearls -|Wenn Sie angesichts Ihrer einzigartigen Fähigkeiten neugierig auf den Inhalt dieser Perlen sind –
 You and your family are always welcome here - please visit often!|Sie und Ihre Familie sind hier immer willkommen - bitte besuchen Sie oft!
 Futile_White|Sinnlos_Weiß
-Pearl spears will attempt to return to you being thrown, if they are not stuck|Pearl Spears wird versuchen, zu Ihnen zurückzukehren, wenn Sie nicht festsitzen, wenn sie nicht festsitzen
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|Pearl Spears wird versuchen, zu Ihnen zurückzukehren, wenn Sie nicht festsitzen, wenn sie nicht festsitzen
 The company of you and your friend makes my day, strange scholar.|Die Gesellschaft von Ihnen und Ihrem Freund macht meinen Tag, seltsamer Gelehrter.
 pearlcat_8|Pearlcat_8
 Face|Gesicht

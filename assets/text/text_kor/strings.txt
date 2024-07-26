@@ -543,7 +543,7 @@ Atlas not found! ({uniqueName})|아틀라스를 찾을 수 없습니다! ({고�
 Given your unique abilities, if you are curious as to the contents of those pearls -|당신의 고유한 능력을 감안할 때, 그 진주의 내용물이 궁금하다면-
 You and your family are always welcome here - please visit often!|당신과 당신의 가족은 항상 여기에서 환영합니다 - 자주 방문하십시오!
 Futile_White|Futile_White
-Pearl spears will attempt to return to you being thrown, if they are not stuck|진주 스피어스는 당신이 붙어 있지 않으면 당신에게 돌아 오려고 시도 할 것입니다.
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|진주 스피어스는 당신이 붙어 있지 않으면 당신에게 돌아 오려고 시도 할 것입니다.
 The company of you and your friend makes my day, strange scholar.|당신과 당신의 친구의 회사는 나의 하루, 이상한 학자를 만듭니다.
 pearlcat_8|pearlcat_8
 Face|얼굴

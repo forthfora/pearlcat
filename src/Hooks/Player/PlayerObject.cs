@@ -226,7 +226,7 @@ public static partial class Hooks
                 self.abstractCreature.world.game.AddTextPrompt("Hold (GRAB) with an active common pearl to convert it into a pearl spear", 0, 800);
             }
 
-            self.abstractCreature.world.game.AddTextPrompt("Pearl spears will attempt to return to you being thrown, if they are not stuck", 0, 800);
+            self.abstractCreature.world.game.AddTextPrompt("Pearl spears will attempt to return to you after being thrown, if they are not stuck", 0, 800);
         }
     }
     

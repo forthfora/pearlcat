@@ -544,7 +544,7 @@ Atlas not found! ({uniqueName})|Atlas not found! ({uniqueName})
 Given your unique abilities, if you are curious as to the contents of those pearls -|鉴于你独特的能力，如果你对那些珍珠的内容感到好奇的话 - 
 You and your family are always welcome here - please visit often!|欢迎你和你的家人来到这里 - 请经来访！
 Futile_White|Futile_White
-Pearl spears will attempt to return to you being thrown, if they are not stuck|珍珠矛会试图返回到你最初投掷的位置，如果它们没被卡住
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|珍珠矛会试图返回到你最初投掷的位置，如果它们没被卡住
 The company of you and your friend makes my day, strange scholar.|你和你朋友的陪伴让我很开心，奇怪的学者。
 pearlcat_8|pearlcat_8
 Face|Face

@@ -929,7 +929,8 @@ public static partial class Hooks
             //self.startButton.buttonBehav.greyedOut = true; // found issues with this, so don't restrict incase of false detection
 
             self.startButton.fillTime = 240.0f;
-            var text = self.Translate("WARNING") + "\n" + (miscProg.IsMSCSave ? self.Translate("MSC").Replace(" ", vbCrLf) : self.Translate("NON-MSC").Replace(" ", vbCrLf)) + self.Translate(" SAVE");
+
+            var text = self.Translate("WARNING") + "\n" + (miscProg.IsMSCSave ? self.Translate("MSC").Replace(" ", "\n") : self.Translate("NON-MSC").Replace(" ", "\n")) + self.Translate(" SAVE");
 
             self.startButton.menuLabel.text = text;
         }
