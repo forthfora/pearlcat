@@ -326,7 +326,7 @@ I assure you it will be a more than suitable replacement for your primitive need
 ...there.|... Listo.
 I am not sure if you are aware, but your child appears very unwell...|No sé si eres consciente de esto, pero tu hijo parece encontrarse muy mal...
 This illness, it is unlike any I have seen before - I can say it is likely fatal.|Esta enfermedad no se parece a ninguna que haya visto antes; puedo decir que probablemente sea letal.
-There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|No hay nada que pueda hacer. No soy una instalación médica,<LINE>e incluso si lo fuera, mi equipamiento está lejos de ser impecable.
+There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|No hay nada que pueda hacer. No soy una instalación médica,<LINE>e incluso si lo fuera, mi equipo está lejos de ser impecable.
 I am... sorry.|Yo... lo siento.
 ...we were built to solve problems. It is a shame not every problem has a solution.|... Fuimos construidos para resolver problemas. Es una lástima que no todos los problemas tengan solución.
 ...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|... Pero... veré qué puedo hacer, por ahora. Quizás pueda encontrar una solución para los dos.
