@@ -1,0 +1,34 @@
+SPECIAL : LOCKPATHS
+SPECIAL : GRAV
+
+Oh... y finalmente están ustedes dos aquí. ¡Bienvenidos!
+
+He estado siguiendo su pequeño viaje por mi superestructura muy de cerca...
+
+... ¡y debo admitir que, sin duda, forman una pareja única!
+
+Nunca había visto poderes tan extraordinarios demostrados en los de su especie.
+
+Estuve pensando: «Probablemente tenga algo que les interese».
+
+Ah, por favor, no te muevas, esto solo tomará un momento...
+
+SPECIAL : FOODMAX+KARMA10
+SPECIAL : PEARLCAT_GIVE_CW
+
+... ¡Y ahí lo tienen! Estoy muy interesado por ver los efectos que puedan llegar a obtener de ella.
+
+. . .
+
+Debo ser honesto con ustedes, eso es más que solo un regalo; yo soy un poco archivista y podría hacer mucho uso de su talento.
+
+Verán, estoy bastante interesado en ver el contenido de su colección y lo que sea que puedan llegar a encontrar allá afuera.
+
+Si me permiten leer y documentar sus perlas de datos, estaría en deuda con ustedes. ¡Y luego podrán conservarlas, por supuesto!
+
+... Bueno, eso es más o menos todo lo que tengo que decir. Por favor, no tengan miedo de volver a pasar por aquí algún tiempo.
+
+¡No olvides mi propuesta y mantén a tu pequeño a salvo!
+
+SPECIAL : PARTIALGRAV
+SPECIAL : UNLOCKPATHS

@@ -1,24 +1,24 @@
-﻿SPECIAL : LOCKPATHS
+SPECIAL : LOCKPATHS
 SPECIAL : GRAV
 
 Ah, hola.
 
-No mentiré, he estado rastreando su viaje a través de mis instalaciones, y está claro que su hijo está profundamente mal.
+No les voy a mentir, he estado monitorizando su viaje a través de mi instalación y está claro que tu hijo se encuentra sumamente mal.
 
-Lo siento mucho, no puedo hacer nada por ellos, si es por eso que has venido a mí.
+Lo siento mucho, no puedo hacer nada por él si ese es el motivo por el que que has venido hasta acá.
 
-No soy un centro médico, y estoy tratando con una infección propia ... Tengo una idea de cómo se siente.
+No soy una instalación médica y estoy lidiando con una infección mía... tengo una idea de cómo se siente.
 
-...
+. . .
 
-... aunque, ¿tal vez hay algo que puedo dar para ayudarte?
+... Aunque, problamente haya algo que les pueda dar para ayudarlos.
 
-Por favor mantente quieto, esto tomará un momento ...
+Por favor, no te muevas, esto solo tomará un momento...
 
 SPECIAL : FOODMAX+KARMA10
 SPECIAL : PEARLCAT_GIVE_CW
 
-Ustedes dos pueden regresar en cualquier momento, a descansar aquí.
+Siéntense libres de regresar cuando sea para descansar aquí.
 
 SPECIAL : PARTIALGRAV
 SPECIAL : UNLOCKPATHS

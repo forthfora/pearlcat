@@ -223,7 +223,7 @@ Oh, hello there!|Oh, ¡hola!
 ...are you alright, little one? The modifications to your body are quite... unusual.|... ¿Te encuentras bien, pequeño? Los cambios en tu cuerpo son muy... inusuales.
 Ah... you seem, familiar...? ...but in such a strange way...|Ah, pareces... familiar... pero de una forma muy extraña...
 A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|Un erudito con la habilidad de manipular perlas... ¡Oh... sí! ¡Me acuerdo!
-...but, you are not like I remember them? Am I misremembering so badly?|Pero... no eres como la recuerdo. ¿Tan mal estoy evocando?
+...but, you are not like I remember them? Am I misremembering so badly?|Pero... no eres como la recuerdo. ¿Tan mal estoy rememorando?
 ...did they have a child? ...could you be?|... ¿Tenía un hijo? ¿Podrías ser tú...?
 Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|Bueno, si mi memoria no me falla, es un placer verte de nuevo... extraño erudito.
 Has it really been so long...? And considering your current state, you've been through a lot...|¿De verdad ha pasado tanto tiempo?... Y teniendo en cuenta tu estado actual, habrás pasado por mucho...
@@ -261,10 +261,10 @@ You gave me quite the fright! I do not get visitors often these days;<LINE>much 
 ...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|... ¡Tienes el don de la comunicación! ¿Acaso le hiciste una visita a mi vecino, Cinco Guijarros?...
 But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Pero... la marca que posees es muy inusual.<LINE>No es algo que cualquiera en el grupo local pueda conferir...
 You must be very brave to have made it all the way here. Very brave indeed...|Debes ser muy valiente como para haber llegado hasta aquí. Muy valiente, en efecto...
-And who is your little friend? They are...|¿Y quién es tu amiguito? ¡Es sumamente...!
+And who is your little friend? They are...|¿Y quién es tu amiguito? ¡Se ve...!
 You are welcome to stay as long as you like. Anything to ease the pain.|Siéntete libre de quedarte todo el tiempo que quieras. Lo que sea para aliviar el dolor.
-And who is your little friend? They are quite adorable!|¿Y quién es tu amiguito? ¡Es sumamente adorable!
-Ah, I hope you both stay safe out there...|Ah, ojalá tengan cuidado ahí fuera...
+And who is your little friend? They are quite adorable!|¿Y quién es tu amiguito? ¡Se ve muy adorable!
+Ah, I hope you both stay safe out there...|Ah, confío en que tengan cuidado ahí fuera...
 The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|El poder que posees es fascinante. Nunca he visto nada igual entre los de tu especie.
 Your biology... it is both familiar and foreign to me. How curious.|Tu biología... es tan familiar como desconocida para mí. Qué curioso.
 If only I had my memories, I might have a clue...|Si tan solo tuviera mis recuerdos, podría tener alguna idea...
@@ -325,7 +325,7 @@ I suppose the only thing you value in these pearls is how pure their lattice is?
 I assure you it will be a more than suitable replacement for your primitive needs.|Te aseguro que será un reemplazo más que adecuado para tus necesidades primitivas.
 ...there.|... Listo.
 I am not sure if you are aware, but your child appears very unwell...|No sé si eres consciente de esto, pero tu hijo parece encontrarse muy mal...
-This illness, it is unlike any I have seen before - I can say it is likely fatal.|Esta enfermedad no se parece a ninguna que haya visto antes; puedo decir que probablemente sea letal.
+This illness, it is unlike any I have seen before - I can say it is likely fatal.|Esta enfermedad no se parece a ninguna que haya visto antes; puedo decir que es probablemente letal.
 There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|No hay nada que pueda hacer. No soy una instalación médica,<LINE>e incluso si lo fuera, mi equipo está lejos de ser impecable.
 I am... sorry.|Yo... lo siento.
 ...we were built to solve problems. It is a shame not every problem has a solution.|... Fuimos construidos para resolver problemas. Es una lástima que no todos los problemas tengan solución.
@@ -333,8 +333,8 @@ I am... sorry.|Yo... lo siento.
 Some time ago now, I encountered a scholar and their dying pup...|Hace tiempo atrás, me encontré con una erudita y su cría agonizante...
 I believe that child was you.|Creo que esa cría eras tú.
 Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|Teniendo en cuenta el estado en el que te habías ido, pensé que era imposible verte de nuevo... y, aun así, acá estás.
-I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|Me di cuenta del aditamento que te mantiene con vida apenas regresaste aquí.<LINE>No digo esto a la ligera, pero está más allá de mi comprensión cómo es que funciona.
-I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Me encantaría estudiarla para así ayudar a tratar mi propia aflicción, pero eso requeriría... la extracción del aditamento.
+I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|Me di cuenta del suplemento que te mantiene con vida apenas regresaste aquí.<LINE>No digo esto a la ligera, pero está más allá de mi comprensión cómo es que funciona.
+I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Me encantaría estudiarla para así ayudar a tratar mi propia aflicción, pero eso requeriría... la extracción del suplemento.
 No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|No, no soy tan egoísta como para sacrificarte por capricho; una cura ni siquiera está garantizada.
 I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|Me alegra que hayas encontrado tu propia solución... incluso si es una perversión aborrecible de la ley natural.
 Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read...|Dado que has heredado las cualidades de tu madre, si quieres hacer<LINE>que estas visitas valgan la pena mi tiempo, tráeme algo para leer...
