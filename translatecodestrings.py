@@ -3,8 +3,8 @@ import re
 
 from googletrans import Translator
 
-ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/src') 
-OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text') 
+ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/pearlcat/src') 
+OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/pearlcat/assets/text') 
 
 translator = Translator()
 
