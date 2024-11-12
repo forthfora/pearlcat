@@ -10,8 +10,8 @@ namespace Pearlcat;
 
 public class InventoryHUD : HudPart
 {
-    public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectSymbol> Symbols { get; } = new();
-    public List<PlayerObjectSymbol> AllSymbols { get; } = new();
+    public static ConditionalWeakTable<AbstractPhysicalObject, PlayerPearlSymbol> Symbols { get; } = new();
+    public List<PlayerPearlSymbol> AllSymbols { get; } = new();
 
     public FContainer HUDFContainer { get; }
     public List<FSprite> InventoryCircles { get; } = new();
@@ -174,7 +174,7 @@ public class InventoryHUD : HudPart
 
         var playerData = game.GetAllPlayerData();
 
-        List<PlayerObjectSymbol> updatedSymbols = new();
+        List<PlayerPearlSymbol> updatedSymbols = new();
 
         foreach (var playerModule in playerData)
         {
@@ -203,7 +203,7 @@ public class InventoryHUD : HudPart
         }
     }
 
-    public void UpdateSymbol(AbstractPhysicalObject abstractObject, PlayerModule playerModule, List<PlayerObjectSymbol> updatedSymbols)
+    public void UpdateSymbol(AbstractPhysicalObject abstractObject, PlayerModule playerModule, List<PlayerPearlSymbol> updatedSymbols)
     {
         if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
         {
@@ -212,7 +212,7 @@ public class InventoryHUD : HudPart
                 Symbols.Remove(abstractObject);
             }
 
-            symbol = new PlayerObjectSymbol(this, Vector2.zero, playerModule);
+            symbol = new PlayerPearlSymbol(this, Vector2.zero, playerModule);
             Symbols.Add(abstractObject, symbol);
             AllSymbols.Add(symbol);
         }

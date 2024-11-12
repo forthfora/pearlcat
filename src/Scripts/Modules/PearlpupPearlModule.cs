@@ -11,7 +11,7 @@ public class PearlpupPearlModule
     {
         DataPearlRef = new(self);
 
-        var owner = self.TryGetPlayerObjectOwner();
+        var owner = self.TryGetPlayerPearlOwner();
 
         if (owner != null)
         {

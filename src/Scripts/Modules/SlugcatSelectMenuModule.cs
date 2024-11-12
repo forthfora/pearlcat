@@ -16,7 +16,7 @@ public class SlugcatSelectMenuModule
         var textOffset = 0.0f;
         var textWidth = 85.0f;
 
-        MiraCheckbox = new(self, self.pages[0], self, new Vector2(self.startButton.pos.x + 200f + textOffset, 90.0f), textWidth, self.Translate("Skip to Mira Storyline"), Hooks.MIRA_SKIP_ID, false);
+        MiraCheckbox = new(self, self.pages[0], self, new Vector2(self.startButton.pos.x + 200f + textOffset, 90.0f), textWidth, self.Translate("Skip to Mira Storyline"), Hooks_Menu.MIRA_SKIP_ID, false);
         
         var label = MiraCheckbox.label;
         label.pos.x += textWidth - MiraCheckbox.label.label.textRect.width - 5f;

@@ -8,44 +8,27 @@ public static partial class Hooks
 {
     public static void ApplyHooks()
     {
-        // Core
-        ApplySaveDataHooks();
-        ApplyMenuHooks();
-        ApplySlideShowHooks();
-        ApplyFixesHooks();
+        // Misc
+        Hooks_SaveData.ApplyHooks_SaveData();
+        Hooks_Menu.ApplyHooks_Menu();
+        Hooks_SlideShow.ApplyHooks_SlideShow();
+        Hooks_Fixes.ApplyHooks_Fixes();
 
-        // Player
-        ApplyPlayerHooks();
-        ApplyPlayerGraphicsHooks();
-        ApplyPlayerObjectManagementHooks();
+        Hooks_Player.ApplyHooks_Player();
 
-        ApplyPlayerPossessionFixes();
+        Hooks_PearlpupNPC.ApplyHooks_PearlpupNPC();
 
-        // Pearlpup
-        ApplyPearlpupHooks();
-        ApplyPearlpupGraphicsHooks();
-        ApplyPearlpupIllnessHooks();
-        ApplyPearlpupPearlHooks();
-
-        // World
-        ApplyWorldHooks();
-        ApplyWorldCreatureHooks();
-        ApplySoundHooks();
-
-        ApplySSOracleHooks();
-        ApplySSOracleConvoHooks();
-        ApplySSOraclePearlsHooks();
-
-        ApplySLOracleHooks();
+        Hooks_World.ApplyHooks_World();
     }
+
+
+    public static bool IsInit { get; private set; }
 
     public static void ApplyInit()
     {
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
         On.RainWorld.PostModsInit += RainWorld_PostModsInit;
     }
-
-    public static bool IsInit { get; private set; } = false;
 
     private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
     {
@@ -56,9 +39,15 @@ public static partial class Hooks
             if (IsInit) return;
             IsInit = true;
 
-            ApplyHooks();
 
+            // Init Info
             var mod = ModManager.ActiveMods.FirstOrDefault(mod => mod.id == Plugin.MOD_ID);
+
+            if (mod is null)
+            {
+                Plugin.Logger.LogError($"Failed to initialize: ID '{Plugin.MOD_ID}' wasn't found in the active mods list!");
+                return;
+            }
 
             Plugin.MOD_NAME = mod.name;
             Plugin.VERSION = mod.version;
@@ -76,22 +65,29 @@ public static partial class Hooks
 
             Enums.Dreams.RegisterDreams();
 
-            AssetLoader.LoadAssets();
+
+            // Init Assets
+            Utils.LoadAssets();
 
 
             // Init Soft Dependencies
-            if (IsImprovedInputInstalled)
+            if (Utils.IsModEnabled_ImprovedInputConfig)
             {
-                InitIICKeybinds();
+                Hooks_Input.InitIICKeybinds();
             }
 
-            if (Utils.IsCWActive)
+            if (Utils.IsModEnabled_ChasingWind)
             {
                 Utils.InitCWIntegration();
             }
 
 
-            var initMessage = "PEARLCAT SAYS HELLO FROM INIT! (VERSION: " + Plugin.VERSION + ")";
+            // Apply Hooks
+            ApplyHooks();
+
+
+            // Startup Log
+            var initMessage = $"PEARLCAT SAYS HELLO FROM INIT! (VERSION: {Plugin.VERSION})";
 
             Debug.Log(initMessage);
 
@@ -112,7 +108,7 @@ public static partial class Hooks
     {
         try
         {
-            POEffectManager.RegisterEffects();
+            PearlEffectManager.RegisterEffects();
         }
         catch (Exception e)
         {
@@ -123,4 +119,14 @@ public static partial class Hooks
             orig(self);
         }
     }
+
+
+
+    // There are only here for backwards compatability, I'm pretty sure another mod used this at one point or another
+
+    // Gate Scanner (?)
+    public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule) => player.TryGetPearlcatModule(out playerModule);
+
+    // Pups+
+    public static bool IsPearlpup(this Player player) => player.abstractCreature.IsPearlpup();
 }

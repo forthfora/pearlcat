@@ -438,7 +438,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 }
                 else if (ConvoCount == 5)
                 {
-                    if (Utils.IsMiraActive && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
+                    if (Utils.IsModEnabled_MiraInstallation && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
                     {
                         owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
                     }
@@ -484,7 +484,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                             ConvoCount++;
                         }
-                        else if (Utils.IsMiraActive && !miscProg.UnlockedMira)
+                        else if (Utils.IsModEnabled_MiraInstallation && !miscProg.UnlockedMira)
                         {
                             owner.LockShortcuts();
                             owner.getToWorking = 0.0f;
@@ -554,7 +554,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                     
                     if (physicalObject is not DataPearl dataPearl) continue;
                     
-                    if (physicalObject.abstractPhysicalObject.IsPlayerObject()) continue;
+                    if (physicalObject.abstractPhysicalObject.IsPlayerPearl()) continue;
                     
                     if (!module.PearlsHeldByPlayer.TryGetValue(dataPearl, out var player)) continue;
 
@@ -745,7 +745,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                     continue;
                 }
 
-                if (physicalObject.abstractPhysicalObject.IsPlayerObject()) continue;
+                if (physicalObject.abstractPhysicalObject.IsPlayerPearl()) continue;
 
                 if (physicalObject is not DataPearl dataPearl) continue;
                 

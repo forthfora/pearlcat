@@ -119,18 +119,18 @@ public static class ModuleManager
 
 
     // Sentry
-    public static ConditionalWeakTable<AbstractPhysicalObject, POSentry> SentryData { get; } = new();
-    public static bool TryGetSentry(this AbstractPhysicalObject self, out POSentry sentry) => SentryData.TryGetValue(self, out sentry);
+    public static ConditionalWeakTable<AbstractPhysicalObject, PearlSentry> SentryData { get; } = new();
+    public static bool TryGetSentry(this AbstractPhysicalObject self, out PearlSentry sentry) => SentryData.TryGetValue(self, out sentry);
 
 
-    // Player Object
-    public static ConditionalWeakTable<AbstractPhysicalObject, PlayerObjectModule> PlayerObjectData { get; } = new();
-    public static bool TryGetPOModule(this AbstractPhysicalObject abstractObject, out PlayerObjectModule module) => PlayerObjectData.TryGetValue(abstractObject, out module);
+    // Player Pearl
+    public static ConditionalWeakTable<AbstractPhysicalObject, PlayerPearlModule> PlayerPearlData { get; } = new();
+    public static bool TryGetPlayerPearlModule(this AbstractPhysicalObject abstractObject, out PlayerPearlModule module) => PlayerPearlData.TryGetValue(abstractObject, out module);
 
 
-    // Object Addon
-    public static ConditionalWeakTable<AbstractPhysicalObject, POGraphics> PlayerObjectGraphicsData { get; } = new();
-    public static bool TryGetPOGraphics(this AbstractPhysicalObject abstractObject, out POGraphics module) => PlayerObjectGraphicsData.TryGetValue(abstractObject, out module);
+    // Player Pearl Graphics
+    public static ConditionalWeakTable<AbstractPhysicalObject, PearlGraphics> PlayerPearlGraphicsData { get; } = new();
+    public static bool TryGetPearlGraphicsModule(this AbstractPhysicalObject abstractObject, out PearlGraphics module) => PlayerPearlGraphicsData.TryGetValue(abstractObject, out module);
 
 
     // Slugcat Select Menu

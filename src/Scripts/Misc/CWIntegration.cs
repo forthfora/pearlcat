@@ -33,7 +33,7 @@ public static class CWIntegration
     {
         if (self.oracle?.ID == NewOracleID.CW)
         {
-            if (item.AbstractPearl.IsPlayerObject())
+            if (item.AbstractPearl.IsPlayerPearl())
             {
                 return;
             }
