@@ -19,7 +19,7 @@ public class TrainView : CustomBgScene
 
         IsOutside = room.roomSettings.name == "T1_END";
 
-        float effectAmount = 10000f - 30000f;
+        var effectAmount = 10000f - 30000f;
         sceneOrigo = new Vector2(2514f, effectAmount);
         StartAltitude = effectAmount - 5500f;
         EndAltitude = effectAmount + 5500f;
@@ -42,17 +42,17 @@ public class TrainView : CustomBgScene
         AddElement(new HorizonCloud(this, PosFromDrawPosAtNeutralCamPos(new(0f, 75f), 355f), 355f, 0, 0.35f, 0.5f, 0.9f));
         AddElement(new HorizonCloud(this, PosFromDrawPosAtNeutralCamPos(new(0f, 43f), 920f), 920f, 0, 0.15f, 0.3f, 0.95f));
 
-        int closeCloudCount = 7;
-        for (int i = 0; i < closeCloudCount; i++)
+        var closeCloudCount = 7;
+        for (var i = 0; i < closeCloudCount; i++)
         {
-            float cloudDepth = i / (float)(closeCloudCount - 1);
+            var cloudDepth = i / (float)(closeCloudCount - 1);
             AddElement(new CloseCloud(this, Vector2.zero, cloudDepth, i));
         }
 
-        int distantCloudCount = 11;
-        for (int j = 0; j < distantCloudCount; j++)
+        var distantCloudCount = 11;
+        for (var j = 0; j < distantCloudCount; j++)
         {
-            float cloudDepth = j / (float)(distantCloudCount - 1);
+            var cloudDepth = j / (float)(distantCloudCount - 1);
             AddElement(new DistantCloud(this, new(0f, -40f * CloudsEndDepth * (1f - cloudDepth)), cloudDepth, j));
         }
 
@@ -62,7 +62,7 @@ public class TrainView : CustomBgScene
         var count = (int)BgElementType.END;
         BgElementTimers = new int[count];
 
-        for (int i = 0; i < BgElementTimers.Length; i++)
+        for (var i = 0; i < BgElementTimers.Length; i++)
         {
             var type = (BgElementType)i;
 
@@ -113,7 +113,7 @@ public class TrainView : CustomBgScene
         {
             IsInit = true;
 
-            for (int i = 0; i < 6000; i++)
+            for (var i = 0; i < 6000; i++)
             {
                 Update(false);
 
@@ -122,9 +122,9 @@ public class TrainView : CustomBgScene
             }
         }
 
-        for (int i = 0; i < BgElementTimers.Length; i++)
+        for (var i = 0; i < BgElementTimers.Length; i++)
         {
-            int timer = BgElementTimers[i];
+            var timer = BgElementTimers[i];
 
             if (timer == 0)
             {
@@ -187,7 +187,7 @@ public class TrainView : CustomBgScene
             }
         }
 
-        for (int i = DynamicBgElements.Count - 1; i >= 0; i--)
+        for (var i = DynamicBgElements.Count - 1; i >= 0; i--)
         {
             var newElement = DynamicBgElements[i];
          

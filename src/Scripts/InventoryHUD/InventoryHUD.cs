@@ -22,7 +22,7 @@ public class InventoryHUD : HudPart
 
         if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game) return;
 
-        for (int i = 0; i < Mathf.Max(4, game.Players.Count); i++)
+        for (var i = 0; i < Mathf.Max(4, game.Players.Count); i++)
         {
             var circle = new FSprite("pearlcat_hudcircle")
             {
@@ -78,7 +78,7 @@ public class InventoryHUD : HudPart
 
             if (!ModOptions.CompactInventoryHUD.Value)
             {
-                for (int i = 0; i < playerModule.Inventory.Count; i++)
+                for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {
                     var abstractObject = playerModule.Inventory[i];
                     var diff = i - activeIndex;
@@ -92,7 +92,7 @@ public class InventoryHUD : HudPart
                     var origin = truePos;
                     var angle = (diff ?? i) * Mathf.PI * 2.0f / playerModule.Inventory.Count + Mathf.Deg2Rad * 90.0f;
 
-                    float radius = Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 65.0f, 80.0f);
+                    var radius = Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 65.0f, 80.0f);
                     var invPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
                     symbol.Pos = Custom.Dist(symbol.Pos, invPos) > 300.0f ? invPos : Vector2.Lerp(symbol.Pos, invPos, 0.1f);
@@ -109,7 +109,7 @@ public class InventoryHUD : HudPart
             {
                 InventoryCircles.ForEach(x => x.alpha = 0.0f);
 
-                for (int i = 0; i < playerModule.Inventory.Count; i++)
+                for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {
                     var abstractObject = playerModule.Inventory[i];
                     var diff = i - activeIndex;
@@ -122,7 +122,7 @@ public class InventoryHUD : HudPart
                     symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.Inventory.Count - 2) / 2, 1.0f, 0.2f);
 
                     const float GAP = 17.5f;
-                    float spacing = GAP * i;
+                    var spacing = GAP * i;
 
 
                     var inventoryOffset = new Vector2(0.0f, 90.0f);
@@ -140,7 +140,7 @@ public class InventoryHUD : HudPart
                 }
             }
 
-            for (int i = 0; i < player.grasps.Length; i++)
+            for (var i = 0; i < player.grasps.Length; i++)
             {
                 var grasp = player.grasps[i];
                 
@@ -155,7 +155,7 @@ public class InventoryHUD : HudPart
             }
         }
 
-        for (int i = AllSymbols.Count - 1; i >= 0; i--)
+        for (var i = AllSymbols.Count - 1; i >= 0; i--)
         {
             var symbol = AllSymbols[i];
             

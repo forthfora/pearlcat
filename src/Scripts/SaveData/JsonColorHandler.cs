@@ -13,7 +13,7 @@ public class JsonColorHandler : JsonConverter
     {
         try
         {
-            ColorUtility.TryParseHtmlString("#" + reader.Value, out Color loadedColor);
+            ColorUtility.TryParseHtmlString("#" + reader.Value, out var loadedColor);
             return loadedColor;
         }
         catch (Exception ex)
@@ -27,7 +27,7 @@ public class JsonColorHandler : JsonConverter
     {
         if (value == null) return;
 
-        string val = ColorUtility.ToHtmlStringRGB((Color)value);
+        var val = ColorUtility.ToHtmlStringRGB((Color)value);
         writer.WriteValue(val);
     }
 }

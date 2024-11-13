@@ -107,8 +107,8 @@ public abstract class OptionsTemplate : OptionInterface
 
         AddNewLine();
 
-        float boxWidth = MarginX.y - MarginX.x;
-        int lastIndex = BoxEndPositions.Count - 1;
+        var boxWidth = MarginX.y - MarginX.x;
+        var lastIndex = BoxEndPositions.Count - 1;
 
         tab.AddItems(new OpRect(Pos, new(boxWidth, BoxEndPositions[lastIndex] - Pos.y)));
         BoxEndPositions.RemoveAt(lastIndex);
@@ -136,7 +136,7 @@ public abstract class OptionsTemplate : OptionInterface
 
         var _posX = Pos.x + offsetX;
 
-        for (int checkBoxIndex = 0; checkBoxIndex < CheckBoxConfigurables.Count; ++checkBoxIndex)
+        for (var checkBoxIndex = 0; checkBoxIndex < CheckBoxConfigurables.Count; ++checkBoxIndex)
         {
             var configurable = CheckBoxConfigurables[checkBoxIndex];
 
@@ -182,7 +182,7 @@ public abstract class OptionsTemplate : OptionInterface
     {
         text ??= Translate((string)configurable.info.Tags[0]);
 
-        OpLabel opLabel = new(new Vector2(), new Vector2(0.0f, FONT_HEIGHT), Translate(text), FLabelAlignment.Center, false);
+        OpLabel opLabel = new(new Vector2(), new Vector2(0.0f, FONT_HEIGHT), Translate(text));
 
         ComboBoxesTextLabels.Add(opLabel);
         ComboBoxConfigurables.Add(configurable);
@@ -199,7 +199,7 @@ public abstract class OptionsTemplate : OptionInterface
         var offsetX = (MarginX.y - MarginX.x) * 0.1f;
         var width = (MarginX.y - MarginX.x) * 0.4f;
 
-        for (int comboBoxIndex = 0; comboBoxIndex < ComboBoxConfigurables.Count; ++comboBoxIndex)
+        for (var comboBoxIndex = 0; comboBoxIndex < ComboBoxConfigurables.Count; ++comboBoxIndex)
         {
             AddNewLine(1.25f);
             Pos.x += offsetX;
@@ -249,12 +249,12 @@ public abstract class OptionsTemplate : OptionInterface
         if (IntSliderConfigurables.Count != IntSliderTextLabelsLeft.Count) return;
         if (IntSliderConfigurables.Count != IntSliderTextLabelsRight.Count) return;
 
-        float width = MarginX.y - MarginX.x;
-        float sliderCenter = MarginX.x + 0.5f * width;
-        float sliderLabelSizeX = 0.2f * width;
-        float sliderSizeX = width - 2f * sliderLabelSizeX - SPACING;
+        var width = MarginX.y - MarginX.x;
+        var sliderCenter = MarginX.x + 0.5f * width;
+        var sliderLabelSizeX = 0.2f * width;
+        var sliderSizeX = width - 2f * sliderLabelSizeX - SPACING;
 
-        for (int sliderIndex = 0; sliderIndex < IntSliderConfigurables.Count; ++sliderIndex)
+        for (var sliderIndex = 0; sliderIndex < IntSliderConfigurables.Count; ++sliderIndex)
         {
             AddNewLine(2f);
 
@@ -294,7 +294,7 @@ public abstract class OptionsTemplate : OptionInterface
 	// TEXT LABEL
     protected void AddTextLabel(string text, FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false, bool translate = true, Color? color = null)
     {
-        float textHeight = (bigText ? 2f : 1f) * FONT_HEIGHT;
+        var textHeight = (bigText ? 2f : 1f) * FONT_HEIGHT;
 
         if (TextLabels.Count == 0)
             Pos.y -= textHeight;
@@ -316,7 +316,7 @@ public abstract class OptionsTemplate : OptionInterface
     {
         if (TextLabels.Count == 0) return;
 
-        float width = (MarginX.y - MarginX.x) / TextLabels.Count;
+        var width = (MarginX.y - MarginX.x) / TextLabels.Count;
 
         foreach (var textLabel in TextLabels)
         {
@@ -349,22 +349,22 @@ public abstract class OptionsTemplate : OptionInterface
         if (FloatSliderConfigurables.Count != FloatSliderTextLabelsLeft.Count) return;
         if (FloatSliderConfigurables.Count != FloatSliderTextLabelsRight.Count) return;
 
-        float width = MarginX.y - MarginX.x;
-        float sliderCenter = MarginX.x + 0.5f * width;
-        float sliderLabelSizeX = 0.2f * width;
-        float sliderSizeX = width - 2f * sliderLabelSizeX - SPACING;
+        var width = MarginX.y - MarginX.x;
+        var sliderCenter = MarginX.x + 0.5f * width;
+        var sliderLabelSizeX = 0.2f * width;
+        var sliderSizeX = width - 2f * sliderLabelSizeX - SPACING;
 
-        for (int sliderIndex = 0; sliderIndex < FloatSliderConfigurables.Count; ++sliderIndex)
+        for (var sliderIndex = 0; sliderIndex < FloatSliderConfigurables.Count; ++sliderIndex)
         {
             AddNewLine(2f);
 
-            OpLabel opLabel = FloatSliderTextLabelsLeft[sliderIndex];
+            var opLabel = FloatSliderTextLabelsLeft[sliderIndex];
             opLabel.pos = new Vector2(MarginX.x, Pos.y + 5f);
             opLabel.size = new Vector2(sliderLabelSizeX, FONT_HEIGHT);
             tab.AddItems(opLabel);
 
-            Configurable<float> configurable = FloatSliderConfigurables[sliderIndex];
-            OpFloatSlider slider = new(configurable, new Vector2(sliderCenter - 0.5f * sliderSizeX, Pos.y), (int)sliderSizeX, 1)
+            var configurable = FloatSliderConfigurables[sliderIndex];
+            OpFloatSlider slider = new(configurable, new Vector2(sliderCenter - 0.5f * sliderSizeX, Pos.y), (int)sliderSizeX)
             {
                 size = new Vector2(sliderSizeX, FONT_HEIGHT),
                 description = Translate(configurable.info?.description) ?? ""
@@ -406,14 +406,14 @@ public abstract class OptionsTemplate : OptionInterface
     {
         if (DraggerConfigurables.Count != DraggerTextLabels.Count) return;
 
-        float width = MarginX.y - MarginX.x;
-        float elementWidth = (width - (DRAGGER_COUNT - 1) * 0.5f * SPACING) / DRAGGER_COUNT;
+        var width = MarginX.y - MarginX.x;
+        var elementWidth = (width - (DRAGGER_COUNT - 1) * 0.5f * SPACING) / DRAGGER_COUNT;
         Pos.y -= DRAGGER_SIZE;
-        float _posX = Pos.x + offsetX;
+        var _posX = Pos.x + offsetX;
 
-        for (int i = 0; i < DraggerConfigurables.Count; ++i)
+        for (var i = 0; i < DraggerConfigurables.Count; ++i)
         {
-            Configurable<int> configurable = DraggerConfigurables[i];
+            var configurable = DraggerConfigurables[i];
 
             OpDragger dragger = new(configurable, new Vector2(_posX, Pos.y))
             {
@@ -422,7 +422,7 @@ public abstract class OptionsTemplate : OptionInterface
             tab.AddItems(dragger);
             _posX += DraggerWithSpacing;
 
-            OpLabel draggerLabel = DraggerTextLabels[i];
+            var draggerLabel = DraggerTextLabels[i];
             draggerLabel.pos = new Vector2(_posX, Pos.y + 2f);
             draggerLabel.size = new Vector2(elementWidth - DraggerWithSpacing, FONT_HEIGHT);
             tab.AddItems(draggerLabel);
@@ -471,7 +471,7 @@ public abstract class OptionsTemplate : OptionInterface
 
 		if (newline)
 		{
-			AddNewLine(1);
+			AddNewLine();
 		}
 	}
 
@@ -486,7 +486,7 @@ public abstract class OptionsTemplate : OptionInterface
 
 		if (newline)
 		{
-			AddNewLine(1);
+			AddNewLine();
 		}
 	}
 

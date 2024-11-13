@@ -41,25 +41,25 @@ public sealed partial class ModOptions
 
         AddAndDrawLargeDivider(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
 
         AddTextLabel("Geahgeah " + Translate("- Artwork"), translate: false);
         AddTextLabel("Sidera " + Translate("- Dialogue, SFX"), translate: false);
         AddTextLabel("Noir " + Translate("- Floppy Ears, Scarf"), translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
 
         AddTextLabel("Kimi " + Translate("- Additional Artwork"), translate: false);
         AddTextLabel("Linnnnnna " + Translate("- Chinese Translation"), translate: false);
         AddTextLabel("zbiotr " + Translate("- Spanish Translation"), translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
 
 
         // PLAYTESTERS
-        AddNewLine(1);
+        AddNewLine();
         AddAndDrawLargeDivider(ref Tabs[tabIndex]);
 
         AddTextLabel("PLAYTESTERS", bigText: true);
@@ -67,14 +67,14 @@ public sealed partial class ModOptions
 
         AddAndDrawLargeDivider(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
 
         AddTextLabel("TurtleMan27", translate: false);
         AddTextLabel("Elliot", translate: false);
         AddTextLabel("Balagaga", translate: false);
         DrawTextLabels(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
 
         AddTextLabel("Efi", translate: false);
         AddTextLabel("WillowWisp", translate: false);
@@ -130,7 +130,7 @@ public sealed partial class ModOptions
         AddCheckBox(CustomAgilityKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        if (!Utils.IsIICActive)
+        if (!ModCompat_Helpers.IsIICActive)
         {
             AddNewLine(0.75f);
             AddAndDrawLargeDivider(ref Tabs[tabIndex]);
@@ -143,26 +143,26 @@ public sealed partial class ModOptions
 
             AddAndDrawKeybinder(AbilityKeybindKeyboard, ref Tabs[tabIndex], abilityOffset, false);
             AddAndDrawKeybinder(SentryKeybindKeyboard, ref Tabs[tabIndex], sentryOffset);
-            AddNewLine(1);
+            AddNewLine();
 
             AddAndDrawKeybinder(AbilityKeybindPlayer1, ref Tabs[tabIndex], abilityOffset, false);
             AddAndDrawKeybinder(SentryKeybindPlayer1, ref Tabs[tabIndex], sentryOffset);
-            AddNewLine(1);
+            AddNewLine();
 
             AddAndDrawKeybinder(AbilityKeybindPlayer2, ref Tabs[tabIndex], abilityOffset, false);
             AddAndDrawKeybinder(SentryKeybindPlayer2, ref Tabs[tabIndex], sentryOffset);
-            AddNewLine(1);
+            AddNewLine();
 
             AddAndDrawKeybinder(AbilityKeybindPlayer3, ref Tabs[tabIndex], abilityOffset, false);
             AddAndDrawKeybinder(SentryKeybindPlayer3, ref Tabs[tabIndex], sentryOffset);
-            AddNewLine(1);
+            AddNewLine();
 
             AddAndDrawKeybinder(AbilityKeybindPlayer4, ref Tabs[tabIndex], abilityOffset, false);
             AddAndDrawKeybinder(SentryKeybindPlayer4, ref Tabs[tabIndex], sentryOffset);
 
             AddNewLine(-2);
 
-            AddNewLine(1);
+            AddNewLine();
             AddAndDrawLargeDivider(ref Tabs[tabIndex]);
             AddNewLine(-1);
         }
@@ -170,7 +170,7 @@ public sealed partial class ModOptions
 
         AddCheckBox(CustomSentryKeybind);
 
-        if (Utils.IsModEnabled_ImprovedInputConfig)
+        if (ModCompat_Helpers.IsModEnabled_ImprovedInputConfig)
         {
             AddCheckBox(DisableImprovedInputConfig);
         }
@@ -178,9 +178,9 @@ public sealed partial class ModOptions
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
 
-        if (Utils.IsIICActive)
+        if (ModCompat_Helpers.IsIICActive)
         {
-            AddNewLine(1);
+            AddNewLine();
             AddAndDrawLargeDivider(ref Tabs[tabIndex]);
             AddNewLine(-1);
 
@@ -216,11 +216,11 @@ public sealed partial class ModOptions
         AddDragger(SwapTriggerPlayer);
         DrawDraggers(ref Tabs[tabIndex], offsetX: 150.0f);
 
-        AddNewLine(1);
+        AddNewLine();
         AddAndDrawLargeDivider(ref Tabs[tabIndex]);
         AddNewLine(-1);
 
-        if (Utils.IsIICActive)
+        if (ModCompat_Helpers.IsIICActive)
         {
             AddNewLine(6);
 
@@ -262,11 +262,11 @@ public sealed partial class ModOptions
         AddCheckBox(UsesCustomStoreKeybind);
         DrawCheckBoxes(ref Tabs[tabIndex], 150.0f);
 
-        AddNewLine(1);
+        AddNewLine();
         AddAndDrawLargeDivider(ref Tabs[tabIndex]);
         AddNewLine(-1);
 
-        if (Utils.IsIICActive)
+        if (ModCompat_Helpers.IsIICActive)
         {
             AddNewLine(6);
 
@@ -283,16 +283,16 @@ public sealed partial class ModOptions
             AddNewLine(4);
 
             AddAndDrawKeybinder(StoreKeybindKeyboard, ref Tabs[tabIndex]);
-            AddNewLine(1);
+            AddNewLine();
 
             AddAndDrawKeybinder(StoreKeybindPlayer1, ref Tabs[tabIndex]);
-            AddNewLine(1);
+            AddNewLine();
 
             AddAndDrawKeybinder(StoreKeybindPlayer2, ref Tabs[tabIndex]);
-            AddNewLine(1);
+            AddNewLine();
 
             AddAndDrawKeybinder(StoreKeybindPlayer3, ref Tabs[tabIndex]);
-            AddNewLine(1);
+            AddNewLine();
 
             AddAndDrawKeybinder(StoreKeybindPlayer4, ref Tabs[tabIndex]);
         }
@@ -310,7 +310,7 @@ public sealed partial class ModOptions
         DrawTextLabels(ref Tabs[tabIndex]);
 
 
-        AddNewLine(1);
+        AddNewLine();
         AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
         AddNewLine(-1);
 
@@ -322,7 +322,7 @@ public sealed partial class ModOptions
         AddCheckBox(DisableMinorEffects);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
         AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
         AddNewLine(-1);
 
@@ -339,7 +339,7 @@ public sealed partial class ModOptions
         AddCheckBox(DisableSpear);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
         AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
         AddNewLine(-1);
 
@@ -351,7 +351,7 @@ public sealed partial class ModOptions
         AddCheckBox(OldRedPearlAbility);
         DrawCheckBoxes(ref Tabs[tabIndex], 235.0f);
 
-        AddNewLine(1);
+        AddNewLine();
         DrawBox(ref Tabs[tabIndex]);
 
 
@@ -466,7 +466,7 @@ public sealed partial class ModOptions
         DrawTextLabels(ref Tabs[tabIndex]);
 
 
-        AddNewLine(1);
+        AddNewLine();
         AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
         AddNewLine(-1);
 
@@ -495,7 +495,7 @@ public sealed partial class ModOptions
         AddCheckBox(EnableBackSpear);
         DrawCheckBoxes(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
         AddAndDrawLargeDivider(ref Tabs[tabIndex], color: WarnRed);
         AddNewLine(-1);
 
@@ -516,11 +516,11 @@ public sealed partial class ModOptions
         AddDragger(SpearPearlCount);
         DrawDraggers(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
         DrawBox(ref Tabs[tabIndex]);
 
 
-        if (GetLabel(warningText, out OpLabel label))
+        if (GetLabel(warningText, out var label))
         {
             label.color = WarnRed;
         }
@@ -654,7 +654,7 @@ public sealed partial class ModOptions
         AddTextLabel(text);
         DrawTextLabels(ref Tabs[tabIndex]);
 
-        AddNewLine(1);
+        AddNewLine();
 
         AddIntSlider(ShieldRechargeTime, sliderTextLeft: "40", sliderTextRight: "3600");
         AddIntSlider(ShieldDuration, sliderTextLeft: "5", sliderTextRight: "300");
@@ -676,7 +676,7 @@ public sealed partial class ModOptions
         }
 
 
-        AddNewLine(1);
+        AddNewLine();
 
         if (GetLabel(text, out var label))
         {

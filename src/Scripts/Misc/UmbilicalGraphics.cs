@@ -25,7 +25,7 @@ public class UmbilicalGraphics
         SmallWiresLengths = new float[SmallWires.GetLength(0)];
 
 
-        for (int j = 0; j < SmallWires.GetLength(0); j++)
+        for (var j = 0; j < SmallWires.GetLength(0); j++)
         {
             SmallWiresLengths[j] = j switch
             {
@@ -39,9 +39,9 @@ public class UmbilicalGraphics
 
     public void Update(Vector2 startPos, Vector2 endPos, Room room)
     {
-        for (int n = 0; n < SmallWires.GetLength(0); n++)
+        for (var n = 0; n < SmallWires.GetLength(0); n++)
         {
-            for (int num5 = 0; num5 < SmallWires.GetLength(1); num5++)
+            for (var num5 = 0; num5 < SmallWires.GetLength(1); num5++)
             {
                 SmallWires[n, num5, 1] = SmallWires[n, num5, 0];
                 SmallWires[n, num5, 0] += SmallWires[n, num5, 2];
@@ -49,9 +49,9 @@ public class UmbilicalGraphics
                 SmallWires[n, num5, 2].y -= room.gravity * 0.9f;
             }
             
-            float num6 = SmallWiresLengths[n] / SmallWires.GetLength(1);
+            var num6 = SmallWiresLengths[n] / SmallWires.GetLength(1);
             
-            for (int num7 = 1; num7 < SmallWires.GetLength(1); num7++)
+            for (var num7 = 1; num7 < SmallWires.GetLength(1); num7++)
             {
                 var a4 = Custom.DirVec(SmallWires[n, num7, 0], SmallWires[n, num7 - 1, 0]);
                 var dist = Vector2.Distance(SmallWires[n, num7, 0], SmallWires[n, num7 - 1, 0]);
@@ -62,7 +62,7 @@ public class UmbilicalGraphics
                 SmallWires[n, num7 - 1, 2] += (num6 - dist) * a4 * 0.5f;
             }
             
-            for (int num9 = 0; num9 < SmallWires.GetLength(1) - 1; num9++)
+            for (var num9 = 0; num9 < SmallWires.GetLength(1) - 1; num9++)
             {
                 var a5 = Custom.DirVec(SmallWires[n, num9, 0], SmallWires[n, num9 + 1, 0]);
                 var dist = Vector2.Distance(SmallWires[n, num9, 0], SmallWires[n, num9 + 1, 0]);
@@ -84,7 +84,7 @@ public class UmbilicalGraphics
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         // Small Wires
-        for (int j = 0; j < SmallWires.GetLength(0); j++)
+        for (var j = 0; j < SmallWires.GetLength(0); j++)
         {
             sLeaser.sprites[SmallWireSprite(j)] = TriangleMesh.MakeLongMesh(SmallWires.GetLength(1), false, false);
         }
@@ -92,12 +92,12 @@ public class UmbilicalGraphics
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        for (int j = 0; j < SmallWires.GetLength(0); j++)
+        for (var j = 0; j < SmallWires.GetLength(0); j++)
         {
             var lerpPos1 = Vector2.Lerp(SmallWires[j, 0, 1], SmallWires[j, 0, 0], timeStacker);
             var half = 0.5f;
 
-            for (int k = 0; k < SmallWires.GetLength(1); k++)
+            for (var k = 0; k < SmallWires.GetLength(1); k++)
             {
                 var lerpPos2 = Vector2.Lerp(SmallWires[j, k, 1], SmallWires[j, k, 0], timeStacker);
                 
@@ -120,7 +120,7 @@ public class UmbilicalGraphics
 
     public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser)
     {
-        for (int j = 0; j < SmallWires.GetLength(0); j++)
+        for (var j = 0; j < SmallWires.GetLength(0); j++)
         {
             sLeaser.sprites[SmallWireSprite(j)].color = j switch
             {
@@ -132,9 +132,9 @@ public class UmbilicalGraphics
 
     public void Reset(Vector2 resetPos)
     {
-        for (int i = 0; i < SmallWires.GetLength(0); i++)
+        for (var i = 0; i < SmallWires.GetLength(0); i++)
         {
-            for (int j = 0; j < SmallWires.GetLength(1); j++)
+            for (var j = 0; j < SmallWires.GetLength(1); j++)
             {
                 SmallWires[i, j, 0] = resetPos;
                 SmallWires[i, j, 1] = resetPos;

@@ -4,21 +4,41 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public static partial class Hooks
+public static class Hooks
 {
     public static void ApplyHooks()
     {
         // Misc
-        Hooks_SaveData.ApplyHooks_SaveData();
-        Hooks_Menu.ApplyHooks_Menu();
-        Hooks_SlideShow.ApplyHooks_SlideShow();
-        Hooks_Fixes.ApplyHooks_Fixes();
+        ModCompat_Hooks.ApplyHooks();
+        SaveData_Hooks.ApplyHooks();
 
-        Hooks_Player.ApplyHooks_Player();
+        // Menu
+        Menu_Hooks.ApplyHooks();
+        SlideShow_Hooks.ApplyHooks();
 
-        Hooks_PearlpupNPC.ApplyHooks_PearlpupNPC();
+        // Pearlpup
+        Pearlpup_Hooks.ApplyHooks();
+        PearlpupGraphics_Hooks.ApplyHooks();
+        PearlpupIllness_Hooks.ApplyHooks();
 
-        Hooks_World.ApplyHooks_World();
+        // Player
+        Player_Hooks.ApplyHooks();
+        PlayerGraphics_Hooks.ApplyHooks();
+        PlayerPossessionFixes_Hooks.ApplyHooks();
+
+        PlayerPearl_Hooks.ApplyHooks();
+        PlayerHeartPearl_Hooks.ApplyHooks();
+
+        // World
+        World_Hooks.ApplyHooks();
+        Creatures_Hooks.ApplyHooks();
+        Sound_Hooks.ApplyHooks();
+
+        SLOracle_Hooks.ApplyHooks();
+
+        SSOracle_Hooks.ApplyHooks();
+        SSOracleConversation_Hooks.ApplyHooks();
+        SSOraclePearls_Hooks.ApplyHooks();
     }
 
 
@@ -67,18 +87,18 @@ public static partial class Hooks
 
 
             // Init Assets
-            Utils.LoadAssets();
+            AssetLoader.LoadAssets();
 
 
             // Init Soft Dependencies
-            if (Utils.IsModEnabled_ImprovedInputConfig)
+            if (ModCompat_Helpers.IsModEnabled_ImprovedInputConfig)
             {
-                Hooks_Input.InitIICKeybinds();
+                Input_Helpers.InitIICKeybinds();
             }
 
-            if (Utils.IsModEnabled_ChasingWind)
+            if (ModCompat_Helpers.IsModEnabled_ChasingWind)
             {
-                Utils.InitCWIntegration();
+                ModCompat_Helpers.InitCWIntegration();
             }
 
 
@@ -128,5 +148,5 @@ public static partial class Hooks
     public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule) => player.TryGetPearlcatModule(out playerModule);
 
     // Pups+
-    public static bool IsPearlpup(this Player player) => player.abstractCreature.IsPearlpup();
+    public static bool IsPearlpup(Player player) => player.abstractCreature.IsPearlpup();
 }

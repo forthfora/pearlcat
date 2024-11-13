@@ -53,7 +53,7 @@ public class T1_START : UpdatableAndDeletable
                     if (player.TryGetPearlcatModule(out var playerModule) && !ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value && player.playerState.playerNumber == 0)
                     {
                         // Clear default pearls
-                        for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+                        for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
                         {
                             var item = playerModule.Inventory[i];
 
@@ -153,10 +153,10 @@ public class T1_START : UpdatableAndDeletable
                 {
                     var t = Utils.Translator;
 
-                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + Hooks.GetSwapLeftKeybindDisplayName(false) + t.Translate(") & (") + Hooks.GetSwapRightKeybindDisplayName(false) + t.Translate("), or the triggers on controller"), 0, 600);
+                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + Input_Helpers.GetSwapLeftKeybindDisplayName(false) + t.Translate(") & (") + Input_Helpers.GetSwapRightKeybindDisplayName(false) + t.Translate("), or the triggers on controller"), 0, 600);
 
                     game.AddTextPrompt(
-                        t.Translate("Alternatively, hold (") + Hooks.GetSwapKeybindDisplayName(false) + t.Translate(") or (") + Hooks.GetSwapKeybindDisplayName(true) + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
+                        t.Translate("Alternatively, hold (") + Input_Helpers.GetSwapKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetSwapKeybindDisplayName(true) + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
 
                     PhaseTimer = 1100;
                     CurrentPhase = Phase.StoreTutorial;
@@ -166,7 +166,7 @@ public class T1_START : UpdatableAndDeletable
                     var t = Utils.Translator;
 
                     if (ModOptions.UsesCustomStoreKeybind.Value)
-                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + Hooks.GetStoreKeybindDisplayName(false) + t.Translate(") or (") + Hooks.GetStoreKeybindDisplayName(true) + t.Translate(")"), 0, 800);
+                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + Input_Helpers.GetStoreKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetStoreKeybindDisplayName(true) + t.Translate(")"), 0, 800);
 
                     else
                         game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 600);
@@ -182,8 +182,8 @@ public class T1_START : UpdatableAndDeletable
 
                     if (ModOptions.CustomSentryKeybind.Value)
                     {
-                        game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + Hooks.GetSentryKeybindDisplayName(false) + t.Translate(") or (")
-                            + Hooks.GetSentryKeybindDisplayName(true) + t.Translate(") to deploy, and again to return."), 0, 600);
+                        game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + Input_Helpers.GetSentryKeybindDisplayName(false) + t.Translate(") or (")
+                            + Input_Helpers.GetSentryKeybindDisplayName(true) + t.Translate(") to deploy, and again to return."), 0, 600);
                     }
                     else
                     {
@@ -242,9 +242,9 @@ public class T1_START : UpdatableAndDeletable
             if (Player == null)
                 return new Player.InputPackage(false, Options.ControlSetup.Preset.None, 0, 0, false, false, false, false, false);
 
-            int x = 0;
-            int y = 0;
-            bool jmp = false;
+            var x = 0;
+            var y = 0;
+            var jmp = false;
 
             return new(false, Options.ControlSetup.Preset.KeyboardSinglePlayer, x, y, jmp, false, false, false, false);
         }

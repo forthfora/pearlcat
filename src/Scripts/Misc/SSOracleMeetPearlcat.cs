@@ -239,11 +239,11 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         }
         else
         {
-            for (int i = world.firstRoomIndex; i < world.firstRoomIndex + world.NumberOfRooms; i++)
+            for (var i = world.firstRoomIndex; i < world.firstRoomIndex + world.NumberOfRooms; i++)
             {
                 var room = world.GetAbstractRoom(i);
 
-                for (int j = 0; j < room.creatures.Count; j++)
+                for (var j = 0; j < room.creatures.Count; j++)
                 {
                     var crit = room.creatures[j];
 
@@ -438,7 +438,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 }
                 else if (ConvoCount == 5)
                 {
-                    if (Utils.IsModEnabled_MiraInstallation && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
+                    if (ModCompat_Helpers.IsModEnabled_MiraInstallation && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
                     {
                         owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
                     }
@@ -484,7 +484,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                             ConvoCount++;
                         }
-                        else if (Utils.IsModEnabled_MiraInstallation && !miscProg.UnlockedMira)
+                        else if (ModCompat_Helpers.IsModEnabled_MiraInstallation && !miscProg.UnlockedMira)
                         {
                             owner.LockShortcuts();
                             owner.getToWorking = 0.0f;
@@ -542,9 +542,9 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         {
             var roomObjects = oracle.room.physicalObjects;
 
-            for (int i = 0; i < roomObjects.Length; i++)
+            for (var i = 0; i < roomObjects.Length; i++)
             {
-                for (int j = 0; j < roomObjects[i].Count; j++)
+                for (var j = 0; j < roomObjects[i].Count; j++)
                 {
                     var physicalObject = roomObjects[i][j];
 
@@ -703,11 +703,11 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             miscWorld.PebblesTookHalcyonPearl = true;
         }
 
-        for (int roomObjIndex = oracle.room.physicalObjects.Length - 1; roomObjIndex >= 0; roomObjIndex--)
+        for (var roomObjIndex = oracle.room.physicalObjects.Length - 1; roomObjIndex >= 0; roomObjIndex--)
         {
             var roomObject = oracle.room.physicalObjects[roomObjIndex];
                
-            for (int physObjInded = roomObject.Count - 1; physObjInded >= 0; physObjInded--)
+            for (var physObjInded = roomObject.Count - 1; physObjInded >= 0; physObjInded--)
             {
                 var physicalObject = roomObject[physObjInded];
                 
@@ -715,7 +715,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 {
                     if (!player.TryGetPearlcatModule(out var playerModule)) continue;
 
-                    for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+                    for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
                     {
                         var item = playerModule.Inventory[i];
 

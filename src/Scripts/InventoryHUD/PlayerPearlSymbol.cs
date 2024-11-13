@@ -52,7 +52,7 @@ public class PlayerPearlSymbol
         ItemSymbol?.RemoveSprites();
         ItemSymbol = new(iconData, Owner.HUDFContainer)
         {
-            myColor = Hooks.GetObjectColor(abstractObject)
+            myColor = abstractObject.GetObjectColor()
         };
 
         ItemSymbol.Show(true);

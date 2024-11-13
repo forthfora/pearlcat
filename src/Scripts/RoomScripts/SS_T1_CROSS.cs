@@ -41,9 +41,9 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
 
         var startPos = IntVector2.FromVector2(new(109, 4));
 
-        for (int i = 0; i < 2; i++)
+        for (var i = 0; i < 2; i++)
         {
-            for (int j = 0; j < 9; j++)
+            for (var j = 0; j < 9; j++)
             {
                 room.GetTile(startPos.x + i, startPos.y + j).Terrain = Room.Tile.TerrainType.Solid;
             }
@@ -66,12 +66,12 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
         var middleDoor = RegionGateGraphics.doorGraphs[1];
         var rightDoor = RegionGateGraphics.doorGraphs[2];
 
-        for (int i = 0; i < leftDoor.TotalSprites; i++)
+        for (var i = 0; i < leftDoor.TotalSprites; i++)
         {
             gateLeaser.sprites[i].isVisible = false;
         }
 
-        for (int i = rightDoor.TotalSprites * 2; i < rightDoor.TotalSprites * 3; i++)
+        for (var i = rightDoor.TotalSprites * 2; i < rightDoor.TotalSprites * 3; i++)
         {
             gateLeaser.sprites[i].isVisible = false;
         }

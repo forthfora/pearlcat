@@ -20,7 +20,7 @@ public class BgBuilding : CustomBgElement
     {
         sLeaser.sprites = new FSprite[1];
 
-        sLeaser.sprites[0] = new FSprite(AssetName, true)
+        sLeaser.sprites[0] = new FSprite(AssetName)
         {
             shader = Type == BgElementType.FgSupport ? Utils.Shaders["Basic"] : UseNonMultiplyShader ? Utils.Shaders["DistantBkgObjectAlpha"] : Utils.Shaders["DistantBkgObject"],
             anchorY = 1.0f

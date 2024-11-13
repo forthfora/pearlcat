@@ -37,11 +37,11 @@ public static class ModuleManager
         if (players == null)
             return allPlayerData;
 
-        foreach (AbstractCreature creature in players)
+        foreach (var creature in players)
         {
             if (creature.realizedCreature is not Player player) continue;
 
-            if (!PearlcatData.TryGetValue(player, out PlayerModule playerModule)) continue;
+            if (!PearlcatData.TryGetValue(player, out var playerModule)) continue;
 
             allPlayerData.Add(playerModule);
         }

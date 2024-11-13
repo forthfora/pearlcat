@@ -190,7 +190,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 
                 var amplitude = 0.0f;
 
-                for (int i = 0; i < 1024; i++)
+                for (var i = 0; i < 1024; i++)
                 {
                     amplitude += audioData[i];
                 }
@@ -267,9 +267,9 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         var didHeal = false;
 
-        for (int i = room.updateList.Count - 1; i >= 0; i--)
+        for (var i = room.updateList.Count - 1; i >= 0; i--)
         {
-            UpdatableAndDeletable? updatable = room.updateList[i];
+            var updatable = room.updateList[i];
             if (updatable is not Creature crit) continue;
 
             if (!Custom.DistLess(pearl.firstChunk.pos, crit.firstChunk.pos, 225.0f)) continue;
@@ -370,11 +370,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         {
             var roomObjects = room.physicalObjects;
 
-            for (int i = roomObjects.Length - 1; i >= 0; i--)
+            for (var i = roomObjects.Length - 1; i >= 0; i--)
             {
                 var roomObject = roomObjects[i];
 
-                for (int j = roomObject.Count - 1; j >= 0; j--)
+                for (var j = roomObject.Count - 1; j >= 0; j--)
                 {
                     var physicalObject = roomObject[j];
 
@@ -489,7 +489,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         if (player == null) return;
 
-        Hooks.RageTargetLogic(pearl, player, true);
+        PlayerAbilities_Helpers.RageTargetLogic(pearl, player, true);
     }
 
     private void UpdateOldRageSentry(AbstractPhysicalObject owner, PlayerPearlModule module, DataPearl pearl, PearlEffect effect)
@@ -572,7 +572,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         else
         {
             // ensure target is still valid
-            bool invalidTarget = false;
+            var invalidTarget = false;
 
             if (!Custom.DistLess(target.mainBodyChunk.pos, pearl.firstChunk.pos, 500.0f))
                 invalidTarget = true;
@@ -615,7 +615,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             pearl.room.PlaySound(SoundID.Bomb_Explode, targetPos, 0.8f, Random.Range(0.7f, 1.3f));
             pearl.room.AddObject(new LightningMachine.Impact(targetPos, 0.5f, addon.SymbolColor, true));
 
-            pearl.room.AddObject(new ShockWave(targetPos, 30.0f, 0.4f, 5, false));
+            pearl.room.AddObject(new ShockWave(targetPos, 30.0f, 0.4f, 5));
             room.AddObject(new ExplosionSpikes(pearl.room, targetPos, 5, 20.0f, 10, 20.0f, 20.0f, addon.SymbolColor));
 
             target.SetKillTag(player.abstractCreature);
@@ -721,7 +721,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                         room.AddObject(new Explosion.ExplosionLight(pos, 230f, 1f, 3, new Color(1f, 1f, 1f)));
 
                         room.AddObject(new ExplosionSpikes(room, pos, 14, 30f, 9f, 7f, 120f, color));
-                        room.AddObject(new ShockWave(pos, 160f, 0.3f, 10, false));
+                        room.AddObject(new ShockWave(pos, 160f, 0.3f, 10));
 
                         room.AddObject(new Explosion(room,
                             owner.realizedObject,
@@ -740,7 +740,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                         room.PlaySound(SoundID.Bomb_Explode, pos);
                         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1.2f, 0.75f);
 
-                        for (int i = 0; i < 25; i++)
+                        for (var i = 0; i < 25; i++)
                         {
                             var randVec = Custom.RNV();
 
@@ -756,7 +756,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                                 }
                             }
 
-                            for (int j = 0; j < 3; j++)
+                            for (var j = 0; j < 3; j++)
                             {
                                 room.AddObject(new Spark(pos + randVec * Mathf.Lerp(30f, 60f, Random.value),
                                     randVec * Mathf.Lerp(7f, 38f, Random.value) + Custom.RNV() * 20f * Random.value,
@@ -769,7 +769,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                                 color, Random.Range(3, 11)));
                         }
 
-                        for (int i = 0; i < 6; i++)
+                        for (var i = 0; i < 6; i++)
                         {
                             room.AddObject(new ScavengerBomb.BombFragment(pos, Custom.DegToVec((i + Random.value) / 6f * 360f) * Mathf.Lerp(18f, 38f, Random.value)));
                         }
