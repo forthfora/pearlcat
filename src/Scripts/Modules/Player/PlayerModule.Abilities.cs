@@ -48,7 +48,7 @@ public partial class PlayerModule
 
             if (pearl.TryGetSentry(out _)) continue;
 
-            if (pearl.GetPOEffect().MajorEffect != type) continue;
+            if (pearl.GetPearlEffect().MajorEffect != type) continue;
 
             if (count < 0)
             {
@@ -93,7 +93,7 @@ public partial class PlayerModule
 
             if (pearl.TryGetSentry(out _)) continue;
 
-            if (pearl.GetPOEffect().MajorEffect != type) continue;
+            if (pearl.GetPearlEffect().MajorEffect != type) continue;
 
             if (module.CooldownTimer == 0)
             {
@@ -112,7 +112,7 @@ public partial class PlayerModule
         {
             if (!pearl.TryGetPlayerPearlModule(out var module)) continue;
 
-            if (pearl.GetPOEffect().MajorEffect != MajorEffectType.AGILITY) continue;
+            if (pearl.GetPearlEffect().MajorEffect != MajorEffectType.AGILITY) continue;
 
             if (module.CooldownTimer == -1)
                 module.CooldownTimer = time;
@@ -126,7 +126,7 @@ public partial class PlayerModule
         var obj = SetShieldCooldown(ModOptions.ShieldRechargeTime.Value);
 
         ShieldTimer = ModOptions.ShieldDuration.Value;
-        ShieldTimer *= (int)(ActiveObject?.GetPOEffect().MajorEffect == MajorEffectType.SHIELD ? 2.0f : 1.0f);
+        ShieldTimer *= (int)(ActiveObject?.GetPearlEffect().MajorEffect == MajorEffectType.SHIELD ? 2.0f : 1.0f);
 
         if (PlayerRef.TryGetTarget(out var player))
         {

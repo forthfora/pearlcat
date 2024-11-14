@@ -74,7 +74,7 @@ public static class Sound_Hooks
 
                 if (playerModule.ActiveObject == null) continue;
 
-                var effect = playerModule.ActiveObject.GetPOEffect();
+                var effect = playerModule.ActiveObject.GetPearlEffect();
 
                 if (effect.ThreatMusic != null)
                 {

@@ -15,7 +15,7 @@ public static partial class PlayerAbilities_Helpers
 
         foreach (var playerObject in playerModule.Inventory)
         {
-            var effect = playerObject.GetPOEffect();
+            var effect = playerObject.GetPearlEffect();
             var mult = playerObject == playerModule.ActiveObject ? effect.ActiveMultiplier : 1.0f;
 
 
@@ -35,7 +35,7 @@ public static partial class PlayerAbilities_Helpers
 
         if (playerModule.ActiveObject != null)
         {
-            var effect = playerModule.ActiveObject.GetPOEffect();
+            var effect = playerModule.ActiveObject.GetPearlEffect();
             combinedEffect.MajorEffect = effect.MajorEffect;
         }
 

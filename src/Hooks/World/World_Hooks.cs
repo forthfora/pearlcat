@@ -473,9 +473,9 @@ public static class World_Hooks
             {
                 foreach (var camera in self.game.cameras)
                 {
-                    if (camera.paletteA != 301)
+                    if (camera.paletteA != 303)
                     {
-                        camera.ChangeMainPalette(301);
+                        camera.ChangeMainPalette(303);
                     }
                 }
             }

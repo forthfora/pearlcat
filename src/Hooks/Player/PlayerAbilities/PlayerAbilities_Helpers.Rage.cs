@@ -50,7 +50,7 @@ public static partial class PlayerAbilities_Helpers
 
         foreach (var item in playerModule.Inventory)
         {
-            var itemEffect = item.GetPOEffect();
+            var itemEffect = item.GetPearlEffect();
 
             if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE) continue;
 
@@ -119,7 +119,7 @@ public static partial class PlayerAbilities_Helpers
                         module.VisitedObjects.Remove(physObj);
                     }
                 }
-                else if (physObj.abstractPhysicalObject.GetPOEffect().MajorEffect == PearlEffect.MajorEffectType.RAGE)
+                else if (physObj.abstractPhysicalObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.RAGE)
                 {
                     if (physObj == pearl) continue;
 
@@ -351,7 +351,7 @@ public static partial class PlayerAbilities_Helpers
         {
             if (!item.TryGetPlayerPearlModule(out var module)) continue;
 
-            var itemEffect = item.GetPOEffect();
+            var itemEffect = item.GetPearlEffect();
 
             if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE) continue;
 
@@ -432,7 +432,7 @@ public static partial class PlayerAbilities_Helpers
                     {
                         if (!item.TryGetPlayerPearlModule(out var module)) continue;
 
-                        var itemEffect = item.GetPOEffect();
+                        var itemEffect = item.GetPearlEffect();
 
                         if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE) continue;
 
@@ -474,7 +474,7 @@ public static partial class PlayerAbilities_Helpers
             if (!item.TryGetPearlGraphicsModule(out var addon)) continue;
 
 
-            var itemEffect = item.GetPOEffect();
+            var itemEffect = item.GetPearlEffect();
 
             if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE) continue;
 

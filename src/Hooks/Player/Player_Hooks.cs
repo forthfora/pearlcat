@@ -367,7 +367,7 @@ public static class Player_Hooks
 
                 if (module.CooldownTimer != 0 && sentry.ShieldTimer <= 0) continue;
 
-                var effect = item.GetPOEffect();
+                var effect = item.GetPearlEffect();
                 if (effect.MajorEffect != PearlEffect.MajorEffectType.SHIELD) continue;
 
                 if (!sentry.OwnerRef.TryGetTarget(out var owner)) continue;

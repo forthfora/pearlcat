@@ -216,7 +216,7 @@ public static partial class PlayerPearl_Helpers
 
         self.UpdateInventorySaveData(playerModule);
 
-        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPOEffect().MajorEffect == PearlEffect.MajorEffectType.SPEAR_CREATION && !ModOptions.DisableTutorials.Value)
+        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SPEAR_CREATION && !ModOptions.DisableTutorials.Value)
         {
             save.ShownSpearCreationTutorial = true;
 

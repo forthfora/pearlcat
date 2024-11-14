@@ -60,7 +60,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         room = owner.realizedObject.room;
         InitialPos = player.GetActivePearlPos();
 
-        var effect = owner.GetPOEffect();
+        var effect = owner.GetPearlEffect();
 
         if (!owner.TryGetPearlGraphicsModule(out var addon)) return;
 
@@ -115,7 +115,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         pearl.firstChunk.vel = Vector2.zero;
         pearl.gravity = 0.0f;
 
-        var effect = pearl.abstractPhysicalObject.GetPOEffect();
+        var effect = pearl.abstractPhysicalObject.GetPearlEffect();
 
         UpdateShieldSentry(owner, module, pearl, effect);
         UpdateRageSentry(owner, module, pearl, effect);
@@ -861,7 +861,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         if (!pearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var addon)) return;
 
-        var effect = pearl.abstractPhysicalObject.GetPOEffect();
+        var effect = pearl.abstractPhysicalObject.GetPearlEffect();
         
         var targetPos = Vector2.Lerp(pearl.firstChunk.lastPos, pearl.firstChunk.pos, timeStacker) - camPos;
 

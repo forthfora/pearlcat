@@ -30,7 +30,7 @@ public static partial class PlayerAbilities_Helpers
                         if (item != playerModule.ActiveObject) continue;
                     }
 
-                    var itemEffect = item.GetPOEffect();
+                    var itemEffect = item.GetPearlEffect();
 
                     if (!item.TryGetPlayerPearlModule(out var module)) continue;
 

@@ -28,11 +28,11 @@ public static partial class PearlEffectManager
     public static MajorEffectType GetEffectByHue(float hue) => EffectColors.OrderBy(x => Mathf.Abs(hue - x.Key)).First().Value;
 
 
-    public static PearlEffect GetPOEffect(this AbstractPhysicalObject abstractObject)
+    public static PearlEffect GetPearlEffect(this AbstractPhysicalObject abstractObject)
     {
         if (abstractObject is DataPearl.AbstractDataPearl abstractPearl)
         {    
-            var effect = abstractPearl.GetPOEffect();
+            var effect = abstractPearl.GetPearlEffect();
         
             if ((effect.MajorEffect == MajorEffectType.AGILITY && ModOptions.DisableAgility.Value)
                 || (effect.MajorEffect == MajorEffectType.SPEAR_CREATION && ModOptions.DisableSpear.Value)
@@ -55,7 +55,7 @@ public static partial class PearlEffectManager
         return None;
     }
 
-    public static PearlEffect GetPOEffect(this DataPearl.AbstractDataPearl abstractPearl)
+    public static PearlEffect GetPearlEffect(this DataPearl.AbstractDataPearl abstractPearl)
     {
         if (abstractPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
         {

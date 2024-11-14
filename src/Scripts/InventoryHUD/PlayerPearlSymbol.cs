@@ -132,7 +132,7 @@ public class PlayerPearlSymbol
             Flash = 5.0f;
         }
 
-        var effect = obj.GetPOEffect();
+        var effect = obj.GetPearlEffect();
 
         var cooldownLerp = poModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(poModule.CooldownTimer, poModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
         var cooldownColor = effect.MajorEffect == PearlEffect.MajorEffectType.RAGE ? Color.white : (Color)new Color32(189, 13, 0, 255);

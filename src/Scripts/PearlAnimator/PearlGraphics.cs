@@ -406,7 +406,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
             return "pearlcat_glyphcw";
         }
 
-        var effect = obj.GetPOEffect();
+        var effect = obj.GetPearlEffect();
 
         return SpriteFromMajorEffect(effect.MajorEffect);
     }

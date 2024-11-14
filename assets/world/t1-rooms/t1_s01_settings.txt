@@ -3,7 +3,7 @@ DangerType: None
 Grime: 0
 RandomItemDensity: 0
 RandomItemSpearChance: 0
-Palette: 300
+Palette: 302
 EffectColorA: 13
 EffectColorB: 13
 Effects: SkyAndLightBloom-0.1630435-20-20, SunBlock-1-14-79, Contrast-0.1521739-259-69, Brightness-0.1521739-200-164, 

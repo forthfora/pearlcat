@@ -126,7 +126,7 @@ public abstract class PearlAnimation
             addon.AllVisible = true;
 
 
-            var effect = abstractObject.GetPOEffect();
+            var effect = abstractObject.GetPearlEffect();
 
             addon.IsActiveObject = i == playerModule.ActiveObjectIndex;
             addon.SymbolColor = effect.MajorEffect == PearlEffect.MajorEffectType.CAMOFLAGUE ? Color.white : abstractObject.GetObjectColor();
@@ -235,7 +235,7 @@ public abstract class PearlAnimation
 
             if (ModOptions.OldRedPearlAbility.Value)
             {
-                addon.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPOEffect().MajorEffect == PearlEffect.MajorEffectType.RAGE;
+                addon.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.RAGE;
                 addon.LaserLerp = poModule.LaserLerp;
             }
             else
