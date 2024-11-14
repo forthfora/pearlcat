@@ -15,7 +15,7 @@ public static class Player_HooksIL
         {
             _ = new Hook(
                 typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-                typeof(Player_Hooks).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.NonPublic)
+                typeof(Player_HooksIL).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.NonPublic)
             );
         }
         catch (Exception e)

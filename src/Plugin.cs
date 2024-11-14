@@ -70,17 +70,17 @@ public class Plugin : BaseUnityPlugin
 
                 "\n" +
 
-                $"PEARLCAT VERSION: {Plugin.VERSION}\n" +
+                $"PEARLCAT VERSION: {VERSION}\n" +
                 $"SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "slime-cubed.slugbase")?.version ?? "NOT FOUND"}\n" +
                 $"CRS VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "crs")?.version ?? "NOT FOUND"}\n" +
-                $"MERGEFIX VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "bro.mergefix")?.version ?? "NOT FOUND"}\n" +
+                $"MIRA VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "mira")?.version ?? "NOT FOUND"}\n" +
 
                 "\n" +
 
                 $"CURRENT MAIN LOOP: {rainWorld.processManager?.currentMainLoop?.GetType()}\n" +
-                $"MSC: {ModManager.MSC}\n" +
-                $"REMIX: {ModManager.MMF}\n" +
-                $"JOLLY: {ModManager.JollyCoop}\n" +
+                $"MSC ACTIVE: {ModManager.MSC}\n" +
+                $"REMIX ACTIVE: {ModManager.MMF}\n" +
+                $"JOLLY ACTIVE: {ModManager.JollyCoop}\n" +
 
                 $"\n-------------------\n" +
                 $"PEARLCAT MISC PROGRESSION:\n" +
@@ -161,14 +161,25 @@ public class Plugin : BaseUnityPlugin
                     $"MISC WORLD NOT FOUND! (not in story session?)\n";
             }
 
+            message +=
+                $"\n-------------------\n" +
+                $"FULL ACTIVE MODS LIST:\n";
+
+            foreach (var mod in ModManager.ActiveMods)
+            {
+                var version = mod.version == "" ? "N/A" : $"v{mod.version}";
+
+                message += $"> {mod.id} ({mod.name}) - {version}\n";
+            }
+
             Debug.Log(message);
 
-            Plugin.Logger.LogWarning("START OF BEPINEX LOG");
-            Plugin.Logger.LogWarning(message);
+            Logger.LogWarning("START OF BEPINEX LOG");
+            Logger.LogWarning(message);
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("PEARLCAT LOG DEBUG INFO ERROR: \n" + e + "\n" + e.StackTrace);
+            Logger.LogError("PEARLCAT LOG DEBUG INFO ERROR: \n" + e + "\n" + e.StackTrace);
         }
     }
 }

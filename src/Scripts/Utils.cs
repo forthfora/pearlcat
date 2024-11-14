@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
 using RWCustom;
 using UnityEngine;
 
@@ -71,8 +73,10 @@ public static class Utils
 
 
     // Debug Utils
-    public static void LogHookException(this Exception e)
+    public static void LogHookException(this Exception e, [CallerFilePath] string filePath = "")
     {
-        Plugin.Logger.LogError($"Caught exception applying a hook! May not be fatal, but likely to cause issues. Details:\n{e}\n{e.StackTrace}");
+        Plugin.Logger.LogError($"Caught exception applying a hook! May not be fatal, but likely to cause issues." +
+                               $"\nRelated to ({Path.GetFileNameWithoutExtension(filePath)}). Details:" +
+                               $"\n{e}\n{e.StackTrace}");
     }
 }

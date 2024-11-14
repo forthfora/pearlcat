@@ -16,7 +16,7 @@ public static class Menu_HooksIL
         {
             _ = new Hook(
                 typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-                typeof(Menu_Helpers).GetMethod(nameof(GetSlugcatPageHasMark), BindingFlags.Static | BindingFlags.NonPublic)
+                typeof(Menu_HooksIL).GetMethod(nameof(GetSlugcatPageHasMark), BindingFlags.Static | BindingFlags.NonPublic)
             );
         }
         catch (Exception e)
@@ -28,7 +28,7 @@ public static class Menu_HooksIL
         {
             _ = new Hook(
                 typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasGlow), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-                typeof(Menu_Helpers).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.NonPublic)
+                typeof(Menu_HooksIL).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.NonPublic)
             );
         }
         catch (Exception e)
