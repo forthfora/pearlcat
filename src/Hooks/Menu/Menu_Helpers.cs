@@ -1,13 +1,6 @@
 ﻿using Menu;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour;
 using RWCustom;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using static Pearlcat.Enums;
 
@@ -121,8 +114,7 @@ public static class Menu_Helpers
             illustration.pos += illustrationModule.Vel;
 
             illustrationModule.SetPos = illustrationModule.InitialPos;
-            illustrationModule.SetPos.y =
-                illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
 
             menuSceneModule.ActivePearlPos = illustration.pos;
 

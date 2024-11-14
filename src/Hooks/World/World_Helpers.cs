@@ -1,15 +1,6 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour;
-using MoreSlugcats;
-using RWCustom;
-using System;
+﻿using MoreSlugcats;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Unity.Mathematics;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 

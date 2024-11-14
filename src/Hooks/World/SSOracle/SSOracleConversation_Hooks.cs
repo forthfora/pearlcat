@@ -1,10 +1,6 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using MoreSlugcats;
-using System;
+﻿using MoreSlugcats;
 using static Conversation;
 using static SSOracleBehavior;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -13,44 +9,8 @@ public static class SSOracleConversation_Hooks
     public static void ApplyHooks()
     {
         On.SSOracleBehavior.PebblesConversation.AddEvents += PebblesConversation_AddEvents;
-
-        try
-        {
-            IL.SSOracleBehavior.Update += SSOracleBehavior_UpdateIL;
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError("Oracle Hooks Error:\n" + e);
-        }
     }
 
-
-    private static void SSOracleBehavior_UpdateIL(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchLdstr("Yes, help yourself. They are not edible."));
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Func<string, SSOracleBehavior, string>>((origText, self) =>
-        {
-            if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles())
-            {
-                var miscProg = Utils.GetMiscProgression();
-
-                if (miscProg.HasTrueEnding)
-                {
-                    return self.Translate("...ah... are those still a fascination to you? You really are no different from your mother...");
-                }
-
-                return self.Translate("...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...");
-            }
-
-            return origText;
-        });
-    }
-    
     private static void PebblesConversation_AddEvents(On.SSOracleBehavior.PebblesConversation.orig_AddEvents orig, PebblesConversation self)
     {
         if (!self.owner.oracle.room.game.IsPearlcatStory() || !self.owner.IsPebbles())

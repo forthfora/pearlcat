@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MoreSlugcats;
 using RWCustom;
-using SlugBase.Features;
 using UnityEngine;
 
 namespace Pearlcat;

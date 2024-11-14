@@ -1,32 +1,16 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour;
-using MoreSlugcats;
+﻿using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Unity.Mathematics;
 using UnityEngine;
+using static Pearlcat.World_Helpers;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
 public static class World_Hooks
 {
-    public static List<string> TrainViewRooms { get; } =
-    [
-        "T1_START",
-        "T1_CAR0",
-        "T1_CAR1",
-        "T1_CAR2",
-        "T1_CAR3",
-        "T1_CAREND",
-        "T1_END",
-        "T1_S01"
-    ];
-
     public static void ApplyHooks()
     {
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
@@ -65,27 +49,6 @@ public static class World_Hooks
 
         On.DataPearl.UniquePearlHighLightColor += DataPearl_UniquePearlHighLightColor;
         On.Room.PlaySound_SoundID_BodyChunk += Room_PlaySound_SoundID_BodyChunk;
-
-        _ = new Hook(
-            typeof(RegionGate).GetProperty(nameof(RegionGate.MeetRequirement), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetRegionGateMeetRequirement), BindingFlags.Static | BindingFlags.Public)
-        );
-
-        _ = new Hook(
-            typeof(StoryGameSession).GetProperty(nameof(StoryGameSession.slugPupMaxCount), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetStoryGameSessionSlugPupMaxCount), BindingFlags.Static | BindingFlags.Public)
-        );
-
-        try
-        {
-            IL.AbstractRoom.RealizeRoom += AbstractRoom_RealizeRoom;
-            IL.RainWorldGame.BeatGameMode += RainWorldGame_BeatGameMode;
-            IL.Region.GetFullRegionOrder += Region_GetFullRegionOrder;
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError("World IL Hook Error:\n" + e + "\n" + e.StackTrace);
-        }
     }
 
 
@@ -163,23 +126,6 @@ public static class World_Hooks
     }
 
 
-    // Remove transit system from the Regions menu
-    private static void Region_GetFullRegionOrder(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.Before,
-            x => x.MatchRet());
-
-        c.EmitDelegate<Func<List<string>, List<string>>>((list) =>
-        {
-            list.Remove("T1");
-
-            return list;
-        });
-    }
-
-
     // Fix for DevTools timeline object filters, make it copy hunters
     private static void FilterData_FromString(On.PlacedObject.FilterData.orig_FromString orig, PlacedObject.FilterData self, string s)
     {
@@ -189,58 +135,6 @@ public static class World_Hooks
         {
             self.availableToPlayers.Remove(Enums.Pearlcat);
         }
-    }
-
-
-    // Outer Expanse Ending
-    private static void RainWorldGame_BeatGameMode(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchLdstr("OE_SEXTRA"),
-            x => x.MatchStloc(0));
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchStloc(1));
-
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.Emit(OpCodes.Ldloc_0);
-        c.EmitDelegate<Func<RainWorldGame, string, string>>((game, roomName) =>
-        {
-            if (game.GetStorySession.saveStateNumber == Enums.Pearlcat)
-            {   
-                var deathSave = game.GetStorySession.saveState.deathPersistentSaveData;
-                deathSave.karma = deathSave.karmaCap;
-                
-                var miscProg = Utils.GetMiscProgression();
-
-
-                miscProg.IsPearlpupSick = true;
-                miscProg.HasOEEnding = true;
-
-
-                var miscWorld = game.GetMiscWorld();
-
-                if (miscWorld != null)
-                {
-                    miscWorld.JustBeatAltEnd = true;
-                }
-
-
-                SlugBase.Assets.CustomScene.SetSelectMenuScene(game.GetStorySession.saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
-                
-
-                Plugin.Logger.LogInfo("PEARLCAT OE ENDING");
-
-                return "OE_SEXTRA";
-            }
-
-            return roomName;
-        });
-
-        c.Emit(OpCodes.Stloc_0);
     }
 
 
@@ -260,39 +154,6 @@ public static class World_Hooks
         }
 
         orig(self, eu);
-    }
-
-
-    // Make pup spawns guaranteed when the Pearlpup respawn cheat is enabled and pearlpup is missing
-    private static void AbstractRoom_RealizeRoom(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchStloc(0));
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.Emit(OpCodes.Ldarg_2);
-        c.Emit(OpCodes.Ldloc_0);
-        c.EmitDelegate<Func<AbstractRoom, RainWorldGame, int, int>>((self, game, num) =>
-        {
-            if (game.IsStorySession && game.StoryCharacter == Enums.Pearlcat)
-            {
-                var save = game.GetMiscWorld();
-                var miscProg = Utils.GetMiscProgression();
-
-                if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value && !miscProg.HasTrueEnding)
-                {
-                    return 0;
-                }
-
-                return int.MaxValue;
-            }
-
-            return num;
-        });
-
-        c.Emit(OpCodes.Stloc_0);
     }
 
 
@@ -337,43 +198,6 @@ public static class World_Hooks
 
         if (self.room.game.IsPearlcatStory())
             return true;
-
-        return result;
-    }
-
-
-
-    // Only let pups spawn if pearlpup is missing
-    public delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
-    public static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)
-    {
-        var result = orig(self);
-
-        if (self.saveStateNumber == Enums.Pearlcat)
-        {
-            var save = self.saveState.miscWorldSaveData.GetMiscWorld();
-
-            if (save != null && save.PearlpupID == null)
-                return 1;
-
-            return 0;
-        }
-
-        return result;
-    }
-
-
-
-    // Unlock certain gates (Bitter Aerie, Metropolis)
-    public delegate bool orig_RegionGateMeetRequirement(RegionGate self);
-    public static bool GetRegionGateMeetRequirement(orig_RegionGateMeetRequirement orig, RegionGate self)
-    {
-        var result = orig(self);
-
-        if (self.IsGateOpenForPearlcat())
-        {
-            return true;
-        }
 
         return result;
     }
@@ -629,7 +453,9 @@ public static class World_Hooks
         orig(self);
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
+        {
             self.AddObject(new TrainView(self));
+        }
     }
         
     private static void Room_Update(On.Room.orig_Update orig, Room self)
@@ -731,7 +557,7 @@ public static class World_Hooks
     }
 
    
-    // Shelter
+    // Hide door sprites for the train shelter
     private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
@@ -751,8 +577,7 @@ public static class World_Hooks
     }
 
 
-
-    // Prevent Player Pearls being saved in the shelter 
+    // Prevent PlayerPearls being saved in the shelter
     private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
     {
         var result = orig(world, room, index);
@@ -778,7 +603,7 @@ public static class World_Hooks
     }
 
 
-
+    // CW Unique Pearl Colour
     private static Color? DataPearl_UniquePearlHighLightColor(On.DataPearl.orig_UniquePearlHighLightColor orig, DataPearl.AbstractDataPearl.DataPearlType pearlType)
     {
         if (pearlType == Enums.Pearls.CW_Pearlcat)
@@ -789,6 +614,8 @@ public static class World_Hooks
         return orig(pearlType);
     }
 
+
+    // Pearl Spears unique sounds
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk(On.Room.orig_PlaySound_SoundID_BodyChunk orig, Room self, SoundID soundId, BodyChunk chunk)
     {
         if (chunk?.owner is Spear spear && spear.abstractSpear.TryGetSpearModule(out var spearModule) && spearModule.DecayTimer == 0)

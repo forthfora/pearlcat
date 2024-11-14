@@ -1,10 +1,7 @@
-﻿using RWCustom;
-using System;
-using System.Linq;
+﻿using System;
 using UnityEngine;
 using static Pearlcat.PearlpupGraphics_Helpers;
 using static Pearlcat.PlayerGraphics_Helpers;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 

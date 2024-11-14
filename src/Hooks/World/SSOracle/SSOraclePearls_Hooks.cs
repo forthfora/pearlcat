@@ -1,8 +1,7 @@
-﻿using MonoMod.RuntimeDetour;
-using RWCustom;
+﻿using RWCustom;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
+using static Pearlcat.SSOraclePearls_Helpers;
 
 namespace Pearlcat;
 
@@ -12,11 +11,6 @@ public static class SSOraclePearls_Hooks
     {
         On.PebblesPearl.Update += PebblesPearl_Update;
         On.SSOracleBehavior.Update += SSOracleBehavior_Update;
-
-        _ = new Hook(
-            typeof(PebblesPearl).GetProperty(nameof(PebblesPearl.NotCarried), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-            typeof(Hooks).GetMethod(nameof(GetPebblesPearlNotCarried), BindingFlags.Static | BindingFlags.Public)
-        );
     }
 
 
@@ -83,47 +77,5 @@ public static class SSOraclePearls_Hooks
             self.label?.Destroy();
             return;
         }
-    }
-
-
-    public static int PearlAnimCounter { get; set; }
-
-    public static void AnimatePebblesPearlOrbit(Vector2 origin, float radius, float angleFrameAddition, List<DataPearl> pearls)
-    {
-        for (var i = 0; i < pearls.Count; i++)
-        {
-            var dataPearl = pearls[i];
-
-            var angle = i * (Mathf.PI * 2.0f / pearls.Count) + angleFrameAddition * PearlAnimCounter++;
-            var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
-
-            var oraclePearlDir = Custom.DirVec(dataPearl.firstChunk.pos, targetPos);
-            var oraclePearlDist = Custom.Dist(targetPos, dataPearl.firstChunk.pos);
-
-            dataPearl.firstChunk.vel = oraclePearlDir * Custom.LerpMap(oraclePearlDist, 200.0f, 10.0f, 15.0f, 1.0f);
-
-            if (Custom.DistLess(dataPearl.firstChunk.pos, targetPos, 5.0f))
-            {
-                dataPearl.firstChunk.HardSetPosition(targetPos);
-            }
-        }
-    }
-
-
-    public delegate bool orig_PebblesPearlNotCarried(PebblesPearl self);
-
-    public static bool GetPebblesPearlNotCarried(orig_PebblesPearlNotCarried orig, PebblesPearl self)
-    {
-        var result = orig(self);
-
-        if (self.room.game.IsPearlcatStory())
-        {
-            if (self.oracle?.oracleBehavior is SSOracleBehavior behavior && behavior.timeSinceSeenPlayer >= 0)
-            {
-                return false;
-            }
-        }
-
-        return result;
     }
 }

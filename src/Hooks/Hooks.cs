@@ -6,49 +6,65 @@ namespace Pearlcat;
 
 public static class Hooks
 {
+    public static bool IsInit { get; private set; }
+
+    public static void ApplyInitHooks()
+    {
+        On.RainWorld.OnModsInit += RainWorld_OnModsInit;
+        On.RainWorld.PostModsInit += RainWorld_PostModsInit;
+    }
+
     public static void ApplyHooks()
     {
         // Misc
         ModCompat_Hooks.ApplyHooks();
         SaveData_Hooks.ApplyHooks();
 
+        Sound_Hooks.ApplyHooks();
+        Sound_HooksIL.ApplyHooks();
+
+
         // Menu
         Menu_Hooks.ApplyHooks();
-        SlideShow_Hooks.ApplyHooks();
+        Menu_HooksIL.ApplyHooks();
+
+        SlideShow_HooksIL.ApplyHooks();
+
 
         // Pearlpup
         Pearlpup_Hooks.ApplyHooks();
         PearlpupGraphics_Hooks.ApplyHooks();
         PearlpupIllness_Hooks.ApplyHooks();
 
+
         // Player
         Player_Hooks.ApplyHooks();
+        Player_HooksIL.ApplyHooks();
+
         PlayerGraphics_Hooks.ApplyHooks();
         PlayerPossessionFixes_Hooks.ApplyHooks();
 
         PlayerPearl_Hooks.ApplyHooks();
         PlayerHeartPearl_Hooks.ApplyHooks();
 
+
         // World
         World_Hooks.ApplyHooks();
+        World_HooksIL.ApplyHooks();
+
         Creatures_Hooks.ApplyHooks();
-        Sound_Hooks.ApplyHooks();
+        Creatures_HooksIL.ApplyHooks();
 
         SLOracle_Hooks.ApplyHooks();
 
         SSOracle_Hooks.ApplyHooks();
+
         SSOracleConversation_Hooks.ApplyHooks();
+        SSOracleConversation_HooksIL.ApplyHooks();
+
         SSOraclePearls_Hooks.ApplyHooks();
     }
 
-
-    public static bool IsInit { get; private set; }
-
-    public static void ApplyInit()
-    {
-        On.RainWorld.OnModsInit += RainWorld_OnModsInit;
-        On.RainWorld.PostModsInit += RainWorld_PostModsInit;
-    }
 
     private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
     {
@@ -132,14 +148,13 @@ public static class Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("PostModsInit:\n" + e.Message + "\n" + e.StackTrace);
+            e.LogHookException();
         }
         finally
         {
             orig(self);
         }
     }
-
 
 
     // There are only here for backwards compatability, I'm pretty sure another mod used this at one point or another

@@ -1,11 +1,4 @@
-﻿using MoreSlugcats;
-using RWCustom;
-using SlugBase.Features;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using static Pearlcat.PearlEffect;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 namespace Pearlcat;
 
@@ -97,7 +90,7 @@ public static partial class PlayerAbilities_Helpers
         UpdateRevive(self, playerModule, effect);
         UpdateShield(self, playerModule, effect);
         UpdateRage(self, playerModule, effect);
-        UpdateCamoflague(self, playerModule, effect);
+        UpdateCamouflage(self, playerModule, effect);
 
 
         if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller != null) return;

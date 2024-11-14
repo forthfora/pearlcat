@@ -1,8 +1,4 @@
-﻿using MoreSlugcats;
-using System.Linq;
-using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public static class Pearlpup_Helpers
 {

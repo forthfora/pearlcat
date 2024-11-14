@@ -1,7 +1,4 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using Music;
-using System;
+﻿using Music;
 using System.Linq;
 using Random = UnityEngine.Random;
 
@@ -15,43 +12,8 @@ public static class Sound_Hooks
         On.Music.MusicPlayer.NewRegion += MusicPlayer_NewRegion;
 
         On.Room.PlaySound_SoundID_BodyChunk_bool_float_float_bool += Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool;
-
-        try
-        {
-            IL.Music.ProceduralMusic.Reset += ProceduralMusic_Reset;
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError("Sound Hooks Error:\n" + e + "\n" + e.StackTrace);
-        }
     }
 
-
-
-    private static void ProceduralMusic_Reset(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchCallOrCallvirt<ProceduralMusic.ProceduralMusicInstruction.Track>(nameof(ProceduralMusic.ProceduralMusicInstruction.Track.AllowedInSubRegion))
-        );
-
-
-        c.Emit(OpCodes.Ldloc_2);
-        c.Emit(OpCodes.Ldloc, 4);
-        c.Emit(OpCodes.Ldarg_0);
-        c.Emit(OpCodes.Ldfld, typeof(ProceduralMusic).GetField(nameof(ProceduralMusic.musicPlayer)));
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Func<int, int, MusicPlayer, ProceduralMusic, bool>>((j, k, musicPlayer, self) =>
-        {
-            var track = self.instruction.layers[j].tracks[k];
-            var module = musicPlayer.GetModule();
-
-            return module.Subregion != null && track.subRegions != null && track.subRegions.Contains(module.Subregion);
-        });
-
-        c.Emit(OpCodes.Or);
-    }
 
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool(On.Room.orig_PlaySound_SoundID_BodyChunk_bool_float_float_bool orig,
         Room self, SoundID soundId, BodyChunk chunk, bool loop, float vol, float pitch, bool randomStartPosition)

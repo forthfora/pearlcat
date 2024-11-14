@@ -1,10 +1,5 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour;
-using RWCustom;
-using System;
+﻿using RWCustom;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using VoidSea;
 using static Pearlcat.Player_Helpers;
@@ -35,27 +30,6 @@ public static class Player_Hooks
 
         On.Player.ThrownSpear += Player_ThrownSpear;
         On.Player.Stun += PlayerOnStun;
-
-        try
-        {
-            _ = new Hook(
-                typeof(Player).GetProperty(nameof(Player.VisibilityBonus), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-                typeof(Player_Hooks).GetMethod(nameof(GetPlayerVisibilityBonus), BindingFlags.Static | BindingFlags.Public)
-            );
-        }
-        catch (Exception e)
-        {
-
-        }
-
-        try
-        {
-            IL.Creature.Update += Creature_Update;
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError("Player Hooks IL Exception: \n" + e);
-        }
     }
 
 
@@ -70,7 +44,6 @@ public static class Player_Hooks
             self.spearOnBack ??= new Player.SpearOnBack(self);
         }
     }
-
 
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
@@ -243,6 +216,7 @@ public static class Player_Hooks
         }
     }
 
+
     private static void Player_checkInput(On.Player.orig_checkInput orig, Player self)
     {
         orig(self);
@@ -314,18 +288,27 @@ public static class Player_Hooks
             }
         }
     }
-    
 
-
-    public delegate float orig_PlayerVisibilityBonus(Player self);
-    public static float GetPlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
+    private static void PlayerOnStun(On.Player.orig_Stun orig, Player self, int st)
     {
-        if (self.TryGetPearlcatModule(out var playerModule) || self.onBack?.TryGetPearlcatModule(out playerModule) == true
-            || (self.grabbedBy.FirstOrDefault(x => x.grabber is Player)?.grabber as Player)?.TryGetPearlcatModule(out playerModule) == true)
-            if (playerModule.CamoLerp > 0.5f)
-                return -playerModule.CamoLerp;
+        if (self.TryGetPearlcatModule(out var playerModule))
+        {
+            if (playerModule.IsPossessingCreature) return;
+        }
 
-        return orig(self);
+        orig(self, st);
+    }
+
+
+    private static void Player_ThrownSpear(On.Player.orig_ThrownSpear orig, Player self, Spear spear)
+    {
+        orig(self, spear);
+
+        if (spear.abstractSpear.TryGetSpearModule(out var spearModule))
+        {
+            spearModule.ReturnTimer = -1;
+            spearModule.ThrownByPlayer = new(self);
+        }
     }
 
     private static void SpearOnBack_Update(On.Player.SpearOnBack.orig_Update orig, Player.SpearOnBack self, bool eu)
@@ -337,7 +320,8 @@ public static class Player_Hooks
         if (playerModule.ForceLockSpearOnBack)
             self.interactionLocked = true;
     }
-    
+
+
     private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
     {
         var result = orig(self, obj);
@@ -348,7 +332,6 @@ public static class Player_Hooks
         return result;
     }
 
-    
     private static void Grasp_Release(On.Creature.Grasp.orig_Release orig, Creature.Grasp self)
     {
         if (self.grabber is not Player player)
@@ -366,42 +349,6 @@ public static class Player_Hooks
         orig(self);
     }
 
-    private static void Creature_Update(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchLdstr("FORCE CREATURE RELEASE UNDER ROOM"));
-
-        var dest = c.DefineLabel();
-
-        c.GotoPrev(MoveType.After,
-            x => x.MatchBle(out dest));
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.EmitDelegate<Func<Creature, bool>>((self) =>
-        {
-            if (self is not Player player)
-            {
-                return false;
-            }
-
-            var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
-
-            if (inVoid && player.IsPearlpup())
-            {
-                // Plugin.Logger.LogWarning("PREVENTED PEARLPUP GRASP RELEASE");
-                return true;
-            }
-
-            // Plugin.Logger.LogWarning("DID NOT PREVENT RELEASE");
-            return false;
-        });
-
-        c.Emit(OpCodes.Brtrue, dest);
-
-        // Plugin.Logger.LogWarning(c.Context);
-    }
 
     private static void Creature_SpitOutOfShortCut(On.Creature.orig_SpitOutOfShortCut orig, Creature self, IntVector2 pos, Room newRoom, bool spitOutAllSticks)
     {
@@ -521,26 +468,5 @@ public static class Player_Hooks
 
             SlugBase.Assets.CustomScene.SetSelectMenuScene(self.room.game.GetStorySession.saveState, Enums.Scenes.Slugcat_Pearlcat_Ascended);
         }
-    }
-
-    private static void Player_ThrownSpear(On.Player.orig_ThrownSpear orig, Player self, Spear spear)
-    {
-        orig(self, spear);
-
-        if (spear.abstractSpear.TryGetSpearModule(out var spearModule))
-        {
-            spearModule.ReturnTimer = -1;
-            spearModule.ThrownByPlayer = new(self);
-        }
-    }
-
-    private static void PlayerOnStun(On.Player.orig_Stun orig, Player self, int st)
-    {
-        if (self.TryGetPearlcatModule(out var playerModule))
-        {
-            if (playerModule.IsPossessingCreature) return;
-        }
-
-        orig(self, st);
     }
 }

@@ -1,13 +1,8 @@
 ﻿using Menu;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour;
 using RWCustom;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using static Pearlcat.Enums;
 
@@ -43,44 +38,6 @@ public static class Menu_Hooks
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
 
         On.Menu.InputOptionsMenu.ctor += InputOptionsMenu_ctor;
-
-
-        // Manual Hooks
-        try
-        {
-            _ = new Hook(
-                typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasMark),
-                    BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-                typeof(Menu_Helpers).GetMethod(nameof(GetSlugcatPageHasMark), BindingFlags.Static | BindingFlags.Public)
-            );
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError($"{nameof(Menu_Helpers)};{nameof(GetSlugcatPageHasMark)}: {e}\n{e.StackTrace}");
-        }
-
-        try
-        {
-            _ = new Hook(
-                typeof(SlugcatSelectMenu.SlugcatPage).GetProperty(nameof(SlugcatSelectMenu.SlugcatPage.HasGlow), BindingFlags.Instance | BindingFlags.Public)?.GetGetMethod(),
-                typeof(Menu_Helpers).GetMethod(nameof(GetSlugcatPageHasGlow), BindingFlags.Static | BindingFlags.Public)
-            );
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError($"{nameof(Menu_Helpers)};{nameof(GetSlugcatPageHasGlow)}: {e}\n{e.StackTrace}");
-        }
-
-
-        // IL Hooks
-        try
-        {
-            IL.Menu.SlugcatSelectMenu.StartGame += SlugcatSelectMenu_StartGame;
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError($"{nameof(Menu_Helpers)};{nameof(SlugcatSelectMenu_StartGame)}: {e}\n{e.StackTrace}");
-        }
     }
 
     private static void Menu_Update(On.Menu.Menu.orig_Update orig, Menu.Menu self)
@@ -174,32 +131,6 @@ public static class Menu_Hooks
 
         self.AddPart(new InventoryHUD(self, self.fContainers[1]));
     }
-
-
-
-    public delegate bool orig_SlugcatPageHasMark(SlugcatSelectMenu.SlugcatPage self);
-    public static bool GetSlugcatPageHasMark(orig_SlugcatPageHasMark orig, SlugcatSelectMenu.SlugcatPage self)
-    {
-        var result = orig(self);
-
-        if (self.slugcatNumber == Enums.Pearlcat)
-            return true;
-
-        return result;
-    }
-
-
-    public delegate bool orig_SlugcatPageHasGlow(SlugcatSelectMenu.SlugcatPage self);
-    public static bool GetSlugcatPageHasGlow(orig_SlugcatPageHasGlow orig, SlugcatSelectMenu.SlugcatPage self)
-    {
-        var result = orig(self);
-
-        if (self.slugcatNumber == Enums.Pearlcat)
-            return true;
-
-        return result;
-    }
-    
 
 
     private static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, MenuScene self, Menu.Menu menu, MenuObject owner, MenuScene.SceneID sceneID)
@@ -309,66 +240,6 @@ public static class Menu_Hooks
             else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sick)
             {
                 UpdateSickScreen(self, illustration, menuSceneModule, illustrationModule);
-            }
-        }
-    }
-
-    
-    private static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration, MenuIllustrationModule illustrationModule)
-    {
-        var miscProg = Utils.GetMiscProgression();
-
-        if (!miscProg.HasTrueEnding)
-        {
-            illustration.visible = false;
-            return;
-        }
-
-        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
-        illustration.visible = true;
-
-        var initialScale = 0.3f;
-        var isCore = fileName == "pupheartcore";
-
-        if (illustration.sprite.scale == 1.0f)
-        {
-            illustration.sprite.scale = initialScale;
-            illustration.sprite.SetAnchor(new Vector2(0.5f, 0.5f));
-        }
-
-        var currentScale = illustration.sprite.scale;
-        
-        const int beatFrequency = 80;
-        const int coreBeatOffset = 10;
-
-        var beat = MenuPearlAnimStacker % beatFrequency == 0;
-        var coreBeat = (MenuPearlAnimStacker - coreBeatOffset) % beatFrequency == 0;
-
-        if (isCore)
-        {
-            if (coreBeat)
-            {
-                illustration.sprite.scale = 0.4f;
-            }
-            else
-            {
-                illustration.sprite.scale = Mathf.Lerp(currentScale, initialScale, 0.1f);
-            }
-        }
-        else
-        {
-            if (beat)
-            {
-                illustration.sprite.scale = 0.45f;
-                self.menu.PlaySound(Sounds.Pearlcat_Heartbeat, 0.0f, 0.3f, 1.0f);
-            }
-            else if (coreBeat)
-            {
-                illustration.sprite.scale = 0.4f;
-            }
-            else
-            {
-                illustration.sprite.scale = Mathf.Lerp(currentScale, initialScale, 0.1f);
             }
         }
     }
@@ -591,34 +462,6 @@ public static class Menu_Hooks
         return result;
     }
 
-
-    private static void SlugcatSelectMenu_StartGame(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchCallOrCallvirt<SlugcatSelectMenu>(nameof(SlugcatSelectMenu.ContinueStartedGame))
-        );
-
-        var dest = il.DefineLabel();
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey)));
-
-        c.GotoNext(MoveType.After,
-            x => x.MatchBrtrue(out dest));
-
-        c.Emit(OpCodes.Ldarg_0);
-
-        c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((self) =>
-        {
-            var save = Utils.GetMiscProgression();
-
-            return save.IsSecretEnabled;
-        });
-
-        c.Emit(OpCodes.Brtrue, dest);
-    }
 
     private static void InputOptionsMenu_ctor(On.Menu.InputOptionsMenu.orig_ctor orig, InputOptionsMenu self, ProcessManager manager)
     {

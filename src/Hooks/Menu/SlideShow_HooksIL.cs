@@ -4,7 +4,7 @@ using System;
 
 namespace Pearlcat;
 
-public static class SlideShow_Hooks
+public static class SlideShow_HooksIL
 {
     public static void ApplyHooks()
     {
@@ -14,7 +14,7 @@ public static class SlideShow_Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("Slide Show Hooks IL Error: " + e + "\n" + e.StackTrace);
+            e.LogHookException();
         }
     }
 
@@ -22,9 +22,10 @@ public static class SlideShow_Hooks
     {
         var c = new ILCursor(il);
 
-        c.GotoNext(MoveType.After,
-            x => x.MatchCallOrCallvirt<PlayerProgression>(nameof(PlayerProgression.SaveWorldStateAndProgression)),
-            x => x.MatchPop());
+        if (c.TryGotoNext(MoveType.After,
+                x => x.MatchCallOrCallvirt<PlayerProgression>(nameof(PlayerProgression.SaveWorldStateAndProgression)),
+                x => x.MatchPop())
+           ) return;
 
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Action<RainWorldGame>>((self) =>
