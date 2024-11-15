@@ -332,15 +332,24 @@ public static class PlayerGraphics_Helpers
         sLeaser.sprites[spriteIndex].isVisible = false;
 
         var atlas = AssetLoader.GetAtlas(atlasName);
-        if (atlas == null) return;
+        if (atlas == null)
+        {
+            return;
+        }
 
         var name = sLeaser.sprites[spriteIndexToCopy]?.element?.name;
-        if (name == null) return;
+        if (name == null)
+        {
+            return;
+        }
 
         name = name.Replace(toCopy, customName);
 
 
-        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out var element)) return;
+        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name, out var element))
+        {
+            return;
+        }
 
         sLeaser.sprites[spriteIndex].element = element;
 
@@ -360,15 +369,27 @@ public static class PlayerGraphics_Helpers
     public static void UpdateReplacementPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName, string nameSuffix = "")
     {
         var atlas = AssetLoader.GetAtlas(atlasName);
-        if (atlas == null) return;
+        if (atlas == null)
+        {
+            return;
+        }
 
         var name = sLeaser.sprites[spriteIndex]?.element?.name;
-        if (name == null) return;
+        if (name == null)
+        {
+            return;
+        }
 
 
-        if (!name.StartsWith(toReplace)) return;
+        if (!name.StartsWith(toReplace))
+        {
+            return;
+        }
 
-        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name + nameSuffix, out var element)) return;
+        if (!atlas._elementsByName.TryGetValue(Plugin.MOD_ID + name + nameSuffix, out var element))
+        {
+            return;
+        }
 
         sLeaser.sprites[spriteIndex].element = element;
     }
@@ -376,9 +397,15 @@ public static class PlayerGraphics_Helpers
 
     public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)
     {
-        if (self.lightSource == null) return;
+        if (self.lightSource == null)
+        {
+            return;
+        }
 
-        if (self.player.room == null) return;
+        if (self.player.room == null)
+        {
+            return;
+        }
 
         if (self.player.inVoidSea)
         {
@@ -396,14 +423,26 @@ public static class PlayerGraphics_Helpers
     // Tail
     public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
     {
-        if (ModOptions.DisableCosmetics.Value) return;
+        if (ModOptions.DisableCosmetics.Value)
+        {
+            return;
+        }
 
         var tailAtlas = playerModule.TailAtlas;
-        if (tailAtlas == null) return;
+        if (tailAtlas == null)
+        {
+            return;
+        }
 
-        if (tailAtlas.elements.Count == 0) return;
+        if (tailAtlas.elements.Count == 0)
+        {
+            return;
+        }
 
-        if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh) return;
+        if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh)
+        {
+            return;
+        }
 
 
         tailMesh.element = tailAtlas.elements[0];
@@ -465,14 +504,26 @@ public static class PlayerGraphics_Helpers
     // Calculate movement of sprites for a given frame
     public static void ApplyTailMovement(PlayerGraphics self)
     {
-        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
-        if (playerModule.IsPearlpupAppearance) return;
+        if (playerModule.IsPearlpupAppearance)
+        {
+            return;
+        }
 
 
-        if (ModOptions.DisableCosmetics.Value) return;
+        if (ModOptions.DisableCosmetics.Value)
+        {
+            return;
+        }
 
-        if (self.player.onBack != null) return;
+        if (self.player.onBack != null)
+        {
+            return;
+        }
 
 
         var upsideDown = self.head.pos.y < self.legs.pos.y;
@@ -503,9 +554,15 @@ public static class PlayerGraphics_Helpers
             Player.AnimationIndex.Roll,
         };
 
-        if (excludeFromTailOffsetBodyMode.Contains(self.player.bodyMode)) return;
+        if (excludeFromTailOffsetBodyMode.Contains(self.player.bodyMode))
+        {
+            return;
+        }
 
-        if (excludeFromTailOffsetAnimation.Contains(self.player.animation)) return;
+        if (excludeFromTailOffsetAnimation.Contains(self.player.animation))
+        {
+            return;
+        }
 
         var tailSegmentVelocities = new Dictionary<int, Vector2>()
         {
@@ -519,16 +576,23 @@ public static class PlayerGraphics_Helpers
 
         for (var i = 0; i < self.tail.Length; i++)
         {
-            if (!tailSegmentVelocities.ContainsKey(i)) continue;
+            if (!tailSegmentVelocities.ContainsKey(i))
+            {
+                continue;
+            }
 
             var segmentVel = tailSegmentVelocities[i];
             var facingDir = new Vector2(self.player.flipDirection, 1.0f);
 
             if (self.player.bodyMode == Player.BodyModeIndex.Crawl)
+            {
                 segmentVel.y /= 2.0f;
+            }
 
             if (self.player.superLaunchJump >= 20)
+            {
                 segmentVel.y += i == self.tail.Length - 1 ? 0.8f : 0.15f;
+            }
 
             self.tail[i].vel += segmentVel * facingDir;
         }
@@ -538,7 +602,10 @@ public static class PlayerGraphics_Helpers
     // Ears
     public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite)
     {
-        if (ear == null) return;
+        if (ear == null)
+        {
+            return;
+        }
 
         var earMeshTriesLength = (ear.Length - 1) * 4;
         var earMeshTries = new TriangleMesh.Triangle[earMeshTriesLength + 1];
@@ -571,9 +638,15 @@ public static class PlayerGraphics_Helpers
 
     public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, FAtlas? earAtlas, Vector2 attachPos, int earFlipDirection)
     {
-        if (ear == null || ear.Length == 0) return;
+        if (ear == null || ear.Length == 0)
+        {
+            return;
+        }
 
-        if (sLeaser.sprites[earSprite] is not TriangleMesh earMesh) return;
+        if (sLeaser.sprites[earSprite] is not TriangleMesh earMesh)
+        {
+            return;
+        }
 
         // Draw Mesh
         var earRad = ear[0].rad;
@@ -589,7 +662,9 @@ public static class PlayerGraphics_Helpers
             var distance = Vector2.Distance(earPos, attachPos) / 5.0f;
 
             if (segment == 0)
+            {
                 distance = 0.0f;
+            }
 
             earMesh.MoveVertice(segment * 4, attachPos - earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
             earMesh.MoveVertice(segment * 4 + 1, attachPos + earFlipDirection * perpendicularNormalized * earRad + normalized * distance - camPos);
@@ -611,15 +686,23 @@ public static class PlayerGraphics_Helpers
 
 
         // Apply Texture
-        if (earAtlas == null) return;
+        if (earAtlas == null)
+        {
+            return;
+        }
 
-        if (earAtlas.elements.Count == 0) return;
+        if (earAtlas.elements.Count == 0)
+        {
+            return;
+        }
 
         sLeaser.sprites[earSprite].color = Color.white;
         earMesh.element = earAtlas.elements[0];
 
         if (earMesh.verticeColors == null || earMesh.verticeColors.Length != earMesh.vertices.Length)
+        {
             earMesh.verticeColors = new Color[earMesh.vertices.Length];
+        }
 
         for (var vertex = earMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
         {
@@ -628,14 +711,20 @@ public static class PlayerGraphics_Helpers
 
             // Even vertexes
             if (vertex % 2 == 0)
+            {
                 uvInterpolation = new Vector2(interpolation, 0.0f);
+            }
 
             // Last vertex
             else if (vertex == earMesh.verticeColors.Length - 1)
+            {
                 uvInterpolation = new Vector2(1.0f, 0.0f);
+            }
 
             else
+            {
                 uvInterpolation = new Vector2(interpolation, 1.0f);
+            }
 
             Vector2 uv;
             uv.x = Mathf.Lerp(earMesh.element.uvBottomLeft.x, earMesh.element.uvTopRight.x, uvInterpolation.x);
@@ -647,7 +736,10 @@ public static class PlayerGraphics_Helpers
 
     public static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)
     {
-        if (ear == null) return;
+        if (ear == null)
+        {
+            return;
+        }
 
         ear[0].connectedPoint = earAttachPos;
 
@@ -661,10 +753,16 @@ public static class PlayerGraphics_Helpers
         // Simulate friction
         ear[0].vel.x *= 0.9f;
         ear[1].vel.x *= 0.7f;
-        if (ear.Length >= 3) ear[2].vel.x *= 0.7f;
+        if (ear.Length >= 3)
+        {
+            ear[2].vel.x *= 0.7f;
+        }
 
 
-        if (self.player.dead) return;
+        if (self.player.dead)
+        {
+            return;
+        }
 
         // Alive
 
@@ -674,13 +772,19 @@ public static class PlayerGraphics_Helpers
 
             ear[0].vel += 5.0f * playerRot;
             ear[1].vel += 5.0f * playerRot;
-            if (ear.Length >= 3) ear[2].vel += 5.0f * playerRot;
+            if (ear.Length >= 3)
+            {
+                ear[2].vel += 5.0f * playerRot;
+            }
         }
         else
         {
             ear[0].vel.y += self.player.EffectiveRoomGravity * 0.5f;
             ear[1].vel.y += self.player.EffectiveRoomGravity * 0.3f;
-            if (ear.Length >= 3) ear[2].vel.y += self.player.EffectiveRoomGravity * 0.3f;
+            if (ear.Length >= 3)
+            {
+                ear[2].vel.y += self.player.EffectiveRoomGravity * 0.3f;
+            }
 
             if (self.player.bodyMode == Player.BodyModeIndex.Crawl && self.player.input[0].x == 0)
             {
@@ -689,13 +793,19 @@ public static class PlayerGraphics_Helpers
                 {
                     ear[0].vel.x += 0.65f * negFlipDir;
                     ear[1].vel.x += 0.65f * negFlipDir;
-                    if (ear.Length >= 3) ear[2].vel.x += 0.65f * negFlipDir;
+                    if (ear.Length >= 3)
+                    {
+                        ear[2].vel.x += 0.65f * negFlipDir;
+                    }
                 }
                 else
                 {
                     ear[0].vel.x += 0.25f * negFlipDir;
                     ear[1].vel.x += 0.25f * negFlipDir;
-                    if (ear.Length >= 3) ear[2].vel.x += 0.25f * negFlipDir;
+                    if (ear.Length >= 3)
+                    {
+                        ear[2].vel.x += 0.25f * negFlipDir;
+                    }
                 }
             }
         }
@@ -703,12 +813,18 @@ public static class PlayerGraphics_Helpers
 
     public static void ApplyEarMovement(PlayerGraphics self)
     {
-        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         var earL = playerModule.EarL;
         TailSegment[]? earR = playerModule.EarR;
 
-        if (earL == null || earR == null) return;
+        if (earL == null || earR == null)
+        {
+            return;
+        }
 
         UpdateEarSegments(self, earL, playerModule.EarLAttachPos);
         UpdateEarSegments(self, earR, playerModule.EarRAttachPos);
@@ -744,8 +860,12 @@ public static class PlayerGraphics_Helpers
         }
     }
 
-    public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PlayerModule playerModule, Vector2 offset) =>
-        Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3.Slerp(playerModule.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
+    public static Vector2 GetEarAttachPos(PlayerGraphics self, float timestacker, PlayerModule playerModule, Vector2 offset)
+    {
+        return Vector2.Lerp(self.head.lastPos + offset, self.head.pos + offset, timestacker) + Vector3
+                .Slerp(playerModule.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() *
+            15.0f;
+    }
 
 
     // Ribbon (Adult Pearlpup)
@@ -768,7 +888,10 @@ public static class PlayerGraphics_Helpers
 
         var ribbonSprite = sLeaser.sprites[spriteIndex] as TriangleMesh;
 
-        if (ribbonSprite == null) return;
+        if (ribbonSprite == null)
+        {
+            return;
+        }
 
         for (var i = 0; i < ribbon.GetLength(0); i++)
         {
@@ -833,10 +956,14 @@ public static class PlayerGraphics_Helpers
                     ribbon[i, 2] = terrainCollisionData.vel;
 
                     if (terrainCollisionData.contactPoint.x != 0)
+                    {
                         ribbon[i, 2].y *= 0.6f;
+                    }
 
                     if (terrainCollisionData.contactPoint.y != 0)
+                    {
                         ribbon[i, 2].x *= 0.6f;
+                    }
                 }
             }
         }

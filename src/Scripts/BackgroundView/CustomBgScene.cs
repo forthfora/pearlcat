@@ -21,7 +21,13 @@ public class CustomBgScene : BackgroundScene
     {
     }
 
-    public float DepthFromCloud(float depth) => Mathf.Lerp(CloudsStartDepth, CloudsEndDepth, depth);
+    public float DepthFromCloud(float depth)
+    {
+        return Mathf.Lerp(CloudsStartDepth, CloudsEndDepth, depth);
+    }
 
-    public float DepthFromDistantCloud(float depth) => Mathf.Lerp(CloudsEndDepth, DistantCloudsEndDepth, Mathf.Pow(depth, 1.5f));
+    public float DepthFromDistantCloud(float depth)
+    {
+        return Mathf.Lerp(CloudsEndDepth, DistantCloudsEndDepth, Mathf.Pow(depth, 1.5f));
+    }
 }

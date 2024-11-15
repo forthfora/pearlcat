@@ -21,7 +21,10 @@ public static class PlayerHeartPearl_Hooks
     {
         orig(self, placeRoom);
 
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
+        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module))
+        {
+            return;
+        }
 
         module.Umbilical?.Reset(self.firstChunk.pos);
     }
@@ -30,7 +33,10 @@ public static class PlayerHeartPearl_Hooks
     {
         orig(self, sLeaser, rCam);
 
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
+        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module))
+        {
+            return;
+        }
 
 
         // Umbilical
@@ -85,11 +91,20 @@ public static class PlayerHeartPearl_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
-            
-        if (self.slatedForDeletetion) return;
+        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module))
+        {
+            return;
+        }
 
-        if (self.room == null) return;
+        if (self.slatedForDeletetion)
+        {
+            return;
+        }
+
+        if (self.room == null)
+        {
+            return;
+        }
 
 
         PlayerModule? playerModule = null;
@@ -201,8 +216,11 @@ public static class PlayerHeartPearl_Hooks
     {
         orig(self, eu);
 
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module)) return;
-        
+        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module))
+        {
+            return;
+        }
+
 
         module.HeartBeatTimer1++;
         module.HeartBeatTimer2++;
@@ -230,7 +248,10 @@ public static class PlayerHeartPearl_Hooks
         // Is attached to the player
         else
         {
-            if (!owner.TryGetPearlcatModule(out var playerModule)) return;
+            if (!owner.TryGetPearlcatModule(out var playerModule))
+            {
+                return;
+            }
 
             var umbilicalStartPos = playerModule.ScarPos;
             var umbilicalEndPos = self.firstChunk.pos;

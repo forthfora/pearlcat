@@ -17,7 +17,10 @@ public static class SSOracle_Hooks
 
     private static void SSOracleBehavior_UpdateStoryPearlCollection(On.SSOracleBehavior.orig_UpdateStoryPearlCollection orig, SSOracleBehavior self)
     {
-        if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles()) return;
+        if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles())
+        {
+            return;
+        }
 
         orig(self);
     }
@@ -43,7 +46,10 @@ public static class SSOracle_Hooks
     {
         if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles() && self.action != Enums.SSOracle.Pearlcat_SSActionGeneral && self.action != Action.ThrowOut_KillOnSight)
         {
-            if (self.currSubBehavior.ID == Enums.SSOracle.Pearlcat_SSSubBehavGeneral) return;
+            if (self.currSubBehavior.ID == Enums.SSOracle.Pearlcat_SSSubBehavGeneral)
+            {
+                return;
+            }
 
             self.inActionCounter = 0;
             self.action = nextAction;

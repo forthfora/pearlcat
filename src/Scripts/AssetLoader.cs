@@ -13,7 +13,10 @@ public static class AssetLoader
     private const TextureFormat TEXTURE_FORMAT = TextureFormat.RGBA32;
 
     public static Dictionary<string, Texture2D> Textures { get; } = new();
-    public static string GetUniqueName(string name) => Plugin.MOD_ID + "_" + name;
+    public static string GetUniqueName(string name)
+    {
+        return Plugin.MOD_ID + "_" + name;
+    }
 
 
     public static FAtlas? GetAtlas(string atlasName)
@@ -68,7 +71,10 @@ public static class AssetLoader
     {
         foreach (var filePath in AssetManager.ListDirectory(ATLASES_DIRPATH))
         {
-            if (Path.GetExtension(filePath) != ".txt") continue;
+            if (Path.GetExtension(filePath) != ".txt")
+            {
+                continue;
+            }
 
             var atlasName = Path.GetFileNameWithoutExtension(filePath);
             
@@ -81,13 +87,19 @@ public static class AssetLoader
     {
         foreach (var filePath in AssetManager.ListDirectory(SPRITES_DIRPATH))
         {
-            if (Path.GetExtension(filePath).ToLower() != ".png") continue;
+            if (Path.GetExtension(filePath).ToLower() != ".png")
+            {
+                continue;
+            }
 
             var atlasName = Path.GetFileNameWithoutExtension(filePath);
 
             var texture = FileToTexture2D(filePath);
             
-            if (texture == null) continue;
+            if (texture == null)
+            {
+                continue;
+            }
 
             Futile.atlasManager.LoadAtlasFromTexture(atlasName, texture, false);
         }
@@ -98,13 +110,19 @@ public static class AssetLoader
     {
         foreach (var filePath in AssetManager.ListDirectory(TEXTURES_DIRPATH))
         {
-            if (Path.GetExtension(filePath).ToLower() != ".png") continue;
+            if (Path.GetExtension(filePath).ToLower() != ".png")
+            {
+                continue;
+            }
 
             var textureName = Path.GetFileNameWithoutExtension(filePath);
 
             var texture = FileToTexture2D(filePath);
             
-            if (texture == null) continue;
+            if (texture == null)
+            {
+                continue;
+            }
 
             Textures.Add(textureName, texture);
         }

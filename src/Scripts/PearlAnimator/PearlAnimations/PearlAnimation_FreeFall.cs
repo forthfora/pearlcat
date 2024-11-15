@@ -10,17 +10,29 @@ public class PearlAnimation_FreeFall : PearlAnimation
     {
         base.Update(player);
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         foreach (var abstractObject in playerModule.Inventory)
         {
-            if (ModOptions.HidePearls.Value && abstractObject != playerModule.ActiveObject) continue;
-            
-            if (abstractObject.realizedObject == null) continue;
+            if (ModOptions.HidePearls.Value && abstractObject != playerModule.ActiveObject)
+            {
+                continue;
+            }
+
+            if (abstractObject.realizedObject == null)
+            {
+                continue;
+            }
 
             var realizedObject = abstractObject.realizedObject;
 
-            if (!realizedObject.abstractPhysicalObject.TryGetPlayerPearlModule(out var pearlModule)) continue;
+            if (!realizedObject.abstractPhysicalObject.TryGetPlayerPearlModule(out var pearlModule))
+            {
+                continue;
+            }
 
             realizedObject.gravity = 1.0f;
             realizedObject.CollideWithTerrain = true;

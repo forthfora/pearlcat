@@ -126,13 +126,17 @@ public static partial class PlayerPearl_Helpers
 
                 case 2:
                     if (pebblesPearlColor < 0)
+                    {
                         return new(1f, 122f / 255f, 2f / 255f);
+                    }
 
                     return new(0.01f, 0.01f, 0.01f);
 
                 default:
                     if (pebblesPearlColor < 0)
+                    {
                         return new(0f, 116f / 255f, 163f / 255f);
+                    }
 
                     return new(1f, 122f / 255f, 2f / 255f);
             }
@@ -162,7 +166,9 @@ public static partial class PlayerPearl_Helpers
         pos.x += self.mainBodyChunk.vel.x * 1.0f;
 
         if (self.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0 || self.onBack?.IsPearlcat() == true)
+        {
             pos.y += self.onBack?.IsPearlcat() == true ? 40.0f : 30.0f;
+        }
 
         return pos;
     }
@@ -175,13 +181,25 @@ public static partial class PlayerPearl_Helpers
         var pos = TargetPositions.GetValue(abstractObject, x => new StrongBox<Vector2>());
         pos.Value = targetPos;
 
-        if (abstractObject.TryGetSentry(out _)) return;
+        if (abstractObject.TryGetSentry(out _))
+        {
+            return;
+        }
 
-        if (abstractObject.TryGetPearlGraphicsModule(out var addon) && addon.IsActiveRagePearl) return;
+        if (abstractObject.TryGetPearlGraphicsModule(out var addon) && addon.IsActiveRagePearl)
+        {
+            return;
+        }
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
-        if (abstractObject.realizedObject == null) return;
+        if (abstractObject.realizedObject == null)
+        {
+            return;
+        }
 
         AnimateToTargetPos(abstractObject, targetPos, playerModule);
     }

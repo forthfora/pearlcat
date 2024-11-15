@@ -10,7 +10,10 @@ public sealed class PearlAnimation_SineWaveWeave(Player player) : PearlAnimation
     {
         base.Update(player);
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         var floatingObjects = new List<AbstractPhysicalObject>();
         floatingObjects.AddRange(playerModule.Inventory);

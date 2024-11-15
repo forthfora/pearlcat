@@ -26,8 +26,10 @@ public static class Sound_HooksIL
 
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchCallOrCallvirt<ProceduralMusic.ProceduralMusicInstruction.Track>(
-                    nameof(ProceduralMusic.ProceduralMusicInstruction.Track.AllowedInSubRegion)))
-           ) return;
+                    nameof(ProceduralMusic.ProceduralMusicInstruction.Track.AllowedInSubRegion))))
+        {
+            return;
+        }
 
         c.Emit(OpCodes.Ldloc_2);
         c.Emit(OpCodes.Ldloc, 4);

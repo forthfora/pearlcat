@@ -18,11 +18,20 @@ public static class SSOraclePearls_Hooks
     {
         orig(self, eu);
 
-        if (!self.oracle.room.game.IsPearlcatStory() || !self.IsPebbles()) return;
+        if (!self.oracle.room.game.IsPearlcatStory() || !self.IsPebbles())
+        {
+            return;
+        }
 
-        if (self.timeSinceSeenPlayer == -1) return;
+        if (self.timeSinceSeenPlayer == -1)
+        {
+            return;
+        }
 
-        if (self.getToWorking == 0.0f) return;
+        if (self.getToWorking == 0.0f)
+        {
+            return;
+        }
 
         var module = self.GetModule();
 
@@ -32,13 +41,25 @@ public static class SSOraclePearls_Hooks
 
         foreach (var updatable in self.oracle.room.updateList)
         {
-            if (updatable is not DataPearl dataPearl) continue;
+            if (updatable is not DataPearl dataPearl)
+            {
+                continue;
+            }
 
-            if (dataPearl.grabbedBy.Count > 0) continue;
+            if (dataPearl.grabbedBy.Count > 0)
+            {
+                continue;
+            }
 
-            if (dataPearl.abstractPhysicalObject.IsPlayerPearl()) continue;
+            if (dataPearl.abstractPhysicalObject.IsPlayerPearl())
+            {
+                continue;
+            }
 
-            if (dataPearl == module.PearlToRead || dataPearl == module.PearlBeingRead || dataPearl == module.PearlToReturn) continue;
+            if (dataPearl == module.PearlToRead || dataPearl == module.PearlBeingRead || dataPearl == module.PearlToReturn)
+            {
+                continue;
+            }
 
             if (self.player != null && Custom.DistLess(self.player.firstChunk.pos, self.oracle.firstChunk.pos, 180.0f))
             {

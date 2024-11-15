@@ -18,11 +18,17 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
     {
         base.Update(eu);
 
-        if (slatedForDeletetion || room == null) return;
+        if (slatedForDeletetion || room == null)
+        {
+            return;
+        }
 
         var gate = room.regionGate;
 
-        if (gate == null) return;
+        if (gate == null)
+        {
+            return;
+        }
 
         RegionGateGraphics = gate.graphics;
         RegionGateGlyphs = gate.karmaGlyphs;
@@ -54,13 +60,22 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        if (slatedForDeletetion || room == null) return;
+        if (slatedForDeletetion || room == null)
+        {
+            return;
+        }
 
-        if (RegionGateGraphics == null) return;
+        if (RegionGateGraphics == null)
+        {
+            return;
+        }
 
         var gateLeaser = rCam.spriteLeasers.FirstOrDefault(x => x.drawableObject == room.regionGate);
 
-        if (gateLeaser == null) return;
+        if (gateLeaser == null)
+        {
+            return;
+        }
 
         var leftDoor = RegionGateGraphics.doorGraphs[0];
         var middleDoor = RegionGateGraphics.doorGraphs[1];
@@ -88,7 +103,10 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
         middleDoor.posZ = new(2200.0f, 265.0f);
 
 
-        if (RegionGateGlyphs == null) return;
+        if (RegionGateGlyphs == null)
+        {
+            return;
+        }
 
         var leftGlyph = RegionGateGlyphs[0];
         var rightGlyph = RegionGateGlyphs[1];
@@ -115,7 +133,11 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
         }
     }
 
-    public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam) => sLeaser.sprites = new FSprite[0];
+    public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    {
+        sLeaser.sprites = new FSprite[0];
+    }
+
     public void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner) { }
     public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) { }
 }

@@ -6,12 +6,18 @@ namespace Pearlcat;
 
 public static partial class PlayerPearl_Helpers
 {
-    public static int MaxPearlsWithEffects => Utils.RainWorld.options.quality == Options.Quality.LOW ? 3 : 9;
+    public static int MaxPearlsWithEffects
+    {
+        get { return Utils.RainWorld.options.quality == Options.Quality.LOW ? 3 : 9; }
+    }
 
 
     public static void RealizedEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject?.room == null) return;
+        if (physicalObject?.room == null)
+        {
+            return;
+        }
 
         physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectColor(physicalObject.abstractPhysicalObject)));
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 15.0f, 0.07f, 10));
@@ -19,7 +25,10 @@ public static partial class PlayerPearl_Helpers
 
     public static void AbstractedEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject?.room == null) return;
+        if (physicalObject?.room == null)
+        {
+            return;
+        }
 
         physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectColor(physicalObject.abstractPhysicalObject)));
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 25.0f, 0.07f, 10));
@@ -28,7 +37,10 @@ public static partial class PlayerPearl_Helpers
 
     public static void DeathEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject?.room == null) return;
+        if (physicalObject?.room == null)
+        {
+            return;
+        }
 
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 150.0f, 0.8f, 10));
     }
@@ -36,9 +48,15 @@ public static partial class PlayerPearl_Helpers
 
     public static void SwapEffect(this PhysicalObject? physicalObject, PhysicalObject? newObject)
     {
-        if (physicalObject?.room == null || newObject == null) return;
+        if (physicalObject?.room == null || newObject == null)
+        {
+            return;
+        }
 
-        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _) || newObject.abstractPhysicalObject.TryGetSentry(out _)) return;
+        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _) || newObject.abstractPhysicalObject.TryGetSentry(out _))
+        {
+            return;
+        }
 
         var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, newObject.firstChunk.pos, 0, Mathf.Lerp(0.8f, 1.0f, Random.value))
         {
@@ -59,9 +77,15 @@ public static partial class PlayerPearl_Helpers
 
     public static void SwapEffect(this PhysicalObject? physicalObject, Vector2 nextPos)
     {
-        if (physicalObject?.room == null) return;
+        if (physicalObject?.room == null)
+        {
+            return;
+        }
 
-        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _)) return;
+        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _))
+        {
+            return;
+        }
 
         var lightningBoltOld = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, nextPos, 0, Mathf.Lerp(0.8f, 1.0f, Random.value))
         {
@@ -83,9 +107,15 @@ public static partial class PlayerPearl_Helpers
 
     public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null)
     {
-        if (physicalObject?.room == null) return;
+        if (physicalObject?.room == null)
+        {
+            return;
+        }
 
-        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _)) return;
+        if (physicalObject.abstractPhysicalObject.TryGetSentry(out _))
+        {
+            return;
+        }
 
         var color = overrideColor ?? GetObjectColor(physicalObject.abstractPhysicalObject);
 
@@ -100,7 +130,10 @@ public static partial class PlayerPearl_Helpers
 
     public static void ConnectEffect(this Room? room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f)
     {
-        if (room == null) return;
+        if (room == null)
+        {
+            return;
+        }
 
         var lightningBolt = new MoreSlugcats.LightningBolt(startPos, targetPos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
         {
@@ -115,7 +148,10 @@ public static partial class PlayerPearl_Helpers
 
     public static void DeflectEffect(this Room? room, Vector2 pos)
     {
-        if (room == null) return;
+        if (room == null)
+        {
+            return;
+        }
 
         for (var i = 0; i < 5; i++)
             room.AddObject(new Spark(pos, Custom.RNV(), Color.white, null, 16, 24));
@@ -128,7 +164,10 @@ public static partial class PlayerPearl_Helpers
 
     public static void ReviveEffect(this Room? room, Vector2 pos)
     {
-        if (room == null) return;
+        if (room == null)
+        {
+            return;
+        }
 
         room.AddObject(new Explosion.ExplosionLight(pos, 100.0f, 1.0f, 3, Color.white));
         room.AddObject(new ShockWave(pos, 250.0f, 0.07f, 6));

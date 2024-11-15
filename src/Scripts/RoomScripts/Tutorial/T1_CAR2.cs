@@ -33,7 +33,10 @@ public class T1_CAR2 : UpdatableAndDeletable
     {
         base.Update(eu);
 
-        if (!room.fullyLoaded) return;
+        if (!room.fullyLoaded)
+        {
+            return;
+        }
 
         var game = room.game;
         var miscProg = Utils.GetMiscProgression();
@@ -43,7 +46,9 @@ public class T1_CAR2 : UpdatableAndDeletable
             if (CurrentPhase == Phase.Init)
             {
                 if (room.fullyLoaded)
+                {
                     room.LockAndHideShortcuts();
+                }
 
                 if (room.fullyLoaded && room.BeingViewed)
                 {
@@ -73,7 +78,9 @@ public class T1_CAR2 : UpdatableAndDeletable
             else if (CurrentPhase == Phase.PreTutorial)
             {
                 if (TutorialPearl != null && TutorialPearl.IsPlayerPearl())
+                {
                     CurrentPhase = Phase.Tutorial;
+                }
             }
             else if (CurrentPhase == Phase.Tutorial)
             {

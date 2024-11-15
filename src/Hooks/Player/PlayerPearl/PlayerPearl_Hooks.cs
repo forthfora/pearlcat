@@ -28,11 +28,17 @@ public static class PlayerPearl_Hooks
     {
         var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, x => new PlayerPearlModule());
 
-        if (module.IsCurrentlyStored) return;
+        if (module.IsCurrentlyStored)
+        {
+            return;
+        }
 
         var physicalObject = abstractObject.realizedObject;
         
-        if (abstractObject.realizedObject == null) return;
+        if (abstractObject.realizedObject == null)
+        {
+            return;
+        }
 
         module.IsCurrentlyStored = true;
         module.Gravity = physicalObject.gravity;
@@ -54,12 +60,21 @@ public static class PlayerPearl_Hooks
 
     public static void ClearAsPlayerObject(this AbstractPhysicalObject abstractObject)
     {
-        if (!abstractObject.TryGetPlayerPearlModule(out var module)) return;
+        if (!abstractObject.TryGetPlayerPearlModule(out var module))
+        {
+            return;
+        }
 
-        if (!module.IsCurrentlyStored) return;
+        if (!module.IsCurrentlyStored)
+        {
+            return;
+        }
 
         var physicalObject = abstractObject.realizedObject;
-        if (physicalObject == null) return;
+        if (physicalObject == null)
+        {
+            return;
+        }
 
         module.IsCurrentlyStored = false;
 
@@ -109,7 +124,10 @@ public static class PlayerPearl_Hooks
     {        
         orig(self, eu);
 
-        if (!self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module)) return;
+        if (!self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module))
+        {
+            return;
+        }
 
 
         if (module.CooldownTimer > 0)
@@ -118,20 +136,27 @@ public static class PlayerPearl_Hooks
             var effect = self.abstractPhysicalObject.GetPearlEffect();
             
             if (effect.MajorEffect != PearlEffect.MajorEffectType.SHIELD || (playerModule != null && module.CooldownTimer != 0 && playerModule.PlayerRef.TryGetTarget(out var player) && player.airInLungs == 1.0f))
+            {
                 module.CooldownTimer--;
+            }
 
             if (module.CooldownTimer == 0 && effect.MajorEffect == PearlEffect.MajorEffectType.SHIELD)
             {
                 if (ModOptions.InventoryPings.Value)
+                {
                     playerModule?.ShowHUD(80);
-                
+                }
+
                 module.InventoryFlash = true;
 
                 self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, self.firstChunk, false, 1.0f, 3.0f);
             }
         }
 
-        if (!module.IsCurrentlyStored) return;
+        if (!module.IsCurrentlyStored)
+        {
+            return;
+        }
 
         self.gravity = 0.0f;
 
@@ -140,7 +165,9 @@ public static class PlayerPearl_Hooks
         self.CollideWithTerrain = false;
 
         if (self is Weapon weapon)
+        {
             weapon.rotationSpeed = 0.0f;
+        }
     }
 
     private static void PhysicalObject_Grabbed(On.PhysicalObject.orig_Grabbed orig, PhysicalObject self, Creature.Grasp grasp)
@@ -148,7 +175,9 @@ public static class PlayerPearl_Hooks
         orig(self, grasp);
 
         if (self.abstractPhysicalObject.IsPlayerPearl())
+        {
             grasp.Release();
+        }
     }
 
 
@@ -156,7 +185,10 @@ public static class PlayerPearl_Hooks
     {
         orig(self, eu);
 
-        if (!self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) || !module.IsCurrentlyStored) return;
+        if (!self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) || !module.IsCurrentlyStored)
+        {
+            return;
+        }
 
         self.CollideWithObjects = false;
         self.CollideWithSlopes = false;
@@ -186,7 +218,10 @@ public static class PlayerPearl_Hooks
             sprite.alpha = 1.0f;
         }
 
-        if (!self.abstractPhysicalObject.TryGetPearlGraphicsModule(out var pearlGraphics)) return;
+        if (!self.abstractPhysicalObject.TryGetPearlGraphicsModule(out var pearlGraphics))
+        {
+            return;
+        }
 
         pearlGraphics.ParentGraphics_DrawSprites(self, sLeaser, rCam, timeStacker, camPos);
     }
@@ -198,8 +233,10 @@ public static class PlayerPearl_Hooks
         var result = orig(self, obj, graspUsed, chunkGrabbed, shareability, dominance, overrideEquallyDominant, pacifying);
 
         if (obj.abstractPhysicalObject.IsPlayerPearl())
+        {
             return false;
-        
+        }
+
         if (obj is Player player && player.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldActive && player.IsHostileToMe(self))
         {
             if (!(self is Centipede && playerModule.ShieldTimer > 0))
@@ -223,7 +260,9 @@ public static class PlayerPearl_Hooks
 
         // weird nullref here
         if (obj?.abstractPhysicalObject != null && obj.abstractPhysicalObject.IsPlayerPearl())
+        {
             return 0;
+        }
 
         return result;
     }

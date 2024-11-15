@@ -28,7 +28,10 @@ public class ModCompat_Hooks
 
             foreach (var playerModule in self.game.GetAllPlayerData())
             {
-                if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
+                if (!playerModule.PlayerRef.TryGetTarget(out var player))
+                {
+                    continue;
+                }
 
                 Player_Helpers.ReleasePossession(player, playerModule);
 

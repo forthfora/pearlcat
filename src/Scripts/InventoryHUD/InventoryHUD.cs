@@ -20,7 +20,10 @@ public class InventoryHUD : HudPart
     {
         HUDFContainer = fContainer;
 
-        if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game) return;
+        if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game)
+        {
+            return;
+        }
 
         for (var i = 0; i < Mathf.Max(4, game.Players.Count); i++)
         {
@@ -37,11 +40,17 @@ public class InventoryHUD : HudPart
 
     public override void Draw(float timeStacker)
     {
-        if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game) return;
+        if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game)
+        {
+            return;
+        }
 
         foreach (var playerModule in game.GetAllPlayerData())
         {
-            if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
+            if (!playerModule.PlayerRef.TryGetTarget(out var player))
+            {
+                continue;
+            }
 
             var playerNum = playerModule.PlayerNumber;
 
@@ -85,7 +94,10 @@ public class InventoryHUD : HudPart
 
                     var isActiveObject = playerModule.ActiveObject == abstractObject;
 
-                    if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
+                    if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
+                    {
+                        continue;
+                    }
 
                     symbol.DistFade = isActiveObject ? 1.0f : 0.8f;
 
@@ -117,7 +129,10 @@ public class InventoryHUD : HudPart
 
                     var isActiveObject = playerModule.ActiveObject == abstractObject;
 
-                    if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
+                    if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
+                    {
+                        continue;
+                    }
 
                     symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.Inventory.Count - 2) / 2, 1.0f, 0.2f);
 
@@ -132,7 +147,9 @@ public class InventoryHUD : HudPart
                     itemPos.x -= (activeIndex ?? 0.0f) * GAP;
 
                     if (player.onBack != null)
+                    {
                         itemPos.y += 30.0f;
+                    }
 
                     // lazy fix
                     symbol.Pos = Custom.Dist(symbol.Pos, itemPos) > 300.0f ? itemPos : Vector2.Lerp(symbol.Pos, itemPos, 0.1f);
@@ -144,9 +161,15 @@ public class InventoryHUD : HudPart
             {
                 var grasp = player.grasps[i];
                 
-                if (grasp?.grabbed is not PhysicalObject physicalObject) continue;
+                if (grasp?.grabbed is not PhysicalObject physicalObject)
+                {
+                    continue;
+                }
 
-                if (!Symbols.TryGetValue(physicalObject.abstractPhysicalObject, out var symbol) || !AllSymbols.Contains(symbol)) continue;
+                if (!Symbols.TryGetValue(physicalObject.abstractPhysicalObject, out var symbol) || !AllSymbols.Contains(symbol))
+                {
+                    continue;
+                }
 
                 var mainHand = i == 0;
 
@@ -160,17 +183,25 @@ public class InventoryHUD : HudPart
             var symbol = AllSymbols[i];
             
             if (symbol == null || symbol.SlatedForDeletion)
+            {
                 AllSymbols.RemoveAt(i);
+            }
 
             symbol?.Draw(timeStacker);
         }
     }
 
-    public override void ClearSprites() => InventoryCircles.ForEach(x => x.RemoveFromContainer());
+    public override void ClearSprites()
+    {
+        InventoryCircles.ForEach(x => x.RemoveFromContainer());
+    }
 
     public override void Update()
     {
-        if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game) return;
+        if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game)
+        {
+            return;
+        }
 
         var playerData = game.GetAllPlayerData();
 
@@ -178,7 +209,10 @@ public class InventoryHUD : HudPart
 
         foreach (var playerModule in playerData)
         {
-            if (!playerModule.PlayerRef.TryGetTarget(out var player)) continue;
+            if (!playerModule.PlayerRef.TryGetTarget(out var player))
+            {
+                continue;
+            }
 
             foreach (var item in playerModule.Inventory)
             {
@@ -187,9 +221,15 @@ public class InventoryHUD : HudPart
 
             foreach (var grasp in player.grasps)
             {
-                if (grasp?.grabbed is not PhysicalObject physicalObject) continue;
+                if (grasp?.grabbed is not PhysicalObject physicalObject)
+                {
+                    continue;
+                }
 
-                if (physicalObject is not DataPearl) continue;
+                if (physicalObject is not DataPearl)
+                {
+                    continue;
+                }
 
                 UpdateSymbol(physicalObject.abstractPhysicalObject, playerModule, updatedSymbols);
             }
@@ -217,7 +257,10 @@ public class InventoryHUD : HudPart
             AllSymbols.Add(symbol);
         }
 
-        if (updatedSymbols.Contains(symbol)) return;
+        if (updatedSymbols.Contains(symbol))
+        {
+            return;
+        }
 
         symbol.UpdateIcon(abstractObject);
         symbol.Update();

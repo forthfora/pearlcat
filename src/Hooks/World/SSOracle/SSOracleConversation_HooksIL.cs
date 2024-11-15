@@ -23,8 +23,10 @@ public static class SSOracleConversation_HooksIL
         var c = new ILCursor(il);
 
         if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchLdstr("Yes, help yourself. They are not edible."))
-           ) return;
+                x => x.MatchLdstr("Yes, help yourself. They are not edible.")))
+        {
+            return;
+        }
 
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Func<string, SSOracleBehavior, string>>((origText, self) =>

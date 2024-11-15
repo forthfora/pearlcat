@@ -55,14 +55,18 @@ public static class Player_HooksIL
         var c = new ILCursor(il);
 
         if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchLdstr("FORCE CREATURE RELEASE UNDER ROOM"))
-           ) return;
+                x => x.MatchLdstr("FORCE CREATURE RELEASE UNDER ROOM")))
+        {
+            return;
+        }
 
         var dest = c.DefineLabel();
 
         if (!c.TryGotoPrev(MoveType.After,
-                x => x.MatchBle(out dest))
-           ) return;
+                x => x.MatchBle(out dest)))
+        {
+            return;
+        }
 
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Func<Creature, bool>>((self) =>

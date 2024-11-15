@@ -9,7 +9,10 @@ public class PearlAnimation_SineWave(Player player) : PearlAnimation(player)
     {
         base.Update(player);
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         var floatingObjects = new List<AbstractPhysicalObject>();
         floatingObjects.AddRange(playerModule.Inventory);

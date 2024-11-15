@@ -11,7 +11,10 @@ public static partial class PlayerAbilities_Helpers
         }
 
         if (playerModule.ActiveObject == null ||
-            !playerModule.ActiveObject.TryGetPlayerPearlModule(out var poModule)) return;
+            !playerModule.ActiveObject.TryGetPlayerPearlModule(out var poModule))
+        {
+            return;
+        }
 
         var abilityInput = self.IsReviveKeybindPressed(playerModule);
 
@@ -21,18 +24,27 @@ public static partial class PlayerAbilities_Helpers
             return;
         }
 
-        if (poModule.CooldownTimer != 0) return;
+        if (poModule.CooldownTimer != 0)
+        {
+            return;
+        }
 
         var shouldResetRevive = true;
 
         foreach (var grasp in self.grasps)
         {
-            if (grasp?.grabbed is not Creature creature) continue;
+            if (grasp?.grabbed is not Creature creature)
+            {
+                continue;
+            }
 
             // maybe i dunno
             if (!creature.dead && !creature.State.dead && !(creature is Player deadPlayer &&
                                                             (deadPlayer.playerState.dead ||
-                                                             deadPlayer.playerState.permaDead))) continue;
+                                                             deadPlayer.playerState.permaDead)))
+            {
+                continue;
+            }
 
             self.Blink(5);
 

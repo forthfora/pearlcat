@@ -26,7 +26,10 @@ public static partial class PlayerAbilities_Helpers
             return;
         }
 
-        if (playerModule.SpearCount <= 0) return;
+        if (playerModule.SpearCount <= 0)
+        {
+            return;
+        }
 
         playerModule.ForceLockSpearOnBack = self.spearOnBack != null &&
                                             (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack ||
@@ -38,7 +41,10 @@ public static partial class PlayerAbilities_Helpers
 
             foreach (var grasp in grasps)
             {
-                if (grasp == null) continue;
+                if (grasp == null)
+                {
+                    continue;
+                }
 
                 if (grasp.grabbed is Player)
                 {
@@ -47,7 +53,10 @@ public static partial class PlayerAbilities_Helpers
 
 
                 // not hungry
-                if (self.CurrentFood == self.slugcatStats.maxFood) continue;
+                if (self.CurrentFood == self.slugcatStats.maxFood)
+                {
+                    continue;
+                }
 
                 if (grasp.grabbed is Creature creature && creature.dead &&
                     PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(creature) > 0)
@@ -57,7 +66,10 @@ public static partial class PlayerAbilities_Helpers
 
 
                 // not a consumable object
-                if (grasp.grabbed?.abstractPhysicalObject is not AbstractConsumable) continue;
+                if (grasp.grabbed?.abstractPhysicalObject is not AbstractConsumable)
+                {
+                    continue;
+                }
 
                 if (grasp.grabbed?.abstractPhysicalObject is AbstractConsumable consumable
                     && consumable.realizedObject != null
@@ -161,8 +173,10 @@ public static partial class PlayerAbilities_Helpers
         else
         {
             if (playerModule.SpearTimer > spearCreationTime / 2.0f)
+            {
                 self.room?.AddObject(new ShockWave(playerModule.ActiveObject!.realizedObject.firstChunk.pos, 30.0f,
                     0.5f, 6));
+            }
 
             playerModule.SpearTimer = 0;
             playerModule.SpearDelay = 0;

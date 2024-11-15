@@ -34,7 +34,10 @@ public class T1_CAR1 : UpdatableAndDeletable
     {
         base.Update(eu);
 
-        if (!room.fullyLoaded) return;
+        if (!room.fullyLoaded)
+        {
+            return;
+        }
 
         var game = room.game;
 
@@ -63,7 +66,9 @@ public class T1_CAR1 : UpdatableAndDeletable
             else if (CurrentPhase == Phase.PreTutorial)
             {
                 if (TutorialPearl != null && TutorialPearl.IsPlayerPearl())
+                {
                     CurrentPhase = Phase.Tutorial;
+                }
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
@@ -81,7 +86,9 @@ public class T1_CAR1 : UpdatableAndDeletable
                     player.firstChunk.vel.y += 80.0f;
 
                     if (player.TryGetPearlcatModule(out var playerModule))
+                    {
                         playerModule.ActivateVisualShield();
+                    }
                 }
 
                 room.PlaySound(SoundID.Bomb_Explode, room.PlayersInRoom.First().firstChunk, false, 1.1f, 0.4f);

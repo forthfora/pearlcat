@@ -10,11 +10,17 @@ public abstract class PearlAnimation
 {
     public int AnimTimer { get; set; }
 
-    public PearlAnimation(Player player) => InitAnimation(player);
+    public PearlAnimation(Player player)
+    {
+        InitAnimation(player);
+    }
 
     public void InitAnimation(Player self)
     {
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         HaloEffectStackers.Clear();
 
@@ -26,14 +32,23 @@ public abstract class PearlAnimation
 
     public virtual void Update(Player player)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
 
         foreach (var abstractObject in playerModule.Inventory)
         {
-            if (abstractObject.realizedObject == null) continue;
+            if (abstractObject.realizedObject == null)
+            {
+                continue;
+            }
 
-            if (!abstractObject.TryGetPlayerPearlModule(out var module)) continue;
+            if (!abstractObject.TryGetPlayerPearlModule(out var module))
+            {
+                continue;
+            }
 
             if (!abstractObject.TryGetPearlGraphicsModule(out _))
             {
@@ -57,17 +72,26 @@ public abstract class PearlAnimation
 
     public void UpdateHaloEffects(Player player)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
 
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
 
-            if (abstractObject.realizedObject == null) continue;
+            if (abstractObject.realizedObject == null)
+            {
+                continue;
+            }
 
-            if (!abstractObject.TryGetPearlGraphicsModule(out var addon)) continue;
-            
+            if (!abstractObject.TryGetPearlGraphicsModule(out var addon))
+            {
+                continue;
+            }
+
 
             addon.DrawHalo = true;
             var haloEffectTimer = HaloEffectStackers[i];
@@ -105,17 +129,29 @@ public abstract class PearlAnimation
 
     public void UpdateSymbolEffects(Player player)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
 
-            if (abstractObject.realizedObject == null) continue;
+            if (abstractObject.realizedObject == null)
+            {
+                continue;
+            }
 
-            if (!abstractObject.TryGetPearlGraphicsModule(out var addon)) continue;
+            if (!abstractObject.TryGetPearlGraphicsModule(out var addon))
+            {
+                continue;
+            }
 
-            if (!abstractObject.TryGetPlayerPearlModule(out var poModule)) continue;
+            if (!abstractObject.TryGetPlayerPearlModule(out var poModule))
+            {
+                continue;
+            }
 
             if (player.room == null || addon.Pos == Vector2.zero)
             {
@@ -134,7 +170,9 @@ public abstract class PearlAnimation
             if (poModule.CooldownTimer != 0)
             {
                 if (poModule.CooldownTimer == 1)
+                {
                     abstractObject.realizedObject.room.AddObject(new ShockWave(abstractObject.realizedObject.firstChunk.pos, 10.0f, 1.0f, 5, true));
+                }
 
                 addon.DrawSymbolCooldown = true;
 

@@ -19,13 +19,19 @@ public class SS_T1_S01 : UpdatableAndDeletable
     {
         base.Update(eu);
 
-        if (!room.fullyLoaded) return;
+        if (!room.fullyLoaded)
+        {
+            return;
+        }
 
         if (CurrentPhase == Phase.Init)
         {
             foreach (var player in room.PlayersInRoom)
             {
-                if (player == null) continue;
+                if (player == null)
+                {
+                    continue;
+                }
 
                 player.SuperHardSetPosition(new(550.0f, 222.0f));
                 player.graphicsModule?.Reset();

@@ -9,7 +9,14 @@ public partial class PlayerModule
 {
     public PearlEffect CurrentPearlEffect { get; set; } = PearlEffectManager.None;
 
-    public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value && PlayerRef.TryGetTarget(out var player) && !player.dead;
+    public bool ShieldActive
+    {
+        get
+        {
+            return (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value &&
+                   PlayerRef.TryGetTarget(out var player) && !player.dead;
+        }
+    }
 
     public int ReviveTimer { get; set; }
     public int ShieldTimer { get; set; }
@@ -24,17 +31,43 @@ public partial class PlayerModule
 
     public WeakReference<Creature>? PossessionTarget { get; set; }
     public WeakReference<AbstractCreature>? PossessedCreature { get; set; }
-    public bool IsPossessingCreature => PossessedCreature != null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup;
+    public bool IsPossessingCreature
+    {
+        get { return PossessedCreature != null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup; }
+    }
 
 
     public List<MajorEffectType> DisabledEffects { get; } = new();
 
-    public int AgilityCount => ModOptions.DisableAgility.Value ? 0 : MajorEffectCount(MajorEffectType.AGILITY);
-    public int CamoCount => ModOptions.DisableCamoflague.Value ? 0 : MajorEffectCount(MajorEffectType.CAMOFLAGUE);
-    public int RageCount => ModOptions.DisableRage.Value ? 0 : MajorEffectCount(MajorEffectType.RAGE);
-    public int ReviveCount => ModOptions.DisableRevive.Value ? 0 : MajorEffectCount(MajorEffectType.REVIVE);
-    public int SpearCount => ModOptions.DisableSpear.Value ? 0 : MajorEffectCount(MajorEffectType.SPEAR_CREATION);
-    public int ShieldCount => ModOptions.DisableShield.Value ? 0 : MajorEffectCount(MajorEffectType.SHIELD);
+    public int AgilityCount
+    {
+        get { return ModOptions.DisableAgility.Value ? 0 : MajorEffectCount(MajorEffectType.AGILITY); }
+    }
+
+    public int CamoCount
+    {
+        get { return ModOptions.DisableCamoflague.Value ? 0 : MajorEffectCount(MajorEffectType.CAMOFLAGUE); }
+    }
+
+    public int RageCount
+    {
+        get { return ModOptions.DisableRage.Value ? 0 : MajorEffectCount(MajorEffectType.RAGE); }
+    }
+
+    public int ReviveCount
+    {
+        get { return ModOptions.DisableRevive.Value ? 0 : MajorEffectCount(MajorEffectType.REVIVE); }
+    }
+
+    public int SpearCount
+    {
+        get { return ModOptions.DisableSpear.Value ? 0 : MajorEffectCount(MajorEffectType.SPEAR_CREATION); }
+    }
+
+    public int ShieldCount
+    {
+        get { return ModOptions.DisableShield.Value ? 0 : MajorEffectCount(MajorEffectType.SHIELD); }
+    }
 
     public int MajorEffectCount(MajorEffectType type)
     {
@@ -44,11 +77,20 @@ public partial class PlayerModule
 
         foreach (var pearl in inventory)
         {
-            if (!pearl.TryGetPlayerPearlModule(out var module)) continue;
+            if (!pearl.TryGetPlayerPearlModule(out var module))
+            {
+                continue;
+            }
 
-            if (pearl.TryGetSentry(out _)) continue;
+            if (pearl.TryGetSentry(out _))
+            {
+                continue;
+            }
 
-            if (pearl.GetPearlEffect().MajorEffect != type) continue;
+            if (pearl.GetPearlEffect().MajorEffect != type)
+            {
+                continue;
+            }
 
             if (count < 0)
             {
@@ -65,23 +107,46 @@ public partial class PlayerModule
     }
 
 
-    public AbstractPhysicalObject? SetAgilityCooldown(int cooldown) => PutOnCooldown(MajorEffectType.AGILITY, cooldown);
-    public AbstractPhysicalObject? SetCamoCooldown (int cooldown) => PutOnCooldown(MajorEffectType.CAMOFLAGUE, cooldown);
-    public AbstractPhysicalObject? SetRageCooldown(int cooldown) => PutOnCooldown(MajorEffectType.RAGE, cooldown);
+    public AbstractPhysicalObject? SetAgilityCooldown(int cooldown)
+    {
+        return PutOnCooldown(MajorEffectType.AGILITY, cooldown);
+    }
+
+    public AbstractPhysicalObject? SetCamoCooldown (int cooldown)
+    {
+        return PutOnCooldown(MajorEffectType.CAMOFLAGUE, cooldown);
+    }
+
+    public AbstractPhysicalObject? SetRageCooldown(int cooldown)
+    {
+        return PutOnCooldown(MajorEffectType.RAGE, cooldown);
+    }
+
     public AbstractPhysicalObject? SetReviveCooldown(int cooldown)
     {
         var result = PutOnCooldown(MajorEffectType.REVIVE, cooldown);
 
         if (result?.TryGetPlayerPearlModule(out var module) == true)
+        {
             module.InventoryFlash = true;
+        }
 
         if (ModOptions.InventoryPings.Value)
+        {
             ShowHUD(80);
+        }
 
         return result;
     }
-    public AbstractPhysicalObject? SetSpearCooldown(int cooldown) => PutOnCooldown(MajorEffectType.SPEAR_CREATION, cooldown);
-    public AbstractPhysicalObject? SetShieldCooldown(int cooldown) => PutOnCooldown(MajorEffectType.SHIELD, cooldown);
+    public AbstractPhysicalObject? SetSpearCooldown(int cooldown)
+    {
+        return PutOnCooldown(MajorEffectType.SPEAR_CREATION, cooldown);
+    }
+
+    public AbstractPhysicalObject? SetShieldCooldown(int cooldown)
+    {
+        return PutOnCooldown(MajorEffectType.SHIELD, cooldown);
+    }
 
     public AbstractPhysicalObject? PutOnCooldown(MajorEffectType type, int cooldown)
     {
@@ -89,11 +154,20 @@ public partial class PlayerModule
 
         foreach (var pearl in inventory)
         {
-            if (!pearl.TryGetPlayerPearlModule(out var module)) continue;
+            if (!pearl.TryGetPlayerPearlModule(out var module))
+            {
+                continue;
+            }
 
-            if (pearl.TryGetSentry(out _)) continue;
+            if (pearl.TryGetSentry(out _))
+            {
+                continue;
+            }
 
-            if (pearl.GetPearlEffect().MajorEffect != type) continue;
+            if (pearl.GetPearlEffect().MajorEffect != type)
+            {
+                continue;
+            }
 
             if (module.CooldownTimer == 0)
             {
@@ -110,18 +184,29 @@ public partial class PlayerModule
     {
         foreach (var pearl in Inventory)
         {
-            if (!pearl.TryGetPlayerPearlModule(out var module)) continue;
+            if (!pearl.TryGetPlayerPearlModule(out var module))
+            {
+                continue;
+            }
 
-            if (pearl.GetPearlEffect().MajorEffect != MajorEffectType.AGILITY) continue;
+            if (pearl.GetPearlEffect().MajorEffect != MajorEffectType.AGILITY)
+            {
+                continue;
+            }
 
             if (module.CooldownTimer == -1)
+            {
                 module.CooldownTimer = time;
+            }
         }
     }
     
     public void ActivateVisualShield()
     {
-        if (ShieldTimer > 0) return;
+        if (ShieldTimer > 0)
+        {
+            return;
+        }
 
         var obj = SetShieldCooldown(ModOptions.ShieldRechargeTime.Value);
 

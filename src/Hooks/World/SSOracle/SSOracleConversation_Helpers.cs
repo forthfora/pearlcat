@@ -18,7 +18,10 @@ public static class SSOracleConversation_Helpers
         var module = self.owner.GetModule();
         var save = self.owner.oracle.room.game.GetMiscWorld();
 
-        if (save == null) return;
+        if (save == null)
+        {
+            return;
+        }
 
 
         if (module.WasPearlAlreadyRead)

@@ -71,7 +71,10 @@ public static class World_HooksIL
 
         if (!c.TryGotoNext(MoveType.Before,
                 x => x.MatchRet())
-           ) return;
+           )
+        {
+            return;
+        }
 
         c.EmitDelegate<Func<List<string>, List<string>>>((list) =>
         {
@@ -90,11 +93,17 @@ public static class World_HooksIL
         if (c.TryGotoNext(MoveType.After,
                 x => x.MatchLdstr("OE_SEXTRA"),
                 x => x.MatchStloc(0))
-           ) return;
+           )
+        {
+            return;
+        }
 
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchStloc(1))
-           ) return;
+           )
+        {
+            return;
+        }
 
 
         c.Emit(OpCodes.Ldarg_0);
@@ -143,7 +152,10 @@ public static class World_HooksIL
 
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchStloc(0))
-           ) return;
+           )
+        {
+            return;
+        }
 
         c.Emit(OpCodes.Ldarg_0);
         c.Emit(OpCodes.Ldarg_2);

@@ -180,16 +180,27 @@ public static class PearlpupGraphics_Helpers
     public static void DrawPearlpupTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlpupModule module)
     {
         var tailAtlas = module.TailAtlas;
-        if (tailAtlas == null) return;
+        if (tailAtlas == null)
+        {
+            return;
+        }
 
-        if (tailAtlas.elements.Count == 0) return;
+        if (tailAtlas.elements.Count == 0)
+        {
+            return;
+        }
 
-        if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh) return;
+        if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh)
+        {
+            return;
+        }
 
         tailMesh.element = tailAtlas.elements.First();
 
         if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
+        {
             tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
+        }
 
         for (var vertex = tailMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
         {
@@ -198,14 +209,20 @@ public static class PearlpupGraphics_Helpers
 
             // Even vertexes
             if (vertex % 2 == 0)
+            {
                 uvInterpolation = new Vector2(interpolation, 0.0f);
+            }
 
             // Last vertex
             else if (vertex == tailMesh.verticeColors.Length - 1)
+            {
                 uvInterpolation = new Vector2(1.0f, 0.0f);
+            }
 
             else
+            {
                 uvInterpolation = new Vector2(interpolation, 1.0f);
+            }
 
             Vector2 uv;
             uv.x = Mathf.Lerp(tailMesh.element.uvBottomLeft.x, tailMesh.element.uvTopRight.x, uvInterpolation.x);
@@ -223,8 +240,11 @@ public static class PearlpupGraphics_Helpers
         var scarf = module.Scarf;
         var scarfSprite = sLeaser.sprites[module.ScarfSprite] as TriangleMesh;
 
-        if (scarfSprite == null) return;
-        
+        if (scarfSprite == null)
+        {
+            return;
+        }
+
         for (var i = 0; i < scarf.GetLength(0); i++)
         {
             var index = (float)i / (scarf.GetLength(0) - 1);
@@ -286,10 +306,14 @@ public static class PearlpupGraphics_Helpers
                     scarf[i, 2] = terrainCollisionData.vel;
 
                     if (terrainCollisionData.contactPoint.x != 0)
+                    {
                         scarf[i, 2].y *= 0.6f;
+                    }
 
                     if (terrainCollisionData.contactPoint.y != 0)
+                    {
                         scarf[i, 2].x *= 0.6f;
+                    }
                 }
             }
         }
@@ -332,12 +356,18 @@ public static class PearlpupGraphics_Helpers
 
     public static void ApplyPearlpupEarMovement(PlayerGraphics self)
     {
-        if (!self.player.TryGetPearlpupModule(out var module)) return;
+        if (!self.player.TryGetPearlpupModule(out var module))
+        {
+            return;
+        }
 
         var earL = module.EarL;
         var earR = module.EarR;
 
-        if (earL == null || earR == null) return;
+        if (earL == null || earR == null)
+        {
+            return;
+        }
 
         UpdateEarSegments(self, earL, module.EarLAttachPos);
         UpdateEarSegments(self, earR, module.EarRAttachPos);

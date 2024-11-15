@@ -15,5 +15,8 @@ public abstract class Cloud : CustomBgElement
         RandomOffset = Random.value;
     }
 
-    public override void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) => SkyColor = palette.skyColor;
+    public override void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
+    {
+        SkyColor = palette.skyColor;
+    }
 }

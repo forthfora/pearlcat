@@ -21,7 +21,10 @@ public static class PlayerPossessionFixes_Hooks
     {
         if (self.TryGetPearlcatModule(out var playerModule))
         {
-            if (playerModule.IsPossessingCreature) return;
+            if (playerModule.IsPossessingCreature)
+            {
+                return;
+            }
         }
 
         orig(self, st);

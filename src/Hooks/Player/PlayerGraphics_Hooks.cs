@@ -32,7 +32,10 @@ public static class PlayerGraphics_Hooks
     {
         orig(self, sLeaser, rCam);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         playerModule.InitColors(self);
         playerModule.InitSounds(self.player);
@@ -112,9 +115,15 @@ public static class PlayerGraphics_Hooks
     {
         orig(self, sLeaser, rCam, newContatiner);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
-        if (playerModule.FirstSprite <= 0 || sLeaser.sprites.Length < playerModule.LastSprite) return;
+        if (playerModule.FirstSprite <= 0 || sLeaser.sprites.Length < playerModule.LastSprite)
+        {
+            return;
+        }
 
         newContatiner ??= rCam.ReturnFContainer("Midground");
         OrderAndColorSprites(self, sLeaser, rCam, Vector2.zero, playerModule, newContatiner);
@@ -124,9 +133,15 @@ public static class PlayerGraphics_Hooks
     {
         orig(self);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
-        if (playerModule.EarL == null || playerModule.EarR == null) return;
+        if (playerModule.EarL == null || playerModule.EarR == null)
+        {
+            return;
+        }
 
         var earLOffset = new Vector2(-4.5f, 1.5f);
         var earROffset = new Vector2(4.5f, 1.5f);
@@ -157,7 +172,10 @@ public static class PlayerGraphics_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         UpdateLightSource(self, playerModule);
 
@@ -240,7 +258,10 @@ public static class PlayerGraphics_Hooks
     {
         orig(self);
 
-        if (!self.player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         ApplyTailMovement(self);
         ApplyEarMovement(self);
@@ -259,7 +280,9 @@ public static class PlayerGraphics_Hooks
         var result = orig(self, obj);
 
         if (obj != null && obj.abstractPhysicalObject.IsPlayerPearl())
+        {
             return 0.0f;
+        }
 
         return result;
     }
@@ -269,7 +292,9 @@ public static class PlayerGraphics_Hooks
         var result = orig(self);
 
         if (!self.TryGetPearlcatModule(out var playerModule))
+        {
             return result;
+        }
 
 
         List<Color> colors =
@@ -280,7 +305,9 @@ public static class PlayerGraphics_Hooks
 
 
         if (colors.Count == 0)
+        {
             return result;
+        }
 
         playerModule.ShortcutColorTimer += SHORTCUT_COLOR_INCREMENT * playerModule.ShortcutColorTimerDirection;
 
@@ -311,9 +338,15 @@ public static class PlayerGraphics_Hooks
     {
         orig(self, timeStacker);
 
-        if (self.abstractPlayer.realizedCreature is not Player player) return;
+        if (self.abstractPlayer.realizedCreature is not Player player)
+        {
+            return;
+        }
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         self.playerColor = playerModule.ActiveColor;
     }

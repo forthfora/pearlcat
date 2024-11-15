@@ -58,8 +58,10 @@ public class DistantCloud : Cloud
         var scaleY = Mathf.Lerp(0.3f, 0.01f, DistantCloudDepth);
 
         if (Index == 8)
+        {
             scaleY *= 1.5f;
-        
+        }
+
         cloudSprite.scaleY = scaleY * scaleX;
         cloudSprite.scaleX = scaleX;
         cloudSprite.color = new Color(Mathf.Lerp(0.75f, 0.95f, DistantCloudDepth), RandomOffset, Mathf.Lerp(scaleY, 1f, 0.5f), 1f);

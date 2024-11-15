@@ -72,7 +72,11 @@ public static class Hooks
         {
             ModOptions.RegisterOI();
 
-            if (IsInit) return;
+            if (IsInit)
+            {
+                return;
+            }
+
             IsInit = true;
 
 
@@ -160,8 +164,14 @@ public static class Hooks
     // There are only here for backwards compatability, I'm pretty sure another mod used this at one point or another
 
     // Gate Scanner (?)
-    public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule) => player.TryGetPearlcatModule(out playerModule);
+    public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule)
+    {
+        return player.TryGetPearlcatModule(out playerModule);
+    }
 
     // Pups+
-    public static bool IsPearlpup(Player player) => player.abstractCreature.IsPearlpup();
+    public static bool IsPearlpup(Player player)
+    {
+        return player.abstractCreature.IsPearlpup();
+    }
 }

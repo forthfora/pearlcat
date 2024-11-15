@@ -8,7 +8,9 @@ public static partial class PlayerAbilities_Helpers
     public static void UpdateAgility(Player self, PlayerModule playerModule, PearlEffect effect)
     {
         if (playerModule.AgilityOveruseTimer > 0)
+        {
             playerModule.AgilityOveruseTimer--;
+        }
 
         if (ModOptions.DisableAgility.Value || self.inVoidSea || playerModule.PossessedCreature != null)
         {

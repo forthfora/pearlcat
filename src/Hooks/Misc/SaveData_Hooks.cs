@@ -51,7 +51,10 @@ public static class SaveData_Hooks
 
         var saveState = game.GetStorySession.saveState;
 
-        if (miscWorld == null) return;
+        if (miscWorld == null)
+        {
+            return;
+        }
 
 
         // Meta
@@ -93,14 +96,23 @@ public static class SaveData_Hooks
                 var item = inventory[i];
                 var split = item.Split(["<oA>"], StringSplitOptions.None);
 
-                if (split.Length < 5) continue;
+                if (split.Length < 5)
+                {
+                    continue;
+                }
 
                 var potentialType = split[5];
 
 
-                if (!ExtEnumBase.TryParse(typeof(DataPearlType), potentialType, false, out var type)) continue;
+                if (!ExtEnumBase.TryParse(typeof(DataPearlType), potentialType, false, out var type))
+                {
+                    continue;
+                }
 
-                if (type is not DataPearlType dataPearlType) continue;
+                if (type is not DataPearlType dataPearlType)
+                {
+                    continue;
+                }
 
 
                 var potentialPebblesColor = 0;

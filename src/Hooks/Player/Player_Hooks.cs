@@ -37,7 +37,10 @@ public static class Player_Hooks
     {
         orig(self, abstractCreature, world);
 
-        if (!self.TryGetPearlcatModule(out _)) return;
+        if (!self.TryGetPearlcatModule(out _))
+        {
+            return;
+        }
 
         if (ModOptions.EnableBackSpear.Value)
         {
@@ -68,7 +71,10 @@ public static class Player_Hooks
             }
         }
 
-        if (playerModule == null) return;
+        if (playerModule == null)
+        {
+            return;
+        }
 
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
@@ -221,8 +227,11 @@ public static class Player_Hooks
     {
         orig(self);
         
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
-        
+        if (!self.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
+
         var input = self.input[0];
         playerModule.UnblockedInput = input;
 
@@ -248,9 +257,15 @@ public static class Player_Hooks
 
         //Plugin.Logger.LogWarning(self.mainBodyChunk.pos);
 
-        if (wasDead) return;
+        if (wasDead)
+        {
+            return;
+        }
 
-        if (!self.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         playerModule.ReviveTimer = 0;
         playerModule.ShieldTimer = 0;
@@ -293,7 +308,10 @@ public static class Player_Hooks
     {
         if (self.TryGetPearlcatModule(out var playerModule))
         {
-            if (playerModule.IsPossessingCreature) return;
+            if (playerModule.IsPossessingCreature)
+            {
+                return;
+            }
         }
 
         orig(self, st);
@@ -315,10 +333,15 @@ public static class Player_Hooks
     {
         orig(self, eu);
 
-        if (!self.owner.TryGetPearlcatModule(out var playerModule)) return;
+        if (!self.owner.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         if (playerModule.ForceLockSpearOnBack)
+        {
             self.interactionLocked = true;
+        }
     }
 
 
@@ -327,7 +350,9 @@ public static class Player_Hooks
         var result = orig(self, obj);
 
         if (obj != null && obj.abstractPhysicalObject.IsPlayerPearl())
+        {
             return Player.ObjectGrabability.CantGrab;
+        }
 
         return result;
     }
@@ -342,9 +367,15 @@ public static class Player_Hooks
 
         var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
 
-        if (inVoid && player.IsPearlcat() && self.grabbed?.firstChunk?.owner is Player pup && pup.IsPearlpup()) return;
+        if (inVoid && player.IsPearlcat() && self.grabbed?.firstChunk?.owner is Player pup && pup.IsPearlpup())
+        {
+            return;
+        }
 
-        if (inVoid && player.IsPearlpup()) return;
+        if (inVoid && player.IsPearlpup())
+        {
+            return;
+        }
 
         orig(self);
     }
@@ -355,29 +386,54 @@ public static class Player_Hooks
         orig(self, pos, newRoom, spitOutAllSticks);
 
         if (self is Player p && p.TryGetPearlcatModule(out var mod))
+        {
             mod.LastGroundedPos = p.firstChunk.pos;
+        }
 
         foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPlayerData())
         {
             foreach (var item in playerModule.Inventory)
             {
-                if (!item.TryGetSentry(out var sentry)) continue;
+                if (!item.TryGetSentry(out var sentry))
+                {
+                    continue;
+                }
 
-                if (!item.TryGetPlayerPearlModule(out var module)) continue;
+                if (!item.TryGetPlayerPearlModule(out var module))
+                {
+                    continue;
+                }
 
-                if (module.CooldownTimer != 0 && sentry.ShieldTimer <= 0) continue;
+                if (module.CooldownTimer != 0 && sentry.ShieldTimer <= 0)
+                {
+                    continue;
+                }
 
                 var effect = item.GetPearlEffect();
-                if (effect.MajorEffect != PearlEffect.MajorEffectType.SHIELD) continue;
+                if (effect.MajorEffect != PearlEffect.MajorEffectType.SHIELD)
+                {
+                    continue;
+                }
 
-                if (!sentry.OwnerRef.TryGetTarget(out var owner)) continue;
+                if (!sentry.OwnerRef.TryGetTarget(out var owner))
+                {
+                    continue;
+                }
 
-                if (owner.realizedObject == null) continue;
+                if (owner.realizedObject == null)
+                {
+                    continue;
+                }
 
-                if (!Custom.DistLess(owner.realizedObject.firstChunk.pos, newRoom.MiddleOfTile(pos), 75.0f)) continue;
+                if (!Custom.DistLess(owner.realizedObject.firstChunk.pos, newRoom.MiddleOfTile(pos), 75.0f))
+                {
+                    continue;
+                }
 
                 if (sentry.ShieldTimer <= 0)
+                {
                     sentry.ShieldTimer = ModOptions.ShieldDuration.Value * 3.0f;
+                }
 
                 owner.realizedObject.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.7f);
                 owner.realizedObject.room?.DeflectEffect(newRoom.MiddleOfTile(pos));
@@ -414,16 +470,24 @@ public static class Player_Hooks
             var attacker = source?.owner;
 
             if (attacker is JetFish)
+            {
                 shouldShield = false;
+            }
 
             if (attacker is Cicada)
+            {
                 shouldShield = false;
+            }
 
             if (attacker is Centipede centipede && centipede.Small)
+            {
                 shouldShield = false;
+            }
 
             if (damage <= 0.1f)
+            {
                 shouldShield = false;
+            }
 
             if (shouldShield)
             {
@@ -440,15 +504,27 @@ public static class Player_Hooks
     {
         orig(self, eu);
 
-        if (!self.room.game.IsPearlcatStory()) return;
+        if (!self.room.game.IsPearlcatStory())
+        {
+            return;
+        }
 
         foreach (var obj in self.room.updateList)
         {
-            if (obj is not Player player) continue;
+            if (obj is not Player player)
+            {
+                continue;
+            }
 
-            if (player.inVoidSea) continue;
+            if (player.inVoidSea)
+            {
+                continue;
+            }
 
-            if (!player.IsPearlpup()) continue;
+            if (!player.IsPearlpup())
+            {
+                continue;
+            }
 
             player.inVoidSea = true;
             self.UpdatePlayerInVoidSea(player);

@@ -11,7 +11,10 @@ public class UmbilicalGraphics
     public float[] SmallWiresLengths { get; set; }
     public Vector2[,,] SmallWires { get; set; }
 
-    public int SmallWireSprite(int c) => FirstSprite + c;
+    public int SmallWireSprite(int c)
+    {
+        return FirstSprite + c;
+    }
 
     public bool IsVisible { get; set; } = true;
 

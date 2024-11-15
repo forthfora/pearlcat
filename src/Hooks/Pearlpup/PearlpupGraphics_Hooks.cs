@@ -23,7 +23,10 @@ public static class PearlpupGraphics_Hooks
     {
         orig(self);
 
-        if (!self.player.TryGetPearlpupModule(out var module)) return;
+        if (!self.player.TryGetPearlpupModule(out var module))
+        {
+            return;
+        }
 
         ApplyPearlpupEarMovement(self);
         ApplyPearlpupScarfMovement(self, module);
@@ -35,7 +38,10 @@ public static class PearlpupGraphics_Hooks
     {
         orig(self, sLeaser, rCam);
 
-        if (!self.player.TryGetPearlpupModule(out var module)) return;
+        if (!self.player.TryGetPearlpupModule(out var module))
+        {
+            return;
+        }
 
         module.FirstSprite = sLeaser.sprites.Length;
         var spriteIndex = module.FirstSprite;
@@ -75,9 +81,15 @@ public static class PearlpupGraphics_Hooks
     {
         orig(self, sLeaser, rCam, newContatiner);
 
-        if (!self.player.TryGetPearlpupModule(out var module)) return;
+        if (!self.player.TryGetPearlpupModule(out var module))
+        {
+            return;
+        }
 
-        if (module.FirstSprite <= 0 || sLeaser.sprites.Length < module.LastSprite) return;
+        if (module.FirstSprite <= 0 || sLeaser.sprites.Length < module.LastSprite)
+        {
+            return;
+        }
 
         newContatiner ??= rCam.ReturnFContainer("Midground");
 
@@ -88,9 +100,15 @@ public static class PearlpupGraphics_Hooks
     {
         orig(self);
 
-        if (!self.player.TryGetPearlpupModule(out var module)) return;
+        if (!self.player.TryGetPearlpupModule(out var module))
+        {
+            return;
+        }
 
-        if (module.EarL == null || module.EarR == null) return;
+        if (module.EarL == null || module.EarR == null)
+        {
+            return;
+        }
 
 
         module.EarLAttachPos = GetEarAttachPos(self, 1.0f, module, new(-4.5f, 1.5f));
@@ -123,7 +141,10 @@ public static class PearlpupGraphics_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!self.player.TryGetPearlpupModule(out var module)) return;
+        if (!self.player.TryGetPearlpupModule(out var module))
+        {
+            return;
+        }
 
         var miscProg = Utils.GetMiscProgression();
 

@@ -24,6 +24,7 @@ public class BgLightning : CustomBgElement
     public float IntensityMultiplier { get; set; }
 
     public float ThunderFac => 1.0f - ((float)Thunder / ThunderLength);
+
     public float TinyThunderFac => 1.0f - ((float)TinyThunder / TinyThunderLength);
 
     public BgLightning(CustomBgScene scene, string assetName, Vector2 pos, float depth, float minusDepthForLayering, BgElementType type) : base(scene, pos, depth - minusDepthForLayering, type)
@@ -71,8 +72,10 @@ public class BgLightning : CustomBgElement
         var intensity = Mathf.Lerp(LastIntensity, Intensity, timeStacker);
 
         if (Random.value < 0.33333334f)
+        {
             intensity = Mathf.Lerp(intensity, (Random.value < 0.5f) ? 1f : 0f, Random.value * intensity);
-        
+        }
+
         return Custom.SCurve(intensity, 0.5f) * IntensityMultiplier;
     }
 
@@ -97,14 +100,18 @@ public class BgLightning : CustomBgElement
             Wait--;
 
             if (Wait < 1)
+            {
                 Thunder = ThunderLength;
+            }
         }
         else
         {
             Thunder--;
 
             if (Thunder < 1)
+            {
                 Reset();
+            }
         }
 
         if (TinyThunderWait > 0)
@@ -124,7 +131,9 @@ public class BgLightning : CustomBgElement
         var b = 0f;
 
         if (Thunder > 0)
+        {
             a = Mathf.Pow(RandomLevel, Mathf.Lerp(3f, 0.1f, Mathf.Sin(ThunderFac * 3.1415927f)));
+        }
 
         if (TinyThunder > 0)
         {

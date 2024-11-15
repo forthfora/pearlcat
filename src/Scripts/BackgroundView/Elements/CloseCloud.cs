@@ -46,8 +46,10 @@ public class CloseCloud : Cloud
         var cloudDepth = CloudDepth;
 
         if (alt > 0.5f)
+        {
             cloudDepth = Mathf.Lerp(cloudDepth, 1f, Mathf.InverseLerp(0.5f, 1f, alt) * 0.5f);
-        
+        }
+
         depth = Mathf.Lerp(Scene.CloudsStartDepth, Scene.CloudsEndDepth, cloudDepth);
         
         var scaleX = Mathf.Lerp(10f, 2f, cloudDepth);

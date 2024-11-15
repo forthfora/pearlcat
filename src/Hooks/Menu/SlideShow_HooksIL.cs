@@ -24,13 +24,18 @@ public static class SlideShow_HooksIL
 
         if (c.TryGotoNext(MoveType.After,
                 x => x.MatchCallOrCallvirt<PlayerProgression>(nameof(PlayerProgression.SaveWorldStateAndProgression)),
-                x => x.MatchPop())
-           ) return;
+                x => x.MatchPop()))
+        {
+            return;
+        }
 
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Action<RainWorldGame>>((self) =>
         {
-            if (self.GetStorySession?.saveStateNumber != Enums.Pearlcat) return;
+            if (self.GetStorySession?.saveStateNumber != Enums.Pearlcat)
+            {
+                return;
+            }
 
             self.manager.statsAfterCredits = true;
             self.manager.nextSlideshow = Enums.Scenes.Pearlcat_AltOutro;

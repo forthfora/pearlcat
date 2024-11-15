@@ -44,7 +44,11 @@ public class PlayerPearlSymbol
 
     public void UpdateIcon(AbstractPhysicalObject abstractObject)
     {
-        if (TargetObjectRef != null && TargetObjectRef.TryGetTarget(out var targetObject) && targetObject == abstractObject) return;
+        if (TargetObjectRef != null && TargetObjectRef.TryGetTarget(out var targetObject) && targetObject == abstractObject)
+        {
+            return;
+        }
+
         TargetObjectRef = new(abstractObject);
 
         var iconData = new IconSymbol.IconSymbolData(CreatureTemplate.Type.StandardGroundCreature, abstractObject.type, 0);
@@ -70,7 +74,10 @@ public class PlayerPearlSymbol
         ItemSymbol?.RemoveSprites();
     }
 
-    public void Update() => ItemSymbol?.Update();
+    public void Update()
+    {
+        ItemSymbol?.Update();
+    }
 
     public void Draw(float timeStacker)
     {
@@ -80,7 +87,10 @@ public class PlayerPearlSymbol
             return;
         }
 
-        if (ItemSymbol == null) return;
+        if (ItemSymbol == null)
+        {
+            return;
+        }
 
         ItemSymbol.Draw(timeStacker, Pos);
         ItemSymbol.symbolSprite.alpha = Fade * DistFade;
@@ -122,9 +132,15 @@ public class PlayerPearlSymbol
         Flash = Mathf.Lerp(Flash, 0.0f, 0.01f);
 
 
-        if (TargetObjectRef == null || !TargetObjectRef.TryGetTarget(out var obj)) return;
+        if (TargetObjectRef == null || !TargetObjectRef.TryGetTarget(out var obj))
+        {
+            return;
+        }
 
-        if (!obj.TryGetPlayerPearlModule(out var poModule)) return;
+        if (!obj.TryGetPlayerPearlModule(out var poModule))
+        {
+            return;
+        }
 
         if (poModule.InventoryFlash)
         {

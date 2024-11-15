@@ -68,11 +68,20 @@ public static class Sound_Hooks
             
             foreach (var abstractCreature in game.Players)
             {
-                if (abstractCreature?.realizedCreature is not Player player) continue;
+                if (abstractCreature?.realizedCreature is not Player player)
+                {
+                    continue;
+                }
 
-                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+                if (!player.TryGetPearlcatModule(out var playerModule))
+                {
+                    continue;
+                }
 
-                if (playerModule.ActiveObject == null) continue;
+                if (playerModule.ActiveObject == null)
+                {
+                    continue;
+                }
 
                 var effect = playerModule.ActiveObject.GetPearlEffect();
 

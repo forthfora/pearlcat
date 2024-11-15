@@ -76,7 +76,10 @@ public static class Menu_Hooks
     {
         orig(self);
 
-        if (!self.fileName.Contains("pearlcat")) return;
+        if (!self.fileName.Contains("pearlcat"))
+        {
+            return;
+        }
 
         var miscProg = Utils.GetMiscProgression();
         var fileName = Path.GetFileNameWithoutExtension(self.fileName);
@@ -145,14 +148,18 @@ public static class Menu_Hooks
             var activePearl = pearls.FirstOrDefault();
 
             if (pearls.Count > 11)
+            {
                 pearls.RemoveRange(11, pearls.Count - 11);
+            }
 
             pearls.Remove(activePearl);
 
             List<Color> pearlColors = new();
 
             foreach (var pearl in pearls)
+            {
                 pearlColors.Add(pearl.GetDataPearlColor());
+            }
 
             ModuleManager.MenuSceneData.Add(self, new(pearlColors, activePearl?.GetDataPearlColor()));
         }
@@ -182,7 +189,9 @@ public static class Menu_Hooks
             var pearls = save.StoredPearlColors;
 
             if (pearls.Count > 11)
+            {
                 pearls.RemoveRange(11, pearls.Count - 11);
+            }
 
             ModuleManager.MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
         }
@@ -221,9 +230,15 @@ public static class Menu_Hooks
 
         foreach (var illustration in illustrations)
         {
-            if (!ModuleManager.MenuSceneData.TryGetValue(self, out var menuSceneModule)) continue;
+            if (!ModuleManager.MenuSceneData.TryGetValue(self, out var menuSceneModule))
+            {
+                continue;
+            }
 
-            if (!ModuleManager.MenuIllustrationData.TryGetValue(illustration, out var illustrationModule)) continue;
+            if (!ModuleManager.MenuIllustrationData.TryGetValue(illustration, out var illustrationModule))
+            {
+                continue;
+            }
 
             if (self.sceneID == Scenes.Slugcat_Pearlcat)
             {
@@ -249,7 +264,10 @@ public static class Menu_Hooks
     {
         orig(self, menu, owner, pageIndex, slugcatNumber);
 
-        if (slugcatNumber != Enums.Pearlcat) return;
+        if (slugcatNumber != Enums.Pearlcat)
+        {
+            return;
+        }
 
         var save = Utils.GetMiscProgression();
         var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault().GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
@@ -302,7 +320,10 @@ public static class Menu_Hooks
         }
 
 
-        if (!isPearlcatPage) return;
+        if (!isPearlcatPage)
+        {
+            return;
+        }
 
         if (disableSave)
         {

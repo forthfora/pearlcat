@@ -14,7 +14,10 @@ public class PearlAnimation_BasicOrbit : PearlAnimation
     {   
         base.Update(player);
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         var orbitObjects = new List<AbstractPhysicalObject>();
         orbitObjects.AddRange(playerModule.Inventory);

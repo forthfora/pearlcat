@@ -5,15 +5,40 @@ namespace Pearlcat;
 
 public static class Input_Helpers
 {
-    public static void InitIICKeybinds() => IICKeybinds.InitKeybinds();
+    public static void InitIICKeybinds()
+    {
+        IICKeybinds.InitKeybinds();
+    }
 
-    public static bool IsStorePressedIIC(this Player player) => IICKeybinds.IsStorePressed(player);
-    public static bool IsSwapPressedIIC(this Player player) => IICKeybinds.IsSwapPressed(player);
-    public static bool IsSwapLeftPressedIIC(this Player player) => IICKeybinds.IsSwapLeftPressed(player);
-    public static bool IsSwapRightPressedIIC(this Player player) => IICKeybinds.IsSwapRightPressed(player);
-    public static bool IsSentryPressedIIC(this Player player) => IICKeybinds.IsSentryPressed(player);
-    public static bool IsAbilityPressedIIC(this Player player) => IICKeybinds.IsAbilityPressed(player);
+    public static bool IsStorePressedIIC(this Player player)
+    {
+        return IICKeybinds.IsStorePressed(player);
+    }
 
+    public static bool IsSwapPressedIIC(this Player player)
+    {
+        return IICKeybinds.IsSwapPressed(player);
+    }
+
+    public static bool IsSwapLeftPressedIIC(this Player player)
+    {
+        return IICKeybinds.IsSwapLeftPressed(player);
+    }
+
+    public static bool IsSwapRightPressedIIC(this Player player)
+    {
+        return IICKeybinds.IsSwapRightPressed(player);
+    }
+
+    public static bool IsSentryPressedIIC(this Player player)
+    {
+        return IICKeybinds.IsSentryPressed(player);
+    }
+
+    public static bool IsAbilityPressedIIC(this Player player)
+    {
+        return IICKeybinds.IsAbilityPressed(player);
+    }
 
 
     // Inventory
@@ -152,7 +177,9 @@ public static class Input_Helpers
     public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (ModOptions.CustomAgilityKeybind.Value)
+        {
             return IsCustomAbilityKeybindPressed(player, playerModule);
+        }
 
         var input = playerModule.UnblockedInput;
         return input.jmp && input.pckp;
@@ -161,7 +188,9 @@ public static class Input_Helpers
     public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (ModOptions.CustomSpearKeybind.Value)
+        {
             return IsCustomAbilityKeybindPressed(player, playerModule);
+        }
 
         var input = playerModule.UnblockedInput;
         return input.pckp;
@@ -209,13 +238,35 @@ public static class Input_Helpers
         };
     }
 
-    public static KeyCode GetStoreKeybindIIC(bool controller) => IICKeybinds.GetStoreKeybind(controller);
-    public static KeyCode GetSwapKeybindIIC(bool controller) => IICKeybinds.GetSwapKeybind(controller);
-    public static KeyCode GetSwapLeftKeybindIIC(bool controller) => IICKeybinds.GetSwapLeftKeybind(controller);
-    public static KeyCode GetSwapRightKeybindIIC(bool controller) => IICKeybinds.GetSwapRightKeybind(controller);
-    public static KeyCode GetSentryKeybindIIC(bool controller) => IICKeybinds.GetSentryKeybind(controller);
-    public static KeyCode GetAbilityKeybindIIC(bool controller) => IICKeybinds.GetAbilityKeybind(controller);
+    public static KeyCode GetStoreKeybindIIC(bool controller)
+    {
+        return IICKeybinds.GetStoreKeybind(controller);
+    }
 
+    public static KeyCode GetSwapKeybindIIC(bool controller)
+    {
+        return IICKeybinds.GetSwapKeybind(controller);
+    }
+
+    public static KeyCode GetSwapLeftKeybindIIC(bool controller)
+    {
+        return IICKeybinds.GetSwapLeftKeybind(controller);
+    }
+
+    public static KeyCode GetSwapRightKeybindIIC(bool controller)
+    {
+        return IICKeybinds.GetSwapRightKeybind(controller);
+    }
+
+    public static KeyCode GetSentryKeybindIIC(bool controller)
+    {
+        return IICKeybinds.GetSentryKeybind(controller);
+    }
+
+    public static KeyCode GetAbilityKeybindIIC(bool controller)
+    {
+        return IICKeybinds.GetAbilityKeybind(controller);
+    }
 
 
     public static string GetStoreKeybindDisplayName(bool controller)

@@ -51,26 +51,36 @@ public static class Creatures_HooksIL
                 x => x.MatchLdarga(2),
                 x => true,
                 x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitInMouth)),
-                x => x.MatchBrfalse(out dest))
-           ) return;
+                x => x.MatchBrfalse(out dest)))
+        {
+            return;
+        }
 
         // Make this deal damage
         if (!c.TryGotoPrev(MoveType.Before,
                 x => x.MatchLdarga(2),
                 x => true,
                 x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitHeadShield)),
-                x => x.MatchBrfalse(out _))
-           ) return;
+                x => x.MatchBrfalse(out _)))
+        {
+            return;
+        }
 
         // Ldarg 0 on the stack
         c.Emit(OpCodes.Ldarg_1); // BodyChunk
         c.EmitDelegate<Func<Lizard, BodyChunk, bool>>((self, bodyChunk) =>
         {
-            if (bodyChunk?.owner is not Spear weapon) return false;
+            if (bodyChunk?.owner is not Spear weapon)
+            {
+                return false;
+            }
 
             var playerData = self.abstractCreature?.world?.game?.GetAllPlayerData();
 
-            if (playerData == null) return false;
+            if (playerData == null)
+            {
+                return false;
+            }
 
             // wow
             foreach (var module in playerData)
@@ -104,12 +114,16 @@ public static class Creatures_HooksIL
 
         if (!c.TryGotoNext(MoveType.Before,
                 x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitHeadShield)),
-                x => x.MatchBrfalse(out dest))
-           ) return;
+                x => x.MatchBrfalse(out dest)))
+        {
+            return;
+        }
 
         if (!c.TryGotoPrev(MoveType.After,
-                x => x.MatchLdarg(3))
-           ) return;
+                x => x.MatchLdarg(3)))
+        {
+            return;
+        }
 
         c.Emit(OpCodes.Pop);
 
@@ -119,7 +133,10 @@ public static class Creatures_HooksIL
         {
             var playerData = self.abstractCreature?.world?.game?.GetAllPlayerData();
 
-            if (playerData == null) return false;
+            if (playerData == null)
+            {
+                return false;
+            }
 
             // wow
             foreach (var module in playerData)
@@ -176,13 +193,17 @@ public static class Creatures_HooksIL
         var c = new ILCursor(il);
 
         if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchLdsfld<SoundID>(nameof(SoundID.Leviathan_Crush_NPC)))
-           ) return;
+                x => x.MatchLdsfld<SoundID>(nameof(SoundID.Leviathan_Crush_NPC))))
+        {
+            return;
+        }
 
         if (!c.TryGotoPrev(MoveType.After,
                 x => x.MatchConvI4(),
-                x => x.MatchBlt(out _))
-           ) return;
+                x => x.MatchBlt(out _)))
+        {
+            return;
+        }
 
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Action<BigEel>>((self) =>
@@ -194,11 +215,20 @@ public static class Creatures_HooksIL
                 var clampedObj = self.clampedObjects[i];
                 var obj = clampedObj.chunk?.owner;
 
-                if (obj is not Player player) continue;
+                if (obj is not Player player)
+                {
+                    continue;
+                }
 
-                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+                if (!player.TryGetPearlcatModule(out var playerModule))
+                {
+                    continue;
+                }
 
-                if (playerModule.ReviveCount <= 0) continue;
+                if (playerModule.ReviveCount <= 0)
+                {
+                    continue;
+                }
 
 
                 if (player.graphicsModule != null)
@@ -215,7 +245,10 @@ public static class Creatures_HooksIL
 
                     var graphics = item.realizedObject?.graphicsModule;
 
-                    if (graphics == null) continue;
+                    if (graphics == null)
+                    {
+                        continue;
+                    }
 
                     self.graphicsModule.ReleaseSpecificInternallyContainedObjectSprites(graphics);
                 }

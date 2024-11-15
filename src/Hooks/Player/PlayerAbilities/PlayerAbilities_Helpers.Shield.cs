@@ -23,18 +23,30 @@ public static partial class PlayerAbilities_Helpers
                 {
                     var item = playerModule.Inventory[i];
 
-                    if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects) break;
+                    if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects)
+                    {
+                        break;
+                    }
 
                     if (ModOptions.HidePearls.Value)
                     {
-                        if (item != playerModule.ActiveObject) continue;
+                        if (item != playerModule.ActiveObject)
+                        {
+                            continue;
+                        }
                     }
 
                     var itemEffect = item.GetPearlEffect();
 
-                    if (!item.TryGetPlayerPearlModule(out var module)) continue;
+                    if (!item.TryGetPlayerPearlModule(out var module))
+                    {
+                        continue;
+                    }
 
-                    if (module.CooldownTimer != 0) continue;
+                    if (module.CooldownTimer != 0)
+                    {
+                        continue;
+                    }
 
                     if (itemEffect.MajorEffect == PearlEffect.MajorEffectType.SHIELD && !item.TryGetSentry(out _))
                     {
@@ -44,7 +56,9 @@ public static partial class PlayerAbilities_Helpers
             }
 
             if (playerModule.ShieldTimer == 0)
+            {
                 self.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldOff, self.firstChunk);
+            }
         }
         else
         {
@@ -57,7 +71,10 @@ public static partial class PlayerAbilities_Helpers
             playerModule.ActivateVisualShield();
         }
 
-        if (self.room == null) return;
+        if (self.room == null)
+        {
+            return;
+        }
 
         var roomObjects = self.room.updateList;
         var shouldActivate = false;
@@ -76,27 +93,41 @@ public static partial class PlayerAbilities_Helpers
 
                 if (obj is Weapon weapon)
                 {
-                    if (weapon.thrownBy == self) continue;
+                    if (weapon.thrownBy == self)
+                    {
+                        continue;
+                    }
 
                     // Thrown by another player
                     if (weapon.thrownBy is Player playerThrownBy)
                     {
                         // Thrown by a player we are on the back of
-                        if (playerThrownBy.onBack == self) continue;
+                        if (playerThrownBy.onBack == self)
+                        {
+                            continue;
+                        }
 
                         // Jolly FF is off, doesn't apply to arena sessions
                         if (!self.abstractCreature.world.game.IsArenaSession && !Utils.RainWorld.options.friendlyFire)
+                        {
                             continue;
+                        }
 
                         // Arena FF is off, only applies to arena sessions
                         if (self.abstractCreature.world.game.IsArenaSession && !self.abstractCreature.world.game
-                                .GetArenaGameSession.GameTypeSetup.spearsHitPlayers) continue;
+                                .GetArenaGameSession.GameTypeSetup.spearsHitPlayers)
+                        {
+                            continue;
+                        }
                     }
 
 
                     // When posessing a creature don't let the spears activate our shield (only relevant for posessing scavs really)
                     if (playerModule.PossessedCreature?.TryGetTarget(out var possessed) == true &&
-                        possessed.realizedCreature == weapon.thrownBy) continue;
+                        possessed.realizedCreature == weapon.thrownBy)
+                    {
+                        continue;
+                    }
 
 
                     if (weapon.mode == Weapon.Mode.Thrown &&

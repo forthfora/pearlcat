@@ -35,13 +35,21 @@ public static class ModuleManager
         var players = game.Players;
 
         if (players == null)
+        {
             return allPlayerData;
+        }
 
         foreach (var creature in players)
         {
-            if (creature.realizedCreature is not Player player) continue;
+            if (creature.realizedCreature is not Player player)
+            {
+                continue;
+            }
 
-            if (!PearlcatData.TryGetValue(player, out var playerModule)) continue;
+            if (!PearlcatData.TryGetValue(player, out var playerModule))
+            {
+                continue;
+            }
 
             allPlayerData.Add(playerModule);
         }
@@ -71,15 +79,27 @@ public static class ModuleManager
 
     public static void MakePearlpup(this AbstractCreature crit)
     {
-        if (crit.creatureTemplate.type != MoreSlugcatsEnums.CreatureTemplateType.SlugNPC) return;
+        if (crit.creatureTemplate.type != MoreSlugcatsEnums.CreatureTemplateType.SlugNPC)
+        {
+            return;
+        }
 
-        if (crit.IsPearlpup()) return;
+        if (crit.IsPearlpup())
+        {
+            return;
+        }
 
         var save = crit.world.game.GetMiscWorld();
 
-        if (save == null) return;
+        if (save == null)
+        {
+            return;
+        }
 
-        if (save.PearlpupID != null) return;
+        if (save.PearlpupID != null)
+        {
+            return;
+        }
 
         save.PearlpupID = crit.ID.number;
     }
@@ -110,32 +130,50 @@ public static class ModuleManager
 
     // Five Pebbles
     public static ConditionalWeakTable<SSOracleBehavior, SSOracleModule> SSOracleData { get; } = new();
-    public static SSOracleModule GetModule(this SSOracleBehavior oracle) => SSOracleData.GetValue(oracle, x => new SSOracleModule());
+    public static SSOracleModule GetModule(this SSOracleBehavior oracle)
+    {
+        return SSOracleData.GetValue(oracle, x => new SSOracleModule());
+    }
 
 
     // Music Player
     public static ConditionalWeakTable<MusicPlayer, MusicPlayerModule> MusicPlayerData { get; } = new();
-    public static MusicPlayerModule GetModule(this MusicPlayer self) => MusicPlayerData.GetValue(self, x => new MusicPlayerModule());
+    public static MusicPlayerModule GetModule(this MusicPlayer self)
+    {
+        return MusicPlayerData.GetValue(self, x => new MusicPlayerModule());
+    }
 
 
     // Sentry
     public static ConditionalWeakTable<AbstractPhysicalObject, PearlSentry> SentryData { get; } = new();
-    public static bool TryGetSentry(this AbstractPhysicalObject self, out PearlSentry sentry) => SentryData.TryGetValue(self, out sentry);
+    public static bool TryGetSentry(this AbstractPhysicalObject self, out PearlSentry sentry)
+    {
+        return SentryData.TryGetValue(self, out sentry);
+    }
 
 
     // Player Pearl
     public static ConditionalWeakTable<AbstractPhysicalObject, PlayerPearlModule> PlayerPearlData { get; } = new();
-    public static bool TryGetPlayerPearlModule(this AbstractPhysicalObject abstractObject, out PlayerPearlModule module) => PlayerPearlData.TryGetValue(abstractObject, out module);
+    public static bool TryGetPlayerPearlModule(this AbstractPhysicalObject abstractObject, out PlayerPearlModule module)
+    {
+        return PlayerPearlData.TryGetValue(abstractObject, out module);
+    }
 
 
     // Player Pearl Graphics
     public static ConditionalWeakTable<AbstractPhysicalObject, PearlGraphics> PlayerPearlGraphicsData { get; } = new();
-    public static bool TryGetPearlGraphicsModule(this AbstractPhysicalObject abstractObject, out PearlGraphics module) => PlayerPearlGraphicsData.TryGetValue(abstractObject, out module);
+    public static bool TryGetPearlGraphicsModule(this AbstractPhysicalObject abstractObject, out PearlGraphics module)
+    {
+        return PlayerPearlGraphicsData.TryGetValue(abstractObject, out module);
+    }
 
 
     // Slugcat Select Menu
     public static ConditionalWeakTable<SlugcatSelectMenu, SlugcatSelectMenuModule> SlugcatSelectMenuData { get; } = new();
-    public static SlugcatSelectMenuModule GetModule(this SlugcatSelectMenu self) => SlugcatSelectMenuData.GetValue(self, x => new SlugcatSelectMenuModule(self));
+    public static SlugcatSelectMenuModule GetModule(this SlugcatSelectMenu self)
+    {
+        return SlugcatSelectMenuData.GetValue(self, x => new SlugcatSelectMenuModule(self));
+    }
 
 
     // Pearl Spear
@@ -154,7 +192,11 @@ public static class ModuleManager
 
 
     // Save Data
-    public static SaveMiscWorld? GetMiscWorld(this RainWorldGame game) => game.IsStorySession ? GetMiscWorld(game.GetStorySession.saveState.miscWorldSaveData) : null;
+    public static SaveMiscWorld? GetMiscWorld(this RainWorldGame game)
+    {
+        return game.IsStorySession ? GetMiscWorld(game.GetStorySession.saveState.miscWorldSaveData) : null;
+    }
+
     public static SaveMiscWorld GetMiscWorld(this MiscWorldSaveData data)
     {
         if (!data.GetSlugBaseData().TryGet(Plugin.MOD_ID, out SaveMiscWorld save))
@@ -165,7 +207,11 @@ public static class ModuleManager
         return save;
     }
 
-    public static SaveMiscProgression GetMiscProgression(this RainWorld rainWorld) => GetMiscProgression(rainWorld.progression.miscProgressionData);
+    public static SaveMiscProgression GetMiscProgression(this RainWorld rainWorld)
+    {
+        return GetMiscProgression(rainWorld.progression.miscProgressionData);
+    }
+
     public static SaveMiscProgression GetMiscProgression(this PlayerProgression.MiscProgressionData data)
     {
         if (!data.GetSlugBaseData().TryGet(Plugin.MOD_ID, out SaveMiscProgression save))

@@ -57,13 +57,21 @@ public static class Creatures_Hooks
     {
         orig(self);
 
-        if (self.grasps.FirstOrDefault()?.grabbed is not Player player) return;
+        if (self.grasps.FirstOrDefault()?.grabbed is not Player player)
+        {
+            return;
+        }
 
-        if (!player.TryGetPearlcatModule(out var module)) return;
+        if (!player.TryGetPearlcatModule(out var module))
+        {
+            return;
+        }
 
 
         if (module.ShieldActive)
+        {
             module.ActivateVisualShield();
+        }
 
         if (module.ShieldTimer > 0)
         {
@@ -101,7 +109,9 @@ public static class Creatures_Hooks
         var result = orig(self, obj, weaponFiltered);
 
         if (obj?.abstractPhysicalObject is AbstractSpear spear && spear.TryGetSpearModule(out _))
+        {
             return 12;
+        }
 
         return result;
     }
@@ -118,13 +128,25 @@ public static class Creatures_Hooks
         {
             var eatObj = self.eatObjects[i];
 
-            if (eatObj.chunk.owner is not Player player) continue;
+            if (eatObj.chunk.owner is not Player player)
+            {
+                continue;
+            }
 
-            if (!player.TryGetPearlcatModule(out var module)) continue;
+            if (!player.TryGetPearlcatModule(out var module))
+            {
+                continue;
+            }
 
-            if (module.ReviveCount <= 0 && module.ShieldTimer <= 0) continue;
+            if (module.ReviveCount <= 0 && module.ShieldTimer <= 0)
+            {
+                continue;
+            }
 
-            if (eatObj.progression < 0.25f) continue;
+            if (eatObj.progression < 0.25f)
+            {
+                continue;
+            }
 
             if (module.ShieldTimer <= 0 && !killedPlayers.Contains(player))
             {
@@ -155,7 +177,9 @@ public static class Creatures_Hooks
             if (playerModule.ShieldTimer > 0)
             {
                 if (self.grabChunk != null)
+                {
                     self.room.DeflectEffect(self.grabChunk.pos);
+                }
 
                 self.stun = 100;
             }
@@ -171,13 +195,25 @@ public static class Creatures_Hooks
         foreach (var crit in self.abstractCreature.Room.world.game.Players)
         {
 
-            if (crit.realizedCreature is not Player player) continue;
+            if (crit.realizedCreature is not Player player)
+            {
+                continue;
+            }
 
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+            if (!player.TryGetPearlcatModule(out var playerModule))
+            {
+                continue;
+            }
 
-            if (!playerModule.ShieldActive) continue;
+            if (!playerModule.ShieldActive)
+            {
+                continue;
+            }
 
-            if (self.impaleChunk == null || self.impaleChunk.owner != player) continue;
+            if (self.impaleChunk == null || self.impaleChunk.owner != player)
+            {
+                continue;
+            }
 
             self.swishCounter = 0;
             self.firstChunk.vel = Vector2.zero;
@@ -197,20 +233,35 @@ public static class Creatures_Hooks
     {
         orig(self, speed);
 
-        if (self.mode != KingTusks.Tusk.Mode.ShootingOut) return;
+        if (self.mode != KingTusks.Tusk.Mode.ShootingOut)
+        {
+            return;
+        }
 
         foreach (var crit in self.vulture.abstractCreature.Room.world.game.Players)
         {
-            if (crit.realizedCreature is not Player player) continue;
+            if (crit.realizedCreature is not Player player)
+            {
+                continue;
+            }
 
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+            if (!player.TryGetPearlcatModule(out var playerModule))
+            {
+                continue;
+            }
 
-            if (!playerModule.ShieldActive) continue;
+            if (!playerModule.ShieldActive)
+            {
+                continue;
+            }
 
 
             var pos = self.chunkPoints[0, 0] + self.shootDir * (20.0f + speed);
 
-            if (!Custom.DistLess(player.firstChunk.pos, pos, 50.0f)) continue;
+            if (!Custom.DistLess(player.firstChunk.pos, pos, 50.0f))
+            {
+                continue;
+            }
 
             self.mode = KingTusks.Tusk.Mode.Dangling;
 
@@ -237,8 +288,12 @@ public static class Creatures_Hooks
         orig(self);
 
         if (self.impaleChunk != null && self.impaleChunk.owner is Player impaledPlayer)
+        {
             if (impaledPlayer.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0)
+            {
                 self.mode = KingTusks.Tusk.Mode.Dangling;
+            }
+        }
     }
 
 
@@ -250,12 +305,20 @@ public static class Creatures_Hooks
         for (var i = self.trackedCreatures.Count - 1; i >= 0; i--)
         {
             var trackedCreature = self.trackedCreatures[i];
-            if (trackedCreature.creature is not Player player) continue;
+            if (trackedCreature.creature is not Player player)
+            {
+                continue;
+            }
 
-            if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+            if (!player.TryGetPearlcatModule(out var playerModule))
+            {
+                continue;
+            }
 
             if (playerModule.ShieldTimer > 0)
+            {
                 self.trackedCreatures.Remove(trackedCreature);
+            }
         }
     }
 
@@ -263,24 +326,41 @@ public static class Creatures_Hooks
     {
         orig(self);
 
-        if (self.attachedChunk?.owner is not Player player) return;
+        if (self.attachedChunk?.owner is not Player player)
+        {
+            return;
+        }
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
-        if (self.patch?.trackedCreatures == null) return;
+        if (self.patch?.trackedCreatures == null)
+        {
+            return;
+        }
 
 
         var playerPull = self.patch.trackedCreatures.FirstOrDefault(x => x.creature == self.attachedChunk.owner);
 
-        if (playerPull == null) return;
+        if (playerPull == null)
+        {
+            return;
+        }
 
-        if (!playerModule.ShieldActive) return;
+        if (!playerModule.ShieldActive)
+        {
+            return;
+        }
 
         self.room.DeflectEffect(self.pos);
         playerModule.ActivateVisualShield();
 
         if (playerModule.ShieldTimer > 0)
+        {
             self.attachedChunk = null;
+        }
     }
 
 
@@ -289,9 +369,15 @@ public static class Creatures_Hooks
     {
         orig(self, eu);
 
-        if (self.attachedChunk?.owner is not Player player) return;
+        if (self.attachedChunk?.owner is not Player player)
+        {
+            return;
+        }
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         if (playerModule.ShieldActive)
         {
@@ -326,7 +412,10 @@ public static class Creatures_Hooks
         {
             if (playerModule.PossessedCreature?.TryGetTarget(out var target) == true)
             {
-                if (target == self.creature) return false;
+                if (target == self.creature)
+                {
+                    return false;
+                }
             }
         }
 

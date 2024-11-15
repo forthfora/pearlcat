@@ -23,17 +23,25 @@ public static class World_Helpers
         var roomName = gate.room?.roomSettings?.name;
 
         if (gate.room == null || roomName == null)
+        {
             return false;
+        }
 
         if (!gate.room.game.IsPearlcatStory())
+        {
             return false;
+        }
 
 
         if (roomName == "GATE_UW_LC")
+        {
             return true;
+        }
 
         if (roomName == "GATE_SL_MS")
+        {
             return true;
+        }
 
 
         return false;
@@ -57,8 +65,12 @@ public static class World_Helpers
     public static void LockShortcuts(this Room room)
     {
         foreach (var shortcut in room.shortcutsIndex)
+        {
             if (!room.lockedShortcuts.Contains(shortcut))
+            {
                 room.lockedShortcuts.Add(shortcut);
+            }
+        }
     }
     public static void UnlockShortcuts(this Room room)
     {
@@ -69,25 +81,35 @@ public static class World_Helpers
     {
         var rCam = room.game.cameras.First();
 
-        if (rCam.room != room) return;
+        if (rCam.room != room)
+        {
+            return;
+        }
 
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (var i = 0; i < room.shortcuts.Length; i++)
             if (shortcutGraphics.entranceSprites.Length > i && shortcutGraphics.entranceSprites[i, 0] != null)
+            {
                 shortcutGraphics.entranceSprites[i, 0].isVisible = false;
+            }
     }
     public static void ShowShortcuts(this Room room)
     {
         var rCam = room.game.cameras.First();
 
-        if (rCam.room != room) return;
+        if (rCam.room != room)
+        {
+            return;
+        }
 
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (var i = 0; i < room.shortcuts.Length; i++)
             if (shortcutGraphics.entranceSprites[i, 0] != null)
+            {
                 shortcutGraphics.entranceSprites[i, 0].isVisible = true;
+            }
     }
 
 
@@ -102,20 +124,53 @@ public static class World_Helpers
 
 
     // Pearl ID
-    public static bool IsHeartPearl(this AbstractPhysicalObject? obj) => obj is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl();
-    public static bool IsHeartPearl(this DataPearl dataPearl) => dataPearl.AbstractPearl.IsHeartPearl();
-    public static bool IsHeartPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.Heart_Pearlpup;
+    public static bool IsHeartPearl(this AbstractPhysicalObject? obj)
+    {
+        return obj is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl();
+    }
 
-    public static bool IsHalcyonPearl(this DataPearl dataPearl) => dataPearl.AbstractPearl.IsHalcyonPearl();
-    public static bool IsHalcyonPearl(this DataPearl.AbstractDataPearl dataPearl) => dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || dataPearl.dataPearlType == MoreSlugcatsEnums.DataPearlType.RM;
+    public static bool IsHeartPearl(this DataPearl dataPearl)
+    {
+        return dataPearl.AbstractPearl.IsHeartPearl();
+    }
+
+    public static bool IsHeartPearl(this DataPearl.AbstractDataPearl dataPearl)
+    {
+        return dataPearl.dataPearlType == Enums.Pearls.Heart_Pearlpup;
+    }
+
+    public static bool IsHalcyonPearl(this DataPearl dataPearl)
+    {
+        return dataPearl.AbstractPearl.IsHalcyonPearl();
+    }
+
+    public static bool IsHalcyonPearl(this DataPearl.AbstractDataPearl dataPearl)
+    {
+        return dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat ||
+               dataPearl.dataPearlType == MoreSlugcatsEnums.DataPearlType.RM;
+    }
 
 
     // Oracle ID
-    public static bool IsPebbles(this SSOracleBehavior behavior) => behavior?.oracle?.IsPebbles() ?? false;
-    public static bool IsMoon(this SLOracleBehavior behavior) => behavior?.oracle?.IsMoon() ?? false;
+    public static bool IsPebbles(this SSOracleBehavior behavior)
+    {
+        return behavior?.oracle?.IsPebbles() ?? false;
+    }
 
-    public static bool IsPebbles(this Oracle oracle) => oracle?.ID == Oracle.OracleID.SS;
-    public static bool IsMoon(this Oracle oracle) => oracle?.ID == Oracle.OracleID.SL;
+    public static bool IsMoon(this SLOracleBehavior behavior)
+    {
+        return behavior?.oracle?.IsMoon() ?? false;
+    }
+
+    public static bool IsPebbles(this Oracle oracle)
+    {
+        return oracle?.ID == Oracle.OracleID.SS;
+    }
+
+    public static bool IsMoon(this Oracle oracle)
+    {
+        return oracle?.ID == Oracle.OracleID.SL;
+    }
 
 
     // Misc
@@ -123,11 +178,17 @@ public static class World_Helpers
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
 
-        if (miscWorld == null) return;
+        if (miscWorld == null)
+        {
+            return;
+        }
 
         var strId = dreamId.value;
 
-        if (miscWorld.PreviousDreams.Contains(strId) && !isRecurringDream) return;
+        if (miscWorld.PreviousDreams.Contains(strId) && !isRecurringDream)
+        {
+            return;
+        }
 
         miscWorld.CurrentDream = strId;
         SlugBase.Assets.CustomDreams.QueueDream(storyGame, dreamId);
@@ -143,10 +204,15 @@ public static class World_Helpers
         for (var i = 0; i < game.Players.Count; i++)
         {
             var abstractCreature = game.Players[i];
-            if (abstractCreature.realizedCreature is not Player player) continue;
+            if (abstractCreature.realizedCreature is not Player player)
+            {
+                continue;
+            }
 
             if (player.IsPearlcat())
+            {
                 return i;
+            }
         }
 
         return -1;
@@ -163,12 +229,18 @@ public static class World_Helpers
     // Save Presets
     public static void GiveTrueEnding(this SaveState saveState)
     {
-        if (saveState.saveStateNumber != Enums.Pearlcat) return;
+        if (saveState.saveStateNumber != Enums.Pearlcat)
+        {
+            return;
+        }
 
         var miscProg = Utils.GetMiscProgression();
         var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
 
-        if (miscWorld == null) return;
+        if (miscWorld == null)
+        {
+            return;
+        }
 
 
         miscProg.HasTrueEnding = true;
@@ -187,13 +259,19 @@ public static class World_Helpers
 
     public static void StartFromMira(this SaveState saveState)
     {
-        if (saveState.saveStateNumber != Enums.Pearlcat) return;
+        if (saveState.saveStateNumber != Enums.Pearlcat)
+        {
+            return;
+        }
 
         var miscProg = Utils.GetMiscProgression();
         var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
         var baseMiscWorld = saveState.miscWorldSaveData;
 
-        if (miscWorld == null) return;
+        if (miscWorld == null)
+        {
+            return;
+        }
 
 
         miscProg.IsPearlpupSick = true;

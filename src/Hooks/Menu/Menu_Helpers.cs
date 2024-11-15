@@ -18,7 +18,10 @@ public static class Menu_Helpers
     public const string MIRA_SKIP_ID = "PEARLCAT_MIRA_SKIP";
 
 
-    public static Color MenuPearlColorFilter(this Color color) => color;
+    public static Color MenuPearlColorFilter(this Color color)
+    {
+        return color;
+    }
 
     public static void UpdateSelectScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
@@ -292,7 +295,9 @@ public static class Menu_Helpers
             var mousePos = self.menu.mousePosition;
 
             if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.SetPos) < 90.0f)
+            {
                 illustrationModule.Vel += (spritePos - mousePos).normalized * 1.5f;
+            }
 
 
             var dir = (illustrationModule.SetPos - pos).normalized;
@@ -334,7 +339,10 @@ public static class Menu_Helpers
     {
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
-        if (illustrationModule.Index == -2) return;
+        if (illustrationModule.Index == -2)
+        {
+            return;
+        }
 
         if (illustrationModule.Index == -1)
         {
@@ -367,7 +375,9 @@ public static class Menu_Helpers
             var setPos = illustrationModule.SetPos;
 
             if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, setPos) < 120.0f)
+            {
                 illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
+            }
 
 
             var dir = (setPos - pos).normalized;
@@ -379,8 +389,7 @@ public static class Menu_Helpers
 
             illustration.pos += illustrationModule.Vel;
 
-            illustrationModule.SetPos.y =
-                illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }
@@ -463,7 +472,9 @@ public static class Menu_Helpers
             var mousePos = self.menu.mousePosition;
 
             if (Custom.Dist(spritePos, mousePos) < 30.0f && Custom.Dist(pos, illustrationModule.SetPos) < 120.0f)
+            {
                 illustrationModule.Vel += (spritePos - mousePos).normalized * 2.0f;
+            }
 
 
             var dir = (illustrationModule.SetPos - pos).normalized;
@@ -475,8 +486,7 @@ public static class Menu_Helpers
 
             illustration.pos += illustrationModule.Vel;
 
-            illustrationModule.SetPos.y =
-                illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
+            illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
             menuSceneModule.ActivePearlPos = illustration.pos;
             return;
         }

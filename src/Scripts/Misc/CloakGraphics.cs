@@ -55,7 +55,9 @@ public class CloakGraphics
         var cloakAttachPos = Vector2.Lerp(owner.head.pos, owner.player.bodyChunks[1].pos, 0.6f);
 
         if (owner.player.bodyMode == Player.BodyModeIndex.Crawl)
+        {
             cloakAttachPos += new Vector2(0f, 4f);
+        }
 
         Vector2 a = default;
 
@@ -120,7 +122,11 @@ public class CloakGraphics
         return bodyPos + Mathf.Lerp(-1f, 1f, num) * perp * Mathf.Lerp(9f, 11f, t) + dir * Mathf.Lerp(8f, -9f, t) * (1f + Mathf.Sin(3.1415927f * num) * 0.35f * Mathf.Lerp(-1f, 1f, t));
     }
 
-    public Color CloakColorAtPos(float f) => playerModule.CloakColor * Custom.HSL2RGB(0.0f, 0.0f, Custom.LerpMap(f, 0.3f, 1.0f, 1.0f, Custom.LerpMap(playerModule.CamoLerp, 0.0f, 1.0f, 0.3f, 1.0f)));
+    public Color CloakColorAtPos(float f)
+    {
+        return playerModule.CloakColor * Custom.HSL2RGB(0.0f, 0.0f,
+            Custom.LerpMap(f, 0.3f, 1.0f, 1.0f, Custom.LerpMap(playerModule.CamoLerp, 0.0f, 1.0f, 0.3f, 1.0f)));
+    }
 
 
     public void InitiateSprite(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
@@ -156,7 +162,10 @@ public class CloakGraphics
     {
         sLeaser.sprites[sprite].isVisible = (visible && owner.player.room != null);
         
-        if (!sLeaser.sprites[sprite].isVisible) return;
+        if (!sLeaser.sprites[sprite].isVisible)
+        {
+            return;
+        }
 
         for (var i = 0; i < divs; i++)
         {

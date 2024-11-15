@@ -19,7 +19,15 @@ public partial class PlayerModule
     }
     
     
-    public bool IsAdultPearlpup => PlayerRef.TryGetTarget(out var player) && player.abstractCreature.Room.world.game.IsPearlcatStory() && Utils.GetMiscProgression().HasTrueEnding;
+    public bool IsAdultPearlpup
+    {
+        get
+        {
+            return PlayerRef.TryGetTarget(out var player) &&
+                   player.abstractCreature.Room.world.game.IsPearlcatStory() &&
+                   Utils.GetMiscProgression().HasTrueEnding;
+        }
+    }
 
     public int PlayerNumber { get; }
     public int UniqueID { get; }
@@ -53,7 +61,11 @@ public partial class PlayerModule
     public int FlyTimer { get; set; }
 
 
-    public bool IsDazed => DazeTimer > 0;
+    public bool IsDazed
+    {
+        get { return DazeTimer > 0; }
+    }
+
     public int DazeTimer { get; set; }
 
 
@@ -61,7 +73,16 @@ public partial class PlayerModule
     public List<AbstractPhysicalObject> Inventory { get; } = new();
     public List<AbstractPhysicalObject> PostDeathInventory { get; } = new();
     public int? PostDeathActiveObjectIndex { get; set; }
-    public AbstractPhysicalObject? ActiveObject => ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count ? Inventory[(int)ActiveObjectIndex] : null;
+    public AbstractPhysicalObject? ActiveObject
+    {
+        get
+        {
+            return ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count
+                ? Inventory[(int)ActiveObjectIndex]
+                : null;
+        }
+    }
+
     public int? ActiveObjectIndex { get; set; }
 
 
@@ -81,7 +102,10 @@ public partial class PlayerModule
 
     
     // HUD
-    public void ShowHUD(int duration) => HudFadeTimer = duration;
+    public void ShowHUD(int duration)
+    {
+        HudFadeTimer = duration;
+    }
 
     public float HudFade { get; set; }
     public float HudFadeTimer { get; set; }
@@ -92,7 +116,10 @@ public partial class PlayerModule
         var world = self.abstractCreature.world;
         var save = world.game.GetMiscWorld();
 
-        if (save == null) return;
+        if (save == null)
+        {
+            return;
+        }
 
         var playerNumber = self.playerState.playerNumber;
 

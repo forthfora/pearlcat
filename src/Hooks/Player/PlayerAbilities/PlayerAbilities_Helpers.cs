@@ -93,11 +93,17 @@ public static partial class PlayerAbilities_Helpers
         UpdateCamouflage(self, playerModule, effect);
 
 
-        if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller != null) return;
+        if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller != null)
+        {
+            return;
+        }
 
         var activeObj = playerModule.ActiveObject;
 
-        if (activeObj == null || !activeObj.TryGetPlayerPearlModule(out var poModule)) return;
+        if (activeObj == null || !activeObj.TryGetPlayerPearlModule(out var poModule))
+        {
+            return;
+        }
 
         var abilityInput = self.IsSentryKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasSentryInput;

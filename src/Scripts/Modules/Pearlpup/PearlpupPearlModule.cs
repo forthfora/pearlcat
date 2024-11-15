@@ -22,6 +22,7 @@ public class PearlpupPearlModule
     public float HeartRateMult { get; set; } = 1.0f;
 
     public int HeartBeatTime => (int)(80 * HeartRateMult);
+
     public int HeartBeatTimer1 { get; set; } = 0;
     public int HeartBeatTimer2 { get; set; } = 10;
 

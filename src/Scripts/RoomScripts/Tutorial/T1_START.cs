@@ -30,7 +30,10 @@ public class T1_START : UpdatableAndDeletable
     {
         base.Update(eu);
 
-        if (!room.fullyLoaded) return;
+        if (!room.fullyLoaded)
+        {
+            return;
+        }
 
         var game = room.game;
         var save = Utils.GetMiscProgression();
@@ -38,7 +41,10 @@ public class T1_START : UpdatableAndDeletable
         // Per player
         foreach (var crit in game.Players)
         {
-            if (crit.realizedCreature is not Player player) continue;
+            if (crit.realizedCreature is not Player player)
+            {
+                continue;
+            }
 
             if (CurrentPhase == Phase.Init)
             {
@@ -58,8 +64,12 @@ public class T1_START : UpdatableAndDeletable
                             var item = playerModule.Inventory[i];
 
                             if (item is DataPearl.AbstractDataPearl dataPearl)
+                            {
                                 if (dataPearl.IsHalcyonPearl() || dataPearl.dataPearlType == Enums.Pearls.AS_PearlBlack)
+                                {
                                     continue;
+                                }
+                            }
 
                             player.RemoveFromInventory(item);
                             item.destroyOnAbstraction = true;
@@ -166,10 +176,14 @@ public class T1_START : UpdatableAndDeletable
                     var t = Utils.Translator;
 
                     if (ModOptions.UsesCustomStoreKeybind.Value)
+                    {
                         game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + Input_Helpers.GetStoreKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetStoreKeybindDisplayName(true) + t.Translate(")"), 0, 800);
+                    }
 
                     else
+                    {
                         game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 600);
+                    }
 
                     game.AddTextPrompt("To store, hold the same keybind with a pearl in your main hand", 0, 400);
 
@@ -212,8 +226,15 @@ public class T1_START : UpdatableAndDeletable
     {
         public PearlcatPlayer Owner { get; }
 
-        public PearlcatController(PearlcatPlayer owner) => Owner = owner;
-        public override Player.InputPackage GetInput() => Owner.GetInput();
+        public PearlcatController(PearlcatPlayer owner)
+        {
+            Owner = owner;
+        }
+
+        public override Player.InputPackage GetInput()
+        {
+            return Owner.GetInput();
+        }
     }
 
     public class PearlcatPlayer
@@ -222,7 +243,11 @@ public class T1_START : UpdatableAndDeletable
         public int PlayerNumber { get; }
 
         public bool MainPlayer => Player != null && Player.playerState.playerNumber == 0;
-        public Player? Player => (Owner.room?.game.Players[PlayerNumber].realizedCreature) as Player;
+
+        public Player? Player
+        {
+            get { return (Owner.room?.game.Players[PlayerNumber].realizedCreature) as Player; }
+        }
 
         public PearlcatPlayer(T1_START owner, int playerNumber)
         {
@@ -232,7 +257,10 @@ public class T1_START : UpdatableAndDeletable
 
         public void Update()
         {
-            if (Player == null) return;
+            if (Player == null)
+            {
+                return;
+            }
 
             Player.sleepCounter = 90;
         }
@@ -240,7 +268,9 @@ public class T1_START : UpdatableAndDeletable
         public Player.InputPackage GetInput()
         {
             if (Player == null)
+            {
                 return new Player.InputPackage(false, Options.ControlSetup.Preset.None, 0, 0, false, false, false, false, false);
+            }
 
             var x = 0;
             var y = 0;

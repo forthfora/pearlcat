@@ -47,20 +47,35 @@ public static class Pearlpup_Hooks
     {
         orig(self, abstractCreature, world);
 
-        if (!ModOptions.PearlpupRespawn.Value) return;
+        if (!ModOptions.PearlpupRespawn.Value)
+        {
+            return;
+        }
 
-        if (self.SlugCatClass != MoreSlugcatsEnums.SlugcatStatsName.Slugpup) return;
+        if (self.SlugCatClass != MoreSlugcatsEnums.SlugcatStatsName.Slugpup)
+        {
+            return;
+        }
 
 
         var miscWorld = world.game.GetMiscWorld();
 
         // Don't want pearlpups to spawn outside of story mode
-        if (!world.game.IsStorySession) return;
+        if (!world.game.IsStorySession)
+        {
+            return;
+        }
 
         // Don't want to spawn them if the player already has a pup
-        if (miscWorld?.HasPearlpupWithPlayerDeadOrAlive == true) return;
+        if (miscWorld?.HasPearlpupWithPlayerDeadOrAlive == true)
+        {
+            return;
+        }
 
-        if (miscWorld?.PearlpupID is not null) return;
+        if (miscWorld?.PearlpupID is not null)
+        {
+            return;
+        }
 
 
         self.abstractCreature.MakePearlpup();
@@ -74,7 +89,10 @@ public static class Pearlpup_Hooks
         ConvertIntoPearlpupIfIdMatch(self);
 
 
-        if (!self.TryGetPearlpupModule(out var module)) return;
+        if (!self.TryGetPearlpupModule(out var module))
+        {
+            return;
+        }
 
         var stats = self.slugcatStats;
         var miscProg = Utils.GetMiscProgression();
@@ -144,7 +162,9 @@ public static class Pearlpup_Hooks
         var hitPlayerByPlayer = obj is Player && self is Spear && self.thrownBy != null && self.thrownBy is Player;
 
         if (hitPlayerByPlayer && obj is Player player && player.IsPearlpup())
+        {
             return false;
+        }
 
         return result;
     }

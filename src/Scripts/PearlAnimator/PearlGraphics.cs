@@ -34,7 +34,9 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
             || abstractObject.realizedObject == null
             || abstractObject.realizedObject.slatedForDeletetion
             || room != abstractObject.realizedObject.room)
+        {
             Destroy();
+        }
     }
 
     public sealed override void Destroy()
@@ -284,7 +286,9 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         spriteName = !IsActiveObject ? null : SpriteFromNumber(ShieldCounter);
 
         if (spriteName != null)
+        {
             sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
+        }
 
         sprite.isVisible = spriteName != null;
 
@@ -303,7 +307,9 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         spriteName = !IsActiveObject ? null : SpriteFromNumber(ReviveCounter);
 
         if (spriteName != null)
+        {
             sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
+        }
 
         sprite.isVisible = spriteName != null;
 

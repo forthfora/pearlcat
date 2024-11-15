@@ -143,7 +143,10 @@ public static class SLOracle_Hooks
             wasDialogueHandled = MoonDialog(self);
         }
 
-        if (wasDialogueHandled) return;
+        if (wasDialogueHandled)
+        {
+            return;
+        }
 
         orig(self);
     }

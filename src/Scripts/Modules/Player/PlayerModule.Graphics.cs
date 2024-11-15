@@ -54,7 +54,10 @@ public partial class PlayerModule
 
     public void PickObjectAnimation(Player player)
     {
-        if (ModOptions.HidePearls.Value) return;
+        if (ModOptions.HidePearls.Value)
+        {
+            return;
+        }
 
         // TODO: Remove magic numbers
         var minTime = 480;
@@ -77,7 +80,10 @@ public partial class PlayerModule
         {
             var abstractObject = Inventory[i];
 
-            if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects) break;
+            if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects)
+            {
+                break;
+            }
 
             abstractObject.realizedObject?.SwapEffect(player.firstChunk.pos);
         }
@@ -161,12 +167,30 @@ public partial class PlayerModule
     public Color BaseAccentColor { get; set; }
     public Color BaseCloakColor { get; set; }
 
-    public static Color DefaultBodyColor => Custom.hexToColor("283b2c");
-    public static Color DefaultFaceColor => Color.white;
-    public static Color DefaultAccentColor => Color.white;
-    public static Color DefaultCloakColor => Custom.hexToColor("ca471b");
+    public static Color DefaultBodyColor
+    {
+        get { return Custom.hexToColor("283b2c"); }
+    }
 
-    public Color ActiveColor => ActiveObject?.GetObjectColor() ?? Color.white;
+    public static Color DefaultFaceColor
+    {
+        get { return Color.white; }
+    }
+
+    public static Color DefaultAccentColor
+    {
+        get { return Color.white; }
+    }
+
+    public static Color DefaultCloakColor
+    {
+        get { return Custom.hexToColor("ca471b"); }
+    }
+
+    public Color ActiveColor
+    {
+        get { return ActiveObject?.GetObjectColor() ?? Color.white; }
+    }
 
     public void InitColors(PlayerGraphics self)
     {
@@ -237,7 +261,10 @@ public partial class PlayerModule
     public void LoadEarLTexture(string textureName)
     {   
         var earLTexture = AssetLoader.GetTexture(textureName);
-        if (earLTexture == null) return;
+        if (earLTexture == null)
+        {
+            return;
+        }
 
         // Apply Colors
         earLTexture.MapAlphaToColor(new Dictionary<byte, Color>()
@@ -249,7 +276,9 @@ public partial class PlayerModule
         var atlasName = Plugin.MOD_ID + textureName + UniqueID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
+        {
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+        }
 
         EarLAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earLTexture, false);
     }
@@ -257,7 +286,10 @@ public partial class PlayerModule
     public void LoadEarRTexture(string textureName)
     {
         var earRTexture = AssetLoader.GetTexture(textureName);
-        if (earRTexture == null) return;
+        if (earRTexture == null)
+        {
+            return;
+        }
 
         // Apply Colors
         earRTexture.MapAlphaToColor(new Dictionary<byte, Color>()
@@ -269,16 +301,24 @@ public partial class PlayerModule
         var atlasName = Plugin.MOD_ID + textureName + UniqueID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
+        {
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+        }
 
         EarRAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earRTexture, false);
     }
 
     public void RegenerateEars()
     {
-        if (!PlayerRef.TryGetTarget(out var player)) return;
+        if (!PlayerRef.TryGetTarget(out var player))
+        {
+            return;
+        }
 
-        if (player.graphicsModule == null) return;
+        if (player.graphicsModule == null)
+        {
+            return;
+        }
 
         var self = (PlayerGraphics)player.graphicsModule;
 
@@ -351,8 +391,11 @@ public partial class PlayerModule
     public void LoadTailTexture(string textureName)
     {
         var tailTexture = AssetLoader.GetTexture(textureName);
-        if (tailTexture == null) return;
-        
+        if (tailTexture == null)
+        {
+            return;
+        }
+
         CurrentlyInvertedTailColors = SetInvertTailColors;
 
         // Apply Colors
@@ -375,11 +418,20 @@ public partial class PlayerModule
 
     public void RegenerateTail()
     {
-        if (ModOptions.DisableCosmetics.Value) return;
+        if (ModOptions.DisableCosmetics.Value)
+        {
+            return;
+        }
 
-        if (!PlayerRef.TryGetTarget(out var player)) return;
+        if (!PlayerRef.TryGetTarget(out var player))
+        {
+            return;
+        }
 
-        if (player.graphicsModule == null) return;
+        if (player.graphicsModule == null)
+        {
+            return;
+        }
 
         var self = (PlayerGraphics)player.graphicsModule;
         var newTail = new TailSegment[0];
@@ -417,7 +469,11 @@ public partial class PlayerModule
             newTail[i].stretched = self.tail[i].stretched;
         }
 
-        if (self.tail == newTail) return;
+        if (self.tail == newTail)
+        {
+            return;
+        }
+
         self.tail = newTail;
 
         var newBodyParts = self.bodyParts.ToList();

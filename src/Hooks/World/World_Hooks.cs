@@ -57,15 +57,24 @@ public static class World_Hooks
     {
         orig(self, manager);
 
-        if (!self.IsStorySession) return;
+        if (!self.IsStorySession)
+        {
+            return;
+        }
 
-        if (self.StoryCharacter != Enums.Pearlcat) return;
+        if (self.StoryCharacter != Enums.Pearlcat)
+        {
+            return;
+        }
 
         var save = self.GetStorySession.saveState;
         var miscWorld = self.GetMiscWorld();
         var miscProg = Utils.GetMiscProgression();
 
-        if (miscWorld == null) return;
+        if (miscWorld == null)
+        {
+            return;
+        }
 
 
         if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
@@ -120,7 +129,10 @@ public static class World_Hooks
 
     private static void DreamsState_StaticEndOfCycleProgress(On.DreamsState.orig_StaticEndOfCycleProgress orig, SaveState saveState, string currentRegion, string denPosition, ref int cyclesSinceLastDream, ref int cyclesSinceLastFamilyDream, ref int cyclesSinceLastGuideDream, ref int inGWOrSHCounter, ref DreamsState.DreamID upcomingDream, ref DreamsState.DreamID eventDream, ref bool everSleptInSB, ref bool everSleptInSB_S01, ref bool guideHasShownHimselfToPlayer, ref int guideThread, ref bool guideHasShownMoonThisRound, ref int familyThread)
     {
-        if (saveState.saveStateNumber == Enums.Pearlcat && (eventDream == null || !eventDream.value.Contains("Pearlcat"))) return;
+        if (saveState.saveStateNumber == Enums.Pearlcat && (eventDream == null || !eventDream.value.Contains("Pearlcat")))
+        {
+            return;
+        }
 
         orig(saveState, currentRegion, denPosition, ref cyclesSinceLastDream, ref cyclesSinceLastFamilyDream, ref cyclesSinceLastGuideDream, ref inGWOrSHCounter, ref upcomingDream, ref eventDream, ref everSleptInSB, ref everSleptInSB_S01, ref guideHasShownHimselfToPlayer, ref guideThread, ref guideHasShownMoonThisRound, ref familyThread);
     }
@@ -146,11 +158,20 @@ public static class World_Hooks
             var miscWorld = self.room.world.game.GetMiscWorld();
             var miscProg = Utils.GetMiscProgression();
 
-            if (miscWorld?.HasPearlpupWithPlayer == false) return;
+            if (miscWorld?.HasPearlpupWithPlayer == false)
+            {
+                return;
+            }
 
-            if (miscProg.HasOEEnding) return;
+            if (miscProg.HasOEEnding)
+            {
+                return;
+            }
 
-            if (miscProg.HasTrueEnding) return;
+            if (miscProg.HasTrueEnding)
+            {
+                return;
+            }
         }
 
         orig(self, eu);
@@ -163,12 +184,12 @@ public static class World_Hooks
         //Vector2 vector = Vector2.Lerp(self.firstChunk.lastPos, self.firstChunk.pos, timeStacker);
         //Vector2 vector2 = Vector3.Slerp(self.lastRotationA, self.rotationA, timeStacker);
         //Vector2 vector3 = Vector3.Slerp(self.lastRotationB, self.rotationB, timeStacker);
-        
+
         var donnedLerp = Mathf.Lerp(self.lastDonned, self.donned, timeStacker);
 
         Player? wasPlayer = null;
         int? wasEatCounter = null;
-        
+
         if (donnedLerp > 0f && self.grabbedBy.Count > 0 && self.grabbedBy[0].grabber is Player player && player.TryGetPearlcatModule(out var module))
         {
             wasPlayer = player;
@@ -184,7 +205,9 @@ public static class World_Hooks
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
         if (wasPlayer != null && wasEatCounter != null)
+        {
             wasPlayer.eatCounter = (int)wasEatCounter;
+        }
     }
 
 
@@ -197,7 +220,9 @@ public static class World_Hooks
         //    return true;
 
         if (self.room.game.IsPearlcatStory())
+        {
             return true;
+        }
 
         return result;
     }
@@ -206,7 +231,10 @@ public static class World_Hooks
     {
         orig(self, side, gate, requirement);
 
-        if (!gate.IsGateOpenForPearlcat()) return;
+        if (!gate.IsGateOpenForPearlcat())
+        {
+            return;
+        }
 
         self.requirement = RegionGate.GateRequirement.OneKarma;
     }
@@ -218,7 +246,9 @@ public static class World_Hooks
         var result = orig(i);
 
         if (i == Enums.SSOracle.PearlcatPebbles)
+        {
             return true;
+        }
 
         return result;
     }
@@ -251,7 +281,7 @@ public static class World_Hooks
 
         return result;
     }
-    
+
 
 
     // Custom Spears
@@ -259,7 +289,10 @@ public static class World_Hooks
     {
         orig(self, eu);
 
-        if (!self.abstractSpear.TryGetSpearModule(out var module)) return;
+        if (!self.abstractSpear.TryGetSpearModule(out var module))
+        {
+            return;
+        }
 
         var returnTime = 60;
         var minSparkTime = 40;
@@ -305,7 +338,7 @@ public static class World_Hooks
         if (module.ReturnTimer > 0)
         {
             module.ReturnTimer--;
-            
+
             if (self.onPlayerBack || self.grabbedBy.Any(x => x.grabber is Player) || module.DecayTimer > 0)
             {
                 module.ReturnTimer = -2;
@@ -315,7 +348,7 @@ public static class World_Hooks
         if (module.ReturnTimer == 0)
         {
             module.ReturnTimer = -2;
-            
+
             if (module.ThrownByPlayer?.TryGetTarget(out var player) == true && player.TryGetPearlcatModule(out var playerModule))
             {
                 var color = module.Color;
@@ -349,7 +382,7 @@ public static class World_Hooks
 
                         self.room.AddObject(new ShockWave(handPos, 15.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, handPos, 10, 5.0f, 10, 10.0f, 40.0f, color));
-                        
+
                         self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
                     }
 
@@ -364,10 +397,13 @@ public static class World_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!self.abstractSpear.TryGetSpearModule(out var module)) return;
+        if (!self.abstractSpear.TryGetSpearModule(out var module))
+        {
+            return;
+        }
 
         var color =  module.Color
-            * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.DecayTimer, 0, 200, 1.0f, 0.1f), Custom.LerpMap(module.DecayTimer, 0, 200, 1.0f, 0.05f));
+                     * Custom.HSL2RGB(1.0f, Custom.LerpMap(module.DecayTimer, 0, 200, 1.0f, 0.1f), Custom.LerpMap(module.DecayTimer, 0, 200, 1.0f, 0.05f));
 
         color = color.RWColorSafety();
 
@@ -396,16 +432,25 @@ public static class World_Hooks
 
 
         if (room.roomSettings.name == "T1_S01")
+        {
             room.AddObject(new T1_S01(room));
+        }
 
         if (room.roomSettings.name == "SS_T1_S01")
+        {
             room.AddObject(new SS_T1_S01(room));
+        }
 
         if (room.roomSettings.name == "SS_T1_CROSS" && !ModCompat_Helpers.IsModEnabled_MiraInstallation)
+        {
             room.AddObject(new SS_T1_CROSS(room));
+        }
 
 
-        if (!room.game.IsPearlcatStory()) return;
+        if (!room.game.IsPearlcatStory())
+        {
+            return;
+        }
 
         var miscProg = Utils.GetMiscProgression();
         var everVisited = room.game.GetStorySession.saveState.regionStates[room.world.region.regionNumber].roomsVisited.Contains(room.abstractRoom.name);
@@ -457,7 +502,7 @@ public static class World_Hooks
             self.AddObject(new TrainView(self));
         }
     }
-        
+
     private static void Room_Update(On.Room.orig_Update orig, Room self)
     {
         orig(self);
@@ -486,9 +531,15 @@ public static class World_Hooks
         {
             foreach (var updatable in self.updateList)
             {
-                if (updatable is not PhysicalObject physicalObject) continue;
+                if (updatable is not PhysicalObject physicalObject)
+                {
+                    continue;
+                }
 
-                if (physicalObject is not Player player) continue;
+                if (physicalObject is not Player player)
+                {
+                    continue;
+                }
 
                 List<Player.BodyModeIndex> exemptBodyModes = new()
                 {
@@ -496,32 +547,51 @@ public static class World_Hooks
                     Player.BodyModeIndex.ClimbIntoShortCut,
                     Player.BodyModeIndex.CorridorClimb,
                 };
-                
-                var target = player.canJump == 0 ? 1.0f : 0.85f;
-               
-                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
 
-                if (playerModule.EarL == null || playerModule.EarR == null) continue;
+                var target = player.canJump == 0 ? 1.0f : 0.85f;
+
+                if (!player.TryGetPearlcatModule(out var playerModule))
+                {
+                    continue;
+                }
+
+                if (playerModule.EarL == null || playerModule.EarR == null)
+                {
+                    continue;
+                }
 
                 foreach (var earSegment in playerModule.EarL)
+                {
                     earSegment.vel.x += target * 1.25f;
+                }
 
                 foreach (var earSegment in playerModule.EarR)
+                {
                     earSegment.vel.x += target * 1.25f;
+                }
 
-                if (player.graphicsModule is not PlayerGraphics graphics) continue;
+                if (player.graphicsModule is not PlayerGraphics graphics)
+                {
+                    continue;
+                }
 
                 foreach (var tailSegment in graphics.tail)
+                {
                     tailSegment.vel.x += target * 1.25f;
+                }
 
 
                 if (!exemptBodyModes.Contains(player.bodyMode))
+                {
                     foreach (var bodyChunk in player.bodyChunks)
+                    {
                         bodyChunk.vel.x += target;
+                    }
+                }
             }
         }
     }
-    
+
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
     {
         try
@@ -534,7 +604,10 @@ public static class World_Hooks
                 {
                     var entity = abstractRoom.entities[j];
 
-                    if (entity is not AbstractPhysicalObject abstractObject) continue;
+                    if (entity is not AbstractPhysicalObject abstractObject)
+                    {
+                        continue;
+                    }
 
                     if (abstractObject.IsPlayerPearl())
                     {
@@ -556,15 +629,19 @@ public static class World_Hooks
         orig(self, playerShelter, activeGate);
     }
 
-   
+
     // Hide door sprites for the train shelter
     private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
         if (self.myShelter.room.roomSettings.name == "T1_S01")
+        {
             foreach (var sprite in sLeaser.sprites)
+            {
                 sprite.isVisible = false;
+            }
+        }
     }
 
     private static void ShelterDoor_DrawSprites(On.ShelterDoor.orig_DrawSprites orig, ShelterDoor self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -572,8 +649,12 @@ public static class World_Hooks
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
         if (self.room.roomSettings.name == "T1_S01")
+        {
             foreach (var sprite in sLeaser.sprites)
+            {
                 sprite.isVisible = false;
+            }
+        }
     }
 
 
@@ -585,8 +666,12 @@ public static class World_Hooks
         var abstractRoom = world.GetAbstractRoom(room);
 
         if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
+        {
             if (abstractObject.realizedObject != null && abstractObject.IsPlayerPearl())
+            {
                 return null;
+            }
+        }
 
         return result;
     }

@@ -23,13 +23,19 @@ public class PearlAnimation_LayerOrbit : PearlAnimation
 
     public PearlAnimation_LayerOrbit(Player player) : base(player)
     {
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         foreach (var randIndex in Enumerable.Range(0, playerModule.Inventory.Count).OrderBy(x => Random.value))
         {
             var item = playerModule.Inventory[randIndex];
 
-            if (item == playerModule.ActiveObject) continue;
+            if (item == playerModule.ActiveObject)
+            {
+                continue;
+            }
 
             if (OrbitPearls_2.Count < 2)
             {
@@ -50,7 +56,10 @@ public class PearlAnimation_LayerOrbit : PearlAnimation
     {
         base.Update(player);
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         if (playerModule.ActiveObject != prevActiveObject)
         {
@@ -69,11 +78,20 @@ public class PearlAnimation_LayerOrbit : PearlAnimation
 
     public void ReplaceActive(PlayerModule playerModule)
     {
-        if (ReplaceActiveForOrbit(OrbitPearls_5, playerModule.ActiveObject, prevActiveObject)) return;
+        if (ReplaceActiveForOrbit(OrbitPearls_5, playerModule.ActiveObject, prevActiveObject))
+        {
+            return;
+        }
 
-        if (ReplaceActiveForOrbit(OrbitPearls_3, playerModule.ActiveObject, prevActiveObject)) return;
+        if (ReplaceActiveForOrbit(OrbitPearls_3, playerModule.ActiveObject, prevActiveObject))
+        {
+            return;
+        }
 
-        if (ReplaceActiveForOrbit(OrbitPearls_2, playerModule.ActiveObject, prevActiveObject)) return;
+        if (ReplaceActiveForOrbit(OrbitPearls_2, playerModule.ActiveObject, prevActiveObject))
+        {
+            return;
+        }
     }
 
     public bool ReplaceActiveForOrbit(List<AbstractPhysicalObject> orbitPearls, AbstractPhysicalObject? activeObject, AbstractPhysicalObject? prevActiveObject)

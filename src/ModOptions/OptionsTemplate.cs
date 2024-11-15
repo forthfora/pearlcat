@@ -19,8 +19,12 @@ public abstract class OptionsTemplate : OptionInterface
 
 
     private float CheckBoxWithSpacing => CHECKBOX_SIZE + 0.25f * SPACING;
-    private float DraggerWithSpacing => DRAGGER_SIZE + 0.25f * SPACING;
-    
+
+    private float DraggerWithSpacing
+    {
+        get { return DRAGGER_SIZE + 0.25f * SPACING; }
+    }
+
 
     private Vector2 MarginX;
     private Vector2 Pos;
@@ -127,7 +131,10 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void DrawCheckBoxes(ref OpTab tab, float offsetX = 0.0f) // changes pos.y but not pos.x
     {
-        if (CheckBoxConfigurables.Count != CheckBoxesTextLabels.Count) return;
+        if (CheckBoxConfigurables.Count != CheckBoxesTextLabels.Count)
+        {
+            return;
+        }
 
         var width = MarginX.y - MarginX.x;
         var elementWidth = (width - (CHECKBOX_COUNT - 1) * 0.5f * SPACING) / CHECKBOX_COUNT;
@@ -192,9 +199,20 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void DrawComboBoxes(ref OpTab tab)
     {
-        if (ComboBoxConfigurables.Count != ComboBoxesTextLabels.Count) return;
-        if (ComboBoxConfigurables.Count != ComboBoxLists.Count) return;
-        if (ComboBoxConfigurables.Count != ComboBoxAllowEmpty.Count) return;
+        if (ComboBoxConfigurables.Count != ComboBoxesTextLabels.Count)
+        {
+            return;
+        }
+
+        if (ComboBoxConfigurables.Count != ComboBoxLists.Count)
+        {
+            return;
+        }
+
+        if (ComboBoxConfigurables.Count != ComboBoxAllowEmpty.Count)
+        {
+            return;
+        }
 
         var offsetX = (MarginX.y - MarginX.x) * 0.1f;
         var width = (MarginX.y - MarginX.x) * 0.4f;
@@ -245,9 +263,20 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void DrawIntSliders(ref OpTab tab)
     {
-        if (IntSliderConfigurables.Count != IntSliderMainTextLabels.Count) return;
-        if (IntSliderConfigurables.Count != IntSliderTextLabelsLeft.Count) return;
-        if (IntSliderConfigurables.Count != IntSliderTextLabelsRight.Count) return;
+        if (IntSliderConfigurables.Count != IntSliderMainTextLabels.Count)
+        {
+            return;
+        }
+
+        if (IntSliderConfigurables.Count != IntSliderTextLabelsLeft.Count)
+        {
+            return;
+        }
+
+        if (IntSliderConfigurables.Count != IntSliderTextLabelsRight.Count)
+        {
+            return;
+        }
 
         var width = MarginX.y - MarginX.x;
         var sliderCenter = MarginX.x + 0.5f * width;
@@ -280,7 +309,9 @@ public abstract class OptionsTemplate : OptionInterface
             DrawTextLabels(ref tab);
 
             if (sliderIndex < IntSliderConfigurables.Count - 1)
+            {
                 AddNewLine();
+            }
         }
 
         IntSliderConfigurables.Clear();
@@ -297,8 +328,10 @@ public abstract class OptionsTemplate : OptionInterface
         var textHeight = (bigText ? 2f : 1f) * FONT_HEIGHT;
 
         if (TextLabels.Count == 0)
+        {
             Pos.y -= textHeight;
-        
+        }
+
         OpLabel textLabel = new(new Vector2(), new Vector2(20f, textHeight), translate ? Translate(text) : text, alignment, bigText) // minimal size.x = 20f
         {
             autoWrap = true
@@ -314,7 +347,10 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void DrawTextLabels(ref OpTab tab)
     {
-        if (TextLabels.Count == 0) return;
+        if (TextLabels.Count == 0)
+        {
+            return;
+        }
 
         var width = (MarginX.y - MarginX.x) / TextLabels.Count;
 
@@ -345,9 +381,20 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void DrawFloatSliders(ref OpTab tab)
     {
-        if (FloatSliderConfigurables.Count != FloatSliderMainTextLabels.Count) return;
-        if (FloatSliderConfigurables.Count != FloatSliderTextLabelsLeft.Count) return;
-        if (FloatSliderConfigurables.Count != FloatSliderTextLabelsRight.Count) return;
+        if (FloatSliderConfigurables.Count != FloatSliderMainTextLabels.Count)
+        {
+            return;
+        }
+
+        if (FloatSliderConfigurables.Count != FloatSliderTextLabelsLeft.Count)
+        {
+            return;
+        }
+
+        if (FloatSliderConfigurables.Count != FloatSliderTextLabelsRight.Count)
+        {
+            return;
+        }
 
         var width = MarginX.y - MarginX.x;
         var sliderCenter = MarginX.x + 0.5f * width;
@@ -404,7 +451,10 @@ public abstract class OptionsTemplate : OptionInterface
 
     protected void DrawDraggers(ref OpTab tab, float offsetX = 0.0f)
     {
-        if (DraggerConfigurables.Count != DraggerTextLabels.Count) return;
+        if (DraggerConfigurables.Count != DraggerTextLabels.Count)
+        {
+            return;
+        }
 
         var width = MarginX.y - MarginX.x;
         var elementWidth = (width - (DRAGGER_COUNT - 1) * 0.5f * SPACING) / DRAGGER_COUNT;
@@ -523,7 +573,10 @@ public abstract class OptionsTemplate : OptionInterface
     {
         foreach (var tab in Tabs)
         {
-            if (tab == null) continue;
+            if (tab == null)
+            {
+                continue;
+            }
 
             if (tab.items.FirstOrDefault(item => item is TConfigurable configurable && configurable.cfgEntry == cfg) is TConfigurable search)
             {
@@ -536,13 +589,19 @@ public abstract class OptionsTemplate : OptionInterface
         return false;
     }
 
-    public bool GetLabel<T>(Configurable<T> cfg, out OpLabel label) => GetLabel(cfg.info.Tags[0].ToString(), out label);
+    public bool GetLabel<T>(Configurable<T> cfg, out OpLabel label)
+    {
+        return GetLabel(cfg.info.Tags[0].ToString(), out label);
+    }
 
     public bool GetLabel(string text, out OpLabel label)
     {
         foreach (var tab in Tabs)
         {
-            if (tab == null) continue;
+            if (tab == null)
+            {
+                continue;
+            }
 
             if (tab.items.FirstOrDefault(item => item is OpLabel label && label.text == Translate(text)) is OpLabel search)
             {

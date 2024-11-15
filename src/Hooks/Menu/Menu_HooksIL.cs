@@ -70,18 +70,24 @@ public static class Menu_HooksIL
         var c = new ILCursor(il);
 
         if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchCallOrCallvirt<SlugcatSelectMenu>(nameof(SlugcatSelectMenu.ContinueStartedGame)))
-           ) return;
+                x => x.MatchCallOrCallvirt<SlugcatSelectMenu>(nameof(SlugcatSelectMenu.ContinueStartedGame))))
+        {
+            return;
+        }
 
         var dest = il.DefineLabel();
 
         if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey)))
-           ) return;
+                x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey))))
+        {
+            return;
+        }
 
         if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchBrtrue(out dest))
-           ) return;
+                x => x.MatchBrtrue(out dest)))
+        {
+            return;
+        }
 
         c.Emit(OpCodes.Ldarg_0);
 

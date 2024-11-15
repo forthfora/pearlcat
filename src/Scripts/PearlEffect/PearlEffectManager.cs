@@ -25,7 +25,10 @@ public static partial class PearlEffectManager
 
         { 1.0f, MajorEffectType.RAGE },
     };
-    public static MajorEffectType GetEffectByHue(float hue) => EffectColors.OrderBy(x => Mathf.Abs(hue - x.Key)).First().Value;
+    public static MajorEffectType GetEffectByHue(float hue)
+    {
+        return EffectColors.OrderBy(x => Mathf.Abs(hue - x.Key)).First().Value;
+    }
 
 
     public static PearlEffect GetPearlEffect(this AbstractPhysicalObject abstractObject)
@@ -71,10 +74,14 @@ public static partial class PearlEffectManager
         }
 
         if (PearlEffects.TryGetValue(abstractPearl.dataPearlType, out var POEffect))
+        {
             return POEffect;
+        }
 
         if (CustomPearlEffects.TryGetValue(abstractPearl.dataPearlType.ToString(), out var CustomPOEffect))
+        {
             return CustomPOEffect;
+        }
 
         var pearlColor = abstractPearl.GetObjectColor();
         var hsl = Custom.RGB2HSL(pearlColor);

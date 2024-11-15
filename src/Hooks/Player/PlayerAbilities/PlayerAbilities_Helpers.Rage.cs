@@ -34,15 +34,30 @@ public static partial class PlayerAbilities_Helpers
         }
 
 
-        if (self.IsStoreKeybindPressed(playerModule)) return;
+        if (self.IsStoreKeybindPressed(playerModule))
+        {
+            return;
+        }
 
-        if (effect.MajorEffect != PearlEffect.MajorEffectType.RAGE) return;
+        if (effect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+        {
+            return;
+        }
 
-        if (self.room == null) return;
+        if (self.room == null)
+        {
+            return;
+        }
 
-        if (!self.Consious) return;
+        if (!self.Consious)
+        {
+            return;
+        }
 
-        if (self.Sleeping) return;
+        if (self.Sleeping)
+        {
+            return;
+        }
 
 
         // Get all rage pearls in inventory
@@ -52,11 +67,20 @@ public static partial class PlayerAbilities_Helpers
         {
             var itemEffect = item.GetPearlEffect();
 
-            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE) continue;
+            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+            {
+                continue;
+            }
 
-            if (item.TryGetSentry(out _)) continue;
+            if (item.TryGetSentry(out _))
+            {
+                continue;
+            }
 
-            if (item.realizedObject is not DataPearl pearl) continue;
+            if (item.realizedObject is not DataPearl pearl)
+            {
+                continue;
+            }
 
             ragePearls.Add(pearl);
         }
@@ -71,7 +95,10 @@ public static partial class PlayerAbilities_Helpers
         {
             var ragePearl = ragePearls[i];
 
-            if (!ragePearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var addon)) continue;
+            if (!ragePearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var addon))
+            {
+                continue;
+            }
 
             addon.IsActiveRagePearl = true;
 
@@ -89,7 +116,10 @@ public static partial class PlayerAbilities_Helpers
 
     public static void RageTargetLogic(DataPearl pearl, Player player, bool isSentry)
     {
-        if (!pearl.abstractPhysicalObject.TryGetPlayerPearlModule(out var module)) return;
+        if (!pearl.abstractPhysicalObject.TryGetPlayerPearlModule(out var module))
+        {
+            return;
+        }
 
         var targetPearlRange = 1500.0f;
         var targetEnemyRange = 1500.0f;
@@ -121,12 +151,18 @@ public static partial class PlayerAbilities_Helpers
                 }
                 else if (physObj.abstractPhysicalObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.RAGE)
                 {
-                    if (physObj == pearl) continue;
+                    if (physObj == pearl)
+                    {
+                        continue;
+                    }
 
                     if (isSentry)
                     {
                         // Sentry redirections only target other sentries
-                        if (!physObj.abstractPhysicalObject.TryGetSentry(out _)) continue;
+                        if (!physObj.abstractPhysicalObject.TryGetSentry(out _))
+                        {
+                            continue;
+                        }
                     }
                     else
                     {
@@ -135,46 +171,81 @@ public static partial class PlayerAbilities_Helpers
                         {
                             // Active red check
                             if (!physObj.abstractPhysicalObject.TryGetPearlGraphicsModule(out var graphics) ||
-                                !graphics.IsActiveRagePearl) continue;
+                                !graphics.IsActiveRagePearl)
+                            {
+                                continue;
+                            }
 
                             // Underground check
                             if (player.canJump > 0 && physObj.firstChunk.pos.y < player.firstChunk.pos.y + 20.0f)
+                            {
                                 continue;
+                            }
                         }
                     }
 
-                    if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos)) continue;
+                    if (!pearl.room.VisualContact(pearl.firstChunk.pos, physObj.firstChunk.pos))
+                    {
+                        continue;
+                    }
 
 
                     var dist = Custom.Dist(physObj.firstChunk.pos, pearl.firstChunk.pos);
 
-                    if (dist > targetPearlRange) continue;
+                    if (dist > targetPearlRange)
+                    {
+                        continue;
+                    }
 
                     availableReds.Add(new(physObj, dist));
                 }
                 else if (physObj is Creature creature)
                 {
-                    if (creature is Cicada) continue;
+                    if (creature is Cicada)
+                    {
+                        continue;
+                    }
 
-                    if (creature is Centipede centipede && centipede.Small) continue;
+                    if (creature is Centipede centipede && centipede.Small)
+                    {
+                        continue;
+                    }
 
 
                     if (!player.IsHostileToMe(creature) &&
-                        !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly)) continue;
+                        !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly))
+                    {
+                        continue;
+                    }
 
-                    if (creature.dead) continue;
+                    if (creature.dead)
+                    {
+                        continue;
+                    }
 
-                    if (creature.VisibilityBonus < -0.5f) continue;
+                    if (creature.VisibilityBonus < -0.5f)
+                    {
+                        continue;
+                    }
 
 
-                    if (!pearl.room.VisualContact(pearl.firstChunk.pos, creature.mainBodyChunk.pos)) continue;
+                    if (!pearl.room.VisualContact(pearl.firstChunk.pos, creature.mainBodyChunk.pos))
+                    {
+                        continue;
+                    }
 
 
                     var dist = Custom.Dist(creature.mainBodyChunk.pos, pearl.firstChunk.pos);
 
-                    if (dist > targetEnemyRange) continue;
+                    if (dist > targetEnemyRange)
+                    {
+                        continue;
+                    }
 
-                    if (dist > shortestEnemyDist) continue;
+                    if (dist > shortestEnemyDist)
+                    {
+                        continue;
+                    }
 
 
                     bestEnemy = creature;
@@ -191,13 +262,25 @@ public static partial class PlayerAbilities_Helpers
         {
             foreach (var physObj in roomObj)
             {
-                if (!Custom.DistLess(pearl.firstChunk.pos, physObj.firstChunk.pos, redirectRange)) continue;
+                if (!Custom.DistLess(pearl.firstChunk.pos, physObj.firstChunk.pos, redirectRange))
+                {
+                    continue;
+                }
 
-                if (physObj is not Weapon weapon) continue;
+                if (physObj is not Weapon weapon)
+                {
+                    continue;
+                }
 
-                if (weapon.mode != Weapon.Mode.Thrown) continue;
+                if (weapon.mode != Weapon.Mode.Thrown)
+                {
+                    continue;
+                }
 
-                if (module.VisitedObjects.TryGetValue(physObj, out _)) continue;
+                if (module.VisitedObjects.TryGetValue(physObj, out _))
+                {
+                    continue;
+                }
 
 
                 PhysicalObject? closestRed = null;
@@ -205,9 +288,14 @@ public static partial class PlayerAbilities_Helpers
                 foreach (var redDist in availableReds)
                 {
                     if (!redDist.Key.abstractPhysicalObject.TryGetPlayerPearlModule(out var otherSentryModule))
+                    {
                         continue;
+                    }
 
-                    if (otherSentryModule.VisitedObjects.TryGetValue(weapon, out _)) continue;
+                    if (otherSentryModule.VisitedObjects.TryGetValue(weapon, out _))
+                    {
+                        continue;
+                    }
 
                     closestRed = redDist.Key;
                     break;
@@ -349,19 +437,30 @@ public static partial class PlayerAbilities_Helpers
 
         foreach (var item in playerModule.Inventory)
         {
-            if (!item.TryGetPlayerPearlModule(out var module)) continue;
+            if (!item.TryGetPlayerPearlModule(out var module))
+            {
+                continue;
+            }
 
             var itemEffect = item.GetPearlEffect();
 
-            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE) continue;
+            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+            {
+                continue;
+            }
 
-            if (item.TryGetSentry(out _)) continue;
+            if (item.TryGetSentry(out _))
+            {
+                continue;
+            }
 
             module.LaserLerp = 0.0f;
 
             if (effect.MajorEffect != PearlEffect.MajorEffectType.RAGE || playerModule.RageTarget == null ||
                 !playerModule.RageTarget.TryGetTarget(out _))
+            {
                 module.LaserTimer = shootTime + ragePearlCounter * 5;
+            }
 
             ragePearlCounter++;
         }
@@ -372,11 +471,20 @@ public static partial class PlayerAbilities_Helpers
             return;
         }
 
-        if (effect.MajorEffect != PearlEffect.MajorEffectType.RAGE) return;
+        if (effect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+        {
+            return;
+        }
 
-        if (self.room == null) return;
+        if (self.room == null)
+        {
+            return;
+        }
 
-        if (!self.Consious) return;
+        if (!self.Consious)
+        {
+            return;
+        }
 
 
         var playerRoom = self.room;
@@ -391,29 +499,56 @@ public static partial class PlayerAbilities_Helpers
             {
                 foreach (var physicalObject in roomObject)
                 {
-                    if (physicalObject is not Creature creature) continue;
+                    if (physicalObject is not Creature creature)
+                    {
+                        continue;
+                    }
 
-                    if (creature is Cicada) continue;
+                    if (creature is Cicada)
+                    {
+                        continue;
+                    }
 
-                    if (creature is Centipede centipede && centipede.Small) continue;
+                    if (creature is Centipede centipede && centipede.Small)
+                    {
+                        continue;
+                    }
 
                     // Fly exception for the tutorial
-                    if (!self.IsHostileToMe(creature) && !(self.room.roomSettings.name == "T1_CAR2" && creature is Fly)) continue;
+                    if (!self.IsHostileToMe(creature) && !(self.room.roomSettings.name == "T1_CAR2" && creature is Fly))
+                    {
+                        continue;
+                    }
 
 
-                    if (creature.dead) continue;
+                    if (creature.dead)
+                    {
+                        continue;
+                    }
 
-                    if (creature.VisibilityBonus < -0.5f) continue;
+                    if (creature.VisibilityBonus < -0.5f)
+                    {
+                        continue;
+                    }
 
 
                     var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
 
-                    if (dist > 400.0f) continue;
+                    if (dist > 400.0f)
+                    {
+                        continue;
+                    }
 
-                    if (dist > shortestDist) continue;
+                    if (dist > shortestDist)
+                    {
+                        continue;
+                    }
 
 
-                    if (!self.room.VisualContact(self.mainBodyChunk.pos, creature.mainBodyChunk.pos)) continue;
+                    if (!self.room.VisualContact(self.mainBodyChunk.pos, creature.mainBodyChunk.pos))
+                    {
+                        continue;
+                    }
 
                     shortestDist = dist;
                     bestTarget = creature;
@@ -430,11 +565,17 @@ public static partial class PlayerAbilities_Helpers
                 {
                     foreach (var item in playerModule.Inventory)
                     {
-                        if (!item.TryGetPlayerPearlModule(out var module)) continue;
+                        if (!item.TryGetPlayerPearlModule(out var module))
+                        {
+                            continue;
+                        }
 
                         var itemEffect = item.GetPearlEffect();
 
-                        if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE) continue;
+                        if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+                        {
+                            continue;
+                        }
 
                         module.LaserTimer = 7 + 3 * ragePearlCounter;
                         ragePearlCounter++;
@@ -448,37 +589,62 @@ public static partial class PlayerAbilities_Helpers
             var invalidTarget = false;
 
             if (!Custom.DistLess(target.mainBodyChunk.pos, self.mainBodyChunk.pos, 500.0f))
+            {
                 invalidTarget = true;
+            }
 
             if (target.room != self.room)
+            {
                 invalidTarget = true;
+            }
 
             if (target.dead)
+            {
                 invalidTarget = true;
+            }
 
             if (!self.room.VisualContact(self.mainBodyChunk.pos, target.mainBodyChunk.pos))
+            {
                 invalidTarget = true;
+            }
 
 
             if (invalidTarget)
+            {
                 playerModule.RageTarget = null;
+            }
         }
 
 
-        if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out target)) return;
+        if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out target))
+        {
+            return;
+        }
 
         foreach (var item in playerModule.Inventory)
         {
-            if (!item.TryGetPlayerPearlModule(out var module)) continue;
+            if (!item.TryGetPlayerPearlModule(out var module))
+            {
+                continue;
+            }
 
-            if (!item.TryGetPearlGraphicsModule(out var addon)) continue;
+            if (!item.TryGetPearlGraphicsModule(out var addon))
+            {
+                continue;
+            }
 
 
             var itemEffect = item.GetPearlEffect();
 
-            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE) continue;
+            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+            {
+                continue;
+            }
 
-            if (item.TryGetSentry(out _)) continue;
+            if (item.TryGetSentry(out _))
+            {
+                continue;
+            }
 
             if (module.CooldownTimer > 0)
             {

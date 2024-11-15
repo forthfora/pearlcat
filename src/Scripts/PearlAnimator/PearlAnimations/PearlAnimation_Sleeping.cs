@@ -9,7 +9,10 @@ public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(play
     {   
         base.Update(player);
 
-        if (!player.TryGetPearlcatModule(out var playerModule)) return;
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
 
         var fallingObjects = new List<AbstractPhysicalObject>();
         fallingObjects.AddRange(playerModule.Inventory);
@@ -25,10 +28,17 @@ public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(play
 
         foreach (var abstractObject in fallingObjects)
         {
-            if (abstractObject.realizedObject == null) continue;
+            if (abstractObject.realizedObject == null)
+            {
+                continue;
+            }
+
             var realizedObject = abstractObject.realizedObject;
 
-            if (!realizedObject.abstractPhysicalObject.TryGetPlayerPearlModule(out var playerObjectModule)) continue;
+            if (!realizedObject.abstractPhysicalObject.TryGetPlayerPearlModule(out var playerObjectModule))
+            {
+                continue;
+            }
 
             realizedObject.gravity = 0.05f;
             realizedObject.CollideWithTerrain = true;

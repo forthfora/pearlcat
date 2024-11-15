@@ -121,9 +121,15 @@ public class PearlpupModule
 
     public void RegenerateTail()
     {
-        if (!PupRef.TryGetTarget(out var pup)) return;
+        if (!PupRef.TryGetTarget(out var pup))
+        {
+            return;
+        }
 
-        if (pup.graphicsModule == null) return;
+        if (pup.graphicsModule == null)
+        {
+            return;
+        }
 
         var self = (PlayerGraphics)pup.graphicsModule;
 
@@ -142,7 +148,11 @@ public class PearlpupModule
             newTail[i].stretched = self.tail[i].stretched;
         }
 
-        if (self.tail == newTail) return;
+        if (self.tail == newTail)
+        {
+            return;
+        }
+
         self.tail = newTail;
 
         var newBodyParts = self.bodyParts.ToList();
@@ -155,7 +165,10 @@ public class PearlpupModule
     public void LoadTailTexture(string textureName)
     {
         var tailTexture = AssetLoader.GetTexture(textureName);
-        if (tailTexture == null) return;
+        if (tailTexture == null)
+        {
+            return;
+        }
 
         tailTexture.MapAlphaToColor(new Dictionary<byte, Color>()
         {
@@ -166,7 +179,9 @@ public class PearlpupModule
         var atlasName = Plugin.MOD_ID + textureName + ID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
+        {
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+        }
 
         TailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
     }
@@ -191,7 +206,10 @@ public class PearlpupModule
     public void LoadEarLTexture(string textureName)
     {
         var earLTexture = AssetLoader.GetTexture(textureName);
-        if (earLTexture == null) return;
+        if (earLTexture == null)
+        {
+            return;
+        }
 
         earLTexture.MapAlphaToColor(new Dictionary<byte, Color>()
         {
@@ -212,7 +230,10 @@ public class PearlpupModule
     public void LoadEarRTexture(string textureName)
     {
         var earRTexture = AssetLoader.GetTexture(textureName);
-        if (earRTexture == null) return;
+        if (earRTexture == null)
+        {
+            return;
+        }
 
         earRTexture.MapAlphaToColor(new Dictionary<byte, Color>()
         {
@@ -223,16 +244,24 @@ public class PearlpupModule
         var atlasName = Plugin.MOD_ID + textureName + ID;
 
         if (Futile.atlasManager.DoesContainAtlas(atlasName))
+        {
             Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
+        }
 
         EarRAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earRTexture, false);
     }
 
     public void RegenerateEars()
     {
-        if (!PupRef.TryGetTarget(out var player)) return;
+        if (!PupRef.TryGetTarget(out var player))
+        {
+            return;
+        }
 
-        if (player.graphicsModule == null) return;
+        if (player.graphicsModule == null)
+        {
+            return;
+        }
 
         var self = (PlayerGraphics)player.graphicsModule;
 

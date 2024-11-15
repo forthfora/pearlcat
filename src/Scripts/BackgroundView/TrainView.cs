@@ -118,7 +118,9 @@ public class TrainView : CustomBgScene
                 Update(false);
 
                 foreach (var element in elements)
+                {
                     element.Update(false);
+                }
             }
         }
 
@@ -143,24 +145,41 @@ public class TrainView : CustomBgScene
         foreach (var newElement in DynamicBgElements)
         {
             var newSLeaser = sLeasers.FirstOrDefault(x => x.drawableObject == newElement);
-            if (newSLeaser == null) continue;
+            if (newSLeaser == null)
+            {
+                continue;
+            }
 
             RoomCamera.SpriteLeaser? targetLeaser = null;
 
             foreach (var sLeaser in sLeasers)
             {
-                if (sLeaser.drawableObject is not CustomBgElement element) continue;
+                if (sLeaser.drawableObject is not CustomBgElement element)
+                {
+                    continue;
+                }
 
                 if (element.depth > newElement.depth)
+                {
                     targetLeaser = sLeaser;
+                }
 
-                else break;
+                else
+                {
+                    break;
+                }
             }
 
             if (targetLeaser != null)
+            {
                 foreach (var sprite in targetLeaser.sprites)
+                {
                     foreach (var newSprite in newSLeaser.sprites)
+                    {
                         newSprite.MoveBehindOtherNode(sprite);
+                    }
+                }
+            }
 
             // lazy lightning infront of buildings fix
             if (newElement is BgLightning lightning)
@@ -169,17 +188,32 @@ public class TrainView : CustomBgScene
 
                 foreach (var sLeaser in sLeasers)
                 {
-                    if (sLeaser.drawableObject is not BgBuilding building) continue;
+                    if (sLeaser.drawableObject is not BgBuilding building)
+                    {
+                        continue;
+                    }
 
-                    if (building.Type != BgElementType.CloseCan && building.Type != BgElementType.MediumCan && building.Type != BgElementType.VeryCloseCan) continue;
+                    if (building.Type != BgElementType.CloseCan && building.Type != BgElementType.MediumCan && building.Type != BgElementType.VeryCloseCan)
+                    {
+                        continue;
+                    }
 
 
                     // lightning is for this building or we are the closest lightning
-                    if (newElement.Type == building.Type || newElement.Type == BgElementType.VeryCloseCan) continue;
+                    if (newElement.Type == building.Type || newElement.Type == BgElementType.VeryCloseCan)
+                    {
+                        continue;
+                    }
 
-                    if (newElement.Type == BgElementType.CloseCan && building.Type == BgElementType.MediumCan) continue;
+                    if (newElement.Type == BgElementType.CloseCan && building.Type == BgElementType.MediumCan)
+                    {
+                        continue;
+                    }
 
-                    if (Mathf.Abs(building.pos.x - newElement.pos.x) > 100.0f) continue;
+                    if (Mathf.Abs(building.pos.x - newElement.pos.x) > 100.0f)
+                    {
+                        continue;
+                    }
 
                     lightning.IntensityMultiplier = 0.0f;
                     break;
@@ -252,7 +286,10 @@ public class TrainView : CustomBgScene
 
     public void AddBgElement(BgElementType type)
     {
-        if (type == BgElementType.END) return;
+        if (type == BgElementType.END)
+        {
+            return;
+        }
 
         var save = Utils.GetMiscProgression();
 
@@ -358,7 +395,10 @@ public class TrainView : CustomBgScene
         AddElement(newBuilding);
         room.AddObject(newBuilding);
 
-        if (type == BgElementType.FgSupport || type == BgElementType.BgSupport) return;
+        if (type == BgElementType.FgSupport || type == BgElementType.BgSupport)
+        {
+            return;
+        }
 
         DynamicBgElements.Add(newBuilding);
 
@@ -371,8 +411,11 @@ public class TrainView : CustomBgScene
             _ => null,
         };
 
-        if (light == null) return;
-       
+        if (light == null)
+        {
+            return;
+        }
+
         var yAdd = type switch
         {
             BgElementType.VeryCloseCan => 25.0f,
