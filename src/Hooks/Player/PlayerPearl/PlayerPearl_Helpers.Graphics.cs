@@ -6,10 +6,7 @@ namespace Pearlcat;
 
 public static partial class PlayerPearl_Helpers
 {
-    public static int MaxPearlsWithEffects
-    {
-        get { return Utils.RainWorld.options.quality == Options.Quality.LOW ? 3 : 9; }
-    }
+    public static int MaxPearlsWithEffects => Utils.RainWorld.options.quality == Options.Quality.LOW ? 3 : 9;
 
 
     public static void RealizedEffect(this PhysicalObject? physicalObject)
@@ -37,12 +34,7 @@ public static partial class PlayerPearl_Helpers
 
     public static void DeathEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject?.room == null)
-        {
-            return;
-        }
-
-        physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 150.0f, 0.8f, 10));
+        physicalObject?.room?.AddObject(new ShockWave(physicalObject.firstChunk.pos, 150.0f, 0.8f, 10));
     }
 
 

@@ -17,13 +17,8 @@ public abstract class OptionsTemplate : OptionInterface
     private const int DRAGGER_COUNT = 2;
     private const float DRAGGER_SIZE = 60.0f;
 
-
     private float CheckBoxWithSpacing => CHECKBOX_SIZE + 0.25f * SPACING;
-
-    private float DraggerWithSpacing
-    {
-        get { return DRAGGER_SIZE + 0.25f * SPACING; }
-    }
+    private float DraggerWithSpacing => DRAGGER_SIZE + 0.25f * SPACING;
 
 
     private Vector2 MarginX;
@@ -593,12 +588,7 @@ public abstract class OptionsTemplate : OptionInterface
     {
         foreach (var tab in Tabs)
         {
-            if (tab == null)
-            {
-                continue;
-            }
-
-            if (tab.items.FirstOrDefault(item => item is OpLabel label && label.text == Translate(text)) is OpLabel search)
+            if (tab?.items.FirstOrDefault(item => item is OpLabel label && label.text == Translate(text)) is OpLabel search)
             {
                 label = search;
                 return true;

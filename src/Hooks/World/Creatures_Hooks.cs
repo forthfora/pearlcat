@@ -336,13 +336,8 @@ public static class Creatures_Hooks
             return;
         }
 
-        if (self.patch?.trackedCreatures == null)
-        {
-            return;
-        }
 
-
-        var playerPull = self.patch.trackedCreatures.FirstOrDefault(x => x.creature == self.attachedChunk.owner);
+        var playerPull = self.patch?.trackedCreatures?.FirstOrDefault(x => x.creature == self.attachedChunk.owner);
 
         if (playerPull == null)
         {

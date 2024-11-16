@@ -244,10 +244,7 @@ public class T1_START : UpdatableAndDeletable
 
         public bool MainPlayer => Player != null && Player.playerState.playerNumber == 0;
 
-        public Player? Player
-        {
-            get { return (Owner.room?.game.Players[PlayerNumber].realizedCreature) as Player; }
-        }
+        public Player? Player => (Owner.room?.game.Players[PlayerNumber].realizedCreature) as Player;
 
         public PearlcatPlayer(T1_START owner, int playerNumber)
         {

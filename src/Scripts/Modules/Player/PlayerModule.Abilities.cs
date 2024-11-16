@@ -9,14 +9,9 @@ public partial class PlayerModule
 {
     public PearlEffect CurrentPearlEffect { get; set; } = PearlEffectManager.None;
 
-    public bool ShieldActive
-    {
-        get
-        {
-            return (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value &&
-                   PlayerRef.TryGetTarget(out var player) && !player.dead;
-        }
-    }
+    public bool ShieldActive =>
+        (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value &&
+        PlayerRef.TryGetTarget(out var player) && !player.dead;
 
     public int ReviveTimer { get; set; }
     public int ShieldTimer { get; set; }
@@ -31,43 +26,22 @@ public partial class PlayerModule
 
     public WeakReference<Creature>? PossessionTarget { get; set; }
     public WeakReference<AbstractCreature>? PossessedCreature { get; set; }
-    public bool IsPossessingCreature
-    {
-        get { return PossessedCreature != null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup; }
-    }
+    public bool IsPossessingCreature => PossessedCreature != null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup;
 
 
     public List<MajorEffectType> DisabledEffects { get; } = [];
 
-    public int AgilityCount
-    {
-        get { return ModOptions.DisableAgility.Value ? 0 : MajorEffectCount(MajorEffectType.AGILITY); }
-    }
+    public int AgilityCount => ModOptions.DisableAgility.Value ? 0 : MajorEffectCount(MajorEffectType.AGILITY);
 
-    public int CamoCount
-    {
-        get { return ModOptions.DisableCamoflague.Value ? 0 : MajorEffectCount(MajorEffectType.CAMOFLAGUE); }
-    }
+    public int CamoCount => ModOptions.DisableCamoflague.Value ? 0 : MajorEffectCount(MajorEffectType.CAMOFLAGUE);
 
-    public int RageCount
-    {
-        get { return ModOptions.DisableRage.Value ? 0 : MajorEffectCount(MajorEffectType.RAGE); }
-    }
+    public int RageCount => ModOptions.DisableRage.Value ? 0 : MajorEffectCount(MajorEffectType.RAGE);
 
-    public int ReviveCount
-    {
-        get { return ModOptions.DisableRevive.Value ? 0 : MajorEffectCount(MajorEffectType.REVIVE); }
-    }
+    public int ReviveCount => ModOptions.DisableRevive.Value ? 0 : MajorEffectCount(MajorEffectType.REVIVE);
 
-    public int SpearCount
-    {
-        get { return ModOptions.DisableSpear.Value ? 0 : MajorEffectCount(MajorEffectType.SPEAR_CREATION); }
-    }
+    public int SpearCount => ModOptions.DisableSpear.Value ? 0 : MajorEffectCount(MajorEffectType.SPEAR_CREATION);
 
-    public int ShieldCount
-    {
-        get { return ModOptions.DisableShield.Value ? 0 : MajorEffectCount(MajorEffectType.SHIELD); }
-    }
+    public int ShieldCount => ModOptions.DisableShield.Value ? 0 : MajorEffectCount(MajorEffectType.SHIELD);
 
     public int MajorEffectCount(MajorEffectType type)
     {

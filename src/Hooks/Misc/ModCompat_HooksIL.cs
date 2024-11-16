@@ -4,7 +4,7 @@ using MonoMod.Cil;
 
 namespace Pearlcat;
 
-public class ModCompat_HooksIL
+public static class ModCompat_HooksIL
 {
     public static void ApplyHooks()
     {

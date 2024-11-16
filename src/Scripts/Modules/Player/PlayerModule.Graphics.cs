@@ -167,30 +167,15 @@ public partial class PlayerModule
     public Color BaseAccentColor { get; set; }
     public Color BaseCloakColor { get; set; }
 
-    public static Color DefaultBodyColor
-    {
-        get { return Custom.hexToColor("283b2c"); }
-    }
+    public static Color DefaultBodyColor => Custom.hexToColor("283b2c");
 
-    public static Color DefaultFaceColor
-    {
-        get { return Color.white; }
-    }
+    public static Color DefaultFaceColor => Color.white;
 
-    public static Color DefaultAccentColor
-    {
-        get { return Color.white; }
-    }
+    public static Color DefaultAccentColor => Color.white;
 
-    public static Color DefaultCloakColor
-    {
-        get { return Custom.hexToColor("ca471b"); }
-    }
+    public static Color DefaultCloakColor => Custom.hexToColor("ca471b");
 
-    public Color ActiveColor
-    {
-        get { return ActiveObject?.GetObjectColor() ?? Color.white; }
-    }
+    public Color ActiveColor => ActiveObject?.GetObjectColor() ?? Color.white;
 
     public void InitColors(PlayerGraphics self)
     {

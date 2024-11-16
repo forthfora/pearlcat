@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class ModCompat_Hooks
+public static class ModCompat_Hooks
 {
     public static void ApplyHooks()
     {
