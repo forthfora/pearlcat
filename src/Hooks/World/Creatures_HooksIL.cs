@@ -49,7 +49,7 @@ public static class Creatures_HooksIL
         // Grab dest after so these don't count these as mouth shots
         if (!c.TryGotoNext(MoveType.Before,
                 x => x.MatchLdarga(2),
-                x => true,
+                _ => true,
                 x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitInMouth)),
                 x => x.MatchBrfalse(out dest)))
         {
@@ -59,7 +59,7 @@ public static class Creatures_HooksIL
         // Make this deal damage
         if (!c.TryGotoPrev(MoveType.Before,
                 x => x.MatchLdarga(2),
-                x => true,
+                _ => true,
                 x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitHeadShield)),
                 x => x.MatchBrfalse(out _)))
         {

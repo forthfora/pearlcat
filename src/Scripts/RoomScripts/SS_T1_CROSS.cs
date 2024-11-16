@@ -114,6 +114,11 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
         var leftGlyphLeaser = rCam.spriteLeasers.FirstOrDefault(x => x.drawableObject == leftGlyph);
         var rightGlyphLeaser = rCam.spriteLeasers.FirstOrDefault(x => x.drawableObject == rightGlyph);
 
+        if (leftGlyphLeaser is null || rightGlyphLeaser is null)
+        {
+            return;
+        }
+
         foreach (var sprite in rightGlyphLeaser.sprites)
         {
             sprite.isVisible = false;
@@ -135,7 +140,7 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
 
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
-        sLeaser.sprites = new FSprite[0];
+        sLeaser.sprites = [];
     }
 
     public void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner) { }

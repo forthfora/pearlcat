@@ -132,7 +132,7 @@ public static class ModuleManager
     public static ConditionalWeakTable<SSOracleBehavior, SSOracleModule> SSOracleData { get; } = new();
     public static SSOracleModule GetModule(this SSOracleBehavior oracle)
     {
-        return SSOracleData.GetValue(oracle, x => new SSOracleModule());
+        return SSOracleData.GetValue(oracle, _ => new SSOracleModule());
     }
 
 
@@ -140,7 +140,7 @@ public static class ModuleManager
     public static ConditionalWeakTable<MusicPlayer, MusicPlayerModule> MusicPlayerData { get; } = new();
     public static MusicPlayerModule GetModule(this MusicPlayer self)
     {
-        return MusicPlayerData.GetValue(self, x => new MusicPlayerModule());
+        return MusicPlayerData.GetValue(self, _ => new MusicPlayerModule());
     }
 
 
@@ -172,7 +172,7 @@ public static class ModuleManager
     public static ConditionalWeakTable<SlugcatSelectMenu, SlugcatSelectMenuModule> SlugcatSelectMenuData { get; } = new();
     public static SlugcatSelectMenuModule GetModule(this SlugcatSelectMenu self)
     {
-        return SlugcatSelectMenuData.GetValue(self, x => new SlugcatSelectMenuModule(self));
+        return SlugcatSelectMenuData.GetValue(self, _ => new SlugcatSelectMenuModule(self));
     }
 
 

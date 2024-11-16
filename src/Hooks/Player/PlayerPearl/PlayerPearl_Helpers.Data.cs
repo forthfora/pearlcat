@@ -178,7 +178,7 @@ public static partial class PlayerPearl_Helpers
 
     public static void TryToAnimateToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
     {
-        var pos = TargetPositions.GetValue(abstractObject, x => new StrongBox<Vector2>());
+        var pos = TargetPositions.GetValue(abstractObject, _ => new StrongBox<Vector2>());
         pos.Value = targetPos;
 
         if (abstractObject.TryGetSentry(out _))

@@ -14,8 +14,8 @@ public abstract class OptionsTemplate : OptionInterface
     private const int CHECKBOX_COUNT = 2;
     private const float CHECKBOX_SIZE = 60.0f;
 
-    private readonly int DRAGGER_COUNT = 2;
-    private readonly float DRAGGER_SIZE = 60.0f;
+    private const int DRAGGER_COUNT = 2;
+    private const float DRAGGER_SIZE = 60.0f;
 
 
     private float CheckBoxWithSpacing => CHECKBOX_SIZE + 0.25f * SPACING;
@@ -573,12 +573,7 @@ public abstract class OptionsTemplate : OptionInterface
     {
         foreach (var tab in Tabs)
         {
-            if (tab == null)
-            {
-                continue;
-            }
-
-            if (tab.items.FirstOrDefault(item => item is TConfigurable configurable && configurable.cfgEntry == cfg) is TConfigurable search)
+            if (tab?.items.FirstOrDefault(item => item is TConfigurable configurable && configurable.cfgEntry == cfg) is TConfigurable search)
             {
                 checkBox = search;
                 return true;

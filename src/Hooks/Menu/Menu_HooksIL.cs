@@ -91,7 +91,7 @@ public static class Menu_HooksIL
 
         c.Emit(OpCodes.Ldarg_0);
 
-        c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((self) =>
+        c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((_) =>
         {
             var save = Utils.GetMiscProgression();
 

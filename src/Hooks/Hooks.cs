@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -166,12 +167,14 @@ public static class Hooks
     // There are only here for backwards compatability, I'm pretty sure another mod used this at one point or another
 
     // Gate Scanner (?)
+    [UsedImplicitly]
     public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule)
     {
         return player.TryGetPearlcatModule(out playerModule);
     }
 
     // Pups+
+    [UsedImplicitly]
     public static bool IsPearlpup(Player player)
     {
         return player.abstractCreature.IsPearlpup();

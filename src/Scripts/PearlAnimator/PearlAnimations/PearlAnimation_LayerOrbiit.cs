@@ -28,7 +28,7 @@ public class PearlAnimation_LayerOrbit : PearlAnimation
             return;
         }
 
-        foreach (var randIndex in Enumerable.Range(0, playerModule.Inventory.Count).OrderBy(x => Random.value))
+        foreach (var randIndex in Enumerable.Range(0, playerModule.Inventory.Count).OrderBy(_ => Random.value))
         {
             var item = playerModule.Inventory[randIndex];
 

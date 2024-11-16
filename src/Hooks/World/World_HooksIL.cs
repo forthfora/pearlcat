@@ -157,7 +157,7 @@ public static class World_HooksIL
         c.Emit(OpCodes.Ldarg_0);
         c.Emit(OpCodes.Ldarg_2);
         c.Emit(OpCodes.Ldloc_0);
-        c.EmitDelegate<Func<AbstractRoom, RainWorldGame, int, int>>((self, game, num) =>
+        c.EmitDelegate<Func<AbstractRoom, RainWorldGame, int, int>>((_, game, num) =>
         {
             if (game.IsStorySession && game.StoryCharacter == Enums.Pearlcat)
             {

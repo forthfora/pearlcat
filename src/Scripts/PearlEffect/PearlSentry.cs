@@ -211,7 +211,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
                 MusicVolume = Mathf.Lerp(MusicVolume, targetVolume, 0.025f);
 
-                if (room.game.FirstAlivePlayer?.realizedCreature is Player player)
+                if (room.game?.FirstAlivePlayer?.realizedCreature is Player player)
                 {
                     song.volume = Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 50.0f, 1000.0f, MusicVolume, 0.0f);
                 }
@@ -239,7 +239,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             }
         }
 
-        if (musicPlayer.song == null)
+        if (musicPlayer.song == null && room?.game?.manager is not null)
         {
             musicPlayer.song = new Song(room.game.manager.musicPlayer, songName, MusicPlayer.MusicContext.StoryMode)
             {
@@ -377,6 +377,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
 
+        if (playerModule is null)
+        {
+            return;
+        }
+
         if (!playerModule.PlayerRef.TryGetTarget(out var player))
         {
             return;
@@ -401,6 +406,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         }
 
         var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+
+        if (playerModule is null)
+        {
+            return;
+        }
 
         if (!playerModule.PlayerRef.TryGetTarget(out var player))
         {
@@ -442,6 +452,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         }
 
         var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+
+        if (playerModule is null)
+        {
+            return;
+        }
 
         if (!playerModule.PlayerRef.TryGetTarget(out var player))
         {
@@ -627,6 +642,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         var shootDamage = ModOptions.LaserDamage.Value;
 
         var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+
+        if (playerModule is null)
+        {
+            return;
+        }
 
         if (!playerModule.PlayerRef.TryGetTarget(out var player))
         {
