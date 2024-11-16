@@ -45,7 +45,7 @@ public class InventoryHUD : HudPart
             return;
         }
 
-        foreach (var playerModule in game.GetAllPlayerData())
+        foreach (var playerModule in game.GetAllPearlcatModules())
         {
             if (!playerModule.PlayerRef.TryGetTarget(out var player))
             {
@@ -201,7 +201,7 @@ public class InventoryHUD : HudPart
             return;
         }
 
-        var playerData = game.GetAllPlayerData();
+        var playerData = game.GetAllPearlcatModules();
 
         List<PlayerPearlSymbol> updatedSymbols = [];
 

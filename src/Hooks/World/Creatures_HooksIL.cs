@@ -75,7 +75,7 @@ public static class Creatures_HooksIL
                 return false;
             }
 
-            var playerData = self.abstractCreature?.world?.game?.GetAllPlayerData();
+            var playerData = self.abstractCreature?.world?.game?.GetAllPearlcatModules();
 
             if (playerData == null)
             {
@@ -131,7 +131,7 @@ public static class Creatures_HooksIL
         c.Emit(OpCodes.Ldarg_1); // Weapon
         c.EmitDelegate<Func<Lizard, Weapon, bool>>((self, weapon) =>
         {
-            var playerData = self.abstractCreature?.world?.game?.GetAllPlayerData();
+            var playerData = self.abstractCreature?.world?.game?.GetAllPearlcatModules();
 
             if (playerData == null)
             {

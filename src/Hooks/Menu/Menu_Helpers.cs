@@ -574,7 +574,16 @@ public static class Menu_Helpers
             if (beat)
             {
                 illustration.sprite.scale = 0.45f;
-                self.menu.PlaySound(Sounds.Pearlcat_Heartbeat, 0.0f, 0.3f, 1.0f);
+
+                if (self.menu is SlugcatSelectMenu menu)
+                {
+                    var page = menu.slugcatPages[menu.slugcatPageIndex];
+
+                    if (page.slugcatNumber == Enums.Pearlcat)
+                    {
+                        self.menu.PlaySound(Sounds.Pearlcat_Heartbeat, 0.0f, 0.3f, 1.0f);
+                    }
+                }
             }
             else if (coreBeat)
             {

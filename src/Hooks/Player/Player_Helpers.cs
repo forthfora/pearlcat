@@ -299,45 +299,198 @@ public static class Player_Helpers
 
 
     // Update
-    public static void UpdateAll(Player self, PlayerModule playerModule)
+    public static void UpdatePearlcat(Player self, PlayerModule playerModule)
     {
-        // Warp Fix
-        if (self.room != null && playerModule.JustWarped)
-        {
-            self.GivePearls(playerModule);
-            playerModule.LoadSaveData(self);
+        // Input
+        var unblockedInput = playerModule.UnblockedInput;
+        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && self.controller == null;
 
-            Plugin.Logger.LogInfo("PEARLCAT WARP END");
-            playerModule.JustWarped = false;
+        var swapLeftInput = self.IsSwapLeftInput() && allowInput;
+        var swapRightInput = self.IsSwapRightInput() && allowInput;
+
+        var swapInput = self.IsSwapKeybindPressed() && allowInput;
+        var storeInput = self.IsStoreKeybindPressed(playerModule) && allowInput;
+
+        var agilityInput = self.IsAgilityKeybindPressed(playerModule) && allowInput;
+        var sentryInput = self.IsSentryKeybindPressed(playerModule) && allowInput;
+
+        playerModule.BlockInput = false;
+
+        if (swapLeftInput && !playerModule.WasSwapLeftInput)
+        {
+            self.SelectPreviousObject();
         }
+        else if (swapRightInput && !playerModule.WasSwapRightInput)
+        {
+            self.SelectNextObject();
+        }
+        else if (swapInput)
+        {
+            playerModule.BlockInput = true;
+            playerModule.ShowHUD(10);
+
+            if (!playerModule.WasSwapped)
+            {
+                if (unblockedInput.x < -0.5f)
+                {
+                    self.SelectPreviousObject();
+                    playerModule.WasSwapped = true;
+                }
+                else if (unblockedInput.x > 0.5f)
+                {
+                    self.SelectNextObject();
+                    playerModule.WasSwapped = true;
+                }
+            }
+            else if (Mathf.Abs(unblockedInput.x) < 0.5f)
+            {
+                playerModule.WasSwapped = false;
+            }
+        }
+
+
+        // Misc
+        playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
         self.TryRealizeInventory(playerModule);
 
-        UpdatePlayerPearlAnimation(self, playerModule);
-        UpdatePlayerDaze(self, playerModule);
-        UpdatePostDeathInventory(self, playerModule);
-
-        PlayerAbilities_Helpers.UpdateCombinedPOEffect(self, playerModule);
-        PlayerAbilities_Helpers.ApplyCombinedPOEffect(self, playerModule);
-
-        UpdateHUD(self, playerModule);
-        UpdateSFX(self, playerModule);
-
-        UpdateStoreRetrieveObject(self, playerModule);
-
-        UpdateTryRevive(self, playerModule);
+        // Warp Fix
+        if (self.room != null && playerModule.JustWarped)
+        {
+            playerModule.LoadSaveData(self);
+            playerModule.JustWarped = false;
+        }
 
         if (self.room != null)
         {
             self.GivePearls(playerModule);
         }
 
-        RefreshPearlpup(self, playerModule);
+        // Do not show pearls in the void sea, or if a pearl is in the wrong room abstract to reset it to the player's room
+        if (self.inVoidSea || playerModule.Inventory.Any(x => x.Room != self.abstractCreature.Room))
+        {
+            self.AbstractizeInventory();
+        }
 
+        // To constantly reset the player's graphics for a few frames (believe this is only used for the void sea ghosts to prevent glitchy graphics when they first spawn)
+        if (playerModule.GraphicsResetCounter > 0)
+        {
+            playerModule.GraphicsResetCounter--;
+            self.graphicsModule?.Reset();
+        }
+
+        // LAG CAUSER - update the textures of the tail and ears
+        if (playerModule.TextureUpdateTimer > self.TexUpdateInterval() && !ModOptions.DisableCosmetics.Value)
+        {
+            if ((playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor || playerModule.SetInvertTailColors != playerModule.CurrentlyInvertedTailColors))
+            {
+                playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_adulttail" : "tail");
+                playerModule.LoadEarLTexture("ear_l");
+                playerModule.LoadEarRTexture("ear_r");
+            }
+
+            playerModule.LastBodyColor = playerModule.BodyColor;
+            playerModule.LastAccentColor = playerModule.AccentColor;
+
+            playerModule.TextureUpdateTimer = 0;
+        }
+        else
+        {
+            playerModule.TextureUpdateTimer++;
+        }
+
+
+        // Main Methods
+        UpdatePlayerDaze(self, playerModule);
+
+        UpdatePostDeathInventory(self, playerModule);
+        UpdateStoreAndRetrieve(self, playerModule);
+
+        UpdatePlayerPearlAnimation(self, playerModule);
+        PlayerAbilities_Helpers.UpdatePearlEffects(self, playerModule);
+
+        UpdatePearlpup(self, playerModule);
         UpdateAdultPearlpup(self, playerModule);
+
+        UpdateRevive(self, playerModule);
+        UpdateDeathpitRevive(self, playerModule);
+
+        UpdateHUD(self, playerModule);
+        UpdateSFX(self, playerModule);
+
+
+        // Post Update
+        playerModule.WasSwapLeftInput = swapLeftInput;
+        playerModule.WasSwapRightInput = swapRightInput;
+        playerModule.WasStoreInput = storeInput;
+        playerModule.WasAgilityInput = agilityInput;
+        playerModule.WasSentryInput = sentryInput;
+
+        playerModule.LastRoom = self.abstractCreature.Room;
     }
 
-    public static void UpdateStoreRetrieveObject(Player self, PlayerModule playerModule)
+    private static void UpdateDeathpitRevive(Player self, PlayerModule playerModule)
+    {
+        // Tries to store the last solid ground the player was stood on (for deathpit revive)
+        if (self.canJump >= 5)
+        {
+            if (playerModule.GroundedTimer > 15)
+            {
+                playerModule.LastGroundedPos = self.firstChunk.pos;
+            }
+            else
+            {
+                playerModule.GroundedTimer++;
+            }
+        }
+        else
+        {
+            playerModule.GroundedTimer = 0;
+        }
+
+        // Revive from deathpit
+        if (playerModule.ReviveCount > 0 && self.InDeathPit())
+        {
+            self.Die();
+            self.SuperHardSetPosition(playerModule.LastGroundedPos);
+
+            self.graphicsModule?.Reset();
+            playerModule.FlyTimer = 60;
+
+            var slugOnBack = self.slugOnBack?.slugcat;
+
+            if (slugOnBack != null)
+            {
+                slugOnBack.SuperHardSetPosition(playerModule.LastGroundedPos);
+                slugOnBack.graphicsModule?.Reset();
+            }
+        }
+
+        // For making the player float for a few seconds after being revived from a deathpit
+        if (playerModule.FlyTimer > 0)
+        {
+            playerModule.FlyTimer--;
+
+            self.firstChunk.vel.x = self.input[0].x * 5.0f;
+            self.firstChunk.vel.y = 6.0f;
+        }
+
+        // Revive pearlpup if they fall into a death pit (consumes a revive)
+        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup) && pup.room != null && pup.InDeathPit() && playerModule.ReviveCount > 0)
+        {
+            pup.SuperHardSetPosition(self.firstChunk.pos);
+
+            pup.Die();
+            pup.RevivePlayer();
+
+            pup.graphicsModule.Reset();
+            pup.Stun(40);
+
+            playerModule.SetReviveCooldown(-1);
+        }
+    }
+
+    public static void UpdateStoreAndRetrieve(Player self, PlayerModule playerModule)
     {
         if (self.inVoidSea)
         {
@@ -635,7 +788,7 @@ public static class Player_Helpers
         }
     }
 
-    public static void UpdateTryRevive(Player self, PlayerModule playerModule)
+    public static void UpdateRevive(Player self, PlayerModule playerModule)
     {
         var shouldTryRevive = self.dead || (self.dangerGraspTime >= 60 && self.AI == null);
 
@@ -821,7 +974,7 @@ public static class Player_Helpers
     }
 
 
-    public static void RefreshPearlpup(Player self, PlayerModule playerModule)
+    public static void UpdatePearlpup(Player self, PlayerModule playerModule)
     {
         if (!self.IsFirstPearlcat())
         {

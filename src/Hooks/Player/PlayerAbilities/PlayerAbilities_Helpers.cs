@@ -4,7 +4,7 @@ namespace Pearlcat;
 
 public static partial class PlayerAbilities_Helpers
 {
-    public static void UpdateCombinedPOEffect(Player self, PlayerModule playerModule)
+    public static void UpdatePearlEffects(Player self, PlayerModule playerModule)
     {
         var combinedEffect = new PearlEffect
         {
@@ -40,9 +40,11 @@ public static partial class PlayerAbilities_Helpers
         }
 
         playerModule.CurrentPearlEffect = combinedEffect;
+
+        ApplyPearlEffects(self, playerModule);
     }
 
-    public static void ApplyCombinedPOEffect(Player self, PlayerModule playerModule)
+    public static void ApplyPearlEffects(Player self, PlayerModule playerModule)
     {
         var effect = playerModule.CurrentPearlEffect;
         var stats = self.slugcatStats;

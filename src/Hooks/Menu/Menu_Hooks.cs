@@ -178,10 +178,11 @@ public static class Menu_Hooks
             
             var activeColor = Pearls.RM_Pearlcat.GetDataPearlColor();
 
+            // Replace the active pearl with one of the pearl colors (+ remove it from the list)
             if (save.HasTrueEnding)
             {
                 activeColor = Pearls.AS_PearlRed.GetDataPearlColor();
-                pearlColors.Remove((activeColor));
+                pearlColors.Remove(activeColor);
             }
 
             ModuleManager.MenuSceneData.Add(self, new(pearlColors, activeColor));

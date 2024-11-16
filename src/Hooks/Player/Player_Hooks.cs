@@ -57,7 +57,7 @@ public static class Player_Hooks
 
         orig(self, eu);
 
-        // zero G movement assist
+        // zero G movement assist - applies to all slugcats
         if (self.room != null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
         {
             if (self.firstChunk.vel.magnitude < 7.5f)
@@ -76,150 +76,7 @@ public static class Player_Hooks
             return;
         }
 
-        playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
-
-        var unblockedInput = playerModule.UnblockedInput;
-        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && self.controller == null;
-
-        var swapLeftInput = self.IsSwapLeftInput() && allowInput;
-        var swapRightInput = self.IsSwapRightInput() && allowInput;
-
-        var swapInput = self.IsSwapKeybindPressed() && allowInput;
-        var storeInput = self.IsStoreKeybindPressed(playerModule) && allowInput;
-
-        var agilityInput = self.IsAgilityKeybindPressed(playerModule) && allowInput;
-        var sentryInput = self.IsSentryKeybindPressed(playerModule) && allowInput;
-
-
-        playerModule.BlockInput = false;
-
-        if (swapLeftInput && !playerModule.WasSwapLeftInput)
-        {
-            self.SelectPreviousObject();
-        }
-        else if (swapRightInput && !playerModule.WasSwapRightInput)
-        {
-            self.SelectNextObject();
-        }
-        else if (swapInput)
-        {
-            playerModule.BlockInput = true;
-            playerModule.ShowHUD(10);
-
-            if (!playerModule.WasSwapped)
-            {
-                if (unblockedInput.x < -0.5f)
-                {
-                    self.SelectPreviousObject();
-                    playerModule.WasSwapped = true;
-                }
-                else if (unblockedInput.x > 0.5f)
-                {
-                    self.SelectNextObject();
-                    playerModule.WasSwapped = true;
-                }
-            }
-            else if (Mathf.Abs(unblockedInput.x) < 0.5f)
-            {
-                playerModule.WasSwapped = false;
-            }
-        }
-
-        UpdateAll(self, playerModule);
-
-        playerModule.WasSwapLeftInput = swapLeftInput;
-        playerModule.WasSwapRightInput = swapRightInput;
-        playerModule.WasStoreInput = storeInput;
-        playerModule.WasAgilityInput = agilityInput;
-        playerModule.WasSentryInput = sentryInput;
-
-        // LAG CAUSER
-        if (playerModule.TextureUpdateTimer > self.TexUpdateInterval() && !ModOptions.DisableCosmetics.Value)
-        {
-            if ((playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor || playerModule.SetInvertTailColors != playerModule.CurrentlyInvertedTailColors))
-            {
-                playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_adulttail" : "tail");
-                playerModule.LoadEarLTexture("ear_l");
-                playerModule.LoadEarRTexture("ear_r");
-            }
-
-            playerModule.LastBodyColor = playerModule.BodyColor;
-            playerModule.LastAccentColor = playerModule.AccentColor;
-
-            playerModule.TextureUpdateTimer = 0;
-        }
-        else
-        {
-            playerModule.TextureUpdateTimer++;
-        }
-
-
-
-        if (self.canJump >= 5)
-        {
-            if (playerModule.GroundedTimer > 15)
-            {
-                playerModule.LastGroundedPos = self.firstChunk.pos;
-            }
-            else
-            {
-                playerModule.GroundedTimer++;
-            }
-        }
-        else
-        {
-            playerModule.GroundedTimer = 0;
-        }
-
-        if (playerModule.ReviveCount > 0 && self.InDeathPit())
-        {
-            self.Die();
-            self.SuperHardSetPosition(playerModule.LastGroundedPos);
-
-            self.graphicsModule?.Reset();
-            playerModule.FlyTimer = 60;
-
-            var slugOnBack = self.slugOnBack?.slugcat;
-
-            if (slugOnBack != null)
-            {
-                slugOnBack.SuperHardSetPosition(playerModule.LastGroundedPos);
-                slugOnBack.graphicsModule?.Reset();
-            }
-        }
-        if (playerModule.FlyTimer > 0)
-        {
-            playerModule.FlyTimer--;
-
-            self.firstChunk.vel.x = self.input[0].x * 5.0f;
-            self.firstChunk.vel.y = 6.0f;
-        }
-
-        if (self.inVoidSea || playerModule.Inventory.Any(x => x.Room != self.abstractCreature.Room))
-        {
-            self.AbstractizeInventory();
-        }
-
-        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup) && pup.room != null && pup.InDeathPit() && playerModule.ReviveCount > 0)
-        {
-            pup.SuperHardSetPosition(self.firstChunk.pos);
-            
-            pup.Die();
-            pup.RevivePlayer();
-
-            pup.graphicsModule.Reset();
-            pup.Stun(40);
-
-            playerModule.SetReviveCooldown(-1);
-        }
-
-        playerModule.LastRoom = self.abstractCreature.Room;
-
-        if (playerModule.GraphicsResetCounter > 0)
-        {
-            playerModule.GraphicsResetCounter--;
-            self.graphicsModule?.Reset();
-        }
+        UpdatePearlcat(self, playerModule);
     }
 
 
@@ -390,7 +247,7 @@ public static class Player_Hooks
             mod.LastGroundedPos = thisPlayer.firstChunk.pos;
         }
 
-        foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPlayerData())
+        foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPearlcatModules())
         {
             foreach (var item in playerModule.Inventory)
             {

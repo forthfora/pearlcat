@@ -29,7 +29,7 @@ public static class ModuleManager
 
         return true;
     }
-    public static List<PlayerModule> GetAllPlayerData(this RainWorldGame game)
+    public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game)
     {
         List<PlayerModule> allPlayerData = [];
         var players = game.Players;

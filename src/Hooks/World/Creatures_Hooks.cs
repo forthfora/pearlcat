@@ -407,7 +407,7 @@ public static class Creatures_Hooks
     // Possession
     private static void Creature_SafariControlInputUpdate(On.Creature.orig_SafariControlInputUpdate orig, Creature self, int playerIndex)
     {
-        foreach (var module in self.abstractCreature.world.game.GetAllPlayerData())
+        foreach (var module in self.abstractCreature.world.game.GetAllPearlcatModules())
         {
             if (module.PossessedCreature?.TryGetTarget(out var target) == true && target == self.abstractCreature && module.PlayerRef.TryGetTarget(out var player))
             {

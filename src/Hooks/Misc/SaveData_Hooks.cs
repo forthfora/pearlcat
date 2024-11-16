@@ -129,17 +129,16 @@ public static class SaveData_Hooks
                     {
                         heartIsActive = true;
                     }
+                    continue;
+                }
+
+                if (i == activeIndex)
+                {
+                    miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
                 }
                 else
                 {
-                    if (i == activeIndex)
-                    {
-                        miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
-                    }
-                    else
-                    {    
-                        miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
-                    }
+                    miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
                 }
             }
         }

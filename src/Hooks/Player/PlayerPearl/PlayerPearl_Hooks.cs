@@ -132,7 +132,7 @@ public static class PlayerPearl_Hooks
 
         if (module.CooldownTimer > 0)
         {
-            var playerModule = self.room.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
+            var playerModule = self.room.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
             var effect = self.abstractPhysicalObject.GetPearlEffect();
             
             if (effect.MajorEffect != PearlEffect.MajorEffectType.SHIELD || (playerModule != null && module.CooldownTimer != 0 && playerModule.PlayerRef.TryGetTarget(out var player) && player.airInLungs == 1.0f))

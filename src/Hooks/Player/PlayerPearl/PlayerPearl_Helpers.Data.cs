@@ -10,7 +10,7 @@ public static partial class PlayerPearl_Helpers
 {
     public static bool IsPlayerPearl(this AbstractPhysicalObject targetObject)
     {
-        var playerData = targetObject.world.game.GetAllPlayerData();
+        var playerData = targetObject.world.game.GetAllPearlcatModules();
 
         return playerData.Any(playerModule => playerModule.Inventory.Any(abstractObject => abstractObject == targetObject));
     }
@@ -58,7 +58,7 @@ public static partial class PlayerPearl_Helpers
 
     public static Player? TryGetPlayerPearlOwner(this AbstractPhysicalObject targetObject)
     {
-        var playerData = targetObject.world.game.GetAllPlayerData();
+        var playerData = targetObject.world.game.GetAllPearlcatModules();
 
         foreach (var playerModule in playerData)
         {

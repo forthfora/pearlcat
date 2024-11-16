@@ -24,13 +24,9 @@ public static class ModCompat_Hooks
     // Warp Fix
     private static void PauseMenu_Singal(On.Menu.PauseMenu.orig_Singal orig, Menu.PauseMenu self, Menu.MenuObject sender, string message)
     {
-        orig(self, sender, message);
-
         if (self.game.IsWarpAllowed() && message.EndsWith("warp"))
         {
-            Plugin.Logger.LogInfo("PEARLCAT WARP");
-
-            foreach (var playerModule in self.game.GetAllPlayerData())
+            foreach (var playerModule in self.game.GetAllPearlcatModules())
             {
                 if (!playerModule.PlayerRef.TryGetTarget(out var player))
                 {
@@ -46,20 +42,22 @@ public static class ModCompat_Hooks
                     var item = playerModule.Inventory[i];
 
                     player.RemoveFromInventory(item);
-                     
+
                     if (player.abstractCreature.world.game.GetStorySession is StoryGameSession story)
                     {
                         story.RemovePersistentTracker(item);
                     }
 
+                    // Issue lies here (only when warping between other regions) (only affects colored pearls)
                     item.destroyOnAbstraction = true;
                     item.Abstractize(item.pos);
                 }
 
-
                 playerModule.JustWarped = true;
             }
         }
+
+        orig(self, sender, message);
     }
 
     // Fix for DevTools not displaying sounds (credit to Bro for the code)

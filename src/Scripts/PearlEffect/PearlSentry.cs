@@ -55,7 +55,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule == null)
         {
@@ -375,7 +375,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule is null)
         {
@@ -405,7 +405,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule is null)
         {
@@ -451,7 +451,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule is null)
         {
@@ -641,7 +641,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         var cooldownTime = ModOptions.LaserRechargeTime.Value;
         var shootDamage = ModOptions.LaserDamage.Value;
 
-        var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule is null)
         {
@@ -852,7 +852,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 module.RemoveSentry(owner);
             }
 
-            var playerModule = owner.Room.world.game.GetAllPlayerData().FirstOrDefault(x => x.Inventory.Contains(owner));
+            var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
             if (owner.TryGetPearlGraphicsModule(out var addon) && playerModule != null && playerModule.PlayerRef.TryGetTarget(out var player))
             {
