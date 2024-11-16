@@ -85,6 +85,8 @@ public static class PlayerHeartPearl_Hooks
         fgContainer.AddChild(possessLaserSprite);
         fgContainer.AddChild(progressSprite);
         fgContainer.AddChild(circleSprite);
+
+        sLeaser.sprites[0].color = module.AliveMainColor;
     }
 
     private static void DataPearl_DrawSprites_PearlpupPearl(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -119,7 +121,9 @@ public static class PlayerHeartPearl_Hooks
         var highlightSprite = sLeaser.sprites[1];
         var glimmerSprite = sLeaser.sprites[2];
 
-        mainSprite.color = Custom.hexToColor("8f1800");
+        module.CurrentMainColor = Color.Lerp(module.CurrentMainColor, module.IsPlayerAlive ? module.AliveMainColor : module.DeadMainColor, 0.001f);
+        mainSprite.color = module.CurrentMainColor;
+
         highlightSprite.color = Custom.hexToColor("ffffff");
         glimmerSprite.color = Color.white;
 
@@ -139,7 +143,7 @@ public static class PlayerHeartPearl_Hooks
 
             if (module.HeartBeatTimer2 == 0)
             {
-                var vol = self.AbstractPearl.TryGetSentry(out _) ? 0.15f : 0.08f;
+                var vol = self.AbstractPearl.TryGetSentry(out _) ? 0.2f : 0.15f;
 
                 self.room.PlaySound(Enums.Sounds.Pearlcat_Heartbeat, self.firstChunk.pos, vol, 1.0f);
             }
@@ -236,9 +240,50 @@ public static class PlayerHeartPearl_Hooks
         }
 
 
+        // Heartrate
+        if (module.OwnerRef?.TryGetTarget(out var player) == true && module.IsPlayerAlive)
+        {
+            var threatLevel = 0.0f;
+
+            if (self.abstractPhysicalObject.world.game.manager.musicPlayer is not null)
+            {
+                threatLevel = self.abstractPhysicalObject.world.game.manager.musicPlayer.threatTracker
+                    .currentMusicAgnosticThreat;
+            }
+
+            // Heart rate based on how threatened the player feels
+            var threatMult = player.dangerGraspTime > 0 ? 5.0f : Custom.LerpMap(threatLevel, 0.0f, 1.0f, 1.0f, 4.0f);
+
+            // Mushroom effect on heartrate
+            var adrenalineMult = Custom.LerpMap(player.Adrenaline, 0.0f, 1.0f, 1.0f, 3.0f);
+
+            // Heartrate slows when sleeping
+            var sleepMult = player.Sleeping || player.sleepCurlUp > 0.0f ? 0.65f : 1.0f;
+
+
+            // Heart rate depending on possessed creature (lower mass = faster)
+            var creatureMult = 1.0f;
+
+            if (player.TryGetPearlcatModule(out var playerModule) &&
+                playerModule.PossessedCreature?.TryGetTarget(out var creature) == true &&
+                creature.realizedCreature is not null)
+            {
+                threatMult = 1.0f;
+                creatureMult = Custom.LerpMap(creature.realizedCreature.TotalMass, 0.1f, 10.0f, 2.0f, 0.5f);
+            }
+
+            module.HeartRateMult = threatMult * adrenalineMult * sleepMult * creatureMult;
+        }
+        else if (!module.IsPlayerAlive)
+        {
+            module.HeartRateMult = Custom.LerpExpEaseIn(module.HeartRateMult, 0.0f, 0.15f);
+        }
+
+
+        // Umbilical
         // Disconnected from player, i.e. pearlpup is dead
         // Also hide when cosmetics are disabled
-        if (module.OwnerRef == null || !module.OwnerRef.TryGetTarget(out var owner) || !self.abstractPhysicalObject.IsPlayerPearl() || ModOptions.DisableCosmetics.Value)
+        if (module.OwnerRef == null || !module.OwnerRef.TryGetTarget(out player) || !self.abstractPhysicalObject.IsPlayerPearl() || ModOptions.DisableCosmetics.Value)
         {
             if (module.Umbilical != null)
             {
@@ -248,7 +293,7 @@ public static class PlayerHeartPearl_Hooks
         // Is attached to the player
         else
         {
-            if (!owner.TryGetPearlcatModule(out var playerModule))
+            if (!player.TryGetPearlcatModule(out var playerModule))
             {
                 return;
             }

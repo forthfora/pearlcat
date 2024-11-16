@@ -36,22 +36,22 @@ public static class ModCompat_Hooks
                 Player_Helpers.ReleasePossession(player, playerModule);
 
                 player.UpdateInventorySaveData(playerModule);
-
-                for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
-                {
-                    var item = playerModule.Inventory[i];
-
-                    player.RemoveFromInventory(item);
-
-                    if (player.abstractCreature.world.game.GetStorySession is StoryGameSession story)
-                    {
-                        story.RemovePersistentTracker(item);
-                    }
-
-                    // Issue lies here (only when warping between other regions) (only affects colored pearls)
-                    item.destroyOnAbstraction = true;
-                    item.Abstractize(item.pos);
-                }
+                //
+                // for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
+                // {
+                //     var item = playerModule.Inventory[i];
+                //
+                //     player.RemoveFromInventory(item);
+                //
+                //     if (player.abstractCreature.world.game.GetStorySession is StoryGameSession story)
+                //     {
+                //         story.RemovePersistentTracker(item);
+                //     }
+                //
+                //     // Issue lies here (only when warping between other regions) (only affects colored pearls)
+                //     item.destroyOnAbstraction = true;
+                //     item.Abstractize(item.pos);
+                // }
 
                 playerModule.JustWarped = true;
             }

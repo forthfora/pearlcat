@@ -1,4 +1,6 @@
 ﻿using System;
+using RWCustom;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -17,14 +19,22 @@ public class PearlpupPearlModule
         {
             OwnerRef = new(owner);
         }
+
+        CurrentMainColor = AliveMainColor;
     }
 
-    public float HeartRateMult { get; set; } = 1.0f;
+    public bool IsPlayerAlive => OwnerRef?.TryGetTarget(out var owner) == true && !owner.dead;
 
-    public int HeartBeatTime => (int)(80 * HeartRateMult);
+    public float HeartRateMult { get; set; } = 1.0f;
+    public int HeartBeatTime => (int)(80 / HeartRateMult);
 
     public int HeartBeatTimer1 { get; set; }
     public int HeartBeatTimer2 { get; set; } = 10;
+
+
+    public Color CurrentMainColor { get; set; }
+    public Color AliveMainColor => Custom.hexToColor("8f1800");
+    public Color DeadMainColor => Custom.hexToColor("785757");
 
 
     // Umbilical
