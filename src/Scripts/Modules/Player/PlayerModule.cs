@@ -17,17 +17,12 @@ public partial class PlayerModule
         UniqueID = IDCounter++;
         BaseStats = NormalStats;
     }
-    
-    
-    public bool IsAdultPearlpup
-    {
-        get
-        {
-            return PlayerRef.TryGetTarget(out var player) &&
-                   player.abstractCreature.Room.world.game.IsPearlcatStory() &&
-                   Utils.GetMiscProgression().HasTrueEnding;
-        }
-    }
+
+
+    public bool IsAdultPearlpup =>
+        PlayerRef.TryGetTarget(out var player) &&
+        player.abstractCreature.Room.world.game.IsPearlcatStory() &&
+        Utils.GetMiscProgression().HasTrueEnding;
 
     public int PlayerNumber { get; }
     public int UniqueID { get; }
@@ -61,10 +56,7 @@ public partial class PlayerModule
     public int FlyTimer { get; set; }
 
 
-    public bool IsDazed
-    {
-        get { return DazeTimer > 0; }
-    }
+    public bool IsDazed => DazeTimer > 0;
 
     public int DazeTimer { get; set; }
 
@@ -73,15 +65,10 @@ public partial class PlayerModule
     public List<AbstractPhysicalObject> Inventory { get; } = [];
     public List<AbstractPhysicalObject> PostDeathInventory { get; } = [];
     public int? PostDeathActiveObjectIndex { get; set; }
-    public AbstractPhysicalObject? ActiveObject
-    {
-        get
-        {
-            return ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count
-                ? Inventory[(int)ActiveObjectIndex]
-                : null;
-        }
-    }
+    public AbstractPhysicalObject? ActiveObject =>
+        ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count
+            ? Inventory[(int)ActiveObjectIndex]
+            : null;
 
     public int? ActiveObjectIndex { get; set; }
 

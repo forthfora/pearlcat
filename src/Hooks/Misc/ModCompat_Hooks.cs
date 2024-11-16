@@ -14,6 +14,8 @@ public static class ModCompat_Hooks
         Application.quitting += Application_quitting;
     }
 
+
+    // Debug log whenever the game exits (crash or otherwise)
     private static void Application_quitting()
     {
         Plugin.LogPearlcatDebugInfo();

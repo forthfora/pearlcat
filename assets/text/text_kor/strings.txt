@@ -58,7 +58,7 @@ I noticed the augment keeping you alive as soon as you returned here - I don't s
 Pebbles_AS_PearlRed|Pebbles_AS_PearlRed
 Midground|미드그라운드
 Intended for fun, may change gameplay significantly!|재미를 위한 것이므로 게임 플레이가 크게 바뀔 수 있습니다!
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!|WIP- 아직 새로운 결말이 없습니다! <line> 버그를 찾으면 Forthbridge에 버그를 신고하십시오!
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP- 아직 새로운 결말이 없습니다! <line> 버그를 찾으면 forthfora에 버그를 신고하십시오!
 ...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|...당신은... 나를 먹었습니다. 가버려. 당신과... 대화하지 않겠습니다.<LINE>나는... 당신과 대화할 수 없습니다... 왜냐면... 당신이... 나를... 먹었기 때문입니다... ...그리고 왜요?
 GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n|게임 버전 : {rainworld.game_version_string} \ n
 You're welcome to stay a while... your ability is fascinating.|잠시 머물다 가세요... 당신의 능력은 매력적입니다.

@@ -49,6 +49,23 @@ public static class Creatures_Hooks
         On.TempleGuardAI.ThrowOutScore += TempleGuardAI_ThrowOutScore;
 
         On.Leech.Attached += Leech_Attached;
+
+        On.ArtificialIntelligence.VisualContact_BodyChunk += ArtificialIntelligenceOnVisualContact_BodyChunk;
+    }
+
+
+    // Help camouflage work better
+    private static bool ArtificialIntelligenceOnVisualContact_BodyChunk(On.ArtificialIntelligence.orig_VisualContact_BodyChunk orig, ArtificialIntelligence self, BodyChunk chunk)
+    {
+        if (chunk.owner is Player player && player.TryGetPearlcatModule(out var module))
+        {
+            if (module.CamoLerp > 0.5f)
+            {
+                return false;
+            }
+        }
+
+        return orig(self, chunk);
     }
 
 

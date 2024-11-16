@@ -114,13 +114,13 @@ public static class Player_Helpers
     {
         var belowRoom = self.mainBodyChunk.pos.y < -300.0f;
 
-        var roomHasWater = self.room.water && !self.room.waterInverted && self.room.defaultWaterLevel >= -10;
+        var roomHasWater = self.room is not null && self.room.water && !self.room.waterInverted && self.room.defaultWaterLevel >= -10;
 
         var deadOrStunned = self.dead || self.Stunned;
 
         var canFly = self.Template.canFly;
 
-        var roomHasDeathPit = self.room.deathFallGraphic is not null;
+        var roomHasDeathPit = self.room?.deathFallGraphic is not null;
 
         return roomHasDeathPit && belowRoom && !roomHasWater && (deadOrStunned || !canFly);
     }

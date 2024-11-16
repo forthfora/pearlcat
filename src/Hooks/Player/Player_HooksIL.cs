@@ -40,7 +40,7 @@ public static class Player_HooksIL
         if (self.TryGetPearlcatModule(out var playerModule) || self.onBack?.TryGetPearlcatModule(out playerModule) == true ||
             (self.grabbedBy.FirstOrDefault(x => x.grabber is Player)?.grabber as Player)?.TryGetPearlcatModule(out playerModule) == true)
         {
-            if (playerModule.CamoLerp > 0.5f)
+            if (playerModule.CamoLerp > 0.25f)
             {
                 return -playerModule.CamoLerp;
             }

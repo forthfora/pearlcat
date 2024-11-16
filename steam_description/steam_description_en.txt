@@ -34,4 +34,4 @@ Pebbles sees a use for Pearlcat, and now will read your pearls too
     [*] Lolight2
     [*] mayhemmm
 [/list][/b]
-[b]Direct: [/b]https://github.com/forthbridge/pearlcat/releases
+[b]Direct: [/b]https://github.com/forthfora/pearlcat/releases

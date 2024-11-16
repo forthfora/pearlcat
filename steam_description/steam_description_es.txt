@@ -34,4 +34,4 @@ Guijarros ayuda a Perlina y ahora leerá tus perlas también.
     [*] Lolight2
     [*] mayhemmm
 [/list][/b]
-[b]Descarga directa: [/b]https://github.com/forthbridge/pearlcat/releases
+[b]Descarga directa: [/b]https://github.com/forthfora/pearlcat/releases

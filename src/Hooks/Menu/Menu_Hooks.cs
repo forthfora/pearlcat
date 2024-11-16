@@ -392,7 +392,7 @@ public static class Menu_Hooks
             else if (miscProg.IsSecretEnabled)
             {
                 newGamePage.difficultyLabel.text = self.Translate("PEARLPUP");
-                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!"));
+                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!"));
             }
             else
             {

@@ -58,7 +58,7 @@ I noticed the augment keeping you alive as soon as you returned here - I don't s
 Pebbles_AS_PearlRed|Pebbles_AS_PearlRed
 Midground|Midground
 Intended for fun, may change gameplay significantly!|旨在娱乐，可能会显著改变你的游戏体验！
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!|WIP-尚无新结局！<line>如果你找到任何错误，请向Forthbridge报告！
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP-尚无新结局！<line>如果你找到任何错误，请向forthfora报告！
 ...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|……你吃了……我。请你离开这里。我不会和你……说话了。<LINE>我……不能和你说话……因为……你吃了……我……为什么？
 GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n|GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n
 You're welcome to stay a while... your ability is fascinating.|欢迎你留在这一段时间……你的能力令人着迷。

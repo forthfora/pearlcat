@@ -34,4 +34,4 @@
     [*] Lolight2
     [*] mayhemmm
 [/list][/b]
-[b]源码: [/b]https://github.com/forthbridge/pearlcat/releases
+[b]源码: [/b]https://github.com/forthfora/pearlcat/releases
