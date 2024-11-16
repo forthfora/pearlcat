@@ -10,7 +10,7 @@ public class SaveMiscWorld
 
 
     // Pearlcat
-    public List<int> PlayersGivenPearls { get; } = new();
+    public List<int> PlayersGivenPearls { get; } = [];
     public Dictionary<int, List<string>> Inventory { get; } = new();
     public Dictionary<int, int?> ActiveObjectIndex { get; } = new();
     public Dictionary<int, SpearModule> PearlSpears { get; } = new();
@@ -40,7 +40,7 @@ public class SaveMiscWorld
 
     // Dreams
     public string? CurrentDream { get; set; }
-    public List<string> PreviousDreams { get; } = new();
+    public List<string> PreviousDreams { get; } = [];
 
 
 

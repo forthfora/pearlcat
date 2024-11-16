@@ -72,7 +72,7 @@ public static class Menu_HooksIL
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchCallOrCallvirt<SlugcatSelectMenu>(nameof(SlugcatSelectMenu.ContinueStartedGame))))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         var dest = il.DefineLabel();
@@ -80,13 +80,13 @@ public static class Menu_HooksIL
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchCallOrCallvirt<Input>(nameof(Input.GetKey))))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchBrtrue(out dest)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.Emit(OpCodes.Ldarg_0);

@@ -16,7 +16,7 @@ public class SaveMiscProgression
 
     // Menu Pearls
     [JsonProperty(ItemConverterType = typeof(JsonColorHandler))]
-    public List<Color> StoredPearlColors { get; } = new();
+    public List<Color> StoredPearlColors { get; } = [];
 
     [JsonConverter(typeof(JsonColorHandler))]
     public Color? ActivePearlColor { get; set; }

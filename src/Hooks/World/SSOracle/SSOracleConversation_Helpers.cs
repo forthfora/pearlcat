@@ -108,15 +108,14 @@ public static class SSOracleConversation_Helpers
             if (saveFile != null)
             {
                 var text2 = text;
-                text = AssetManager.ResolveFilePath(string.Concat(new string[]
-                {
+                text = AssetManager.ResolveFilePath(string.Concat([
                     Utils.Translator.SpecificTextFolderDirectory(languageID),
                     Path.DirectorySeparatorChar.ToString(),
                     fileName,
                     "-",
                     saveFile.value,
                     ".txt"
-                }));
+                ]));
                 if (!File.Exists(text))
                 {
                     text = text2;
@@ -141,16 +140,16 @@ public static class SSOracleConversation_Helpers
             text3 = Custom.xorEncrypt(text3, 54 + fileName.GetHashCode() + (int)languageID * 7);
         }
 
-        string[] array = Regex.Split(text3, "\r\n");
+        var array = Regex.Split(text3, "\r\n");
         try
         {
 
             if (oneRandomLine)
             {
-                List<TextEvent> list = new List<TextEvent>();
+                var list = new List<TextEvent>();
                 for (var i = 1; i < array.Length; i++)
                 {
-                    string[] array2 = LocalizationTranslator.ConsolidateLineInstructions(array[i]);
+                    var array2 = LocalizationTranslator.ConsolidateLineInstructions(array[i]);
                     if (array2.Length == 3)
                     {
                         list.Add(new TextEvent(self, int.Parse(array2[0], NumberStyles.Any, CultureInfo.InvariantCulture), array2[2], int.Parse(array2[1], NumberStyles.Any, CultureInfo.InvariantCulture)));
@@ -173,7 +172,7 @@ public static class SSOracleConversation_Helpers
             {
                 for (var j = 1; j < array.Length; j++)
                 {
-                    string[] array3 = LocalizationTranslator.ConsolidateLineInstructions(array[j]);
+                    var array3 = LocalizationTranslator.ConsolidateLineInstructions(array[j]);
                     if (array3.Length == 3)
                     {
                         if (ModManager.MSC && !int.TryParse(array3[1], NumberStyles.Any, CultureInfo.InvariantCulture, out var num) && int.TryParse(array3[2], NumberStyles.Any, CultureInfo.InvariantCulture, out var num2))

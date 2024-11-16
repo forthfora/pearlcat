@@ -31,7 +31,7 @@ public static class ModuleManager
     }
     public static List<PlayerModule> GetAllPlayerData(this RainWorldGame game)
     {
-        List<PlayerModule> allPlayerData = new();
+        List<PlayerModule> allPlayerData = [];
         var players = game.Players;
 
         if (players == null)

@@ -154,7 +154,7 @@ public static class Menu_Hooks
 
             pearls.Remove(activePearl);
 
-            List<Color> pearlColors = new();
+            List<Color> pearlColors = [];
 
             foreach (var pearl in pearls)
             {
@@ -165,14 +165,14 @@ public static class Menu_Hooks
         }
         else if (save.IsNewPearlcatSave)
         {
-            List<Color> pearlColors = new()
-            {
+            List<Color> pearlColors =
+            [
                 Pearls.AS_PearlBlue.GetDataPearlColor(),
                 Pearls.AS_PearlYellow.GetDataPearlColor(),
                 Pearls.AS_PearlRed.GetDataPearlColor(),
                 Pearls.AS_PearlGreen.GetDataPearlColor(),
-                Pearls.AS_PearlBlack.GetDataPearlColor(),
-            };
+                Pearls.AS_PearlBlack.GetDataPearlColor()
+            ];
             
             var activeColor = Pearls.RM_Pearlcat.GetDataPearlColor();
 
@@ -270,7 +270,7 @@ public static class Menu_Hooks
         }
 
         var save = Utils.GetMiscProgression();
-        var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault().GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
+        var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor()  : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
 
         // screw pebbles pearls you get ORANGE    
         self.effectColor = color ?? Color.white;

@@ -77,10 +77,10 @@ public static class Utils
 
 
     // Debug Utils
-    public static void LogHookException(this Exception e, [CallerFilePath] string filePath = "")
+    public static void LogHookException(this Exception e, [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "")
     {
         Plugin.Logger.LogError($"Caught exception applying a hook! May not be fatal, but likely to cause issues." +
-                               $"\nRelated to ({Path.GetFileNameWithoutExtension(filePath)}). Details:" +
+                               $"\nRelated to ({Path.GetFileNameWithoutExtension(filePath)}.{memberName}). Details:" +
                                $"\n{e}\n{e.StackTrace}");
     }
 }

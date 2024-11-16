@@ -28,7 +28,7 @@ public static class Sound_HooksIL
                 x => x.MatchCallOrCallvirt<ProceduralMusic.ProceduralMusicInstruction.Track>(
                     nameof(ProceduralMusic.ProceduralMusicInstruction.Track.AllowedInSubRegion))))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.Emit(OpCodes.Ldloc_2);

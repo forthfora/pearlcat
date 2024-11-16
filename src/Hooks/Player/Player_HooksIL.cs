@@ -57,7 +57,7 @@ public static class Player_HooksIL
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchLdstr("FORCE CREATURE RELEASE UNDER ROOM")))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         var dest = c.DefineLabel();
@@ -65,7 +65,7 @@ public static class Player_HooksIL
         if (!c.TryGotoPrev(MoveType.After,
                 x => x.MatchBle(out dest)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.Emit(OpCodes.Ldarg_0);

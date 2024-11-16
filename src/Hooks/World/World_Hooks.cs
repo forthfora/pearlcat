@@ -507,14 +507,16 @@ public static class World_Hooks
     {
         orig(self);
 
-        var save = Utils.GetMiscProgression();
+        var miscProg = Utils.GetMiscProgression();
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {
+            // Train view screen shake
             var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.1f;
             self.ScreenMovement(null, Vector2.right * 3.0f, intensity);
 
-            if (save.HasTrueEnding)
+            // Nighttime Palette
+            if (miscProg.HasTrueEnding)
             {
                 foreach (var camera in self.game.cameras)
                 {
@@ -526,9 +528,9 @@ public static class World_Hooks
             }
         }
 
-        // Outside train wind effect
         if (self.roomSettings.name == "T1_END")
         {
+            // Outside train wind effect
             foreach (var updatable in self.updateList)
             {
                 if (updatable is not PhysicalObject physicalObject)
@@ -541,12 +543,12 @@ public static class World_Hooks
                     continue;
                 }
 
-                List<Player.BodyModeIndex> exemptBodyModes = new()
-                {
+                List<Player.BodyModeIndex> exemptBodyModes =
+                [
                     Player.BodyModeIndex.Crawl,
                     Player.BodyModeIndex.ClimbIntoShortCut,
-                    Player.BodyModeIndex.CorridorClimb,
-                };
+                    Player.BodyModeIndex.CorridorClimb
+                ];
 
                 var target = player.canJump == 0 ? 1.0f : 0.85f;
 
@@ -586,6 +588,18 @@ public static class World_Hooks
                     foreach (var bodyChunk in player.bodyChunks)
                     {
                         bodyChunk.vel.x += target;
+                    }
+                }
+            }
+
+            // TrueEnd changes the music that plays ontop of the train
+            if (miscProg.HasTrueEnding)
+            {
+                if (self.roomSettings.triggers.FirstOrDefault(x => x is SpotTrigger) is SpotTrigger spotTrigger)
+                {
+                    if (spotTrigger.tEvent is MusicEvent musicEvent)
+                    {
+                        musicEvent.songName = "na_30 - distance";
                     }
                 }
             }

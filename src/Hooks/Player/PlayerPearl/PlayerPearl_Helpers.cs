@@ -493,7 +493,7 @@ public static partial class PlayerPearl_Helpers
             return;
         }
 
-        List<string> inventory = new();
+        List<string> inventory = [];
 
         foreach (var item in playerModule.Inventory)
         {

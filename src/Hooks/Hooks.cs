@@ -18,6 +18,8 @@ public static class Hooks
     {
         // Misc
         ModCompat_Hooks.ApplyHooks();
+        ModCompat_HooksIL.ApplyHooks();
+
         SaveData_Hooks.ApplyHooks();
 
         Sound_Hooks.ApplyHooks();
@@ -136,7 +138,7 @@ public static class Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("OnModsInit:\n" + e.Message + "\n" + e.StackTrace);
+            e.LogHookException();
         }
         finally
         {

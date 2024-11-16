@@ -61,7 +61,7 @@ public static partial class PlayerAbilities_Helpers
 
 
         // Get all rage pearls in inventory
-        List<DataPearl> ragePearls = new();
+        List<DataPearl> ragePearls = [];
 
         foreach (var item in playerModule.Inventory)
         {
@@ -134,7 +134,7 @@ public static partial class PlayerAbilities_Helpers
 
         // Target Finding
         Creature? bestEnemy = null;
-        List<KeyValuePair<PhysicalObject, float>> availableReds = new();
+        List<KeyValuePair<PhysicalObject, float>> availableReds = [];
 
         var shortestEnemyDist = float.MaxValue;
 

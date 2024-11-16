@@ -66,7 +66,7 @@ public abstract class PearlAnimation
 
 
 
-    public List<float> HaloEffectStackers { get; set; } = new();
+    public List<float> HaloEffectStackers { get; set; } = [];
     public float HaloEffectFrameAddition { get; set; } = 0.02f;
     public float HaloEffectDir { get; set; } = 1;   
 

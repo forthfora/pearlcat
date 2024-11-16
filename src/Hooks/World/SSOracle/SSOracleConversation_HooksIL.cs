@@ -25,7 +25,7 @@ public static class SSOracleConversation_HooksIL
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchLdstr("Yes, help yourself. They are not edible.")))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.Emit(OpCodes.Ldarg_0);

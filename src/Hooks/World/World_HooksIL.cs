@@ -70,10 +70,9 @@ public static class World_HooksIL
         var c = new ILCursor(il);
 
         if (!c.TryGotoNext(MoveType.Before,
-                x => x.MatchRet())
-           )
+                x => x.MatchRet()))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.EmitDelegate<Func<List<string>, List<string>>>((list) =>
@@ -90,19 +89,17 @@ public static class World_HooksIL
     {
         var c = new ILCursor(il);
 
-        if (c.TryGotoNext(MoveType.After,
+        if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchLdstr("OE_SEXTRA"),
-                x => x.MatchStloc(0))
-           )
+                x => x.MatchStloc(0)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchStloc(1))
-           )
+                x => x.MatchStloc(1)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
 
@@ -154,7 +151,7 @@ public static class World_HooksIL
                 x => x.MatchStloc(0))
            )
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.Emit(OpCodes.Ldarg_0);

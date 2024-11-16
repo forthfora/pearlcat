@@ -5,7 +5,7 @@ namespace Pearlcat;
 
 public class CustomBgScene : BackgroundScene
 {
-    public List<CustomBgElement> DynamicBgElements = new();
+    public List<CustomBgElement> DynamicBgElements = [];
 
     public float StartAltitude { get; protected set; } = 0.0f;
     public float EndAltitude { get; protected set; } = 36500.0f;

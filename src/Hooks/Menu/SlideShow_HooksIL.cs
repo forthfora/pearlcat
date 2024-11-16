@@ -22,11 +22,11 @@ public static class SlideShow_HooksIL
     {
         var c = new ILCursor(il);
 
-        if (c.TryGotoNext(MoveType.After,
+        if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchCallOrCallvirt<PlayerProgression>(nameof(PlayerProgression.SaveWorldStateAndProgression)),
                 x => x.MatchPop()))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.Emit(OpCodes.Ldarg_0);

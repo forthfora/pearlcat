@@ -37,7 +37,7 @@ public partial class PlayerModule
     }
 
 
-    public List<MajorEffectType> DisabledEffects { get; } = new();
+    public List<MajorEffectType> DisabledEffects { get; } = [];
 
     public int AgilityCount
     {

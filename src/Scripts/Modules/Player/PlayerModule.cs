@@ -70,8 +70,8 @@ public partial class PlayerModule
 
 
     // Inventory
-    public List<AbstractPhysicalObject> Inventory { get; } = new();
-    public List<AbstractPhysicalObject> PostDeathInventory { get; } = new();
+    public List<AbstractPhysicalObject> Inventory { get; } = [];
+    public List<AbstractPhysicalObject> PostDeathInventory { get; } = [];
     public int? PostDeathActiveObjectIndex { get; set; }
     public AbstractPhysicalObject? ActiveObject
     {

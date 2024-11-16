@@ -53,7 +53,7 @@ public static class Creatures_HooksIL
                 x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitInMouth)),
                 x => x.MatchBrfalse(out dest)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         // Make this deal damage
@@ -63,7 +63,7 @@ public static class Creatures_HooksIL
                 x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitHeadShield)),
                 x => x.MatchBrfalse(out _)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         // Ldarg 0 on the stack
@@ -116,13 +116,13 @@ public static class Creatures_HooksIL
                 x => x.MatchCallOrCallvirt<Lizard>(nameof(Lizard.HitHeadShield)),
                 x => x.MatchBrfalse(out dest)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         if (!c.TryGotoPrev(MoveType.After,
                 x => x.MatchLdarg(3)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.Emit(OpCodes.Pop);
@@ -195,14 +195,14 @@ public static class Creatures_HooksIL
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchLdsfld<SoundID>(nameof(SoundID.Leviathan_Crush_NPC))))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         if (!c.TryGotoPrev(MoveType.After,
                 x => x.MatchConvI4(),
                 x => x.MatchBlt(out _)))
         {
-            return;
+            throw new Exception("Goto Failed");
         }
 
         c.Emit(OpCodes.Ldarg_0);

@@ -819,7 +819,7 @@ public static class PlayerGraphics_Helpers
         }
 
         var earL = playerModule.EarL;
-        TailSegment[]? earR = playerModule.EarR;
+        var earR = playerModule.EarR;
 
         if (earL == null || earR == null)
         {
