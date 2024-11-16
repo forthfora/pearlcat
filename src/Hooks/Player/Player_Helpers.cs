@@ -204,7 +204,7 @@ public static class Player_Helpers
 
 
     // Possession (Adult Pearlpup)
-    public static void TryToRemoveHeart(Player self, PlayerModule playerModule, DataPearl.AbstractDataPearl dataPearl)
+    public static void TryToRemoveHeart(Player self, PlayerModule playerModule)
     {
         if (self.room == null)
         {
@@ -536,7 +536,7 @@ public static class Player_Helpers
             {
                 if (playerModule.ActiveObject.IsHeartPearl())
                 {
-                    TryToRemoveHeart(self, playerModule, (DataPearl.AbstractDataPearl)playerModule.ActiveObject);
+                    TryToRemoveHeart(self, playerModule);
                 }
                 else
                 {
@@ -549,7 +549,7 @@ public static class Player_Helpers
         }
 
 
-        if (storeInput)
+        if (storeInput && !playerModule.IsPossessingCreature)
         {
             if (playerModule.StoreObjectTimer >= 0)
             {
@@ -744,6 +744,11 @@ public static class Player_Helpers
 
     public static void UpdateSFX(Player self, PlayerModule playerModule)
     {
+        if (self.room is null)
+        {
+            return;
+        }
+
         // Outsider breaks looping SFX sometimes, this is safety
         try
         {
@@ -755,7 +760,7 @@ public static class Player_Helpers
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("Looping SFX Error, Outsider often likes to cause this:\n" + e);
+            Plugin.Logger.LogError("Handled exception updating player SFX:\n" + e);
         }
     }
 
@@ -827,8 +832,7 @@ public static class Player_Helpers
             playerModule.PossessionTarget = null;
 
             AbstractCreature? possessedCreature = null;
-            var shouldReleasePossession = playerModule.PossessedCreature == null ||
-                                          !playerModule.PossessedCreature.TryGetTarget(out possessedCreature);
+            var shouldReleasePossession = playerModule.PossessedCreature == null || !playerModule.PossessedCreature.TryGetTarget(out possessedCreature);
 
             if (possessedCreature != null)
             {
@@ -848,7 +852,42 @@ public static class Player_Helpers
             playerModule.BlockInput = true;
             possessedCreature.controlled = true;
 
-            if (possessedCreature.realizedCreature?.room == null)
+            if (possessedCreature.realizedCreature?.enteringShortCut is not null)
+            {
+                var enteringShortcut = possessedCreature.realizedCreature.enteringShortCut.Value;
+
+                var shortcutRad = possessedCreature.realizedCreature.room.MiddleOfTile(enteringShortcut) + Custom.IntVector2ToVector2(possessedCreature.realizedCreature.room.ShorcutEntranceHoleDirection(enteringShortcut)) * -5f;
+                var allConnectedObjects = possessedCreature.GetAllConnectedObjects();
+
+                var chunksNotInShortcut = 0;
+
+                foreach (var connectedObj in allConnectedObjects)
+                {
+                    if (connectedObj.realizedObject is null)
+                    {
+                        continue;
+                    }
+
+                    foreach (var bodyChunk in connectedObj.realizedObject.bodyChunks)
+                    {
+                        if (Custom.DistLess(bodyChunk.pos, shortcutRad, Mathf.Max(10f, 0.7f)))
+                        {
+                            continue;
+                        }
+
+                        if (connectedObj == possessedCreature)
+                        {
+                            chunksNotInShortcut++;
+                        }
+                    }
+                }
+
+                if (chunksNotInShortcut == 0)
+                {
+                    self.SuckedIntoShortCut(possessedCreature.realizedCreature.enteringShortCut.Value, false);
+                }
+            }
+            else if (possessedCreature.realizedCreature?.room is null)
             {
                 self.SuckedIntoShortCut(possessedCreature.pos.Tile, false);
             }
@@ -860,7 +899,7 @@ public static class Player_Helpers
                     self.abstractCreature.RealizeInRoom();
                 }
 
-                self.ChangeCollisionLayer(0);
+                //self.ChangeCollisionLayer(0);
                 self.SuperHardSetPosition(possessedCreature.realizedCreature.firstChunk.pos);
 
                 foreach (var chunk in self.bodyChunks)

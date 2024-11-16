@@ -45,7 +45,9 @@ public static class Hooks
         Player_HooksIL.ApplyHooks();
 
         PlayerGraphics_Hooks.ApplyHooks();
+
         PlayerPossessionFixes_Hooks.ApplyHooks();
+        PlayerPossessionFixes_HooksIL.ApplyHooks();
 
         PlayerPearl_Hooks.ApplyHooks();
         PlayerHeartPearl_Hooks.ApplyHooks();

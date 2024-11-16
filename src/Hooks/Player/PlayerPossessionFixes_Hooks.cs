@@ -1,13 +1,39 @@
-﻿
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public static class PlayerPossessionFixes_Hooks
 {
     public static void ApplyHooks()
     {
         On.Player.Stun += PlayerOnStun;
+        On.Player.Update += PlayerOnUpdate;
         On.Centipede.Shock += CentipedeOnShock;
         On.ArtificialIntelligence.VisualContact_BodyChunk += ArtificialIntelligenceOnVisualContact_BodyChunk;
+    }
+
+
+    // Make player copy possessed creature's lung capacity
+    private static void PlayerOnUpdate(On.Player.orig_Update orig, Player self, bool eu)
+    {
+        orig(self, eu);
+
+        if (!self.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
+
+        if (playerModule.PossessedCreature is null || !playerModule.PossessedCreature.TryGetTarget(out var creature))
+        {
+            return;
+        }
+
+        if (creature?.realizedCreature is not AirBreatherCreature airBreather)
+        {
+            self.airInLungs = 1.0f;
+        }
+        else
+        {
+            self.airInLungs = airBreather.lungs;
+        }
     }
 
 
