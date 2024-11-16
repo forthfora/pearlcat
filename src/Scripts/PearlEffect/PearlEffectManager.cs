@@ -10,8 +10,6 @@ namespace Pearlcat;
 public static partial class PearlEffectManager
 {
     public static Dictionary<DataPearlType, PearlEffect> PearlEffects { get; } = new();
-    public static Dictionary<string, PearlEffect> CustomPearlEffects { get; } = new();
-
 
     public static Dictionary<float, MajorEffectType> EffectColors { get; } = new()
     {
@@ -76,11 +74,6 @@ public static partial class PearlEffectManager
         if (PearlEffects.TryGetValue(abstractPearl.dataPearlType, out var POEffect))
         {
             return POEffect;
-        }
-
-        if (CustomPearlEffects.TryGetValue(abstractPearl.dataPearlType.ToString(), out var CustomPOEffect))
-        {
-            return CustomPOEffect;
         }
 
         var pearlColor = abstractPearl.GetObjectColor();

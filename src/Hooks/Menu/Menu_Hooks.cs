@@ -38,6 +38,8 @@ public static class Menu_Hooks
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
 
         On.Menu.InputOptionsMenu.ctor += InputOptionsMenu_ctor;
+
+        On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
     }
 
     private static void Menu_Update(On.Menu.Menu.orig_Update orig, Menu.Menu self)
@@ -492,5 +494,24 @@ public static class Menu_Hooks
         }
 
         orig(self, manager);
+    }
+
+
+    // Prevent Player Pearls being saved in the shelter
+    private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
+    {
+        var result = orig(world, room, index);
+
+        var abstractRoom = world.GetAbstractRoom(room);
+
+        if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
+        {
+            if (abstractObject.realizedObject != null && abstractObject.IsPlayerPearl())
+            {
+                return null;
+            }
+        }
+
+        return result;
     }
 }

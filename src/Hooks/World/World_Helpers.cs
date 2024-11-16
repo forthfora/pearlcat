@@ -152,22 +152,22 @@ public static class World_Helpers
 
 
     // Oracle ID
-    public static bool IsPebbles(this SSOracleBehavior behavior)
+    public static bool IsPebbles(this SSOracleBehavior? behavior)
     {
         return behavior?.oracle?.IsPebbles() ?? false;
     }
 
-    public static bool IsMoon(this SLOracleBehavior behavior)
+    public static bool IsMoon(this SLOracleBehavior? behavior)
     {
         return behavior?.oracle?.IsMoon() ?? false;
     }
 
-    public static bool IsPebbles(this Oracle oracle)
+    public static bool IsPebbles(this Oracle? oracle)
     {
         return oracle?.ID == Oracle.OracleID.SS;
     }
 
-    public static bool IsMoon(this Oracle oracle)
+    public static bool IsMoon(this Oracle? oracle)
     {
         return oracle?.ID == Oracle.OracleID.SL;
     }

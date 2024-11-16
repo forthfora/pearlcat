@@ -175,7 +175,7 @@ public static class SSOracleConversation_Helpers
                     var array3 = LocalizationTranslator.ConsolidateLineInstructions(array[j]);
                     if (array3.Length == 3)
                     {
-                        if (ModManager.MSC && !int.TryParse(array3[1], NumberStyles.Any, CultureInfo.InvariantCulture, out var num) && int.TryParse(array3[2], NumberStyles.Any, CultureInfo.InvariantCulture, out var num2))
+                        if (ModManager.MSC && !int.TryParse(array3[1], NumberStyles.Any, CultureInfo.InvariantCulture, out _) && int.TryParse(array3[2], NumberStyles.Any, CultureInfo.InvariantCulture, out _))
                         {
                             self.events.Add(new TextEvent(self, int.Parse(array3[0], NumberStyles.Any, CultureInfo.InvariantCulture), array3[1], int.Parse(array3[2], NumberStyles.Any, CultureInfo.InvariantCulture)));
                         }

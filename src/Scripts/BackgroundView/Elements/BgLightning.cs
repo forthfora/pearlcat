@@ -57,10 +57,10 @@ public class BgLightning : CustomBgElement
 
     public override void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        var pos = DrawPos(new Vector2(camPos.x, camPos.y), rCam.hDisplace);
+        var drawPos = DrawPos(new Vector2(camPos.x, camPos.y), rCam.hDisplace);
 
-        sLeaser.sprites[0].x = pos.x;
-        sLeaser.sprites[0].y = pos.y;
+        sLeaser.sprites[0].x = drawPos.x;
+        sLeaser.sprites[0].y = drawPos.y;
 
         sLeaser.sprites[0].alpha = LightIntensity(timeStacker);
 

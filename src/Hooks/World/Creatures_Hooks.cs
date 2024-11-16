@@ -104,7 +104,7 @@ public static class Creatures_Hooks
 
 
     // Scavenger
-    private static int ScavengerAI_CollectScore_PhysicalObject_bool1(On.ScavengerAI.orig_CollectScore_PhysicalObject_bool orig, ScavengerAI self, PhysicalObject obj, bool weaponFiltered)
+    private static int ScavengerAI_CollectScore_PhysicalObject_bool1(On.ScavengerAI.orig_CollectScore_PhysicalObject_bool orig, ScavengerAI self, PhysicalObject? obj, bool weaponFiltered)
     {
         var result = orig(self, obj, weaponFiltered);
 

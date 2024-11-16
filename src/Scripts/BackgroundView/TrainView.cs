@@ -6,12 +6,19 @@ using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
-public class TrainView : CustomBgScene
+public sealed class TrainView : CustomBgScene
 {
-    public bool IsInit { get; private set; } = false;
-    public bool IsOutside { get; private set; } = false;
+    public bool IsInit { get; private set; }
+    public bool IsOutside { get; private set; }
 
     public readonly int[] BgElementTimers;
+
+    public static readonly int AboveCloudsAtmosphereColor = Shader.PropertyToID("_AboveCloudsAtmosphereColor");
+    public static readonly int MultiplyColor = Shader.PropertyToID("_MultiplyColor");
+    public static readonly int WindDir = Shader.PropertyToID("_windDir");
+
+    public const float TRAIN_WIND_DIR = 7.0f;
+    public const float TRAIN_VIEW_YSHIFT = -20000.0f;
 
     public TrainView(Room room) : base(room)
     {
@@ -56,8 +63,8 @@ public class TrainView : CustomBgScene
             AddElement(new DistantCloud(this, new(0f, -40f * CloudsEndDepth * (1f - cloudDepth)), cloudDepth, j));
         }
 
-        Shader.SetGlobalVector("_AboveCloudsAtmosphereColor", AtmosphereColor);
-        Shader.SetGlobalVector("_MultiplyColor", save.HasTrueEnding ? Custom.hexToColor("9badc7") : Color.white);
+        Shader.SetGlobalVector(AboveCloudsAtmosphereColor, AtmosphereColor);
+        Shader.SetGlobalVector(MultiplyColor, save.HasTrueEnding ? Custom.hexToColor("9badc7") : Color.white);
 
         var count = (int)BgElementType.END;
         BgElementTimers = new int[count];
@@ -96,15 +103,12 @@ public class TrainView : CustomBgScene
         }
     }
 
-    public const float TRAIN_WIND_DIR = 7.0f;
-    private const float TRAIN_VIEW_YSHIFT = -20000.0f;
-
     public override void Update(bool eu)
     {
         base.Update(eu);
 
         // thank god for this global
-        Shader.SetGlobalFloat("_windDir", TRAIN_WIND_DIR);
+        Shader.SetGlobalFloat(WindDir, TRAIN_WIND_DIR);
 
         YShift = TRAIN_VIEW_YSHIFT;
 
@@ -256,8 +260,6 @@ public class TrainView : CustomBgScene
         //}
     }
 
-    //public static int stacker = 0;
-    
     public int SetSpawnTime(BgElementType type)
     {
         return type switch

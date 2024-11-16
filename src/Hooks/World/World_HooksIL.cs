@@ -210,23 +210,4 @@ public static class World_HooksIL
 
         return self.IsGateOpenForPearlcat() || result;
     }
-
-
-    // Prevent Player Pearls being saved in the shelter 
-    private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
-    {
-        var result = orig(world, room, index);
-
-        var abstractRoom = world.GetAbstractRoom(room);
-
-        if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
-        {
-            if (abstractObject.realizedObject != null && abstractObject.IsPlayerPearl())
-            {
-                return null;
-            }
-        }
-
-        return result;
-    }
 }

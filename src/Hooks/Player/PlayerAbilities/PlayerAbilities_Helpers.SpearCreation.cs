@@ -31,9 +31,7 @@ public static partial class PlayerAbilities_Helpers
             return;
         }
 
-        playerModule.ForceLockSpearOnBack = self.spearOnBack != null &&
-                                            (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack ||
-                                             spearCreationTime < 20);
+        playerModule.ForceLockSpearOnBack = self.spearOnBack != null && (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack || spearCreationTime < 20);
 
         bool IsHoldingFoodOrPlayer(Player player)
         {

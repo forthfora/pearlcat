@@ -92,11 +92,12 @@ public static class SSOraclePearls_Hooks
     {
         orig(self, eu);
 
-        if (self.abstractPhysicalObject.IsPlayerPearl())
+        if (!self.abstractPhysicalObject.IsPlayerPearl())
         {
-            self.abstractPhysicalObject.slatedForDeletion = false;
-            self.label?.Destroy();
             return;
         }
+
+        self.abstractPhysicalObject.slatedForDeletion = false;
+        self.label?.Destroy();
     }
 }

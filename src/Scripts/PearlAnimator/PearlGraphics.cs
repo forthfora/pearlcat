@@ -7,9 +7,9 @@ namespace Pearlcat;
 
 public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 {
-    public WeakReference<AbstractPhysicalObject> ObjectRef { get; } = null!;
+    public WeakReference<AbstractPhysicalObject>? ObjectRef { get; }
 
-    public PearlGraphics(AbstractPhysicalObject abstractObject)
+    public PearlGraphics(AbstractPhysicalObject? abstractObject)
     {
         if (abstractObject?.realizedObject?.room == null)
         {
@@ -29,7 +29,8 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         base.Update(eu);
 
 
-        if (!ObjectRef.TryGetTarget(out var abstractObject)
+        if (ObjectRef is null
+            || !ObjectRef.TryGetTarget(out var abstractObject)
             || abstractObject.slatedForDeletion
             || abstractObject.realizedObject == null
             || abstractObject.realizedObject.slatedForDeletetion
@@ -39,7 +40,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         }
     }
 
-    public sealed override void Destroy()
+    public override void Destroy()
     {
         base.Destroy();
 
@@ -97,9 +98,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
             shader = shaders["HologramBehindTerrain"],
         };
 
-        sLeaser.sprites[SentrySprite] = new("JetFishEyeA")
-        {
-        };
+        sLeaser.sprites[SentrySprite] = new("JetFishEyeA");
 
         sLeaser.sprites[ActiveRageSprite] = new("pearlcat_activerage")
         {

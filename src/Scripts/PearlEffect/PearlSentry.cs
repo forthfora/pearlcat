@@ -20,7 +20,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
 
     public LightSource? LightSource { get; set; }
-    public bool SpearBombArmed { get; set; } = false;
+    public bool SpearBombArmed { get; set; }
     public AbstractRoom? SpearBombRoom { get; set; }
 
     public float ShieldTimer { get; set; } = -1;
@@ -148,28 +148,28 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         UpdateShieldSentry(owner, module, pearl, effect);
         UpdateRageSentry(owner, module, pearl, effect);
-        UpdateAgilitySentry(owner, module, pearl, effect);
+        UpdateAgilitySentry(owner, pearl, effect);
         UpdateReviveSentry(owner, module, pearl, effect);
-        UpdateCamoSentry(owner, module, pearl, effect);
+        UpdateCamoSentry(module, pearl, effect);
 
         UpdateSpearSentry(owner, module, pearl, effect);
         
         if (pearl.IsHalcyonPearl())
         {
-            UpdateMusicSentry(owner, module, pearl, effect, "NA_19 - Halcyon Memories");
+            UpdateMusicSentry(pearl, "NA_19 - Halcyon Memories");
         }
         else if (pearl.IsHeartPearl())
         {
-            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Heartmend");
-            UpdateHeartSentry(owner, module, pearl);
+            UpdateMusicSentry(pearl, "Pearlcat_Heartmend");
+            UpdateHeartSentry(owner, pearl);
         }
         else if (pearlType == Enums.Pearls.SS_Pearlcat)
         {
-            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Amnesia");
+            UpdateMusicSentry(pearl, "Pearlcat_Amnesia");
         }
         else if (pearlType == Enums.Pearls.CW_Pearlcat)
         {
-            UpdateMusicSentry(owner, module, pearl, effect, "Pearlcat_Chatoyance");
+            UpdateMusicSentry(pearl, "Pearlcat_Chatoyance");
         }
 
         AnimCounter++;
@@ -177,7 +177,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
 
 
-    private void UpdateHeartSentry(AbstractPhysicalObject owner, PlayerPearlModule module, DataPearl pearl)
+    private void UpdateHeartSentry(AbstractPhysicalObject owner, DataPearl pearl)
     {
         var player = owner.TryGetPlayerPearlOwner();
 
@@ -189,7 +189,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         player.mainBodyChunk.vel += Custom.DirVec(player.firstChunk.pos, pearl.firstChunk.pos) * Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 75.0f, 125.0f, 0.0f, 3.0f, 0.8f);
     }
 
-    private void UpdateMusicSentry(AbstractPhysicalObject owner, PlayerPearlModule module, DataPearl pearl, PearlEffect effect, string songName)
+    private void UpdateMusicSentry(DataPearl pearl, string songName)
     {
         var musicPlayer = room?.game?.manager?.musicPlayer;
 
@@ -256,7 +256,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
 
 
-    private void UpdateCamoSentry(AbstractPhysicalObject owner, PlayerPearlModule module, DataPearl pearl, PearlEffect effect)
+    private void UpdateCamoSentry(PlayerPearlModule module, DataPearl pearl, PearlEffect effect)
     {
         const float MAX_SCALE = 300.0f;
 
@@ -368,7 +368,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     }
 
 
-    private void UpdateAgilitySentry(AbstractPhysicalObject owner, PlayerPearlModule module, DataPearl pearl, PearlEffect effect)
+    private void UpdateAgilitySentry(AbstractPhysicalObject owner, DataPearl pearl, PearlEffect effect)
     {
         if (effect.MajorEffect != MajorEffectType.AGILITY || pearl.AbstractPearl.dataPearlType == Enums.Pearls.CW_Pearlcat)
         {
@@ -963,7 +963,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                             room.AddObject(new ScavengerBomb.BombFragment(pos, Custom.DegToVec((i + Random.value) / 6f * 360f) * Mathf.Lerp(18f, 38f, Random.value)));
                         }
 
-                        room.ScreenMovement(new Vector2?(pos), default, 1.3f);
+                        room.ScreenMovement(pos, default, 1.3f);
 
 
                         player.RemoveFromInventory(owner);

@@ -259,7 +259,7 @@ public static class World_Hooks
         var result = orig(self);
 
         var miscProg = Utils.GetMiscProgression();
-        var miscWorld = self.miscWorldSaveData.GetMiscWorld();
+        var miscWorld = self.miscWorldSaveData?.GetMiscWorld();
 
         if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
         {
@@ -693,9 +693,9 @@ public static class World_Hooks
     // Reset this here instead, better for compat
     private static void AboveCloudsView_ctor(On.AboveCloudsView.orig_ctor orig, AboveCloudsView self, Room room, RoomSettings.RoomEffect effect)
     {
-        if (Shader.GetGlobalFloat("_windDir") == TrainView.TRAIN_WIND_DIR)
+        if (Shader.GetGlobalFloat(TrainView.WindDir) == TrainView.TRAIN_WIND_DIR)
         {
-            Shader.SetGlobalFloat("_windDir", ModManager.MSC ? -1.0f : 1.0f);
+            Shader.SetGlobalFloat(TrainView.WindDir, ModManager.MSC ? -1.0f : 1.0f);
         }
 
         orig(self, room, effect);
@@ -715,7 +715,7 @@ public static class World_Hooks
 
 
     // Pearl Spears unique sounds
-    private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk(On.Room.orig_PlaySound_SoundID_BodyChunk orig, Room self, SoundID soundId, BodyChunk chunk)
+    private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk(On.Room.orig_PlaySound_SoundID_BodyChunk orig, Room self, SoundID soundId, BodyChunk? chunk)
     {
         if (chunk?.owner is Spear spear && spear.abstractSpear.TryGetSpearModule(out var spearModule) && spearModule.DecayTimer == 0)
         {

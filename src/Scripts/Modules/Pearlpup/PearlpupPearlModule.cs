@@ -23,7 +23,7 @@ public class PearlpupPearlModule
 
     public int HeartBeatTime => (int)(80 * HeartRateMult);
 
-    public int HeartBeatTimer1 { get; set; } = 0;
+    public int HeartBeatTimer1 { get; set; }
     public int HeartBeatTimer2 { get; set; } = 10;
 
 

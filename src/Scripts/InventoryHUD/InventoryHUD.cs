@@ -52,8 +52,6 @@ public class InventoryHUD : HudPart
                 continue;
             }
 
-            var playerNum = playerModule.PlayerNumber;
-
             var cameras = player.abstractCreature.world.game.cameras;
             var rCam = cameras.First();
 
@@ -134,7 +132,7 @@ public class InventoryHUD : HudPart
                         continue;
                     }
 
-                    symbol.DistFade = Custom.LerpMap(absDiff, 0, (playerModule.Inventory.Count - 2) / 2, 1.0f, 0.2f);
+                    symbol.DistFade = Custom.LerpMap(absDiff, 0.0f, (playerModule.Inventory.Count - 2) / 2.0f, 1.0f, 0.2f);
 
                     const float GAP = 17.5f;
                     var spacing = GAP * i;

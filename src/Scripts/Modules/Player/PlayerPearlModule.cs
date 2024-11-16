@@ -5,7 +5,7 @@ namespace Pearlcat;
 
 public class PlayerPearlModule
 {
-    public bool IsCurrentlyStored { get; set; } = false;
+    public bool IsCurrentlyStored { get; set; }
     
     public bool CollideWithObjects { get; set; } = true;
     public bool CollideWithSlopes { get; set; } = true;

@@ -88,15 +88,12 @@ public class PearlAnimation_LayerOrbit : PearlAnimation
             return;
         }
 
-        if (ReplaceActiveForOrbit(OrbitPearls_2, playerModule.ActiveObject, prevActiveObject))
-        {
-            return;
-        }
+        _ = ReplaceActiveForOrbit(OrbitPearls_2, playerModule.ActiveObject, prevActiveObject);
     }
 
-    public bool ReplaceActiveForOrbit(List<AbstractPhysicalObject> orbitPearls, AbstractPhysicalObject? activeObject, AbstractPhysicalObject? prevActiveObject)
+    public bool ReplaceActiveForOrbit(List<AbstractPhysicalObject> orbitPearls, AbstractPhysicalObject? activeObject, AbstractPhysicalObject? objToReplace)
     {
-        if (activeObject == null || prevActiveObject == null)
+        if (activeObject == null || objToReplace == null)
         {
             return false;
         }
@@ -104,7 +101,7 @@ public class PearlAnimation_LayerOrbit : PearlAnimation
         if (orbitPearls.Contains(activeObject))
         {
             orbitPearls.Remove(activeObject);
-            orbitPearls.Add(prevActiveObject);
+            orbitPearls.Add(objToReplace);
 
             return true;
         }

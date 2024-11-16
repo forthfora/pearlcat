@@ -385,9 +385,9 @@ public static class Player_Hooks
     {
         orig(self, pos, newRoom, spitOutAllSticks);
 
-        if (self is Player p && p.TryGetPearlcatModule(out var mod))
+        if (self is Player thisPlayer && thisPlayer.TryGetPearlcatModule(out var mod))
         {
-            mod.LastGroundedPos = p.firstChunk.pos;
+            mod.LastGroundedPos = thisPlayer.firstChunk.pos;
         }
 
         foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPlayerData())
@@ -461,7 +461,7 @@ public static class Player_Hooks
         orig(self, entrancePos, carriedByOther);
     }
 
-    private static void Creature_Violence(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
+    private static void Creature_Violence(On.Creature.orig_Violence orig, Creature self, BodyChunk? source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
     {
         // sin number 2
         if (self is Player player && player.TryGetPearlcatModule(out var playerModule))

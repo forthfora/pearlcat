@@ -27,7 +27,7 @@ public partial class PlayerModule
 
     public WeakReference<Creature>? RageTarget { get; set; }
 
-    public int RageAnimTimer { get; set; } = 0;
+    public int RageAnimTimer { get; set; }
 
     public WeakReference<Creature>? PossessionTarget { get; set; }
     public WeakReference<AbstractCreature>? PossessedCreature { get; set; }

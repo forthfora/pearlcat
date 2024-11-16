@@ -53,7 +53,7 @@ public static class Menu_Helpers
 
             if (fileName.Contains("pupheart"))
             {
-                UpdatePupHeartIllustration(self, illustration, illustrationModule);
+                UpdatePupHeartIllustration(self, illustration);
             }
 
             return;
@@ -231,7 +231,7 @@ public static class Menu_Helpers
 
             if (fileName.Contains("pupheart"))
             {
-                UpdatePupHeartIllustration(self, illustration, illustrationModule);
+                UpdatePupHeartIllustration(self, illustration);
             }
 
             return;
@@ -528,7 +528,7 @@ public static class Menu_Helpers
         return Color.HSVToRGB(hue, sat, val);
     }
 
-    private static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration, MenuIllustrationModule illustrationModule)
+    private static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration)
     {
         var miscProg = Utils.GetMiscProgression();
 

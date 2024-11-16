@@ -10,7 +10,6 @@ public static partial class PearlEffectManager
     public static PearlEffect Color;
 
 
-
     // Custom
     public static PearlEffect AsPearlBlue;
     public static PearlEffect AsPearlGreen;
@@ -24,7 +23,6 @@ public static partial class PearlEffectManager
     public static PearlEffect MI;
 
     public static PearlEffect CW;
-
 
 
     // Vanilla & MSC
@@ -73,10 +71,8 @@ public static partial class PearlEffectManager
     public static void RegisterEffects()
     {
         PearlEffects.Clear();
-        CustomPearlEffects.Clear();
 
         SetEffects();
-
 
 
         PearlEffects.Add(DataPearlType.Misc, Misc);
@@ -144,6 +140,7 @@ public static partial class PearlEffectManager
     {
         None = new();
 
+
         Misc = None;
         Misc.ThrowingSkill = 0.5f;
         Misc.MajorEffect = MajorEffectType.SPEAR_CREATION;
@@ -157,7 +154,6 @@ public static partial class PearlEffectManager
 
         IteratorBlack = Misc;
         IteratorBlack.MajorEffect = MajorEffectType.CAMOFLAGUE;
-
 
 
         Color = None;

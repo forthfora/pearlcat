@@ -7,9 +7,9 @@ public class CustomBgScene : BackgroundScene
 {
     public List<CustomBgElement> DynamicBgElements = [];
 
-    public float StartAltitude { get; protected set; } = 0.0f;
+    public float StartAltitude { get; protected set; }
     public float EndAltitude { get; protected set; } = 36500.0f;
-    public float YShift { get; protected set; } = 0.0f;
+    public float YShift { get; protected set; }
 
     public float CloudsStartDepth { get; protected set; } = 5.0f;
     public float CloudsEndDepth { get; protected set; } = 40.0f;
