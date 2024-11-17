@@ -415,7 +415,7 @@ public static class PlayerGraphics_Helpers
 
         var maxAlpha = playerModule.ActiveObject?.realizedObject == null ? 0.6f : 1.0f;
 
-        self.lightSource.color = playerModule.ActiveColor * 1.5f;
+        self.lightSource.color = Color.Lerp(playerModule.ActiveColor, Color.white, 0.75f);
         self.lightSource.alpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, maxAlpha);
     }
 

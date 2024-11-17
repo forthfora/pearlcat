@@ -38,21 +38,22 @@ public static class ModCompat_Hooks
                 player.UpdateInventorySaveData(playerModule);
 
                 // TODO: Fix the duplication issues
-                // for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
-                // {
-                //     var item = playerModule.Inventory[i];
-                //
-                //     player.RemoveFromInventory(item);
-                //
-                //     if (player.abstractCreature.world.game.GetStorySession is StoryGameSession story)
-                //     {
-                //         story.RemovePersistentTracker(item);
-                //     }
-                //
-                //     // Issue lies here (only when warping between other regions) (only affects colored pearls)
-                //     item.destroyOnAbstraction = true;
-                //     item.Abstractize(item.pos);
-                // }
+                for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
+                {
+                    var item = playerModule.Inventory[i];
+
+                    //player.RemoveFromInventory(item);
+
+                    // Not really to do with the persistent tracker? Disabling it in MMF has no effect
+                    if (player.abstractCreature.world.game.GetStorySession is StoryGameSession story)
+                    {
+                        story.RemovePersistentTracker(item);
+                    }
+
+                    // Issue lies here (only when warping between other regions) (only affects colored pearls)
+                    item.destroyOnAbstraction = true;
+                    item.Abstractize(item.pos);
+                }
 
                 playerModule.JustWarped = true;
             }

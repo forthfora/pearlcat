@@ -130,7 +130,7 @@ public static class PlayerHeartPearl_Hooks
         highlightSprite.SetPosition(mainSprite.GetPosition());
 
 
-        if (module.HeartBeatTimer1 == 0 || module.HeartBeatTimer2 == 0)
+        if (module.HeartFirstBeatTimer == 0.0f || module.HeartSecondBeatTimer == 0.0f)
         {
             mainSprite.scale = 2.5f;
             highlightSprite.scale = 2.0f;
@@ -141,9 +141,9 @@ public static class PlayerHeartPearl_Hooks
 
             self.room.AddObject(new ExplosionSpikes(self.room, self.firstChunk.pos, 3, 10.0f, 10.0f, 5.0f, 10.0f, Color.red));
 
-            if (module.HeartBeatTimer2 == 0)
+            if (module.HeartSecondBeatTimer == 0)
             {
-                var vol = self.AbstractPearl.TryGetSentry(out _) ? 0.2f : 0.15f;
+                var vol = self.AbstractPearl.TryGetSentry(out _) ? 0.25f : 0.15f;
 
                 self.room.PlaySound(Enums.Sounds.Pearlcat_Heartbeat, self.firstChunk.pos, vol, 1.0f);
             }
@@ -225,18 +225,23 @@ public static class PlayerHeartPearl_Hooks
             return;
         }
 
-
-        module.HeartBeatTimer1++;
-        module.HeartBeatTimer2++;
-
-        if (module.HeartBeatTimer1 > module.HeartBeatTime)
+        if (module.HeartFirstBeatTimer > module.HeartFirstBeatTime)
         {
-            module.HeartBeatTimer1 = 0;
+            module.HeartFirstBeatTimer = -1.0f;
+            module.HeartSecondBeatTimer = 0.0f;
         }
-
-        if (module.HeartBeatTimer2 > module.HeartBeatTime)
+        else if (module.HeartFirstBeatTimer >= 0.0f)
         {
-            module.HeartBeatTimer2 = 0;
+            module.HeartFirstBeatTimer += module.HeartRateMult;
+        }
+        else if (module.HeartSecondBeatTimer > module.HeartSecondBeatTime)
+        {
+            module.HeartSecondBeatTimer = -1.0f;
+            module.HeartFirstBeatTimer = 0.0f;
+        }
+        else if (module.HeartSecondBeatTimer >= 0.0f)
+        {
+            module.HeartSecondBeatTimer += module.HeartRateMult;
         }
 
 
@@ -252,13 +257,16 @@ public static class PlayerHeartPearl_Hooks
             }
 
             // Heart rate based on how threatened the player feels
-            var threatMult = player.dangerGraspTime > 0 ? 5.0f : Custom.LerpMap(threatLevel, 0.0f, 1.0f, 1.0f, 4.0f);
+            var threatMult = player.dangerGraspTime > 0 ? 3.0f : Custom.LerpMap(threatLevel, 0.0f, 1.0f, 1.0f, 2.5f);
 
             // Mushroom effect on heartrate
-            var adrenalineMult = Custom.LerpMap(player.Adrenaline, 0.0f, 1.0f, 1.0f, 3.0f);
+            var adrenalineMult = Custom.LerpMap(player.Adrenaline, 0.0f, 1.0f, 1.0f, 1.5f);
 
             // Heartrate slows when sleeping
             var sleepMult = player.Sleeping || player.sleepCurlUp > 0.0f ? 0.65f : 1.0f;
+
+            // Slows when starving
+            var starveMult = player.Malnourished ? 0.8f : 1.0f;
 
 
             // Heart rate depending on possessed creature (lower mass = faster)
@@ -269,10 +277,12 @@ public static class PlayerHeartPearl_Hooks
                 creature.realizedCreature is not null)
             {
                 threatMult = 1.0f;
-                creatureMult = Custom.LerpMap(creature.realizedCreature.TotalMass, 0.1f, 10.0f, 2.0f, 0.5f);
+                starveMult = 1.0f;
+
+                creatureMult = Custom.LerpMap(creature.realizedCreature.TotalMass, 0.1f, 10.0f, 3.0f, 0.5f);
             }
 
-            module.HeartRateMult = threatMult * adrenalineMult * sleepMult * creatureMult;
+            module.HeartRateMult = threatMult * adrenalineMult * sleepMult * creatureMult * starveMult;
         }
         else if (!module.IsPlayerAlive)
         {

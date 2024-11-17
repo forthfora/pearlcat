@@ -26,10 +26,12 @@ public class PearlpupPearlModule
     public bool IsPlayerAlive => OwnerRef?.TryGetTarget(out var owner) == true && !owner.dead;
 
     public float HeartRateMult { get; set; } = 1.0f;
-    public int HeartBeatTime => (int)(80 / HeartRateMult);
 
-    public int HeartBeatTimer1 { get; set; }
-    public int HeartBeatTimer2 { get; set; } = 10;
+    public int HeartFirstBeatTime { get; set; } = 80;
+    public int HeartSecondBeatTime { get; set; } = 10;
+
+    public float HeartFirstBeatTimer { get; set; }
+    public float HeartSecondBeatTimer { get; set; } = -1.0f;
 
 
     public Color CurrentMainColor { get; set; }
