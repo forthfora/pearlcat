@@ -1,13 +1,13 @@
 # An enigmatic scholar from a faraway land, gifted with the unusual ability to harness pearls!
 
-## Requires both Custom Regions Support and SlugBase as dependencies.
-## More Slugcats (Downpour DLC) is optional, but recommended.
+## Requires [SlugBase](https://github.com/SlimeCubed/SlugBaseRemix/releases) as a dependency
+## More Slugcats (Downpour DLC) is optional, but recommended
 
 ## Credits
-- Geahgeah - Art & Design
+- Geahgeah - Art & Character Design
 - Sidera - SFX & Dialogue
 - Noir - Ear & Scarf Code
-- Linnnnnna - Chinese Translation
+- Lin - Chinese Translation
 - zbiotr - Spanish Translation
 - Kimi - Additional Art
 
