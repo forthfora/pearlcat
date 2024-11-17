@@ -84,7 +84,6 @@ public partial class PlayerModule
     public Player.InputPackage UnblockedInput { get; set; }
     public bool BlockInput { get; set; }
 
-    public int SwapIntervalTimer { get; set; }
     public int StoreObjectTimer { get; set; }
 
     

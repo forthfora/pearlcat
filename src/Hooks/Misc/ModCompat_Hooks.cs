@@ -36,7 +36,8 @@ public static class ModCompat_Hooks
                 Player_Helpers.ReleasePossession(player, playerModule);
 
                 player.UpdateInventorySaveData(playerModule);
-                //
+
+                // TODO: Fix the duplication issues
                 // for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
                 // {
                 //     var item = playerModule.Inventory[i];

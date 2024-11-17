@@ -246,6 +246,10 @@ public static class Player_Helpers
         playerModule.PossessionTarget = null;
         playerModule.PossessedCreature = new(target.abstractCreature);
 
+        self.CollideWithObjects = false;
+        self.CollideWithSlopes = false;
+        self.CollideWithTerrain = false;
+
         self.LoseAllGrasps();
         self.Stun(10);
 
@@ -276,6 +280,10 @@ public static class Player_Helpers
 
         playerModule.PossessedCreature = null;
         playerModule.PossessionTarget = null;
+
+        self.CollideWithObjects = true;
+        self.CollideWithSlopes = true;
+        self.CollideWithTerrain = true;
 
         var room = self.room;
         var pos = self.firstChunk.pos;
@@ -816,13 +824,13 @@ public static class Player_Helpers
             playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl()) ||
             playerModule.PostDeathInventory.Any(x =>
                 x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl());
-        var room = self.room;
+        var playerRoom = self.room;
 
-        if (room != null && !self.dead && !hasHeart)
+        if (playerRoom != null && !self.dead && !hasHeart)
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world,
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
-                room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
+                playerRoom.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
             self.StoreObject(pearl, overrideLimit: true);
         }
 
@@ -893,13 +901,6 @@ public static class Player_Helpers
             }
             else
             {
-                if (room == null)
-                {
-                    self.abstractCreature.ChangeRooms(possessedCreature.pos);
-                    self.abstractCreature.RealizeInRoom();
-                }
-
-                //self.ChangeCollisionLayer(0);
                 self.SuperHardSetPosition(possessedCreature.realizedCreature.firstChunk.pos);
 
                 foreach (var chunk in self.bodyChunks)
@@ -910,7 +911,7 @@ public static class Player_Helpers
         }
         else
         {
-            if (room == null)
+            if (playerRoom == null)
             {
                 return;
             }
@@ -930,7 +931,7 @@ public static class Player_Helpers
                 Creature? bestTarget = null;
                 var shortestDist = float.MaxValue;
 
-                foreach (var roomObject in room.physicalObjects)
+                foreach (var roomObject in playerRoom.physicalObjects)
                 {
                     foreach (var physicalObject in roomObject)
                     {

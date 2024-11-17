@@ -1,4 +1,7 @@
-﻿namespace Pearlcat;
+﻿using RWCustom;
+using UnityEngine;
+
+namespace Pearlcat;
 
 public static class PlayerPossessionFixes_Hooks
 {
@@ -26,14 +29,7 @@ public static class PlayerPossessionFixes_Hooks
             return;
         }
 
-        if (creature?.realizedCreature is not AirBreatherCreature airBreather)
-        {
-            self.airInLungs = 1.0f;
-        }
-        else
-        {
-            self.airInLungs = airBreather.lungs;
-        }
+        self.airInLungs = creature?.realizedCreature is not AirBreatherCreature airBreather ? 1.0f : airBreather.lungs;
     }
 
 
