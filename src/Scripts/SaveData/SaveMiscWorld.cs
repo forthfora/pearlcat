@@ -10,7 +10,7 @@ public class SaveMiscWorld
 
 
     // Pearlcat
-    public List<int> PlayersGivenPearls { get; } = new();
+    public List<int> PlayersGivenPearls { get; } = [];
     public Dictionary<int, List<string>> Inventory { get; } = new();
     public Dictionary<int, int?> ActiveObjectIndex { get; } = new();
     public Dictionary<int, SpearModule> PearlSpears { get; } = new();
@@ -26,7 +26,7 @@ public class SaveMiscWorld
     public bool PebblesMetSickPup { get; set; }
     public Dictionary<int, int> PearlIDsBroughtToPebbles { get; } = new();
     public int UniquePearlsBroughtToPebbles => PearlIDsBroughtToPebbles.Keys.Count;
-    public bool PebblesTookHalcyonPearl { get; set; } = false;
+    public bool PebblesTookHalcyonPearl { get; set; }
     
 
     // Looks to the Moon
@@ -40,7 +40,7 @@ public class SaveMiscWorld
 
     // Dreams
     public string? CurrentDream { get; set; }
-    public List<string> PreviousDreams { get; } = new();
+    public List<string> PreviousDreams { get; } = [];
 
 
 

@@ -31,7 +31,10 @@ public class T1_CAR0 : UpdatableAndDeletable
     {
         base.Update(eu);
 
-        if (!room.fullyLoaded) return;
+        if (!room.fullyLoaded)
+        {
+            return;
+        }
 
         var game = room.game;
 
@@ -59,8 +62,10 @@ public class T1_CAR0 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.PreTutorial)
             {
-                if (TutorialPearl != null && TutorialPearl.IsPlayerObject())
+                if (TutorialPearl != null && TutorialPearl.IsPlayerPearl())
+                {
                     CurrentPhase = Phase.Tutorial;
+                }
             }
             else if (CurrentPhase == Phase.Tutorial)
             {
@@ -70,7 +75,7 @@ public class T1_CAR0 : UpdatableAndDeletable
 
                 if (ModOptions.CustomAgilityKeybind.Value)
                 {
-                    game.AddTextPrompt(t.Translate("Press (") + Hooks.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Hooks.GetAbilityKeybindDisplayName(true) + t.Translate(") while in the air to perform a double jump"), 0, 600);
+                    game.AddTextPrompt(t.Translate("Press (") + Input_Helpers.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetAbilityKeybindDisplayName(true) + t.Translate(") while in the air to perform a double jump"), 0, 600);
                 }
 
                 game.AddTextPrompt("Press (JUMP + GRAB) while in the air to perform a double jump", 0, 600);

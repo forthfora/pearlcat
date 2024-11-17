@@ -16,7 +16,7 @@ public class DistantCloud : Cloud
     {
         sLeaser.sprites = new FSprite[2];
 
-        sLeaser.sprites[0] = new FSprite("pixel", true)
+        sLeaser.sprites[0] = new FSprite("pixel")
         {
             shader = Utils.Shaders["Background"],
             anchorY = 0f,
@@ -26,7 +26,7 @@ public class DistantCloud : Cloud
 
         };
 
-        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString(), true)
+        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString())
         {
             shader = Utils.Shaders["CloudDistant"],
             anchorY = 1f
@@ -40,7 +40,7 @@ public class DistantCloud : Cloud
         var firstSprite = sLeaser.sprites[0];
         var cloudSprite = sLeaser.sprites[1];
 
-        float value = scene.RoomToWorldPos(rCam.room.cameraPositions[rCam.currentCameraPosition]).y + Scene.YShift;
+        var value = scene.RoomToWorldPos(rCam.room.cameraPositions[rCam.currentCameraPosition]).y + Scene.YShift;
         
         if (Mathf.InverseLerp(Scene.StartAltitude, Scene.EndAltitude, value) < 0.33f)
         {
@@ -52,14 +52,16 @@ public class DistantCloud : Cloud
         cloudSprite.isVisible = true;
         firstSprite.isVisible = true;
         
-        float posY = DrawPos(new Vector2(camPos.x, camPos.y + Scene.YShift), rCam.hDisplace).y;
+        var posY = DrawPos(new Vector2(camPos.x, camPos.y + Scene.YShift), rCam.hDisplace).y;
 
-        float scaleX = 2f;
-        float scaleY = Mathf.Lerp(0.3f, 0.01f, DistantCloudDepth);
+        var scaleX = 2f;
+        var scaleY = Mathf.Lerp(0.3f, 0.01f, DistantCloudDepth);
 
         if (Index == 8)
+        {
             scaleY *= 1.5f;
-        
+        }
+
         cloudSprite.scaleY = scaleY * scaleX;
         cloudSprite.scaleX = scaleX;
         cloudSprite.color = new Color(Mathf.Lerp(0.75f, 0.95f, DistantCloudDepth), RandomOffset, Mathf.Lerp(scaleY, 1f, 0.5f), 1f);

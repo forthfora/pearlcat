@@ -20,7 +20,7 @@ public class HorizonCloud : Cloud
     {
         sLeaser.sprites = new FSprite[1];
 
-        sLeaser.sprites[0] = new FSprite("pearlcat_flyingclouds", true)
+        sLeaser.sprites[0] = new FSprite("pearlcat_flyingclouds")
         {
             shader = Utils.Shaders["CloudDistant"],
             anchorY = 1f
@@ -33,7 +33,7 @@ public class HorizonCloud : Cloud
     {
         var firstSprite = sLeaser.sprites[0];
 
-        float worldPosY = scene.RoomToWorldPos(rCam.room.cameraPositions[rCam.currentCameraPosition]).y;
+        var worldPosY = scene.RoomToWorldPos(rCam.room.cameraPositions[rCam.currentCameraPosition]).y;
      
         if (Mathf.InverseLerp(Scene.StartAltitude, Scene.EndAltitude, worldPosY) < 0.33f)
         {
@@ -43,8 +43,8 @@ public class HorizonCloud : Cloud
      
         firstSprite.isVisible = true;
         
-        float scaleX = 2f;
-        float posY = DrawPos(camPos, rCam.hDisplace).y;
+        var scaleX = 2f;
+        var posY = DrawPos(camPos, rCam.hDisplace).y;
         
         firstSprite.scaleY = Flatten * scaleX;
         firstSprite.scaleX = scaleX;

@@ -58,7 +58,7 @@ I noticed the augment keeping you alive as soon as you returned here - I don't s
 Pebbles_AS_PearlRed|Галька_AS_PearlRed
 Midground|Мидграунд
 Intended for fun, may change gameplay significantly!|Предназначен для развлечения, может значительно изменить игровой процесс!
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!|WIP - пока нет нового окончания!
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP - пока нет нового окончания!
 ...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|...Ты съел... меня. Пожалуйста уйди. Я не буду говорить... с тобой.<LINE>Я... НЕ МОГУ говорить с тобой... потому что... ты съел... меня... ...и почему?
 GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n|Игра версия: {rainworld.game_version_string} \ n
 You're welcome to stay a while... your ability is fascinating.|Вы можете остаться на некоторое время... ваши способности очаровательны.

@@ -5,11 +5,11 @@ namespace Pearlcat;
 
 public class CustomBgScene : BackgroundScene
 {
-    public List<CustomBgElement> DynamicBgElements = new();
+    public List<CustomBgElement> DynamicBgElements = [];
 
-    public float StartAltitude { get; protected set; } = 0.0f;
+    public float StartAltitude { get; protected set; }
     public float EndAltitude { get; protected set; } = 36500.0f;
-    public float YShift { get; protected set; } = 0.0f;
+    public float YShift { get; protected set; }
 
     public float CloudsStartDepth { get; protected set; } = 5.0f;
     public float CloudsEndDepth { get; protected set; } = 40.0f;
@@ -21,7 +21,13 @@ public class CustomBgScene : BackgroundScene
     {
     }
 
-    public float DepthFromCloud(float depth) => Mathf.Lerp(CloudsStartDepth, CloudsEndDepth, depth);
+    public float DepthFromCloud(float depth)
+    {
+        return Mathf.Lerp(CloudsStartDepth, CloudsEndDepth, depth);
+    }
 
-    public float DepthFromDistantCloud(float depth) => Mathf.Lerp(CloudsEndDepth, DistantCloudsEndDepth, Mathf.Pow(depth, 1.5f));
+    public float DepthFromDistantCloud(float depth)
+    {
+        return Mathf.Lerp(CloudsEndDepth, DistantCloudsEndDepth, Mathf.Pow(depth, 1.5f));
+    }
 }

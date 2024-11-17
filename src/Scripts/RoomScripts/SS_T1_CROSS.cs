@@ -18,11 +18,17 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
     {
         base.Update(eu);
 
-        if (slatedForDeletetion || room == null) return;
+        if (slatedForDeletetion || room == null)
+        {
+            return;
+        }
 
         var gate = room.regionGate;
 
-        if (gate == null) return;
+        if (gate == null)
+        {
+            return;
+        }
 
         RegionGateGraphics = gate.graphics;
         RegionGateGlyphs = gate.karmaGlyphs;
@@ -41,9 +47,9 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
 
         var startPos = IntVector2.FromVector2(new(109, 4));
 
-        for (int i = 0; i < 2; i++)
+        for (var i = 0; i < 2; i++)
         {
-            for (int j = 0; j < 9; j++)
+            for (var j = 0; j < 9; j++)
             {
                 room.GetTile(startPos.x + i, startPos.y + j).Terrain = Room.Tile.TerrainType.Solid;
             }
@@ -54,24 +60,33 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        if (slatedForDeletetion || room == null) return;
+        if (slatedForDeletetion || room == null)
+        {
+            return;
+        }
 
-        if (RegionGateGraphics == null) return;
+        if (RegionGateGraphics == null)
+        {
+            return;
+        }
 
         var gateLeaser = rCam.spriteLeasers.FirstOrDefault(x => x.drawableObject == room.regionGate);
 
-        if (gateLeaser == null) return;
+        if (gateLeaser == null)
+        {
+            return;
+        }
 
         var leftDoor = RegionGateGraphics.doorGraphs[0];
         var middleDoor = RegionGateGraphics.doorGraphs[1];
         var rightDoor = RegionGateGraphics.doorGraphs[2];
 
-        for (int i = 0; i < leftDoor.TotalSprites; i++)
+        for (var i = 0; i < leftDoor.TotalSprites; i++)
         {
             gateLeaser.sprites[i].isVisible = false;
         }
 
-        for (int i = rightDoor.TotalSprites * 2; i < rightDoor.TotalSprites * 3; i++)
+        for (var i = rightDoor.TotalSprites * 2; i < rightDoor.TotalSprites * 3; i++)
         {
             gateLeaser.sprites[i].isVisible = false;
         }
@@ -88,13 +103,21 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
         middleDoor.posZ = new(2200.0f, 265.0f);
 
 
-        if (RegionGateGlyphs == null) return;
+        if (RegionGateGlyphs == null)
+        {
+            return;
+        }
 
         var leftGlyph = RegionGateGlyphs[0];
         var rightGlyph = RegionGateGlyphs[1];
 
         var leftGlyphLeaser = rCam.spriteLeasers.FirstOrDefault(x => x.drawableObject == leftGlyph);
         var rightGlyphLeaser = rCam.spriteLeasers.FirstOrDefault(x => x.drawableObject == rightGlyph);
+
+        if (leftGlyphLeaser is null || rightGlyphLeaser is null)
+        {
+            return;
+        }
 
         foreach (var sprite in rightGlyphLeaser.sprites)
         {
@@ -115,7 +138,11 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
         }
     }
 
-    public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam) => sLeaser.sprites = new FSprite[0];
+    public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    {
+        sLeaser.sprites = [];
+    }
+
     public void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner) { }
     public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) { }
 }

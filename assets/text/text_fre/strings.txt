@@ -58,7 +58,7 @@ I noticed the augment keeping you alive as soon as you returned here - I don't s
 Pebbles_AS_PearlRed|Galets_AS_PearlRed
 Midground|Milieu de terrain
 Intended for fun, may change gameplay significantly!|Conçu pour le plaisir, peut changer le gameplay de manière significative !
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!|WIP - Aucune nouvelle fin encore! <Line> Si vous trouvez des bugs, veuillez les signaler à Forthbridge!
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP - Aucune nouvelle fin encore! <Line> Si vous trouvez des bugs, veuillez les signaler à forthfora!
 ...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|...Tu as mangé... moi. Partez s'il vous plait. Je... ne te parlerai pas.<LINE>Je... NE PEUX PAS te parler... parce que... tu m'as mangé... ...et pourquoi ?
 GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n|Version du jeu: {rainworld.game_version_string} \ n
 You're welcome to stay a while... your ability is fascinating.|Vous êtes les bienvenus pour rester un moment... votre capacité est fascinante.

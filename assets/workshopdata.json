@@ -6,7 +6,7 @@
   "TargetGameVersion": "v1.9.15b",
   "Requirements": "slime-cubed.slugbase,crs",
   "RequirementNames": "SlugBase,Custom Regions Support",
-  "Authors": "forthbridge, Geahgeah, Sidera",
+  "Authors": "forthfora, Geahgeah, Sidera",
   "Visibility": "Public",
   "Tags": [
     "Campaigns",

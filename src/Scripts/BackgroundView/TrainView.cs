@@ -6,12 +6,19 @@ using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
-public class TrainView : CustomBgScene
+public sealed class TrainView : CustomBgScene
 {
-    public bool IsInit { get; private set; } = false;
-    public bool IsOutside { get; private set; } = false;
+    public bool IsInit { get; private set; }
+    public bool IsOutside { get; private set; }
 
     public readonly int[] BgElementTimers;
+
+    public static readonly int AboveCloudsAtmosphereColor = Shader.PropertyToID("_AboveCloudsAtmosphereColor");
+    public static readonly int MultiplyColor = Shader.PropertyToID("_MultiplyColor");
+    public static readonly int WindDir = Shader.PropertyToID("_windDir");
+
+    public const float TRAIN_WIND_DIR = 7.0f;
+    public const float TRAIN_VIEW_YSHIFT = -20000.0f;
 
     public TrainView(Room room) : base(room)
     {
@@ -19,7 +26,7 @@ public class TrainView : CustomBgScene
 
         IsOutside = room.roomSettings.name == "T1_END";
 
-        float effectAmount = 10000f - 30000f;
+        var effectAmount = 10000f - 30000f;
         sceneOrigo = new Vector2(2514f, effectAmount);
         StartAltitude = effectAmount - 5500f;
         EndAltitude = effectAmount + 5500f;
@@ -42,27 +49,27 @@ public class TrainView : CustomBgScene
         AddElement(new HorizonCloud(this, PosFromDrawPosAtNeutralCamPos(new(0f, 75f), 355f), 355f, 0, 0.35f, 0.5f, 0.9f));
         AddElement(new HorizonCloud(this, PosFromDrawPosAtNeutralCamPos(new(0f, 43f), 920f), 920f, 0, 0.15f, 0.3f, 0.95f));
 
-        int closeCloudCount = 7;
-        for (int i = 0; i < closeCloudCount; i++)
+        var closeCloudCount = 7;
+        for (var i = 0; i < closeCloudCount; i++)
         {
-            float cloudDepth = i / (float)(closeCloudCount - 1);
+            var cloudDepth = i / (float)(closeCloudCount - 1);
             AddElement(new CloseCloud(this, Vector2.zero, cloudDepth, i));
         }
 
-        int distantCloudCount = 11;
-        for (int j = 0; j < distantCloudCount; j++)
+        var distantCloudCount = 11;
+        for (var j = 0; j < distantCloudCount; j++)
         {
-            float cloudDepth = j / (float)(distantCloudCount - 1);
+            var cloudDepth = j / (float)(distantCloudCount - 1);
             AddElement(new DistantCloud(this, new(0f, -40f * CloudsEndDepth * (1f - cloudDepth)), cloudDepth, j));
         }
 
-        Shader.SetGlobalVector("_AboveCloudsAtmosphereColor", AtmosphereColor);
-        Shader.SetGlobalVector("_MultiplyColor", save.HasTrueEnding ? Custom.hexToColor("9badc7") : Color.white);
+        Shader.SetGlobalVector(AboveCloudsAtmosphereColor, AtmosphereColor);
+        Shader.SetGlobalVector(MultiplyColor, save.HasTrueEnding ? Custom.hexToColor("9badc7") : Color.white);
 
         var count = (int)BgElementType.END;
         BgElementTimers = new int[count];
 
-        for (int i = 0; i < BgElementTimers.Length; i++)
+        for (var i = 0; i < BgElementTimers.Length; i++)
         {
             var type = (BgElementType)i;
 
@@ -96,15 +103,12 @@ public class TrainView : CustomBgScene
         }
     }
 
-    public const float TRAIN_WIND_DIR = 7.0f;
-    private const float TRAIN_VIEW_YSHIFT = -20000.0f;
-
     public override void Update(bool eu)
     {
         base.Update(eu);
 
         // thank god for this global
-        Shader.SetGlobalFloat("_windDir", TRAIN_WIND_DIR);
+        Shader.SetGlobalFloat(WindDir, TRAIN_WIND_DIR);
 
         YShift = TRAIN_VIEW_YSHIFT;
 
@@ -113,18 +117,20 @@ public class TrainView : CustomBgScene
         {
             IsInit = true;
 
-            for (int i = 0; i < 6000; i++)
+            for (var i = 0; i < 6000; i++)
             {
                 Update(false);
 
                 foreach (var element in elements)
+                {
                     element.Update(false);
+                }
             }
         }
 
-        for (int i = 0; i < BgElementTimers.Length; i++)
+        for (var i = 0; i < BgElementTimers.Length; i++)
         {
-            int timer = BgElementTimers[i];
+            var timer = BgElementTimers[i];
 
             if (timer == 0)
             {
@@ -143,24 +149,41 @@ public class TrainView : CustomBgScene
         foreach (var newElement in DynamicBgElements)
         {
             var newSLeaser = sLeasers.FirstOrDefault(x => x.drawableObject == newElement);
-            if (newSLeaser == null) continue;
+            if (newSLeaser == null)
+            {
+                continue;
+            }
 
             RoomCamera.SpriteLeaser? targetLeaser = null;
 
             foreach (var sLeaser in sLeasers)
             {
-                if (sLeaser.drawableObject is not CustomBgElement element) continue;
+                if (sLeaser.drawableObject is not CustomBgElement element)
+                {
+                    continue;
+                }
 
                 if (element.depth > newElement.depth)
+                {
                     targetLeaser = sLeaser;
+                }
 
-                else break;
+                else
+                {
+                    break;
+                }
             }
 
             if (targetLeaser != null)
+            {
                 foreach (var sprite in targetLeaser.sprites)
+                {
                     foreach (var newSprite in newSLeaser.sprites)
+                    {
                         newSprite.MoveBehindOtherNode(sprite);
+                    }
+                }
+            }
 
             // lazy lightning infront of buildings fix
             if (newElement is BgLightning lightning)
@@ -169,17 +192,32 @@ public class TrainView : CustomBgScene
 
                 foreach (var sLeaser in sLeasers)
                 {
-                    if (sLeaser.drawableObject is not BgBuilding building) continue;
+                    if (sLeaser.drawableObject is not BgBuilding building)
+                    {
+                        continue;
+                    }
 
-                    if (building.Type != BgElementType.CloseCan && building.Type != BgElementType.MediumCan && building.Type != BgElementType.VeryCloseCan) continue;
+                    if (building.Type != BgElementType.CloseCan && building.Type != BgElementType.MediumCan && building.Type != BgElementType.VeryCloseCan)
+                    {
+                        continue;
+                    }
 
 
                     // lightning is for this building or we are the closest lightning
-                    if (newElement.Type == building.Type || newElement.Type == BgElementType.VeryCloseCan) continue;
+                    if (newElement.Type == building.Type || newElement.Type == BgElementType.VeryCloseCan)
+                    {
+                        continue;
+                    }
 
-                    if (newElement.Type == BgElementType.CloseCan && building.Type == BgElementType.MediumCan) continue;
+                    if (newElement.Type == BgElementType.CloseCan && building.Type == BgElementType.MediumCan)
+                    {
+                        continue;
+                    }
 
-                    if (Mathf.Abs(building.pos.x - newElement.pos.x) > 100.0f) continue;
+                    if (Mathf.Abs(building.pos.x - newElement.pos.x) > 100.0f)
+                    {
+                        continue;
+                    }
 
                     lightning.IntensityMultiplier = 0.0f;
                     break;
@@ -187,7 +225,7 @@ public class TrainView : CustomBgScene
             }
         }
 
-        for (int i = DynamicBgElements.Count - 1; i >= 0; i--)
+        for (var i = DynamicBgElements.Count - 1; i >= 0; i--)
         {
             var newElement = DynamicBgElements[i];
          
@@ -222,8 +260,6 @@ public class TrainView : CustomBgScene
         //}
     }
 
-    //public static int stacker = 0;
-    
     public int SetSpawnTime(BgElementType type)
     {
         return type switch
@@ -252,7 +288,10 @@ public class TrainView : CustomBgScene
 
     public void AddBgElement(BgElementType type)
     {
-        if (type == BgElementType.END) return;
+        if (type == BgElementType.END)
+        {
+            return;
+        }
 
         var save = Utils.GetMiscProgression();
 
@@ -358,7 +397,10 @@ public class TrainView : CustomBgScene
         AddElement(newBuilding);
         room.AddObject(newBuilding);
 
-        if (type == BgElementType.FgSupport || type == BgElementType.BgSupport) return;
+        if (type == BgElementType.FgSupport || type == BgElementType.BgSupport)
+        {
+            return;
+        }
 
         DynamicBgElements.Add(newBuilding);
 
@@ -371,8 +413,11 @@ public class TrainView : CustomBgScene
             _ => null,
         };
 
-        if (light == null) return;
-       
+        if (light == null)
+        {
+            return;
+        }
+
         var yAdd = type switch
         {
             BgElementType.VeryCloseCan => 25.0f,

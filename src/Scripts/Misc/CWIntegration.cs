@@ -33,7 +33,7 @@ public static class CWIntegration
     {
         if (self.oracle?.ID == NewOracleID.CW)
         {
-            if (item.AbstractPearl.IsPlayerObject())
+            if (item.AbstractPearl.IsPlayerPearl())
             {
                 return;
             }
@@ -46,15 +46,24 @@ public static class CWIntegration
     {
         var room = self.owner?.oracle?.room;
 
-        if (room is null) return;
+        if (room is null)
+        {
+            return;
+        }
 
-        if (!room.game.IsPearlcatStory()) return;
+        if (!room.game.IsPearlcatStory())
+        {
+            return;
+        }
 
 
         var miscProg = Utils.GetMiscProgression();
         var miscWorld = room.game.GetMiscWorld();
 
-        if (miscWorld == null) return;
+        if (miscWorld == null)
+        {
+            return;
+        }
 
 
         runOriginalCode = false;
@@ -175,10 +184,16 @@ public static class CWIntegration
     {
         var miscWorld = oracle.room.game.GetMiscWorld();
 
-        if (miscWorld is null) return;
+        if (miscWorld is null)
+        {
+            return;
+        }
 
 
-        if (miscWorld.CWGavePearl) return;
+        if (miscWorld.CWGavePearl)
+        {
+            return;
+        }
 
         miscWorld.CWGavePearl = true;
 
@@ -187,9 +202,15 @@ public static class CWIntegration
         {
             foreach (var physicalObject in roomObject)
             {
-                if (physicalObject is not Player player) continue;
+                if (physicalObject is not Player player)
+                {
+                    continue;
+                }
 
-                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+                if (!player.TryGetPearlcatModule(out var playerModule))
+                {
+                    continue;
+                }
 
 
                 var abstractPearl = new DataPearl.AbstractDataPearl(oracle.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, player.abstractCreature.pos, oracle.room.game.GetNewID(), -1, -1, null, Enums.Pearls.CW_Pearlcat);

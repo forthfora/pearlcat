@@ -20,7 +20,7 @@ public class BgBuilding : CustomBgElement
     {
         sLeaser.sprites = new FSprite[1];
 
-        sLeaser.sprites[0] = new FSprite(AssetName, true)
+        sLeaser.sprites[0] = new FSprite(AssetName)
         {
             shader = Type == BgElementType.FgSupport ? Utils.Shaders["Basic"] : UseNonMultiplyShader ? Utils.Shaders["DistantBkgObjectAlpha"] : Utils.Shaders["DistantBkgObject"],
             anchorY = 1.0f
@@ -34,10 +34,10 @@ public class BgBuilding : CustomBgElement
     public override void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         // + Scene.YShift
-        var pos = DrawPos(new(camPos.x, camPos.y), rCam.hDisplace);
-        
-        sLeaser.sprites[0].x = pos.x;
-        sLeaser.sprites[0].y = pos.y;
+        var drawPos = DrawPos(new(camPos.x, camPos.y), rCam.hDisplace);
+
+        sLeaser.sprites[0].x = drawPos.x;
+        sLeaser.sprites[0].y = drawPos.y;
         sLeaser.sprites[0].alpha = Alpha;
         sLeaser.sprites[0].color = new Color(Mathf.Pow(Mathf.InverseLerp(0f, 600f, depth + AtmosphericalDepthAdd), 0.3f) * 0.9f, 0f, 0f);
 

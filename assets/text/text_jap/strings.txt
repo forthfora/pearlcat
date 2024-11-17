@@ -58,7 +58,7 @@ I noticed the augment keeping you alive as soon as you returned here - I don't s
 Pebbles_AS_PearlRed|小石_AS_パールレッド
 Midground|ミッドグラウンド
 Intended for fun, may change gameplay significantly!|楽しむことを目的としていますが、ゲームプレイが大きく変わる可能性があります。
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!|WIP-まだ新しいエンディングはありません！<line>バグが見つかった場合は、Forthbridgeに報告してください！
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP-まだ新しいエンディングはありません！<line>バグが見つかった場合は、forthforaに報告してください！
 ...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|...あなたは...私を食べました。あっちへ行ってください。 <LINE>私は... あなたとは話せません... なぜなら... あなたが... 私を食べた... ...そしてなぜですか?
 GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n|ゲームバージョン：{rainworld.game_version_string} \ n
 You're welcome to stay a while... your ability is fascinating.|しばらく滞在しても構いません...あなたの能力は魅力的です。

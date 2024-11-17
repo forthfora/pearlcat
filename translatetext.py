@@ -2,10 +2,12 @@ import os
 
 from googletrans import Translator
 
-#ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text/text_eng') 
-#OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/text') 
-ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/cw_text/Text_Eng') 
-OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/Pearlcat/cw_text') 
+ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/pearlcat/assets/text/text_eng') 
+OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/pearlcat/assets/text')
+
+# Chasing Wind Text
+# ROOT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/pearlcat/assets/cw_text/Text_Eng') 
+# OUTPUT_DIR = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop/pearlcat/assets/cw_text') 
 
 translator = Translator()
 

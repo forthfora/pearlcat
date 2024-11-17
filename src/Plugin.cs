@@ -3,7 +3,6 @@ using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Security;
-using static Pearlcat.Hooks;
 using System.Linq;
 using System;
 using UnityEngine;
@@ -37,12 +36,13 @@ public class Plugin : BaseUnityPlugin
     public void OnEnable()
     {
         Logger = base.Logger;
-        ApplyInit();
+        Hooks.ApplyInitHooks();
     }
-
 
     public void Update()
     {
+        // Left Control + Left Shift + L
+        // Produces a debug log to the console
         var input = Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.L);
 
         if (input)
@@ -57,7 +57,6 @@ public class Plugin : BaseUnityPlugin
         {
             var rainWorld = RWCustom.Custom.rainWorld;
 
-            var miscProg = rainWorld.progression.miscProgressionData;
             var saveState = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetStorySession?.saveState;
 
             var pearlcatMiscProg = Utils.GetMiscProgression();
@@ -74,14 +73,14 @@ public class Plugin : BaseUnityPlugin
                 $"PEARLCAT VERSION: {VERSION}\n" +
                 $"SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "slime-cubed.slugbase")?.version ?? "NOT FOUND"}\n" +
                 $"CRS VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "crs")?.version ?? "NOT FOUND"}\n" +
-                $"MERGEFIX VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "bro.mergefix")?.version ?? "NOT FOUND"}\n" +
+                $"MIRA VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "mira")?.version ?? "NOT FOUND"}\n" +
 
                 "\n" +
 
                 $"CURRENT MAIN LOOP: {rainWorld.processManager?.currentMainLoop?.GetType()}\n" +
-                $"MSC: {ModManager.MSC}\n" +
-                $"REMIX: {ModManager.MMF}\n" +
-                $"JOLLY: {ModManager.JollyCoop}\n" +
+                $"MSC ACTIVE: {ModManager.MSC}\n" +
+                $"REMIX ACTIVE: {ModManager.MMF}\n" +
+                $"JOLLY ACTIVE: {ModManager.JollyCoop}\n" +
 
                 $"\n-------------------\n" +
                 $"PEARLCAT MISC PROGRESSION:\n" +
@@ -160,6 +159,17 @@ public class Plugin : BaseUnityPlugin
                 message +=
                     $"\n-------------------\n" +
                     $"MISC WORLD NOT FOUND! (not in story session?)\n";
+            }
+
+            message +=
+                $"\n-------------------\n" +
+                $"FULL ACTIVE MODS LIST:\n";
+
+            foreach (var mod in ModManager.ActiveMods)
+            {
+                var version = mod.version == "" ? "N/A" : $"v{mod.version}";
+
+                message += $"> {mod.id} ({mod.name}) - {version}\n";
             }
 
             Debug.Log(message);

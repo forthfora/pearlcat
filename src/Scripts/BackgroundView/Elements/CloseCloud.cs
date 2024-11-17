@@ -17,7 +17,7 @@ public class CloseCloud : Cloud
     {
         sLeaser.sprites = new FSprite[2];
 
-        sLeaser.sprites[0] = new FSprite("pixel", true)
+        sLeaser.sprites[0] = new FSprite("pixel")
         {
             shader = Utils.Shaders["Background"],
             anchorY = 0f,
@@ -27,7 +27,7 @@ public class CloseCloud : Cloud
 
         };
         
-        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString(), true)
+        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString())
         {
             shader = Utils.Shaders["Cloud"],
             anchorY = 1f
@@ -41,22 +41,24 @@ public class CloseCloud : Cloud
         var firstSprite = sLeaser.sprites[0];
         var cloudSprite = sLeaser.sprites[1];
 
-        float y = scene.RoomToWorldPos(rCam.room.cameraPositions[rCam.currentCameraPosition]).y;
-        float alt = Mathf.InverseLerp(Scene.StartAltitude, Scene.EndAltitude, y);
-        float cloudDepth = CloudDepth;
+        var y = scene.RoomToWorldPos(rCam.room.cameraPositions[rCam.currentCameraPosition]).y;
+        var alt = Mathf.InverseLerp(Scene.StartAltitude, Scene.EndAltitude, y);
+        var cloudDepth = CloudDepth;
 
         if (alt > 0.5f)
+        {
             cloudDepth = Mathf.Lerp(cloudDepth, 1f, Mathf.InverseLerp(0.5f, 1f, alt) * 0.5f);
-        
+        }
+
         depth = Mathf.Lerp(Scene.CloudsStartDepth, Scene.CloudsEndDepth, cloudDepth);
         
-        float scaleX = Mathf.Lerp(10f, 2f, cloudDepth);
-        float posY = DrawPos(new(camPos.x, camPos.y + Scene.YShift), rCam.hDisplace).y;
+        var scaleX = Mathf.Lerp(10f, 2f, cloudDepth);
+        var posY = DrawPos(new(camPos.x, camPos.y + Scene.YShift), rCam.hDisplace).y;
         
         posY += Mathf.Lerp(Mathf.Pow(CloudDepth, 0.75f), Mathf.Sin(CloudDepth * Mathf.PI), 0.5f) * Mathf.InverseLerp(0.5f, 0f, alt) * 600f;
         posY -= Mathf.InverseLerp(0.18f, 0.1f, alt) * Mathf.Pow(1f - CloudDepth, 3f) * 100f;
         
-        float scaleY = Mathf.Lerp(1f, Mathf.Lerp(0.75f, 0.25f, alt), cloudDepth);
+        var scaleY = Mathf.Lerp(1f, Mathf.Lerp(0.75f, 0.25f, alt), cloudDepth);
         
         cloudSprite.scaleY = scaleY * scaleX;
         cloudSprite.scaleX = scaleX;

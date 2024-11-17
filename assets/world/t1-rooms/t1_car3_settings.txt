@@ -4,7 +4,7 @@ Clouds: 0.4523946
 Grime: 0
 RandomItemDensity: 0
 RandomItemSpearChance: 0
-Palette: 300
+Palette: 302
 EffectColorA: 13
 EffectColorB: 13
 Effects: SunBlock-1-20-20, Brightness-0.185598-302.6664-102.0352, Contrast-0.173998-33.59689-95.49375, SkyAndLightBloom-0.168198-282.3898-30.5336, 

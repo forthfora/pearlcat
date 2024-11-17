@@ -7,27 +7,39 @@ namespace Pearlcat;
 // https://medium.com/@altaf.navalur/serialize-deserialize-color-objects-in-unity-1731e580af94
 public class JsonColorHandler : JsonConverter
 {
-    public override bool CanConvert(Type objectType) => true;
+    public override bool CanConvert(Type objectType)
+    {
+        return true;
+    }
 
     public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
     {
         try
         {
-            ColorUtility.TryParseHtmlString("#" + reader.Value, out Color loadedColor);
+            var ok = ColorUtility.TryParseHtmlString("#" + reader.Value, out var loadedColor);
+
+            if (!ok)
+            {
+                return null;
+            }
+
             return loadedColor;
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Failed to parse color {objectType} : {ex.Message}");
+            Plugin.Logger.LogError($"Failed to parse color {objectType} : {ex.Message}");
             return null;
         }
     }
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        if (value == null) return;
+        if (value == null)
+        {
+            return;
+        }
 
-        string val = ColorUtility.ToHtmlStringRGB((Color)value);
+        var val = ColorUtility.ToHtmlStringRGB((Color)value);
         writer.WriteValue(val);
     }
 }

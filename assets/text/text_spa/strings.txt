@@ -147,7 +147,7 @@ Begin at the start of the Mira storyline...<LINE>The world will be preserved, an
 VERSION WARNING|ADVERTENCIA SOBRE LA VERSIÓN
 Mira Installation requires Pearlcat version 1.3.0 or above! Please update...|¡La instalación de Mira requiere la versión 1.3.0 o superior de Perlina! Por favor, actualiza...
 PEARLPUP|CRÍA DE PERLINA
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthbridge!|WIP; ¡aún no hay ningún final nuevo!<LINE>¡Si encuentras algún bug o error, notifíquelo a forthbridge!
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP; ¡aún no hay ningún final nuevo!<LINE>¡Si encuentras algún bug o error, notifíquelo a forthfora!
 FIND MIRA...|HALLAR A MIRA...
 Storage limit reached (|Límite de almacenamiento alcanzado (
 ): swap out a pearl, or change the limit in the Remix options|): saca una perla o cambia el límite en las opciones de Remix

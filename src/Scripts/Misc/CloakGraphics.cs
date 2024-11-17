@@ -40,9 +40,9 @@ public class CloakGraphics
 
         if (needsReset)
         {
-            for (int i = 0; i < divs; i++)
+            for (var i = 0; i < divs; i++)
             {
-                for (int j = 0; j < divs; j++)
+                for (var j = 0; j < divs; j++)
                 {
                     clothPoints[i, j, 1] = owner.player.bodyChunks[1].pos;
                     clothPoints[i, j, 0] = owner.player.bodyChunks[1].pos;
@@ -55,7 +55,9 @@ public class CloakGraphics
         var cloakAttachPos = Vector2.Lerp(owner.head.pos, owner.player.bodyChunks[1].pos, 0.6f);
 
         if (owner.player.bodyMode == Player.BodyModeIndex.Crawl)
+        {
             cloakAttachPos += new Vector2(0f, 4f);
+        }
 
         Vector2 a = default;
 
@@ -69,9 +71,9 @@ public class CloakGraphics
         var bodyAngle = Custom.DirVec(owner.player.bodyChunks[1].pos, owner.player.bodyChunks[0].pos + Custom.DirVec(Vector2.zero, owner.player.bodyChunks[0].vel) * 5f) * 1.6f;
         var perp = Custom.PerpendicularVector(bodyAngle);
 
-        for (int k = 0; k < divs; k++)
+        for (var k = 0; k < divs; k++)
         {
-            for (int l = 0; l < divs; l++)
+            for (var l = 0; l < divs; l++)
             {
                 var num = Mathf.InverseLerp(0f, divs - 1, l);
 
@@ -96,7 +98,7 @@ public class CloakGraphics
                     clothPoints[k, l, 2] -= (num3 - num2) * idealAngle * (1f - num / 1.4f);
                 }
 
-                for (int m = 0; m < 4; m++)
+                for (var m = 0; m < 4; m++)
                 {
                     var intVector = new IntVector2(k, l) + Custom.fourDirections[m];
                     if (intVector.x >= 0 && intVector.y >= 0 && intVector.x < divs && intVector.y < divs)
@@ -114,13 +116,17 @@ public class CloakGraphics
 
     public Vector2 IdealPosForPoint(int x, int y, Vector2 bodyPos, Vector2 dir, Vector2 perp)
     {
-        float num = Mathf.InverseLerp(0f, divs - 1, x);
-        float t = Mathf.InverseLerp(0f, divs - 1, y);
+        var num = Mathf.InverseLerp(0f, divs - 1, x);
+        var t = Mathf.InverseLerp(0f, divs - 1, y);
 
         return bodyPos + Mathf.Lerp(-1f, 1f, num) * perp * Mathf.Lerp(9f, 11f, t) + dir * Mathf.Lerp(8f, -9f, t) * (1f + Mathf.Sin(3.1415927f * num) * 0.35f * Mathf.Lerp(-1f, 1f, t));
     }
 
-    public Color CloakColorAtPos(float f) => playerModule.CloakColor * Custom.HSL2RGB(0.0f, 0.0f, Custom.LerpMap(f, 0.3f, 1.0f, 1.0f, Custom.LerpMap(playerModule.CamoLerp, 0.0f, 1.0f, 0.3f, 1.0f)));
+    public Color CloakColorAtPos(float f)
+    {
+        return playerModule.CloakColor * Custom.HSL2RGB(0.0f, 0.0f,
+            Custom.LerpMap(f, 0.3f, 1.0f, 1.0f, Custom.LerpMap(playerModule.CamoLerp, 0.0f, 1.0f, 0.3f, 1.0f)));
+    }
 
 
     public void InitiateSprite(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
@@ -130,9 +136,9 @@ public class CloakGraphics
         sLeaser.sprites[sprite] = TriangleMesh.MakeGridMesh(element.name, divs - 1);
         sLeaser.sprites[sprite].color = Color.white;
 
-        for (int i = 0; i < divs; i++)
+        for (var i = 0; i < divs; i++)
         {
-            for (int j = 0; j < divs; j++)
+            for (var j = 0; j < divs; j++)
             {
                 clothPoints[i, j, 0] = owner.player.firstChunk.pos;
                 clothPoints[i, j, 1] = owner.player.firstChunk.pos;
@@ -143,9 +149,9 @@ public class CloakGraphics
 
     public void UpdateColor(RoomCamera.SpriteLeaser sLeaser)
     {
-        for (int i = 0; i < divs; i++)
+        for (var i = 0; i < divs; i++)
         {
-            for (int j = 0; j < divs; j++)
+            for (var j = 0; j < divs; j++)
             {
                 ((TriangleMesh)sLeaser.sprites[sprite]).verticeColors[j * divs + i] = CloakColorAtPos(i / (float)(divs - 1));
             }
@@ -156,11 +162,14 @@ public class CloakGraphics
     {
         sLeaser.sprites[sprite].isVisible = (visible && owner.player.room != null);
         
-        if (!sLeaser.sprites[sprite].isVisible) return;
-
-        for (int i = 0; i < divs; i++)
+        if (!sLeaser.sprites[sprite].isVisible)
         {
-            for (int j = 0; j < divs; j++)
+            return;
+        }
+
+        for (var i = 0; i < divs; i++)
+        {
+            for (var j = 0; j < divs; j++)
             {
                 ((TriangleMesh)sLeaser.sprites[sprite]).MoveVertice(i * divs + j, Vector2.Lerp(clothPoints[i, j, 1], clothPoints[i, j, 0], timeStacker) - camPos);
             }

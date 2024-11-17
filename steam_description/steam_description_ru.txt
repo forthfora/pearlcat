@@ -32,4 +32,4 @@
     [*] WillowWisp
     [*] Lolight2
 [/list][/b]
-[b] Прямая ссылка: [/b]https://github.com/forthbridge/pearlcat/releases
+[b] Прямая ссылка: [/b]https://github.com/forthfora/pearlcat/releases

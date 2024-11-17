@@ -15,14 +15,20 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public SSOracleMeetPearlcat(SSOracleBehavior owner) : base(owner, Enums.SSOracle.Pearlcat_SSSubBehavGeneral, Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
     {
-        if (!oracle.room.game.IsStorySession) return;
-        
+        if (!oracle.room.game.IsStorySession)
+        {
+            return;
+        }
+
         var save = oracle.room.game.GetStorySession.saveState;
 
         var miscWorld = oracle.room.game.GetMiscWorld();
         var miscProg = Utils.GetMiscProgression();
 
-        if (miscWorld == null) return;
+        if (miscWorld == null)
+        {
+            return;
+        }
 
 
         if (miscWorld.JustMiraSkipped)
@@ -239,14 +245,12 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         }
         else
         {
-            for (int i = world.firstRoomIndex; i < world.firstRoomIndex + world.NumberOfRooms; i++)
+            for (var i = world.firstRoomIndex; i < world.firstRoomIndex + world.NumberOfRooms; i++)
             {
                 var room = world.GetAbstractRoom(i);
 
-                for (int j = 0; j < room.creatures.Count; j++)
+                foreach (var crit in room.creatures)
                 {
-                    var crit = room.creatures[j];
-
                     if (miscWorld.PearlpupID == crit.ID.number)
                     {
                         var firstPlayer = world.game.FirstAlivePlayer.realizedCreature;
@@ -262,9 +266,9 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         foreach (var absPlayer in oracle.room.abstractRoom.creatures)
         {
-            if (absPlayer.realizedCreature is Player player)
+            if (absPlayer.realizedCreature is Player thisPlayer)
             {
-                player.SuperHardSetPosition(new Vector2(490.0f, 75.0f));
+                thisPlayer.SuperHardSetPosition(new Vector2(490.0f, 75.0f));
             }
         }
 
@@ -280,9 +284,9 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
             var firstPearlcat = world.game.Players[world.game.GetFirstPearlcatIndex()];
 
-            if (firstPearlcat.realizedCreature is Player player)
+            if (firstPearlcat.realizedCreature is Player thisPlayer)
             {
-                player.slugOnBack.SlugToBack(pup);
+                thisPlayer.slugOnBack.SlugToBack(pup);
             }
         }
 
@@ -291,13 +295,19 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public override void Update()
     {
-        if (player == null) return;
+        if (player == null)
+        {
+            return;
+        }
 
         var module = owner.GetModule();
         var miscWorld = oracle.room.game.GetMiscWorld();
         var miscProg = Utils.GetMiscProgression();
 
-        if (miscWorld == null) return;
+        if (miscWorld == null)
+        {
+            return;
+        }
 
         var meetCount = miscWorld.PebblesMeetCount;
 
@@ -307,28 +317,28 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         if (module.PearlToReturn != null)
         {
-            if (module.PearlToReturn.grabbedBy.Count > 0 || module.PlayerToReturnTo?.TryGetTarget(out var player) != true)
+            if (module.PearlToReturn.grabbedBy.Count > 0 || module.PlayerToReturnTo?.TryGetTarget(out var thisPlayer) != true)
             {
                 module.PearlToReturn = null;
             }
             else
             {
-                var freeHand = player.FreeHand();
+                var freeHand = thisPlayer?.FreeHand() ?? -1;
 
                 if (freeHand == -1)
                 {
                     module.PearlToReturn = null;
                 }
-                else
+                else if (thisPlayer is not null)
                 {
-                    var pearlDir = Custom.DirVec(module.PearlToReturn.firstChunk.pos, player.firstChunk.pos);
-                    var pearlDist = Custom.Dist(module.PearlToReturn.firstChunk.pos, player.firstChunk.pos);
+                    var pearlDir = Custom.DirVec(module.PearlToReturn.firstChunk.pos, thisPlayer.firstChunk.pos);
+                    var pearlDist = Custom.Dist(module.PearlToReturn.firstChunk.pos, thisPlayer.firstChunk.pos);
 
                     module.PearlToReturn.firstChunk.vel = pearlDir * Custom.LerpMap(pearlDist, 200.0f, 10.0f, 15.0f, 4.0f);
 
                     if (pearlDist < 10.0f)
                     {
-                        player.SlugcatGrab(module.PearlToReturn, freeHand);
+                        thisPlayer.SlugcatGrab(module.PearlToReturn, freeHand);
                     }
                 }
             }
@@ -360,7 +370,10 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             }
         }
 
-        if (owner.conversation != null && !owner.conversation.slatedForDeletion) return;
+        if (owner.conversation != null && !owner.conversation.slatedForDeletion)
+        {
+            return;
+        }
 
         if (module.PearlBeingRead != null)
         {
@@ -438,7 +451,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 }
                 else if (ConvoCount == 5)
                 {
-                    if (Utils.IsMiraActive && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
+                    if (ModCompat_Helpers.IsModEnabled_MiraInstallation && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
                     {
                         owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
                     }
@@ -484,7 +497,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                             ConvoCount++;
                         }
-                        else if (Utils.IsMiraActive && !miscProg.UnlockedMira)
+                        else if (ModCompat_Helpers.IsModEnabled_MiraInstallation && !miscProg.UnlockedMira)
                         {
                             owner.LockShortcuts();
                             owner.getToWorking = 0.0f;
@@ -514,7 +527,10 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             module.PearlBeingRead.firstChunk.vel = Vector2.zero;
         }
 
-        if (owner.getToWorking != 1.0f) return;
+        if (owner.getToWorking != 1.0f)
+        {
+            return;
+        }
 
         if (module.PearlToRead != null)
         {
@@ -542,26 +558,42 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         {
             var roomObjects = oracle.room.physicalObjects;
 
-            for (int i = 0; i < roomObjects.Length; i++)
+            foreach (var objectLayer in roomObjects)
             {
-                for (int j = 0; j < roomObjects[i].Count; j++)
+                foreach (var physicalObject in objectLayer)
                 {
-                    var physicalObject = roomObjects[i][j];
+                    if (!Custom.DistLess(physicalObject.firstChunk.pos, oracle.firstChunk.pos, 220.0f))
+                    {
+                        continue;
+                    }
 
-                    if (!Custom.DistLess(physicalObject.firstChunk.pos, oracle.firstChunk.pos, 220.0f)) continue;
-                    
-                    if (physicalObject.grabbedBy.Count > 0) continue;
-                    
-                    if (physicalObject is not DataPearl dataPearl) continue;
-                    
-                    if (physicalObject.abstractPhysicalObject.IsPlayerObject()) continue;
-                    
-                    if (!module.PearlsHeldByPlayer.TryGetValue(dataPearl, out var player)) continue;
+                    if (physicalObject.grabbedBy.Count > 0)
+                    {
+                        continue;
+                    }
 
-                    if (dataPearl is PebblesPearl) continue;
+                    if (physicalObject is not DataPearl dataPearl)
+                    {
+                        continue;
+                    }
+
+                    if (physicalObject.abstractPhysicalObject.IsPlayerPearl())
+                    {
+                        continue;
+                    }
+
+                    if (!module.PearlsHeldByPlayer.TryGetValue(dataPearl, out var p))
+                    {
+                        continue;
+                    }
+
+                    if (dataPearl is PebblesPearl)
+                    {
+                        continue;
+                    }
 
                     module.PearlToRead = dataPearl;
-                    module.PlayerToReturnTo = new(player);
+                    module.PlayerToReturnTo = new(p);
                 }
             }
         }
@@ -570,7 +602,10 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         {
             foreach (var physicalObject in roomObject)
             {
-                if (physicalObject is not DataPearl dataPearl) continue;
+                if (physicalObject is not DataPearl dataPearl)
+                {
+                    continue;
+                }
 
                 var wasGrabbed = module.PearlsHeldByPlayer.TryGetValue(dataPearl, out _);
 
@@ -596,8 +631,11 @@ public class SSOracleMeetPearlcat : ConversationBehavior
     {
         var save = pearl.room.game.GetMiscWorld();
 
-        if (save == null) return; ;
-        
+        if (save == null)
+        {
+            return;
+        }
+
         var pearlID = pearl.abstractPhysicalObject.ID.number;
 
         module.WasPearlAlreadyRead = save.PearlIDsBroughtToPebbles.ContainsKey(pearlID);
@@ -666,9 +704,9 @@ public class SSOracleMeetPearlcat : ConversationBehavior
     }
 
 
-    public bool HasRMPearl(Oracle oracle)
+    public bool HasRMPearl(Oracle thisOracle)
     {
-        var miscWorld = oracle.room.game.GetMiscWorld();
+        var miscWorld = thisOracle.room.game.GetMiscWorld();
 
         if (miscWorld != null)
         {
@@ -678,11 +716,14 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             }
         }
 
-        foreach (var roomObject in oracle.room.physicalObjects)
+        foreach (var roomObject in thisOracle.room.physicalObjects)
         {
             foreach (var physicalObject in roomObject)
             {
-                if (physicalObject is not DataPearl dataPearl) continue;
+                if (physicalObject is not DataPearl dataPearl)
+                {
+                    continue;
+                }
 
                 if (dataPearl.IsHalcyonPearl())
                 {
@@ -694,49 +735,58 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         return false;
     }
 
-    public void TakeRMPearl(Oracle oracle, bool withEffect = true)
+    public void TakeRMPearl(Oracle thisOracle, bool withEffect = true)
     {
-        var miscWorld = oracle.room.game.GetMiscWorld();
+        var miscWorld = thisOracle.room.game.GetMiscWorld();
 
         if (miscWorld != null)
         {
             miscWorld.PebblesTookHalcyonPearl = true;
         }
 
-        for (int roomObjIndex = oracle.room.physicalObjects.Length - 1; roomObjIndex >= 0; roomObjIndex--)
+        for (var roomObjIndex = thisOracle.room.physicalObjects.Length - 1; roomObjIndex >= 0; roomObjIndex--)
         {
-            var roomObject = oracle.room.physicalObjects[roomObjIndex];
+            var roomObject = thisOracle.room.physicalObjects[roomObjIndex];
                
-            for (int physObjInded = roomObject.Count - 1; physObjInded >= 0; physObjInded--)
+            for (var physObjInded = roomObject.Count - 1; physObjInded >= 0; physObjInded--)
             {
                 var physicalObject = roomObject[physObjInded];
                 
-                if (physicalObject is Player player)
+                if (physicalObject is Player thisPlayer)
                 {
-                    if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+                    if (!thisPlayer.TryGetPearlcatModule(out var playerModule))
+                    {
+                        continue;
+                    }
 
-                    for (int i = playerModule.Inventory.Count - 1; i >= 0; i--)
+                    for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
                     {
                         var item = playerModule.Inventory[i];
 
-                        if (item is not DataPearl.AbstractDataPearl itemDataPearl) continue;
+                        if (item is not DataPearl.AbstractDataPearl itemDataPearl)
+                        {
+                            continue;
+                        }
 
-                        if (!itemDataPearl.IsHalcyonPearl()) continue;
+                        if (!itemDataPearl.IsHalcyonPearl())
+                        {
+                            continue;
+                        }
 
                         if (item.realizedObject != null)
                         {
                             item.realizedObject.AbstractedEffect();
-                            oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, player.firstChunk.pos);
+                            thisOracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, thisPlayer.firstChunk.pos);
                         }
 
-                        player.RemoveFromInventory(item);
+                        thisPlayer.RemoveFromInventory(item);
 
                         if (withEffect)
                         {
                             playerModule.ShowHUD(120);
                         }
 
-                        oracle.room.game.GetStorySession.RemovePersistentTracker(item);
+                        thisOracle.room.game.GetStorySession.RemovePersistentTracker(item);
                             
                         item.destroyOnAbstraction = true;
                         item.Abstractize(item.pos);
@@ -745,20 +795,29 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                     continue;
                 }
 
-                if (physicalObject.abstractPhysicalObject.IsPlayerObject()) continue;
+                if (physicalObject.abstractPhysicalObject.IsPlayerPearl())
+                {
+                    continue;
+                }
 
-                if (physicalObject is not DataPearl dataPearl) continue;
-                
-                if (!dataPearl.IsHalcyonPearl()) continue;
+                if (physicalObject is not DataPearl dataPearl)
+                {
+                    continue;
+                }
 
-                
+                if (!dataPearl.IsHalcyonPearl())
+                {
+                    continue;
+                }
+
+
                 if (withEffect)
                 {
                     physicalObject.AbstractedEffect();
-                    oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 0.9f, 2.0f);
+                    thisOracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 0.9f, 2.0f);
                 }
 
-                oracle.room.game.GetStorySession.RemovePersistentTracker(physicalObject.abstractPhysicalObject);
+                thisOracle.room.game.GetStorySession.RemovePersistentTracker(physicalObject.abstractPhysicalObject);
 
                 physicalObject.abstractPhysicalObject.destroyOnAbstraction = true;
                 physicalObject.abstractPhysicalObject.Abstractize(physicalObject.abstractPhysicalObject.pos);
@@ -766,35 +825,41 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         }
     }
 
-    public void GiveSSPearl(Oracle oracle, bool withEffect = true)
+    public void GiveSSPearl(Oracle thisOracle, bool withEffect = true)
     {
-        foreach (var roomObject in oracle.room.physicalObjects)
+        foreach (var roomObject in thisOracle.room.physicalObjects)
         {
             foreach (var physicalObject in roomObject)
             {
-                if (physicalObject is not Player player) continue;              
+                if (physicalObject is not Player thisPlayer)
+                {
+                    continue;
+                }
 
-                if (!player.TryGetPearlcatModule(out var playerModule)) continue;
+                if (!thisPlayer.TryGetPearlcatModule(out var playerModule))
+                {
+                    continue;
+                }
 
 
-                var abstractPearl = new DataPearl.AbstractDataPearl(oracle.room.world, AbstractObjectType.DataPearl, null, player.abstractCreature.pos, oracle.room.game.GetNewID(), -1, -1, null, Enums.Pearls.SS_Pearlcat);
+                var abstractPearl = new DataPearl.AbstractDataPearl(thisOracle.room.world, AbstractObjectType.DataPearl, null, thisPlayer.abstractCreature.pos, thisOracle.room.game.GetNewID(), -1, -1, null, Enums.Pearls.SS_Pearlcat);
 
                 if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value)
                 {
-                    abstractPearl.pos = player.abstractCreature.pos;
-                    oracle.room.abstractRoom.AddEntity(abstractPearl);
+                    abstractPearl.pos = thisPlayer.abstractCreature.pos;
+                    thisOracle.room.abstractRoom.AddEntity(abstractPearl);
                     abstractPearl.RealizeInRoom();
 
-                    var freeHand = player.FreeHand();
+                    var freeHand = thisPlayer.FreeHand();
 
                     if (freeHand > -1)
                     {
-                        player.SlugcatGrab(abstractPearl.realizedObject, freeHand);
+                        thisPlayer.SlugcatGrab(abstractPearl.realizedObject, freeHand);
                     }
                 }
                 else
                 {
-                    player.StoreObject(abstractPearl);
+                    thisPlayer.StoreObject(abstractPearl);
 
                     if (withEffect)
                     {
@@ -804,7 +869,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                 if (withEffect)
                 {
-                    oracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 1.5f, 0.5f);
+                    thisOracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, physicalObject.firstChunk, false, 1.5f, 0.5f);
                 }
             }
         }
