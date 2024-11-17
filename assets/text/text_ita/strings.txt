@@ -956,7 +956,7 @@ Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
 
 Grab a creature and hold (GRAB) with an active green pearl to revive them|Afferra una creatura e tieni premuto (PRENDI) con una perla verde attiva per farla rivivere
 
-Linnnnnna |Linnnnnna
+Lin |Lin
 
 Sentry KB|Sentry KB
 

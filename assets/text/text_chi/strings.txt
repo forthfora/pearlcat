@@ -964,7 +964,7 @@ Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
 
 Grab a creature and hold (GRAB) with an active green pearl to revive them|在绿色珍珠激活的情况下，抓住一个生物并按住（抓取）以复活他们
 
-Linnnnnna |Linnnnnna 
+Lin |Lin 
 
 Sentry KB|哨兵 KB
 

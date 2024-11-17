@@ -51,6 +51,23 @@ excludedFileNames = [
 ]
 
 excludedStrings = [
+    "Geahgeah ",
+    "Sidera ",
+    "forthfora",
+
+    "Noir ",
+    "Lin ",
+    "zbiotr ",
+    "Kimi ",
+
+    "TurtleMan27",
+    "Balagaga",
+    "Elliot",
+    "Efi",
+    "WillowWisp",
+    "Lolight2",
+    "mayhemmm",
+
     "Goto Failed",
     "DschockHorizontalRight",
     "T1_",
@@ -69,11 +86,12 @@ excludedStrings = [
     "sleep1",
     "-",
     " || fileName ==",
+    " || fileName == ",
     "OE_",
     "SS_T1_S01",
     "CC",
     "SS_AI",
-    "soundeffects/ambient"
+    "soundeffects/ambient",
 ]
 
 
@@ -150,6 +168,8 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
         f = open(output, "r", encoding='utf-8-sig')
 
         for line in f.readlines():
+            if str.isspace(line): continue
+
             lineSplit = line.split("|")
             lineSplit[1] = lineSplit[1].removesuffix("\n")
 
@@ -172,7 +192,7 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
 
             # Preserve an existing translation if the string has not changed            
             if string in existingStrings:
-                output = string + "|" + existingStrings[string] + "\n"
+                output = string + "|" + existingStrings[string] + "\n\n"
                 preexistingLines += 1
 
             else:

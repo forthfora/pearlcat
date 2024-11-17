@@ -962,7 +962,7 @@ Pebbles_SS_Pearlcat|자갈_SS_펄캣
 
 Grab a creature and hold (GRAB) with an active green pearl to revive them|생물을 잡고 활성화된 녹색 진주로 잡아(GRAB) 그들을 소생시키십시오.
 
-Linnnnnna |Linnnnna
+Lin |Lin
 
 Sentry KB|센트리 KB
 

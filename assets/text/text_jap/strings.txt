@@ -962,7 +962,7 @@ Pebbles_SS_Pearlcat|Pebbles_SS_Pearlcat
 
 Grab a creature and hold (GRAB) with an active green pearl to revive them|クリーチャーを掴み、アクティブなグリーンパールを押し続ける(GRAB)とそれらを復活させます
 
-Linnnnnna |linnnnna
+Lin |Lin
 
 Sentry KB|セントリーKB
 
