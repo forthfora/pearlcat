@@ -98,6 +98,13 @@ public abstract class PearlAnimation
 
             addon.ActiveHaloColor = abstractObject.GetObjectColor() * new Color(1.0f, 0.25f, 0.25f);
 
+            // CW Pearl unique halo color
+            if (abstractObject is DataPearl.AbstractDataPearl dataPearl &&
+                dataPearl.dataPearlType == Enums.Pearls.CW_Pearlcat)
+            {
+                addon.ActiveHaloColor = Custom.hexToColor("bf934d");
+            }
+
             if (i == playerModule.ActiveObjectIndex)
             {
                 addon.HaloColor = addon.ActiveHaloColor;
@@ -148,7 +155,7 @@ public abstract class PearlAnimation
                 continue;
             }
 
-            if (!abstractObject.TryGetPlayerPearlModule(out var poModule))
+            if (!abstractObject.TryGetPlayerPearlModule(out var pearlModule))
             {
                 continue;
             }
@@ -167,16 +174,16 @@ public abstract class PearlAnimation
             addon.IsActiveObject = i == playerModule.ActiveObjectIndex;
             addon.SymbolColor = effect.MajorEffect == PearlEffect.MajorEffectType.CAMOFLAGUE ? Color.white : abstractObject.GetObjectColor();
 
-            if (poModule.CooldownTimer != 0)
+            if (pearlModule.CooldownTimer != 0)
             {
-                if (poModule.CooldownTimer == 1)
+                if (pearlModule.CooldownTimer == 1)
                 {
                     abstractObject.realizedObject.room.AddObject(new ShockWave(abstractObject.realizedObject.firstChunk.pos, 10.0f, 1.0f, 5, true));
                 }
 
                 addon.DrawSymbolCooldown = true;
 
-                var cooldownLerp = poModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(poModule.CooldownTimer, poModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
+                var cooldownLerp = pearlModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(pearlModule.CooldownTimer, pearlModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
                 var cooldownColor = effect.MajorEffect == PearlEffect.MajorEffectType.RAGE ? Color.white : (Color)new Color32(189, 13, 0, 255);
 
                 addon.SymbolColor = Color.Lerp(Color.Lerp(addon.SymbolColor, cooldownColor, 0.4f), cooldownColor, cooldownLerp);
@@ -214,8 +221,8 @@ public abstract class PearlAnimation
             addon.ReviveCounter = playerModule.ReviveCount;
 
 
-            
-            addon.IsSentry = poModule.IsSentry || poModule.IsReturningSentry;
+
+            addon.IsSentry = pearlModule.IsSentry || pearlModule.IsReturningSentry;
 
             if (addon.IsSentry || addon.IsActiveRagePearl)
             {
@@ -230,9 +237,9 @@ public abstract class PearlAnimation
                 {
                     addon.OverridePos ??= abstractObject.realizedObject.firstChunk.pos;
                     addon.OverrideLastPos = addon.OverridePos;
-                    
+
                     addon.OverridePos = Vector2.Lerp((Vector2)addon.OverridePos, addon.IsActiveObject ? player.GetActivePearlPos(timeStacker: 1.0f) : targetPos.Value, 0.7f);
-                    
+
                     if (addon.OverrideLastPos != null && !Custom.DistLess((Vector2)addon.OverridePos, (Vector2)addon.OverrideLastPos, 100.0f))
                     {
                         addon.OverrideLastPos = addon.OverridePos;
@@ -255,16 +262,16 @@ public abstract class PearlAnimation
                 returned = Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, returnPos, 80.0f);
             }
 
-            if (poModule.IsReturningSentry && returned)
+            if (pearlModule.IsReturningSentry && returned)
             {
                 abstractObject.realizedObject.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, abstractObject.realizedObject.firstChunk.pos, 0.5f, 3.0f);
                 abstractObject.realizedObject.room.AddObject(new LightningMachine.Impact(abstractObject.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
 
-                poModule.IsReturningSentry = false;
+                pearlModule.IsReturningSentry = false;
             }
-            
+
             var hasTarget = false;
-            
+
             if (!addon.IsSentry && playerModule.RageTarget?.TryGetTarget(out var target) == true)
             {
                 hasTarget = true;
@@ -274,12 +281,18 @@ public abstract class PearlAnimation
             if (ModOptions.OldRedPearlAbility.Value)
             {
                 addon.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.RAGE;
-                addon.LaserLerp = poModule.LaserLerp;
+                addon.LaserLerp = pearlModule.LaserLerp;
             }
             else
             {
                 addon.LaserLerp = Custom.LerpAndTick(addon.LaserLerp, 0.0f, 0.025f, 0.005f);
                 addon.IsLaserVisible = addon.LaserLerp > 0.02f;
+            }
+
+            // CW Pearl is on second double jump
+            if (pearlModule.IsCWDoubleJumpUsed && pearlModule.CooldownTimer == 0)
+            {
+                addon.SymbolColor = Custom.hexToColor("ffc800");
             }
         }
     }

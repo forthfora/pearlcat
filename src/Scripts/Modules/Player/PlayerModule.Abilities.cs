@@ -188,6 +188,8 @@ public partial class PlayerModule
             {
                 module.CooldownTimer = time;
             }
+
+            module.IsCWDoubleJumpUsed = false;
         }
     }
 

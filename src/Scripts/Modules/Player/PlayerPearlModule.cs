@@ -61,4 +61,7 @@ public class PlayerPearlModule
         }
     }
 
+
+    // Special flag for CW Pearl - allows 2 double jumps
+    public bool IsCWDoubleJumpUsed { get; set; }
 }
