@@ -813,6 +813,8 @@ public static class Player_Helpers
         self.TryRevivePlayer(playerModule);
     }
 
+
+    // Update Adult Pearlpup
     public static void UpdateAdultPearlpup(Player self, PlayerModule playerModule)
     {
         if (!playerModule.IsAdultPearlpup)
@@ -820,195 +822,224 @@ public static class Player_Helpers
             return;
         }
 
+
         var hasHeart =
             playerModule.Inventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl()) ||
-            playerModule.PostDeathInventory.Any(x =>
-                x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl());
-        var playerRoom = self.room;
+            playerModule.PostDeathInventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl());
 
-        if (playerRoom != null && !self.dead && !hasHeart)
+        // Give heart if it is missing
+        if (self.room != null && !self.dead && !hasHeart)
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world,
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
-                playerRoom.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
+                self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
+
             self.StoreObject(pearl, overrideLimit: true);
         }
 
 
         if (playerModule.IsPossessingCreature)
         {
-            playerModule.PossessionTarget = null;
+            UpdateAdultPearlpup_Possessing(self, playerModule);
+        }
+        else
+        {
+            UpdateAdultPearlpup_NotPossessing(self, playerModule);
+        }
+    }
 
-            AbstractCreature? possessedCreature = null;
-            var shouldReleasePossession = playerModule.PossessedCreature == null || !playerModule.PossessedCreature.TryGetTarget(out possessedCreature);
+    private static void UpdateAdultPearlpup_Possessing(Player self, PlayerModule playerModule)
+    {
+        playerModule.PossessionTarget = null;
 
-            if (possessedCreature != null)
+        AbstractCreature? possessedCreature = null;
+        var releasePossession = playerModule.PossessedCreature is null || !playerModule.PossessedCreature.TryGetTarget(out possessedCreature);
+
+        if (possessedCreature is not null)
+        {
+            if (possessedCreature.realizedCreature is null)
             {
-                if (possessedCreature.realizedCreature == null || possessedCreature.realizedCreature.dead)
+                releasePossession = true;
+            }
+            else if (possessedCreature.realizedCreature.dead)
+            {
+                releasePossession = true;
+            }
+            else
+            {
+                // Mainly for flying creatures, release possession if outside bounds of the room
+                var widthBuffer = 10;
+                var bottomBuffer = 10;
+                var topBuffer = 50;
+
+                var insideRoom = Custom.InsideRect(self.abstractCreature.pos.Tile, new IntRect(-widthBuffer, -bottomBuffer, self.room.TileWidth + widthBuffer, self.room.TileHeight + topBuffer));
+
+                if (!insideRoom)
                 {
-                    shouldReleasePossession = true;
+                    releasePossession = true;
                 }
             }
+        }
 
-            if (shouldReleasePossession || possessedCreature == null)
+        if (releasePossession || possessedCreature is null)
+        {
+            ReleasePossession(self, playerModule);
+            return;
+        }
+
+
+        playerModule.BlockInput = true;
+        possessedCreature.controlled = true;
+
+        if (possessedCreature.realizedCreature?.enteringShortCut is not null)
+        {
+            var enteringShortcut = possessedCreature.realizedCreature.enteringShortCut.Value;
+
+            var shortcutRad = possessedCreature.realizedCreature.room.MiddleOfTile(enteringShortcut) + Custom.IntVector2ToVector2(possessedCreature.realizedCreature.room.ShorcutEntranceHoleDirection(enteringShortcut)) * -5f;
+            var allConnectedObjects = possessedCreature.GetAllConnectedObjects();
+
+            var chunksNotInShortcut = 0;
+
+            foreach (var connectedObj in allConnectedObjects)
             {
-                ReleasePossession(self, playerModule);
-                return;
-            }
-
-
-            playerModule.BlockInput = true;
-            possessedCreature.controlled = true;
-
-            if (possessedCreature.realizedCreature?.enteringShortCut is not null)
-            {
-                var enteringShortcut = possessedCreature.realizedCreature.enteringShortCut.Value;
-
-                var shortcutRad = possessedCreature.realizedCreature.room.MiddleOfTile(enteringShortcut) + Custom.IntVector2ToVector2(possessedCreature.realizedCreature.room.ShorcutEntranceHoleDirection(enteringShortcut)) * -5f;
-                var allConnectedObjects = possessedCreature.GetAllConnectedObjects();
-
-                var chunksNotInShortcut = 0;
-
-                foreach (var connectedObj in allConnectedObjects)
+                if (connectedObj.realizedObject is null)
                 {
-                    if (connectedObj.realizedObject is null)
+                    continue;
+                }
+
+                foreach (var bodyChunk in connectedObj.realizedObject.bodyChunks)
+                {
+                    if (Custom.DistLess(bodyChunk.pos, shortcutRad, Mathf.Max(10f, 0.7f)))
                     {
                         continue;
                     }
 
-                    foreach (var bodyChunk in connectedObj.realizedObject.bodyChunks)
+                    if (connectedObj == possessedCreature)
                     {
-                        if (Custom.DistLess(bodyChunk.pos, shortcutRad, Mathf.Max(10f, 0.7f)))
-                        {
-                            continue;
-                        }
-
-                        if (connectedObj == possessedCreature)
-                        {
-                            chunksNotInShortcut++;
-                        }
+                        chunksNotInShortcut++;
                     }
                 }
+            }
 
-                if (chunksNotInShortcut == 0)
+            if (chunksNotInShortcut == 0)
+            {
+                self.SuckedIntoShortCut(possessedCreature.realizedCreature.enteringShortCut.Value, false);
+            }
+        }
+        else if (possessedCreature.realizedCreature?.room is null)
+        {
+            self.SuckedIntoShortCut(possessedCreature.pos.Tile, false);
+        }
+        else
+        {
+            self.SuperHardSetPosition(possessedCreature.realizedCreature.firstChunk.pos);
+
+            foreach (var chunk in self.bodyChunks)
+            {
+                chunk.vel = Vector2.zero;
+            }
+        }
+    }
+
+    private static void UpdateAdultPearlpup_NotPossessing(Player self, PlayerModule playerModule)
+    {
+        if (self.room is null)
+        {
+            return;
+        }
+
+        if (!playerModule.ActiveObject.IsHeartPearl())
+        {
+            playerModule.PossessionTarget = null;
+            return;
+        }
+
+        const float possessionMaxDist = 400.0f;
+        const float possessionLostDist = 400.0f;
+
+        // search for target
+        if (playerModule.PossessionTarget == null || !playerModule.PossessionTarget.TryGetTarget(out var target))
+        {
+            Creature? bestTarget = null;
+            var shortestDist = float.MaxValue;
+
+            foreach (var roomObject in self.room.physicalObjects)
+            {
+                foreach (var physicalObject in roomObject)
                 {
-                    self.SuckedIntoShortCut(possessedCreature.realizedCreature.enteringShortCut.Value, false);
+                    if (physicalObject is Player)
+                    {
+                        continue;
+                    }
+
+                    if (physicalObject is not Creature creature)
+                    {
+                        continue;
+                    }
+
+                    if (creature.dead)
+                    {
+                        continue;
+                    }
+
+                    if (creature.abstractCreature.controlled)
+                    {
+                        continue;
+                    }
+
+
+                    var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
+
+                    if (dist > possessionMaxDist)
+                    {
+                        continue;
+                    }
+
+                    if (dist > shortestDist)
+                    {
+                        continue;
+                    }
+
+                    if (!self.room.VisualContact(self.mainBodyChunk.pos, creature.mainBodyChunk.pos))
+                    {
+                        continue;
+                    }
+
+                    shortestDist = dist;
+                    bestTarget = creature;
                 }
             }
-            else if (possessedCreature.realizedCreature?.room is null)
-            {
-                self.SuckedIntoShortCut(possessedCreature.pos.Tile, false);
-            }
-            else
-            {
-                self.SuperHardSetPosition(possessedCreature.realizedCreature.firstChunk.pos);
 
-                foreach (var chunk in self.bodyChunks)
-                {
-                    chunk.vel = Vector2.zero;
-                }
+            if (bestTarget != null)
+            {
+                playerModule.PossessionTarget = new(bestTarget);
             }
         }
         else
         {
-            if (playerRoom == null)
+            // ensure target is still valid
+            var invalidTarget =
+                !Custom.DistLess(target.mainBodyChunk.pos, self.mainBodyChunk.pos, possessionLostDist);
+
+            if (target.room != self.room)
             {
-                return;
+                invalidTarget = true;
             }
 
-            if (!playerModule.ActiveObject.IsHeartPearl())
+            if (target.dead)
+            {
+                invalidTarget = true;
+            }
+
+            if (!self.room.VisualContact(self.mainBodyChunk.pos, target.mainBodyChunk.pos))
+            {
+                invalidTarget = true;
+            }
+
+            if (invalidTarget)
             {
                 playerModule.PossessionTarget = null;
-                return;
-            }
-
-            const float possessionMaxDist = 400.0f;
-            const float possessionLostDist = 400.0f;
-
-            // search for target
-            if (playerModule.PossessionTarget == null || !playerModule.PossessionTarget.TryGetTarget(out var target))
-            {
-                Creature? bestTarget = null;
-                var shortestDist = float.MaxValue;
-
-                foreach (var roomObject in playerRoom.physicalObjects)
-                {
-                    foreach (var physicalObject in roomObject)
-                    {
-                        if (physicalObject is Player)
-                        {
-                            continue;
-                        }
-
-                        if (physicalObject is not Creature creature)
-                        {
-                            continue;
-                        }
-
-                        if (creature.dead)
-                        {
-                            continue;
-                        }
-
-                        if (creature.abstractCreature.controlled)
-                        {
-                            continue;
-                        }
-
-
-                        var dist = Custom.Dist(creature.mainBodyChunk.pos, self.firstChunk.pos);
-
-                        if (dist > possessionMaxDist)
-                        {
-                            continue;
-                        }
-
-                        if (dist > shortestDist)
-                        {
-                            continue;
-                        }
-
-                        if (!self.room.VisualContact(self.mainBodyChunk.pos, creature.mainBodyChunk.pos))
-                        {
-                            continue;
-                        }
-
-                        shortestDist = dist;
-                        bestTarget = creature;
-                    }
-                }
-
-                if (bestTarget != null)
-                {
-                    playerModule.PossessionTarget = new(bestTarget);
-                }
-            }
-            else
-            {
-                // ensure target is still valid
-                var invalidTarget =
-                    !Custom.DistLess(target.mainBodyChunk.pos, self.mainBodyChunk.pos, possessionLostDist);
-
-                if (target.room != self.room)
-                {
-                    invalidTarget = true;
-                }
-
-                if (target.dead)
-                {
-                    invalidTarget = true;
-                }
-
-                if (!self.room.VisualContact(self.mainBodyChunk.pos, target.mainBodyChunk.pos))
-                {
-                    invalidTarget = true;
-                }
-
-                if (invalidTarget)
-                {
-                    playerModule.PossessionTarget = null;
-                    playerModule.StoreObjectTimer = 0;
-                }
+                playerModule.StoreObjectTimer = 0;
             }
         }
     }
