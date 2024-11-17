@@ -144,20 +144,18 @@ public static class CustomPearls_Helpers
     // Based on decompiled code from Conversation.LoadEventsFromFile - just changed to accept a string fileName parameter
     public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)
     {
-        Custom.Log("~~~LOAD CONVO", fileName);
-
         var targetLanguage = self.interfaceOwner.rainWorld.inGameTranslator.currentLanguage;
         string path;
 
         while (true)
         {
-            var lang = self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
+            var langDir = self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
 
-            var directorySeparatorChar = Path.DirectorySeparatorChar;
+            var sepChar = Path.DirectorySeparatorChar;
 
-            var separator = directorySeparatorChar.ToString();
+            var sepString = sepChar.ToString();
 
-            path = AssetManager.ResolveFilePath(lang + separator + fileName + ".txt");
+            path = AssetManager.ResolveFilePath(langDir + sepString + fileName + ".txt");
 
             if (saveFile != null)
             {
@@ -167,9 +165,9 @@ public static class CustomPearls_Helpers
 
                 finalFileName[0] = self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
 
-                directorySeparatorChar = Path.DirectorySeparatorChar;
+                sepChar = Path.DirectorySeparatorChar;
 
-                finalFileName[1] = directorySeparatorChar.ToString();
+                finalFileName[1] = sepChar.ToString();
                 finalFileName[2] = fileName;
                 finalFileName[3] = "-";
                 finalFileName[4] = saveFile.value;
@@ -185,10 +183,10 @@ public static class CustomPearls_Helpers
 
             if (!File.Exists(path))
             {
-                Custom.LogWarning("NOT FOUND " + path);
+                Plugin.Logger.LogWarning("NOT FOUND " + path);
                 if (targetLanguage != InGameTranslator.LanguageID.English)
                 {
-                    Custom.LogImportant("RETRY WITH ENGLISH");
+                    Plugin.Logger.LogWarning("RETRY WITH ENGLISH");
                     targetLanguage = InGameTranslator.LanguageID.English;
                 }
                 else
@@ -208,7 +206,7 @@ public static class CustomPearls_Helpers
 
         var contents = File.ReadAllText(path, Encoding.UTF8);
 
-        // Unnecessary encryption
+        // Unnecessary encryption (thanks Joar)
         // if (str[0] != '0')
         // {
         //     str = Custom.xorEncrypt(str, 54 + fileName + (int)(ExtEnum<InGameTranslator.LanguageID>)self.interfaceOwner.rainWorld.inGameTranslator.currentLanguage * 7);
@@ -218,10 +216,11 @@ public static class CustomPearls_Helpers
 
         try
         {
-            if (Regex.Split(splitContents[0], "-")[1] != fileName)
-            {
-                return;
-            }
+            // Completely useless verification check (thanks Joar)
+            // if (Regex.Split(splitContents[0], "-")[1] != fileName)
+            // {
+            //     return;
+            // }
 
             if (oneRandomLine)
             {
@@ -259,9 +258,9 @@ public static class CustomPearls_Helpers
             }
             else
             {
-                for (var index = 1; index < splitContents.Length; ++index)
+                for (var i = 1; i < splitContents.Length; ++i)
                 {
-                    var instructions = LocalizationTranslator.ConsolidateLineInstructions(splitContents[index]);
+                    var instructions = LocalizationTranslator.ConsolidateLineInstructions(splitContents[i]);
 
                     if (instructions.Length == 3)
                     {
@@ -301,7 +300,7 @@ public static class CustomPearls_Helpers
         }
         catch
         {
-            Custom.LogWarning("TEXT ERROR");
+            Plugin.Logger.LogWarning("TEXT ERROR");
 
             self.events.Add(new Conversation.TextEvent(self, 0, "TEXT ERROR", 100));
         }

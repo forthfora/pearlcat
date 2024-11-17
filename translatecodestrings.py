@@ -50,11 +50,10 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
 
             f.close()
 
-    # strings = list(filter(None, strings)) # remove empty
-    # strings = list(filter(lambda x: not (x.startswith("_") or x.startswith(".")), strings)) # trim weird stuff
-            
     strings = [*set(strings)] # remove duplicates
 
+    # strings = list(filter(None, strings)) # remove empty
+    # strings = list(filter(lambda x: not (x.startswith("_") or x.startswith(".")), strings)) # trim weird stuff            
     # strings = [x.strip() for x in strings]
 
     existingStrings = {}
@@ -75,23 +74,30 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
 
     f = open(output, "w", encoding='utf-8-sig')
 
+    preexistingLines = 0
+    newlyTranslatedLines = 0
+
     for i in range(len(strings)):
         print("[" + str(i + 1) + " / " + str(len(strings)) + "]")
         
         try:
             string = strings[i] 
-            
+
+            # Preserve an existing translation if the string has not changed            
             if string in existingStrings:
                 output = string + "|" + existingStrings[string] + "\n"
-            
+                preexistingLines += 1
+
             else:
                 translated = "NO_TRANSLATION" if not actuallyTranslate else translator.translate(string, src=SRC, dest=targetLang).text
-                
-                output = string + "|" + translated + "\n"
+
+                output = string + "|" + translated + "\n\n"
 
                 if printTranslatedLines:
                     print(output)
-            
+
+                newlyTranslatedLines += 1
+
             f.write(output)
         
         except Exception as e:
@@ -99,6 +105,8 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
 
     f.close()
 
+    print("Pre-existing lines:", preexistingLines)
+    print("Newly translated lines:", newlyTranslatedLines)
 
 
 toTranslate = {
