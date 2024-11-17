@@ -16,12 +16,18 @@ public class JsonColorHandler : JsonConverter
     {
         try
         {
-            ColorUtility.TryParseHtmlString("#" + reader.Value, out var loadedColor);
+            var ok = ColorUtility.TryParseHtmlString("#" + reader.Value, out var loadedColor);
+
+            if (!ok)
+            {
+                return null;
+            }
+
             return loadedColor;
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Failed to parse color {objectType} : {ex.Message}");
+            Plugin.Logger.LogError($"Failed to parse color {objectType} : {ex.Message}");
             return null;
         }
     }

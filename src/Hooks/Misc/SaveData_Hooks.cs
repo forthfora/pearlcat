@@ -129,10 +129,8 @@ public static class SaveData_Hooks
                     {
                         heartIsActive = true;
                     }
-                    continue;
                 }
-
-                if (i == activeIndex)
+                else if (i == activeIndex)
                 {
                     miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
                 }
