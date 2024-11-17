@@ -135,9 +135,9 @@ public static partial class PlayerAbilities_Helpers
                         // self.room.AddObject(new ExplosionSpikes(self.room, self.firstChunk.pos, 5, 15.0f, 30, 10.0f,
                         //     100.0f, sulfurColor));
 
-                        for (var i = 0; i < 7; i++)
+                        for (var i = 0; i < 5; i++)
                         {
-                            self.room.AddObject(new SingularityBomb.SparkFlash(Vector2.Lerp(self.firstChunk.pos, targetPos, 0.5f) + Random.Range(10.0f, 60.0f) * Custom.RNV(), Random.Range(0.05f, 0.2f), sulfurColor));
+                            self.room.AddObject(new SingularityBomb.SparkFlash(Vector2.Lerp(self.firstChunk.pos, targetPos, 0.5f) + Random.Range(10.0f, 60.0f) * Custom.RNV(), Random.Range(0.05f, 0.2f), sulfurColor) { lifeTime = Random.Range(3, 12) });
                         }
 
                         self.room.PlaySound(SoundID.Firecracker_Burn, self.firstChunk.pos, 0.3f, Random.Range(1.5f, 2.0f));
