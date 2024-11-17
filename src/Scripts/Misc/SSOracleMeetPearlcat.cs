@@ -679,6 +679,14 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         {
             owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlBlack, this);
         }
+        else if (type == Enums.Pearls.CW_Pearlcat)
+        {
+            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoCWPearlcat, this);
+        }
+        else if (type == Enums.Pearls.Heart_Pearlpup)
+        {
+            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoHeartPearlpup, this);
+        }
 
 
         else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1 || type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc) // temp broadcast fix

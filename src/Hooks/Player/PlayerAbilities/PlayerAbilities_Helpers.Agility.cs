@@ -1,4 +1,6 @@
+using MoreSlugcats;
 using RWCustom;
+using Smoke;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -44,6 +46,16 @@ public static partial class PlayerAbilities_Helpers
         if (abilityInput && !wasAbilityInput && canUseAbility)
         {
             var agilityObject = playerModule.SetAgilityCooldown(-1);
+            var isCWPearl = agilityObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType == Enums.Pearls.CW_Pearlcat;
+
+            if (isCWPearl)
+            {
+                if (agilityObject?.TryGetPlayerPearlModule(out var playerPearlModule) == true && !playerPearlModule.IsCWDoubleJumpUsed)
+                {
+                    playerPearlModule.CooldownTimer = 0;
+                    playerPearlModule.IsCWDoubleJumpUsed = true;
+                }
+            }
 
             self.noGrabCounter = 5;
             var pos = self.firstChunk.pos;
@@ -112,23 +124,41 @@ public static partial class PlayerAbilities_Helpers
 
             if (agilityObject != null)
             {
-                self.ConnectEffect(targetPos, agilityObject.GetObjectColor());
+                if (isCWPearl && agilityObject.TryGetPlayerPearlModule(out var playerPearlModule) && playerPearlModule.CooldownTimer == -1)
+                {
+                    var sulfurColor = Custom.hexToColor("ffc800");
+
+                    self.ConnectEffect(targetPos, sulfurColor);
+
+                    if (self.room is not null)
+                    {
+                        for (var i = 0; i < 5; i++)
+                        {
+                            self.room.AddObject(new SingularityBomb.SparkFlash(Vector2.Lerp(self.firstChunk.pos, targetPos, 0.5f) + Random.Range(10.0f, 60.0f) * Custom.RNV(), Random.Range(0.05f, 0.2f), sulfurColor) { lifeTime = Random.Range(3, 12) });
+                        }
+
+                        self.room.PlaySound(SoundID.Firecracker_Burn, self.firstChunk.pos, 0.2f, Random.Range(1.5f, 2.0f));
+                    }
+                }
+                else
+                {
+                    self.ConnectEffect(targetPos, agilityObject.GetObjectColor());
+                }
             }
 
             playerModule.AgilityOveruseTimer += (int)Custom.LerpMap(playerModule.AgilityOveruseTimer, 0, 80, 40, 60);
         }
 
-        var isAnim =
-            self.animation == Player.AnimationIndex.HangFromBeam || self.animation == Player.AnimationIndex.ClimbOnBeam
-                                                                 || self.bodyMode == Player.BodyModeIndex.WallClimb ||
-                                                                 self.animation == Player.AnimationIndex.AntlerClimb
-                                                                 || self.animation == Player.AnimationIndex.VineGrab ||
-                                                                 self.animation == Player.AnimationIndex.ZeroGPoleGrab
-                                                                 || self.bodyMode == Player.BodyModeIndex.Swimming;
+        var animWhichResetsCooldown = self.animation == Player.AnimationIndex.HangFromBeam || self.animation == Player.AnimationIndex.ClimbOnBeam
+                                                                          || self.bodyMode == Player.BodyModeIndex.WallClimb ||
+                                                                          self.animation == Player.AnimationIndex.AntlerClimb
+                                                                          || self.animation == Player.AnimationIndex.VineGrab ||
+                                                                          self.animation == Player.AnimationIndex.ZeroGPoleGrab
+                                                                          || self.bodyMode == Player.BodyModeIndex.Swimming;
 
         // FREAKING NULL REF
-        if (isAnim || self.canJump > 0 || !self.Consious || self.Stunned ||
-            ((self.bodyMode == Player.BodyModeIndex.ZeroG) && (self.wantToJump == 0 || !self.input[0].pckp)))
+        // (self.bodyMode == Player.BodyModeIndex.ZeroG) && (self.wantToJump == 0 || !self.input[0].pckp) <- gives unlimited jumps in zero-G, but not sure that's actually a good idea...
+        if (animWhichResetsCooldown || self.canJump > 0 || !self.Consious || self.Stunned)
         {
             playerModule.ResetAgilityCooldown(30);
         }

@@ -517,6 +517,16 @@ public static class SSOracleConversation_Hooks
             self.PebblesPearlIntro();
             self.LoadCustomEventsFromFile("Pebbles_AS_PearlBlack");
         }
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoCWPearlcat)
+        {
+            self.PebblesPearlIntro();
+            self.LoadCustomEventsFromFile("Pebbles_CW_Pearlcat");
+        }
+        else if (self.id == Enums.SSOracle.Pearlcat_SSConvoHeartPearlpup)
+        {
+            self.PebblesPearlIntro();
+            self.LoadCustomEventsFromFile("Pebbles_Heart_Pearlpup");
+        }
 
         else
         {

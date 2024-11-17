@@ -408,7 +408,12 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
         if (dataPearlType == Enums.Pearls.CW_Pearlcat)
         {
-            return "pearlcat_glyphcw";
+            if (obj.TryGetPlayerPearlModule(out var playerPearlModule) && playerPearlModule.IsCWDoubleJumpUsed)
+            {
+                return "pearlcat_glyphcw2";
+            }
+
+            return "pearlcat_glyphcw1";
         }
 
         var effect = obj.GetPearlEffect();

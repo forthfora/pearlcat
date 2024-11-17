@@ -23,6 +23,9 @@ public static partial class Enums
         public static Conversation.ID Pearlcat_SSConvoASPearlBlack = new(nameof(Pearlcat_SSConvoASPearlBlack), true);
         public static Conversation.ID Pearlcat_SSConvoASPearlYellow = new(nameof(Pearlcat_SSConvoASPearlYellow), true);
 
+        public static Conversation.ID Pearlcat_SSConvoCWPearlcat = new(nameof(Pearlcat_SSConvoCWPearlcat), true);
+        public static Conversation.ID Pearlcat_SSConvoHeartPearlpup = new(nameof(Pearlcat_SSConvoHeartPearlpup), true);
+
         public static SSOracleBehavior.Action Pearlcat_SSActionGeneral = new(nameof(Pearlcat_SSActionGeneral), true);
 
         public static SSOracleBehavior.SubBehavior.SubBehavID Pearlcat_SSSubBehavGeneral = new(nameof(Pearlcat_SSSubBehavGeneral), true);
