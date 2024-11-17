@@ -1,7 +1,4 @@
-﻿using RWCustom;
-using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public static class PlayerPossessionFixes_Hooks
 {
