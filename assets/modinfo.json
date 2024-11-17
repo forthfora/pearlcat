@@ -4,9 +4,8 @@
 	"version": "1.2.3",
 	"authors": "forthfora, Geahgeah, Sidera",
 	"description": "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.",
-	"requirements": ["slime-cubed.slugbase", "crs"],
-	"requirements_names": ["SlugBase", "Custom Regions Support"],
+	"requirements": ["slime-cubed.slugbase"],
+	"requirements_names": ["SlugBase"],
 	"tags": ["Custom Slugcat", "Game Mechanics", "Campaigns", "Translations"],
-	"checksum_override_version": false,
-	"priorities": ["moreslugcats"]
+	"checksum_override_version": false
 }

@@ -130,21 +130,26 @@ public static class SLOracle_Hooks
         }
 
         var miscProg = Utils.GetMiscProgression();
-        var wasDialogueHandled = false;
 
         if (miscProg.HasTrueEnding)
         {
-            // Adult Pearlpup
-            wasDialogueHandled = MoonDialogTrueEnd(self);
+            if (TryHandleMoonDialog_TrueEnd(self))
+            {
+                return;
+            }
         }
         else
         {
-            // Pearlcat
-            wasDialogueHandled = MoonDialog(self);
+            if (TryHandleMoonDialog(self))
+            {
+                return;
+            }
         }
 
-        if (wasDialogueHandled)
+        if (self.id.IsCustomPearlConvo())
         {
+            self.PearlIntro();
+            self.LoadCustomEventsFromFile("PearlcatMoon_" + self.id.value);
             return;
         }
 

@@ -655,40 +655,10 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         var type = pearl.AbstractPearl.dataPearlType;
 
 
-        if (type == Enums.Pearls.SS_Pearlcat)
+        if (type.IsCustomPearl())
         {
-            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSSPearl, this);
+            owner.InitateConversation(type.GetCustomPearlConvoId(), this);
         }
-        else if (type == Enums.Pearls.AS_PearlBlue)
-        {
-            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlBlue, this);
-        }
-        else if (type == Enums.Pearls.AS_PearlGreen)
-        {
-            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlGreen, this);
-        }
-        else if (type == Enums.Pearls.AS_PearlRed)
-        {
-            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlRed, this);
-        }
-        else if (type == Enums.Pearls.AS_PearlYellow)
-        {
-            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlYellow, this);
-        }
-        else if (type == Enums.Pearls.AS_PearlBlack)
-        {
-            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoASPearlBlack, this);
-        }
-        else if (type == Enums.Pearls.CW_Pearlcat)
-        {
-            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoCWPearlcat, this);
-        }
-        else if (type == Enums.Pearls.Heart_Pearlpup)
-        {
-            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoHeartPearlpup, this);
-        }
-
-
         else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1 || type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc) // temp broadcast fix
         {
             owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc, this);
