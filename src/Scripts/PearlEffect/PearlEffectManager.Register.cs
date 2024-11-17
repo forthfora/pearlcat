@@ -20,7 +20,7 @@ public static partial class PearlEffectManager
     public static PearlEffect RM;
     public static PearlEffect SS;
 
-    public static PearlEffect MI;
+    public static PearlEffect Heart_Pearlpup;
 
     public static PearlEffect CW;
 
@@ -125,7 +125,7 @@ public static partial class PearlEffectManager
 
         PearlEffects.Add(Enums.Pearls.RM_Pearlcat, RM);
         PearlEffects.Add(Enums.Pearls.SS_Pearlcat, SS);
-        PearlEffects.Add(Enums.Pearls.Heart_Pearlpup, MI);
+        PearlEffects.Add(Enums.Pearls.Heart_Pearlpup, Heart_Pearlpup);
 
         PearlEffects.Add(Enums.Pearls.AS_PearlBlue, AsPearlBlue);
         PearlEffects.Add(Enums.Pearls.AS_PearlRed, AsPearlRed);
@@ -327,24 +327,24 @@ public static partial class PearlEffectManager
         SS.RollSpeedFac = 0.3f;
         SS.SlideSpeedFac = 0.3f;
 
-        MI = None;
-        MI.MajorEffect = MajorEffectType.NONE;
-        MI.ActiveMultiplier = 2.0f;
-        MI.LungsFac = -0.3f;
-        MI.RunSpeedFac = 0.3f;
-        MI.PoleClimbSpeedFac = 0.3f;
-        MI.CorridorClimbSpeedFac = 0.3f;
-        MI.RollSpeedFac = 0.3f;
-        MI.SlideSpeedFac = 0.3f;
+        Heart_Pearlpup = None;
+        Heart_Pearlpup.MajorEffect = MajorEffectType.NONE;
+        Heart_Pearlpup.ActiveMultiplier = 2.0f;
+        Heart_Pearlpup.LungsFac = -0.3f;
+        Heart_Pearlpup.RunSpeedFac = 0.3f;
+        Heart_Pearlpup.PoleClimbSpeedFac = 0.3f;
+        Heart_Pearlpup.CorridorClimbSpeedFac = 0.3f;
+        Heart_Pearlpup.RollSpeedFac = 0.3f;
+        Heart_Pearlpup.SlideSpeedFac = 0.3f;
 
         CW = None;
         CW.MajorEffect = MajorEffectType.AGILITY;
-        CW.ActiveMultiplier = 3.0f;
-        CW.LungsFac = -0.3f;
-        CW.RunSpeedFac = 0.3f;
-        CW.PoleClimbSpeedFac = 0.3f;
-        CW.CorridorClimbSpeedFac = 0.3f;
-        CW.RollSpeedFac = 0.3f;
-        CW.SlideSpeedFac = 0.3f;
+        CW.ActiveMultiplier = 2.0f;
+        CW.LungsFac = -0.15f;
+        CW.RunSpeedFac = 0.15f;
+        CW.PoleClimbSpeedFac = 0.15f;
+        CW.CorridorClimbSpeedFac = 0.15f;
+        CW.RollSpeedFac = 0.15f;
+        CW.SlideSpeedFac = 0.15f;
     }
 }

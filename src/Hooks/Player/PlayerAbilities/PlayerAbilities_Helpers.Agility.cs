@@ -132,15 +132,12 @@ public static partial class PlayerAbilities_Helpers
 
                     if (self.room is not null)
                     {
-                        // self.room.AddObject(new ExplosionSpikes(self.room, self.firstChunk.pos, 5, 15.0f, 30, 10.0f,
-                        //     100.0f, sulfurColor));
-
                         for (var i = 0; i < 5; i++)
                         {
                             self.room.AddObject(new SingularityBomb.SparkFlash(Vector2.Lerp(self.firstChunk.pos, targetPos, 0.5f) + Random.Range(10.0f, 60.0f) * Custom.RNV(), Random.Range(0.05f, 0.2f), sulfurColor) { lifeTime = Random.Range(3, 12) });
                         }
 
-                        self.room.PlaySound(SoundID.Firecracker_Burn, self.firstChunk.pos, 0.3f, Random.Range(1.5f, 2.0f));
+                        self.room.PlaySound(SoundID.Firecracker_Burn, self.firstChunk.pos, 0.2f, Random.Range(1.5f, 2.0f));
                     }
                 }
                 else
@@ -152,17 +149,16 @@ public static partial class PlayerAbilities_Helpers
             playerModule.AgilityOveruseTimer += (int)Custom.LerpMap(playerModule.AgilityOveruseTimer, 0, 80, 40, 60);
         }
 
-        var isAnim =
-            self.animation == Player.AnimationIndex.HangFromBeam || self.animation == Player.AnimationIndex.ClimbOnBeam
-                                                                 || self.bodyMode == Player.BodyModeIndex.WallClimb ||
-                                                                 self.animation == Player.AnimationIndex.AntlerClimb
-                                                                 || self.animation == Player.AnimationIndex.VineGrab ||
-                                                                 self.animation == Player.AnimationIndex.ZeroGPoleGrab
-                                                                 || self.bodyMode == Player.BodyModeIndex.Swimming;
+        var animWhichResetsCooldown = self.animation == Player.AnimationIndex.HangFromBeam || self.animation == Player.AnimationIndex.ClimbOnBeam
+                                                                          || self.bodyMode == Player.BodyModeIndex.WallClimb ||
+                                                                          self.animation == Player.AnimationIndex.AntlerClimb
+                                                                          || self.animation == Player.AnimationIndex.VineGrab ||
+                                                                          self.animation == Player.AnimationIndex.ZeroGPoleGrab
+                                                                          || self.bodyMode == Player.BodyModeIndex.Swimming;
 
         // FREAKING NULL REF
-        if (isAnim || self.canJump > 0 || !self.Consious || self.Stunned ||
-            ((self.bodyMode == Player.BodyModeIndex.ZeroG) && (self.wantToJump == 0 || !self.input[0].pckp)))
+        // (self.bodyMode == Player.BodyModeIndex.ZeroG) && (self.wantToJump == 0 || !self.input[0].pckp) <- gives unlimited jumps in zero-G, but not sure that's actually a good idea...
+        if (animWhichResetsCooldown || self.canJump > 0 || !self.Consious || self.Stunned)
         {
             playerModule.ResetAgilityCooldown(30);
         }
