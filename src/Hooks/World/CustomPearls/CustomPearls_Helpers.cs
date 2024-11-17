@@ -14,15 +14,54 @@ public static class CustomPearls_Helpers
     public static List<DataPearl.AbstractDataPearl.DataPearlType> CustomPearlTypes { get; } =
     [
         Enums.Pearls.RM_Pearlcat,
-        Enums.Pearls.SS_Pearlcat,
+
         Enums.Pearls.AS_PearlBlue,
         Enums.Pearls.AS_PearlRed,
         Enums.Pearls.AS_PearlYellow,
         Enums.Pearls.AS_PearlGreen,
         Enums.Pearls.AS_PearlBlack,
+
+        Enums.Pearls.SS_Pearlcat,
+
         Enums.Pearls.Heart_Pearlpup,
+
         Enums.Pearls.CW_Pearlcat,
     ];
+
+    public static Dictionary<DataPearl.AbstractDataPearl.DataPearlType, Color> CustomPearlHighlightColors { get; } = new()
+    {
+        { Enums.Pearls.RM_Pearlcat, Custom.hexToColor("ff0000") },
+
+        { Enums.Pearls.AS_PearlBlue, Custom.hexToColor("ffffff") },
+        { Enums.Pearls.AS_PearlRed, Custom.hexToColor("ffffff") },
+        { Enums.Pearls.AS_PearlYellow, Custom.hexToColor("ffffff") },
+        { Enums.Pearls.AS_PearlGreen, Custom.hexToColor("ffffff") },
+        { Enums.Pearls.AS_PearlBlack, Custom.hexToColor("ffffff") },
+
+        { Enums.Pearls.SS_Pearlcat, Custom.hexToColor("ff0000") },
+
+        { Enums.Pearls.Heart_Pearlpup, Custom.hexToColor("ffffff") },
+
+        { Enums.Pearls.CW_Pearlcat, Custom.hexToColor("7dbaff") },
+    };
+
+    public static Dictionary<DataPearl.AbstractDataPearl.DataPearlType, Color> CustomPearlMainColors { get; } = new()
+    {
+        { Enums.Pearls.RM_Pearlcat, Custom.hexToColor("622ffb") },
+
+        { Enums.Pearls.AS_PearlBlue, Custom.hexToColor("42adf5") },
+        { Enums.Pearls.AS_PearlRed, Custom.hexToColor("b32c1b") },
+        { Enums.Pearls.AS_PearlYellow, Custom.hexToColor("fcf63f") },
+        { Enums.Pearls.AS_PearlGreen, Custom.hexToColor("42c728") },
+        { Enums.Pearls.AS_PearlBlack, Custom.hexToColor("121212") },
+
+        { Enums.Pearls.SS_Pearlcat, Custom.hexToColor("ffffff") },
+
+        { Enums.Pearls.Heart_Pearlpup, Custom.hexToColor("ffffff") },
+
+        { Enums.Pearls.CW_Pearlcat, Custom.hexToColor("ffffff") },
+    };
+
 
     public static bool IsCustomPearlConvo(this Conversation.ID convoID)
     {
@@ -42,49 +81,9 @@ public static class CustomPearls_Helpers
 
     public static Color? GetCustomPearlHighlightColor(DataPearl.AbstractDataPearl.DataPearlType pearlType)
     {
-        if (pearlType == Enums.Pearls.RM_Pearlcat)
+        if (CustomPearlHighlightColors.TryGetValue(pearlType, out var color))
         {
-            return Custom.hexToColor("ff0000");
-        }
-
-        if (pearlType == Enums.Pearls.SS_Pearlcat)
-        {
-            return Custom.hexToColor("ff0000");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlBlue)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlRed)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlYellow)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlGreen)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlBlack)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.Heart_Pearlpup)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.CW_Pearlcat)
-        {
-            return Custom.hexToColor("7dbaff");
+            return color;
         }
 
         return null;
@@ -92,56 +91,16 @@ public static class CustomPearls_Helpers
 
     public static Color? GetCustomPearlMainColor(DataPearl.AbstractDataPearl.DataPearlType pearlType)
     {
-        if (pearlType == Enums.Pearls.RM_Pearlcat)
+        if (CustomPearlMainColors.TryGetValue(pearlType, out var color))
         {
-            return Custom.hexToColor("622ffb");
-        }
-
-        if (pearlType == Enums.Pearls.SS_Pearlcat)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlBlue)
-        {
-            return Custom.hexToColor("42adf5");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlRed)
-        {
-            return Custom.hexToColor("b32c1b");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlYellow)
-        {
-            return Custom.hexToColor("fcf63f");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlGreen)
-        {
-            return Custom.hexToColor("42c728");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlBlack)
-        {
-            return Custom.hexToColor("121212");
-        }
-
-        if (pearlType == Enums.Pearls.Heart_Pearlpup)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.CW_Pearlcat)
-        {
-            return Custom.hexToColor("ffffff");
+            return color;
         }
 
         return null;
     }
 
 
-    // Based on decompiled code from Conversation.LoadEventsFromFile - just changed to accept a string fileName parameter
+    // Based on decompiled code from Conversation.LoadEventsFromFile - just changed to accept a string fileName parameter + remove encryption
     public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)
     {
         var targetLanguage = self.interfaceOwner.rainWorld.inGameTranslator.currentLanguage;

@@ -874,11 +874,6 @@ public static class PlayerGraphics_Helpers
         sLeaser.sprites[spriteIndex] = TriangleMesh.MakeLongMesh(ribbon.GetLength(0), false, false);
         sLeaser.sprites[spriteIndex].shader = Utils.Shaders["Basic"];
         sLeaser.sprites[spriteIndex].alpha = 1.0f;
-
-        //var ribbonTex = Futile.atlasManager.GetElementWithName("pearlcat_ribbon");
-
-        //((TriangleMesh)sLeaser.sprites[module.Ribbon1Sprite]).SetAtlasedImage(ribbonTex);
-        //sLeaser.sprites[module.Ribbon1Sprite].element = ribbonTex;
     }
 
     public static void DrawRibbon(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule, float timeStacker, Vector2 camPos, int spriteIndex, Vector2[,] ribbon, Vector2 offset)
