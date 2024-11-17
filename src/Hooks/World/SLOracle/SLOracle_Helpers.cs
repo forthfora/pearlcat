@@ -34,7 +34,7 @@ public static class SLOracle_Helpers
 
 
     // Pearlcat
-    public static bool MoonDialog(SLOracleBehaviorHasMark.MoonConversation self)
+    public static bool TryHandleMoonDialog(SLOracleBehaviorHasMark.MoonConversation self)
     {
         var miscProg = Utils.GetMiscProgression();
         var miscWorld = self.myBehavior.oracle.room.game.GetMiscWorld();
@@ -283,7 +283,7 @@ public static class SLOracle_Helpers
 
 
     // Adult Pearlpup
-    public static bool MoonDialogTrueEnd(SLOracleBehaviorHasMark.MoonConversation self)
+    public static bool TryHandleMoonDialog_TrueEnd(SLOracleBehaviorHasMark.MoonConversation self)
     {
         var metMoon = self.myBehavior.oracle.room.game.GetStorySession.saveState.miscWorldSaveData.EverMetMoon;
         var miscWorld = self.myBehavior.oracle.room.game.GetMiscWorld();

@@ -17,12 +17,11 @@ using UnityEngine;
 namespace Pearlcat;
 
 [BepInDependency("slime-cubed.slugbase")] // SlugBase
-[BepInDependency("com.rainworldgame.garrakx.crs.mod")] // CRS
+
 [BepInDependency("improved-input-config", BepInDependency.DependencyFlags.SoftDependency)] // Improved Input Config
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 
 [BepInPlugin(MOD_ID, MOD_ID, "1.2.3")]
-
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";

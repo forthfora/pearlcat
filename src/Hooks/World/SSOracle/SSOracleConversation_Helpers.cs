@@ -8,10 +8,61 @@ using static Conversation;
 using static SSOracleBehavior;
 using Random = UnityEngine.Random;
 
+using MSCID = MoreSlugcats.MoreSlugcatsEnums.ConversationID;
+
 namespace Pearlcat;
 
 public static class SSOracleConversation_Helpers
 {
+    public static Dictionary<ID, int> ConvoIdFileIdMap { get; } = new()
+    {
+        // Random Line
+        { ID.Moon_Pearl_Misc, 38 },
+        { ID.Moon_Pearl_Misc2, 38 },
+        { ID.Moon_Pebbles_Pearl, 40 },
+
+        // Base Game
+        { ID.Moon_Pearl_SL_moon, 18 },
+        { ID.Moon_Pearl_SL_chimney, 54 },
+        { ID.Moon_Pearl_SL_bridge, 17 },
+        { ID.Moon_Pearl_SB_filtration, 15 },
+        { ID.Moon_Pearl_SB_ravine, 43 },
+        { ID.Moon_Pearl_SU, 41 },
+        { ID.Moon_Pearl_HI, 12 },
+        { ID.Moon_Pearl_GW, 16 },
+        { ID.Moon_Pearl_DS, 14 },
+        { ID.Moon_Pearl_SH, 13 },
+        { ID.Moon_Pearl_CC, 7 },
+        { ID.Moon_Pearl_UW, 42 },
+        { ID.Moon_Pearl_LF_bottom, 11 },
+        { ID.Moon_Pearl_LF_west, 10 },
+
+        { ID.Moon_Pearl_SI_west, 20 },
+        { ID.Moon_Pearl_SI_top, 21 },
+
+        { ID.Moon_Pearl_Red_stomach, 51 },
+
+        // MSC
+        { MSCID.Moon_Pearl_SI_chat3, 22 },
+        { MSCID.Moon_Pearl_SI_chat4, 23 },
+        { MSCID.Moon_Pearl_SI_chat5, 24 },
+
+        { MSCID.Moon_Pearl_VS, 128 },
+        { MSCID.Moon_Pearl_SU_filt, 101 },
+        { MSCID.Moon_Pearl_OE, 104 },
+        { MSCID.Moon_Pearl_LC, 103 },
+        { MSCID.Moon_Pearl_LC_second, 121 },
+        { MSCID.Moon_Pearl_MS, 105 },
+        { MSCID.Moon_Pearl_DM, 102 },
+
+        { MSCID.Moon_Pearl_Rivulet_stomach, 119 },
+
+        { MSCID.Moon_Pearl_RM, 106 },
+    };
+
+    public static List<ID> RandomLineConvoIds = [ID.Moon_Pearl_Misc, ID.Moon_Pearl_Misc2, ID.Moon_Pebbles_Pearl];
+
+
     // Determines the first lines of dialogue before anything else Pebbles says
     public static void PebblesPearlIntro(this PebblesConversation self)
     {
@@ -94,118 +145,336 @@ public static class SSOracleConversation_Helpers
     }
 
 
-    // Method taken from CRS to parse custom oracle conversations from a file
-    // I think this is based on decompiled code, could really use some cleaning up, does work tho
-    public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)
+    // Handles any Pearlcat specific conversation IDs
+    public static bool TryHandlePebblesConversation(PebblesConversation self, SSOracleModule module)
     {
-        if (saveFile == null) { saveFile = self.currentSaveFile; }
+        var miscWorld = self.owner.oracle.room.game.GetMiscWorld();
+        var miscProg = Utils.GetMiscProgression();
 
-        var languageID = Utils.Translator.currentLanguage;
-        string text;
-        for (; ; )
+        var currentLang = Utils.Translator.currentLanguage;
+
+        // Linger - increases for character-based languages as it is determined by character count, not word count
+        var l = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean ? 2 : 0;
+
+        var id = self.id;
+        var e = self.events;
+
+        if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
         {
-            text = AssetManager.ResolveFilePath(Utils.Translator.SpecificTextFolderDirectory(languageID) + Path.DirectorySeparatorChar + fileName + ".txt");
-            if (saveFile != null)
+            if (miscWorld?.HasPearlpupWithPlayer == true)
             {
-                var text2 = text;
-                text = AssetManager.ResolveFilePath(string.Concat([
-                    Utils.Translator.SpecificTextFolderDirectory(languageID),
-                    Path.DirectorySeparatorChar.ToString(),
-                    fileName,
-                    "-",
-                    saveFile.value,
-                    ".txt"
-                ]));
-                if (!File.Exists(text))
-                {
-                    text = text2;
-                }
-            }
-            if (File.Exists(text))
-            {
-                goto IL_117;
-            }
-            if (languageID == InGameTranslator.LanguageID.English)
-            {
-                break;
-            }
-            languageID = InGameTranslator.LanguageID.English;
-        }
-        return;
+                e.Add(new WaitEvent(self, 160));
 
-    IL_117:
-        var text3 = File.ReadAllText(text, Encoding.UTF8);
-        if (text3[0] != '0')
-        {
-            text3 = Custom.xorEncrypt(text3, 54 + fileName.GetHashCode() + (int)languageID * 7);
-        }
+                e.Add(new TextEvent(self, 0,
+                    self.Translate(".  .  ."), 0));
 
-        var array = Regex.Split(text3, "\r\n");
-        try
-        {
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("And just who might you two be?"), l * 80));
 
-            if (oneRandomLine)
-            {
-                var list = new List<TextEvent>();
-                for (var i = 1; i < array.Length; i++)
-                {
-                    var array2 = LocalizationTranslator.ConsolidateLineInstructions(array[i]);
-                    if (array2.Length == 3)
-                    {
-                        list.Add(new TextEvent(self, int.Parse(array2[0], NumberStyles.Any, CultureInfo.InvariantCulture), array2[2], int.Parse(array2[1], NumberStyles.Any, CultureInfo.InvariantCulture)));
-                    }
-                    else if (array2.Length == 1 && array2[0].Length > 0)
-                    {
-                        list.Add(new TextEvent(self, 0, array2[0], 0));
-                    }
-                }
-                if (list.Count > 0)
-                {
-                    var state = Random.state;
-                    Random.InitState(randomSeed);
-                    var item = list[Random.Range(0, list.Count)];
-                    Random.state = state;
-                    self.events.Add(item);
-                }
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable."), l * 80));
+
+                e.Add(new WaitEvent(self, 80));
+
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me..."), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("...you can manipulate our storage medium in unforseen ways..."), l * 80));
+
+                e.Add(new WaitEvent(self, 40));
+
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("Clearly artificial creations. But from where? Sent by who?"), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("And why... to me?"), l * 80));
+
+
+                e.Add(new WaitEvent(self, 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("I do not know what to make of this."), l * 80));
             }
             else
             {
-                for (var j = 1; j < array.Length; j++)
-                {
-                    var array3 = LocalizationTranslator.ConsolidateLineInstructions(array[j]);
-                    if (array3.Length == 3)
-                    {
-                        if (ModManager.MSC && !int.TryParse(array3[1], NumberStyles.Any, CultureInfo.InvariantCulture, out _) && int.TryParse(array3[2], NumberStyles.Any, CultureInfo.InvariantCulture, out _))
-                        {
-                            self.events.Add(new TextEvent(self, int.Parse(array3[0], NumberStyles.Any, CultureInfo.InvariantCulture), array3[1], int.Parse(array3[2], NumberStyles.Any, CultureInfo.InvariantCulture)));
-                        }
-                        else
-                        {
-                            self.events.Add(new TextEvent(self, int.Parse(array3[0], NumberStyles.Any, CultureInfo.InvariantCulture), array3[2], int.Parse(array3[1], NumberStyles.Any, CultureInfo.InvariantCulture)));
-                        }
-                    }
-                    else if (array3.Length == 2)
-                    {
-                        if (array3[0] == "SPECEVENT")
-                        {
-                            self.events.Add(new SpecialEvent(self, 0, array3[1]));
-                        }
-                        else if (array3[0] == "PEBBLESWAIT")
-                        {
-                            self.events.Add(new PebblesConversation.PauseAndWaitForStillEvent(self, null, int.Parse(array3[1], NumberStyles.Any, CultureInfo.InvariantCulture)));
-                        }
-                    }
-                    else if (array3.Length == 1 && array3[0].Length > 0)
-                    {
-                        self.events.Add(new TextEvent(self, 0, array3[0], 0));
-                    }
-                }
+                e.Add(new WaitEvent(self, 160));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate(".  .  ."), 0));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("And just who might you be?"), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable."), l * 80));
+
+                e.Add(new WaitEvent(self, 80));
+
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me..."), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("...you can manipulate our storage medium in unforseen ways..."), l * 80));
+
+                e.Add(new WaitEvent(self, 40));
+
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("Clearly an artifical creation. But from where? Sent by who?"), l * 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("And why... to me?"), l * 80));
+
+
+                e.Add(new WaitEvent(self, 80));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("I do not know what to make of this."), l * 80));
             }
 
+            return true;
         }
-        catch
+
+        if (id == Enums.SSOracle.Pearlcat_SSConvoFirstLeave)
         {
-            self.events.Add(new TextEvent(self, 0, "TEXT ERROR", 100));
+            e.Add(new WaitEvent(self, 120));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(".  .  ."), 0));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("You have a knack for finding these pearls, yes?"), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Think of this mutually, I can 'see' a little further outside this can..."), l * 80));
+
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...and you can gather more of that data you so clearly desire."), l * 80));
+
+            if (miscWorld?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick)
+            {
+                e.Add(new WaitEvent(self, 40));
+            }
+            else
+            {
+                if (miscWorld?.HasPearlpupWithPlayer == true)
+                {
+                    e.Add(new WaitEvent(self, 40));
+
+                    e.Add(new TextEvent(self, 0,
+                        self.Translate("Oh, and for direction - there is a gate to the far west of here, where the ground fissures..."), l * 80));
+
+                    e.Add(new TextEvent(self, 0,
+                        self.Translate("The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business."), l * 80));
+
+                    e.Add(new TextEvent(self, 0,
+                        self.Translate("If you do not plan to provide me with any meaningful data, that is your best course of action;"), l * 80));
+
+                    e.Add(new TextEvent(self, 0,
+                        self.Translate("The choice is yours."), l * 80));
+                }
+
+                e.Add(new WaitEvent(self, 120));
+
+                e.Add(new TextEvent(self, 0,
+                    self.Translate("I must resume my work. I will be waiting here, as always."), l * 80));
+
+                e.Add(new WaitEvent(self, 40));
+            }
+
+            return true;
         }
+
+        if (id == Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect)
+        {
+            module.TakeRMTimer = 120;
+            module.GiveSSTimer = 60;
+
+            e.Add(new WaitEvent(self, 120));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...that pearl you carry, the purple one, where did you find it?"), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(".  .  ."), 0));
+
+            e.Add(new WaitEvent(self, 80));
+
+
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("It appears to contain a hymn that once meant a lot to the inhabitants of my city..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...one which still means a lot to me."), l * 80));
+
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I have tried to reconstruct it from memory many times, fruitlessly."), l * 80));
+
+            e.Add(new WaitEvent(self, 80));
+
+
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("And now here you are, with a perfect copy."), l * 80));
+
+            e.Add(new WaitEvent(self, 80));
+
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I assure you it will be a more than suitable replacement for your primitive needs."), l * 80));
+
+            e.Add(new WaitEvent(self, 80));
+
+            return true;
+        }
+
+        if (id == Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl)
+        {
+            e.Add(new WaitEvent(self, 200));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...there."), l * 80));
+
+            return true;
+        }
+
+        if (id == Enums.SSOracle.Pearlcat_SSConvoSickPup)
+        {
+            if (miscWorld != null)
+            {
+                miscWorld.PebblesMetSickPup = true;
+            }
+
+            e.Add(new WaitEvent(self, 40));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(". . ."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I am not sure if you are aware, but your child appears very unwell..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("This illness, it is unlike any I have seen before - I can say it is likely fatal."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I am... sorry."), l * 80));
+
+            e.Add(new WaitEvent(self, 120));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...we were built to solve problems. It is a shame not every problem has a solution."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("...but... I will think on your problem, for now. Perhaps I can find a solution for both of us."), l * 80));
+
+            return true;
+        }
+
+        if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeetTrueEnd)
+        {
+            e.Add(new WaitEvent(self, 240));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(".  .  ."), 0));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Some time ago now, I encountered a scholar and their dying pup..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I believe that child was you."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Considering the state you left in, I thought it impossible I would see you again... and yet here you are."), l * 80));
+
+            e.Add(new WaitEvent(self, 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I would love to study it, to help treat my own affliction, however it would require... removal of the augment."), l * 80));
+
+            e.Add(new WaitEvent(self, 40));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(". . ."), l * 80));
+
+            e.Add(new WaitEvent(self, 120));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I am glad you found your own solution... even if it is an abhorrent perversion of natural law."), l * 80));
+
+            e.Add(new WaitEvent(self, 40));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer..."), l * 80));
+
+            e.Add(new WaitEvent(self, 40));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Your survival gives me some hope, little one."), l * 80));
+
+            return true;
+        }
+
+        if (id == Enums.SSOracle.Pearlcat_SSConvoUnlockMira)
+        {
+            miscProg.UnlockedMira = true;
+
+            e.Add(new WaitEvent(self, 160));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate(".  .  ."), 0));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I may not have the facilities to aid you, however..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I have sent a request for the stationary cargo transports in my city to resume operation."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown..."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("However, given a lack of other options, this is the best I can do."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Whichever path you take, I hope you find the help that you seek."), l * 80));
+
+            e.Add(new TextEvent(self, 0,
+                self.Translate("Good luck, mysterious scholar."), l * 80));
+
+            return true;
+        }
+
+        return false;
     }
 }

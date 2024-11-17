@@ -60,6 +60,8 @@ public static class Hooks
         Creatures_Hooks.ApplyHooks();
         Creatures_HooksIL.ApplyHooks();
 
+        CustomPearls_Hooks.ApplyHooks();
+
         SLOracle_Hooks.ApplyHooks();
 
         SSOracle_Hooks.ApplyHooks();

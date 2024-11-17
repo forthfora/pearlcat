@@ -1,6 +1,5 @@
 using MoreSlugcats;
 using RWCustom;
-using Smoke;
 using UnityEngine;
 
 namespace Pearlcat;
