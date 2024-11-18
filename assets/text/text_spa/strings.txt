@@ -294,7 +294,7 @@ Swap Input|Cambiar
 
 I won't be going anywhere any time soon... if you need company, you know who to visit!|No iré a ningún lado pronto... si necesitas compañía, ¡ya sabes a quién visitar!
 
-pearlcat-name|Perla
+pearlcat-name|Perlina
 
 When checked, all tutorials will be disabled.|Si se encuentra marcada, todos los tutoriales estarán desactivados.
 
