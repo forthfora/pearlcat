@@ -80,6 +80,8 @@ To store, hold the same keybind with a pearl in your main hand|在主手拿着�
 
 Pearlcat|珍珠猫
 
+pearlcat-name|珍珠猫
+
 Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|红色珍珠在获取目标后激光发射的时间（以帧为单位）。默认1.5秒。
 
 Button North|Button North
@@ -723,8 +725,6 @@ You're welcome to stay a while... your ability is fascinating.|欢迎你留在�
 Get... get away... strange... thing.|走……走开……奇怪的……东西。
 
 Swap Pearl|交换珍珠
-
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|一个好奇的学者，具有不寻常的能力来利用珍珠具有优势。
 
 Swap Input|交换输入
 

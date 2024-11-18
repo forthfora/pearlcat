@@ -59,7 +59,6 @@ public partial class PlayerModule
             return;
         }
 
-        // TODO: Remove magic numbers
         var minTime = 480;
         var maxTime = 1600;
 

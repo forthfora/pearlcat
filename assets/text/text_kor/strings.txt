@@ -80,6 +80,8 @@ To store, hold the same keybind with a pearl in your main hand|저장하려면 �
 
 Pearlcat|진주 캣
 
+pearlcat-name|진주 캣
+
 Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|대상을 얻은 후 레드 펄의 레이저가 발사 할 프레임 시간.기본 1.5 초.
 
 Button North|북쪽 버튼
@@ -723,8 +725,6 @@ You're welcome to stay a while... your ability is fascinating.|당신은 잠시 
 Get... get away... strange... thing.|가라 ... 도망 가라 ... 이상한 ...
 
 Swap Pearl|진주 교체
-
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|리믹스 구성을 통해 입력, 난이도, 치트 등을 구성하는 입력, 난이도, 속임수 등을 구성 할 수있는 특이한 능력을 가진 호기심 많은 학자.
 
 Swap Input|입력 교체
 

@@ -80,6 +80,8 @@ To store, hold the same keybind with a pearl in your main hand|Pour stocker, mai
 
 Pearlcat|Perlcat
 
+pearlcat-name|Perlcat
+
 Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Le temps dans les cadres pour un laser Red Pearl à tirer après avoir acquis une cible.Par défaut 1,5 seconde.
 
 Button North|Bouton nord
@@ -715,8 +717,6 @@ You're welcome to stay a while... your ability is fascinating.|Vous êtes invit�
 Get... get away... strange... thing.|Soyez ... Get Away ... Strange ... chose.
 
 Swap Pearl|Échanger des perles
-
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Un érudit curieux avec la capacité inhabituelle d'exploiter les perles à leur avantage. <Line> <line> Configurer les entrées, les difficultés, les tricheurs et plus via la configuration de remix! <Line> <line> Plus de Slugcats est facultatif, mais fortement recommandé.
 
 Swap Input|Échangez l'entrée
 

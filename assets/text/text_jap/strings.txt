@@ -80,6 +80,8 @@ To store, hold the same keybind with a pearl in your main hand|保管するに�
 
 Pearlcat|パールキャット
 
+pearlcat-name|パールキャット
+
 Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|ターゲットを獲得した後、赤い真珠のレーザーが発射するためのフレームの時間。デフォルト1.5秒。
 
 Button North|北にボタン
@@ -723,8 +725,6 @@ You're welcome to stay a while... your ability is fascinating.|しばらく滞�
 Get... get away... strange... thing.|取得...逃げてください...奇妙な...事。
 
 Swap Pearl|真珠を交換します
-
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|<line> <line>リミックス構成を介して入力、難易度、チートなどを構成するために真珠を活用する珍しい能力を備えた好奇心scholar盛な学者！
 
 Swap Input|入力を交換します
 

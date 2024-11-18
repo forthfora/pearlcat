@@ -102,17 +102,25 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
         "Pearlcat",
         "PEARLCAT",
         "The Pearlcat",
-        "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.",
         "A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?",
         "Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection",
         "Transit System",
 
         "Storage limit reached (",
-        "): swap out a pearl, or change the limit in the Remix options"
+        "): swap out a pearl, or change the limit in the Remix options",
 
         "Version",
         "by",
     ]
+
+    mappedStrings = {
+        "pearlcat-name" : "Pearlcat",
+        "pearlcat-description" : "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.",
+    }
+
+    for x in mappedStrings.keys():
+        strings.append(x)
+
 
     for subdir, dirs, files in os.walk(ROOT_DIR):
         for fileName in files:
@@ -196,6 +204,9 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
                 preexistingLines += 1
 
             else:
+                if string in mappedStrings.keys():
+                    string = mappedStrings[string]
+
                 translated = "NO_TRANSLATION" if not actuallyTranslate else translator.translate(string, src=SRC, dest=targetLang).text
 
                 output = string + "|" + translated + "\n\n"

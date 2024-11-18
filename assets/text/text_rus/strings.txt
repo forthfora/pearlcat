@@ -80,6 +80,8 @@ To store, hold the same keybind with a pearl in your main hand|Чтобы хра
 
 Pearlcat|Жемчужина
 
+pearlcat-name|Жемчужина
+
 Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Время в кадрах для лазера красной жемчужины для стрельбы после приобретения цели.По умолчанию 1,5 секунды.
 
 Button North|Пуговица на север
@@ -723,8 +725,6 @@ You're welcome to stay a while... your ability is fascinating.|Вы можете
 Get... get away... strange... thing.|Убери ... Уйди ... странно ... вещь.
 
 Swap Pearl|Смена Жемчужина
-
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Любопытный ученый с необычной способностью использовать жемчужины в своих интересах. <line> <line> Настройка входов, сложность, читы и многое другое с помощью ремикса!
 
 Swap Input|Обмену входом
 

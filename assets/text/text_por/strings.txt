@@ -80,6 +80,8 @@ To store, hold the same keybind with a pearl in your main hand|Para armazenar, s
 
 Pearlcat|Pearlcat
 
+pearlcat-name|Pearlcat
+
 Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Tempo em quadros para o laser de uma pérola vermelha disparar após a aquisição de um alvo.Padrão 1,5 segundos.
 
 Button North|Button North
@@ -715,8 +717,6 @@ You're welcome to stay a while... your ability is fascinating.|Você pode ficar 
 Get... get away... strange... thing.|Pegue ... fugir ... estranho ... coisa.
 
 Swap Pearl|Troque Pearl
-
-A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.|Um estudioso curioso com a capacidade incomum de aproveitar as pérolas em seu proveito.
 
 Swap Input|Entrada de troca
 
