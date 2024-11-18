@@ -88,9 +88,18 @@ public class T1_CAR2 : UpdatableAndDeletable
                 {
                     game.AddTextPrompt("Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess", 0, 600);
 
-                    game.AddTextPrompt("To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl", 0, 500);
+                    game.AddTextPrompt("To release possession, try to deploy the pearl as a sentry", 0, 500);
 
-                    PhaseTimer = 900;
+                    if (ModManager.MSC)
+                    {
+                        PhaseTimer = 900;
+                    }
+                    else
+                    {
+                        game.AddTextPrompt("(unfortunately, control of the creature requires the Downpour DLC to be enabled, however you can still be a passenger!)", 0, 500);
+
+                        PhaseTimer = 1200;
+                    }
                 }
                 else if (ModOptions.OldRedPearlAbility.Value)
                 {

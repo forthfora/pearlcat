@@ -19,12 +19,30 @@ public static class SLOracle_Helpers
     // SL Conversation Dialog Helpers
     public static void Dialog(this SLOracleBehaviorHasMark.MoonConversation self, string text, int initialWait, int textLinger)
     {
+        var currentLang = Utils.Translator.currentLanguage;
+        var addLinger = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean;
+
+        if (addLinger)
+        {
+            textLinger = 80;
+        }
+
         self.events.Add(new Conversation.TextEvent(self, initialWait, self.Translate(text), textLinger));
     }
 
     public static void Dialog_NoLinger(this SLOracleBehaviorHasMark.MoonConversation self, string text)
     {
-        self.events.Add(new Conversation.TextEvent(self, 0, self.Translate(text), 0));
+        var textLinger = 0;
+
+        var currentLang = Utils.Translator.currentLanguage;
+        var addLinger = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean;
+
+        if (addLinger)
+        {
+            textLinger = 80;
+        }
+
+        self.events.Add(new Conversation.TextEvent(self, 0, self.Translate(text), textLinger));
     }
 
     public static void Dialog_Wait(this SLOracleBehaviorHasMark.MoonConversation self, int initialWait)
@@ -133,7 +151,7 @@ public static class SLOracle_Helpers
 
                 self.Dialog("Given your unique abilities, if you are curious as to the contents of those pearls -", 0, 5);
 
-                self.Dialog("I think I may still have some use left after all!~", 0, 5);
+                self.Dialog("I think I may still have some use left after all!", 0, 5);
                 return true;
 
             default:
@@ -525,7 +543,7 @@ public static class SLOracle_Helpers
 
                         self.Dialog("Please, stay as long as you'd like, I can't begin to imagine what you've been through.", 0, 5);
 
-                        self.Dialog("I still don't have much to offer, sadly... aside from my pearl readings, and company of course! ~", 0, 5);
+                        self.Dialog("I still don't have much to offer, sadly... aside from my pearl readings, and company of course!", 0, 5);
                         return true;
 
                     default:
@@ -654,7 +672,7 @@ public static class SLOracle_Helpers
 
                 self.Dialog("...well, given your unique set of skills... if you ever need something read...", 0, 5);
 
-                self.Dialog("I'll be self.Waiting right here - not like I can go far, anyways~", 0, 5);
+                self.Dialog("I'll be waiting right here - not like I can go far, anyways!", 0, 5);
                 return true;
 
             default:

@@ -9,24 +9,48 @@ public static class CWIntegration
     {
         On.SSOracleBehavior.SpecialEvent += SSOracleBehavior_SpecialEvent;
         On.SSOracleBehavior.StartItemConversation += SSOracleBehaviorOnStartItemConversation;
-        On.SSOracleBehavior.SeePlayer += SSOracleBehaviorOnSeePlayer;
+        On.SSOracleBehavior.Update += SSOracleBehaviorOnUpdate;
 
         CWConversation.OnAddEvents += CWConversation_OnAddEvents;
-
     }
 
-    private static void SSOracleBehaviorOnSeePlayer(On.SSOracleBehavior.orig_SeePlayer orig, SSOracleBehavior self)
+
+    // Prevent CW recognising player pearls as readable, hacky but it's the easiest method I could think of
+    private static void SSOracleBehaviorOnUpdate(On.SSOracleBehavior.orig_Update orig, SSOracleBehavior self, bool eu)
     {
-        if (self.oracle?.ID == NewOracleID.CW)
+        if (self.oracle?.ID == NewOracleID.CW && self.oracle?.room?.game is not null)
         {
-            // Reset this so OnAddEvents always triggers, we handle all conversation in there
-            if (self.oracle?.room?.game?.IsPearlcatStory() == true && CWOracleHooks.WorldSaveData.TryGetValue(self.oracle.room.game.GetStorySession.saveState.miscWorldSaveData, out var cwData))
+            foreach (var playerModule in self.oracle.room.game.GetAllPearlcatModules())
             {
-                cwData.NumberOfConversations = 0;
+                foreach (var item in playerModule.Inventory)
+                {
+                    if (item is not DataPearl.AbstractDataPearl dataPearl)
+                    {
+                        continue;
+                    }
+
+                    self.readDataPearlOrbits.Add(dataPearl);
+                }
             }
         }
 
-        orig(self);
+        orig(self, eu);
+
+        if (self.oracle?.ID == NewOracleID.CW && self.oracle?.room?.game is not null)
+        {
+            foreach (var playerModule in self.oracle.room.game.GetAllPearlcatModules())
+            {
+                foreach (var item in playerModule.Inventory)
+                {
+                    if (item is not DataPearl.AbstractDataPearl dataPearl)
+                    {
+                        continue;
+                    }
+
+                    self.readDataPearlOrbits.Remove(dataPearl);
+                }
+            }
+        }
     }
 
     private static void SSOracleBehaviorOnStartItemConversation(On.SSOracleBehavior.orig_StartItemConversation orig, SSOracleBehavior self, DataPearl item)
@@ -41,6 +65,7 @@ public static class CWIntegration
 
         orig(self, item);
     }
+
 
     private static void CWConversation_OnAddEvents(CWConversation self, ref bool runOriginalCode)
     {

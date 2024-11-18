@@ -42,7 +42,7 @@ public static class ModCompat_Hooks
                 {
                     var item = playerModule.Inventory[i];
 
-                    //player.RemoveFromInventory(item);
+                    player.RemoveFromInventory(item);
 
                     // Not really to do with the persistent tracker? Disabling it in MMF has no effect
                     if (player.abstractCreature.world.game.GetStorySession is StoryGameSession story)

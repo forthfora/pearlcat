@@ -167,6 +167,4 @@ public class PlayerPearlSymbol
         SentrySprite.MoveInFrontOfOtherNode(ItemSymbol.symbolSprite);
         SentrySprite.SetPosition(ItemSymbol.symbolSprite.GetPosition());
     }
-
-    public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam) { }
 }

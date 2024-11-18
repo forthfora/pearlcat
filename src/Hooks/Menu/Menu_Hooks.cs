@@ -340,7 +340,7 @@ public static class Menu_Hooks
         }
 
 
-        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding && (ModManager.MSC || miscProg.IsSecretEnabled);
+        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding; // MSC not technically required
 
         if (SecretIndex >= SecretPassword.Length)
         {
@@ -367,7 +367,7 @@ public static class Menu_Hooks
 
             if (ModCompat_Helpers.ShowMiraVersionWarning)
             {
-                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("VERSION WARNING<LINE>Mira Installation requires Pearlcat version 1.3.0 or above! Please update..."));
+                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update..."));
             }
             else if (miscProg.IsMiraSkipEnabled)
             {
@@ -388,7 +388,7 @@ public static class Menu_Hooks
             if (ModCompat_Helpers.ShowMiraVersionWarning)
             {
                 newGamePage.difficultyLabel.text = self.Translate("VERSION WARNING");
-                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Mira Installation requires Pearlcat version 1.3.0 or above! Please update..."));
+                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Mira Installation requires a more recent version of Pearlcat! Please update..."));
             }
             else if (miscProg.IsSecretEnabled)
             {

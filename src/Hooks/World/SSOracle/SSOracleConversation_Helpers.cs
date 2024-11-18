@@ -1,9 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using RWCustom;
 using static Conversation;
 using static SSOracleBehavior;
 using Random = UnityEngine.Random;
@@ -154,7 +149,7 @@ public static class SSOracleConversation_Helpers
         var currentLang = Utils.Translator.currentLanguage;
 
         // Linger - increases for character-based languages as it is determined by character count, not word count
-        var l = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean ? 2 : 0;
+        var l = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean ? 1 : 0;
 
         var id = self.id;
         var e = self.events;

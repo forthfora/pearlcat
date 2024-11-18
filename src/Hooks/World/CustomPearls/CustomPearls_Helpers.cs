@@ -14,15 +14,54 @@ public static class CustomPearls_Helpers
     public static List<DataPearl.AbstractDataPearl.DataPearlType> CustomPearlTypes { get; } =
     [
         Enums.Pearls.RM_Pearlcat,
-        Enums.Pearls.SS_Pearlcat,
+
         Enums.Pearls.AS_PearlBlue,
         Enums.Pearls.AS_PearlRed,
         Enums.Pearls.AS_PearlYellow,
         Enums.Pearls.AS_PearlGreen,
         Enums.Pearls.AS_PearlBlack,
+
+        Enums.Pearls.SS_Pearlcat,
+
         Enums.Pearls.Heart_Pearlpup,
+
         Enums.Pearls.CW_Pearlcat,
     ];
+
+    public static Dictionary<DataPearl.AbstractDataPearl.DataPearlType, Color> CustomPearlHighlightColors { get; } = new()
+    {
+        { Enums.Pearls.RM_Pearlcat, Custom.hexToColor("ff0000") },
+
+        { Enums.Pearls.AS_PearlBlue, Custom.hexToColor("ffffff") },
+        { Enums.Pearls.AS_PearlRed, Custom.hexToColor("ffffff") },
+        { Enums.Pearls.AS_PearlYellow, Custom.hexToColor("ffffff") },
+        { Enums.Pearls.AS_PearlGreen, Custom.hexToColor("ffffff") },
+        { Enums.Pearls.AS_PearlBlack, Custom.hexToColor("ffffff") },
+
+        { Enums.Pearls.SS_Pearlcat, Custom.hexToColor("ff0000") },
+
+        { Enums.Pearls.Heart_Pearlpup, Custom.hexToColor("ffffff") },
+
+        { Enums.Pearls.CW_Pearlcat, Custom.hexToColor("7dbaff") },
+    };
+
+    public static Dictionary<DataPearl.AbstractDataPearl.DataPearlType, Color> CustomPearlMainColors { get; } = new()
+    {
+        { Enums.Pearls.RM_Pearlcat, Custom.hexToColor("622ffb") },
+
+        { Enums.Pearls.AS_PearlBlue, Custom.hexToColor("42adf5") },
+        { Enums.Pearls.AS_PearlRed, Custom.hexToColor("b32c1b") },
+        { Enums.Pearls.AS_PearlYellow, Custom.hexToColor("fcf63f") },
+        { Enums.Pearls.AS_PearlGreen, Custom.hexToColor("42c728") },
+        { Enums.Pearls.AS_PearlBlack, Custom.hexToColor("121212") },
+
+        { Enums.Pearls.SS_Pearlcat, Custom.hexToColor("ffffff") },
+
+        { Enums.Pearls.Heart_Pearlpup, Custom.hexToColor("ffffff") },
+
+        { Enums.Pearls.CW_Pearlcat, Custom.hexToColor("ffffff") },
+    };
+
 
     public static bool IsCustomPearlConvo(this Conversation.ID convoID)
     {
@@ -42,49 +81,9 @@ public static class CustomPearls_Helpers
 
     public static Color? GetCustomPearlHighlightColor(DataPearl.AbstractDataPearl.DataPearlType pearlType)
     {
-        if (pearlType == Enums.Pearls.RM_Pearlcat)
+        if (CustomPearlHighlightColors.TryGetValue(pearlType, out var color))
         {
-            return Custom.hexToColor("ff0000");
-        }
-
-        if (pearlType == Enums.Pearls.SS_Pearlcat)
-        {
-            return Custom.hexToColor("ff0000");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlBlue)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlRed)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlYellow)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlGreen)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlBlack)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.Heart_Pearlpup)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.CW_Pearlcat)
-        {
-            return Custom.hexToColor("7dbaff");
+            return color;
         }
 
         return null;
@@ -92,72 +91,30 @@ public static class CustomPearls_Helpers
 
     public static Color? GetCustomPearlMainColor(DataPearl.AbstractDataPearl.DataPearlType pearlType)
     {
-        if (pearlType == Enums.Pearls.RM_Pearlcat)
+        if (CustomPearlMainColors.TryGetValue(pearlType, out var color))
         {
-            return Custom.hexToColor("622ffb");
-        }
-
-        if (pearlType == Enums.Pearls.SS_Pearlcat)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlBlue)
-        {
-            return Custom.hexToColor("42adf5");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlRed)
-        {
-            return Custom.hexToColor("b32c1b");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlYellow)
-        {
-            return Custom.hexToColor("fcf63f");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlGreen)
-        {
-            return Custom.hexToColor("42c728");
-        }
-
-        if (pearlType == Enums.Pearls.AS_PearlBlack)
-        {
-            return Custom.hexToColor("121212");
-        }
-
-        if (pearlType == Enums.Pearls.Heart_Pearlpup)
-        {
-            return Custom.hexToColor("ffffff");
-        }
-
-        if (pearlType == Enums.Pearls.CW_Pearlcat)
-        {
-            return Custom.hexToColor("ffffff");
+            return color;
         }
 
         return null;
     }
 
 
-    // Based on decompiled code from Conversation.LoadEventsFromFile - just changed to accept a string fileName parameter
+    // Based on decompiled code from Conversation.LoadEventsFromFile - just changed to accept a string fileName parameter + remove encryption
     public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)
     {
-        Custom.Log("~~~LOAD CONVO", fileName);
-
         var targetLanguage = self.interfaceOwner.rainWorld.inGameTranslator.currentLanguage;
         string path;
 
         while (true)
         {
-            var lang = self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
+            var langDir = self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
 
-            var directorySeparatorChar = Path.DirectorySeparatorChar;
+            var sepChar = Path.DirectorySeparatorChar;
 
-            var separator = directorySeparatorChar.ToString();
+            var sepString = sepChar.ToString();
 
-            path = AssetManager.ResolveFilePath(lang + separator + fileName + ".txt");
+            path = AssetManager.ResolveFilePath(langDir + sepString + fileName + ".txt");
 
             if (saveFile != null)
             {
@@ -167,9 +124,9 @@ public static class CustomPearls_Helpers
 
                 finalFileName[0] = self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
 
-                directorySeparatorChar = Path.DirectorySeparatorChar;
+                sepChar = Path.DirectorySeparatorChar;
 
-                finalFileName[1] = directorySeparatorChar.ToString();
+                finalFileName[1] = sepChar.ToString();
                 finalFileName[2] = fileName;
                 finalFileName[3] = "-";
                 finalFileName[4] = saveFile.value;
@@ -185,10 +142,10 @@ public static class CustomPearls_Helpers
 
             if (!File.Exists(path))
             {
-                Custom.LogWarning("NOT FOUND " + path);
+                Plugin.Logger.LogWarning("NOT FOUND " + path);
                 if (targetLanguage != InGameTranslator.LanguageID.English)
                 {
-                    Custom.LogImportant("RETRY WITH ENGLISH");
+                    Plugin.Logger.LogWarning("RETRY WITH ENGLISH");
                     targetLanguage = InGameTranslator.LanguageID.English;
                 }
                 else
@@ -208,7 +165,7 @@ public static class CustomPearls_Helpers
 
         var contents = File.ReadAllText(path, Encoding.UTF8);
 
-        // Unnecessary encryption
+        // Unnecessary encryption (thanks Joar)
         // if (str[0] != '0')
         // {
         //     str = Custom.xorEncrypt(str, 54 + fileName + (int)(ExtEnum<InGameTranslator.LanguageID>)self.interfaceOwner.rainWorld.inGameTranslator.currentLanguage * 7);
@@ -218,10 +175,11 @@ public static class CustomPearls_Helpers
 
         try
         {
-            if (Regex.Split(splitContents[0], "-")[1] != fileName)
-            {
-                return;
-            }
+            // Completely useless verification check (thanks Joar)
+            // if (Regex.Split(splitContents[0], "-")[1] != fileName)
+            // {
+            //     return;
+            // }
 
             if (oneRandomLine)
             {
@@ -259,9 +217,9 @@ public static class CustomPearls_Helpers
             }
             else
             {
-                for (var index = 1; index < splitContents.Length; ++index)
+                for (var i = 1; i < splitContents.Length; ++i)
                 {
-                    var instructions = LocalizationTranslator.ConsolidateLineInstructions(splitContents[index]);
+                    var instructions = LocalizationTranslator.ConsolidateLineInstructions(splitContents[i]);
 
                     if (instructions.Length == 3)
                     {
@@ -301,7 +259,7 @@ public static class CustomPearls_Helpers
         }
         catch
         {
-            Custom.LogWarning("TEXT ERROR");
+            Plugin.Logger.LogWarning("TEXT ERROR");
 
             self.events.Add(new Conversation.TextEvent(self, 0, "TEXT ERROR", 100));
         }

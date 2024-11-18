@@ -637,7 +637,7 @@ public static class World_Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogWarning("ERROR REMOVING PERSISTENT TRACKERS FROM STORED OBJECTS: \n" + e);
+            Plugin.Logger.LogError("ERROR REMOVING PERSISTENT TRACKERS FROM STORED OBJECTS: \n" + e);
         }
 
         orig(self, playerShelter, activeGate);

@@ -180,9 +180,9 @@ public static class ModuleManager
     public static ConditionalWeakTable<AbstractSpear, SpearModule> TempPearlSpearData { get; } = new();
     public static bool TryGetSpearModule(this AbstractSpear spear, out SpearModule module)
     {
-        var save = spear.Room.world.game.GetMiscWorld();
+        var save = spear.Room?.world?.game?.GetMiscWorld();
 
-        if (save == null)
+        if (save is null)
         {
             return TempPearlSpearData.TryGetValue(spear, out module);
         }

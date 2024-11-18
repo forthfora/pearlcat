@@ -837,7 +837,6 @@ public static class Player_Helpers
             self.StoreObject(pearl, overrideLimit: true);
         }
 
-
         if (playerModule.IsPossessingCreature)
         {
             UpdateAdultPearlpup_Possessing(self, playerModule);
@@ -982,7 +981,13 @@ public static class Player_Helpers
                         continue;
                     }
 
+
                     if (creature.abstractCreature.controlled)
+                    {
+                        continue;
+                    }
+
+                    if (self.abstractCreature.world.game.GetAllPearlcatModules().Any(x => x.PossessedCreature?.TryGetTarget(out var p) == true && p == creature.abstractCreature))
                     {
                         continue;
                     }
@@ -1027,6 +1032,16 @@ public static class Player_Helpers
             }
 
             if (target.dead)
+            {
+                invalidTarget = true;
+            }
+
+            if (target.abstractCreature.controlled)
+            {
+                invalidTarget = true;
+            }
+
+            if (self.abstractCreature.world.game.GetAllPearlcatModules().Any(x => x.PossessedCreature?.TryGetTarget(out var p) == true && p == target.abstractCreature))
             {
                 invalidTarget = true;
             }
