@@ -340,7 +340,7 @@ public static class Menu_Hooks
         }
 
 
-        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding && (ModManager.MSC || miscProg.IsSecretEnabled);
+        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding; // MSC not technically required
 
         if (SecretIndex >= SecretPassword.Length)
         {

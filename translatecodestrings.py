@@ -200,7 +200,7 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
     newlyTranslatedLines = 0
 
     for i in range(len(strings)):
-        print("[" + str(i + 1) + " / " + str(len(strings)) + "]")
+        #print("[" + str(i + 1) + " / " + str(len(strings)) + "]")
         
         try:
             string = strings[i] 
@@ -239,13 +239,13 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
 
 
 toTranslate = {
-    # "ru",
-    # "ko",
-    # "fr",
-    # "pt",
-    # "it",
-    # "de",
-    # "ja",
+    "ru",
+    "ko",
+    "fr",
+    "pt",
+    "it",
+    "de",
+    "ja",
     "zh-CN",
     "es",
 }

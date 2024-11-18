@@ -1,860 +1,862 @@
-﻿Something new to read... it has been too long...|読むのが新しいもの...それは長すぎました...
+﻿...one which still means a lot to me.|...まだ私にとっては大きな意味があります。
 
-When checked, enables Pearlcat to carry a backspear.|チェックしたら、Pearlcatがバックスピアを運ぶことができます。
-
-...are you alright, little one? The modifications to your body are quite... unusual.|...あなたは大丈夫ですか、小さなもの？あなたの体の修正は非常に...珍しいです。
-
-You are just a lot to take in for little old me! A fascinating power, the gift of communication;|あなたは少し古い私のために取り入れることがたくさんあります！魅力的な力、コミュニケーションの贈り物。
-
-YOU!|あなた！
-
-And please keep your child under control.|そして、あなたの子供をコントロールし続けてください。
-
-Who... who is there?|誰...誰がいますか？
-
-Look at yourself! You know how it feels, to be within an inch of death...|自分を見てください！あなたはそれがどのように感じているかを知っています、死の数インチ以内に...
-
-Sentry P4|セントリーP4
-
-)|））
-
-Play around with sentries to see what they do!|セントリーと遊んで、彼らが何をしているのかを見てください！
-
-Mira Installation requires a more recent version of Pearlcat! Please update...|MIRAインストールには、Pearlcatのより最近のバージョンが必要です！更新してください...
-
-Oh... oh no...|ああ...ああ、いや...
-
-Sentry P3|セントリーP3
-
-Oh...? Hello! Hello...|おお...？こんにちは！こんにちは...
-
-Ah, I hope you both stay safe out there...|ああ、私はあなたがそこに安全を保つことを願っています...
-
-Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.|私を強く押しすぎないようにしてください。私が持っているニューロンの数で...私の心が少し霧がかかると言ってみましょう。
-
-Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|あなたが残した状態を考えると、私は再びあなたに会うことは不可能だと思いました...そしてまだここにいます。
-
-Welc- Hello. Hello again.|welc-こんにちは。こんにちは。
-
-Pearlcat|パールキャット
-
-Button West|西のボタン
-
-Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|彼らの好奇心が飽くことのない、パールキャットは彼らのコレクションを拡大することを追求する<LINE>を再び冒険します
-
-I have nothing for you, I'm afraid... but I hope you find the answers you seek.|私はあなたのために何も持っていません、私は恐れています...しかし、私はあなたがあなたが求めている答えを見つけてくれることを願っています。
-
-Agility Pearl Count|敏ilityパールカウント
-
-acursed|呪われた
-
-Hides the visuals of inactive pearls and turns you into... cat.|非アクティブな真珠のビジュアルを隠し、あなたを...猫に変えます。
-
-And a third? So it is...|そして3番目？だから...
-
-However, given a lack of other options, this is the best I can do.|ただし、他の選択肢がないことを考えると、これは私ができる最善のことです。
-
-Edit keybinds through the normal input menu.|通常の入力メニューを介してキービンドを編集します。
-
-When checked, all tutorials will be disabled.|チェックすると、すべてのチュートリアルが無効になります。
-
-Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|発射後に赤い真珠のレーザーが充電するためのフレームの時間。デフォルト1.5秒。
-
-Starting Inventory Override?|在庫オーバーライドを開始しますか？
-
-Disable Revive Effect?|Revive Effectを無効にしますか？
-
-Which player controller trigger swapping will apply to. 0 disables trigger swapping. Negative player numbers invert the triggers. Hold and drag up or down to change.|どのプレーヤーコントローラートリガースワッピングが適用されるか。0はトリガースワッピングを無効にします。負のプレーヤー数はトリガーを反転させます。上または下にドラッグして変更します。
-
-Oh, hello! Hello!|ああ、こんにちは！こんにちは！
-
-RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|赤は力を象徴しています。赤い真珠がアクティブで、最も近い敵対的な生き物が標的にされます
-
-When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|チェックすると、改善された入力構成サポートを無効にし、Remix Configに戻ります。施行するためにリミックスメニューを終了して再入力します。
-
-I already read this one. I can read it again, I suppose.|私はすでにこれを読みました。もう一度読むことができます。
-
-...did they have a child? ...could you be?|...彼らには子供がいましたか？...できますか？
-
-Improved Input Config is active!|改善された入力構成がアクティブです！
-
-Player 3|プレーヤー3
+But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|しかし...あなたが持っているマーク、それは非常に珍しいことです。<LINE>地元のグループの誰かが授けることができるものではありません...
 
 You are... so familiar...|あなたは...とても馴染みがあります...
 
-Welcome back, <PlayerName>!|ようこそ、<PlayName>！
+Another one? I shouldn't be surprised. Let's see...|もう一つ？驚かないはずです。見てみましょう...
 
-Some time ago now, I encountered a scholar and their dying pup...|しばらく前に、私は学者と彼らの死にかけている子犬に出会いました...
+You must be very brave to have made it all the way here. Very brave indeed...|あなたはここでずっとそれを作ったことは非常に勇敢でなければなりません。確かに非常に勇敢です...
+
+Rage Pearl Count|レイジパールカウント
+
+Get... get away... strange... thing.|取得...逃げてください...奇妙な...事。
+
+Welcome back, <PlayerName>, and your little one too.|ようこそ、<playname>、そしてあなたの小さなものも。
+
+Left Bumper|左バンパー
+
+And just who might you two be?|そして、ちょうどあなたは誰になりますか？
+
+Custom Spear Keybind?|カスタムスピアキービンド？
+
+View|ビュー
+
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|迷彩真珠の数（黒）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
+
+Swap Pearl|真珠を交換します
+
+When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|チェックすると、改善された入力構成サポートを無効にし、Remix Configに戻ります。施行するためにリミックスメニューを終了して再入力します。
+
+No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|いいえ、私はこのために気まぐれにあなたを犠牲にするほど利己的ではありません - 治療さえ保証されていません。
+
+Whichever path you take, I hope you find the help that you seek.|どちらの道をとっても、私はあなたが求める助けを見つけることを願っています。
 
 All times here are in frames.<LINE>40 frames = 1 second.|ここはすべてフレームにあります。<LINE> 40フレーム= 1秒。
 
-Custom Agility Keybind?|カスタムアジリティキービンド？
+Your little friend is still quite sick, unfortunately.|残念ながら、あなたの小さな友達はまだかなり病気です。
 
-PEARLCAT|パールキャット
+Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|ミラストーリーラインの開始時に始まります... <LINE>世界は保存され、真珠は持ち越されます！
 
-The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|広大なものは、あなたがあなたの家族を育て、そして私のビジネスから遠く離れて滞在するための安全な場所になるでしょう。
+Difficulty|困難
 
-Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|ちなみに少し遅いと思われる場合は、申し訳ありませんが、何百万ものニューロンで動作するように設計されています。
+Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read...|お母さんの特性を継承していることを考えると、これらの訪問を私の時間に価値のあるものにしたい場合は、私に何か読んでください...
 
-Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|真珠は一時的な歩riesとして展開される場合があります。（グラブ +ジャンプ +ダウン）を押して展開し、再度戻します。
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|チェックすると、真珠はアクティブまたはその他の統計変更を許可せず、ベース統計はハンターに似ているように設定されます。
 
-Ah, you didn't happen to find a way to tell me about your travels, did you?|ああ、あなたはたまたまあなたの旅行について私に話す方法を見つけませんでしたか？
+The Gutter|溝
 
-Your survival gives me some hope, little one.|あなたの生存は私にいくつかの希望を与えてくれます、小さなもの。
+There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|あなたを止めるために私ができることは何もないので、ここに私の要求があります：<LINE>私を残して、またはそれを迅速に終わらせてください。
 
-You. Again. I still remember what you did...|あなた。また。私はまだあなたがしたことを覚えています...
+Version|バージョン
 
-Oh... the memories can hurt a little... but I shouldn't well on them.|ああ...思い出は少し傷つくことがあります...しかし、私は彼らにうまくいくべきではありません。
+BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|青は敏ility性を象徴しています。保管されている各青い真珠は追加のダブルジャンプを提供します
 
-Pearlpup|パールプラップ
+FIND MIRA...|ミラを見つけて...
 
-Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.|申し訳ありませんが、私はそんなに邪魔をするべきではありません。結局のところ、私はかなりの状態にいます。
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|敏ilityパールの数（青）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
 
-The choice is yours.|選択はあなたのものです。
+Swap Right|右に交換します
 
-Disable Cosmetics?|化粧品を無効にしますか？
+Player 1|プレーヤー1
+
+) & use the (LEFT) & (RIGHT) directional inputs|）＆（左）および（右）方向入力を使用します
+
+Transit System|トランジットシステム
+
+Laser Windup TIme (OLD)|レーザーウィンドアップ時間（古い）
+
+Brought me something to read? Or just wasting my time, as per usual?|私に何かを読んでもらいましたか？それとも、いつものように、私の時間を無駄にしますか？
+
+So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...|だから、それがあなたにとってそれほど危険ではない限り、私をもっと持ってきてください...これらの訪問は本当にここでの私の日々のハイライトです...
+
+Reverts to the old red pearl mechanics - auto targeting lasers.|古いレッドパールメカニクスに戻ります - 自動ターゲティングレーザー。
+
+Death is not the end... even death that seems permanent.|死は終わりではありません...恒久的と思われる死でさえ。
+
+To release possession, try to deploy the pearl as a sentry|所有権を解放するには、セントリーとして真珠を展開してみてください
+
+Welcome back, <PlayerName>!|ようこそ、<PlayName>！
+
+Button East|ボタンイースト
+
+You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|それにもかかわらず、あなたは自分のためにうまくやっているようです、起こったことからのあなたの粘り強さは賞賛に値します！
+
+I'm sorry... it's wrong to be so invasive, it's none of my business really.|ごめんなさい...とても侵略的であるのは間違っています、それは私のビジネスのどれではありません。
+
+I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|あなたが私にもたらす真珠を読むことができてうれしいです。<LINE>特にあなたのユニークな能力を考えると。
+
+) while in the air to perform a double jump|）二重ジャンプを行うために空中にいる間
+
+I have so little... please don't take... this... this is all I have...|私は少し持っています...服用しないでください...これ...これは私が持っているすべてです...
+
+I have sent a request for the stationary cargo transports in my city to resume operation.|私は、私の都市の静止貨物輸送のリクエストを、運用を再開するように送りました。
+
+Keybind for Player 4.|プレーヤー4のKeyBind。
+
+Mira Installation requires a more recent version of Pearlcat! Please update...|MIRAインストールには、Pearlcatのより最近のバージョンが必要です！更新してください...
+
+Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|まあ、私の記憶が私に正しく私に仕えているなら、またあなたに会えてうれしいです...奇妙な学者。
+
+I have tried to reconstruct it from memory many times, fruitlessly.|私はそれを記憶から何度も再構築しようとしました。
+
+Extra Cheats|余分なチート
+
+Oh... oh no...|ああ...ああ、いや...
+
+Hello again, <PlayerName>!|こんにちは、<PlayName>！
+
+ SAVE|保存
+
+Something new to read... it has been too long...|読むのが新しいもの...それは長すぎました...
+
+The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|あなたが持っている力、それは魅力的です。私はあなたの種類からそれに似たものを見たことがありません。
+
+It appears to contain a hymn that once meant a lot to the inhabitants of my city...|かつて私の街の住民にとっては大いに意味がある賛美歌が含まれているようです...
+
+Disable Camoflague Effect?|カモフラグ効果を無効にしますか？
+
+To retrieve pearls, have an empty main hand, and hold (|真珠を取り戻すには、空のメインハンドを持ち、保持します（
+
+Agility Pearl Count|敏ilityパールカウント
+
+Shield Recharge Time|シールド充電時間
+
+Ability P3|能力P3
+
+- Additional Artwork|- 追加のアートワーク
+
+Is the implant... painful? Not that it matters, of course. Just noting some common ground.|インプラントは...痛みを伴いますか？もちろん、それが重要ではありません。いくつかの共通の基盤に注目しているだけです。
+
+pearl|パール
+
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP-新しいエンディングはまだありません！<LINE>バグが見つかった場合は、forthforaに報告してください！
+
+...familiar ...help... please...|...馴染みのある...助けてください...お願いします...
+
+Please, stay as long as you'd like, I can't begin to imagine what you've been through.|あなたが望む限り、私はあなたが何を経験してきたか想像することはできません。
+
+Player 3|プレーヤー3
+
+Hello again, strange scholar...|こんにちは、奇妙な学者...
 
 Cheats|チート
 
 My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|私の監督はあなたの到着に対して平和を築きませんでした - 私は輸送システムがほとんど動作不能であるという印象を受けていました。
 
-The Pearlcat|パールキャット
-
-Keybind for Player 4.|プレーヤー4のKeyBind。
-
-The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|あなたが持っている力、それは魅力的です。私はあなたの種類からそれに似たものを見たことがありません。
-
-trueend|TrueEnd
-
-There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|あなたを止めるために私ができることは何もないので、ここに私の要求があります：<LINE>私を残して、またはそれを迅速に終わらせてください。
-
-...well, given your unique set of skills... if you ever need something read...|...まあ、あなたのユニークな一連のスキルを考えると...何かを読む必要があるなら...
-
-Swap Right|右に交換します
-
-I do not have much else to occupy my time with these days...|私は最近で私の時間を占領する他の多くのことを持っていません...
-
-Think of this mutually, I can 'see' a little further outside this can...|これを相互に考えてみてください、私はこれをもう少し外に「見る」ことができます...
-
-Keybind for Player 1.|プレーヤー1のKeyBind。
-
-Laser Damage (OLD)|レーザー損傷（古い）
-
-I have tried to reconstruct it from memory many times, fruitlessly.|私はそれを記憶から何度も再構築しようとしました。
-
-...that pearl you carry, the purple one, where did you find it?|...あなたが運ぶパール、紫色のもの、どこで見つけたの？
-
-For the number of visits you pay me, how could there only be one of you?|あなたが私に支払う訪問数について、どうしてあなたの一人しかいないのでしょうか？
-
-Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|シールドパールの数（黄色）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
-
-I... wish there was more I could do... but even... nevermind in my current state.|私は...私ができることがもっとあればいいのに...しかし、私の現在の状態に決して気にしないでください。
-
-I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|私はそれを勉強し、自分の苦しみを治療するために勉強したいと思っていますが、それは...増強の除去が必要です。
-
-Swaps the active pearl to the left.|アクティブパールを左に交換します。
-
-You have a knack for finding these pearls, yes?|これらの真珠を見つけるためのコツがありますよね？
-
-PEARLPUP|パールプラップ
-
-Let us see what- oh, again?|何を見てみましょう - ああ、もう一度？
-
-Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|デフォルトではなく、セントリーパールを展開するためにカスタムキービンドを使用することを好む（グラブ +ジャンプ +ダウン）
-
-...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...おお？それらを取りなさい、彼らが含むデータは私にとって価値がない。彼らはあなたにとってはるかに便利だと思います...
-
-My own time is limited, after all...|結局のところ、私自身の時間は限られています...
-
-Extra Cheats|余分なチート
-
-To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl|所有権を解放するには、セントリーとして真珠を展開するか、真珠を取り戻そうとします
-
-You would be a hard one to forget after all, <PlayerName>!|結局のところ、あなたは忘れるのが難しいでしょう、<PlayName>！
-
-...you can manipulate our storage medium in unforseen ways...|...予期せぬ方法でストレージ媒体を操作できます...
-
-Swap Input|入力を交換します
-
-...ah... are those still a fascination to you? You really are no different from your mother...|...ああ...それらはまだあなたにとって魅力的ですか？あなたは本当にあなたの母親と違いはありません...
-
-Enables custom keybinds below, as opposed to the default (UP + PICKUP).|デフォルト（UP +ピックアップ）とは対照的に、以下のカスタムキーバインドを有効にします。
-
-Oh, hello! Hello...|ああ、こんにちは！こんにちは...
-
-A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|謎めいたエネルギーと知識への渇望で武装した不明瞭な起源の学者。
-
-Another one? I shouldn't be surprised. Let's see...|もう一つ？驚かないはずです。見てみましょう...
-
-...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|...あなたはコミュニケーションの贈り物を持っています！<LINE>おそらくあなたは私の隣人、5つの小石を訪問しました...？
-
-When checked, disables the spear creation effect granted by an active pearl.|チェックすると、アクティブパールによって付与された槍の作成効果を無効にします。
-
-Oh, hello there!|ああ、こんにちは！
-
-This illness, it is unlike any I have seen before - I can say it is likely fatal.|この病気は、私が以前に見たものとは異なります - 私はそれが致命的であると言えるでしょう。
-
 WARNING|警告
-
-I must resume my work. I will be waiting here, as always.|私は自分の仕事を再開しなければなりません。いつものようにここで待っています。
-
-Disable Camoflague Effect?|カモフラグ効果を無効にしますか？
-
-I very much enjoy the company though... you and your family are always welcome here.|私は会社をとても楽しんでいます...あなたとあなたの家族はいつもここで大歓迎です。
-
-...and don't look to me, it's not my fault...|...そして私に目を向けないでください、それは私のせいではありません...
-
-Player 4|プレーヤー4
-
-Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.|特定のパール能力を実行するカスタムキーバインド、PearlcatのRemix Configでカスタムバインドを使用する構成。
-
-When checked, disables the camoflague effect granted by an active pearl.|チェックすると、アクティブパールによって付与されたカモフラグ効果を無効にします。
-
-Store Pearl|真珠を保存します
-
-Brought me something to read? Or just wasting my time, as per usual?|私に何かを読んでもらいましたか？それとも、いつものように、私の時間を無駄にしますか？
-
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|チェックしたら、すべてのサイクルの下に指定された数の色の真珠にインベントリを設定します。現在の在庫を節約しません - チェックされていないときに返されます。
-
-Ah... you seem, familiar...? ...but in such a strange way...|ああ...おなじみのようです...？...しかし、そのような奇妙な方法で...
-
-Hello, again. You are very curious. Very curious indeed.|こんにちは、もう一度。あなたはとても興味があります。確かに非常に興味があります。
-
-You and your family are always welcome here - please visit often!|あなたとあなたの家族はいつでもここで大歓迎です - 頻繁に訪問してください！
-
-I hope you are staying safe out there...|私はあなたがそこに安全であることを願っています...
-
-R-Stick|Rスティック
-
-Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|保護を提供するために料金が消費されます。各真珠は、しばらくすると個別にその充電を補充します
-
-- Dialogue, SFX|- 対話、SFX
-
-You are welcome to stay as long as you like. Anything to ease the pain.|あなたが好きな限り滞在することを歓迎します。痛みを和らげるために何でも。
-
-PEARLCAT_MIRA_SKIP|pearlcat_mira_skip
-
-Keybind for Keyboard.|キーボード用のキービンド。
-
-Whichever path you take, I hope you find the help that you seek.|どちらの道をとっても、私はあなたが求める助けを見つけることを願っています。
-
-Custom Keybind?|カスタムキービンド？
-
-Ability P4|能力P4
-
-Another? And I shall read this one to you as well...|別の？そして、私もあなたにこれを読みます...
-
-When checked, some abilties will show the inventory when recharged or depleted.|チェックすると、一部のアビルトは、充電または枯渇したときに在庫を表示します。
-
-Please... this all I have left... you have so much... ...why take mine?|お願いします...これは私が残したすべて...あなたはたくさん持っています... ...なぜ私のものを取るのですか？
-
-- Artwork|- アートワーク
-
-I know that quite well.|私はそれをよく知っています。
-
-You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|あなたはかなり遠くから来ますか？あなたは私たちとコミュニケーションをとることができますが、あなたが持っているマークは私にとって異質です...
-
-And just who might you be?|そして、あなたは誰になるのでしょうか？
-
-Player 1|プレーヤー1
-
-...help... please...|...助けてください...お願いします...
-
-For now, my only lens into the outside is those pearls you carry.|今のところ、外側に私の唯一のレンズはあなたが運ぶ真珠です。
-
-- Floppy Ears, Scarf|- フロッピー耳、スカーフ
-
-by|による
-
-...hello?|...こんにちは？
-
-Ability P2|能力P2
-
-I'll always enjoy your company... it gets lonely out here.|私はいつもあなたの会社を楽しんでいます...それはここで孤独になります。
-
-You... I still remember what you did.|あなた...私はまだあなたがしたことを覚えています。
-
-Has it really been so long...? And considering your current state, you've been through a lot...|本当に長い時間がかかりましたか...？そして、あなたの現在の状態を考えると、あなたは多くのことを経験してきました...
-
-Disable Spear Effect?|槍効果を無効にしますか？
-
-You're more than welcome to stay a while... your ability will always be a little miracle to me...|あなたはしばらく滞在することを歓迎します...あなたの能力はいつも私にとって少し奇跡になります...
-
-When checked, disables the agility effect granted by an active pearl.|チェックすると、アクティブパールによって付与された敏ility効果を無効にします。
-
-Keybind for Player 3.|プレーヤー3のkeybind。
-
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.|あなたがたまたま余裕があれば、私はそれらの真珠を読むことを喜んでいます... <LINE>時間を過ごすために他にやることはあまりありません。
-
-Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Pearlcatの一般的な視認性の乗数の割合は、捕食者の魅力に影響します。デフォルトでは、パールキャットはハンターよりもはるかに目立ちます。
-
-To cycle between pearls, use (|真珠間を循環するには、使用します（
-
-Is the implant... painful? Not that it matters, of course. Just noting some common ground.|インプラントは...痛みを伴いますか？もちろん、それが重要ではありません。いくつかの共通の基盤に注目しているだけです。
-
-Oh, hello strange scholar!|ああ、こんにちは奇妙な学者！
-
-Ability P1|能力P1
-
-No, I do not care for your little one.|いいえ、私はあなたの小さなものを気にしません。
-
-To retrieve pearls, have an empty main hand, and hold (|真珠を取り戻すには、空のメインハンドを持ち、保持します（
-
-Disable Rage Effect?|怒りの効果を無効にしますか？
-
-When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|チェックすると、Pearlcatの化粧品は無効になり、DMを介してカスタムスプライトを許可することを目的としています。これには真珠自体は含まれていません。
-
-Inventory Override?|在庫オーバーライド？
-
-And who is your little friend? They are quite adorable!|そして、あなたの小さな友達は誰ですか？彼らは非常に愛らしいです！
-
-Number of camo pearls (black). Effective only when Inventory Override? is checked.|迷彩真珠の数（黒）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
-
-BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|青は敏ility性を象徴しています。保管されている各青い真珠は追加のダブルジャンプを提供します
-
-But it's best not to dwell on the past, don't you agree <PlayerName>?|しかし、過去にこだわらないことが最善です、あなたは<PlayName>に同意しませんか？
-
-And just who might you two be?|そして、ちょうどあなたは誰になりますか？
-
-Surely it must be another little beast with a pearl for a heart?|確かにそれは心の真珠を持つ別の小さな獣でなければなりませんか？
-
-I do enjoy the company of you and your friend though, <PlayerName>.|私はあなたとあなたの友人の会社を楽しんでいます、<PlayName>。
-
-Right Bumper|右バンパー
-
-Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.|保持時に在庫UIを開き、アクティブパールをムーブメントキーと交換できます。
-
-Button North|北にボタン
-
-When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|チェックすると、真珠はアクティブまたはその他の統計変更を許可せず、ベース統計はハンターに似ているように設定されます。
-
-Please, stay as long as you'd like, I can't begin to imagine what you've been through.|あなたが望む限り、私はあなたが何を経験してきたか想像することはできません。
-
-What do you want? To take away more of my life...?|なんでしょう？私の人生をもっと奪うために...？
-
-I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten.|あなたが到着したエリアの近くでそれらを見つけるかもしれないと思います。あなたが忘れていれば、それはアクセスシャフトを介して行われます。
-
-) & use the (LEFT) & (RIGHT) directional inputs|）＆（左）および（右）方向入力を使用します
-
-I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?|私は嘘をつかない、私はあなたがどのように生き残ったか、そしてあなたがどうやってここに戻ったのかについてとても興味があります...？
-
-RED symbolizes power. With a red pearl active, all stored red pearls will circle you|赤は力を象徴しています。赤い真珠がアクティブで、すべての保管された赤い真珠があなたを一周します
-
-It doesn't matter I suppose, you may stay, so long as you don't disturb my work...|あなたが私の仕事を邪魔しない限り、あなたは私が滞在するかもしれないと思うことは関係ありません...
-
-Button East|ボタンイースト
-
-So... anything for me to read?|だから...私が読むために何か？
-
-Enable Backspear?|バックスピアを有効にしますか？
-
-You would be a hard one to forget after all, strange scholar!|あなたは結局忘れるのが難しい人でしょう、奇妙な学者！
-
-When checked, disables the shield effect granted by an active pearl.|チェックすると、アクティブパールによって付与されたシールド効果を無効にします。
-
-Given your unique abilities, if you are curious as to the contents of those pearls -|あなたのユニークな能力を考えると、あなたがそれらの真珠の内容について興味があるなら -
-
-I am not sure if you are aware, but your child appears very unwell...|あなたが知っているかどうかはわかりませんが、あなたの子供は非常に気分が悪く見えます...
-
-Intended for fun, may change gameplay significantly!|楽しみを目的として、ゲームプレイを大幅に変更する可能性があります！
-
-This one again? I have better things to do... but...|これも？やるべきことがもっとあります...しかし...
-
- Pearlpup will be revived.|Pearlpupが復活します。
-
-Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...|ああ、私は嘘をつきません...私はあなたがここに戻ってきた方法とあなたの旅行で何が起こったのかについて興味があります...
-
-Ah, yet another one? You are even better at finding these than I imagined...|ああ、もう1つ？あなたは私が想像したよりもこれらを見つけるのがさらに上手です...
-
-The surviving scholar returns once more... how poetic.|生き残った学者はもう一度戻ってきます...なんて詩的です。
-
-strange|奇妙な
-
-Ability Input|能力入力
-
-Keybind to swap to the stored pearl to the left. Limited to Player 1.|Keybindは、左に保存された真珠に交換します。プレーヤー1に限定。
-
-Was it really so long ago that you were only half my height...?|あなたが私の身長の半分しかなかったのは本当にずっと前でした...？
-
-The Gutter|溝
-
-When checked, the inventory HUD will be replaced with a more compact version.|チェックすると、在庫HUDはよりコンパクトなバージョンに置き換えられます。
-
-Hold () or (|hold（）または（
-
-Disable Agility Effect?|敏ility効果を無効にしますか？
-
-Shield Duration|シールド期間
-
-Oh! It is good to see you two again!|おお！またお会いできてうれしいです！
-
-So curious...|とても好奇心が強い...
-
-...and what happened to your parent...|...そしてあなたの親に何が起こったのか...
-
-Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|各レッドパールのレーザーがショットごとにダメージを与えます。生存者の槍ダメージ= 1.0
-
-FIND MIRA...|ミラを見つけて...
-
-...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|...しかし...私はあなたの問題について今のところ考えます。おそらく私は私たち二人のための解決策を見つけることができます。
-
-I'm just so glad you're safe, too many things have come into my memory, only to be washed away...|私はあなたが安全であることをとてもうれしく思います、あまりにも多くのものが私の記憶に入ってきました、ただ洗い流されるために...
-
-...and you can gather more of that data you so clearly desire.|...そして、あなたはあなたがとても明確に望んでいるそのデータをもっと収集することができます。
-
-...but, you are not like I remember them? Am I misremembering so badly?|...しかし、あなたは私がそれらを覚えているようではありませんか？私はそんなにひどく覚えていますか？
-
-Number of agility pearls (blue). Effective only when Inventory Override? is checked.|敏ilityパールの数（青）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
-
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP-新しいエンディングはまだありません！<LINE>バグが見つかった場合は、forthforaに報告してください！
-
-You must be very brave to have made it all the way here. Very brave indeed...|あなたはここでずっとそれを作ったことは非常に勇敢でなければなりません。確かに非常に勇敢です...
-
-Ability P3|能力P3
-
-. . .|。。。
-
-Shield Pearl Count|シールドパールカウント
-
-OE_SEXTRA|OE_SEXTRA
-
- SAVE|保存
-
-Something else new? Allow me to see...|他に何か新しいもの？私に見せてもらう...
-
-I believe that child was you.|私はその子供があなただったと信じています。
-
-Background|背景
-
-I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|あなたがあなた自身の解決策を見つけてくれてうれしいです...たとえそれが自然法の忌まわしい倒錯であっても。
-
-I have sent a request for the stationary cargo transports in my city to resume operation.|私は、私の都市の静止貨物輸送のリクエストを、運用を再開するように送りました。
-
-Grab a creature and hold (GRAB) with an active green pearl to revive them|クリーチャーをつかんで、アクティブな緑の真珠で握って（つかみます）復活させます
-
-...we were built to solve problems. It is a shame not every problem has a solution.|...私たちは問題を解決するために建てられました。すべての問題に解決策があるわけではないのは残念です。
-
-scholar|学者
-
-Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|まあ、私の記憶が私に正しく私に仕えているなら、またあなたに会えてうれしいです...奇妙な学者。
-
-You're welcome to stay a while... your ability is fascinating.|しばらく滞在することを歓迎します...あなたの能力は魅力的です。
-
-Oh, and for direction - there is a gate to the far west of here, where the ground fissures...|ああ、そして方向のために - ここの西の西に門があり、そこには地面が裂けます...
-
-Ah. So you've returned.|ああ。だからあなたは戻ってきました。
-
-) with an active common pearl to convert it into a pearl spear|）それを真珠の槍に変換するためのアクティブな共通の真珠で
-
-I would guess they will grow up into quite the scholar themself, someday...|いつか彼らはかなり学者に成長すると思います...
-
-Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|あなたの心はあなたが他の人を所有し、それを活動させ、生き物で視界を維持し、所有するために真珠を取り戻そうとします
-
-Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|デフォルトではなく、槍の作成には以下のカスタムキービンドを使用することを好む（グラブ）
-
-You...|あなた...
-
-The company of you and your friend makes my day, strange scholar.|あなたとあなたの友人の会社は私の日、奇妙な学者を作ります。
-
-Intended to make gameplay more challenging, may change gameplay significantly!|ゲームプレイをより挑戦的にすることを目的としており、ゲームプレイを大幅に変更する可能性があります！
-
-If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond.|あなたがトランジットシステムを介して私に到達できたなら、私はあなたがはるかにそれ以上に他の人に到達できるかもしれないと仮定することができます。
-
-...familiar ...help... please...|...馴染みのある...助けてください...お願いします...
-
-- Additional Artwork|- 追加のアートワーク
-
-Store Input|入力を保存します
-
-Button South|サウスボタン
-
-When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|チェックしたら、以下のオプションで最初の真珠をオーバーライドします。在庫オーバーライドとは異なり、新しいゲームの開始時にのみ効果的ですか？
-
-Hello! Strange scholar, it is good to see you!|こんにちは！奇妙な学者、あなたに会えるのは良いことです！
-
-Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!|複数の赤い真珠はこの効果を結びつける可能性があります - そして、はい、これらのバットフリーは非常に敵対的です！
 
 Pearls may also be deployed as temporary sentries. Press (|真珠は一時的な歩riesとして展開される場合があります。プレス （
 
-JoystickButton|ジョイスティックバットン
+Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|フレーム内の時間は、アクティブになった後、黄色の真珠のシールドが充電するのにかかります。デフォルト40秒。
 
-I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|私は、あなたがそれらに保存されている情報を読むことができないので、あなたが望むなら私はあなたのためにそれらを読むことができると思います。
+Think of this mutually, I can 'see' a little further outside this can...|これを相互に考えてみてください、私はこれをもう少し外に「見る」ことができます...
 
-I will tolerate your pressence, so long as you bring me something meaningful.|あなたが私に意味のあるものを持ってきている限り、私はあなたの存在を容認します。
-
-Press (JUMP + GRAB) while in the air to perform a double jump|空中でダブルジャンプを行うために（ジャンプ +グラブ）を押します
-
-Hello! I remember you! I remember...|こんにちは！私はあなたのことを覚えています！私は覚えています...
-
-So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...|だから、それがあなたにとってそれほど危険ではない限り、私をもっと持ってきてください...これらの訪問は本当にここでの私の日々のハイライトです...
-
-Is that you, little scholar? I'm speechless...|それはあなた、小さな学者ですか？私は言葉がありません...
-
-Input a shelter name to have it override where Pearlcat starts a new game.|シェルター名を入力して、パールキャットが新しいゲームを開始する場所をオーバーライドします。
-
-): swap out a pearl, or change the limit in the Remix options|）：真珠を交換するか、リミックスオプションの制限を変更する
-
-When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|チェックすると、ほとんどの真珠（アクティブな場合）は、すべての地域の脅威テーマを元々出身地のテーマに強制します。
-
-Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|悲しいことに、不幸は差別しません。やがて、より良い運命があなたを待っていることを願っています。
-
-Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read...|お母さんの特性を継承していることを考えると、これらの訪問を私の時間に価値のあるものにしたい場合は、私に何か読んでください...
-
-When checked, disables the revive effect granted by an active pearl.|チェックすると、アクティブパールによって付与されたRevive効果を無効にします。
-
-Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|アクティブパールを含めて、一度に保管できる真珠の最大数。デフォルトは9です。上下にドラッグして変更します。
-
-I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|あなたがここに戻ったらすぐにあなたを生き続けていることに気づきました - 私はこれを軽く言いませんが、それがどのように機能するかは私を超えています。
-
-General|一般的な
-
-Death is not the end... even death that seems permanent.|死は終わりではありません...恒久的と思われる死でさえ。
-
-Revive Pearl Count|パールカウントを復活させます
-
-- Chinese Translation|- 中国語翻訳
-
-Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer...|そうでなければ、私は自分の仕事を再開しなければなりません、それは私自身の治療への道がはるかに長いようです...
+Hold () or (|hold（）または（
 
 I remember this one... don't you? Well...|私はこれを覚えています...あなたはそうしませんか？良い...
 
-Sentry Pearl|セントリーパール
-
-Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|ミラストーリーラインの開始時に始まります... <LINE>世界は保存され、真珠は持ち越されます！
-
-I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|これらの真珠であなたが大切にしているのは、彼らの格子がどれほど純粋であるかということだと思いますか？私はこれよりもはるかに洗練されたものであなたを代用します。
-
-pearlcat-name|パールキャット
-
-But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|しかし...あなたが持っているマーク、それは非常に珍しいことです。<LINE>地元のグループの誰かが授けることができるものではありません...
-
-It appears to contain a hymn that once meant a lot to the inhabitants of my city...|かつて私の街の住民にとっては大いに意味がある賛美歌が含まれているようです...
-
-Hello again, <PlayerName>!|こんにちは、<PlayName>！
-
-I very much enjoy the company though... you and your little friend are always welcome here.|私は会社をとても楽しんでいます...あなたとあなたの小さな友人はいつもここで歓迎しています。
-
-If you do not plan to provide me with any meaningful data, that is your best course of action;|意味のあるデータを私に提供する予定がない場合、それがあなたの最良の行動方針です。
-
-I assure you it will be a more than suitable replacement for your primitive needs.|私はあなたがあなたの原始的なニーズに適した交代以上になることを保証します。
-
-I do enjoy the company though... it gets lonely out here.|私は会社を楽しんでいます...それはここで孤独になります。
-
-I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...|私はあなたがあなたの旅行で何が起こったのか教えてくれたらいいのにと思います...私がこの部屋を越えて最後に見たときはほとんど覚えていません...
-
-To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|真珠を取得するには、空のメインハンドを持ち、保持します（グラブ +アップ）
-
-CREDITS|クレジット
-
-pearlcat|パールキャット
-
-Chimney Canopy|煙突の天蓋
-
-You. I didn't forget...|あなた。私は忘れませんでした...
-
-Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|フレーム内の時間は、アクティブになった後、黄色の真珠のシールドが充電するのにかかります。デフォルト40秒。
-
-Clearly an artifical creation. But from where? Sent by who?|明らかに人工的な創造物。しかし、どこから？誰から送られましたか？
-
-PLAYTESTERS|PlayTesters
-
-Oh, hello <PlayerName>!|ああ、こんにちは<PlayName>！
-
-I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|サイクルがあなたをよく扱ってきたことを願っています...そこにはお互いの世話をするのは難しいに違いありません。
-
-He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|彼は現在私よりもはるかに優れています - 私は彼に訪問を支払うことをお勧めします。<LINE>彼は医療施設として設計されていませんが、彼は何らかの形であなたを助けることができるかもしれません。
-
-I do not know what to make of this.|私はこれをどうするべきかわかりません。
-
 And now here you are, with a perfect copy.|そして今、あなたは完璧なコピーを持っています。
-
-Your biology... it is both familiar and foreign to me. How curious.|あなたの生物学...それは私にとって馴染みがあり、外国人です。なんて好奇心が強い。
-
-Your attachment to that thing is unavoidable, I suppose.|そのことへのあなたの愛着は避けられないと思います。
-
-Visibility Multiplier|可視性乗数
-
-You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|それにもかかわらず、あなたは自分のためにうまくやっているようです、起こったことからのあなたの粘り強さは賞賛に値します！
-
-pearl|パール
-
-) to deploy, and again to return.|）展開し、もう一度返す。
-
-Pearl spears will attempt to return to you after being thrown, if they are not stuck|パールスピアーズは、投げられてから立ち直った後、あなたに戻ってみます
-
-Compact Inventory HUD?|コンパクトインベントリHUD？
-
-Transit System|トランジットシステム
-
-Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|フレームの時間は、イエローパールシールドがアクティブになった後も続きます。デフォルト1.5秒。
-
-Good luck, mysterious scholar.|幸運、神秘的な学者。
-
-When checked, disables the rage effect granted by an active pearl.|チェックすると、アクティブパールによって付与された怒り効果を無効にします。
-
-Your little friend is still quite sick, unfortunately.|残念ながら、あなたの小さな友達はまだかなり病気です。
-
-Trigger Player|トリガープレーヤー
-
-Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|槍創造真珠の数（白）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
-
-Storage limit reached (|ストレージ制限に達しました（
-
-Hide Pearls?|真珠を隠しますか？
-
-Max Pearl Count|マックスパールカウント
-
-Camo Pearl Count|迷彩パールカウント
-
-Keybind for Player 2.|プレーヤー2のkeybind。
-
-...and you have brought your little friend along, of course.|...そして、あなたはもちろんあなたの小さな友達を連れてきました。
-
-... |...
-
-GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|緑は活力を象徴しています。保管されている各緑の真珠は、あなたを含むサイクルごとに1つの生き物を復活させるかもしれません
-
-Number of rage pearls (red). Effective only when Inventory Override? is checked.|怒りの真珠の数（赤）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
-
-Sentry P2|セントリーP2
-
-Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|デフォルトではなく、敏ility性ダブルジャンプには、以下のカスタムキービンドを使用することを好みます（grab +ジャンプ）
-
-I see you have not found a cure for their illness. Not yet...|あなたは彼らの病気の治療法を見つけていないと思います。まだ...
-
-View|ビュー
-
-Menu|メニュー
-
-I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|あなたが私にもたらす真珠を読むことができてうれしいです。<LINE>特にあなたのユニークな能力を考えると。
-
-Alternatively, hold (|または、保留（
-
-And why... to me?|そして、なぜ...私に？
 
 I may not have the facilities to aid you, however...|私はあなたを助けるための施設を持っていないかもしれませんが...
 
-I am... sorry.|ごめんなさい。
+I'll always enjoy your company... it gets lonely out here.|私はいつもあなたの会社を楽しんでいます...それはここで孤独になります。
 
-They are unwell, <PlayerName>, very unwell indeed.|彼らは気分が悪く、<PlayName>、本当に気分が悪い。
-
-I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|私は何も保証することはできません - これらの機関車は私の施設が封鎖に入れられてから運用されていません...
-
-Rage Pearl Count|レイジパールカウント
-
-(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)|（残念ながら、Pearlpupがスポーンするには、豪雨DLCを有効にする必要があります）
-
-VERSION WARNING|バージョン警告
-
-...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|...あなたは食べました...私。離れてください。私はあなたに話しません... <LINE>私はあなたに話すことができません...なぜなら...あなたは食べた...私...そしてなぜですか？
-
-NON-MSC|非MSC
-
-Pearl Threat Music?|パールの脅威音楽？
-
-YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|黄色は保護を象徴しています。保存された各黄色の真珠は、シールドチャージを提供します
-
-I can only hope you have not come... to hurt me more.|私はあなたが来ないことを願っています...もっと私を傷つけるために。
-
-Ability KB|能力KB
-
-Why did you come back here...? I can only imagine it brings back some painful memories.|なぜここに戻ったのですか...？私はそれがいくつかの痛みを伴う思い出をもたらすことを想像することができます。
-
-Hold (GRAB) with an active common pearl to convert it into a pearl spear|アクティブな共通の真珠でそれをパールの槍に変換する（グラブ）保持（グラブ）
-
-Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|それぞれの赤い真珠は追加のレーザーを提供します - そして、はい、これらのバットフリーは非常に敵対的です！
-
-Left Bumper|左バンパー
-
-Disable Tutorials?|チュートリアルを無効にしますか？
-
-), or the triggers on controller|）、またはコントローラーのトリガー
-
-If only I had my memories, I might have a clue...|思い出があれば、手がかりがあるかもしれません...
-
-Version|バージョン
-
-I see you've returned, yet again.|私はあなたが戻ってきたのを見ます、もう一度。
-
-You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|あなたは私にかなりの恐怖を与えました！私は最近訪問者を頻繁に獲得していません。
-
-A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|真珠を操作する能力を持つ学者...？ああ...はい！私は覚えています！
-
-And a nasty scar, poor thing... I can't imagine where you got that, or even where you came from...?|そして、厄介な傷跡、貧しいこと...私はあなたがそれをどこで手に入れたのか、あるいはあなたがどこから来たのか想像することはできません...？
-
-Old Red Pearl Ability?|古い赤パールの能力？
-
-I am so sorry.|申し訳ありません。
-
-Swap Pearl|真珠を交換します
-
-Welcome back, you two!|どういたしまして、お二人！
-
-Read this one too? Yes, yes, here it is...|これも読んでいますか？はい、はい、ここにあります...
-
-Disable Shield Effect?|シールド効果を無効にしますか？
-
-Ah, you have returned? You look about as sickly as I remember.|ああ、あなたは戻ってきましたか？あなたは私が覚えているように病気に見えます。
-
-You really do remind me so much of your mother...|あなたは本当にあなたの母親の多くを思い出させます...
-
-My neighbour, Five Pebbles, is a little temperamental, but means well.|私の隣人、5つの小石は少し気まぐれですが、よく意味があります。
-
-Shield Recharge Time|シールド充電時間
-
-Keyboard|キーボード
-
-So curious... I wonder what it is you're searching for?|とても好奇心が強い...私はあなたが何を探しているのだろうか？
-
-...there.|...そこには。
-
-Yes, help yourself. They are not edible.|はい、自分を助けてください。それらは食用ではありません。
-
-No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|いいえ、私はこのために気まぐれにあなたを犠牲にするほど利己的ではありません - 治療さえ保証されていません。
-
-Keybind to swap to the stored pearl to the right. Limited to Player 1.|keybindは、右側に保存された真珠に交換します。プレーヤー1に限定。
-
-Custom Spear Keybind?|カスタムスピアキービンド？
-
-It would be pointless to ask why...|理由を尋ねるのは無意味です...
-
-Reverts to the old red pearl mechanics - auto targeting lasers.|古いレッドパールメカニクスに戻ります - 自動ターゲティングレーザー。
-
-Back again? I hope you have brought me something this time.|もう一度？今回はあなたが私に何かを持ってきたことを願っています。
-
-And who is your little friend? They are...|そして、あなたの小さな友達は誰ですか？彼らです...
-
-Is my memory so bad to forget how your little one looks? They seem paler...|私の記憶はあなたの小さなものがどのように見えるかを忘れるのはとても悪いですか？彼らは淡く見えます...
-
-There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|私にできることは何もありません - 私は医療施設ではありません。たとえ私がそうであっても、私の機器は自然のままではありません。
-
-Hello again, strange scholar!|こんにちは、奇妙な学者！
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|チェックしたら、以下のオプションで最初の真珠をオーバーライドします。在庫オーバーライドとは異なり、新しいゲームの開始時にのみ効果的ですか？
 
 I think I may still have some use left after all!|結局私はまだいくつかの使用が残っているかもしれないと思います！〜
 
-) or (|） または （
-
-) while in the air to perform a double jump|）二重ジャンプを行うために空中にいる間
-
-Pearlpup Respawn?|Pearlpup Respawn？
-
-Deploys the active pearl as a sentry, or returns it if it is already deployed.|アクティブパールを歩sentとして展開するか、既に展開されている場合は返品します。
-
-I do enjoy the company of you and your friend though, strange scholar.|私はあなたとあなたの友人、奇妙な学者の会社を楽しんでいます。
-
-Hello again.|こんにちは。
-
-Pearl Ability|パール能力
-
-I... I have nothing more to say...|私は...私はこれ以上言うことはありません...
-
-pearlcat-description|<LINE> <LINE>リミックス構成を介して入力、難易度、チートなどを構成するために真珠を活用する珍しい能力を備えた好奇心scholar盛な学者！
-
-Welcome back, I suppose.|おかえりなさいと思います。
-
-...scholar?|...学者？
-
-Swaps the active pearl to the right.|アクティブパールを右に交換します。
-
-Hello. Again.|こんにちは。また。
-
-Difficulty|困難
-
-Spear Pearl Count|スピアパールカウント
-
-Press (|プレス （
-
-In any case, you are welcome to stay as long as you like. Anything to ease the pain.|いずれにせよ、あなたが好きな限り滞在することを歓迎します。痛みを和らげるために何でも。
-
-Get... get away... strange... thing.|取得...逃げてください...奇妙な...事。
-
-pupheart|pupheart
-
-I have so little... please don't take... this... this is all I have...|私は少し持っています...服用しないでください...これ...これは私が持っているすべてです...
-
-Start Shelter Override|シェルターオーバーライドを開始します
-
-Swap Left|左を交換します
-
-Number of revive pearls (green). Effective only when Inventory Override? is checked.|Revive Pearls（緑）の数。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
-
-Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.|真珠をメインハンドに保管するか、メインハンドが空である場合は現在のアクティブパールを取得します。
-
-Laser Windup TIme (OLD)|レーザーウィンドアップ時間（古い）
-
-I'll be waiting right here - not like I can go far, anyways!|私は自分自身になります。
-
-thing|もの
-
-Inventory Pings?|在庫のping？
-
-Back again? You do visit often...|もう一度？あなたは頻繁に訪問します...
-
-You're more than welcome to stay a while... your ability will always be a miracle to me...|あなたはしばらく滞在することを歓迎します...あなたの能力はいつも私にとって奇跡になります...
-
-I won't be going anywhere any time soon... if you need company, you know who to visit!|私はすぐにどこにも行きません...あなたが会社を必要とするなら、あなたは誰を訪問するかを知っています！
-
-Welcome back, <PlayerName>, and your little one too.|ようこそ、<playname>、そしてあなたの小さなものも。
-
-Laser Recharge Time (OLD)|レーザー充電時間（古い）
-
-Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|ターゲットを獲得した後、赤い真珠のレーザーが発射するためのフレームの時間。デフォルト1.5秒。
-
-...one which still means a lot to me.|...まだ私にとっては大きな意味があります。
-
-...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|...現在あなたの子犬のためにできることは何もありません。ごめんなさい。私は...それについて考えます。
-
-L-Stick|Lスティック
-
-Custom Sentry Keybind?|カスタムセントリーキービンド？
-
-I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...|もちろん冗談です！私の想像力は十分であるでしょうが、好奇心は私を燃やします...
-
-Nevermind... this anger is useless...|気にしないで...この怒りは役に立たない...
+Disable Cosmetics?|化粧品を無効にしますか？
 
 Disable Minor Effects?|マイナーな効果を無効にしますか？
 
-When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|チェックされると、パールプラップは次のサイクルで次のシェルターで失われるたびにリスポーンします。
+The surviving scholar returns once more... how poetic.|生き残った学者はもう一度戻ってきます...なんて詩的です。
 
-Disable Improved Input Config?|改良された入力構成を無効にしますか？
+- Dialogue, SFX|- 対話、SFX
+
+Compact Inventory HUD?|コンパクトインベントリHUD？
+
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|Keybindは、左に保存された真珠に交換します。プレーヤー1に限定。
+
+For now, my only lens into the outside is those pearls you carry.|今のところ、外側に私の唯一のレンズはあなたが運ぶ真珠です。
+
+Deploys the active pearl as a sentry, or returns it if it is already deployed.|アクティブパールを歩sentとして展開するか、既に展開されている場合は返品します。
+
+) with an active common pearl to convert it into a pearl spear|）それを真珠の槍に変換するためのアクティブな共通の真珠で
+
+For the number of visits you pay me, how could there only be one of you?|あなたが私に支払う訪問数について、どうしてあなたの一人しかいないのでしょうか？
+
+Sentry Pearl|セントリーパール
 
 Four! Well, if you insist...|4！まあ、あなたが主張するなら...
 
-Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|ああ、ごめんなさい...そんなに侵略的であることは間違っています、そして、私はとにかくそれほど感傷的ではないはずです。
+If only I had my memories, I might have a clue...|思い出があれば、手がかりがあるかもしれません...
 
-.  .  .|。。。
+...did they have a child? ...could you be?|...彼らには子供がいましたか？...できますか？
 
-To store, hold the same keybind with a pearl in your main hand|保管するには、メインハンドに真珠で同じキービンドを保持します
+Ah, you have returned? You look about as sickly as I remember.|ああ、あなたは戻ってきましたか？あなたは私が覚えているように病気に見えます。
 
-MSC|MSC
+JoystickButton|ジョイスティックバットン
 
-I still don't have much to offer, sadly... aside from my pearl readings, and company of course!|悲しいことに...私の真珠の測定値は別として、そしてもちろん会社を除いて、私はまだ提供することはありません！〜
+Given your unique abilities, if you are curious as to the contents of those pearls -|あなたのユニークな能力を考えると、あなたがそれらの真珠の内容について興味があるなら -
 
-I'm sorry... it's wrong to be so invasive, it's none of my business really.|ごめんなさい...とても侵略的であるのは間違っています、それは私のビジネスのどれではありません。
+Is my memory so bad to forget how your little one looks? They seem paler...|私の記憶はあなたの小さなものがどのように見えるかを忘れるのはとても悪いですか？彼らは淡く見えます...
 
-Player 2|プレーヤー2
+You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|あなたはかなり遠くから来ますか？あなたは私たちとコミュニケーションをとることができますが、あなたが持っているマークは私にとって異質です...
 
-Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|赤い真珠の半径内に武器を投げると、最も近い敵対的な生き物に家に帰ります
+Keybind for Keyboard.|キーボード用のキービンド。
 
-You... I didn't forget...|あなた...私は忘れませんでした...
+Your biology... it is both familiar and foreign to me. How curious.|あなたの生物学...それは私にとって馴染みがあり、外国人です。なんて好奇心が強い。
 
-VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update...|バージョン警告<LINE>ミラのインストールには、より最近のバージョンのPearlcatが必要です！更新してください...
+I am... sorry.|ごめんなさい。
 
-Clearly artificial creations. But from where? Sent by who?|明らかに人工的な作品。しかし、どこから？誰から送られましたか？
+You're more than welcome to stay a while... your ability will always be a miracle to me...|あなたはしばらく滞在することを歓迎します...あなたの能力はいつも私にとって奇跡になります...
 
-Hello again, strange scholar...|こんにちは、奇妙な学者...
+...there.|...そこには。
 
-Sentry P1|セントリーP1
+Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!|複数の赤い真珠はこの効果を結びつける可能性があります - そして、はい、これらのバットフリーは非常に敵対的です！
 
-...are you alright, little one? The modifications to your body are quite... extreme.|...あなたは大丈夫ですか、小さなもの？あなたの体の修正はかなり...極端です。
+I very much enjoy the company though... you and your little friend are always welcome here.|私は会社をとても楽しんでいます...あなたとあなたの小さな友人はいつもここで歓迎しています。
+
+Input a shelter name to have it override where Pearlcat starts a new game.|シェルター名を入力して、パールキャットが新しいゲームを開始する場所をオーバーライドします。
+
+Hello again, strange scholar!|こんにちは、奇妙な学者！
+
+Edit keybinds through the normal input menu.|通常の入力メニューを介してキービンドを編集します。
+
+acursed|呪われた
+
+To cycle between pearls, use (|真珠間を循環するには、使用します（
+
+Clearly an artifical creation. But from where? Sent by who?|明らかに人工的な創造物。しかし、どこから？誰から送られましたか？
+
+(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)|（残念ながら、Pearlpupがスポーンするには、豪雨DLCを有効にする必要があります）
+
+Shield Pearl Count|シールドパールカウント
+
+...and what happened to your parent...|...そしてあなたの親に何が起こったのか...
+
+So... anything for me to read?|だから...私が読むために何か？
 
 ...I am not sure if this is comforting, but...|...これが慰めかどうかはわかりませんが...
 
-I've accepted my fate - and one day, you will meet an end too...|私は自分の運命を受け入れました - そしていつか、あなたも終わりに会います...
+PEARLCAT_MIRA_SKIP|pearlcat_mira_skip
+
+When checked, some abilties will show the inventory when recharged or depleted.|チェックすると、一部のアビルトは、充電または枯渇したときに在庫を表示します。
+
+I already read this one. I can read it again, I suppose.|私はすでにこれを読みました。もう一度読むことができます。
+
+When checked, disables the spear creation effect granted by an active pearl.|チェックすると、アクティブパールによって付与された槍の作成効果を無効にします。
+
+When checked, disables the shield effect granted by an active pearl.|チェックすると、アクティブパールによって付与されたシールド効果を無効にします。
+
+Ability Input|能力入力
+
+General|一般的な
+
+Swaps the active pearl to the right.|アクティブパールを右に交換します。
+
+Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.|申し訳ありませんが、私はそんなに邪魔をするべきではありません。結局のところ、私はかなりの状態にいます。
+
+Hides the visuals of inactive pearls and turns you into... cat.|非アクティブな真珠のビジュアルを隠し、あなたを...猫に変えます。
+
+Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|フレームの時間は、イエローパールシールドがアクティブになった後も続きます。デフォルト1.5秒。
+
+You are just a lot to take in for little old me! A fascinating power, the gift of communication;|あなたは少し古い私のために取り入れることがたくさんあります！魅力的な力、コミュニケーションの贈り物。
+
+MSC|MSC
+
+You are welcome to stay as long as you like. Anything to ease the pain.|あなたが好きな限り滞在することを歓迎します。痛みを和らげるために何でも。
+
+Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.|私を強く押しすぎないようにしてください。私が持っているニューロンの数で...私の心が少し霧がかかると言ってみましょう。
+
+There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|私にできることは何もありません - 私は医療施設ではありません。たとえ私がそうであっても、私の機器は自然のままではありません。
+
+. . .|。。。
+
+I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|あなたがここに戻ったらすぐにあなたを生き続けていることに気づきました - 私はこれを軽く言いませんが、それがどのように機能するかは私を超えています。
+
+Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|あなたが残した状態を考えると、私は再びあなたに会うことは不可能だと思いました...そしてまだここにいます。
+
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|パールスピアーズは、投げられてから立ち直った後、あなたに戻ってみます
+
+Clearly artificial creations. But from where? Sent by who?|明らかに人工的な作品。しかし、どこから？誰から送られましたか？
+
+Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.|保持時に在庫UIを開き、アクティブパールをムーブメントキーと交換できます。
+
+Sentry P2|セントリーP2
+
+...are you alright, little one? The modifications to your body are quite... extreme.|...あなたは大丈夫ですか、小さなもの？あなたの体の修正はかなり...極端です。
+
+Background|背景
+
+Swap Input|入力を交換します
+
+I won't be going anywhere any time soon... if you need company, you know who to visit!|私はすぐにどこにも行きません...あなたが会社を必要とするなら、あなたは誰を訪問するかを知っています！
+
+pearlcat-name|パールキャット
+
+When checked, all tutorials will be disabled.|チェックすると、すべてのチュートリアルが無効になります。
+
+Custom Keybind?|カスタムキービンド？
+
+Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|悲しいことに、不幸は差別しません。やがて、より良い運命があなたを待っていることを願っています。
+
+Hello! Strange scholar, it is good to see you!|こんにちは！奇妙な学者、あなたに会えるのは良いことです！
+
+I do not have much else to occupy my time with these days...|私は最近で私の時間を占領する他の多くのことを持っていません...
+
+I do not know what to make of this.|私はこれをどうするべきかわかりません。
+
+You're welcome to stay a while... your ability is fascinating.|しばらく滞在することを歓迎します...あなたの能力は魅力的です。
+
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|アクティブパールを含めて、一度に保管できる真珠の最大数。デフォルトは9です。上下にドラッグして変更します。
+
+Player 4|プレーヤー4
+
+You... I still remember what you did.|あなた...私はまだあなたがしたことを覚えています。
+
+Sentry P3|セントリーP3
+
+When checked, disables the rage effect granted by an active pearl.|チェックすると、アクティブパールによって付与された怒り効果を無効にします。
+
+Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|あなたの心はあなたが他の人を所有し、それを活動させ、生き物で視界を維持し、所有するために真珠を取り戻そうとします
+
+...we were built to solve problems. It is a shame not every problem has a solution.|...私たちは問題を解決するために建てられました。すべての問題に解決策があるわけではないのは残念です。
+
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|チェックされると、パールプラップは次のサイクルで次のシェルターで失われるたびにリスポーンします。
+
+Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|デフォルトではなく、敏ility性ダブルジャンプには、以下のカスタムキービンドを使用することを好みます（grab +ジャンプ）
+
+But it's best not to dwell on the past, don't you agree <PlayerName>?|しかし、過去にこだわらないことが最善です、あなたは<PlayName>に同意しませんか？
+
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|彼らの好奇心が飽くことのない、パールキャットは彼らのコレクションを拡大することを追求する<LINE>を再び冒険します
+
+You really do remind me so much of your mother...|あなたは本当にあなたの母親の多くを思い出させます...
+
+I can only hope you have not come... to hurt me more.|私はあなたが来ないことを願っています...もっと私を傷つけるために。
+
+...and you can gather more of that data you so clearly desire.|...そして、あなたはあなたがとても明確に望んでいるそのデータをもっと収集することができます。
+
+Inventory Pings?|在庫のping？
+
+...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|...しかし...私はあなたの問題について今のところ考えます。おそらく私は私たち二人のための解決策を見つけることができます。
+
+The company of you and your friend makes my day, strange scholar.|あなたとあなたの友人の会社は私の日、奇妙な学者を作ります。
+
+Disable Rage Effect?|怒りの効果を無効にしますか？
+
+Oh... the memories can hurt a little... but I shouldn't well on them.|ああ...思い出は少し傷つくことがあります...しかし、私は彼らにうまくいくべきではありません。
+
+Hello! I remember you! I remember...|こんにちは！私はあなたのことを覚えています！私は覚えています...
+
+You would be a hard one to forget after all, strange scholar!|あなたは結局忘れるのが難しい人でしょう、奇妙な学者！
+
+) to deploy, and again to return.|）展開し、もう一度返す。
+
+Press (|プレス （
+
+Pearlcat|パールキャット
+
+Improved Input Config is active!|改善された入力構成がアクティブです！
+
+I would guess they will grow up into quite the scholar themself, someday...|いつか彼らはかなり学者に成長すると思います...
+
+Oh...? Hello! Hello...|おお...？こんにちは！こんにちは...
 
 - Spanish Translation|- スペイン語の翻訳
 
+Nevermind... this anger is useless...|気にしないで...この怒りは役に立たない...
+
+pupheart|pupheart
+
+It doesn't matter I suppose, you may stay, so long as you don't disturb my work...|あなたが私の仕事を邪魔しない限り、あなたは私が滞在するかもしれないと思うことは関係ありません...
+
+If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond.|あなたがトランジットシステムを介して私に到達できたなら、私はあなたがはるかにそれ以上に他の人に到達できるかもしれないと仮定することができます。
+
+Store Input|入力を保存します
+
 Sentry KB|セントリーKB
 
+ Pearlpup will be revived.|Pearlpupが復活します。
+
+Ability P2|能力P2
+
+You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|あなたは私にかなりの恐怖を与えました！私は最近訪問者を頻繁に獲得していません。
+
+Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...|ああ、私は嘘をつきません...私はあなたがここに戻ってきた方法とあなたの旅行で何が起こったのかについて興味があります...
+
+When checked, the inventory HUD will be replaced with a more compact version.|チェックすると、在庫HUDはよりコンパクトなバージョンに置き換えられます。
+
+You have a knack for finding these pearls, yes?|これらの真珠を見つけるためのコツがありますよね？
+
+If you do not plan to provide me with any meaningful data, that is your best course of action;|意味のあるデータを私に提供する予定がない場合、それがあなたの最良の行動方針です。
+
+Pearlpup|パールプラップ
+
+Revive Pearl Count|パールカウントを復活させます
+
+...and don't look to me, it's not my fault...|...そして私に目を向けないでください、それは私のせいではありません...
+
+Was it really so long ago that you were only half my height...?|あなたが私の身長の半分しかなかったのは本当にずっと前でした...？
+
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|シールドパールの数（黄色）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
+
+Keybind for Player 1.|プレーヤー1のKeyBind。
+
+strange|奇妙な
+
+Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|デフォルトではなく、セントリーパールを展開するためにカスタムキービンドを使用することを好む（グラブ +ジャンプ +ダウン）
+
+by|による
+
+I have nothing for you, I'm afraid... but I hope you find the answers you seek.|私はあなたのために何も持っていません、私は恐れています...しかし、私はあなたがあなたが求めている答えを見つけてくれることを願っています。
+
+Oh, hello! Hello...|ああ、こんにちは！こんにちは...
+
+pearlcat-description|<LINE> <LINE>リミックス構成を介して入力、難易度、チートなどを構成するために真珠を活用する珍しい能力を備えた好奇心scholar盛な学者！
+
+I see you've returned, yet again.|私はあなたが戻ってきたのを見ます、もう一度。
+
+...well, given your unique set of skills... if you ever need something read...|...まあ、あなたのユニークな一連のスキルを考えると...何かを読む必要があるなら...
+
+Disable Revive Effect?|Revive Effectを無効にしますか？
+
+I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten.|あなたが到着したエリアの近くでそれらを見つけるかもしれないと思います。あなたが忘れていれば、それはアクセスシャフトを介して行われます。
+
+In any case, you are welcome to stay as long as you like. Anything to ease the pain.|いずれにせよ、あなたが好きな限り滞在することを歓迎します。痛みを和らげるために何でも。
+
+Sentry P1|セントリーP1
+
+You. I didn't forget...|あなた。私は忘れませんでした...
+
+L-Stick|Lスティック
+
+Alternatively, hold (|または、保留（
+
+Button North|北にボタン
+
+Right Bumper|右バンパー
+
+Oh, and for direction - there is a gate to the far west of here, where the ground fissures...|ああ、そして方向のために - ここの西の西に門があり、そこには地面が裂けます...
+
+I believe that child was you.|私はその子供があなただったと信じています。
+
+Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|各レッドパールのレーザーがショットごとにダメージを与えます。生存者の槍ダメージ= 1.0
+
+However, given a lack of other options, this is the best I can do.|ただし、他の選択肢がないことを考えると、これは私ができる最善のことです。
+
+Trigger Player|トリガープレーヤー
+
+Disable Shield Effect?|シールド効果を無効にしますか？
+
+And please keep your child under control.|そして、あなたの子供をコントロールし続けてください。
+
+...help... please...|...助けてください...お願いします...
+
+VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update...|バージョン警告<LINE>ミラのインストールには、より最近のバージョンのPearlcatが必要です！更新してください...
+
+Hide Pearls?|真珠を隠しますか？
+
+...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|...現在あなたの子犬のためにできることは何もありません。ごめんなさい。私は...それについて考えます。
+
+Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|ちなみに少し遅いと思われる場合は、申し訳ありませんが、何百万ものニューロンで動作するように設計されています。
+
+Surely it must be another little beast with a pearl for a heart?|確かにそれは心の真珠を持つ別の小さな獣でなければなりませんか？
+
+I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|サイクルがあなたをよく扱ってきたことを願っています...そこにはお互いの世話をするのは難しいに違いありません。
+
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|チェックしたら、すべてのサイクルの下に指定された数の色の真珠にインベントリを設定します。現在の在庫を節約しません - チェックされていないときに返されます。
+
+Ability P1|能力P1
+
+Swaps the active pearl to the left.|アクティブパールを左に交換します。
+
+I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|私はそれを勉強し、自分の苦しみを治療するために勉強したいと思っていますが、それは...増強の除去が必要です。
+
+Disable Tutorials?|チュートリアルを無効にしますか？
+
+Custom Sentry Keybind?|カスタムセントリーキービンド？
+
+You... I didn't forget...|あなた...私は忘れませんでした...
+
+I know that quite well.|私はそれをよく知っています。
+
+Enable Backspear?|バックスピアを有効にしますか？
+
+To store, hold the same keybind with a pearl in your main hand|保管するには、メインハンドに真珠で同じキービンドを保持します
+
+Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.|真珠をメインハンドに保管するか、メインハンドが空である場合は現在のアクティブパールを取得します。
+
+...ah... are those still a fascination to you? You really are no different from your mother...|...ああ...それらはまだあなたにとって魅力的ですか？あなたは本当にあなたの母親と違いはありません...
+
+Oh, hello! Hello!|ああ、こんにちは！こんにちは！
+
+I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|私は何も保証することはできません - これらの機関車は私の施設が封鎖に入れられてから運用されていません...
+
+Ability P4|能力P4
+
+Welcome back, you two!|どういたしまして、お二人！
+
+Intended to make gameplay more challenging, may change gameplay significantly!|ゲームプレイをより挑戦的にすることを目的としており、ゲームプレイを大幅に変更する可能性があります！
+
+YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|黄色は保護を象徴しています。保存された各黄色の真珠は、シールドチャージを提供します
+
+I do enjoy the company though... it gets lonely out here.|私は会社を楽しんでいます...それはここで孤独になります。
+
+... |...
+
+Welc- Hello. Hello again.|welc-こんにちは。こんにちは。
+
+I do enjoy the company of you and your friend though, strange scholar.|私はあなたとあなたの友人、奇妙な学者の会社を楽しんでいます。
+
+...and you have brought your little friend along, of course.|...そして、あなたはもちろんあなたの小さな友達を連れてきました。
+
+It would be pointless to ask why...|理由を尋ねるのは無意味です...
+
+VERSION WARNING|バージョン警告
+
+scholar|学者
+
+This illness, it is unlike any I have seen before - I can say it is likely fatal.|この病気は、私が以前に見たものとは異なります - 私はそれが致命的であると言えるでしょう。
+
+Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|発射後に赤い真珠のレーザーが充電するためのフレームの時間。デフォルト1.5秒。
+
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|それぞれの赤い真珠は追加のレーザーを提供します - そして、はい、これらのバットフリーは非常に敵対的です！
+
+Yes, help yourself. They are not edible.|はい、自分を助けてください。それらは食用ではありません。
+
+- Floppy Ears, Scarf|- フロッピー耳、スカーフ
+
+Oh, hello <PlayerName>!|ああ、こんにちは<PlayName>！
+
+Something else new? Allow me to see...|他に何か新しいもの？私に見せてもらう...
+
+Oh, hello there!|ああ、こんにちは！
+
+- Chinese Translation|- 中国語翻訳
+
+Ah, you didn't happen to find a way to tell me about your travels, did you?|ああ、あなたはたまたまあなたの旅行について私に話す方法を見つけませんでしたか？
+
+Storage limit reached (|ストレージ制限に達しました（
+
 ) & (|）＆（（
+
+And why... to me?|そして、なぜ...私に？
+
+Shield Duration|シールド期間
+
+Inventory Override?|在庫オーバーライド？
+
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|槍創造真珠の数（白）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
+
+thing|もの
+
+Your attachment to that thing is unavoidable, I suppose.|そのことへのあなたの愛着は避けられないと思います。
+
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|怒りの真珠の数（赤）。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
+
+...you can manipulate our storage medium in unforseen ways...|...予期せぬ方法でストレージ媒体を操作できます...
+
+What do you want? To take away more of my life...?|なんでしょう？私の人生をもっと奪うために...？
+
+Disable Agility Effect?|敏ility効果を無効にしますか？
+
+When checked, disables the camoflague effect granted by an active pearl.|チェックすると、アクティブパールによって付与されたカモフラグ効果を無効にします。
+
+Hello again.|こんにちは。
+
+PEARLCAT|パールキャット
+
+When checked, disables the revive effect granted by an active pearl.|チェックすると、アクティブパールによって付与されたRevive効果を無効にします。
+
+The Pearlcat|パールキャット
+
+Press (JUMP + GRAB) while in the air to perform a double jump|空中でダブルジャンプを行うために（ジャンプ +グラブ）を押します
+
+RED symbolizes power. With a red pearl active, all stored red pearls will circle you|赤は力を象徴しています。赤い真珠がアクティブで、すべての保管された赤い真珠があなたを一周します
+
+Custom Agility Keybind?|カスタムアジリティキービンド？
+
+), or the triggers on controller|）、またはコントローラーのトリガー
+
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|チェックすると、ほとんどの真珠（アクティブな場合）は、すべての地域の脅威テーマを元々出身地のテーマに強制します。
+
+My neighbour, Five Pebbles, is a little temperamental, but means well.|私の隣人、5つの小石は少し気まぐれですが、よく意味があります。
+
+Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.|特定のパール能力を実行するカスタムキーバインド、PearlcatのRemix Configでカスタムバインドを使用する構成。
+
+My own time is limited, after all...|結局のところ、私自身の時間は限られています...
+
+Start Shelter Override|シェルターオーバーライドを開始します
+
+Spear Pearl Count|スピアパールカウント
+
+I very much enjoy the company though... you and your family are always welcome here.|私は会社をとても楽しんでいます...あなたとあなたの家族はいつもここで大歓迎です。
+
+And a third? So it is...|そして3番目？だから...
+
+...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|...あなたは食べました...私。離れてください。私はあなたに話しません... <LINE>私はあなたに話すことができません...なぜなら...あなたは食べた...私...そしてなぜですか？
+
+I see you have not found a cure for their illness. Not yet...|あなたは彼らの病気の治療法を見つけていないと思います。まだ...
+
+So curious...|とても好奇心が強い...
+
+) or (|） または （
+
+Look at yourself! You know how it feels, to be within an inch of death...|自分を見てください！あなたはそれがどのように感じているかを知っています、死の数インチ以内に...
+
+You. Again. I still remember what you did...|あなた。また。私はまだあなたがしたことを覚えています...
+
+You...|あなた...
+
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|...あなたはコミュニケーションの贈り物を持っています！<LINE>おそらくあなたは私の隣人、5つの小石を訪問しました...？
+
+I hope you are staying safe out there...|私はあなたがそこに安全であることを願っています...
+
+...are you alright, little one? The modifications to your body are quite... unusual.|...あなたは大丈夫ですか、小さなもの？あなたの体の修正は非常に...珍しいです。
+
+I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|あなたがあなた自身の解決策を見つけてくれてうれしいです...たとえそれが自然法の忌まわしい倒錯であっても。
+
+Menu|メニュー
+
+When checked, enables Pearlcat to carry a backspear.|チェックしたら、Pearlcatがバックスピアを運ぶことができます。
+
+Laser Damage (OLD)|レーザー損傷（古い）
+
+He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|彼は現在私よりもはるかに優れています - 私は彼に訪問を支払うことをお勧めします。<LINE>彼は医療施設として設計されていませんが、彼は何らかの形であなたを助けることができるかもしれません。
+
+R-Stick|Rスティック
+
+They are unwell, <PlayerName>, very unwell indeed.|彼らは気分が悪く、<PlayName>、本当に気分が悪い。
+
+I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|これらの真珠であなたが大切にしているのは、彼らの格子がどれほど純粋であるかということだと思いますか？私はこれよりもはるかに洗練されたものであなたを代用します。
+
+Starting Inventory Override?|在庫オーバーライドを開始しますか？
+
+Ah... you seem, familiar...? ...but in such a strange way...|ああ...おなじみのようです...？...しかし、そのような奇妙な方法で...
+
+Intended for fun, may change gameplay significantly!|楽しみを目的として、ゲームプレイを大幅に変更する可能性があります！
+
+Store Pearl|真珠を保存します
+
+Oh! It is good to see you two again!|おお！またお会いできてうれしいです！
+
+So curious... I wonder what it is you're searching for?|とても好奇心が強い...私はあなたが何を探しているのだろうか？
+
+Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|ああ、ごめんなさい...そんなに侵略的であることは間違っています、そして、私はとにかくそれほど感傷的ではないはずです。
+
+Is that you, little scholar? I'm speechless...|それはあなた、小さな学者ですか？私は言葉がありません...
+
+A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|真珠を操作する能力を持つ学者...？ああ...はい！私は覚えています！
+
+I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?|私は嘘をつかない、私はあなたがどのように生き残ったか、そしてあなたがどうやってここに戻ったのかについてとても興味があります...？
+
+Disable Improved Input Config?|改良された入力構成を無効にしますか？
+
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|Revive Pearls（緑）の数。在庫がオーバーライドする場合にのみ効果的ですか？チェックされています。
+
+I'm just so glad you're safe, too many things have come into my memory, only to be washed away...|私はあなたが安全であることをとてもうれしく思います、あまりにも多くのものが私の記憶に入ってきました、ただ洗い流されるために...
+
+Grab a creature and hold (GRAB) with an active green pearl to revive them|クリーチャーをつかんで、アクティブな緑の真珠で握って（つかみます）復活させます
+
+RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|赤は力を象徴しています。赤い真珠がアクティブで、最も近い敵対的な生き物が標的にされます
+
+Ah. So you've returned.|ああ。だからあなたは戻ってきました。
+
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Negative player numbers invert the triggers. Hold and drag up or down to change.|どのプレーヤーコントローラートリガースワッピングが適用されるか。0はトリガースワッピングを無効にします。負のプレーヤー数はトリガーを反転させます。上または下にドラッグして変更します。
+
+Sentry P4|セントリーP4
+
+Keybind for Player 2.|プレーヤー2のkeybind。
+
+CREDITS|クレジット
+
+): swap out a pearl, or change the limit in the Remix options|）：真珠を交換するか、リミックスオプションの制限を変更する
+
+Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|赤い真珠の半径内に武器を投げると、最も近い敵対的な生き物に家に帰ります
+
+Button West|西のボタン
+
+...that pearl you carry, the purple one, where did you find it?|...あなたが運ぶパール、紫色のもの、どこで見つけたの？
+
+I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...|もちろん冗談です！私の想像力は十分であるでしょうが、好奇心は私を燃やします...
+
+OE_SEXTRA|OE_SEXTRA
+
+The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|広大なものは、あなたがあなたの家族を育て、そして私のビジネスから遠く離れて滞在するための安全な場所になるでしょう。
+
+Swap Left|左を交換します
+
+When checked, disables the agility effect granted by an active pearl.|チェックすると、アクティブパールによって付与された敏ility効果を無効にします。
+
+Please... this all I have left... you have so much... ...why take mine?|お願いします...これは私が残したすべて...あなたはたくさん持っています... ...なぜ私のものを取るのですか？
+
+Another? And I shall read this one to you as well...|別の？そして、私もあなたにこれを読みます...
+
+Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer...|そうでなければ、私は自分の仕事を再開しなければなりません、それは私自身の治療への道がはるかに長いようです...
+
+Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|デフォルトではなく、槍の作成には以下のカスタムキービンドを使用することを好む（グラブ）
+
+You and your family are always welcome here - please visit often!|あなたとあなたの家族はいつでもここで大歓迎です - 頻繁に訪問してください！
+
+trueend|TrueEnd
+
+Hello. Again.|こんにちは。また。
+
+I must resume my work. I will be waiting here, as always.|私は自分の仕事を再開しなければなりません。いつものようにここで待っています。
+
+Play around with sentries to see what they do!|セントリーと遊んで、彼らが何をしているのかを見てください！
+
+Chimney Canopy|煙突の天蓋
+
+And a nasty scar, poor thing... I can't imagine where you got that, or even where you came from...?|そして、厄介な傷跡、貧しいこと...私はあなたがそれをどこで手に入れたのか、あるいはあなたがどこから来たのか想像することはできません...？
+
+I am not sure if you are aware, but your child appears very unwell...|あなたが知っているかどうかはわかりませんが、あなたの子供は非常に気分が悪く見えます...
+
+Camo Pearl Count|迷彩パールカウント
+
+GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|緑は活力を象徴しています。保管されている各緑の真珠は、あなたを含むサイクルごとに1つの生き物を復活させるかもしれません
+
+Keyboard|キーボード
+
+Read this one too? Yes, yes, here it is...|これも読んでいますか？はい、はい、ここにあります...
+
+To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|真珠を取得するには、空のメインハンドを持ち、保持します（グラブ +アップ）
+
+And who is your little friend? They are...|そして、あなたの小さな友達は誰ですか？彼らです...
+
+I do enjoy the company of you and your friend though, <PlayerName>.|私はあなたとあなたの友人の会社を楽しんでいます、<PlayName>。
+
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|チェックすると、Pearlcatの化粧品は無効になり、DMを介してカスタムスプライトを許可することを目的としています。これには真珠自体は含まれていません。
+
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Pearlcatの一般的な視認性の乗数の割合は、捕食者の魅力に影響します。デフォルトでは、パールキャットはハンターよりもはるかに目立ちます。
+
+Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|真珠は一時的な歩riesとして展開される場合があります。（グラブ +ジャンプ +ダウン）を押して展開し、再度戻します。
+
+Button South|サウスボタン
+
+YOU!|あなた！
+
+I... I have nothing more to say...|私は...私はこれ以上言うことはありません...
+
+Disable Spear Effect?|槍効果を無効にしますか？
+
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|keybindは、右側に保存された真珠に交換します。プレーヤー1に限定。
+
+- Artwork|- アートワーク
+
+NON-MSC|非MSC
+
+I will tolerate your pressence, so long as you bring me something meaningful.|あなたが私に意味のあるものを持ってきている限り、私はあなたの存在を容認します。
+
+Back again? You do visit often...|もう一度？あなたは頻繁に訪問します...
+
+Some time ago now, I encountered a scholar and their dying pup...|しばらく前に、私は学者と彼らの死にかけている子犬に出会いました...
+
+I've accepted my fate - and one day, you will meet an end too...|私は自分の運命を受け入れました - そしていつか、あなたも終わりに会います...
+
+Back again? I hope you have brought me something this time.|もう一度？今回はあなたが私に何かを持ってきたことを願っています。
+
+Welcome back, I suppose.|おかえりなさいと思います。
+
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.|あなたがたまたま余裕があれば、私はそれらの真珠を読むことを喜んでいます... <LINE>時間を過ごすために他にやることはあまりありません。
+
+Keybind for Player 3.|プレーヤー3のkeybind。
+
+(unfortunately, control of the creature requires the Downpour DLC to be enabled, however you can still be a passenger!)|（残念ながら、クリーチャーを制御するには、土砂降りDLCを有効にする必要がありますが、それでも乗客になることができます！）
+
+Visibility Multiplier|可視性乗数
+
+Ah, yet another one? You are even better at finding these than I imagined...|ああ、もう1つ？あなたは私が想像したよりもこれらを見つけるのがさらに上手です...
+
+I still don't have much to offer, sadly... aside from my pearl readings, and company of course!|悲しいことに...私の真珠の測定値は別として、そしてもちろん会社を除いて、私はまだ提供することはありません！〜
+
+Has it really been so long...? And considering your current state, you've been through a lot...|本当に長い時間がかかりましたか...？そして、あなたの現在の状態を考えると、あなたは多くのことを経験してきました...
+
+PLAYTESTERS|PlayTesters
+
+...scholar?|...学者？
+
+Laser Recharge Time (OLD)|レーザー充電時間（古い）
+
+No, I do not care for your little one.|いいえ、私はあなたの小さなものを気にしません。
+
+Hello, again. You are very curious. Very curious indeed.|こんにちは、もう一度。あなたはとても興味があります。確かに非常に興味があります。
+
+)|））
+
+Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|ターゲットを獲得した後、赤い真珠のレーザーが発射するためのフレームの時間。デフォルト1.5秒。
+
+I am so sorry.|申し訳ありません。
+
+I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...|私はあなたがあなたの旅行で何が起こったのか教えてくれたらいいのにと思います...私がこの部屋を越えて最後に見たときはほとんど覚えていません...
+
+Pearlpup Respawn?|Pearlpup Respawn？
+
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|デフォルト（UP +ピックアップ）とは対照的に、以下のカスタムキーバインドを有効にします。
+
+I assure you it will be a more than suitable replacement for your primitive needs.|私はあなたがあなたの原始的なニーズに適した交代以上になることを保証します。
+
+Pearl Threat Music?|パールの脅威音楽？
+
+I'll be waiting right here - not like I can go far, anyways!|私は自分自身になります。
+
+Ability KB|能力KB
+
+Let us see what- oh, again?|何を見てみましょう - ああ、もう一度？
+
+You're more than welcome to stay a while... your ability will always be a little miracle to me...|あなたはしばらく滞在することを歓迎します...あなたの能力はいつも私にとって少し奇跡になります...
+
+Ah, I hope you both stay safe out there...|ああ、私はあなたがそこに安全を保つことを願っています...
+
+And who is your little friend? They are quite adorable!|そして、あなたの小さな友達は誰ですか？彼らは非常に愛らしいです！
+
+You would be a hard one to forget after all, <PlayerName>!|結局のところ、あなたは忘れるのが難しいでしょう、<PlayName>！
+
+And just who might you be?|そして、あなたは誰になるのでしょうか？
+
+Oh, hello strange scholar!|ああ、こんにちは奇妙な学者！
+
+...but, you are not like I remember them? Am I misremembering so badly?|...しかし、あなたは私がそれらを覚えているようではありませんか？私はそんなにひどく覚えていますか？
+
+.  .  .|。。。
+
+The choice is yours.|選択はあなたのものです。
+
+Player 2|プレーヤー2
+
+Old Red Pearl Ability?|古い赤パールの能力？
+
+Pearl Ability|パール能力
+
+...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...おお？それらを取りなさい、彼らが含むデータは私にとって価値がない。彼らはあなたにとってはるかに便利だと思います...
+
+Why did you come back here...? I can only imagine it brings back some painful memories.|なぜここに戻ったのですか...？私はそれがいくつかの痛みを伴う思い出をもたらすことを想像することができます。
+
+...hello?|...こんにちは？
+
+Good luck, mysterious scholar.|幸運、神秘的な学者。
+
+This one again? I have better things to do... but...|これも？やるべきことがもっとあります...しかし...
+
+pearlcat|パールキャット
+
+PEARLPUP|パールプラップ
+
+Your survival gives me some hope, little one.|あなたの生存は私にいくつかの希望を与えてくれます、小さなもの。
+
+Who... who is there?|誰...誰がいますか？
+
+I... wish there was more I could do... but even... nevermind in my current state.|私は...私ができることがもっとあればいいのに...しかし、私の現在の状態に決して気にしないでください。
+
+Hold (GRAB) with an active common pearl to convert it into a pearl spear|アクティブな共通の真珠でそれをパールの槍に変換する（グラブ）保持（グラブ）
+
+Max Pearl Count|マックスパールカウント
+
+I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|私は、あなたがそれらに保存されている情報を読むことができないので、あなたが望むなら私はあなたのためにそれらを読むことができると思います。
+
+Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|保護を提供するために料金が消費されます。各真珠は、しばらくすると個別にその充電を補充します
+
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|謎めいたエネルギーと知識への渇望で武装した不明瞭な起源の学者。
 

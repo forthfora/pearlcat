@@ -19,12 +19,30 @@ public static class SLOracle_Helpers
     // SL Conversation Dialog Helpers
     public static void Dialog(this SLOracleBehaviorHasMark.MoonConversation self, string text, int initialWait, int textLinger)
     {
+        var currentLang = Utils.Translator.currentLanguage;
+        var addLinger = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean;
+
+        if (addLinger)
+        {
+            textLinger = 80;
+        }
+
         self.events.Add(new Conversation.TextEvent(self, initialWait, self.Translate(text), textLinger));
     }
 
     public static void Dialog_NoLinger(this SLOracleBehaviorHasMark.MoonConversation self, string text)
     {
-        self.events.Add(new Conversation.TextEvent(self, 0, self.Translate(text), 0));
+        var textLinger = 0;
+
+        var currentLang = Utils.Translator.currentLanguage;
+        var addLinger = currentLang == InGameTranslator.LanguageID.Chinese || currentLang == InGameTranslator.LanguageID.Japanese || currentLang == InGameTranslator.LanguageID.Korean;
+
+        if (addLinger)
+        {
+            textLinger = 80;
+        }
+
+        self.events.Add(new Conversation.TextEvent(self, 0, self.Translate(text), textLinger));
     }
 
     public static void Dialog_Wait(this SLOracleBehaviorHasMark.MoonConversation self, int initialWait)

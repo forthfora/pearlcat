@@ -9,6 +9,8 @@ public static partial class PlayerAbilities_Helpers
 {
     public static void UpdateCamouflage(Player self, PlayerModule playerModule, PearlEffect effect)
     {
+        var possessingNightVisionCreature = false;
+
         if (effect.MajorEffect != PearlEffect.MajorEffectType.CAMOFLAGUE || playerModule.ActiveObject == null ||
             playerModule.ActiveObject.TryGetSentry(out _))
         {
@@ -42,6 +44,8 @@ public static partial class PlayerAbilities_Helpers
                 if (nightVisionCreatures.Contains(creature.creatureTemplate.type))
                 {
                     playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, 100.0f, 0.1f);
+
+                    possessingNightVisionCreature = true;
                 }
             }
             else
@@ -95,7 +99,7 @@ public static partial class PlayerAbilities_Helpers
             : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, camoSpeed);
 
         if (effect.MajorEffect == PearlEffect.MajorEffectType.CAMOFLAGUE && playerModule.CamoCount > 0 &&
-            self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f)
+            self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f && !possessingNightVisionCreature)
         {
             var targetScale = Custom.LerpMap(playerModule.CamoCount, 1, 5, 40.0f, 150.0f);
             playerModule.HoloLightScale = Mathf.Lerp(playerModule.HoloLightScale, targetScale, 0.1f);

@@ -105,21 +105,26 @@ public static class Input_Helpers
         if (ModOptions.SwapTriggerPlayer.Value != 0)
         {
             // Normal
-            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1)
+            if (ModOptions.SwapTriggerPlayer.Value > 0)
             {
-                return true;
+                if (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1 || player.IsSingleplayer())
+                {
+                    if (Input.GetAxis(TriggerAxisId) < -0.25f)
+                    {
+                        return true;
+                    }
+                }
             }
-
             // Inverted
-            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
+            else
             {
-                return true;
-            }
-
-            // Singleplayer Override
-            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.IsSingleplayer())
-            {
-                return true;
+                if (player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1 || player.IsSingleplayer())
+                {
+                    if (Input.GetAxis(TriggerAxisId) > 0.25f)
+                    {
+                        return true;
+                    }
+                }
             }
         }
 
@@ -136,21 +141,26 @@ public static class Input_Helpers
         if (ModOptions.SwapTriggerPlayer.Value != 0)
         {
             // Normal
-            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1)
+            if (ModOptions.SwapTriggerPlayer.Value > 0)
             {
-                return true;
+                if (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1 || player.IsSingleplayer())
+                {
+                    if (Input.GetAxis(TriggerAxisId) > 0.25f)
+                    {
+                        return true;
+                    }
+                }
             }
-
             // Inverted
-            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
+            else
             {
-                return true;
-            }
-
-            // Singleplayer Override
-            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.IsSingleplayer())
-            {
-                return true;
+                if (player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1 || player.IsSingleplayer())
+                {
+                    if (Input.GetAxis(TriggerAxisId) < -0.25f)
+                    {
+                        return true;
+                    }
+                }
             }
         }
 
