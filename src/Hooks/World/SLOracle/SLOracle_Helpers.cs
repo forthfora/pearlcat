@@ -133,7 +133,7 @@ public static class SLOracle_Helpers
 
                 self.Dialog("Given your unique abilities, if you are curious as to the contents of those pearls -", 0, 5);
 
-                self.Dialog("I think I may still have some use left after all!~", 0, 5);
+                self.Dialog("I think I may still have some use left after all!", 0, 5);
                 return true;
 
             default:
@@ -525,7 +525,7 @@ public static class SLOracle_Helpers
 
                         self.Dialog("Please, stay as long as you'd like, I can't begin to imagine what you've been through.", 0, 5);
 
-                        self.Dialog("I still don't have much to offer, sadly... aside from my pearl readings, and company of course! ~", 0, 5);
+                        self.Dialog("I still don't have much to offer, sadly... aside from my pearl readings, and company of course!", 0, 5);
                         return true;
 
                     default:
@@ -654,7 +654,7 @@ public static class SLOracle_Helpers
 
                 self.Dialog("...well, given your unique set of skills... if you ever need something read...", 0, 5);
 
-                self.Dialog("I'll be self.Waiting right here - not like I can go far, anyways~", 0, 5);
+                self.Dialog("I'll be waiting right here - not like I can go far, anyways!", 0, 5);
                 return true;
 
             default:

@@ -1,852 +1,860 @@
-﻿When checked, disables the spear creation effect granted by an active pearl.|При проверке отключает эффект создания копья, предоставленный активной жемчужиной.
+﻿Something new to read... it has been too long...|Что -то новое, чтобы читать ... это было слишком долго ...
 
-Ah, you have returned? You look about as sickly as I remember.|Ах, ты вернулся?Ты выглядишь так же болезненно, как я помню.
-
-... |...
-
-Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.|Извините, я не должен быть таким навязчивым, я в конце концов нахожусь в состоянии.
-
-Ah... you seem, familiar...? ...but in such a strange way...|Ах ... ты выглядишь, знакомо ...?... но таким странным образом ...
-
-Sentry P4|Часовой P4
-
-- Spanish Translation|- Испанский перевод
-
-Shield Pearl Count|Щит Жемчуг Подсчет
-
-I... I have nothing more to say...|Я ... мне больше нечего сказать ...
-
-...we were built to solve problems. It is a shame not every problem has a solution.|... Мы были построены, чтобы решить проблемы.Жаль, что не у каждой проблемы есть решение.
-
-For now, my only lens into the outside is those pearls you carry.|На данный момент мой единственный объектив снаружи - те жемчужины, которые вы несете.
-
-Ability P1|Способность P1
-
-Laser Recharge Time (OLD)|Время перезарядки лазерной зарядки (старое)
-
-L-Stick|L-плитка
-
-Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|Время в кадре Желтый жемчужный щит приобретает перезарядку после активации.По умолчанию 40 секунд.
-
-And who is your little friend? They are...|А кто твой маленький друг?Они есть...
-
-When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|При проверке косметика Pearlcat будет отключена, предназначенная для разрешения пользовательских спрайтов через DMS.Это не включает в себя жемчуг.
-
-Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Количество щита жемчуга (желтый).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
-
-Store Input|Хранить вход
-
-Disable Minor Effects?|Отключить незначительные эффекты?
-
-Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|Предпочитаю использовать пользовательские связки ключей для развертывания Sentry Pearls, а не по умолчанию (Grab + Jump + Down)
-
-When checked, disables the agility effect granted by an active pearl.|При проверке отключает эффект ловкости, предоставленный активной жемчужиной.
-
-When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|При проверке PearlPup будет возродиться в следующем укрытии в следующем цикле всякий раз, когда они теряются.
-
-Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|Их любопытство ненасытное, Pearlcat снова выходит из себя в <LINE> стремление расширить свою коллекцию
-
-Starting Inventory Override?|Запуск переопределения инвентаря?
-
-Hide Pearls?|Скрыть жемчужина?
-
-VERSION WARNING|Версия предупреждение
-
-I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?|Я не буду лгать, мне так любопытно, как ты ... выжил, и как ты оказался сюда ...?
-
-So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...|Так что, пожалуйста, принесите мне больше, если это не слишком опасно для вас ... эти визиты действительно являются основным моментом моих дней здесь ...
-
-OE_SEXTRA|OE_SEXTRA
-
-Ability P2|Способность P2
-
-Surely it must be another little beast with a pearl for a heart?|Конечно, это должен быть еще один маленький зверь с жемчугом для сердца?
-
-Swap Pearl|Смена Жемчужина
-
-WARNING|ПРЕДУПРЕЖДЕНИЕ
-
-You and your family are always welcome here - please visit often!|Вы и ваша семья всегда рады здесь - пожалуйста, часто посещайте!
-
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|При проверке устанавливает инвентаризацию на указанные номера цветных жемчужина ниже каждого цикла.Не сохраняет текущий инвентарь - он возвращается, когда не контролируется.
-
-I see you've returned, yet again.|Я вижу, что ты снова вернулся.
-
-Compact Inventory HUD?|Компактный инвентарь HUD?
-
-The choice is yours.|Выбор твой.
-
-Player 3|Игрок 3
-
-You. Again. I still remember what you did...|Ты.Снова.Я до сих пор помню, что ты сделал ...
-
-trueend|настоять
-
-Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer...|В противном случае я должен возобновить свою работу, кажется, что путь к моему излечению, к сожалению, гораздо дольше ...
-
-Oh, hello <PlayerName>!|О, привет <playername>!
-
-I may not have the facilities to aid you, however...|У меня может не быть возможности, чтобы помочь вам, однако ...
-
-CREDITS|Кредиты
-
-This one again? I have better things to do... but...|Это снова?У меня есть лучшее дело ... но ...
-
-...you can manipulate our storage medium in unforseen ways...|... вы можете манипулировать нашей средой для хранения непредвзятыми способами ...
-
-Custom Spear Keybind?|Пользовательский копья ключи?
-
-Oh, hello there!|О, привет!
-
-Player 2|Игрок 2
-
-If only I had my memories, I might have a clue...|Если бы у меня были мои воспоминания, я мог бы иметь подсказку ...
-
-Brought me something to read? Or just wasting my time, as per usual?|Принесли мне кое -что для чтения?Или просто тратить свое время, как обычно?
-
-I know that quite well.|Я знаю это довольно хорошо.
-
-To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl|Чтобы освободить владение, попытаться развернуть жемчужину в качестве часового или попытаться получить жемчужину
-
-If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond.|Если вы смогли связаться со мной через транзитную систему, я могу только предположить, что вы сможете достичь других далеко за пределами.
-
-Please, stay as long as you'd like, I can't begin to imagine what you've been through.|Пожалуйста, оставайтесь так долго, как хотите, я не могу начать представлять, через что вы прошли.
-
-pearl|жемчужина
-
-You. I didn't forget...|Ты.Я не забыл ...
-
-...hello?|...привет?
-
-All times here are in frames.<LINE>40 frames = 1 second.|Все времена здесь в кадрах. <Строка> 40 кадров = 1 секунда.
-
-MSC|Магистр
-
-Your little friend is still quite sick, unfortunately.|К сожалению, ваш маленький друг все еще довольно болен.
-
-Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.|Пожалуйста, постарайтесь не подтолкнуть меня слишком сильно;С количеством нейронов у меня есть ... давайте просто скажем, что мой разум становится немного туманным.
-
-Hello again, strange scholar!|Еще раз привет, странный ученый!
-
-Custom Agility Keybind?|Пользовательская гибкость ключей?
-
-.  .  .|ПолемПолемПолем
-
-I do enjoy the company of you and your friend though, strange scholar.|Мне нравится компания вас и вашего друга, странный ученый.
-
-Agility Pearl Count|Гибковая жемчужина
-
-The surviving scholar returns once more... how poetic.|Выживший ученый возвращается еще раз ... как поэтично.
-
-) to deploy, and again to return.|) развернуть и снова вернуться.
-
-...ah... are those still a fascination to you? You really are no different from your mother...|... ах ... это все еще увлечение тебе?Ты действительно ничем не отличается от своей матери ...
-
-Hello again, <PlayerName>!|Здравствуйте еще раз, <Playername>!
-
-Mira Installation requires a more recent version of Pearlcat! Please update...|Установка MIRA требует более поздней версии Pearlcat!Пожалуйста, обновите ...
-
-Laser Windup TIme (OLD)|Время лазерного намотчика (старое)
-
-Press (|Нажимать (
-
-In any case, you are welcome to stay as long as you like. Anything to ease the pain.|В любом случае, вы можете остаться столько, сколько захотите.Что -нибудь, чтобы облегчить боль.
-
-...scholar?|... ученый?
-
-Disable Shield Effect?|Отключить эффект щита?
-
-- Dialogue, SFX|- Диалог, SFX
-
-I have so little... please don't take... this... this is all I have...|У меня так мало ... пожалуйста, не берите ... это ... это все, что у меня есть ...
-
-I won't be going anywhere any time soon... if you need company, you know who to visit!|Я никуда не пойду в ближайшее время ... если вам нужна компания, вы знаете, кого посетить!
-
-...are you alright, little one? The modifications to your body are quite... extreme.|... ты в порядке, малыш?Модификации вашего тела довольно ... экстремальные.
-
-RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|Красный символизирует власть.С активным красным жемчугом, ближайшее враждебное существо будет нацелено
-
-I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|Я не могу ничего гарантировать - эти локомотивы не работали, так как мое средство было помещено в блокировку ...
-
-Improved Input Config is active!|Улучшенная конфигурация ввода активна!
-
-BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|Синий символизирует ловкость.Каждая хранящаяся синяя жемчужина обеспечит дополнительный двойной прыжок
-
-...but, you are not like I remember them? Am I misremembering so badly?|... но ты не так, как я их помню?Я так сильно запоминаю?
-
-Clearly an artifical creation. But from where? Sent by who?|Очевидно, искусственное творение.Но откуда?Прислано кто?
-
-Number of rage pearls (red). Effective only when Inventory Override? is checked.|Количество ярости жемчужина (красный).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
-
-Another one? I shouldn't be surprised. Let's see...|Еще один?Я не должен удивляться.Давайте посмотрим...
-
-Whichever path you take, I hope you find the help that you seek.|Какой бы путь вы ни пошли, я надеюсь, что вы найдете помощь, которую вы ищете.
-
-You... I still remember what you did.|Ты ... я все еще помню, что ты сделал.
-
-There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|Я ничего не могу сделать, чтобы остановить вас, так что вот моя просьба: <LINE> Оставьте меня, или прекратите его быстро.
-
-There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|Я ничего не могу сделать - я не медицинское учреждение, и даже если бы я был, мое оборудование далеко не первозданное.
-
-PEARLPUP|Жемчужина
-
-Press (JUMP + GRAB) while in the air to perform a double jump|Нажмите (Jump + Grab), находясь в воздухе, чтобы выполнить двойной прыжок
-
-Is my memory so bad to forget how your little one looks? They seem paler...|Моя память так плохо забыла, как выглядит ваш малыш?Они кажутся бледными ...
-
-Back again? You do visit often...|Вернувшись снова?Вы часто посещаете ...
-
-pearlcat-name|Жемчужина
-
-I very much enjoy the company though... you and your family are always welcome here.|Я очень наслаждаюсь компанией ... вы и ваша семья всегда рады здесь.
-
-Hello! Strange scholar, it is good to see you!|Привет!Странно, ученый, приятно тебя видеть!
-
-A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Ученый неясного происхождения, вооруженный загадочной энергией и жажда знаний.
-
-I can only hope you have not come... to hurt me more.|Я могу только надеяться, что ты не пришел ... чтобы причинить мне боль больше.
-
-Oh... oh no...|О ... о нет ...
-
-I see you have not found a cure for their illness. Not yet...|Я вижу, вы не нашли лекарство от их болезни.Еще нет...
-
-And just who might you be?|И кем ты можешь быть?
-
-You have a knack for finding these pearls, yes?|У вас есть умение найти эти жемчужины, да?
-
-Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Включает пользовательские связки ключей ниже, в отличие от по умолчанию (UP + Pickup).
-
-Hello again, strange scholar...|Еще раз привет, странный ученый ...
-
-Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|Ах, мне жаль ... это неправильно быть таким инвазивным, и я не должен быть таким сентиментальным.
-
-I am... sorry.|Мне жаль.
-
-Version|Версия
-
-The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|Сила, которой вы обладаете, это увлекательно.Я никогда не видел ничего подобного от твоего рода.
-
-Keybind to swap to the stored pearl to the right. Limited to Player 1.|Ключевой корзин, чтобы поменять хранимую жемчужину справа.Ограничено игроком 1.
-
-I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten.|Я предполагаю, что вы можете найти их рядом с местом, когда вы прибыли;Это через вал доступа, если вы забыли.
-
-Swaps the active pearl to the left.|Поменяет активную жемчужину влево.
-
-...help... please...|... Помогите ... пожалуйста ...
-
-And why... to me?|А почему ... для меня?
-
-Start Shelter Override|Начните укрытие переопределить
-
- Pearlpup will be revived.|Жемчужина будет возрождена.
-
-Oh, hello! Hello...|О, привет!Привет...
-
-View|Вид
-
-I do enjoy the company though... it gets lonely out here.|Я действительно наслаждаюсь компанией ... здесь становится одиноко.
-
-I would guess they will grow up into quite the scholar themself, someday...|Я предполагаю, что когда -нибудь они вырастут в самого ученого ...
-
-Reverts to the old red pearl mechanics - auto targeting lasers.|Возвращается к старой механике красной жемчужины - автоматической таргетинг -лазеры.
-
-Number of revive pearls (green). Effective only when Inventory Override? is checked.|Количество оживленного жемчуга (зеленый).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
-
-...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|... ты ел ... я.Пожалуйста, уходи.Я не буду говорить ... с тобой.
-
-I hope you are staying safe out there...|Надеюсь, вы останетесь в безопасности ...
-
-The Gutter|Желоб
-
-I'll be self.Waiting right here - not like I can go far, anyways~|Я буду сами.
-
-Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|Предпочитаю использовать пользовательские связки клавиш ниже для создания копья вместо по умолчанию (Grab)
-
-Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|Жемчужины также могут быть развернуты как временные часовые.Нажмите (возьмите + прыжок + вниз), чтобы развернуть и снова вернуться.
-
-It doesn't matter I suppose, you may stay, so long as you don't disturb my work...|Я полагаю, это не имеет значения, вы можете остаться, если вы не беспокоите мою работу ...
-
-VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update...|Версия Warning <LINE> MIRA Установка требует более поздней версии Pearlcat!Пожалуйста, обновите ...
-
-Sentry P3|Часовой P3
-
-Ability P4|Способность P4
-
-You must be very brave to have made it all the way here. Very brave indeed...|Вы должны быть очень смелыми, чтобы сделать это здесь.Действительно очень смелый ...
-
-My neighbour, Five Pebbles, is a little temperamental, but means well.|Мой сосед, пять камешек, немного темперамент, но хорошо значит.
-
-And please keep your child under control.|И, пожалуйста, держите своего ребенка под контролем.
-
-Your biology... it is both familiar and foreign to me. How curious.|Твоя биология ... она и знакома, и чуждо для меня.Как любопытно.
-
-acursed|проклятый
-
-Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.|Откроет пользовательский интерфейс инвентаризации при проведении, позволяя поменять активную жемчужину на ключи движения.
-
-To store, hold the same keybind with a pearl in your main hand|Чтобы хранить, держите тот же килограмм с жемчугом в главной руке
-
-Oh, and for direction - there is a gate to the far west of here, where the ground fissures...|О, и для направления - есть ворота на далеком западе отсюда, где земля.
-
-Inventory Pings?|Инвентарь пинг?
-
-Enable Backspear?|Включить Backspear?
-
-I've accepted my fate - and one day, you will meet an end too...|Я принял свою судьбу - и однажды вы тоже встретите конец ...
-
-Hello! I remember you! I remember...|Привет!Я тебя помню!Я помню...
-
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.|Если у вас будет мгновенный момент, я был бы более чем счастлив прочитать эти жемчужины ... <LINE> больше нечего сделать, чтобы провести время.
-
-Four! Well, if you insist...|Четыре!Ну, если вы настаиваете ...
-
-Ability P3|Способность P3
-
-Button North|Пуговица на север
-
-You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|Кажется, что вы, тем не менее, чувствуете себя хорошо для себя, ваше упорство от того, что произошло, восхитительно!
-
-Has it really been so long...? And considering your current state, you've been through a lot...|Это действительно так долго ...?И, учитывая ваше текущее состояние, вы многое пережили ...
-
-When checked, disables the rage effect granted by an active pearl.|При проверке отключает эффект гнева, предоставленный активной жемчужиной.
-
-Oh! It is good to see you two again!|Ой!Приятно снова видеть вас двоих!
-
-Deploys the active pearl as a sentry, or returns it if it is already deployed.|Развертывает активную жемчужину в качестве часового или возвращает его, если она уже развернута.
-
-When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|При проверке большинство жемчугов (когда активно) заставит тему угрозы для всех регионов к теме региона, из которой они были первоначально.
-
-Keybind to swap to the stored pearl to the left. Limited to Player 1.|Ключевой связки, чтобы поменять хранимую жемчужину влево.Ограничено игроком 1.
-
-Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Максимальное количество жемчуга, которое можно хранить одновременно, включая активную жемчужину.По умолчанию 9. Удерживайте и перетаскивайте или вниз, чтобы измениться.
-
-I... wish there was more I could do... but even... nevermind in my current state.|Я ... хотел бы, чтобы я мог сделать больше ... но даже ... не так уж и в моем нынешнем состоянии.
-
-...and what happened to your parent...|... и что случилось с вашим родителем ...
-
-Storage limit reached (|Достигнут лимит хранения (
-
-Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!|Многократные красные жемчужины могут объединить этот эффект вместе - и да, эти батфильсы очень враждебны!
-
-I am not sure if you are aware, but your child appears very unwell...|Я не уверен, знаете ли вы, но ваш ребенок выглядит очень плохо ...
-
-I have tried to reconstruct it from memory many times, fruitlessly.|Я пытался реконструировать его из памяти много раз, бесплодно.
-
-Rage Pearl Count|Ярость жемчужина
-
-Pearls may also be deployed as temporary sentries. Press (|Жемчужины также могут быть развернуты как временные часовые.Нажимать (
+When checked, enables Pearlcat to carry a backspear.|Когда проверяется, позволяет Pearlcat нести обратное сообщение.
 
 ...are you alright, little one? The modifications to your body are quite... unusual.|... ты в порядке, малыш?Модификации вашего тела довольно ... необычны.
 
-You're more than welcome to stay a while... your ability will always be a little miracle to me...|Ты более чем рад остаться ... твоя способность всегда будет немного чудо для меня ...
-
 You are just a lot to take in for little old me! A fascinating power, the gift of communication;|Вы просто нужно взять на маленькую старую меня!Захватывающая сила, дар общения;
 
-I am so sorry.|Мне очень жаль.
+YOU!|ТЫ!
+
+And please keep your child under control.|И, пожалуйста, держите своего ребенка под контролем.
+
+Who... who is there?|Кто ... кто там?
+
+Look at yourself! You know how it feels, to be within an inch of death...|Посмотри на себя!Вы знаете, каково это, быть в пределах дюйма смерти ...
+
+Sentry P4|Часовой P4
+
+)|)
+
+Play around with sentries to see what they do!|Играйте с часовыми, чтобы увидеть, что они делают!
+
+Mira Installation requires a more recent version of Pearlcat! Please update...|Установка MIRA требует более поздней версии Pearlcat!Пожалуйста, обновите ...
+
+Oh... oh no...|О ... о нет ...
+
+Sentry P3|Часовой P3
+
+Oh...? Hello! Hello...|Ой...?Привет!Привет...
+
+Ah, I hope you both stay safe out there...|Ах, я надеюсь, что вы оба останетесь в безопасности ...
+
+Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.|Пожалуйста, постарайтесь не подтолкнуть меня слишком сильно;С количеством нейронов у меня есть ... давайте просто скажем, что мой разум становится немного туманным.
+
+Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|Учитывая состояние, в котором вы уехали, я подумал, что это невозможно, я снова увижу вас ... и все же вы здесь.
+
+Welc- Hello. Hello again.|Welc- Привет.Привет снова.
+
+Pearlcat|Жемчужина
+
+Button West|Пуговица на запад
+
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|Их любопытство ненасытное, Pearlcat снова выходит из себя в <LINE> стремление расширить свою коллекцию
+
+I have nothing for you, I'm afraid... but I hope you find the answers you seek.|У меня нет ничего для тебя, я боюсь ... но я надеюсь, что вы найдете ответы, которые ищете.
+
+Agility Pearl Count|Гибковая жемчужина
+
+acursed|проклятый
+
+Hides the visuals of inactive pearls and turns you into... cat.|Скрывает визуальные эффекты неактивного жемчуга и превращает вас в ... кошку.
+
+And a third? So it is...|А третий?Так это ...
+
+However, given a lack of other options, this is the best I can do.|Однако, учитывая отсутствие других вариантов, это лучшее, что я могу сделать.
 
 Edit keybinds through the normal input menu.|Редактируйте связки ключей через обычное входное меню.
 
-Something else new? Allow me to see...|Что -то еще новое?Позвольте мне увидеть ...
+When checked, all tutorials will be disabled.|При проверке все учебники будут отключены.
+
+Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|Время в кадрах для лазера красной жемчужины, чтобы перезарядиться после стрельбы.По умолчанию 1,5 секунды.
+
+Starting Inventory Override?|Запуск переопределения инвентаря?
+
+Disable Revive Effect?|Отключить эффект оживления?
+
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Negative player numbers invert the triggers. Hold and drag up or down to change.|К какому игроку контроллера замена будет применяться.0 Отключает замена триггеров.Негативные номера игроков инвертируют триггеры.Держите и тащите вверх или вниз, чтобы смены.
+
+Oh, hello! Hello!|О, привет!Привет!
+
+RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|Красный символизирует власть.С активным красным жемчугом, ближайшее враждебное существо будет нацелено
+
+When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|При проверке отключает улучшенную поддержку конфигурации ввода, возвращаясь к конфигурации ремиксов.Выйдите и повторно введите меню ремикса, чтобы вступить в силу.
+
+I already read this one. I can read it again, I suppose.|Я уже прочитал это.Я могу прочитать это снова, я полагаю.
+
+...did they have a child? ...could you be?|... у них был ребенок?... не могли бы вы быть?
+
+Improved Input Config is active!|Улучшенная конфигурация ввода активна!
+
+Player 3|Игрок 3
+
+You are... so familiar...|Ты ... так знаком ...
+
+Welcome back, <PlayerName>!|Добро пожаловать в ответ, <playername>!
+
+Some time ago now, I encountered a scholar and their dying pup...|Некоторое время назад я встретил ученых и их умирающего щенка ...
+
+All times here are in frames.<LINE>40 frames = 1 second.|Все времена здесь в кадрах. <Строка> 40 кадров = 1 секунда.
+
+Custom Agility Keybind?|Пользовательская гибкость ключей?
+
+PEARLCAT|Жемчужина
+
+The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|«Пространство за пределами» будет безопасным местом для вас, чтобы воспитать свою семью - и оставаться далеко от моего бизнеса.
+
+Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|Извините, если я не буду немного медленным, кстати, мы разработаны для работы с миллионами нейронов, в отличие от, ну ...
+
+Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|Жемчужины также могут быть развернуты как временные часовые.Нажмите (возьмите + прыжок + вниз), чтобы развернуть и снова вернуться.
+
+Ah, you didn't happen to find a way to tell me about your travels, did you?|Ах, тебе не случайно найти способ рассказать мне о твоих путешествиях, не так ли?
+
+Your survival gives me some hope, little one.|Ваше выживание дает мне надежду, малыш.
+
+You. Again. I still remember what you did...|Ты.Снова.Я до сих пор помню, что ты сделал ...
+
+Oh... the memories can hurt a little... but I shouldn't well on them.|Ох ... воспоминания могут немного повредить ... но я не должен хорошо на них.
+
+Pearlpup|Жемчужина
+
+Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.|Извините, я не должен быть таким навязчивым, я в конце концов нахожусь в состоянии.
+
+The choice is yours.|Выбор твой.
+
+Disable Cosmetics?|Отключить косметику?
+
+Cheats|Читы
+
+My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|Мои надзиратели не согласились с вашим прибытием - у меня сложилось впечатление, что транзитная система была в основном неоперабельной.
+
+The Pearlcat|Жемчужина
+
+Keybind for Player 4.|Ключевой связки для игрока 4.
+
+The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|Сила, которой вы обладаете, это увлекательно.Я никогда не видел ничего подобного от твоего рода.
+
+trueend|настоять
+
+There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|Я ничего не могу сделать, чтобы остановить вас, так что вот моя просьба: <LINE> Оставьте меня, или прекратите его быстро.
+
+...well, given your unique set of skills... if you ever need something read...|... ну, учитывая ваш уникальный набор навыков ... если вам когда -нибудь нужно что -то прочитать ...
+
+Swap Right|Обмениваться правым
+
+I do not have much else to occupy my time with these days...|У меня больше нечего занять время в эти дни ...
+
+Think of this mutually, I can 'see' a little further outside this can...|Подумайте об этом взаимно, я могу «увидеть» немного дальше за пределы этой может ...
+
+Keybind for Player 1.|Ключевой связки для игрока 1.
+
+Laser Damage (OLD)|Лазерное повреждение (старое)
+
+I have tried to reconstruct it from memory many times, fruitlessly.|Я пытался реконструировать его из памяти много раз, бесплодно.
+
+...that pearl you carry, the purple one, where did you find it?|... эта жемчуга, которую ты носишь, фиолетовый, где ты его нашли?
+
+For the number of visits you pay me, how could there only be one of you?|Для количества посещений, которые вы мне посещаете, как может быть только один из вас?
+
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Количество щита жемчуга (желтый).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
+
+I... wish there was more I could do... but even... nevermind in my current state.|Я ... хотел бы, чтобы я мог сделать больше ... но даже ... не так уж и в моем нынешнем состоянии.
+
+I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Я хотел бы изучить его, чтобы помочь лечить мое собственное страдание, однако это потребовало бы ... удаление дополнения.
+
+Swaps the active pearl to the left.|Поменяет активную жемчужину влево.
+
+You have a knack for finding these pearls, yes?|У вас есть умение найти эти жемчужины, да?
+
+PEARLPUP|Жемчужина
+
+Let us see what- oh, again?|Давайте посмотрим, что- о, снова?
+
+Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|Предпочитаю использовать пользовательские связки ключей для развертывания Sentry Pearls, а не по умолчанию (Grab + Jump + Down)
+
+...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...ой?Возьми их, данные, которые они содержат, бесполезны для меня.Я полагаю, они были бы гораздо полезны для вас ...
+
+My own time is limited, after all...|Мое собственное время ограничено, в конце концов ...
+
+Extra Cheats|Дополнительные читы
+
+To release possession, try to deploy the pearl as a sentry, or try to retrieve the pearl|Чтобы освободить владение, попытаться развернуть жемчужину в качестве часового или попытаться получить жемчужину
+
+You would be a hard one to forget after all, <PlayerName>!|Вам было бы трудно забыть, в конце концов, <playername>!
+
+...you can manipulate our storage medium in unforseen ways...|... вы можете манипулировать нашей средой для хранения непредвзятыми способами ...
+
+Swap Input|Обмену входом
+
+...ah... are those still a fascination to you? You really are no different from your mother...|... ах ... это все еще увлечение тебе?Ты действительно ничем не отличается от своей матери ...
+
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Включает пользовательские связки ключей ниже, в отличие от по умолчанию (UP + Pickup).
+
+Oh, hello! Hello...|О, привет!Привет...
+
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Ученый неясного происхождения, вооруженный загадочной энергией и жажда знаний.
+
+Another one? I shouldn't be surprised. Let's see...|Еще один?Я не должен удивляться.Давайте посмотрим...
+
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|... у вас есть дар общения! <LINE> Возможно, вы посетили моего соседа, пять камешек ...?
+
+When checked, disables the spear creation effect granted by an active pearl.|При проверке отключает эффект создания копья, предоставленный активной жемчужиной.
+
+Oh, hello there!|О, привет!
+
+This illness, it is unlike any I have seen before - I can say it is likely fatal.|Эта болезнь, это не похоже на то, что я видел раньше - я могу сказать, что это, вероятно, смертельно.
+
+WARNING|ПРЕДУПРЕЖДЕНИЕ
+
+I must resume my work. I will be waiting here, as always.|Я должен возобновить свою работу.Я буду ждать здесь, как всегда.
+
+Disable Camoflague Effect?|Отключить эффект camoflague?
+
+I very much enjoy the company though... you and your family are always welcome here.|Я очень наслаждаюсь компанией ... вы и ваша семья всегда рады здесь.
+
+...and don't look to me, it's not my fault...|... и не смотри на меня, это не моя вина ...
+
+Player 4|Игрок 4
+
+Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.|Пользовательский корзин для выполнения определенных жемчужных способностей, настройка, которые используют пользовательскую привязку в конфигурации Remix от Pearlcat.
+
+When checked, disables the camoflague effect granted by an active pearl.|При проверке отключает эффект Camoflague, предоставленный активной жемчужиной.
+
+Store Pearl|Магазин Жемчужина
+
+Brought me something to read? Or just wasting my time, as per usual?|Принесли мне кое -что для чтения?Или просто тратить свое время, как обычно?
+
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|При проверке устанавливает инвентаризацию на указанные номера цветных жемчужина ниже каждого цикла.Не сохраняет текущий инвентарь - он возвращается, когда не контролируется.
+
+Ah... you seem, familiar...? ...but in such a strange way...|Ах ... ты выглядишь, знакомо ...?... но таким странным образом ...
+
+Hello, again. You are very curious. Very curious indeed.|Привет, снова.Вы очень любопытны.Действительно очень любопытно.
+
+You and your family are always welcome here - please visit often!|Вы и ваша семья всегда рады здесь - пожалуйста, часто посещайте!
+
+I hope you are staying safe out there...|Надеюсь, вы останетесь в безопасности ...
+
+R-Stick|R-stick
+
+Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|Сборы потребляются для обеспечения защиты.Каждая жемчужина индивидуально пополняет свой заряд через некоторое время
+
+- Dialogue, SFX|- Диалог, SFX
+
+You are welcome to stay as long as you like. Anything to ease the pain.|Вы можете остаться столько, сколько хотите.Что -нибудь, чтобы облегчить боль.
+
+PEARLCAT_MIRA_SKIP|Pearlcat_mira_skip
+
+Keybind for Keyboard.|Ключевой связки для клавиатуры.
+
+Whichever path you take, I hope you find the help that you seek.|Какой бы путь вы ни пошли, я надеюсь, что вы найдете помощь, которую вы ищете.
+
+Custom Keybind?|Пользовательский корзин?
+
+Ability P4|Способность P4
+
+Another? And I shall read this one to you as well...|Другой?И я тоже прочитаю это ...
+
+When checked, some abilties will show the inventory when recharged or depleted.|При проверке некоторые Abilties покажут инвентарь при заряде или истощении.
+
+Please... this all I have left... you have so much... ...why take mine?|Пожалуйста ... все, что у меня осталось ... у тебя так много ... ... зачем брать мое?
+
+- Artwork|- произведения искусства
+
+I know that quite well.|Я знаю это довольно хорошо.
+
+You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|Вы пришли с довольно расстояния?Вы можете общаться с нами, но оценка, которой вы обладаете, чуждо мне ...
+
+And just who might you be?|И кем ты можешь быть?
+
+Player 1|Игрок 1
+
+...help... please...|... Помогите ... пожалуйста ...
+
+For now, my only lens into the outside is those pearls you carry.|На данный момент мой единственный объектив снаружи - те жемчужины, которые вы несете.
+
+- Floppy Ears, Scarf|- гибкие уши, шарф
+
+by|к
+
+...hello?|...привет?
+
+Ability P2|Способность P2
+
+I'll always enjoy your company... it gets lonely out here.|Я всегда наслаждаюсь вашей компанией ... здесь станет одиноко.
+
+You... I still remember what you did.|Ты ... я все еще помню, что ты сделал.
+
+Has it really been so long...? And considering your current state, you've been through a lot...|Это действительно так долго ...?И, учитывая ваше текущее состояние, вы многое пережили ...
+
+Disable Spear Effect?|Отключить эффект копья?
+
+You're more than welcome to stay a while... your ability will always be a little miracle to me...|Ты более чем рад остаться ... твоя способность всегда будет немного чудо для меня ...
+
+When checked, disables the agility effect granted by an active pearl.|При проверке отключает эффект ловкости, предоставленный активной жемчужиной.
+
+Keybind for Player 3.|Ключевой связки для игрока 3.
+
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.|Если у вас будет мгновенный момент, я был бы более чем счастлив прочитать эти жемчужины ... <LINE> больше нечего сделать, чтобы провести время.
+
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Процент множителя на общую видимость Pearlcat, влияет на притяжение хищника.По умолчанию Pearlcat значительно более заметно, чем даже охотник.
+
+To cycle between pearls, use (|Чтобы ездить на велосипеде между жемчугом, использовать (
+
+Is the implant... painful? Not that it matters, of course. Just noting some common ground.|Имплантат ... болезнен?Не то чтобы это важно, конечно.Просто отмечая какую -то общую почву.
+
+Oh, hello strange scholar!|О, привет странный ученый!
+
+Ability P1|Способность P1
+
+No, I do not care for your little one.|Нет, я не забочусь о твоем малыше.
+
+To retrieve pearls, have an empty main hand, and hold (|Чтобы получить жемчуг, иметь пустую главную руку и удерживать (
+
+Disable Rage Effect?|Отключить эффект ярости?
+
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|При проверке косметика Pearlcat будет отключена, предназначенная для разрешения пользовательских спрайтов через DMS.Это не включает в себя жемчуг.
+
+Inventory Override?|Переопределение инвентаря?
+
+And who is your little friend? They are quite adorable!|А кто твой маленький друг?Они довольно очаровательны!
+
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|Количество камуфляжного жемчуга (черное).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
+
+BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|Синий символизирует ловкость.Каждая хранящаяся синяя жемчужина обеспечит дополнительный двойной прыжок
+
+But it's best not to dwell on the past, don't you agree <PlayerName>?|Но лучше не останавливаться на прошлом, разве вы не согласны <Playername>?
 
 And just who might you two be?|И кем бы вы могли быть двое?
 
+Surely it must be another little beast with a pearl for a heart?|Конечно, это должен быть еще один маленький зверь с жемчугом для сердца?
+
+I do enjoy the company of you and your friend though, <PlayerName>.|Мне очень нравится компания и ваш друг, <Playername>.
+
+Right Bumper|Правый бампер
+
+Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.|Откроет пользовательский интерфейс инвентаризации при проведении, позволяя поменять активную жемчужину на ключи движения.
+
+Button North|Пуговица на север
+
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|При проверке жемчужины больше не будут предоставлять изменения статистики, активные или иные, а базовые статистики настроены на то, чтобы быть похожими на Hunter.
+
+Please, stay as long as you'd like, I can't begin to imagine what you've been through.|Пожалуйста, оставайтесь так долго, как хотите, я не могу начать представлять, через что вы прошли.
+
+What do you want? To take away more of my life...?|Что ты хочешь?Чтобы забрать больше моей жизни ...?
+
+I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten.|Я предполагаю, что вы можете найти их рядом с местом, когда вы прибыли;Это через вал доступа, если вы забыли.
+
+) & use the (LEFT) & (RIGHT) directional inputs|) и используйте (слева) и (правые) направленные входы
+
+I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?|Я не буду лгать, мне так любопытно, как ты ... выжил, и как ты оказался сюда ...?
+
+RED symbolizes power. With a red pearl active, all stored red pearls will circle you|Красный символизирует власть.С активацией красной жемчужины, все хранятся красные жемчужины
+
+It doesn't matter I suppose, you may stay, so long as you don't disturb my work...|Я полагаю, это не имеет значения, вы можете остаться, если вы не беспокоите мою работу ...
+
+Button East|Пуговица восток
+
+So... anything for me to read?|Итак ... что -нибудь для меня, чтобы читать?
+
+Enable Backspear?|Включить Backspear?
+
+You would be a hard one to forget after all, strange scholar!|В конце концов, вам было бы трудно забыть, странный ученый!
+
+When checked, disables the shield effect granted by an active pearl.|При проверке отключает эффект щита, предоставленный активной жемчужиной.
+
+Given your unique abilities, if you are curious as to the contents of those pearls -|Учитывая ваши уникальные способности, если вам любопытно содержимое этих жемчуга -
+
+I am not sure if you are aware, but your child appears very unwell...|Я не уверен, знаете ли вы, но ваш ребенок выглядит очень плохо ...
+
+Intended for fun, may change gameplay significantly!|Предназначен для развлечения, может значительно изменить игровой процесс!
+
+This one again? I have better things to do... but...|Это снова?У меня есть лучшее дело ... но ...
+
+ Pearlpup will be revived.|Жемчужина будет возрождена.
+
+Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...|Ах, я не буду лгать ... Мне любопытно, как ты оказался сюда, и что случилось в твоих путешествиях ...
+
+Ah, yet another one? You are even better at finding these than I imagined...|Ах, еще один?Вам даже лучше найти их, чем я себе представлял ...
+
+The surviving scholar returns once more... how poetic.|Выживший ученый возвращается еще раз ... как поэтично.
+
+strange|странный
+
 Ability Input|Способность ввода
 
-Revive Pearl Count|Revive Pearl Count
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|Ключевой связки, чтобы поменять хранимую жемчужину влево.Ограничено игроком 1.
 
-Trigger Player|Триггер игрок
+Was it really so long ago that you were only half my height...?|Было ли это действительно так давно, что ты был только половиной моего роста ...?
 
-But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Но ... отметка, которой вы обладаете, это очень необычно.
+The Gutter|Желоб
 
-Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.|Хранят жемчужину в своей главной руке или извлекает текущую активную жемчужину, если ваша главная рука пуста.
+When checked, the inventory HUD will be replaced with a more compact version.|При проверке инвентарь HUD будет заменен более компактной версией.
 
-Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Время в кадрах для лазера красной жемчужины для стрельбы после приобретения цели.По умолчанию 1,5 секунды.
+Hold () or (|Hold () или (
+
+Disable Agility Effect?|Отключить эффект ловкости?
+
+Shield Duration|Продолжительность щита
+
+Oh! It is good to see you two again!|Ой!Приятно снова видеть вас двоих!
+
+So curious...|Так любопытно ...
+
+...and what happened to your parent...|... и что случилось с вашим родителем ...
+
+Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Поврежден каждый лазер красной жемчужины за выстрел.Повреждение копья выжившего = 1,0
+
+FIND MIRA...|Найдите Миру ...
+
+...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|... но ... я подумаю о вашей проблеме, пока.Возможно, я могу найти решение для нас обоих.
+
+I'm just so glad you're safe, too many things have come into my memory, only to be washed away...|Я просто так рад, что ты в безопасности, в моей памяти вошло слишком много вещей, только чтобы смыть ...
+
+...and you can gather more of that data you so clearly desire.|... и вы можете собрать больше этих данных, которые вы так ясно желаете.
+
+...but, you are not like I remember them? Am I misremembering so badly?|... но ты не так, как я их помню?Я так сильно запоминаю?
+
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Количество громких жемчуга (синий).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
+
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP - пока нет нового окончания!
+
+You must be very brave to have made it all the way here. Very brave indeed...|Вы должны быть очень смелыми, чтобы сделать это здесь.Действительно очень смелый ...
+
+Ability P3|Способность P3
+
+. . .|ПолемПолемПолем
+
+Shield Pearl Count|Щит Жемчуг Подсчет
+
+OE_SEXTRA|OE_SEXTRA
+
+ SAVE|СОХРАНЯТЬ
+
+Something else new? Allow me to see...|Что -то еще новое?Позвольте мне увидеть ...
+
+I believe that child was you.|Я считаю, что ребенок был тобой.
 
 Background|Фон
 
-Nevermind... this anger is useless...|Неважно ... этот гнев бесполезен ...
+I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|Я рад, что вы нашли свое собственное решение ... даже если это отвратительное извращение естественного права.
 
-Shield Recharge Time|Щит перезаряжай время
+I have sent a request for the stationary cargo transports in my city to resume operation.|Я отправил запрос на стационарные грузовые транспорты в моем городе, чтобы возобновить операцию.
+
+Grab a creature and hold (GRAB) with an active green pearl to revive them|Возьмите существо и удерживайте (захватите) с активной зеленой жемчужкой, чтобы оживить их
+
+...we were built to solve problems. It is a shame not every problem has a solution.|... Мы были построены, чтобы решить проблемы.Жаль, что не у каждой проблемы есть решение.
+
+scholar|ученый
+
+Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|Что ж, если моя память служит мне правильно, приятно видеть тебя снова ... Странный ученый.
+
+You're welcome to stay a while... your ability is fascinating.|Вы можете остаться некоторое время ... ваши способности увлекательны.
+
+Oh, and for direction - there is a gate to the far west of here, where the ground fissures...|О, и для направления - есть ворота на далеком западе отсюда, где земля.
+
+Ah. So you've returned.|АхИтак, вы вернулись.
+
+) with an active common pearl to convert it into a pearl spear|) с активной общей жемчужиной, чтобы преобразовать его в жемчужное копье
+
+I would guess they will grow up into quite the scholar themself, someday...|Я предполагаю, что когда -нибудь они вырастут в самого ученого ...
+
+Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|Ваше сердце позволит вам обладать другими, с его активным, сохранять линию зрений с существом и попытаться получить жемчужину, чтобы обладать
+
+Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|Предпочитаю использовать пользовательские связки клавиш ниже для создания копья вместо по умолчанию (Grab)
+
+You...|Ты...
+
+The company of you and your friend makes my day, strange scholar.|Компания вас и вашего друга делают мой день, странный ученый.
+
+Intended to make gameplay more challenging, may change gameplay significantly!|Предназначенный для того, чтобы сделать игровой процесс более сложным, может значительно изменить игровой процесс!
+
+If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond.|Если вы смогли связаться со мной через транзитную систему, я могу только предположить, что вы сможете достичь других далеко за пределами.
+
+...familiar ...help... please...|... знакомо ... Помогите ... пожалуйста ...
+
+- Additional Artwork|- Дополнительные произведения искусства
+
+Store Input|Хранить вход
+
+Button South|Пуговица на юг
+
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|При проверке переопределяет начальный жемчуг с помощью опции ниже.Эффективен только в начале новой игры, в отличие от переопределения инвентаря?
+
+Hello! Strange scholar, it is good to see you!|Привет!Странно, ученый, приятно тебя видеть!
+
+Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!|Многократные красные жемчужины могут объединить этот эффект вместе - и да, эти батфильсы очень враждебны!
+
+Pearls may also be deployed as temporary sentries. Press (|Жемчужины также могут быть развернуты как временные часовые.Нажимать (
+
+JoystickButton|Joystickbutton
 
 I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|Я полагаю, что, поскольку вы не можете прочитать информацию, хранящуюся на них, я могу прочитать их для вас, если хотите.
 
 I will tolerate your pressence, so long as you bring me something meaningful.|Я буду терпеть ваше присутствие, пока вы принесете мне что -то значимое.
 
-When checked, the inventory HUD will be replaced with a more compact version.|При проверке инвентарь HUD будет заменен более компактной версией.
+Press (JUMP + GRAB) while in the air to perform a double jump|Нажмите (Jump + Grab), находясь в воздухе, чтобы выполнить двойной прыжок
 
-YOU!|ТЫ!
+Hello! I remember you! I remember...|Привет!Я тебя помню!Я помню...
 
-Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...|Ах, я не буду лгать ... Мне любопытно, как ты оказался сюда, и что случилось в твоих путешествиях ...
-
-It would be pointless to ask why...|Было бы бессмысленно спрашивать, почему ...
+So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...|Так что, пожалуйста, принесите мне больше, если это не слишком опасно для вас ... эти визиты действительно являются основным моментом моих дней здесь ...
 
 Is that you, little scholar? I'm speechless...|Это ты, маленький ученый?Я потерял дар речи ...
 
-You would be a hard one to forget after all, <PlayerName>!|Вам было бы трудно забыть, в конце концов, <playername>!
-
-Disable Agility Effect?|Отключить эффект ловкости?
-
-Laser Damage (OLD)|Лазерное повреждение (старое)
-
-Intended to make gameplay more challenging, may change gameplay significantly!|Предназначенный для того, чтобы сделать игровой процесс более сложным, может значительно изменить игровой процесс!
-
-Keybind for Player 2.|Ключевой связки для игрока 2.
-
-Your attachment to that thing is unavoidable, I suppose.|Полагаю, ваша привязанность к этой вещи неизбежна.
-
-Disable Tutorials?|Отключить учебные пособия?
-
-Who... who is there?|Кто ... кто там?
-
-) or (|) или (
-
-I already read this one. I can read it again, I suppose.|Я уже прочитал это.Я могу прочитать это снова, я полагаю.
-
-Disable Cosmetics?|Отключить косметику?
-
-- Artwork|- произведения искусства
-
-So... anything for me to read?|Итак ... что -нибудь для меня, чтобы читать?
-
-Alternatively, hold (|В качестве альтернативы, удерживайте (
-
-Clearly artificial creations. But from where? Sent by who?|Четко искусственные творения.Но откуда?Прислано кто?
-
-I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Я полагаю, что единственное, что вы цените в этих жемчужинах, это то, насколько чистой их решетка?Я заменю вас одним гораздо более утонченным, чем это.
-
-Shield Duration|Продолжительность щита
-
-NON-MSC|Не MSC
-
-Sentry P2|Часовой P2
-
-I have nothing for you, I'm afraid... but I hope you find the answers you seek.|У меня нет ничего для тебя, я боюсь ... но я надеюсь, что вы найдете ответы, которые ищете.
-
-Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Количество громких жемчуга (синий).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
-
-Ability KB|Способность KB
-
-Oh, hello strange scholar!|О, привет странный ученый!
-
-I have sent a request for the stationary cargo transports in my city to resume operation.|Я отправил запрос на стационарные грузовые транспорты в моем городе, чтобы возобновить операцию.
-
-The company of you and your friend makes my day, strange scholar.|Компания вас и вашего друга делают мой день, странный ученый.
-
-Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|Предпочитаю использовать пользовательские связки клавиш ниже для двойного прыжка с ловкостью вместо по умолчанию (Grab + Jump)
-
-- Additional Artwork|- Дополнительные произведения искусства
-
-Pearlpup|Жемчужина
-
-And now here you are, with a perfect copy.|А теперь вы, с идеальной копией.
-
-You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|Ты дал мне очень испуг!В наши дни я часто получаю посетителей;
-
-No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|Нет, я не настолько эгоистичен, чтобы пожертвовать вам по прихоти за это - лекарство даже не гарантируется.
-
-Ah, you didn't happen to find a way to tell me about your travels, did you?|Ах, тебе не случайно найти способ рассказать мне о твоих путешествиях, не так ли?
-
-I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|Я заметил, что дополнение поддерживает вас, как только вы вернулись сюда - я не говорю это легкомысленно, но это не так, как это работает.
-
-Grab a creature and hold (GRAB) with an active green pearl to revive them|Возьмите существо и удерживайте (захватите) с активной зеленой жемчужкой, чтобы оживить их
-
-Chimney Canopy|Капонка дымохода
-
-My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|Мои надзиратели не согласились с вашим прибытием - у меня сложилось впечатление, что транзитная система была в основном неоперабельной.
-
 Input a shelter name to have it override where Pearlcat starts a new game.|Введите название укрытия, чтобы переопределить его, где Pearlcat начинает новую игру.
-
-Pearl Ability|Способность жемчужины
-
-Welcome back, <PlayerName>, and your little one too.|Добро пожаловать назад, <Playername>, и ваш малыш тоже.
-
-Visibility Multiplier|Умноминатор видимости
-
-Play around with sentries to see what they do!|Играйте с часовыми, чтобы увидеть, что они делают!
-
-Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|Учитывая состояние, в котором вы уехали, я подумал, что это невозможно, я снова увижу вас ... и все же вы здесь.
-
-Old Red Pearl Ability?|Способность старой красной жемчужины?
-
-Cheats|Читы
-
-I think I may still have some use left after all!~|Я думаю, что у меня все еще осталось, в конце концов! ~
-
-Intended for fun, may change gameplay significantly!|Предназначен для развлечения, может значительно изменить игровой процесс!
-
-I still don't have much to offer, sadly... aside from my pearl readings, and company of course! ~|У меня все еще не так много, к сожалению, помимо моих чтений жемчужина и компании, конечно!~
-
-And who is your little friend? They are quite adorable!|А кто твой маленький друг?Они довольно очаровательны!
-
-However, given a lack of other options, this is the best I can do.|Однако, учитывая отсутствие других вариантов, это лучшее, что я могу сделать.
-
-Transit System|Транзитная система
-
-When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|При проверке жемчужины больше не будут предоставлять изменения статистики, активные или иные, а базовые статистики настроены на то, чтобы быть похожими на Hunter.
-
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP - пока нет нового окончания!
-
-When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|При проверке переопределяет начальный жемчуг с помощью опции ниже.Эффективен только в начале новой игры, в отличие от переопределения инвентаря?
-
-Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.|Пользовательский корзин для выполнения определенных жемчужных способностей, настройка, которые используют пользовательскую привязку в конфигурации Remix от Pearlcat.
-
-You are welcome to stay as long as you like. Anything to ease the pain.|Вы можете остаться столько, сколько хотите.Что -нибудь, чтобы облегчить боль.
-
-Ah. So you've returned.|АхИтак, вы вернулись.
-
-...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|... но ... я подумаю о вашей проблеме, пока.Возможно, я могу найти решение для нас обоих.
-
-...well, given your unique set of skills... if you ever need something read...|... ну, учитывая ваш уникальный набор навыков ... если вам когда -нибудь нужно что -то прочитать ...
-
-...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|... в настоящее время я ничего не могу сделать для вашего щенка.Мне жаль.Я ... подумаю об этом.
-
-I remember this one... don't you? Well...|Я помню это ... не так ли?Хорошо...
-
-Your survival gives me some hope, little one.|Ваше выживание дает мне надежду, малыш.
-
-Button West|Пуговица на запад
-
-...I am not sure if this is comforting, but...|... я не уверен, утешительно ли это, но ...
-
-This illness, it is unlike any I have seen before - I can say it is likely fatal.|Эта болезнь, это не похоже на то, что я видел раньше - я могу сказать, что это, вероятно, смертельно.
-
-pearlcat-description|Любопытный ученый с необычной способностью использовать жемчужины в своих интересах. <LINE> <LINE> Настройка входов, сложность, читы и многое другое с помощью ремикса!
-
-...one which still means a lot to me.|... один, который все еще много значит для меня.
-
-You're more than welcome to stay a while... your ability will always be a miracle to me...|Ты более чем рад остаться ... твоя способность всегда будет для меня чудом ...
-
-Camo Pearl Count|Camo Pearl Count
-
-Oh... the memories can hurt a little... but I shouldn't well on them.|Ох ... воспоминания могут немного повредить ... но я не должен хорошо на них.
-
-)|)
-
-I'm just so glad you're safe, too many things have come into my memory, only to be washed away...|Я просто так рад, что ты в безопасности, в моей памяти вошло слишком много вещей, только чтобы смыть ...
-
-Hello again.|Привет снова.
-
-You are... so familiar...|Ты ... так знаком ...
-
-pearlcat|жемчужина
-
-Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|Сборы потребляются для обеспечения защиты.Каждая жемчужина индивидуально пополняет свой заряд через некоторое время
-
-PEARLCAT|Жемчужина
-
-A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|Ученый со способностью манипулировать жемчугом ...?О, да!Я помню!
-
-Welc- Hello. Hello again.|Welc- Привет.Привет снова.
-
-...that pearl you carry, the purple one, where did you find it?|... эта жемчуга, которую ты носишь, фиолетовый, где ты его нашли?
-
-...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|... у вас есть дар общения! <LINE> Возможно, вы посетили моего соседа, пять камешек ...?
-
-Inventory Override?|Переопределение инвентаря?
-
-I do enjoy the company of you and your friend though, <PlayerName>.|Мне очень нравится компания и ваш друг, <Playername>.
-
-What do you want? To take away more of my life...?|Что ты хочешь?Чтобы забрать больше моей жизни ...?
-
-PLAYTESTERS|Пьесы
-
-You're welcome to stay a while... your ability is fascinating.|Вы можете остаться некоторое время ... ваши способности увлекательны.
-
-Max Pearl Count|Макс Жемчужный счет
-
-I assure you it will be a more than suitable replacement for your primitive needs.|Уверяю вас, это будет более чем подходящая замена для ваших примитивных потребностей.
-
-I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...|Я так хочу, чтобы вы могли сказать мне, что произошло во время ваших путешествий ... Я едва помню, когда в последний раз я видел за пределами этой камеры ...
-
-Good luck, mysterious scholar.|Удачи, таинственный ученый.
-
-When checked, disables the shield effect granted by an active pearl.|При проверке отключает эффект щита, предоставленный активной жемчужиной.
-
-General|Общий
-
-It appears to contain a hymn that once meant a lot to the inhabitants of my city...|Похоже, он содержит гимн, который когда -то много значил для жителей моего города ...
-
-Is the implant... painful? Not that it matters, of course. Just noting some common ground.|Имплантат ... болезнен?Не то чтобы это важно, конечно.Просто отмечая какую -то общую почву.
-
-Was it really so long ago that you were only half my height...?|Было ли это действительно так давно, что ты был только половиной моего роста ...?
-
-...and you can gather more of that data you so clearly desire.|... и вы можете собрать больше этих данных, которые вы так ясно желаете.
-
-Keybind for Player 1.|Ключевой связки для игрока 1.
-
-I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|Я надеюсь, что циклы обращаются с вами хорошо ... должно быть трудно позаботиться друг о друге.
-
-Extra Cheats|Дополнительные читы
-
-To retrieve pearls, have an empty main hand, and hold (|Чтобы получить жемчуг, иметь пустую главную руку и удерживать (
-
-JoystickButton|Joystickbutton
-
-- Floppy Ears, Scarf|- гибкие уши, шарф
-
-GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|Зеленый символизирует жизнеспособность.Каждая зеленая жемчужная, хранящаяся может возродить одно существо за цикл, включая вас
-
-Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|Ваше сердце позволит вам обладать другими, с его активным, сохранять линию зрений с существом и попытаться получить жемчужину, чтобы обладать
-
-When checked, enables Pearlcat to carry a backspear.|Когда проверяется, позволяет Pearlcat нести обратное сообщение.
-
-Back again? I hope you have brought me something this time.|Вернувшись снова?Я надеюсь, что вы принесли мне кое -что на этот раз.
-
-Menu|Меню
-
-You... I didn't forget...|Ты ... я не забыл ...
-
-Swap Input|Обмену входом
-
-You would be a hard one to forget after all, strange scholar!|В конце концов, вам было бы трудно забыть, странный ученый!
-
-Disable Improved Input Config?|Отключить улучшенную конфигурацию ввода?
-
-R-Stick|R-stick
-
-Which player controller trigger swapping will apply to. 0 disables trigger swapping. Negative player numbers invert the triggers. Hold and drag up or down to change.|К какому игроку контроллера замена будет применяться.0 Отключает замена триггеров.Негативные номера игроков инвертируют триггеры.Держите и тащите вверх или вниз, чтобы смены.
-
-I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Я все еще более чем счастлив прочитать любой жемчуг, который вы меня принесете; <LINE> Особенно с учетом ваших уникальных способностей.
-
-Please... this all I have left... you have so much... ...why take mine?|Пожалуйста ... все, что у меня осталось ... у тебя так много ... ... зачем брать мое?
-
-Hello. Again.|Привет.Снова.
-
-You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|Вы пришли с довольно расстояния?Вы можете общаться с нами, но оценка, которой вы обладаете, чуждо мне ...
-
-Pearl Threat Music?|Жемчужная угроза музыка?
-
-Think of this mutually, I can 'see' a little further outside this can...|Подумайте об этом взаимно, я могу «увидеть» немного дальше за пределы этой может ...
-
-When checked, disables the revive effect granted by an active pearl.|При проверке отключает эффект восстановления, предоставленный активной жемчужиной.
-
-strange|странный
-
-Welcome back, I suppose.|Добро пожаловать, я полагаю.
-
-...did they have a child? ...could you be?|... у них был ребенок?... не могли бы вы быть?
-
-. . .|ПолемПолемПолем
-
-For the number of visits you pay me, how could there only be one of you?|Для количества посещений, которые вы мне посещаете, как может быть только один из вас?
-
-...there.|...там.
-
-And a third? So it is...|А третий?Так это ...
-
-pupheart|Кульс
-
-He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|В настоящее время он намного лучше, чем я - я бы порекомендовал посетить ему визит, если вы можете.
-
-Number of camo pearls (black). Effective only when Inventory Override? is checked.|Количество камуфляжного жемчуга (черное).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
-
-You really do remind me so much of your mother...|Вы действительно так много напоминаете мне о своей матери ...
-
-No, I do not care for your little one.|Нет, я не забочусь о твоем малыше.
-
-But it's best not to dwell on the past, don't you agree <PlayerName>?|Но лучше не останавливаться на прошлом, разве вы не согласны <Playername>?
-
-Disable Revive Effect?|Отключить эффект оживления?
-
-Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Каждая красная жемчужина обеспечивает дополнительный лазер - и да, эти батфильсы очень враждебны!
-
-Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Поврежден каждый лазер красной жемчужины за выстрел.Повреждение копья выжившего = 1,0
-
-Button South|Пуговица на юг
-
-If you do not plan to provide me with any meaningful data, that is your best course of action;|Если вы не планируете предоставлять мне какие -либо значимые данные, это ваш лучший курс действий;
-
-Spear Pearl Count|Копье жемчужина
-
-Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|Время в кадрах для лазера красной жемчужины, чтобы перезарядиться после стрельбы.По умолчанию 1,5 секунды.
-
-Player 4|Игрок 4
-
-) & (|) & (
-
-Read this one too? Yes, yes, here it is...|Читать это тоже?Да, да, вот это ...
-
-Oh...? Hello! Hello...|Ой...?Привет!Привет...
-
-YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|Желтый символизирует защиту.Каждая хранящаяся желтая жемчужина обеспечит заряд щита
-
-Ah, I hope you both stay safe out there...|Ах, я надеюсь, что вы оба останетесь в безопасности ...
-
-When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|При проверке отключает улучшенную поддержку конфигурации ввода, возвращаясь к конфигурации ремиксов.Выйдите и повторно введите меню ремикса, чтобы вступить в силу.
-
-Swap Left|Обмен остался
-
-scholar|ученый
-
-Player 1|Игрок 1
-
-Another? And I shall read this one to you as well...|Другой?И я тоже прочитаю это ...
-
-The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|«Пространство за пределами» будет безопасным местом для вас, чтобы воспитать свою семью - и оставаться далеко от моего бизнеса.
-
-Disable Camoflague Effect?|Отключить эффект camoflague?
-
-) while in the air to perform a double jump|) в воздухе, чтобы выполнить двойной прыжок
-
-Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|Время в кадрах Желтый жемчужный щит длится после активации.По умолчанию 1,5 секунды.
-
-I do not know what to make of this.|Я не знаю, что с этим делать.
-
- SAVE|СОХРАНЯТЬ
-
-And a nasty scar, poor thing... I can't imagine where you got that, or even where you came from...?|И противный шрам, бедная вещь ... Я не могу представить, откуда вы это получили, или даже откуда вы пришли ...?
-
-(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)|(К сожалению для жемчужина, чтобы нереститься, это требует включения DLC ливня)
-
-RED symbolizes power. With a red pearl active, all stored red pearls will circle you|Красный символизирует власть.С активацией красной жемчужины, все хранятся красные жемчужины
-
-Keybind for Player 4.|Ключевой связки для игрока 4.
-
-), or the triggers on controller|) или триггеры на контроллере
-
-Welcome back, <PlayerName>!|Добро пожаловать в ответ, <playername>!
-
-Look at yourself! You know how it feels, to be within an inch of death...|Посмотри на себя!Вы знаете, каково это, быть в пределах дюйма смерти ...
-
-Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|Бедьерство не дискриминирует, к сожалению.Я надеюсь, что вас вовремя ждет лучшая судьба.
-
-Given your unique abilities, if you are curious as to the contents of those pearls -|Учитывая ваши уникальные способности, если вам любопытно содержимое этих жемчуга -
-
-FIND MIRA...|Найдите Миру ...
-
-I believe that child was you.|Я считаю, что ребенок был тобой.
-
-The Pearlcat|Жемчужина
-
-Sentry Pearl|Sentry Pearl
-
-Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Количество жемчуга для создания копья (белый).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
-
-Pearlpup Respawn?|Жемчужная респонена?
-
-...and you have brought your little friend along, of course.|... и вы, конечно, принесли своего маленького друга.
-
-When checked, disables the camoflague effect granted by an active pearl.|При проверке отключает эффект Camoflague, предоставленный активной жемчужиной.
-
-Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|Что ж, если моя память служит мне правильно, приятно видеть тебя снова ... Странный ученый.
-
-...and don't look to me, it's not my fault...|... и не смотри на меня, это не моя вина ...
 
 ): swap out a pearl, or change the limit in the Remix options|): смените жемчужину или измените предел в параметрах ремикса
 
-I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|Я рад, что вы нашли свое собственное решение ... даже если это отвратительное извращение естественного права.
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|При проверке большинство жемчугов (когда активно) заставит тему угрозы для всех регионов к теме региона, из которой они были первоначально.
 
-Ah, yet another one? You are even better at finding these than I imagined...|Ах, еще один?Вам даже лучше найти их, чем я себе представлял ...
-
-Some time ago now, I encountered a scholar and their dying pup...|Некоторое время назад я встретил ученых и их умирающего щенка ...
-
-Disable Rage Effect?|Отключить эффект ярости?
-
-I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...|Я шучу, конечно!Моего воображения будет достаточно, хотя любопытство сжигает меня внутри ...
-
-I must resume my work. I will be waiting here, as always.|Я должен возобновить свою работу.Я буду ждать здесь, как всегда.
-
-Button East|Пуговица восток
-
-) & use the (LEFT) & (RIGHT) directional inputs|) и используйте (слева) и (правые) направленные входы
-
-I'm sorry... it's wrong to be so invasive, it's none of my business really.|Извините ... это неправильно, быть таким инвазивным, это не мое дело на самом деле.
-
-Hides the visuals of inactive pearls and turns you into... cat.|Скрывает визуальные эффекты неактивного жемчуга и превращает вас в ... кошку.
-
-Oh, hello! Hello!|О, привет!Привет!
-
-Keybind for Keyboard.|Ключевой связки для клавиатуры.
-
-Difficulty|Сложность
-
-Disable Spear Effect?|Отключить эффект копья?
-
-PEARLCAT_MIRA_SKIP|Pearlcat_mira_skip
-
-Death is not the end... even death that seems permanent.|Смерть - это не конец ... даже смерть, которая кажется постоянной.
-
-Store Pearl|Магазин Жемчужина
-
-Let us see what- oh, again?|Давайте посмотрим, что- о, снова?
-
-Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|Начните в начале сюжетной линии Mira ... <LINE> Мир будет сохранен, и жемчужина будет перенесена!
-
-Sentry P1|Часовой P1
-
-by|к
-
-They are unwell, <PlayerName>, very unwell indeed.|Они нездоровы, <playername>, действительно очень плохо.
-
-Yes, help yourself. They are not edible.|Да, помоги себе.Они не съедобны.
-
-Pearlcat|Жемчужина
-
-To cycle between pearls, use (|Чтобы ездить на велосипеде между жемчугом, использовать (
-
-Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Процент множителя на общую видимость Pearlcat, влияет на притяжение хищника.По умолчанию Pearlcat значительно более заметно, чем даже охотник.
-
-Left Bumper|Левый бампер
-
-Welcome back, you two!|Добро пожаловать, вы двое!
-
-...familiar ...help... please...|... знакомо ... Помогите ... пожалуйста ...
-
-Swaps the active pearl to the right.|Поменяет активную жемчужину вправо.
-
-Something new to read... it has been too long...|Что -то новое, чтобы читать ... это было слишком долго ...
-
-My own time is limited, after all...|Мое собственное время ограничено, в конце концов ...
-
-So curious... I wonder what it is you're searching for?|Так любопытно ... интересно, что вы ищете?
-
-To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Чтобы получить жемчуг, взять пустую главную руку и удержать (захватить + вверх)
-
-I very much enjoy the company though... you and your little friend are always welcome here.|Я очень наслаждаюсь компанией ... вы и ваш маленький друг всегда рады здесь.
-
-- Chinese Translation|- Китайский перевод
-
-So curious...|Так любопытно ...
-
-Get... get away... strange... thing.|Убери ... Уйди ... странно ... вещь.
-
-I do not have much else to occupy my time with these days...|У меня больше нечего занять время в эти дни ...
-
-When checked, all tutorials will be disabled.|При проверке все учебники будут отключены.
-
-Sentry KB|Sentry KB
-
-Keyboard|Клавиатура
-
-Right Bumper|Правый бампер
-
-Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|Извините, если я не буду немного медленным, кстати, мы разработаны для работы с миллионами нейронов, в отличие от, ну ...
-
-You...|Ты...
-
-I'll always enjoy your company... it gets lonely out here.|Я всегда наслаждаюсь вашей компанией ... здесь станет одиноко.
-
-When checked, some abilties will show the inventory when recharged or depleted.|При проверке некоторые Abilties покажут инвентарь при заряде или истощении.
-
-Swap Right|Обмениваться правым
-
-Hello, again. You are very curious. Very curious indeed.|Привет, снова.Вы очень любопытны.Действительно очень любопытно.
-
-thing|вещь
-
-Why did you come back here...? I can only imagine it brings back some painful memories.|Почему ты вернулся сюда ...?Я могу только представить, что это возвращает некоторые болезненные воспоминания.
-
-Custom Keybind?|Пользовательский корзин?
-
-I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Я хотел бы изучить его, чтобы помочь лечить мое собственное страдание, однако это потребовало бы ... удаление дополнения.
+Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|Бедьерство не дискриминирует, к сожалению.Я надеюсь, что вас вовремя ждет лучшая судьба.
 
 Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read...|Учитывая, что вы унаследовали черты своей матери, если вы хотите, чтобы эти визиты стоили моего времени, принесите мне что -нибудь, чтобы прочитать ...
 
+When checked, disables the revive effect granted by an active pearl.|При проверке отключает эффект восстановления, предоставленный активной жемчужиной.
+
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Максимальное количество жемчуга, которое можно хранить одновременно, включая активную жемчужину.По умолчанию 9. Удерживайте и перетаскивайте или вниз, чтобы измениться.
+
+I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|Я заметил, что дополнение поддерживает вас, как только вы вернулись сюда - я не говорю это легкомысленно, но это не так, как это работает.
+
+General|Общий
+
+Death is not the end... even death that seems permanent.|Смерть - это не конец ... даже смерть, которая кажется постоянной.
+
+Revive Pearl Count|Revive Pearl Count
+
+- Chinese Translation|- Китайский перевод
+
+Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer...|В противном случае я должен возобновить свою работу, кажется, что путь к моему излечению, к сожалению, гораздо дольше ...
+
+I remember this one... don't you? Well...|Я помню это ... не так ли?Хорошо...
+
+Sentry Pearl|Sentry Pearl
+
+Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|Начните в начале сюжетной линии Mira ... <LINE> Мир будет сохранен, и жемчужина будет перенесена!
+
+I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Я полагаю, что единственное, что вы цените в этих жемчужинах, это то, насколько чистой их решетка?Я заменю вас одним гораздо более утонченным, чем это.
+
+pearlcat-name|Жемчужина
+
+But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Но ... отметка, которой вы обладаете, это очень необычно.
+
+It appears to contain a hymn that once meant a lot to the inhabitants of my city...|Похоже, он содержит гимн, который когда -то много значил для жителей моего города ...
+
+Hello again, <PlayerName>!|Здравствуйте еще раз, <Playername>!
+
+I very much enjoy the company though... you and your little friend are always welcome here.|Я очень наслаждаюсь компанией ... вы и ваш маленький друг всегда рады здесь.
+
+If you do not plan to provide me with any meaningful data, that is your best course of action;|Если вы не планируете предоставлять мне какие -либо значимые данные, это ваш лучший курс действий;
+
+I assure you it will be a more than suitable replacement for your primitive needs.|Уверяю вас, это будет более чем подходящая замена для ваших примитивных потребностей.
+
+I do enjoy the company though... it gets lonely out here.|Я действительно наслаждаюсь компанией ... здесь становится одиноко.
+
+I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...|Я так хочу, чтобы вы могли сказать мне, что произошло во время ваших путешествий ... Я едва помню, когда в последний раз я видел за пределами этой камеры ...
+
+To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Чтобы получить жемчуг, взять пустую главную руку и удержать (захватить + вверх)
+
+CREDITS|Кредиты
+
+pearlcat|жемчужина
+
+Chimney Canopy|Капонка дымохода
+
+You. I didn't forget...|Ты.Я не забыл ...
+
+Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|Время в кадре Желтый жемчужный щит приобретает перезарядку после активации.По умолчанию 40 секунд.
+
+Clearly an artifical creation. But from where? Sent by who?|Очевидно, искусственное творение.Но откуда?Прислано кто?
+
+PLAYTESTERS|Пьесы
+
+Oh, hello <PlayerName>!|О, привет <playername>!
+
+I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|Я надеюсь, что циклы обращаются с вами хорошо ... должно быть трудно позаботиться друг о друге.
+
+He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|В настоящее время он намного лучше, чем я - я бы порекомендовал посетить ему визит, если вы можете.
+
+I do not know what to make of this.|Я не знаю, что с этим делать.
+
+And now here you are, with a perfect copy.|А теперь вы, с идеальной копией.
+
+Your biology... it is both familiar and foreign to me. How curious.|Твоя биология ... она и знакома, и чуждо для меня.Как любопытно.
+
+Your attachment to that thing is unavoidable, I suppose.|Полагаю, ваша привязанность к этой вещи неизбежна.
+
+Visibility Multiplier|Умноминатор видимости
+
+You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|Кажется, что вы, тем не менее, чувствуете себя хорошо для себя, ваше упорство от того, что произошло, восхитительно!
+
+pearl|жемчужина
+
+) to deploy, and again to return.|) развернуть и снова вернуться.
+
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|Жемчужные Спирс попытается вернуться к вам после брошенного, если они не застряли
+
+Compact Inventory HUD?|Компактный инвентарь HUD?
+
+Transit System|Транзитная система
+
+Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|Время в кадрах Желтый жемчужный щит длится после активации.По умолчанию 1,5 секунды.
+
+Good luck, mysterious scholar.|Удачи, таинственный ученый.
+
+When checked, disables the rage effect granted by an active pearl.|При проверке отключает эффект гнева, предоставленный активной жемчужиной.
+
+Your little friend is still quite sick, unfortunately.|К сожалению, ваш маленький друг все еще довольно болен.
+
+Trigger Player|Триггер игрок
+
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Количество жемчуга для создания копья (белый).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
+
+Storage limit reached (|Достигнут лимит хранения (
+
+Hide Pearls?|Скрыть жемчужина?
+
+Max Pearl Count|Макс Жемчужный счет
+
+Camo Pearl Count|Camo Pearl Count
+
+Keybind for Player 2.|Ключевой связки для игрока 2.
+
+...and you have brought your little friend along, of course.|... и вы, конечно, принесли своего маленького друга.
+
+... |...
+
+GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|Зеленый символизирует жизнеспособность.Каждая зеленая жемчужная, хранящаяся может возродить одно существо за цикл, включая вас
+
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|Количество ярости жемчужина (красный).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
+
+Sentry P2|Часовой P2
+
+Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|Предпочитаю использовать пользовательские связки клавиш ниже для двойного прыжка с ловкостью вместо по умолчанию (Grab + Jump)
+
+I see you have not found a cure for their illness. Not yet...|Я вижу, вы не нашли лекарство от их болезни.Еще нет...
+
+View|Вид
+
+Menu|Меню
+
+I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Я все еще более чем счастлив прочитать любой жемчуг, который вы меня принесете; <LINE> Особенно с учетом ваших уникальных способностей.
+
+Alternatively, hold (|В качестве альтернативы, удерживайте (
+
+And why... to me?|А почему ... для меня?
+
+I may not have the facilities to aid you, however...|У меня может не быть возможности, чтобы помочь вам, однако ...
+
+I am... sorry.|Мне жаль.
+
+They are unwell, <PlayerName>, very unwell indeed.|Они нездоровы, <playername>, действительно очень плохо.
+
+I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|Я не могу ничего гарантировать - эти локомотивы не работали, так как мое средство было помещено в блокировку ...
+
+Rage Pearl Count|Ярость жемчужина
+
+(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)|(К сожалению для жемчужина, чтобы нереститься, это требует включения DLC ливня)
+
+VERSION WARNING|Версия предупреждение
+
+...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|... ты ел ... я.Пожалуйста, уходи.Я не буду говорить ... с тобой.
+
+NON-MSC|Не MSC
+
+Pearl Threat Music?|Жемчужная угроза музыка?
+
+YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|Желтый символизирует защиту.Каждая хранящаяся желтая жемчужина обеспечит заряд щита
+
+I can only hope you have not come... to hurt me more.|Я могу только надеяться, что ты не пришел ... чтобы причинить мне боль больше.
+
+Ability KB|Способность KB
+
+Why did you come back here...? I can only imagine it brings back some painful memories.|Почему ты вернулся сюда ...?Я могу только представить, что это возвращает некоторые болезненные воспоминания.
+
+Hold (GRAB) with an active common pearl to convert it into a pearl spear|Держите (захватить) с активной общей жемчужиной, чтобы преобразовать его в жемчужное копье
+
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Каждая красная жемчужина обеспечивает дополнительный лазер - и да, эти батфильсы очень враждебны!
+
+Left Bumper|Левый бампер
+
+Disable Tutorials?|Отключить учебные пособия?
+
+), or the triggers on controller|) или триггеры на контроллере
+
+If only I had my memories, I might have a clue...|Если бы у меня были мои воспоминания, я мог бы иметь подсказку ...
+
+Version|Версия
+
+I see you've returned, yet again.|Я вижу, что ты снова вернулся.
+
+You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|Ты дал мне очень испуг!В наши дни я часто получаю посетителей;
+
+A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|Ученый со способностью манипулировать жемчугом ...?О, да!Я помню!
+
+And a nasty scar, poor thing... I can't imagine where you got that, or even where you came from...?|И противный шрам, бедная вещь ... Я не могу представить, откуда вы это получили, или даже откуда вы пришли ...?
+
+Old Red Pearl Ability?|Способность старой красной жемчужины?
+
+I am so sorry.|Мне очень жаль.
+
+Swap Pearl|Смена Жемчужина
+
+Welcome back, you two!|Добро пожаловать, вы двое!
+
+Read this one too? Yes, yes, here it is...|Читать это тоже?Да, да, вот это ...
+
+Disable Shield Effect?|Отключить эффект щита?
+
+Ah, you have returned? You look about as sickly as I remember.|Ах, ты вернулся?Ты выглядишь так же болезненно, как я помню.
+
+You really do remind me so much of your mother...|Вы действительно так много напоминаете мне о своей матери ...
+
+My neighbour, Five Pebbles, is a little temperamental, but means well.|Мой сосед, пять камешек, немного темперамент, но хорошо значит.
+
+Shield Recharge Time|Щит перезаряжай время
+
+Keyboard|Клавиатура
+
+So curious... I wonder what it is you're searching for?|Так любопытно ... интересно, что вы ищете?
+
+...there.|...там.
+
+Yes, help yourself. They are not edible.|Да, помоги себе.Они не съедобны.
+
+No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|Нет, я не настолько эгоистичен, чтобы пожертвовать вам по прихоти за это - лекарство даже не гарантируется.
+
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|Ключевой корзин, чтобы поменять хранимую жемчужину справа.Ограничено игроком 1.
+
+Custom Spear Keybind?|Пользовательский копья ключи?
+
+It would be pointless to ask why...|Было бы бессмысленно спрашивать, почему ...
+
+Reverts to the old red pearl mechanics - auto targeting lasers.|Возвращается к старой механике красной жемчужины - автоматической таргетинг -лазеры.
+
+Back again? I hope you have brought me something this time.|Вернувшись снова?Я надеюсь, что вы принесли мне кое -что на этот раз.
+
+And who is your little friend? They are...|А кто твой маленький друг?Они есть...
+
+Is my memory so bad to forget how your little one looks? They seem paler...|Моя память так плохо забыла, как выглядит ваш малыш?Они кажутся бледными ...
+
+There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|Я ничего не могу сделать - я не медицинское учреждение, и даже если бы я был, мое оборудование далеко не первозданное.
+
+Hello again, strange scholar!|Еще раз привет, странный ученый!
+
+I think I may still have some use left after all!|Я думаю, что у меня все еще осталось, в конце концов! 
+
+) or (|) или (
+
+) while in the air to perform a double jump|) в воздухе, чтобы выполнить двойной прыжок
+
+Pearlpup Respawn?|Жемчужная респонена?
+
+Deploys the active pearl as a sentry, or returns it if it is already deployed.|Развертывает активную жемчужину в качестве часового или возвращает его, если она уже развернута.
+
+I do enjoy the company of you and your friend though, strange scholar.|Мне нравится компания вас и вашего друга, странный ученый.
+
+Hello again.|Привет снова.
+
+Pearl Ability|Способность жемчужины
+
+I... I have nothing more to say...|Я ... мне больше нечего сказать ...
+
+pearlcat-description|Любопытный ученый с необычной способностью использовать жемчужины в своих интересах. <LINE> <LINE> Настройка входов, сложность, читы и многое другое с помощью ремикса!
+
+Welcome back, I suppose.|Добро пожаловать, я полагаю.
+
+...scholar?|... ученый?
+
+Swaps the active pearl to the right.|Поменяет активную жемчужину вправо.
+
+Hello. Again.|Привет.Снова.
+
+Difficulty|Сложность
+
+Spear Pearl Count|Копье жемчужина
+
+Press (|Нажимать (
+
+In any case, you are welcome to stay as long as you like. Anything to ease the pain.|В любом случае, вы можете остаться столько, сколько захотите.Что -нибудь, чтобы облегчить боль.
+
+Get... get away... strange... thing.|Убери ... Уйди ... странно ... вещь.
+
+pupheart|Кульс
+
+I have so little... please don't take... this... this is all I have...|У меня так мало ... пожалуйста, не берите ... это ... это все, что у меня есть ...
+
+Start Shelter Override|Начните укрытие переопределить
+
+Swap Left|Обмен остался
+
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|Количество оживленного жемчуга (зеленый).Эффективен только тогда, когда переопределяет инвентарь?проверяется.
+
+Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.|Хранят жемчужину в своей главной руке или извлекает текущую активную жемчужину, если ваша главная рука пуста.
+
+Laser Windup TIme (OLD)|Время лазерного намотчика (старое)
+
+I'll be waiting right here - not like I can go far, anyways!|Я буду сами.
+
+thing|вещь
+
+Inventory Pings?|Инвентарь пинг?
+
+Back again? You do visit often...|Вернувшись снова?Вы часто посещаете ...
+
+You're more than welcome to stay a while... your ability will always be a miracle to me...|Ты более чем рад остаться ... твоя способность всегда будет для меня чудом ...
+
+I won't be going anywhere any time soon... if you need company, you know who to visit!|Я никуда не пойду в ближайшее время ... если вам нужна компания, вы знаете, кого посетить!
+
+Welcome back, <PlayerName>, and your little one too.|Добро пожаловать назад, <Playername>, и ваш малыш тоже.
+
+Laser Recharge Time (OLD)|Время перезарядки лазерной зарядки (старое)
+
+Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Время в кадрах для лазера красной жемчужины для стрельбы после приобретения цели.По умолчанию 1,5 секунды.
+
+...one which still means a lot to me.|... один, который все еще много значит для меня.
+
+...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|... в настоящее время я ничего не могу сделать для вашего щенка.Мне жаль.Я ... подумаю об этом.
+
+L-Stick|L-плитка
+
 Custom Sentry Keybind?|Пользовательский Sentry Keybind?
+
+I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...|Я шучу, конечно!Моего воображения будет достаточно, хотя любопытство сжигает меня внутри ...
+
+Nevermind... this anger is useless...|Неважно ... этот гнев бесполезен ...
+
+Disable Minor Effects?|Отключить незначительные эффекты?
+
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|При проверке PearlPup будет возродиться в следующем укрытии в следующем цикле всякий раз, когда они теряются.
+
+Disable Improved Input Config?|Отключить улучшенную конфигурацию ввода?
+
+Four! Well, if you insist...|Четыре!Ну, если вы настаиваете ...
+
+Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|Ах, мне жаль ... это неправильно быть таким инвазивным, и я не должен быть таким сентиментальным.
+
+.  .  .|ПолемПолемПолем
+
+To store, hold the same keybind with a pearl in your main hand|Чтобы хранить, держите тот же килограмм с жемчугом в главной руке
+
+MSC|Магистр
+
+I still don't have much to offer, sadly... aside from my pearl readings, and company of course!|У меня все еще не так много, к сожалению, помимо моих чтений жемчужина и компании, конечно!
+
+I'm sorry... it's wrong to be so invasive, it's none of my business really.|Извините ... это неправильно, быть таким инвазивным, это не мое дело на самом деле.
+
+Player 2|Игрок 2
 
 Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|Бросание любого оружия в радиусе красной жемчужины приведет к тому, что оно будет домой на ближайшее враждебное существо
 
-Keybind for Player 3.|Ключевой связки для игрока 3.
+You... I didn't forget...|Ты ... я не забыл ...
 
-...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...ой?Возьми их, данные, которые они содержат, бесполезны для меня.Я полагаю, они были бы гораздо полезны для вас ...
+VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update...|Версия Warning <LINE> MIRA Установка требует более поздней версии Pearlcat!Пожалуйста, обновите ...
+
+Clearly artificial creations. But from where? Sent by who?|Четко искусственные творения.Но откуда?Прислано кто?
+
+Hello again, strange scholar...|Еще раз привет, странный ученый ...
+
+Sentry P1|Часовой P1
+
+...are you alright, little one? The modifications to your body are quite... extreme.|... ты в порядке, малыш?Модификации вашего тела довольно ... экстремальные.
+
+...I am not sure if this is comforting, but...|... я не уверен, утешительно ли это, но ...
+
+I've accepted my fate - and one day, you will meet an end too...|Я принял свою судьбу - и однажды вы тоже встретите конец ...
+
+- Spanish Translation|- Испанский перевод
+
+Sentry KB|Sentry KB
+
+) & (|) & (
 

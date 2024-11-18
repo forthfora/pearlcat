@@ -109,6 +109,13 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
         "Storage limit reached (",
         "): swap out a pearl, or change the limit in the Remix options",
 
+        "Pearl spears will attempt to return to you after being thrown, if they are not stuck",
+        "Hold (GRAB) with an active common pearl to convert it into a pearl spear",
+
+        "Hold ("
+        ") or (",
+        ") with an active common pearl to convert it into a pearl spear",
+
         "Version",
         "by",
     ]
@@ -232,13 +239,13 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
 
 
 toTranslate = {
-    "ru",
-    "ko",
-    "fr",
-    "pt",
-    "it",
-    "de",
-    "ja",
+    # "ru",
+    # "ko",
+    # "fr",
+    # "pt",
+    # "it",
+    # "de",
+    # "ja",
     "zh-CN",
     "es",
 }

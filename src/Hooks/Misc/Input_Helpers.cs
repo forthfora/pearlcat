@@ -110,14 +110,14 @@ public static class Input_Helpers
                 return true;
             }
 
-            // Singleplayer Override
-            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.IsSingleplayer())
+            // Inverted
+            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
             {
                 return true;
             }
 
-            // Inverted
-            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
+            // Singleplayer Override
+            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.IsSingleplayer())
             {
                 return true;
             }
@@ -141,14 +141,14 @@ public static class Input_Helpers
                 return true;
             }
 
-            // Singleplayer Override
-            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.IsSingleplayer())
+            // Inverted
+            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
             {
                 return true;
             }
 
-            // Inverted
-            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
+            // Singleplayer Override
+            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.IsSingleplayer())
             {
                 return true;
             }
