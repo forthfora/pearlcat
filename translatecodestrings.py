@@ -218,14 +218,14 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
 
 toTranslate = {
     "ru",
-    # "ko",
-    # "fr",
-    # "pt",
-    # "it",
-    # "de",
-    # "ja",
-    # "zh-CN",
-    # "es",
+    "ko",
+    "fr",
+    "pt",
+    "it",
+    "de",
+    "ja",
+    "zh-CN",
+    "es",
 }
 
 preserveLangMap = [

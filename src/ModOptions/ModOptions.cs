@@ -242,8 +242,8 @@ public sealed partial class ModOptions : OptionsTemplate
 
 
     public static Configurable<int> SwapTriggerPlayer { get; } = Instance.config.Bind(nameof(SwapTriggerPlayer), 1, new ConfigurableInfo(
-        "Which player controller trigger swapping will apply to. 0 disables trigger swapping. Hold and drag up or down to change.",
-        new ConfigAcceptableRange<int>(0, 4), "",
+        "Which player controller trigger swapping will apply to. 0 disables trigger swapping. Negative player numbers invert the triggers. Hold and drag up or down to change.",
+        new ConfigAcceptableRange<int>(-4, 4), "",
         "Trigger Player"));
 
 

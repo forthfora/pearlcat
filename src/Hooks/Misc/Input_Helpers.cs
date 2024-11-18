@@ -5,6 +5,12 @@ namespace Pearlcat;
 
 public static class Input_Helpers
 {
+    // Unity doesn't allow us to change the Input Map in a built project... luckily the PS axis overlaps with the Xbox triggers, discovery courtesy of Andrew (thanks Andrew)
+    // Only works for Xbox controllers though, big sad
+    public static string TriggerAxisId => "DschockHorizontalRight";
+
+
+    // IIC
     public static void InitIICKeybinds()
     {
         IICKeybinds.InitKeybinds();
@@ -96,9 +102,25 @@ public static class Input_Helpers
 
     public static bool IsSwapLeftInput(this Player player)
     {
-        if (Input.GetAxis("DschockHorizontalRight") < -0.25f && ModOptions.SwapTriggerPlayer.Value != 0 && (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1 || player.IsSingleplayer()))
+        if (ModOptions.SwapTriggerPlayer.Value != 0)
         {
-            return true;
+            // Normal
+            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1)
+            {
+                return true;
+            }
+
+            // Singleplayer Override
+            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.IsSingleplayer())
+            {
+                return true;
+            }
+
+            // Inverted
+            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
+            {
+                return true;
+            }
         }
 
         if (ModCompat_Helpers.IsIICActive)
@@ -111,9 +133,25 @@ public static class Input_Helpers
 
     public static bool IsSwapRightInput(this Player player)
     {
-        if (Input.GetAxis("DschockHorizontalRight") > 0.25f && ModOptions.SwapTriggerPlayer.Value != 0 && (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1 || player.IsSingleplayer()))
+        if (ModOptions.SwapTriggerPlayer.Value != 0)
         {
-            return true;
+            // Normal
+            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1)
+            {
+                return true;
+            }
+
+            // Singleplayer Override
+            if (Input.GetAxis(TriggerAxisId) > 0.25f && player.IsSingleplayer())
+            {
+                return true;
+            }
+
+            // Inverted
+            if (Input.GetAxis(TriggerAxisId) < -0.25f && player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
+            {
+                return true;
+            }
         }
 
         if (ModCompat_Helpers.IsIICActive)
@@ -164,11 +202,10 @@ public static class Input_Helpers
                 _ => false
             };
         }
-        else
-        {
-            var input = playerModule.UnblockedInput;
-            return input.jmp && input.pckp && input.y == -1;
-        }
+
+        var input = playerModule.UnblockedInput;
+
+        return input.jmp && input.pckp && input.y == -1;
     }
 
 
@@ -237,6 +274,7 @@ public static class Input_Helpers
             _ => keyCode.ToString(),
         };
     }
+
 
     public static KeyCode GetStoreKeybindIIC(bool controller)
     {
