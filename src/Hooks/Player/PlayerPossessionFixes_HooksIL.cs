@@ -86,7 +86,7 @@ public static class PlayerPossessionFixes_HooksIL
         if (!c.TryGotoNext(MoveType.After,
                 x => x.MatchStloc(5),
                 x => x.MatchLdloc(5),
-                x => true,
+                _ => true,
                 x => x.MatchBrfalse(out label)))
         {
             throw new Exception("Goto Failed");

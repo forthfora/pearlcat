@@ -58,7 +58,7 @@ public static partial class PearlEffectManager
 
     public static PearlEffect GetPearlEffect(this DataPearl.AbstractDataPearl abstractPearl)
     {
-        if (abstractPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
+        if (abstractPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl && abstractPearl.type.value != "CWPearl") // CWPearls are unique
         {
             return pebblesPearl.color switch
             {
@@ -83,7 +83,7 @@ public static partial class PearlEffectManager
         var sat = hsl.y;
         var lit = hsl.z;
 
-        if (lit < 0.05f)
+        if (lit < 0.1f || (sat < 0.1f && lit < 0.5f))
         {
             return AsPearlBlack;
         }

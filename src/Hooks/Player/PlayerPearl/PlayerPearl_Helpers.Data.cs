@@ -23,6 +23,8 @@ public static partial class PlayerPearl_Helpers
             {
                 return false;
             }
+
+            return true;
         }
 
         // these could be exceptions, I guess (don't remember if I was smart when I wrote this)
@@ -81,7 +83,7 @@ public static partial class PlayerPearl_Helpers
             return Color.white;
         }
 
-        if (abstractObject is DataPearl.AbstractDataPearl dataPearl)
+        if (abstractObject is DataPearl.AbstractDataPearl dataPearl && abstractObject.type.value != "CWPearl") // CW Pearls are a bit different it seems
         {
             if (dataPearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
             {
@@ -97,14 +99,12 @@ public static partial class PlayerPearl_Helpers
 
             return CreatureSymbol.ColorOfCreature(critSymbolData);
         }
-        else
-        {
-            var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
+
+        var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
             
-            if (symbolData != null)
-            {
-                return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
-            }
+        if (symbolData != null)
+        {
+            return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
         }
 
         return Color.white;
