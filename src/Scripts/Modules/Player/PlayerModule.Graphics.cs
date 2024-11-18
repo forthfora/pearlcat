@@ -54,11 +54,6 @@ public partial class PlayerModule
 
     public void PickObjectAnimation(Player player)
     {
-        if (ModOptions.HidePearls.Value)
-        {
-            return;
-        }
-
         var minTime = 480;
         var maxTime = 1600;
 
