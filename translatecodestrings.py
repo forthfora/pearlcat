@@ -204,12 +204,16 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
                 preexistingLines += 1
 
             else:
+                key = string
+
                 if string in mappedStrings.keys():
                     string = mappedStrings[string]
 
                 translated = "NO_TRANSLATION" if not actuallyTranslate else translator.translate(string, src=SRC, dest=targetLang).text
 
-                output = string + "|" + translated + "\n\n"
+                output = key + "|" + translated + "\n\n"
+
+                output = re.sub("<line>", "<LINE>", output, flags=re.IGNORECASE)
 
                 if printTranslatedLines:
                     print(output)
