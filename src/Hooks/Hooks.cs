@@ -147,7 +147,14 @@ public static class Hooks
     }
 
 
-    // There are only here for backwards compatability - mods that relied on these methods, that have now been renamed or moved
+    // These are only here for backwards compatability - mods rely on these methods that have now been renamed or moved
+
+    // Rotund World
+    [UsedImplicitly]
+    public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule)
+    {
+        return player.TryGetPearlcatModule(out playerModule);
+    }
 
     // Gate Scanner
     [UsedImplicitly]
