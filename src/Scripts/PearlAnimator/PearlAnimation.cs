@@ -115,7 +115,7 @@ public abstract class PearlAnimation
             {
                 addon.HaloColor = abstractObject.GetObjectColor() * new Color(0.25f, 0.25f, 1.0f);
                 addon.HaloScale = 0.3f + 0.45f * haloEffectTimer;
-                addon.HaloAlpha = ModOptions.HidePearls.Value ? 0.0f : 0.6f; 
+                addon.HaloAlpha = ModOptions.HidePearls.Value && !abstractObject.IsHeartPearl() ? 0.0f : 0.6f;
             }
 
 
@@ -208,7 +208,7 @@ public abstract class PearlAnimation
             addon.Symbol = PearlGraphics.SpriteFromPearl(abstractObject);
             addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
 
-            addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject && !addon.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
+            addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject && !abstractObject.IsHeartPearl() && !addon.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
 
             if ((!ModOptions.HidePearls.Value || addon.IsActiveObject) && effect.MajorEffect == PearlEffect.MajorEffectType.CAMOFLAGUE)
             {

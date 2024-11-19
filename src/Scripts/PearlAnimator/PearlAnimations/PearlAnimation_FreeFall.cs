@@ -14,7 +14,7 @@ public class PearlAnimation_FreeFall(Player player) : PearlAnimation(player)
 
         foreach (var abstractObject in playerModule.Inventory)
         {
-            if (ModOptions.HidePearls.Value && abstractObject != playerModule.ActiveObject)
+            if (ModOptions.HidePearls.Value && abstractObject != playerModule.ActiveObject && !abstractObject.IsHeartPearl())
             {
                 continue;
             }

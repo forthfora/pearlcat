@@ -168,13 +168,13 @@ public static class Hooks
     }
 
 
-    // There are only here for backwards compatability, I'm pretty sure another mod used this at one point or another
+    // There are only here for backwards compatability - mods that relied on these methods, that have now been renamed or moved
 
-    // Gate Scanner (?)
+    // Gate Scanner
     [UsedImplicitly]
-    public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule)
+    public static bool IsPlayerObject(AbstractPhysicalObject abstractPhysicalObject)
     {
-        return player.TryGetPearlcatModule(out playerModule);
+        return abstractPhysicalObject.IsPlayerPearl();
     }
 
     // Pups+
@@ -182,5 +182,12 @@ public static class Hooks
     public static bool IsPearlpup(Player player)
     {
         return player.abstractCreature.IsPearlpup();
+    }
+
+    // PupBase
+    [UsedImplicitly]
+    public static bool IsPearlpup(AbstractCreature abstractCreature)
+    {
+        return abstractCreature.IsPearlpup();
     }
 }

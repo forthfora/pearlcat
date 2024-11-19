@@ -21,7 +21,7 @@ namespace Pearlcat;
 [BepInDependency("improved-input-config", BepInDependency.DependencyFlags.SoftDependency)] // Improved Input Config
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 
-[BepInPlugin(MOD_ID, MOD_ID, "1.3.0")]
+[BepInPlugin(MOD_ID, MOD_ID, "1.3.1")]
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";

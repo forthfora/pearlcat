@@ -234,7 +234,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         sprite.scale = HaloScale;
         sprite.alpha = HaloAlpha;
         sprite.color = HaloColor;
-        sprite.isVisible = !ModOptions.HidePearls.Value || IsActiveObject;
+        sprite.isVisible = !ModOptions.HidePearls.Value || IsActiveObject || (ObjectRef?.TryGetTarget(out var obj) == true && obj.IsHeartPearl());
 
 
         // Spear
