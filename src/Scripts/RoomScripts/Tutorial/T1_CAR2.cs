@@ -39,7 +39,7 @@ public class T1_CAR2 : UpdatableAndDeletable
         }
 
         var game = room.game;
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (PhaseTimer == 0)
         {

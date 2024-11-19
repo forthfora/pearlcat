@@ -54,7 +54,7 @@ public static class SLOracle_Helpers
     // Pearlcat
     public static bool TryHandleMoonDialog(SLOracleBehaviorHasMark.MoonConversation self)
     {
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         var miscWorld = self.myBehavior.oracle.room.game.GetMiscWorld();
 
         // First meeting
@@ -82,7 +82,7 @@ public static class SLOracle_Helpers
     }
     private static bool MoonDialog_FirstMeet(SLOracleBehaviorHasMark.MoonConversation self)
     {
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         var miscWorld = self.myBehavior.oracle.room.game.GetMiscWorld();
 
         switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))

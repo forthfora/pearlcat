@@ -388,7 +388,7 @@ public static class Player_Hooks
 
         if (self.deepDivePhase == VoidSeaScene.DeepDivePhase.EggScenario)
         {
-            var miscProg = Utils.GetMiscProgression();
+            var miscProg = Utils.MiscProgression;
             var miscWorld = self.room.abstractRoom.world.game.GetMiscWorld();
 
             miscProg.JustAscended = true;

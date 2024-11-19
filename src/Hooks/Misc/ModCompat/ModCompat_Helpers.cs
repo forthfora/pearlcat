@@ -4,6 +4,20 @@ namespace Pearlcat;
 
 public static class ModCompat_Helpers
 {
+    public static void InitModCompat()
+    {
+        if (IsModEnabled_ImprovedInputConfig)
+        {
+            Input_Helpers.InitIICKeybinds();
+        }
+
+        if (IsModEnabled_ChasingWind)
+        {
+            InitCWIntegration();
+        }
+    }
+
+
     // Warp
     public static bool IsWarpAllowed(this RainWorldGame game)
     {

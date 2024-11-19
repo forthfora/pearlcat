@@ -144,7 +144,7 @@ public static class SSOracleConversation_Helpers
     public static bool TryHandlePebblesConversation(PebblesConversation self, SSOracleModule module)
     {
         var miscWorld = self.owner.oracle.room.game.GetMiscWorld();
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         var currentLang = Utils.Translator.currentLanguage;
 

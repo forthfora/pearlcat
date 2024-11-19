@@ -234,7 +234,7 @@ public static class World_Helpers
             return;
         }
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
 
         if (miscWorld == null)
@@ -264,7 +264,7 @@ public static class World_Helpers
             return;
         }
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
         var baseMiscWorld = saveState.miscWorldSaveData;
 

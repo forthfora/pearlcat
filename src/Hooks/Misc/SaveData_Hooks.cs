@@ -18,7 +18,7 @@ public static class SaveData_Hooks
     // Reset misc progression when the slot is reset
     private static void PlayerProgression_WipeAll(On.PlayerProgression.orig_WipeAll orig, PlayerProgression self)
     {
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         miscProg.ResetSave();
 
@@ -47,7 +47,7 @@ public static class SaveData_Hooks
     private static void UpdateSaveAfterCycle(RainWorldGame game)
     {
         var miscWorld = game.GetMiscWorld();
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         var saveState = game.GetStorySession.saveState;
 
@@ -170,7 +170,7 @@ public static class SaveData_Hooks
     private static void UpdateSaveBeforeCycle(SaveState self)
     {
         var miscWorld = self.miscWorldSaveData.GetMiscWorld();
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         // Meta
         miscProg.JustAscended = false;

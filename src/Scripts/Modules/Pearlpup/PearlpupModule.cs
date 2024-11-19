@@ -92,7 +92,7 @@ public class PearlpupModule
             AccentColor = Color.Lerp(AccentColor, Color.gray, 0.4f * malnourished);
         }
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (miscProg.IsPearlpupSick)
         {

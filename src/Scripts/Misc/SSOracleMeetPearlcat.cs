@@ -23,7 +23,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         var save = oracle.room.game.GetStorySession.saveState;
 
         var miscWorld = oracle.room.game.GetMiscWorld();
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (miscWorld == null)
         {
@@ -302,7 +302,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         var module = owner.GetModule();
         var miscWorld = oracle.room.game.GetMiscWorld();
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (miscWorld == null)
         {

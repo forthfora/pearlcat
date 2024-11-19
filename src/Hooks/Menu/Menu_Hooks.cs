@@ -55,7 +55,7 @@ public static class Menu_Hooks
 
         if (RainWorld.lastActiveSaveSlot == Enums.Pearlcat)
         {
-            var save = Utils.GetMiscProgression();
+            var save = Utils.MiscProgression;
 
             var sceneID = Scenes.Slugcat_Pearlcat_Statistics_Ascended;
             
@@ -83,7 +83,7 @@ public static class Menu_Hooks
             return;
         }
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         var fileName = Path.GetFileNameWithoutExtension(self.fileName);
 
         // INTRO
@@ -142,7 +142,7 @@ public static class Menu_Hooks
     {
         orig(self, menu, owner, sceneID);
        
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
 
         if (ModOptions.InventoryOverride.Value || (save.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
         {
@@ -272,7 +272,7 @@ public static class Menu_Hooks
             return;
         }
 
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
         var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor()  : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
 
         // screw pebbles pearls you get ORANGE    
@@ -302,7 +302,7 @@ public static class Menu_Hooks
         var module = self.GetModule();
         var miraSkipCheckbox = module.MiraCheckbox;
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
@@ -429,7 +429,7 @@ public static class Menu_Hooks
 
     private static void SlugcatSelectMenu_SetChecked(On.Menu.SlugcatSelectMenu.orig_SetChecked orig, SlugcatSelectMenu self, CheckBox box, bool c)
     {
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
         
         if (box.IDString == MIRA_SKIP_ID)
         {
@@ -447,7 +447,7 @@ public static class Menu_Hooks
         
         if (box.IDString == MIRA_SKIP_ID)
         {
-            var save = Utils.GetMiscProgression();
+            var save = Utils.MiscProgression;
             return save.IsMiraSkipEnabled;
         }
 
@@ -456,7 +456,7 @@ public static class Menu_Hooks
 
     private static void SlugcatSelectMenu_UpdateStartButtonText(On.Menu.SlugcatSelectMenu.orig_UpdateStartButtonText orig, SlugcatSelectMenu self)
     {
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
 
         if (save.IsMiraSkipEnabled)
         {
@@ -475,7 +475,7 @@ public static class Menu_Hooks
         // If the misc prog check is outside here, it will break it lol
         if (self.signalText == "START")
         {
-            var save = Utils.GetMiscProgression();
+            var save = Utils.MiscProgression;
             
             if (save.IsMiraSkipEnabled)
             {

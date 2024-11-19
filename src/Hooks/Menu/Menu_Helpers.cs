@@ -25,7 +25,7 @@ public static class Menu_Helpers
 
     public static void UpdateSelectScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
         if (illustrationModule.Index == -2)
@@ -159,7 +159,7 @@ public static class Menu_Helpers
 
     public static void UpdateSleepScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
         var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
         illustration.alpha = 1.0f;
@@ -425,7 +425,7 @@ public static class Menu_Helpers
     {
         if (illustrationModule.Index == -2)
         {
-            var save = Utils.GetMiscProgression();
+            var save = Utils.MiscProgression;
             var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
 
             var visible = true;
@@ -530,7 +530,7 @@ public static class Menu_Helpers
 
     private static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration)
     {
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (!miscProg.HasTrueEnding)
         {

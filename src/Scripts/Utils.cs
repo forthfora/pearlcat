@@ -12,11 +12,7 @@ public static class Utils
     public static RainWorld RainWorld => Custom.rainWorld;
     public static Dictionary<string, FShader> Shaders => RainWorld.Shaders;
     public static InGameTranslator Translator => RainWorld.inGameTranslator;
-
-    public static SaveMiscProgression GetMiscProgression()
-    {
-        return RainWorld.GetMiscProgression();
-    }
+    public static SaveMiscProgression MiscProgression => RainWorld.GetMiscProgression();
 
 
     // Graphics Utils

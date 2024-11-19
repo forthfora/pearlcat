@@ -33,7 +33,7 @@ public static class SSOracleConversation_HooksIL
         {
             if (self.oracle.room.game.IsPearlcatStory() && self.IsPebbles())
             {
-                var miscProg = Utils.GetMiscProgression();
+                var miscProg = Utils.MiscProgression;
 
                 if (miscProg.HasTrueEnding)
                 {

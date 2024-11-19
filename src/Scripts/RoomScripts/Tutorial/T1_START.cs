@@ -36,7 +36,7 @@ public class T1_START : UpdatableAndDeletable
         }
 
         var game = room.game;
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
 
         // Per player
         foreach (var crit in game.Players)

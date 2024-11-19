@@ -215,7 +215,7 @@ public static class PlayerGraphics_Hooks
         UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
 
 
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
 
         if (self.RenderAsPup)
         {

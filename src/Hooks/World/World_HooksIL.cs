@@ -112,7 +112,7 @@ public static class World_HooksIL
                 var deathSave = game.GetStorySession.saveState.deathPersistentSaveData;
                 deathSave.karma = deathSave.karmaCap;
                 
-                var miscProg = Utils.GetMiscProgression();
+                var miscProg = Utils.MiscProgression;
 
 
                 miscProg.IsPearlpupSick = true;
@@ -162,7 +162,7 @@ public static class World_HooksIL
             if (game.IsStorySession && game.StoryCharacter == Enums.Pearlcat)
             {
                 var save = game.GetMiscWorld();
-                var miscProg = Utils.GetMiscProgression();
+                var miscProg = Utils.MiscProgression;
 
                 if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value && !miscProg.HasTrueEnding)
                 {

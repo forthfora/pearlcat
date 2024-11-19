@@ -93,7 +93,7 @@ public static class Menu_HooksIL
 
         c.EmitDelegate<Func<SlugcatSelectMenu, bool>>((_) =>
         {
-            var save = Utils.GetMiscProgression();
+            var save = Utils.MiscProgression;
 
             return save.IsSecretEnabled;
         });

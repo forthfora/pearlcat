@@ -149,7 +149,7 @@ public static class PearlpupGraphics_Helpers
         earRSprite.color = Color.white;
 
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (miscProg.IsPearlpupSick)
         {

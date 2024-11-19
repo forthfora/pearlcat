@@ -22,7 +22,7 @@ public sealed class TrainView : CustomBgScene
 
     public TrainView(Room room) : base(room)
     {
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
 
         IsOutside = room.roomSettings.name == "T1_END";
 
@@ -293,7 +293,7 @@ public sealed class TrainView : CustomBgScene
             return;
         }
 
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
 
         var spriteName = type switch
         {

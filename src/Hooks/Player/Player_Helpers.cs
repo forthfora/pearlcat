@@ -1068,7 +1068,7 @@ public static class Player_Helpers
         }
 
         var save = self.abstractCreature.Room.world.game.GetMiscWorld();
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         miscProg.HasPearlpup = false;
 

@@ -23,7 +23,7 @@ public static class SLOracle_Hooks
         }
 
         var save = self.oracle.room.game.GetMiscWorld();
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
         {
@@ -129,7 +129,7 @@ public static class SLOracle_Hooks
             return;
         }
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (miscProg.HasTrueEnding)
         {

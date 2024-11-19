@@ -69,7 +69,7 @@ public static class World_Hooks
 
         var save = self.GetStorySession.saveState;
         var miscWorld = self.GetMiscWorld();
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (miscWorld == null)
         {
@@ -156,7 +156,7 @@ public static class World_Hooks
         if (self.room.world.game.IsPearlcatStory())
         {
             var miscWorld = self.room.world.game.GetMiscWorld();
-            var miscProg = Utils.GetMiscProgression();
+            var miscProg = Utils.MiscProgression;
 
             if (miscWorld?.HasPearlpupWithPlayer == false)
             {
@@ -258,7 +258,7 @@ public static class World_Hooks
     {
         var result = orig(self);
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         var miscWorld = self.miscWorldSaveData?.GetMiscWorld();
 
         if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
@@ -452,7 +452,7 @@ public static class World_Hooks
             return;
         }
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         var everVisited = room.game.GetStorySession.saveState.regionStates[room.world.region.regionNumber].roomsVisited.Contains(room.abstractRoom.name);
 
         // Tutorial
@@ -507,7 +507,7 @@ public static class World_Hooks
     {
         orig(self);
 
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {

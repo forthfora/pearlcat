@@ -28,7 +28,7 @@ public class T1_S01 : UpdatableAndDeletable, IDrawable
 
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
-        var save = Utils.GetMiscProgression();
+        var save = Utils.MiscProgression;
 
         sLeaser.sprites = new FSprite[2];
 

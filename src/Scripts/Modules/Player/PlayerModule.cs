@@ -22,7 +22,7 @@ public partial class PlayerModule
     public bool IsAdultPearlpup =>
         PlayerRef.TryGetTarget(out var player) &&
         player.abstractCreature.Room.world.game.IsPearlcatStory() &&
-        Utils.GetMiscProgression().HasTrueEnding;
+        Utils.MiscProgression.HasTrueEnding;
 
     public int PlayerNumber { get; }
     public int UniqueID { get; }

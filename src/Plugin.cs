@@ -21,7 +21,7 @@ namespace Pearlcat;
 [BepInDependency("improved-input-config", BepInDependency.DependencyFlags.SoftDependency)] // Improved Input Config
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 
-[BepInPlugin(MOD_ID, MOD_ID, "1.3.1")]
+[BepInPlugin(MOD_ID, MOD_ID, "1.3.2")]
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";
@@ -58,7 +58,7 @@ public class Plugin : BaseUnityPlugin
 
             var saveState = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetStorySession?.saveState;
 
-            var pearlcatMiscProg = Utils.GetMiscProgression();
+            var pearlcatMiscProg = Utils.MiscProgression;
             var pearlcatMiscWorld = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetMiscWorld();
 
             var message =

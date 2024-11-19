@@ -95,7 +95,7 @@ public static class Pearlpup_Hooks
         }
 
         var stats = self.slugcatStats;
-        var miscProg = Utils.GetMiscProgression();
+        var miscProg = Utils.MiscProgression;
         
 
         if (self.Malnourished || miscProg.IsPearlpupSick)

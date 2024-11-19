@@ -101,35 +101,13 @@ public static class Hooks
             Plugin.AUTHORS = mod.authors;
 
 
-            // Init Enums
-            _ = Enums.Pearlcat;
+            // Init
+            Enums.InitEnums();
 
-            _ = Enums.SSOracle.Pearlcat_SSActionGeneral;
-            _ = Enums.Pearls.RM_Pearlcat;
-            _ = Enums.Sounds.Pearlcat_PearlScroll;
-
-            _ = Enums.Scenes.Slugcat_Pearlcat;
-
-            Enums.Dreams.RegisterDreams();
-
-
-            // Init Assets
             AssetLoader.LoadAssets();
 
+            ModCompat_Helpers.InitModCompat();
 
-            // Init Soft Dependencies
-            if (ModCompat_Helpers.IsModEnabled_ImprovedInputConfig)
-            {
-                Input_Helpers.InitIICKeybinds();
-            }
-
-            if (ModCompat_Helpers.IsModEnabled_ChasingWind)
-            {
-                ModCompat_Helpers.InitCWIntegration();
-            }
-
-
-            // Apply Hooks
             ApplyHooks();
 
 
@@ -150,6 +128,7 @@ public static class Hooks
             orig(self);
         }
     }
+
 
     private static void RainWorld_PostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self)
     {
