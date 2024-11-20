@@ -6,140 +6,145 @@ namespace Pearlcat;
 
 public static class AssetLoader
 {
-    private const string ATLASES_DIRPATH = Plugin.MOD_ID + "_atlases";
-    private const string SPRITES_DIRPATH = Plugin.MOD_ID + "_sprites";
-    private const string TEXTURES_DIRPATH = Plugin.MOD_ID + "_textures";
+    public static TextureFormat TextureFormat { get; set; } = TextureFormat.RGBA32;
 
-    private const TextureFormat TEXTURE_FORMAT = TextureFormat.RGBA32;
+    public static string AtlasesDirPath { get; set; } = $"{Plugin.MOD_ID}_atlases";
+    public static string TexturesDirPath { get; set; } = $"{Plugin.MOD_ID}_textures";
+    public static string SpritesDirPath { get; set; } = $"{Plugin.MOD_ID}_sprites";
 
-    public static Dictionary<string, Texture2D> Textures { get; } = new();
-    public static string GetUniqueName(string name)
-    {
-        return Plugin.MOD_ID + "_" + name;
-    }
-
+    public static Dictionary<string, Texture2D> LoadedTextures { get; } = new();
 
     public static FAtlas? GetAtlas(string atlasName)
     {
-        var uniqueName = GetUniqueName(atlasName);
-
-        if (Futile.atlasManager.DoesContainAtlas(uniqueName))
+        if (Futile.atlasManager.DoesContainAtlas(atlasName))
         {
-            return Futile.atlasManager.LoadAtlas(uniqueName);
+            return Futile.atlasManager.LoadAtlas(atlasName);
         }
 
-
-        var atlasDirName = ATLASES_DIRPATH + Path.AltDirectorySeparatorChar + Plugin.MOD_ID + "_" + atlasName;
+        var atlasDirName = Path.Combine(AtlasesDirPath, atlasName);
 
         if (Futile.atlasManager.DoesContainAtlas(atlasDirName))
         {
             return Futile.atlasManager.LoadAtlas(atlasDirName);
         }
 
-
-        Plugin.Logger.LogError($"Atlas not found! ({uniqueName})");
+        Plugin.Logger.LogError($"Atlas not found! ({atlasName})");
         return null;
-
     }
 
-    public static Texture2D? GetTexture(string textureName)
+    public static Texture2D? GetTexture(string textureId)
     {
-        if (!Textures.ContainsKey(textureName))
+        if (!LoadedTextures.TryGetValue(textureId, out var texture))
         {
             return null;
         }
 
-        var originalTexture = Textures[textureName];
-
-        var copiedTexture = new Texture2D(originalTexture.width, originalTexture.height, TEXTURE_FORMAT, false);
-        
-        Graphics.CopyTexture(originalTexture, copiedTexture);
-
-        return copiedTexture;
+        return texture;
     }
 
 
     public static void LoadAssets()
     {
-        LoadAtlases();
-        LoadSprites();
-        LoadTextures();
+        LoadAtlases(AtlasesDirPath);
+        LoadSprites(SpritesDirPath);
+        LoadTextures(TexturesDirPath);
     }
 
-    // Loads complete atlases 
-    private static void LoadAtlases()
+    private static void LoadAtlases(string targetDirPath)
     {
-        foreach (var filePath in AssetManager.ListDirectory(ATLASES_DIRPATH))
+        foreach (var filePath in AssetManager.ListDirectory(targetDirPath))
         {
-            if (Path.GetExtension(filePath) != ".txt")
+            if (Path.GetExtension(filePath).ToLower() != ".txt")
             {
                 continue;
             }
 
-            var atlasName = Path.GetFileNameWithoutExtension(filePath);
-            
-            Futile.atlasManager.LoadAtlas(ATLASES_DIRPATH + Path.AltDirectorySeparatorChar + atlasName);
+            var atlasFileName = Path.GetFileNameWithoutExtension(filePath);
+            var atlasPath = Path.Combine(targetDirPath, atlasFileName);
+
+            Futile.atlasManager.LoadAtlas(atlasPath);
+            Plugin.Logger.LogWarning(atlasPath);
+        }
+
+        foreach (var dirPath in AssetManager.ListDirectory(targetDirPath, true))
+        {
+            LoadAtlases(dirPath);
         }
     }
 
-    // Loads individual PNG files into their own separate atlases
-    private static void LoadSprites()
+    private static void LoadSprites(string targetDirPath)
     {
-        foreach (var filePath in AssetManager.ListDirectory(SPRITES_DIRPATH))
-        {
-            if (Path.GetExtension(filePath).ToLower() != ".png")
-            {
-                continue;
-            }
-
-            var atlasName = Path.GetFileNameWithoutExtension(filePath);
-
-            var texture = FileToTexture2D(filePath);
-            
-            if (texture == null)
-            {
-                continue;
-            }
-
-            Futile.atlasManager.LoadAtlasFromTexture(atlasName, texture, false);
-        }
-    }
-
-    // Load individual PNG files into a dictionary of Texture2Ds
-    private static void LoadTextures()
-    {
-        foreach (var filePath in AssetManager.ListDirectory(TEXTURES_DIRPATH))
+        foreach (var filePath in AssetManager.ListDirectory(targetDirPath))
         {
             if (Path.GetExtension(filePath).ToLower() != ".png")
             {
                 continue;
             }
 
-            var textureName = Path.GetFileNameWithoutExtension(filePath);
+            var spriteFileName = Path.GetFileNameWithoutExtension(filePath);
 
             var texture = FileToTexture2D(filePath);
-            
+
             if (texture == null)
             {
                 continue;
             }
 
-            Textures.Add(textureName, texture);
+            Futile.atlasManager.LoadAtlasFromTexture(spriteFileName, texture, false);
+        }
+
+        foreach (var dirPath in AssetManager.ListDirectory(targetDirPath, true))
+        {
+            LoadSprites(dirPath);
         }
     }
 
+    private static void LoadTextures(string targetDirPath)
+    {
+        foreach (var filePath in AssetManager.ListDirectory(targetDirPath))
+        {
+            if (Path.GetExtension(filePath).ToLower() != ".png")
+            {
+                continue;
+            }
+
+            var textureFileName = Path.GetFileNameWithoutExtension(filePath);
+
+            var texture = FileToTexture2D(filePath);
+
+            if (texture == null)
+            {
+                continue;
+            }
+
+            // Doesn't use Futile's manager, so can use the file name directly
+            var textureId = textureFileName;
+
+            LoadedTextures.Add(textureId, texture);
+        }
+
+        foreach (var dirPath in AssetManager.ListDirectory(targetDirPath, true))
+        {
+            LoadTextures(dirPath);
+        }
+    }
 
     // https://answers.unity.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
     private static Texture2D? FileToTexture2D(string filePath)
     {
         var fileData = File.ReadAllBytes(filePath);
 
-        var texture = new Texture2D(0, 0, TEXTURE_FORMAT, false)
+        var texture = new Texture2D(0, 0, TextureFormat, false)
         {
             anisoLevel = 0,
             filterMode = FilterMode.Point,
         };
 
-        return texture.LoadImage(fileData) ? texture : null;
+        if (!texture.LoadImage(fileData))
+        {
+            return null;
+        }
+
+        return texture;
     }
 }

@@ -387,26 +387,6 @@ public static class Player_Helpers
             self.graphicsModule?.Reset();
         }
 
-        // LAG CAUSER - update the textures of the tail and ears
-        if (playerModule.TextureUpdateTimer > self.TexUpdateInterval() && !ModOptions.DisableCosmetics.Value)
-        {
-            if ((playerModule.LastBodyColor != playerModule.BodyColor || playerModule.LastAccentColor != playerModule.AccentColor || playerModule.SetInvertTailColors != playerModule.CurrentlyInvertedTailColors))
-            {
-                playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_adulttail" : "tail");
-                playerModule.LoadEarLTexture("ear_l");
-                playerModule.LoadEarRTexture("ear_r");
-            }
-
-            playerModule.LastBodyColor = playerModule.BodyColor;
-            playerModule.LastAccentColor = playerModule.AccentColor;
-
-            playerModule.TextureUpdateTimer = 0;
-        }
-        else
-        {
-            playerModule.TextureUpdateTimer++;
-        }
-
 
         // Main Methods
         UpdatePlayerDaze(self, playerModule);

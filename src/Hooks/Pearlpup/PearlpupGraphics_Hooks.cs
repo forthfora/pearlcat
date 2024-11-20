@@ -43,6 +43,7 @@ public static class PearlpupGraphics_Hooks
             return;
         }
 
+        // Init sprite indexes
         module.FirstSprite = sLeaser.sprites.Length;
         var spriteIndex = module.FirstSprite;
 
@@ -50,8 +51,13 @@ public static class PearlpupGraphics_Hooks
         module.FeetSprite = spriteIndex++;
         module.ScarfSprite = spriteIndex++;
 
+        module.TailAccentSprite = spriteIndex++;
+
         module.EarLSprite = spriteIndex++;
         module.EarRSprite = spriteIndex++;
+
+        module.EarLAccentSprite = spriteIndex++;
+        module.EarRAccentSprite = spriteIndex++;
 
         module.SickSprite = spriteIndex++;
 
@@ -62,17 +68,20 @@ public static class PearlpupGraphics_Hooks
         sLeaser.sprites[module.FeetSprite] = new("pearlcatFeetA0");
         sLeaser.sprites[module.SickSprite] = new("pearlcatHipsAPearlpupSick");
 
-        module.RegenerateTail();
-        module.RegenerateEars();
+
+        // Generate body parts & meshes
+        module.GenerateTailBodyParts();
+        module.GenerateEarsBodyParts();
 
         GenerateScarfMesh(sLeaser, module);
 
-        GenerateEarMesh(sLeaser, module.EarL, module.EarLSprite);
-        GenerateEarMesh(sLeaser, module.EarR, module.EarRSprite);
+        GenerateEarMesh(sLeaser, module.EarL, module.EarLSprite, "Futile_White");
+        GenerateEarMesh(sLeaser, module.EarR, module.EarRSprite, "Futile_White");
 
-        module.LoadTailTexture("pearlpup_tail");
-        module.LoadEarLTexture("ear_l");
-        module.LoadEarRTexture("ear_r");
+        GenerateEarMesh(sLeaser, module.EarL, module.EarLAccentSprite, "pearlcat_earaccent_l");
+        GenerateEarMesh(sLeaser, module.EarR, module.EarRAccentSprite, "pearlcat_earaccent_r");
+
+        sLeaser.sprites[module.TailAccentSprite] = new TriangleMesh("Futile_White", new TriangleMesh.Triangle[13], false);
 
         self.AddToContainer(sLeaser, rCam, null);
     }
@@ -93,7 +102,7 @@ public static class PearlpupGraphics_Hooks
 
         newContatiner ??= rCam.ReturnFContainer("Midground");
 
-        OrderAndColorPearlpupSprites(self, sLeaser, rCam, module, newContatiner);
+        OrderAndColorSprites(self, sLeaser, rCam, module, newContatiner);
     }
 
     private static void PlayerGraphics_ResetPearlpup(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
@@ -127,7 +136,7 @@ public static class PearlpupGraphics_Hooks
         }
 
 
-        var scarfPos = self.ScarfAttachPos(module, 1.0f);
+        var scarfPos = self.GetScarfAttachPos(module, 1.0f);
         
         for (var i = 0; i < module.Scarf.GetLength(0); i++)
         {
@@ -148,27 +157,32 @@ public static class PearlpupGraphics_Hooks
 
         var miscProg = Utils.MiscProgression;
 
-        UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_scarf", "Scarf", module.ScarfNeckSprite);
-        UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", module.FeetSprite);
+        UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlcat_pearlpup_scarf", "Scarf", module.ScarfNeckSprite);
+        UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "pearlcat_feet", "Feet", module.FeetSprite);
 
-        UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
-        UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_head");
+        UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "pearlcat_legs");
+        UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlcat_pearlpup_head");
 
         if (miscProg.IsPearlpupSick)
         {
-            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face_sick", nameSuffix: "Sick");
+            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlcat_pearlpup_face_sick", nameSuffix: "Sick");
         }
         else
         {
-            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face");
+            UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlcat_pearlpup_face");
         }
 
 
+        DrawPearlpupTail(sLeaser, TAIL_SPRITE);
+        DrawPearlpupTail(sLeaser, module.TailAccentSprite);
+
+        sLeaser.sprites[module.TailAccentSprite].element = Futile.atlasManager.GetElementWithName("pearlcat_pearlpup_tailaccent");
+
         DrawPearlpupEars(self, sLeaser, timeStacker, camPos, module);
-        DrawPearlpupTail(self, sLeaser, module);
 
         DrawPearlpupScarf(self, sLeaser, timeStacker, camPos, module);
 
-        OrderAndColorPearlpupSprites(self, sLeaser, rCam, module);
+
+        OrderAndColorSprites(self, sLeaser, rCam, module);
     }
 }

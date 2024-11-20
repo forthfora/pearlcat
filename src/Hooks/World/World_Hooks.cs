@@ -430,18 +430,19 @@ public static class World_Hooks
     {
         orig(room);
 
+        var roomName = room.roomSettings.name;
 
-        if (room.roomSettings.name == "T1_S01")
+        if (roomName == "T1_S01")
         {
             room.AddObject(new T1_S01(room));
         }
 
-        if (room.roomSettings.name == "SS_T1_S01")
+        if (roomName == "SS_T1_S01")
         {
             room.AddObject(new SS_T1_S01(room));
         }
 
-        if (room.roomSettings.name == "SS_T1_CROSS" && !ModCompat_Helpers.IsModEnabled_MiraInstallation)
+        if (roomName == "SS_T1_CROSS" && !ModCompat_Helpers.IsModEnabled_MiraInstallation)
         {
             room.AddObject(new SS_T1_CROSS(room));
         }
@@ -459,13 +460,13 @@ public static class World_Hooks
         if (!everVisited)
         {
             // Start
-            if (room.roomSettings.name == "T1_START")
+            if (roomName == "T1_START")
             {
                 room.AddObject(new T1_START(room));
             }
 
             // Rage (+ Possession)
-            if (room.roomSettings.name == "T1_CAR2")
+            if (roomName == "T1_CAR2")
             {
                 room.AddObject(new T1_CAR2(room));
             }
@@ -473,19 +474,19 @@ public static class World_Hooks
             if (!miscProg.HasTrueEnding)
             {
                 // Agility
-                if (room.roomSettings.name == "T1_CAR0")
+                if (roomName == "T1_CAR0")
                 {
                     room.AddObject(new T1_CAR0(room));
                 }
 
                 // Shield
-                if (room.roomSettings.name == "T1_CAR1")
+                if (roomName == "T1_CAR1")
                 {
                     room.AddObject(new T1_CAR1(room));
                 }
 
                 // Revive
-                if (room.roomSettings.name == "T1_CAR3")
+                if (roomName == "T1_CAR3")
                 {
                     room.AddObject(new T1_CAR3(room));
                 }

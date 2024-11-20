@@ -40,6 +40,8 @@ public static class PlayerGraphics_Hooks
         playerModule.InitColors(self);
         playerModule.InitSounds(self.player);
 
+
+        // Init Indexes
         playerModule.FirstSprite = sLeaser.sprites.Length;
         var spriteIndex = playerModule.FirstSprite;
 
@@ -52,6 +54,11 @@ public static class PlayerGraphics_Hooks
 
         playerModule.EarLSprite = spriteIndex++;
         playerModule.EarRSprite = spriteIndex++;
+
+        playerModule.EarLAccentSprite = spriteIndex++;
+        playerModule.EarRAccentSprite = spriteIndex++;
+
+        playerModule.TailAccentSprite = spriteIndex++;
 
         playerModule.CloakSprite = spriteIndex++;
 
@@ -66,6 +73,8 @@ public static class PlayerGraphics_Hooks
         playerModule.LastSprite = spriteIndex;
         Array.Resize(ref sLeaser.sprites, spriteIndex);
 
+
+        // Init Sprites
         sLeaser.sprites[playerModule.ScarfSprite] = new("pearlcatScarfA0");
 
         sLeaser.sprites[playerModule.SleeveLSprite] = new("pearlcatSleeve0");
@@ -86,22 +95,24 @@ public static class PlayerGraphics_Hooks
         sLeaser.sprites[playerModule.ScarSprite] = new("pearlcatScar");
 
 
-        playerModule.RegenerateTail();
-        playerModule.RegenerateEars();
+        // Generate Body Parts & Meshes
+        playerModule.GenerateTailBodyParts();
+        playerModule.GenerateEarsBodyParts();
+
+        GenerateEarMesh(sLeaser, playerModule.EarL, playerModule.EarLSprite, "Futile_White");
+        GenerateEarMesh(sLeaser, playerModule.EarR, playerModule.EarRSprite, "Futile_White");
+
+        GenerateEarMesh(sLeaser, playerModule.EarL, playerModule.EarLAccentSprite, "pearlcat_earaccent_l");
+        GenerateEarMesh(sLeaser, playerModule.EarR, playerModule.EarRAccentSprite, "pearlcat_earaccent_r");
 
         playerModule.Cloak = new(self, playerModule);
         playerModule.Cloak.InitiateSprite(sLeaser, rCam);
 
-        GenerateEarMesh(sLeaser, playerModule.EarL, playerModule.EarLSprite);
-        GenerateEarMesh(sLeaser, playerModule.EarR, playerModule.EarRSprite);
-
         GenerateRibbonMesh(sLeaser, rCam, playerModule, playerModule.Ribbon1Sprite, playerModule.Ribbon1);
         GenerateRibbonMesh(sLeaser, rCam, playerModule, playerModule.Ribbon2Sprite, playerModule.Ribbon2);
 
-        // Color meshes
-        playerModule.LoadTailTexture(playerModule.IsPearlpupAppearance ? "pearlpup_adulttail" : "tail");
-        playerModule.LoadEarLTexture("ear_l");
-        playerModule.LoadEarRTexture("ear_r");
+        sLeaser.sprites[playerModule.TailAccentSprite] = new TriangleMesh("Futile_White", new TriangleMesh.Triangle[13], true);
+
 
         self.AddToContainer(sLeaser, rCam, null);
 
@@ -186,33 +197,33 @@ public static class PlayerGraphics_Hooks
         }
 
 
-        UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "scarf", "Scarf", playerModule.ScarfSprite);
+        UpdateCustomPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlcat_scarf", "Scarf", playerModule.ScarfSprite);
 
-        UpdateReplacementPlayerSprite(sLeaser, BODY_SPRITE, "Body", "body");
+        UpdateReplacementPlayerSprite(sLeaser, BODY_SPRITE, "Body", "pearlcat_body");
    
-        UpdateReplacementPlayerSprite(sLeaser, HIPS_SPRITE, "Hips", "hips");
-        UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "head");
+        UpdateReplacementPlayerSprite(sLeaser, HIPS_SPRITE, "Hips", "pearlcat_hips");
+        UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlcat_head");
 
 
-        if (playerModule.IsPearlpupAppearance)
+        if (playerModule.IsAdultPearlpupAppearance)
         {
-            UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "pearlpup_sleeve", "SleevePearlpup", playerModule.SleeveLSprite);
-            UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "pearlpup_sleeve", "SleevePearlpup", playerModule.SleeveRSprite);
+            UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "pearlcat_pearlpup_sleeve", "SleevePearlpup", playerModule.SleeveLSprite);
+            UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "pearlcat_pearlpup_sleeve", "SleevePearlpup", playerModule.SleeveRSprite);
 
-            UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "pearlpup_feet", "PFeet", playerModule.FeetSprite);
+            UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "pearlcat_pearlpup_feet", "PFeet", playerModule.FeetSprite);
         }
         else
         {
-            UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveLSprite);
-            UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "sleeve", "Sleeve", playerModule.SleeveRSprite);
+            UpdateCustomPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "pearlcat_sleeve", "Sleeve", playerModule.SleeveLSprite);
+            UpdateCustomPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "pearlcat_sleeve", "Sleeve", playerModule.SleeveRSprite);
             
-            UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "feet", "Feet", playerModule.FeetSprite);
+            UpdateCustomPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "pearlcat_feet", "Feet", playerModule.FeetSprite);
 
-            UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "legs");
+            UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "pearlcat_legs");
         }
 
-        UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "arm");
-        UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "arm");
+        UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "pearlcat_arm");
+        UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "pearlcat_arm");
 
 
         var save = Utils.MiscProgression;
@@ -221,34 +232,41 @@ public static class PlayerGraphics_Hooks
         {
             if (self.player.firstChunk.vel.magnitude < 2.0f && self.objectLooker.currentMostInteresting is Player pup && pup.IsPearlpup() && (save.IsPearlpupSick || pup.dead))
             {
-                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face_sick", nameSuffix: "Sick");
+                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlcat_pearlpup_face_sick", nameSuffix: "Sick");
             }
             else
             {
-                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlpup_face");
+                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "PFace", "pearlcat_pearlpup_face");
             }
 
-            UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlpup_head");
+            UpdateReplacementPlayerSprite(sLeaser, HEAD_SPRITE, "Head", "pearlcat_pearlpup_head");
         }
         else
         {
             if (self.player.firstChunk.vel.magnitude < 2.0f && self.objectLooker.currentMostInteresting is Player pup && pup.IsPearlpup() && (save.IsPearlpupSick || pup.dead))
             {
-                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face_sick", nameSuffix: "Sick");
+                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "pearlcat_face_sick", nameSuffix: "Sick");
             }
             else
             {
-                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "face");
+                UpdateReplacementPlayerSprite(sLeaser, FACE_SPRITE, "Face", "pearlcat_face");
             }
         }
 
+
+        DrawTail(self, sLeaser, playerModule, TAIL_SPRITE);
+        DrawTail(self, sLeaser, playerModule, playerModule.TailAccentSprite);
+
+        sLeaser.sprites[playerModule.TailAccentSprite].element = Futile.atlasManager.GetElementWithName(playerModule.IsAdultPearlpupAppearance ? "pearlcat_pearlpup_tailaccent" : "pearlcat_tailaccent");
+
         DrawEars(self, sLeaser, timeStacker, camPos, playerModule);
-        DrawTail(self, sLeaser, playerModule);
+
 
         playerModule.Cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
 
         DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos, playerModule.Ribbon1Sprite, playerModule.Ribbon1, playerModule.Ribbon1Offset);
         DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos, playerModule.Ribbon2Sprite, playerModule.Ribbon2, playerModule.Ribbon2Offset);
+
 
         OrderAndColorSprites(self, sLeaser, rCam, camPos, playerModule);
     }

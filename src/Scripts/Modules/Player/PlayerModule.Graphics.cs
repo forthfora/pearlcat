@@ -11,8 +11,7 @@ namespace Pearlcat;
 
 public partial class PlayerModule
 {
-    public bool IsPearlpupAppearance => IsAdultPearlpup;
-
+    public bool IsAdultPearlpupAppearance => IsAdultPearlpup;
     public int GraphicsResetCounter { get; set; }
 
 
@@ -143,13 +142,8 @@ public partial class PlayerModule
 
 
     // Colors
-    public int TextureUpdateTimer { get; set; }
-
     public Color CamoColor { get; set; }
     public float CamoLerp { get; set; }
-
-    public Color LastBodyColor { get; set; }
-    public Color LastAccentColor { get; set; }
 
     public Color BodyColor { get; set; }
     public Color FaceColor { get; set; }
@@ -179,7 +173,7 @@ public partial class PlayerModule
         BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? DefaultAccentColor;
         BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? DefaultCloakColor;
 
-        if (IsPearlpupAppearance)
+        if (IsAdultPearlpupAppearance)
         {
             var bodyColor = BaseBodyColor;
             var faceColor = BaseFaceColor;
@@ -228,8 +222,8 @@ public partial class PlayerModule
     public int EarLSprite { get; set; }
     public int EarRSprite { get; set; }
 
-    public FAtlas? EarLAtlas { get; set; }
-    public FAtlas? EarRAtlas { get; set; }
+    public int EarLAccentSprite { get; set; }
+    public int EarRAccentSprite { get; set; }
 
     public Vector2 EarLAttachPos { get; set; }
     public Vector2 EarRAttachPos { get; set; }
@@ -237,57 +231,7 @@ public partial class PlayerModule
     public int EarLFlipDirection { get; set; } = 1;
     public int EarRFlipDirection { get; set; } = 1;
 
-    public void LoadEarLTexture(string textureName)
-    {   
-        var earLTexture = AssetLoader.GetTexture(textureName);
-        if (earLTexture == null)
-        {
-            return;
-        }
-
-        // Apply Colors
-        earLTexture.MapAlphaToColor(new Dictionary<byte, Color>()
-        {
-            { 255, BodyColor },
-            { 0, AccentColor },
-        });
-
-        var atlasName = Plugin.MOD_ID + textureName + UniqueID;
-
-        if (Futile.atlasManager.DoesContainAtlas(atlasName))
-        {
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
-        }
-
-        EarLAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earLTexture, false);
-    }
-
-    public void LoadEarRTexture(string textureName)
-    {
-        var earRTexture = AssetLoader.GetTexture(textureName);
-        if (earRTexture == null)
-        {
-            return;
-        }
-
-        // Apply Colors
-        earRTexture.MapAlphaToColor(new Dictionary<byte, Color>()
-        {
-            { 255, BodyColor },
-            { 0, AccentColor },
-        });
-
-        var atlasName = Plugin.MOD_ID + textureName + UniqueID;
-
-        if (Futile.atlasManager.DoesContainAtlas(atlasName))
-        {
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
-        }
-
-        EarRAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earRTexture, false);
-    }
-
-    public void RegenerateEars()
+    public void GenerateEarsBodyParts()
     {
         if (!PlayerRef.TryGetTarget(out var player))
         {
@@ -304,7 +248,7 @@ public partial class PlayerModule
         var newEarL = new TailSegment[3];
         var newEarR = new TailSegment[3];
 
-        if (IsPearlpupAppearance)
+        if (IsAdultPearlpupAppearance)
         {
             newEarL[0] = new(self, 3.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
             newEarL[1] = new(self, 2.0f, 6.0f, newEarL[0], 0.85f, 1.0f, 0.05f, true);
@@ -363,39 +307,9 @@ public partial class PlayerModule
 
 
     // Tail
-    public FAtlas? TailAtlas { get; set; }
-    public bool SetInvertTailColors { get; set; }
-    public bool CurrentlyInvertedTailColors { get; set; }
+    public int TailAccentSprite { get; set; }
 
-    public void LoadTailTexture(string textureName)
-    {
-        var tailTexture = AssetLoader.GetTexture(textureName);
-        if (tailTexture == null)
-        {
-            return;
-        }
-
-        CurrentlyInvertedTailColors = SetInvertTailColors;
-
-        // Apply Colors
-        tailTexture.MapAlphaToColor(new Dictionary<byte, Color>()
-        {
-            { 255, CurrentlyInvertedTailColors ? AccentColor : BodyColor },
-            { 0, CurrentlyInvertedTailColors ? BodyColor : AccentColor },
-        });
-
-        var atlasName = Plugin.MOD_ID + textureName + UniqueID;
-
-        if (Futile.atlasManager.DoesContainAtlas(atlasName))
-        {
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
-        }
-
-        TailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
-
-    }
-
-    public void RegenerateTail()
+    public void GenerateTailBodyParts()
     {
         if (ModOptions.DisableCosmetics.Value)
         {
@@ -413,9 +327,9 @@ public partial class PlayerModule
         }
 
         var self = (PlayerGraphics)player.graphicsModule;
-        var newTail = new TailSegment[0];
+        var newTail = Array.Empty<TailSegment>();
 
-        if (IsPearlpupAppearance)
+        if (IsAdultPearlpupAppearance)
         {
             Array.Resize(ref newTail, 6);
 
@@ -468,5 +382,6 @@ public partial class PlayerModule
     public CloakGraphics Cloak { get; set; } = null!;
 
 
+    // Adult Pearlpup's Scar
     public Vector2 ScarPos { get; set; }
 }

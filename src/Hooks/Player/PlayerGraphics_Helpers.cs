@@ -29,6 +29,7 @@ public static class PlayerGraphics_Helpers
 
     public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, Vector2 camPos, PlayerModule playerModule, FContainer? newContainer = null)
     {
+        // Base
         var bodySprite = sLeaser.sprites[BODY_SPRITE];
         var armLSprite = sLeaser.sprites[ARM_L_SPRITE];
         var armRSprite = sLeaser.sprites[ARM_R_SPRITE];
@@ -42,25 +43,35 @@ public static class PlayerGraphics_Helpers
         var faceSprite = sLeaser.sprites[FACE_SPRITE];
 
         var feetSprite = sLeaser.sprites[playerModule.FeetSprite];
-
-        var cloakSprite = sLeaser.sprites[playerModule.CloakSprite];
-        var scarfSprite = sLeaser.sprites[playerModule.ScarfSprite];
-
-        var sleeveLSprite = sLeaser.sprites[playerModule.SleeveLSprite];
-        var sleeveRSprite = sLeaser.sprites[playerModule.SleeveRSprite];
+        var scarSprite = sLeaser.sprites[playerModule.ScarSprite];
 
 
+        // Ears & Tail
         var earLSprite = sLeaser.sprites[playerModule.EarLSprite];
         var earRSprite = sLeaser.sprites[playerModule.EarRSprite];
 
+        var earLAccentSprite = sLeaser.sprites[playerModule.EarLAccentSprite];
+        var earRAccentSprite = sLeaser.sprites[playerModule.EarRAccentSprite];
 
-        var shieldSprite = sLeaser.sprites[playerModule.ShieldSprite];
-        var holoLightSprite = sLeaser.sprites[playerModule.HoloLightSprite];
+        var tailAccentSprite = sLeaser.sprites[playerModule.TailAccentSprite];
 
-        var scarSprite = sLeaser.sprites[playerModule.ScarSprite];
+
+        // Clothing
+        var sleeveLSprite = sLeaser.sprites[playerModule.SleeveLSprite];
+        var sleeveRSprite = sLeaser.sprites[playerModule.SleeveRSprite];
+
+        var scarfSprite = sLeaser.sprites[playerModule.ScarfSprite];
+
+        var cloakSprite = sLeaser.sprites[playerModule.CloakSprite];
 
         var ribbon1Sprite = sLeaser.sprites[playerModule.Ribbon1Sprite];
         var ribbon2Sprite = sLeaser.sprites[playerModule.Ribbon2Sprite];
+
+
+        // Abilities
+        var shieldSprite = sLeaser.sprites[playerModule.ShieldSprite];
+        var holoLightSprite = sLeaser.sprites[playerModule.HoloLightSprite];
+
 
         // Container
         if (newContainer != null)
@@ -122,6 +133,11 @@ public static class PlayerGraphics_Helpers
             earLSprite.alpha = possesssionAlpha;
             earRSprite.alpha = possesssionAlpha;
 
+            earLAccentSprite.alpha = possesssionAlpha;
+            earRAccentSprite.alpha = possesssionAlpha;
+
+            tailAccentSprite.alpha = possesssionAlpha;
+
             ribbon1Sprite.alpha = possesssionAlpha;
             ribbon2Sprite.alpha = possesssionAlpha;
 
@@ -156,6 +172,11 @@ public static class PlayerGraphics_Helpers
 
             earLSprite.isVisible = false;
             earRSprite.isVisible = false;
+
+            earLAccentSprite.isVisible = false;
+            earRAccentSprite.isVisible = false;
+
+            tailAccentSprite.isVisible = false;
 
             ribbon1Sprite.isVisible = false;
             ribbon2Sprite.isVisible = false;
@@ -261,48 +282,61 @@ public static class PlayerGraphics_Helpers
         scarSprite.MoveBehindOtherNode(ribbon2Sprite);
         scarSprite.MoveBehindOtherNode(ribbon1Sprite);
 
+        tailAccentSprite.MoveInFrontOfOtherNode(tailSprite);
+
+        earLAccentSprite.MoveInFrontOfOtherNode(earLSprite);
+        earRAccentSprite.MoveInFrontOfOtherNode(earRSprite);
+
 
         playerModule.UpdateColors(self);
+
+        var invertTailColors = upsideDown && !playerModule.IsAdultPearlpupAppearance;
 
         var bodyColor = playerModule.BodyColor;
         var accentColor = playerModule.AccentColor;
         var cloakColor = playerModule.CloakColor;
 
+
         // Color
+        markSprite.color = playerModule.ActiveColor;
+
         bodySprite.color = bodyColor;
         hipsSprite.color = bodyColor;
         headSprite.color = bodyColor;
         legsSprite.color = bodyColor;
 
-        feetSprite.color = accentColor;
         armLSprite.color = accentColor;
         armRSprite.color = accentColor;
 
         handLSprite.color = accentColor;
         handRSprite.color = accentColor;
 
-        scarfSprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.6f)).RWColorSafety();
+        feetSprite.color = accentColor;
+
+
+        tailSprite.color = invertTailColors ? accentColor : bodyColor;
+        tailAccentSprite.color = invertTailColors ? bodyColor : accentColor;
+
+        earLSprite.color = bodyColor;
+        earRSprite.color = bodyColor;
+
+        earLAccentSprite.color = accentColor;
+        earRAccentSprite.color = accentColor;
+
 
         sleeveLSprite.color = cloakColor;
         sleeveRSprite.color = cloakColor;
 
-        markSprite.color = playerModule.ActiveColor;
+        scarfSprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.6f)).RWColorSafety();
 
-        tailSprite.color = Color.white;
-        earLSprite.color = Color.white;
-        earRSprite.color = Color.white;
 
-        cloakSprite.color = Color.white;
+        playerModule.Cloak.UpdateColor(sLeaser);
 
         ribbon1Sprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.5f)).RWColorSafety();
         ribbon2Sprite.color = (cloakColor * Custom.HSL2RGB(1.0f, 1.0f, 0.6f)).RWColorSafety();
 
-        playerModule.Cloak.UpdateColor(sLeaser);
 
-        playerModule.SetInvertTailColors = upsideDown && !playerModule.IsPearlpupAppearance;
-
-
-        if (playerModule.IsPearlpupAppearance)
+        if (playerModule.IsAdultPearlpupAppearance)
         {
             sleeveLSprite.color = bodyColor;
             sleeveRSprite.color = bodyColor;
@@ -332,12 +366,14 @@ public static class PlayerGraphics_Helpers
         sLeaser.sprites[spriteIndex].isVisible = false;
 
         var atlas = AssetLoader.GetAtlas(atlasName);
+
         if (atlas == null)
         {
             return;
         }
 
         var name = sLeaser.sprites[spriteIndexToCopy]?.element?.name;
+
         if (name == null)
         {
             return;
@@ -369,17 +405,18 @@ public static class PlayerGraphics_Helpers
     public static void UpdateReplacementPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndex, string toReplace, string atlasName, string nameSuffix = "")
     {
         var atlas = AssetLoader.GetAtlas(atlasName);
+
         if (atlas == null)
         {
             return;
         }
 
         var name = sLeaser.sprites[spriteIndex]?.element?.name;
+
         if (name == null)
         {
             return;
         }
-
 
         if (!name.StartsWith(toReplace))
         {
@@ -421,31 +458,17 @@ public static class PlayerGraphics_Helpers
 
 
     // Tail
-    public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule)
+    public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule, int tailSprite)
     {
         if (ModOptions.DisableCosmetics.Value)
         {
             return;
         }
 
-        var tailAtlas = playerModule.TailAtlas;
-        if (tailAtlas == null)
+        if (sLeaser.sprites[tailSprite] is not TriangleMesh tailMesh)
         {
             return;
         }
-
-        if (tailAtlas.elements.Count == 0)
-        {
-            return;
-        }
-
-        if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh)
-        {
-            return;
-        }
-
-
-        tailMesh.element = tailAtlas.elements[0];
 
         if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
         {
@@ -467,7 +490,7 @@ public static class PlayerGraphics_Helpers
         var scaleFac = 3.0f;
         var uvYOffset = Mathf.Lerp(0.0f, tailMesh.element.uvTopRight.y - (tailMesh.element.uvTopRight.y / scaleFac), leftRightRatio);
 
-        if (playerModule.IsPearlpupAppearance)
+        if (playerModule.IsAdultPearlpupAppearance)
         {
             scaleFac = 1.0f;
             uvYOffset = 0.0f;
@@ -509,7 +532,7 @@ public static class PlayerGraphics_Helpers
             return;
         }
 
-        if (playerModule.IsPearlpupAppearance)
+        if (playerModule.IsAdultPearlpupAppearance)
         {
             return;
         }
@@ -600,7 +623,7 @@ public static class PlayerGraphics_Helpers
 
 
     // Ears
-    public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite)
+    public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite, string imageName)
     {
         if (ear == null)
         {
@@ -621,22 +644,22 @@ public static class PlayerGraphics_Helpers
         }
 
         earMeshTries[earMeshTriesLength] = new TriangleMesh.Triangle(earMeshTriesLength, earMeshTriesLength + 1, earMeshTriesLength + 2);
-        sLeaser.sprites[earSprite] = new TriangleMesh("Futile_White", earMeshTries, false);
+        sLeaser.sprites[earSprite] = new TriangleMesh(imageName, earMeshTries, true);
     }
 
     public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
     {
-        var earLOffset = new Vector2(-4.5f, 1.5f);
-        var earROffset = new Vector2(4.5f, 1.5f);
+        playerModule.EarLAttachPos = GetEarAttachPos(self, timestacker, playerModule, new(-4.5f, 1.5f));
+        playerModule.EarRAttachPos = GetEarAttachPos(self, timestacker, playerModule, new(4.5f, 1.5f));
 
-        playerModule.EarLAttachPos = GetEarAttachPos(self, timestacker, playerModule, earLOffset);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.EarL, playerModule.EarLSprite, playerModule.EarLAtlas, playerModule.EarLAttachPos, playerModule.EarLFlipDirection);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.EarL, playerModule.EarLSprite, playerModule.EarLAttachPos, playerModule.EarLFlipDirection);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.EarR, playerModule.EarRSprite, playerModule.EarRAttachPos, playerModule.EarRFlipDirection);
 
-        playerModule.EarRAttachPos = GetEarAttachPos(self, timestacker, playerModule, earROffset);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.EarR, playerModule.EarRSprite, playerModule.EarRAtlas, playerModule.EarRAttachPos, playerModule.EarRFlipDirection);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.EarL, playerModule.EarLAccentSprite, playerModule.EarLAttachPos, playerModule.EarLFlipDirection);
+        DrawEar(sLeaser, timestacker, camPos, playerModule.EarR, playerModule.EarRAccentSprite, playerModule.EarRAttachPos, playerModule.EarRFlipDirection);
     }
 
-    public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, FAtlas? earAtlas, Vector2 attachPos, int earFlipDirection)
+    public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, Vector2 attachPos, int earFlipDirection)
     {
         if (ear == null || ear.Length == 0)
         {
@@ -684,21 +707,7 @@ public static class PlayerGraphics_Helpers
         }
 
 
-
-        // Apply Texture
-        if (earAtlas == null)
-        {
-            return;
-        }
-
-        if (earAtlas.elements.Count == 0)
-        {
-            return;
-        }
-
-        sLeaser.sprites[earSprite].color = Color.white;
-        earMesh.element = earAtlas.elements[0];
-
+        // Color & UV Map
         if (earMesh.verticeColors == null || earMesh.verticeColors.Length != earMesh.vertices.Length)
         {
             earMesh.verticeColors = new Color[earMesh.vertices.Length];

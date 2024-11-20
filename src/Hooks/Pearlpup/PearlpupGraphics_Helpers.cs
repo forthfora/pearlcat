@@ -9,8 +9,9 @@ namespace Pearlcat;
 
 public static class PearlpupGraphics_Helpers
 {
-    public static void OrderAndColorPearlpupSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PearlpupModule module, FContainer? newContainer = null)
+    public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, PearlpupModule module, FContainer? newContainer = null)
     {
+        // Base
         var bodySprite = sLeaser.sprites[BODY_SPRITE];
         var armLSprite = sLeaser.sprites[ARM_L_SPRITE];
         var armRSprite = sLeaser.sprites[ARM_R_SPRITE];
@@ -22,13 +23,25 @@ public static class PearlpupGraphics_Helpers
         var legsSprite = sLeaser.sprites[LEGS_SPRITE];
         var faceSprite = sLeaser.sprites[FACE_SPRITE];
 
-        var scarfSprite = sLeaser.sprites[module.ScarfSprite];
+        var sickSprite = sLeaser.sprites[module.SickSprite];
+        var feetSprite = sLeaser.sprites[module.FeetSprite];
+
+
+        // Ears & Tail
         var earLSprite = sLeaser.sprites[module.EarLSprite];
         var earRSprite = sLeaser.sprites[module.EarRSprite];
 
+        var earLAccentSprite = sLeaser.sprites[module.EarLAccentSprite];
+        var earRAccentSprite = sLeaser.sprites[module.EarRAccentSprite];
+
+        var tailAccentSprite = sLeaser.sprites[module.TailAccentSprite];
+
+
+        // Clothing
         var scarfNeckSprite = sLeaser.sprites[module.ScarfNeckSprite];
-        var feetSprite = sLeaser.sprites[module.FeetSprite];
-        var sickSprite = sLeaser.sprites[module.SickSprite];
+
+        var scarfSprite = sLeaser.sprites[module.ScarfSprite];
+
 
         // Container
         if (newContainer != null)
@@ -118,6 +131,11 @@ public static class PearlpupGraphics_Helpers
             }
         }
 
+        tailAccentSprite.MoveInFrontOfOtherNode(tailSprite);
+
+        earLAccentSprite.MoveInFrontOfOtherNode(earLSprite);
+        earRAccentSprite.MoveInFrontOfOtherNode(earRSprite);
+
 
         module.UpdateColors(self);
 
@@ -137,16 +155,26 @@ public static class PearlpupGraphics_Helpers
         armLSprite.color = bodyColor;
         armRSprite.color = bodyColor;
 
-        feetSprite.color = accentColor;
         handLSprite.color = accentColor;
         handRSprite.color = accentColor;
 
-        scarfNeckSprite.color = scarfColor;
-        scarfSprite.color = scarfColor;
+        feetSprite.color = accentColor;
 
-        tailSprite.color = Color.white;
-        earLSprite.color = Color.white;
-        earRSprite.color = Color.white;
+
+        tailSprite.color = bodyColor;
+
+        earLSprite.color = bodyColor;
+        earRSprite.color = bodyColor;
+
+        earLAccentSprite.color = accentColor;
+        earRAccentSprite.color = accentColor;
+
+        tailAccentSprite.color = accentColor;
+
+
+        scarfNeckSprite.color = scarfColor;
+
+        scarfSprite.color = scarfColor;
 
 
         var miscProg = Utils.MiscProgression;
@@ -170,32 +198,21 @@ public static class PearlpupGraphics_Helpers
     public static void DrawPearlpupEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PearlpupModule module)
     {
         module.EarLAttachPos = GetEarAttachPos(self, timestacker, module, new(-4.5f, 1.5f));
-        DrawEar(sLeaser, timestacker, camPos, module.EarL, module.EarLSprite, module.EarLAtlas, module.EarLAttachPos, module.EarLFlipDirection);
-
         module.EarRAttachPos = GetEarAttachPos(self, timestacker, module, new(4.5f, 1.5f));
-        DrawEar(sLeaser, timestacker, camPos, module.EarR, module.EarRSprite, module.EarRAtlas, module.EarRAttachPos, module.EarRFlipDirection);
 
+        DrawEar(sLeaser, timestacker, camPos, module.EarL, module.EarLSprite, module.EarLAttachPos, module.EarLFlipDirection);
+        DrawEar(sLeaser, timestacker, camPos, module.EarR, module.EarRSprite, module.EarRAttachPos, module.EarRFlipDirection);
+
+        DrawEar(sLeaser, timestacker, camPos, module.EarL, module.EarLAccentSprite, module.EarLAttachPos, module.EarLFlipDirection);
+        DrawEar(sLeaser, timestacker, camPos, module.EarR, module.EarRAccentSprite, module.EarRAttachPos, module.EarRFlipDirection);
     }
 
-    public static void DrawPearlpupTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PearlpupModule module)
+    public static void DrawPearlpupTail(RoomCamera.SpriteLeaser sLeaser, int tailSprite)
     {
-        var tailAtlas = module.TailAtlas;
-        if (tailAtlas == null)
+        if (sLeaser.sprites[tailSprite] is not TriangleMesh tailMesh)
         {
             return;
         }
-
-        if (tailAtlas.elements.Count == 0)
-        {
-            return;
-        }
-
-        if (sLeaser.sprites[TAIL_SPRITE] is not TriangleMesh tailMesh)
-        {
-            return;
-        }
-
-        tailMesh.element = tailAtlas.elements.First();
 
         if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
         {
@@ -235,7 +252,7 @@ public static class PearlpupGraphics_Helpers
     public static void DrawPearlpupScarf(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timeStacker, Vector2 camPos, PearlpupModule module)
     {
         var num = 0.0f;
-        var attachPos = self.ScarfAttachPos(module, timeStacker);
+        var attachPos = self.GetScarfAttachPos(module, timeStacker);
         
         var scarf = module.Scarf;
         var scarfSprite = sLeaser.sprites[module.ScarfSprite] as TriangleMesh;
@@ -348,7 +365,7 @@ public static class PearlpupGraphics_Helpers
             }
             else
             {
-                scarf[j, 0] = self.ScarfAttachPos(module, 1.0f);
+                scarf[j, 0] = self.GetScarfAttachPos(module, 1.0f);
                 scarf[j, 2] *= 0f;
             }
         }
@@ -380,7 +397,7 @@ public static class PearlpupGraphics_Helpers
                + Vector3.Slerp(module.PrevHeadRotation, self.head.connection.Rotation, timestacker).ToVector2InPoints() * 15.0f;
     }
 
-    public static Vector2 ScarfAttachPos(this PlayerGraphics self, PearlpupModule module, float timeStacker)
+    public static Vector2 GetScarfAttachPos(this PlayerGraphics self, PearlpupModule module, float timeStacker)
     {
         return Vector2.Lerp(self.player.firstChunk.lastPos, self.player.firstChunk.pos, timeStacker)
                + Vector3.Slerp(module.PrevHeadRotation, self.head.connection.Rotation, timeStacker).ToVector2InPoints() * 15f;

@@ -14,7 +14,6 @@ public partial class PlayerModule
         PlayerRef = new(self);
 
         PlayerNumber = self.playerState.playerNumber;
-        UniqueID = IDCounter++;
         BaseStats = NormalStats;
     }
 
@@ -25,8 +24,6 @@ public partial class PlayerModule
         Utils.MiscProgression.HasTrueEnding;
 
     public int PlayerNumber { get; }
-    public int UniqueID { get; }
-    public static int IDCounter { get; set; }
 
     public SlugcatStats BaseStats { get; set; }
     public SlugcatStats NormalStats { get; private set; } = new(Enums.Pearlcat, false);

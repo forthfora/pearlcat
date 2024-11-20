@@ -126,27 +126,6 @@ public static class Pearlpup_Hooks
             self.redsIllness.Update();
         }
 
-
-        if (module.TextureUpdateTimer > self.TexUpdateInterval())
-        {
-            if ((module.LastBodyColor != module.BodyColor || module.LastAccentColor != module.AccentColor))
-            {
-                module.LoadTailTexture("pearlpup_tail");
-                module.LoadEarLTexture("ear_l");
-                module.LoadEarRTexture("ear_r");
-            }
-
-            module.LastBodyColor = module.BodyColor;
-            module.LastAccentColor = module.AccentColor;
-
-            module.TextureUpdateTimer = 0;
-        }
-        else
-        {
-            module.TextureUpdateTimer++;
-        }
-
-
         // DEBUG: for convenience
         if (self.abstractCreature.Room.world.game.devToolsActive && Input.GetKey("q"))
         {

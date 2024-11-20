@@ -36,11 +36,6 @@ public class PearlpupModule
     public Color ScarfColor { get; set; }
     public Color FaceColor { get; set; }
 
-
-    public int TextureUpdateTimer { get; set; }
-    public Color LastBodyColor { get; set; }
-    public Color LastAccentColor { get; set; }
-
     public static Color BaseBodyColor { get; set; } = new Color32(79, 70, 60, 255);
     public static Color BaseAccentColor { get; set; } = Color.white;
     public static Color BaseFaceColor { get; set; } = Color.white;
@@ -117,9 +112,9 @@ public class PearlpupModule
 
 
     // Tail
-    public FAtlas? TailAtlas { get; set; }
+    public int TailAccentSprite { get; set; }
 
-    public void RegenerateTail()
+    public void GenerateTailBodyParts()
     {
         if (!PupRef.TryGetTarget(out var pup))
         {
@@ -162,31 +157,6 @@ public class PearlpupModule
         self.bodyParts = newBodyParts.ToArray();
     }
 
-    public void LoadTailTexture(string textureName)
-    {
-        var tailTexture = AssetLoader.GetTexture(textureName);
-        if (tailTexture == null)
-        {
-            return;
-        }
-
-        tailTexture.MapAlphaToColor(new Dictionary<byte, Color>()
-        {
-            { 255, BodyColor },
-            { 0, AccentColor },
-        });
-
-        var atlasName = Plugin.MOD_ID + textureName + ID;
-
-        if (Futile.atlasManager.DoesContainAtlas(atlasName))
-        {
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
-        }
-
-        TailAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, tailTexture, false);
-    }
-
-
     // Ears
     public TailSegment[]? EarL { get; set; }
     public TailSegment[]? EarR { get; set; }
@@ -194,8 +164,8 @@ public class PearlpupModule
     public int EarLSprite { get; set; }
     public int EarRSprite { get; set; }
 
-    public FAtlas? EarLAtlas { get; set; }
-    public FAtlas? EarRAtlas { get; set; }
+    public int EarLAccentSprite { get; set; }
+    public int EarRAccentSprite { get; set; }
 
     public Vector2 EarLAttachPos { get; set; }
     public Vector2 EarRAttachPos { get; set; }
@@ -203,55 +173,7 @@ public class PearlpupModule
     public int EarLFlipDirection { get; set; } = 1;
     public int EarRFlipDirection { get; set; } = 1;
 
-    public void LoadEarLTexture(string textureName)
-    {
-        var earLTexture = AssetLoader.GetTexture(textureName);
-        if (earLTexture == null)
-        {
-            return;
-        }
-
-        earLTexture.MapAlphaToColor(new Dictionary<byte, Color>()
-        {
-            { 255, BodyColor },
-            { 0, AccentColor },
-        });
-
-        var atlasName = Plugin.MOD_ID + textureName + ID;
-
-        if (Futile.atlasManager.DoesContainAtlas(atlasName))
-        {
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
-        }
-
-        EarLAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earLTexture, false);
-    }
-
-    public void LoadEarRTexture(string textureName)
-    {
-        var earRTexture = AssetLoader.GetTexture(textureName);
-        if (earRTexture == null)
-        {
-            return;
-        }
-
-        earRTexture.MapAlphaToColor(new Dictionary<byte, Color>()
-        {
-            { 255, BodyColor },
-            { 0, AccentColor },
-        });
-
-        var atlasName = Plugin.MOD_ID + textureName + ID;
-
-        if (Futile.atlasManager.DoesContainAtlas(atlasName))
-        {
-            Futile.atlasManager.ActuallyUnloadAtlasOrImage(atlasName);
-        }
-
-        EarRAtlas = Futile.atlasManager.LoadAtlasFromTexture(atlasName, earRTexture, false);
-    }
-
-    public void RegenerateEars()
+    public void GenerateEarsBodyParts()
     {
         if (!PupRef.TryGetTarget(out var player))
         {
