@@ -90,7 +90,7 @@ public static partial class PlayerAbilities_Helpers
                 totalColor += color;
             }
 
-            playerModule.CamoColor = totalColor / samples.Count;
+            playerModule.CamoColor = Color.Lerp(playerModule.CamoColor, totalColor / samples.Count, 0.15f);
         }
 
 

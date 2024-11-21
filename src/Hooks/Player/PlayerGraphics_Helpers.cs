@@ -516,7 +516,7 @@ public static class PlayerGraphics_Helpers
         var leftRightRatio = Mathf.InverseLerp(minEffectiveOffset, maxEffectiveOffset, difference);
 
         // Multiplier determines how many times larger the texture is vertically relative to the displayed portion
-        var scaleFac = 3.0f;
+        var scaleFac = 2.5f;
         var uvYOffset = Mathf.Lerp(0.0f, tailMesh.element.uvTopRight.y - (tailMesh.element.uvTopRight.y / scaleFac), leftRightRatio);
 
         if (playerModule.IsAdultPearlpupAppearance)
@@ -527,7 +527,8 @@ public static class PlayerGraphics_Helpers
 
         for (var i = tailMesh.verticeColors.Length - 1; i >= 0; i--)
         {
-            var perc = i  / (tailMesh.verticeColors.Length - 1);
+            var halfIndex = i / 2;
+            var perc = halfIndex / (tailMesh.verticeColors.Length / 2.0f);
 
             Vector2 uvInterpolation;
 
@@ -552,6 +553,8 @@ public static class PlayerGraphics_Helpers
 
             tailMesh.UVvertices[i] = new (x, y);
         }
+
+        tailMesh.Refresh();
     }
 
     // Calculate movement of sprites for a given frame
@@ -674,7 +677,7 @@ public static class PlayerGraphics_Helpers
         }
 
         earMeshTries[earMeshTriesLength] = new TriangleMesh.Triangle(earMeshTriesLength, earMeshTriesLength + 1, earMeshTriesLength + 2);
-        sLeaser.sprites[earSprite] = new TriangleMesh(imageName, earMeshTries, true);
+        sLeaser.sprites[earSprite] = new TriangleMesh(imageName, earMeshTries, false);
     }
 
     public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)
@@ -743,34 +746,36 @@ public static class PlayerGraphics_Helpers
             earMesh.verticeColors = new Color[earMesh.vertices.Length];
         }
 
-        for (var vertex = earMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
+        for (var i = earMesh.verticeColors.Length - 1; i >= 0; i--)
         {
-            var interpolation = (vertex / 2.0f) / (earMesh.verticeColors.Length / 2.0f);
+            var halfIndex = i / 2;
+            var perc = halfIndex / (earMesh.verticeColors.Length / 2.0f);
+
             Vector2 uvInterpolation;
 
-            // Even vertexes
-            if (vertex % 2 == 0)
-            {
-                uvInterpolation = new Vector2(interpolation, 0.0f);
-            }
-
-            // Last vertex
-            else if (vertex == earMesh.verticeColors.Length - 1)
+            // Last Vertex
+            if (i == earMesh.verticeColors.Length - 1)
             {
                 uvInterpolation = new Vector2(1.0f, 0.0f);
             }
-
+            // Even Vertices
+            else if (i % 2 == 0)
+            {
+                uvInterpolation = new Vector2(perc, 0.0f);
+            }
+            // Odd Vertices
             else
             {
-                uvInterpolation = new Vector2(interpolation, 1.0f);
+                uvInterpolation = new Vector2(perc, 1.0f);
             }
 
-            Vector2 uv;
-            uv.x = Mathf.Lerp(earMesh.element.uvBottomLeft.x, earMesh.element.uvTopRight.x, uvInterpolation.x);
-            uv.y = Mathf.Lerp(earMesh.element.uvBottomLeft.y, earMesh.element.uvTopRight.y, uvInterpolation.y);
+            var x = Mathf.Lerp(earMesh.element.uvBottomLeft.x, earMesh.element.uvTopRight.x, uvInterpolation.x);
+            var y = Mathf.Lerp(earMesh.element.uvBottomLeft.y, earMesh.element.uvTopRight.y, uvInterpolation.y);
 
-            earMesh.UVvertices[vertex] = uv;
+            earMesh.UVvertices[i] = new (x, y);
         }
+
+        earMesh.Refresh();
     }
 
     public static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)
