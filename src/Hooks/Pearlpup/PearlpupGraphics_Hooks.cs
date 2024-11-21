@@ -84,7 +84,7 @@ public static class PearlpupGraphics_Hooks
         // Copy the original tail's tris
         if (sLeaser.sprites[TAIL_SPRITE] is TriangleMesh mesh)
         {
-            sLeaser.sprites[module.TailAccentSprite] = new TriangleMesh("Futile_White", mesh.triangles.Clone() as TriangleMesh.Triangle[], false);
+            sLeaser.sprites[module.TailAccentSprite] = new TriangleMesh("Futile_White", mesh.triangles.Clone() as TriangleMesh.Triangle[], true);
         }
 
         self.AddToContainer(sLeaser, rCam, null);
@@ -180,6 +180,8 @@ public static class PearlpupGraphics_Hooks
         DrawPearlpupTail(sLeaser, TAIL_SPRITE);
 
         CopyMeshVertexPosAndUV(sLeaser, TAIL_SPRITE, module.TailAccentSprite);
+
+        sLeaser.sprites[module.TailAccentSprite].element = Futile.atlasManager.GetElementWithName("pearlcat_pearlpup_tailaccent");
 
 
         DrawPearlpupEars(self, sLeaser, timeStacker, camPos, module);

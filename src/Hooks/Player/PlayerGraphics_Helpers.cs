@@ -677,7 +677,7 @@ public static class PlayerGraphics_Helpers
         }
 
         earMeshTries[earMeshTriesLength] = new TriangleMesh.Triangle(earMeshTriesLength, earMeshTriesLength + 1, earMeshTriesLength + 2);
-        sLeaser.sprites[earSprite] = new TriangleMesh(imageName, earMeshTries, false);
+        sLeaser.sprites[earSprite] = new TriangleMesh(imageName, earMeshTries, true);
     }
 
     public static void DrawEars(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, PlayerModule playerModule)

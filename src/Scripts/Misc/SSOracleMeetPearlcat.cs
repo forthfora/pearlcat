@@ -216,7 +216,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
         {
-            oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Sick_Pebbles);
+            oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles);
         }
     }
 

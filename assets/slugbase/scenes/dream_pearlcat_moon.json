@@ -1,6 +1,6 @@
 {
-  "id": "Dream_Pearlcat_Sick_Moon",
-  "scene_folder": "slugbase/scenes/dream_pearlcat_sick_moon",
+  "id": "Dream_Pearlcat_Moon",
+  "scene_folder": "slugbase/scenes/dream_pearlcat_moon",
   "images": [
     {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 

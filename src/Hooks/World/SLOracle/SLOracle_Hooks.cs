@@ -27,7 +27,7 @@ public static class SLOracle_Hooks
 
         if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
         {
-            self.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Sick_Moon);
+            self.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon);
 
             if (save.MoonSickPupMeetCount == 0)
             {

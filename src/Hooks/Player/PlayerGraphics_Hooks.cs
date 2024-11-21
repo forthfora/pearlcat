@@ -114,7 +114,7 @@ public static class PlayerGraphics_Hooks
         // Copy the original tail's tris
         if (sLeaser.sprites[TAIL_SPRITE] is TriangleMesh mesh)
         {
-            sLeaser.sprites[playerModule.TailAccentSprite] = new TriangleMesh("Futile_White", mesh.triangles.Clone() as TriangleMesh.Triangle[], false);
+            sLeaser.sprites[playerModule.TailAccentSprite] = new TriangleMesh("Futile_White", mesh.triangles.Clone() as TriangleMesh.Triangle[], true);
         }
 
         self.AddToContainer(sLeaser, rCam, null);

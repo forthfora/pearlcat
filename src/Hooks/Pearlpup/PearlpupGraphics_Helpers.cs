@@ -228,34 +228,36 @@ public static class PearlpupGraphics_Helpers
             tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
         }
 
-        for (var vertex = tailMesh.verticeColors.Length - 1; vertex >= 0; vertex--)
+        for (var i = tailMesh.verticeColors.Length - 1; i >= 0; i--)
         {
-            var interpolation = (vertex / 2.0f) / (tailMesh.verticeColors.Length / 2.0f);
+            var halfIndex = i / 2;
+            var perc = halfIndex / (tailMesh.verticeColors.Length / 2.0f);
+
             Vector2 uvInterpolation;
 
-            // Even vertexes
-            if (vertex % 2 == 0)
+            // Last Vertex
+            if (i == tailMesh.verticeColors.Length - 1)
             {
-                uvInterpolation = new Vector2(interpolation, 0.0f);
+                uvInterpolation = new Vector2(1.0f, 0.5f);
             }
-
-            // Last vertex
-            else if (vertex == tailMesh.verticeColors.Length - 1)
+            // Even Vertices
+            else if (i % 2 == 0)
             {
-                uvInterpolation = new Vector2(1.0f, 0.0f);
+                uvInterpolation = new Vector2(perc, 0.0f);
             }
-
+            // Odd Vertices
             else
             {
-                uvInterpolation = new Vector2(interpolation, 1.0f);
+                uvInterpolation = new Vector2(perc, 1.0f);
             }
 
-            Vector2 uv;
-            uv.x = Mathf.Lerp(tailMesh.element.uvBottomLeft.x, tailMesh.element.uvTopRight.x, uvInterpolation.x);
-            uv.y = Mathf.Lerp(tailMesh.element.uvBottomLeft.y, tailMesh.element.uvTopRight.y, uvInterpolation.y);
+            var x = Mathf.Lerp(tailMesh.element.uvBottomLeft.x, tailMesh.element.uvTopRight.x, uvInterpolation.x);
+            var y = Mathf.Lerp(tailMesh.element.uvBottomLeft.y, tailMesh.element.uvTopRight.y, uvInterpolation.y);
 
-            tailMesh.UVvertices[vertex] = uv;
+            tailMesh.UVvertices[i] = new (x, y);
         }
+
+        tailMesh.Refresh();
     }
 
     public static void DrawPearlpupScarf(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, float timeStacker, Vector2 camPos, PearlpupModule module)

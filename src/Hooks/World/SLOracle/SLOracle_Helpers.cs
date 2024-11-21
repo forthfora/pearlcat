@@ -246,7 +246,7 @@ public static class SLOracle_Helpers
             return false;
         }
 
-        self.myBehavior.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Sick_Moon);
+        self.myBehavior.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon);
 
         if (miscWorld.MoonSickPupMeetCount == 0)
         {
