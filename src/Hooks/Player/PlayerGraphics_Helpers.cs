@@ -95,6 +95,11 @@ public static class PlayerGraphics_Helpers
             newContainer.AddChild(ribbon1Sprite);
             newContainer.AddChild(ribbon2Sprite);
 
+            newContainer.AddChild(earLAccentSprite);
+            newContainer.AddChild(earRAccentSprite);
+
+            newContainer.AddChild(tailAccentSprite);
+
             hudContainer.AddChild(shieldSprite);
         }
 
@@ -282,9 +287,13 @@ public static class PlayerGraphics_Helpers
         scarSprite.MoveBehindOtherNode(ribbon2Sprite);
         scarSprite.MoveBehindOtherNode(ribbon1Sprite);
 
+        tailAccentSprite.MoveBehindOtherNode(bodySprite);
         tailAccentSprite.MoveInFrontOfOtherNode(tailSprite);
 
+        earLAccentSprite.MoveBehindOtherNode(earLSprite);
         earLAccentSprite.MoveInFrontOfOtherNode(earLSprite);
+
+        earRAccentSprite.MoveBehindOtherNode(earRSprite);
         earRAccentSprite.MoveInFrontOfOtherNode(earRSprite);
 
 
@@ -431,7 +440,6 @@ public static class PlayerGraphics_Helpers
         sLeaser.sprites[spriteIndex].element = element;
     }
 
-
     public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)
     {
         if (self.lightSource == null)
@@ -454,6 +462,27 @@ public static class PlayerGraphics_Helpers
 
         self.lightSource.color = Color.Lerp(playerModule.ActiveColor, Color.white, 0.75f);
         self.lightSource.alpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, maxAlpha);
+    }
+
+
+    public static void CopyMeshVertexPosAndUV(RoomCamera.SpriteLeaser sLeaser, int spriteToCopy, int targetSprite)
+    {
+        if (sLeaser.sprites[spriteToCopy] is TriangleMesh meshToCopy && sLeaser.sprites[targetSprite] is TriangleMesh targetMesh)
+        {
+            if (targetMesh.verticeColors is null || targetMesh.verticeColors.Length != targetMesh.vertices.Length)
+            {
+                targetMesh.verticeColors = new Color[targetMesh.vertices.Length];
+            }
+
+            for (var i = 0; i < meshToCopy.vertices.Length; i++)
+            {
+                var vertex = meshToCopy.vertices[i];
+
+                targetMesh.MoveVertice(i, new(vertex.x, vertex.y));
+
+                targetMesh.UVvertices[i] = meshToCopy.UVvertices[i];
+            }
+        }
     }
 
 
@@ -655,8 +684,8 @@ public static class PlayerGraphics_Helpers
         DrawEar(sLeaser, timestacker, camPos, playerModule.EarL, playerModule.EarLSprite, playerModule.EarLAttachPos, playerModule.EarLFlipDirection);
         DrawEar(sLeaser, timestacker, camPos, playerModule.EarR, playerModule.EarRSprite, playerModule.EarRAttachPos, playerModule.EarRFlipDirection);
 
-        DrawEar(sLeaser, timestacker, camPos, playerModule.EarL, playerModule.EarLAccentSprite, playerModule.EarLAttachPos, playerModule.EarLFlipDirection);
-        DrawEar(sLeaser, timestacker, camPos, playerModule.EarR, playerModule.EarRAccentSprite, playerModule.EarRAttachPos, playerModule.EarRFlipDirection);
+        CopyMeshVertexPosAndUV(sLeaser, playerModule.EarLSprite, playerModule.EarLAccentSprite);
+        CopyMeshVertexPosAndUV(sLeaser, playerModule.EarRSprite, playerModule.EarRAccentSprite);
     }
 
     public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, Vector2 attachPos, int earFlipDirection)

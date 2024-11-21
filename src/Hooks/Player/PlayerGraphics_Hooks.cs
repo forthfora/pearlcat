@@ -111,8 +111,11 @@ public static class PlayerGraphics_Hooks
         GenerateRibbonMesh(sLeaser, rCam, playerModule, playerModule.Ribbon1Sprite, playerModule.Ribbon1);
         GenerateRibbonMesh(sLeaser, rCam, playerModule, playerModule.Ribbon2Sprite, playerModule.Ribbon2);
 
-        sLeaser.sprites[playerModule.TailAccentSprite] = new TriangleMesh("Futile_White", new TriangleMesh.Triangle[13], true);
-
+        // Copy the original tail's tris
+        if (sLeaser.sprites[TAIL_SPRITE] is TriangleMesh mesh)
+        {
+            sLeaser.sprites[playerModule.TailAccentSprite] = new TriangleMesh("Futile_White", mesh.triangles.Clone() as TriangleMesh.Triangle[], false);
+        }
 
         self.AddToContainer(sLeaser, rCam, null);
 
@@ -137,6 +140,7 @@ public static class PlayerGraphics_Hooks
         }
 
         newContatiner ??= rCam.ReturnFContainer("Midground");
+
         OrderAndColorSprites(self, sLeaser, rCam, Vector2.zero, playerModule, newContatiner);
     }
 
@@ -254,19 +258,20 @@ public static class PlayerGraphics_Hooks
         }
 
 
+        // Tail
         DrawTail(self, sLeaser, playerModule, TAIL_SPRITE);
-        DrawTail(self, sLeaser, playerModule, playerModule.TailAccentSprite);
+
+        CopyMeshVertexPosAndUV(sLeaser, TAIL_SPRITE, playerModule.TailAccentSprite);
 
         sLeaser.sprites[playerModule.TailAccentSprite].element = Futile.atlasManager.GetElementWithName(playerModule.IsAdultPearlpupAppearance ? "pearlcat_pearlpup_tailaccent" : "pearlcat_tailaccent");
 
-        DrawEars(self, sLeaser, timeStacker, camPos, playerModule);
 
+        DrawEars(self, sLeaser, timeStacker, camPos, playerModule);
 
         playerModule.Cloak.DrawSprite(sLeaser, rCam, timeStacker, camPos);
 
         DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos, playerModule.Ribbon1Sprite, playerModule.Ribbon1, playerModule.Ribbon1Offset);
         DrawRibbon(self, sLeaser, playerModule, timeStacker, camPos, playerModule.Ribbon2Sprite, playerModule.Ribbon2, playerModule.Ribbon2Offset);
-
 
         OrderAndColorSprites(self, sLeaser, rCam, camPos, playerModule);
     }

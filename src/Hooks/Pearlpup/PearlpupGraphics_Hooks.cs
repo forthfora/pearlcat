@@ -81,7 +81,11 @@ public static class PearlpupGraphics_Hooks
         GenerateEarMesh(sLeaser, module.EarL, module.EarLAccentSprite, "pearlcat_earaccent_l");
         GenerateEarMesh(sLeaser, module.EarR, module.EarRAccentSprite, "pearlcat_earaccent_r");
 
-        sLeaser.sprites[module.TailAccentSprite] = new TriangleMesh("Futile_White", new TriangleMesh.Triangle[13], false);
+        // Copy the original tail's tris
+        if (sLeaser.sprites[TAIL_SPRITE] is TriangleMesh mesh)
+        {
+            sLeaser.sprites[module.TailAccentSprite] = new TriangleMesh("Futile_White", mesh.triangles.Clone() as TriangleMesh.Triangle[], true);
+        }
 
         self.AddToContainer(sLeaser, rCam, null);
     }
@@ -174,14 +178,13 @@ public static class PearlpupGraphics_Hooks
 
 
         DrawPearlpupTail(sLeaser, TAIL_SPRITE);
-        DrawPearlpupTail(sLeaser, module.TailAccentSprite);
 
-        sLeaser.sprites[module.TailAccentSprite].element = Futile.atlasManager.GetElementWithName("pearlcat_pearlpup_tailaccent");
+        CopyMeshVertexPosAndUV(sLeaser, TAIL_SPRITE, module.TailAccentSprite);
+
 
         DrawPearlpupEars(self, sLeaser, timeStacker, camPos, module);
 
         DrawPearlpupScarf(self, sLeaser, timeStacker, camPos, module);
-
 
         OrderAndColorSprites(self, sLeaser, rCam, module);
     }

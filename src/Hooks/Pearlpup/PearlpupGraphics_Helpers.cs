@@ -1,5 +1,4 @@
 ﻿using RWCustom;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -55,6 +54,11 @@ public static class PearlpupGraphics_Helpers
             newContainer.AddChild(earRSprite);
 
             newContainer.AddChild(sickSprite);
+
+            newContainer.AddChild(earLAccentSprite);
+            newContainer.AddChild(earRAccentSprite);
+
+            newContainer.AddChild(tailAccentSprite);
         }
 
         // Order
@@ -131,9 +135,14 @@ public static class PearlpupGraphics_Helpers
             }
         }
 
+
+        tailAccentSprite.MoveBehindOtherNode(bodySprite);
         tailAccentSprite.MoveInFrontOfOtherNode(tailSprite);
 
+        earLAccentSprite.MoveBehindOtherNode(earLSprite);
         earLAccentSprite.MoveInFrontOfOtherNode(earLSprite);
+
+        earRAccentSprite.MoveBehindOtherNode(earRSprite);
         earRAccentSprite.MoveInFrontOfOtherNode(earRSprite);
 
 
@@ -203,8 +212,8 @@ public static class PearlpupGraphics_Helpers
         DrawEar(sLeaser, timestacker, camPos, module.EarL, module.EarLSprite, module.EarLAttachPos, module.EarLFlipDirection);
         DrawEar(sLeaser, timestacker, camPos, module.EarR, module.EarRSprite, module.EarRAttachPos, module.EarRFlipDirection);
 
-        DrawEar(sLeaser, timestacker, camPos, module.EarL, module.EarLAccentSprite, module.EarLAttachPos, module.EarLFlipDirection);
-        DrawEar(sLeaser, timestacker, camPos, module.EarR, module.EarRAccentSprite, module.EarRAttachPos, module.EarRFlipDirection);
+        CopyMeshVertexPosAndUV(sLeaser, module.EarLSprite, module.EarLAccentSprite);
+        CopyMeshVertexPosAndUV(sLeaser, module.EarRSprite, module.EarRAccentSprite);
     }
 
     public static void DrawPearlpupTail(RoomCamera.SpriteLeaser sLeaser, int tailSprite)

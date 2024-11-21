@@ -2,7 +2,7 @@
 
 public static partial class Enums
 {
-    public static SlugcatStats.Name Pearlcat = new(nameof(Pearlcat));
+    public static SlugcatStats.Name Pearlcat { get; } = new(nameof(Pearlcat));
 
     public static void InitEnums()
     {
