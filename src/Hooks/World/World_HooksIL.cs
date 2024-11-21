@@ -128,9 +128,6 @@ public static class World_HooksIL
 
 
                 SlugBase.Assets.CustomScene.SetSelectMenuScene(game.GetStorySession.saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
-                
-
-                Plugin.Logger.LogInfo("PEARLCAT OE ENDING");
 
                 return "OE_SEXTRA";
             }

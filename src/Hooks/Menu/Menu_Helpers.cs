@@ -13,15 +13,10 @@ public static class Menu_Helpers
     public static string SecretPassword { get; set; } = "mira";
     public static int SecretIndex { get; set; }
 
-    public static Color MiraMenuColor { get; } = Custom.hexToColor("9487c9");
 
     public const string MIRA_SKIP_ID = "PEARLCAT_MIRA_SKIP";
+    public static Color MiraMenuColor { get; } = Custom.hexToColor("9487c9");
 
-
-    public static Color MenuPearlColorFilter(this Color color)
-    {
-        return color;
-    }
 
     public static void UpdateSelectScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
@@ -154,7 +149,7 @@ public static class Menu_Helpers
         illustration.pos = targetPos;
 
         illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), -1.0f, 1.0f, 0.35f, 0.25f);
-        illustration.color = pearlColors[i].MenuPearlColorFilter();
+        illustration.color = pearlColors[i];
     }
 
     public static void UpdateSleepScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
@@ -287,7 +282,7 @@ public static class Menu_Helpers
             }
 
             illustration.visible = true;
-            illustration.color = MenuPearlColorFilter(activePearlColor);
+            illustration.color = activePearlColor;
             illustration.sprite.scale = isPlaceholder ? 1.0f : 0.3f;
 
             var pos = illustration.pos;
@@ -329,7 +324,7 @@ public static class Menu_Helpers
 
         illustration.visible = true;
         illustration.sprite.scale = 0.35f;
-        illustration.color = pearlColors[i].MenuPearlColorFilter();
+        illustration.color = pearlColors[i];
 
         illustration.pos.y = illustrationModule.InitialPos.y +
                              Mathf.Sin((MenuPearlAnimStacker + i * 50.0f) / 50.0f) * 25.0f;
@@ -418,7 +413,7 @@ public static class Menu_Helpers
 
         illustration.sprite.scale = Custom.LerpMap(Mathf.Sin(angle), 1.0f, -1.0f, 0.2f, 0.3f);
         illustration.alpha = 1.0f;
-        illustration.color = pearlColors[i].MenuPearlColorFilter();
+        illustration.color = pearlColors[i];
     }
 
     public static void UpdateAscendedScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
@@ -522,9 +517,8 @@ public static class Menu_Helpers
 
     public static Color AscendedPearlColorFilter(this Color color)
     {
-        //return color;
-
         Color.RGBToHSV(Color.Lerp(color, Color.white, 0.3f), out var hue, out var sat, out var val);
+
         return Color.HSVToRGB(hue, sat, val);
     }
 

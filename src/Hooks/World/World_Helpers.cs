@@ -285,7 +285,6 @@ public static class World_Helpers
         miscWorld.MoonSickPupMeetCount = 1;
         miscWorld.PebblesMetSickPup = true;
 
-
         baseMiscWorld.SLOracleState.playerEncountersWithMark = 0;
         baseMiscWorld.SLOracleState.playerEncounters = 1;
 

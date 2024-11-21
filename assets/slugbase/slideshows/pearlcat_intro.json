@@ -119,8 +119,7 @@
       "fade_in_end": 36.0,
       "fade_out_start": 39.0,
       "images": [
-        {"name": "Intro6", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
-        {"name": "Intro6_Mira", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+        {"name": "Intro6", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
       ]
     },
     {

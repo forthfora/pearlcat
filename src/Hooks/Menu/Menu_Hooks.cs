@@ -42,6 +42,7 @@ public static class Menu_Hooks
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
     }
 
+
     private static void Menu_Update(On.Menu.Menu.orig_Update orig, Menu.Menu self)
     {
         orig(self);
@@ -50,9 +51,9 @@ public static class Menu_Hooks
     }
 
 
+    // Statistics screen background illustration
     private static void StoryGameStatisticsScreen_AddBkgIllustration(On.Menu.StoryGameStatisticsScreen.orig_AddBkgIllustration orig, StoryGameStatisticsScreen self)
     {
-
         if (RainWorld.lastActiveSaveSlot == Enums.Pearlcat)
         {
             var save = Utils.MiscProgression;
@@ -66,14 +67,14 @@ public static class Menu_Hooks
 
             self.scene = new InteractiveMenuScene(self, self.pages[0], sceneID);
             self.pages[0].subObjects.Add(self.scene);
-
-            Plugin.Logger.LogInfo("PEARLCAT STATISTICS SCREEN: " + sceneID);
             return;
         }
 
         orig(self);
     }
 
+
+    // Illustration specific conditions
     private static void MenuIllustration_Update(On.Menu.MenuIllustration.orig_Update orig, MenuIllustration self)
     {
         orig(self);
@@ -90,10 +91,6 @@ public static class Menu_Hooks
         if (fileName == "Intro6")
         {
             self.visible = !ModCompat_Helpers.IsModEnabled_MiraInstallation;
-        }
-        if (fileName == "Intro6_Mira")
-        {
-            self.visible = ModCompat_Helpers.IsModEnabled_MiraInstallation;
         }
 
         // VOID SEA ENDING
@@ -114,6 +111,8 @@ public static class Menu_Hooks
         }
     }
 
+
+    // Add Inventory HUD
     private static void ArenaGameSession_AddHUD(On.ArenaGameSession.orig_AddHUD orig, ArenaGameSession self)
     {
         orig(self);
@@ -138,6 +137,7 @@ public static class Menu_Hooks
     }
 
 
+    // Dynamic Menu Scenes
     private static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, MenuScene self, Menu.Menu menu, MenuObject owner, MenuScene.SceneID sceneID)
     {
         orig(self, menu, owner, sceneID);
@@ -263,6 +263,7 @@ public static class Menu_Hooks
     }
 
 
+    // Player Select Screen Mark Color, Secret Toggle
     private static void SlugcatPage_ctor(On.Menu.SlugcatSelectMenu.SlugcatPage.orig_ctor orig, SlugcatSelectMenu.SlugcatPage self, Menu.Menu menu, MenuObject owner, int pageIndex, SlugcatStats.Name slugcatNumber)
     {
         orig(self, menu, owner, pageIndex, slugcatNumber);
@@ -273,7 +274,8 @@ public static class Menu_Hooks
         }
 
         var save = Utils.MiscProgression;
-        var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor()  : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
+        var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor()
+            : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
 
         // screw pebbles pearls you get ORANGE    
         self.effectColor = color ?? Color.white;
@@ -294,6 +296,7 @@ public static class Menu_Hooks
         SecretIndex = 0;
     }
 
+    // Mira Skip, Secret, Version Warning, MSC/Non MSC Warning
     private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)
     {
         orig(self);
@@ -415,6 +418,7 @@ public static class Menu_Hooks
     }
 
 
+    // Mira Skip
     private static Color CheckBox_MyColor(On.Menu.CheckBox.orig_MyColor orig, CheckBox self, float timeStacker)
     {
         var result = orig(self, timeStacker);
@@ -487,6 +491,7 @@ public static class Menu_Hooks
     }
 
 
+    // Refresh IIC Keybinds
     private static void InputOptionsMenu_ctor(On.Menu.InputOptionsMenu.orig_ctor orig, InputOptionsMenu self, ProcessManager manager)
     {
         if (ModCompat_Helpers.IsModEnabled_ImprovedInputConfig)
@@ -498,7 +503,7 @@ public static class Menu_Hooks
     }
 
 
-    // Prevent Player Pearls being saved in the shelter
+    // Prevent player pearls being displayed to the map in a shelter
     private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
     {
         var result = orig(world, room, index);

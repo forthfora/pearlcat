@@ -105,8 +105,8 @@ public static class World_Hooks
                 {
                     dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick);
                     dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pearlpup);
-                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pebbles);
-                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Moon_Sick);
+                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick_Pebbles);
+                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick_Moon);
                 }
                 else if (!miscWorld.HasPearlpupWithPlayerDeadOrAlive && (miscProg.AscendedWithPup || miscProg.DidHavePearlpup))
                 {
