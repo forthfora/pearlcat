@@ -2,19 +2,13 @@
 
 namespace Pearlcat;
 
-public class BgBuilding : CustomBgElement
+public class BgBuilding(CustomBgScene scene, string assetName, Vector2 pos, float depth, float atmosphericalDepthAdd, CustomBgElement.BgElementType type)
+    : CustomBgElement(scene, pos, depth, type)
 {
-    public string AssetName { get; private set; }
-    public float AtmosphericalDepthAdd { get; set; }
-    public float Alpha { get; set; }
+    public string AssetName { get; private set; } = assetName;
+    public float AtmosphericalDepthAdd { get; set; } = atmosphericalDepthAdd;
+    public float Alpha { get; set; } = 1f;
     public bool UseNonMultiplyShader { get; set; }
-
-    public BgBuilding(CustomBgScene scene, string assetName, Vector2 pos, float depth, float atmosphericalDepthAdd, BgElementType type) : base(scene, pos, depth, type)
-    {
-        AssetName = assetName;
-        AtmosphericalDepthAdd = atmosphericalDepthAdd;
-        Alpha = 1f;
-    }
 
     public override void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {

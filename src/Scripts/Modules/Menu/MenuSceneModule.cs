@@ -3,15 +3,9 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class MenuSceneModule
+public class MenuSceneModule(List<Color> pearlColors, Color? activePearlType)
 {
-    public List<Color> PearlColors { get; set; }
-    public Color? ActivePearlColor { get; set; }
+    public List<Color> PearlColors { get; set; } = pearlColors;
+    public Color? ActivePearlColor { get; set; } = activePearlType;
     public Vector2 ActivePearlPos { get; set; }
-
-    public MenuSceneModule(List<Color> pearlColors, Color? activePearlType)
-    {
-        PearlColors = pearlColors;
-        ActivePearlColor = activePearlType;
-    }
 }

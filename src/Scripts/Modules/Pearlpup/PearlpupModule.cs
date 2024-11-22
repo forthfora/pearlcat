@@ -5,16 +5,10 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class PearlpupModule
+public class PearlpupModule(Player self)
 {
-    public WeakReference<Player> PupRef { get; private set; }
-    public int ID { get; }
-
-    public PearlpupModule(Player self)
-    {
-        PupRef = new(self);
-        ID = self.abstractCreature.ID.number;
-    }
+    public WeakReference<Player> PupRef { get; private set; } = new(self);
+    public int ID { get; } = self.abstractCreature.ID.number;
 
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }

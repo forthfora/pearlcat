@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class CustomBgScene : BackgroundScene
+public class CustomBgScene(Room room) : BackgroundScene(room)
 {
     public List<CustomBgElement> DynamicBgElements = [];
 
@@ -16,10 +16,6 @@ public class CustomBgScene : BackgroundScene
     public float DistantCloudsEndDepth { get; protected set; } = 200f;
 
     public Color AtmosphereColor { get; protected set; } = new(0.16078432f, 0.23137255f, 0.31764707f);
-
-    public CustomBgScene(Room room) : base(room)
-    {
-    }
 
     public float DepthFromCloud(float depth)
     {

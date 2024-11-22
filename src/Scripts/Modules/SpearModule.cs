@@ -4,17 +4,12 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class SpearModule
+public class SpearModule(Color color, string pearlType)
 {
-    public SpearModule(Color color, string pearlType)
-    {
-        Color = color;
-        PearlType = pearlType;
-    }
-
     [JsonConverter(typeof(JsonColorHandler))]
-    public Color Color { get; set; }
-    public string PearlType { get; set; }
+    public Color Color { get; set; } = color;
+
+    public string PearlType { get; set; } = pearlType;
     public int PebblesColor { get; set; }
 
     public bool WasThrown { get; set; }
