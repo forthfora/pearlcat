@@ -12,6 +12,8 @@
       "fade_in_start": 4.0,
       "fade_out_start": 10.0, 
       "images": [
+        {"name": "flat_Outro1", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
         {"name": "Outro1_1", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
       ],
       "camera_path": [ [0, 0] ]
@@ -33,7 +35,7 @@
       "images": [
         {"name": "Outro3_3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "Outro3_2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
-        {"name": "Outro3_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+        {"name": "Outro3_1_(pup)", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [-200, 0] ]
     },
@@ -43,7 +45,7 @@
       "fade_out_start": 40.0,
       "images": [
         {"name": "Outro4_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Outro4_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+        {"name": "Outro2_1_(pup)", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [100, 100] ]
     },

@@ -39,6 +39,6 @@ public static class Pearlpup_Helpers
             return;
         }
 
-        self.abstractCreature.MakePearlpup();
+        self.abstractCreature.TryMakePearlpup();
     }
 }

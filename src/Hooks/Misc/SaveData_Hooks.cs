@@ -37,7 +37,7 @@ public static class SaveData_Hooks
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogError("ERROR UPDATING SAVE ON CYCLE COMPLETION:\n" + e);
+                Plugin.Logger.LogError($"ERROR UPDATING SAVE DATA ON CYCLE COMPLETION:\n{e}\n{e.StackTrace}");
             }
         }
 
@@ -47,19 +47,18 @@ public static class SaveData_Hooks
     private static void UpdateSaveAfterCycle(RainWorldGame game)
     {
         var miscWorld = game.GetMiscWorld();
-        var miscProg = Utils.MiscProgression;
-
-        var saveState = game.GetStorySession.saveState;
 
         if (miscWorld == null)
         {
             return;
         }
 
+        var miscProg = Utils.MiscProgression;
+        var saveState = game.GetStorySession.saveState;
+
 
         // Meta
         miscProg.IsMSCSave = ModManager.MSC;
-
         miscProg.IsNewPearlcatSave = false;
         miscProg.Ascended = saveState.deathPersistentSaveData.ascended;
 
@@ -75,8 +74,9 @@ public static class SaveData_Hooks
             miscWorld.PearlpupID = null;
         }
 
+
         // Dreams
-        if (miscWorld.CurrentDream != null && !miscWorld.PreviousDreams.Contains(miscWorld.CurrentDream))
+        if (miscWorld.CurrentDream is not null && !miscWorld.PreviousDreams.Contains(miscWorld.CurrentDream))
         {
             miscWorld.PreviousDreams.Add(miscWorld.CurrentDream);
             miscWorld.CurrentDream = null;
@@ -84,12 +84,12 @@ public static class SaveData_Hooks
 
 
         // Pearl Colors
-        miscProg.StoredPearlColors.Clear();
-        miscProg.ActivePearlColor = null;
+        miscProg.StoredNonActivePearls.Clear();
+        miscProg.StoredActivePearl = null;
 
-        var heartIsActive = false;
+        var firstPearlcatIndex = game.GetFirstPearlcatIndex();
 
-        if (miscWorld.Inventory.TryGetValue(0, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(0, out var activeIndex))
+        if (miscWorld.Inventory.TryGetValue(firstPearlcatIndex, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(firstPearlcatIndex, out var activeIndex))
         {
             for (var i = 0; i < inventory.Count; i++)
             {
@@ -101,10 +101,9 @@ public static class SaveData_Hooks
                     continue;
                 }
 
-                var potentialType = split[5];
+                var possibleType = split[5];
 
-
-                if (!ExtEnumBase.TryParse(typeof(DataPearlType), potentialType, false, out var type))
+                if (!ExtEnumBase.TryParse(typeof(DataPearlType), possibleType, false, out var type))
                 {
                     continue;
                 }
@@ -115,36 +114,40 @@ public static class SaveData_Hooks
                 }
 
 
-                var potentialPebblesColor = 0;
+                var pebblesPearlType = 0;
 
                 if (dataPearlType == DataPearlType.PebblesPearl && split.Length >= 6 && int.TryParse(split[6], out var result))
                 {
-                    potentialPebblesColor = result;
+                    pebblesPearlType = result;
                 }
 
 
-                if (dataPearlType == Enums.Pearls.Heart_Pearlpup)
+                if (i == activeIndex)
                 {
-                    if (i == activeIndex)
+                    miscProg.StoredActivePearl = new()
                     {
-                        heartIsActive = true;
-                    }
-                }
-                else if (i == activeIndex)
-                {
-                    miscProg.ActivePearlColor = dataPearlType.GetDataPearlColor(potentialPebblesColor);
+                        DataPearlType = dataPearlType.value,
+                        PebblesPearlType = pebblesPearlType,
+                    };
                 }
                 else
                 {
-                    miscProg.StoredPearlColors.Add(dataPearlType.GetDataPearlColor(potentialPebblesColor));
+                    var menuPearlData = new SaveMiscProgression.StoredPearlData()
+                    {
+                        DataPearlType = dataPearlType.value,
+                        PebblesPearlType = pebblesPearlType,
+                    };
+
+                    miscProg.StoredNonActivePearls.Add(menuPearlData);
                 }
             }
         }
 
-        if (heartIsActive && miscProg.StoredPearlColors.Count > 0)
+        // Heart is displayed in its own unique way, so don't show it as the active pearl
+        if (miscProg.StoredActivePearl?.DataPearlType == Enums.Pearls.Heart_Pearlpup.value && miscProg.StoredNonActivePearls.Count > 0)
         {
-            miscProg.ActivePearlColor = miscProg.StoredPearlColors[0];
-            miscProg.StoredPearlColors.RemoveAt(0);
+            miscProg.StoredActivePearl = miscProg.StoredNonActivePearls[0];
+            miscProg.StoredNonActivePearls.RemoveAt(0);
         }
     }
 
@@ -154,16 +157,18 @@ public static class SaveData_Hooks
     {
         orig(self, str, game);
 
-        if (self.saveStateNumber == Enums.Pearlcat)
+        if (self.saveStateNumber != Enums.Pearlcat)
         {
-            try
-            {
-                UpdateSaveBeforeCycle(self);
-            }
-            catch (Exception e)
-            {
-                Plugin.Logger.LogError("ERROR UPDATING SAVE BEFORE CYCLE START:\n" + e);
-            }
+            return;
+        }
+
+        try
+        {
+            UpdateSaveBeforeCycle(self);
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError($"ERROR UPDATING SAVE BEFORE CYCLE START:\n{e}\n{e.StackTrace}");
         }
     }
 
@@ -174,11 +179,11 @@ public static class SaveData_Hooks
 
         // Meta
         miscProg.JustAscended = false;
-
         miscWorld.JustBeatAltEnd = false;
         miscWorld.JustMiraSkipped = false;
 
 
+        // New save
         if (self.cycleNumber == 0)
         {
             SlugBase.Assets.CustomScene.SetSelectMenuScene(self, Enums.Scenes.Slugcat_Pearlcat);
@@ -191,7 +196,9 @@ public static class SaveData_Hooks
 
 
                 self.StartFromMira();
+
                 miscWorld.JustMiraSkipped = false;
+
 
                 self.GiveTrueEnding();
             }
@@ -206,7 +213,6 @@ public static class SaveData_Hooks
                 miscProg.ResetSave();
             }
         }
-
 
         if (miscProg.IsMiraSkipEnabled)
         {

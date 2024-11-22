@@ -67,12 +67,12 @@
             }
         ],
         
-        "select_menu_scene": "Dream_Pearlcat_Sick_Pebbles",
+        "title_card": "pearlcat_titlecard",
+
+        "select_menu_scene": "Dream_Pearlcat_Tower",
         "select_menu_scene_ascended": "Slugcat_Pearlcat_Ascended",
 
         "sleep_scene": "Slugcat_Pearlcat_Sleep",
-        
-        "title_card": "TitleCard_Pearlcat",
 
         "intro_slideshow": "Pearlcat_Intro",
         "outro_slideshow": "Pearlcat_Outro"

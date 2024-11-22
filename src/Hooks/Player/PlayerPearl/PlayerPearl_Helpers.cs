@@ -201,7 +201,7 @@ public static partial class PlayerPearl_Helpers
             self.ReleaseGrasp(0);
         }
 
-        if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out var spearModule))
+        if (abstractObject is AbstractSpear spear && spear.TryGetModule(out var spearModule))
         {
             abstractObject.destroyOnAbstraction = true;
             abstractObject.Abstractize(abstractObject.pos);

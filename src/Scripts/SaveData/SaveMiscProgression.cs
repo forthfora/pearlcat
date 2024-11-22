@@ -15,11 +15,29 @@ public class SaveMiscProgression
 
 
     // Menu Pearls
-    [JsonProperty(ItemConverterType = typeof(JsonColorHandler))]
-    public List<Color> StoredPearlColors { get; } = [];
+    public List<StoredPearlData> StoredNonActivePearls { get; set; } = [];
+    public StoredPearlData? StoredActivePearl { get; set; }
 
-    [JsonConverter(typeof(JsonColorHandler))]
-    public Color? ActivePearlColor { get; set; }
+    public class StoredPearlData
+    {
+        public string DataPearlType { get; set; } = "";
+        public int PebblesPearlType { get; set; }
+
+        public Color GetPearlColor()
+        {
+            if (!ExtEnumBase.TryParse(typeof(DataPearl.AbstractDataPearl.DataPearlType), DataPearlType, false, out var type))
+            {
+                return Color.white;
+            }
+
+            if (type is not DataPearl.AbstractDataPearl.DataPearlType dataPearlType)
+            {
+                return Color.white;
+            }
+
+            return dataPearlType.GetDataPearlColor();
+        }
+    }
 
 
     // Story
@@ -39,8 +57,8 @@ public class SaveMiscProgression
 
     public void ResetSave()
     {
-        StoredPearlColors.Clear();
-        ActivePearlColor = null;
+        StoredNonActivePearls.Clear();
+        StoredActivePearl = null;
 
         IsNewPearlcatSave = true;
 

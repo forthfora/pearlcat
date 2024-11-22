@@ -1,4 +1,5 @@
-﻿using Menu;
+﻿using System.Collections.Generic;
+using Menu;
 using RWCustom;
 using System.IO;
 using UnityEngine;
@@ -18,6 +19,76 @@ public static class Menu_Helpers
     public static Color MiraMenuColor { get; } = Custom.hexToColor("9487c9");
 
 
+    // Allows tags to be specified in an illustration's filename to disable / enable them under specific conditions
+    public static void UpdateIllustrationConditionTags(MenuIllustration self)
+    {
+        var miscProg = Utils.MiscProgression;
+        var fileName = Path.GetFileNameWithoutExtension(self.fileName);
+
+        // If Pearlpup is alive and with the player
+        if (fileName.HasConditionTag("pup", out var c))
+        {
+            self.visible = miscProg.HasPearlpup == c;
+        }
+
+        // If true ending achieved
+        if (fileName.HasConditionTag("trueend", out c))
+        {
+            self.visible = miscProg.HasTrueEnding == c;
+        }
+
+        // If Pearlpup is sick
+        if (fileName.HasConditionTag("sick", out c))
+        {
+            self.visible = miscProg.IsPearlpupSick == c;
+        }
+
+        // Had pearlpup and lost them or pearlpup is sick
+        if (fileName.HasConditionTag("sad", out c))
+        {
+            self.visible = (miscProg.IsPearlpupSick || (!miscProg.HasPearlpup && miscProg.DidHavePearlpup && !miscProg.HasTrueEnding)) == c;
+        }
+    }
+
+    public static bool HasConditionTag(this string fileName, string tag, out bool requiredCondition)
+    {
+        if (fileName.Contains($"({tag})"))
+        {
+            requiredCondition = true;
+            return true;
+        }
+
+        if (fileName.Contains($"(!{tag})"))
+        {
+            requiredCondition = false;
+            return true;
+        }
+
+        requiredCondition = false;
+        return false;
+    }
+
+
+    // Applies behavior specific to a given scenen
+    public static void UpdateIllustrationSpecificBehavior(MenuIllustration self)
+    {
+        var fileName = Path.GetFileNameWithoutExtension(self.fileName);
+
+        // Outer Expanse Ending - fade this scene to black
+        if (fileName == "AltOutro10_1")
+        {
+            if (self.alpha == 1.0f)
+            {
+                self.alpha = 0.0f;
+            }
+
+            self.alpha = Mathf.Lerp(self.alpha, 0.99f, 0.015f);
+        }
+    }
+
+
+    /*
+    // Update dynamic pearls on menu scenes
     public static void UpdateSelectScreen(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
         var save = Utils.MiscProgression;
@@ -119,7 +190,7 @@ public static class Menu_Helpers
             return;
         }
 
-        var pearlColors = menuSceneModule.PearlColors;
+        var pearlColors = menuSceneModule.NonActivePearlColors;
 
         var count = pearlColors.Count;
         var i = illustrationModule.Index;
@@ -311,7 +382,7 @@ public static class Menu_Helpers
             return;
         }
 
-        var pearlColors = menuSceneModule.PearlColors;
+        var pearlColors = menuSceneModule.NonActivePearlColors;
 
         var count = pearlColors.Count;
         var i = illustrationModule.Index;
@@ -389,7 +460,7 @@ public static class Menu_Helpers
             return;
         }
 
-        var pearlColors = menuSceneModule.PearlColors;
+        var pearlColors = menuSceneModule.NonActivePearlColors;
 
         var count = pearlColors.Count;
         var i = illustrationModule.Index;
@@ -486,7 +557,7 @@ public static class Menu_Helpers
             return;
         }
 
-        var pearlColors = menuSceneModule.PearlColors;
+        var pearlColors = menuSceneModule.NonActivePearlColors;
 
         var count = pearlColors.Count;
         var i = illustrationModule.Index;
@@ -522,7 +593,7 @@ public static class Menu_Helpers
         return Color.HSVToRGB(hue, sat, val);
     }
 
-    private static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration)
+    public static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration)
     {
         var miscProg = Utils.MiscProgression;
 
@@ -588,5 +659,39 @@ public static class Menu_Helpers
                 illustration.sprite.scale = Mathf.Lerp(currentScale, initialScale, 0.1f);
             }
         }
+    }
+    */
+
+
+    public static SaveMiscProgression.StoredPearlData? PearlTypeToStoredData(this DataPearl.AbstractDataPearl.DataPearlType? dataPearlType)
+    {
+        if (dataPearlType is null)
+        {
+            return null;
+        }
+
+        return new SaveMiscProgression.StoredPearlData
+        {
+            DataPearlType = dataPearlType.value,
+        };
+    }
+
+    public static List<SaveMiscProgression.StoredPearlData> PearlTypeToStoredData(this List<DataPearl.AbstractDataPearl.DataPearlType> pearlTypeList)
+    {
+        var storedDataList = new List<SaveMiscProgression.StoredPearlData>();
+
+        foreach (var dataPearlType in pearlTypeList)
+        {
+            var pearlData = dataPearlType.PearlTypeToStoredData();
+
+            if (pearlData is null)
+            {
+                continue;
+            }
+
+            storedDataList.Add(pearlData);
+        }
+
+        return storedDataList;
     }
 }

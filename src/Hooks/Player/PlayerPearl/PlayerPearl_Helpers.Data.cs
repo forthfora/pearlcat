@@ -49,7 +49,7 @@ public static partial class PlayerPearl_Helpers
         }
 
         // Pearl Spear
-        if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out _))
+        if (abstractObject is AbstractSpear spear && spear.TryGetModule(out _))
         {
             return true;
         }

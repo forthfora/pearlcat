@@ -88,8 +88,8 @@ public class Plugin : BaseUnityPlugin
 
                 "\n" +
 
-                $"{nameof(SaveMiscProgression.ActivePearlColor)}: {pearlcatMiscProg.ActivePearlColor}\n" +
-                $"{nameof(SaveMiscProgression.StoredPearlColors)}:\n{string.Join(",\n", pearlcatMiscProg.StoredPearlColors)}\n" +
+                $"{nameof(SaveMiscProgression.StoredActivePearl)}: {pearlcatMiscProg.StoredActivePearl}\n" +
+                $"{nameof(SaveMiscProgression.StoredNonActivePearls)}:\n{string.Join(",\n", pearlcatMiscProg.StoredNonActivePearls)}\n" +
 
                 "\n" +
 

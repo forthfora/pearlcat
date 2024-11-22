@@ -63,7 +63,7 @@ public class T1_CAR3 : UpdatableAndDeletable
                     if (ModManager.MSC)
                     {
                         var abstractSlugpup = new AbstractCreature(room.world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC), null, new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID());
-                        abstractSlugpup.MakePearlpup();
+                        abstractSlugpup.TryMakePearlpup();
 
                         room.abstractRoom.entities.Add(abstractSlugpup);
                         abstractSlugpup.RealizeInRoom();

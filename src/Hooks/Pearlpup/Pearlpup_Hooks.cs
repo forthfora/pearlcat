@@ -78,7 +78,7 @@ public static class Pearlpup_Hooks
         }
 
 
-        self.abstractCreature.MakePearlpup();
+        self.abstractCreature.TryMakePearlpup();
     }
 
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)

@@ -234,7 +234,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             var abstractSlugpup = new AbstractCreature(world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC),
                 null, new(oracle.abstractPhysicalObject.Room.index, -1, -1, 0), world.game.GetNewID());
 
-            abstractSlugpup.MakePearlpup();
+            abstractSlugpup.TryMakePearlpup();
 
             oracle.room.abstractRoom.entities.Add(abstractSlugpup);
             abstractSlugpup.RealizeInRoom();

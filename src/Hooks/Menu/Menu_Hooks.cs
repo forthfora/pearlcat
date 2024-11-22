@@ -79,36 +79,15 @@ public static class Menu_Hooks
     {
         orig(self);
 
+        // Restrict to pearlcat's directory so we don't mess with other mod's stuff
         if (!self.fileName.Contains("pearlcat"))
         {
             return;
         }
 
-        var miscProg = Utils.MiscProgression;
-        var fileName = Path.GetFileNameWithoutExtension(self.fileName);
+        UpdateIllustrationConditionTags(self);
 
-        // INTRO
-        if (fileName == "Intro6")
-        {
-            self.visible = !ModCompat_Helpers.IsModEnabled_MiraInstallation;
-        }
-
-        // VOID SEA ENDING
-        if (fileName == "Outro3_1" || fileName == "Outro2_1")
-        {
-            self.visible = miscProg.HasPearlpup;
-        }
-
-        // OUTER EXPANSE ENDING
-        if (fileName == "AltOutro10_1")
-        {
-            if (self.alpha == 1.0f)
-            {
-                self.alpha = 0.0f;
-            }
-
-            self.alpha = Mathf.Lerp(self.alpha, 0.99f, 0.015f);
-        }
+        UpdateIllustrationSpecificBehavior(self);
     }
 
 
@@ -137,10 +116,16 @@ public static class Menu_Hooks
     }
 
 
-    // Dynamic Menu Scenes
+    // Initialize menu scenes with dynamic pearls
     private static void MenuScene_ctor(On.Menu.MenuScene.orig_ctor orig, MenuScene self, Menu.Menu menu, MenuObject owner, MenuScene.SceneID sceneID)
     {
         orig(self, menu, owner, sceneID);
+
+        if (!sceneID.value.Contains("pearlcat"))
+        {
+            return;
+        }
+
        
         var save = Utils.MiscProgression;
 
@@ -149,79 +134,67 @@ public static class Menu_Hooks
             var pearls = ModOptions.GetOverridenInventory(true);
             var activePearl = pearls.FirstOrDefault();
 
-            if (pearls.Count > 11)
-            {
-                pearls.RemoveRange(11, pearls.Count - 11);
-            }
+            // TODO: impose a limit
+            // if (pearls.Count > 11)
+            // {
+            //     pearls.RemoveRange(11, pearls.Count - 11);
+            // }
 
             pearls.Remove(activePearl);
 
-            List<Color> pearlColors = [];
-
-            foreach (var pearl in pearls)
-            {
-                pearlColors.Add(pearl.GetDataPearlColor());
-            }
-
-            ModuleManager.MenuSceneData.Add(self, new(pearlColors, activePearl?.GetDataPearlColor()));
+            ModuleManager.MenuSceneData.Add(self, new(pearls.PearlTypeToStoredData(), activePearl?.PearlTypeToStoredData()));
         }
         else if (save.IsNewPearlcatSave)
         {
-            List<Color> pearlColors =
+            List<DataPearl.AbstractDataPearl.DataPearlType> pearls =
             [
-                Pearls.AS_PearlBlue.GetDataPearlColor(),
-                Pearls.AS_PearlYellow.GetDataPearlColor(),
-                Pearls.AS_PearlRed.GetDataPearlColor(),
-                Pearls.AS_PearlGreen.GetDataPearlColor(),
-                Pearls.AS_PearlBlack.GetDataPearlColor()
+                Pearls.AS_PearlBlue,
+                Pearls.AS_PearlYellow,
+                Pearls.AS_PearlRed,
+                Pearls.AS_PearlGreen,
+                Pearls.AS_PearlBlack,
             ];
-            
-            var activeColor = Pearls.RM_Pearlcat.GetDataPearlColor();
+
+            var activePearl = Pearls.RM_Pearlcat;
 
             // Replace the active pearl with one of the pearl colors (+ remove it from the list)
             if (save.HasTrueEnding)
             {
-                activeColor = Pearls.AS_PearlRed.GetDataPearlColor();
-                pearlColors.Remove(activeColor);
+                activePearl = Pearls.AS_PearlRed;
+                pearls.Remove(activePearl);
             }
 
-            ModuleManager.MenuSceneData.Add(self, new(pearlColors, activeColor));
+            ModuleManager.MenuSceneData.Add(self, new(pearls.PearlTypeToStoredData(), activePearl.PearlTypeToStoredData()));
         }
         else
         {
-            var pearls = save.StoredPearlColors;
+            var pearls = save.StoredNonActivePearls;
 
             if (pearls.Count > 11)
             {
                 pearls.RemoveRange(11, pearls.Count - 11);
             }
 
-            ModuleManager.MenuSceneData.Add(self, new(save.StoredPearlColors, save.ActivePearlColor));
+            ModuleManager.MenuSceneData.Add(self, new(save.StoredNonActivePearls, save.StoredActivePearl));
         }
 
 
-        var illustrations = self.flatIllustrations.Concat(self.depthIllustrations);
-        
-        foreach (var illustration in illustrations)
+        if (!self.TryGetModule(out var module))
         {
-            var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
+            return;
+        }
 
-            var index = -2;
+        if (module.ActivePearl is not null)
+        {
+            var illustration = new MenuDepthIllustration(self.menu, self, "illustrations", "pearlcat_menupearl_active", Vector2.zero, 4.0f, MenuDepthIllustration.MenuShader.Basic);
+            self.AddIllustration(illustration);
+        }
 
-            if (fileName.Contains("pearl"))
-            {
-                var indexString = fileName.Replace("pearl", "");
+        foreach (var pearlData in module.NonActivePearls)
+        {
+            var illustration = new MenuDepthIllustration(self.menu, self, "illustrations", "pearlcat_menupearl_active", Vector2.zero, 4.0f, MenuDepthIllustration.MenuShader.Basic);
 
-                if (!int.TryParse(indexString, out index))
-                {
-                    if (fileName == "pearlactive" || fileName == "pearlactiveplaceholder" || fileName == "pearlactivehalo")
-                    {
-                        index = -1;
-                    }
-                }
-            }
-
-            ModuleManager.MenuIllustrationData.Add(illustration, new(illustration, index));
+            self.AddIllustration(illustration);
         }
     }
 
@@ -231,35 +204,35 @@ public static class Menu_Hooks
 
         var illustrations = self.flatMode ? self.flatIllustrations : self.depthIllustrations.ConvertAll(x => (MenuIllustration)x);
 
-        foreach (var illustration in illustrations)
-        {
-            if (!ModuleManager.MenuSceneData.TryGetValue(self, out var menuSceneModule))
-            {
-                continue;
-            }
-
-            if (!ModuleManager.MenuIllustrationData.TryGetValue(illustration, out var illustrationModule))
-            {
-                continue;
-            }
-
-            if (self.sceneID == Scenes.Slugcat_Pearlcat)
-            {
-                UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);
-            }
-            else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sleep)
-            {
-                UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
-            }
-            else if (self.sceneID == Scenes.Slugcat_Pearlcat_Ascended)
-            {
-                UpdateAscendedScreen(self, illustration, menuSceneModule, illustrationModule);
-            }
-            else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sick)
-            {
-                UpdateSickScreen(self, illustration, menuSceneModule, illustrationModule);
-            }
-        }
+        // foreach (var illustration in illustrations)
+        // {
+        //     if (self.TryGetModule(out var menuSceneModule))
+        //     {
+        //         continue;
+        //     }
+        //
+        //     if (!illustration.TryGetModule(out var illustrationModule))
+        //     {
+        //         continue;
+        //     }
+        //
+        //     if (self.sceneID == Scenes.Slugcat_Pearlcat)
+        //     {
+        //         UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);
+        //     }
+        //     else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sleep)
+        //     {
+        //         UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
+        //     }
+        //     else if (self.sceneID == Scenes.Slugcat_Pearlcat_Ascended)
+        //     {
+        //         UpdateAscendedScreen(self, illustration, menuSceneModule, illustrationModule);
+        //     }
+        //     else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sick)
+        //     {
+        //         UpdateSickScreen(self, illustration, menuSceneModule, illustrationModule);
+        //     }
+        // }
     }
 
 
@@ -275,7 +248,7 @@ public static class Menu_Hooks
 
         var save = Utils.MiscProgression;
         var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor()
-            : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.ActivePearlColor;
+            : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.StoredActivePearl?.GetPearlColor();
 
         // screw pebbles pearls you get ORANGE    
         self.effectColor = color ?? Color.white;

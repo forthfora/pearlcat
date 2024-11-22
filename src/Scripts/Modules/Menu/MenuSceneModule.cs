@@ -3,9 +3,11 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class MenuSceneModule(List<Color> pearlColors, Color? activePearlType)
+using StoredPearlData = SaveMiscProgression.StoredPearlData;
+
+public class MenuSceneModule(List<StoredPearlData> nonActivePearls, StoredPearlData? activePearl)
 {
-    public List<Color> PearlColors { get; set; } = pearlColors;
-    public Color? ActivePearlColor { get; set; } = activePearlType;
+    public List<StoredPearlData> NonActivePearls { get; set; } = nonActivePearls;
+    public StoredPearlData? ActivePearl { get; set; } = activePearl;
     public Vector2 ActivePearlPos { get; set; }
 }
