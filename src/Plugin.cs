@@ -62,7 +62,9 @@ public class Plugin : BaseUnityPlugin
             var pearlcatMiscWorld = (rainWorld.processManager?.currentMainLoop as RainWorldGame)?.GetMiscWorld();
 
             var message =
-                $"!PEARLCAT DEBUG INFO LOG!\n" +
+                $"=======================\n" +
+                $"PEARLCAT DEBUG INFO LOG\n" +
+                $"=======================\n" +
 
                 $"TIME: {DateTime.UtcNow}\n" +
                 $"GAME VERSION: {RainWorld.GAME_VERSION_STRING}\n" +
@@ -94,6 +96,7 @@ public class Plugin : BaseUnityPlugin
                 "\n" +
 
                 $"{nameof(SaveMiscProgression.HasPearlpup)}: {pearlcatMiscProg.HasPearlpup}\n" +
+                $"{nameof(SaveMiscProgression.HasDeadPearlpup)}: {pearlcatMiscProg.HasDeadPearlpup}\n" +
                 $"{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n" +
 
                 "\n" +

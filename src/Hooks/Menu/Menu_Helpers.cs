@@ -30,10 +30,10 @@ public static class Menu_Helpers
 
         var visible = true;
 
-        // If Pearlpup is alive and with the player
+        // If Pearlpup is alive and with the player (or a new save)
         if (fileName.HasConditionTag("pup", out var c))
         {
-            visible &= miscProg.HasPearlpup == c;
+            visible &= miscProg.HasPearlpup == c || miscProg.HasDeadPearlpup || miscProg.IsNewPearlcatSave;
         }
 
         // If true ending achieved
@@ -48,10 +48,10 @@ public static class Menu_Helpers
             visible &= miscProg.IsPearlpupSick == c;
         }
 
-        // Had pearlpup and lost them or pearlpup is sick
+        // Had pearlpup and lost them, pearlpup is in the shelter but dead, or pearlpup is sick
         if (fileName.HasConditionTag("sad", out c))
         {
-            visible &= (miscProg.IsPearlpupSick || (!miscProg.HasPearlpup && miscProg.DidHavePearlpup && !miscProg.HasTrueEnding)) == c;
+            visible &= (miscProg.IsPearlpupSick || miscProg.HasDeadPearlpup || (!miscProg.HasPearlpup && miscProg.DidHavePearlpup)) == c;
         }
 
         self.visible = visible;
@@ -517,7 +517,7 @@ public static class Menu_Helpers
             if (type == IllustrationType.PearlNonActive)
             {
                 i.SetDepth(2.0f);
-                i.MoveAfter("pearlpup_(!trueend)");
+                i.MoveAfter("pearlpup_(!trueend)_(pup)");
                 return;
             }
 
@@ -573,11 +573,11 @@ public static class Menu_Helpers
 
                 if (index <= 4)
                 {
-                    i.MoveAfter("pearlpup_(pup)_(sick)");
+                    i.MoveAfter("pearlpup_(pup)_(sad)");
                 }
                 else
                 {
-                    i.MoveAfter("pearlpup_(pup)_(!sick)");
+                    i.MoveAfter("pearlpup_(pup)_(!sad)");
                 }
                 return;
             }

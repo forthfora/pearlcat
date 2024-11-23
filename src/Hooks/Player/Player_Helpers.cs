@@ -1051,6 +1051,7 @@ public static class Player_Helpers
         var miscProg = Utils.MiscProgression;
 
         miscProg.HasPearlpup = false;
+        miscProg.HasDeadPearlpup = false;
 
         if (save != null)
         {
@@ -1062,7 +1063,10 @@ public static class Player_Helpers
         // Can get a reference to pearlpup (i.e. they're in the world somewhere)
         if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup))
         {
-            miscProg.HasPearlpup = !pup.dead && pup.abstractCreature.Room == self.abstractCreature.Room;
+            var sameRoom = pup.abstractCreature.Room == self.abstractCreature.Room;
+
+            miscProg.HasPearlpup = !pup.dead && sameRoom;
+            miscProg.HasDeadPearlpup = pup.dead && sameRoom;
 
             if (save is null)
             {
@@ -1070,9 +1074,7 @@ public static class Player_Helpers
             }
 
             save.HasPearlpupWithPlayer = miscProg.HasPearlpup;
-
-            save.HasPearlpupWithPlayerDeadOrAlive = pup.abstractCreature.Room == self.abstractCreature.Room;
-
+            save.HasPearlpupWithPlayerDeadOrAlive = sameRoom;
             return;
         }
 

@@ -46,6 +46,7 @@ public class SaveMiscProgression
 
     // Story
     public bool HasPearlpup { get; set; }
+    public bool HasDeadPearlpup { get; set; }
     public bool DidHavePearlpup { get; set; }
     
     public bool IsPearlpupSick { get; set; }
@@ -67,6 +68,7 @@ public class SaveMiscProgression
         IsNewPearlcatSave = true;
 
         HasPearlpup = false;
+        HasDeadPearlpup = false;
         DidHavePearlpup = false;
         
         IsPearlpupSick = false;

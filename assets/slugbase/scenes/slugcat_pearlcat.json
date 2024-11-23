@@ -12,11 +12,11 @@
     
     {"name": "adult_pearlpup_(trueend)", "pos": [0, -75], "depth": 2.8, "shader": "Basic"},
     
-    {"name": "pearlpup_scarf_(!trueend)", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
+    {"name": "pearlpup_scarf_(!trueend)_(pup)", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
     {"name": "pearlcatbody_(!trueend)", "pos": [0, 0], "depth": 2.8, "shader": "Basic"},
 
-    {"name": "pearlpup_tail_(!trueend)", "pos": [0, -20], "depth": 2.5, "shader": "Basic"},
-    {"name": "pearlpup_(!trueend)", "pos": [0, -20], "depth": 2.2, "shader": "Basic"},
+    {"name": "pearlpup_tail_(!trueend)_(pup)", "pos": [0, -20], "depth": 2.5, "shader": "Basic"},
+    {"name": "pearlpup_(!trueend)_(pup)", "pos": [0, -20], "depth": 2.2, "shader": "Basic"},
     
     {"name": "pearlcathead_(!trueend)", "pos": [0, 0], "depth": 2.8, "shader": "Basic"},
     

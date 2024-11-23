@@ -229,7 +229,7 @@ public static class Menu_Hooks
         }
 
         // Placeholder for when Pearlcat sleeps with no pearls stored
-        if (sceneID == Scenes.Slugcat_Pearlcat_Sleep && miscProg.StoredActivePearl is null)
+        if (sceneID == Scenes.Slugcat_Pearlcat_Sleep && !miscProg.HasTrueEnding && miscProg.StoredActivePearl is null)
         {
             var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, false, false)
                 : new MenuDepthIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);

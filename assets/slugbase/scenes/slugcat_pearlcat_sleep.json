@@ -4,15 +4,15 @@
   "images": [
     {"name": "flat_(!trueend)_(!pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
     {"name": "flat_(!trueend)_(!pup)_(sad)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
-    {"name": "flat_(pup)_(!sick)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
-    {"name": "flat_(pup)_(sick)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+    {"name": "flat_(pup)_(!sad)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+    {"name": "flat_(pup)_(sad)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
     {"name": "flat_(trueend)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
     {"name": "pearlpup_(trueend)", "pos": [630, 30], "depth": 3.0, "shader": "Basic"},
     
-    {"name": "4", "pos": [683, 265], "depth": 5.0, "shader": "Normal"},
-    {"name": "3", "pos": [678, 188], "depth": 4.5, "shader": "Normal"},
-    {"name": "2", "pos": [735, 179], "depth": 4.0, "shader": "Normal"},
+    {"name": "4_(!trueend)", "pos": [683, 265], "depth": 5.0, "shader": "Normal"},
+    {"name": "3_(!trueend)", "pos": [678, 188], "depth": 4.5, "shader": "Normal"},
+    {"name": "2_(!trueend)", "pos": [735, 179], "depth": 4.0, "shader": "Normal"},
     
     {"name": "pearlcat_(pup)_(!sad)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
     {"name": "pearlcat_(!trueend)_(sad)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
@@ -20,11 +20,11 @@
     {"name": "pearlcat_(!trueend)_(!pup)_(!sad)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
     
     {"name": "scarf_(!trueend)_(sad)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
-    {"name": "pearlpup_(pup)_(sick)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
+    {"name": "pearlpup_(pup)_(sad)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
 
-    {"name": "pearlpup_(pup)_(!sick)", "pos": [710, 67], "depth": 2.5, "shader": "Basic"},
+    {"name": "pearlpup_(pup)_(!sad)", "pos": [710, 67], "depth": 2.5, "shader": "Basic"},
 
-    {"name": "1", "pos": [486, 29], "depth": 2.0, "shader": "Normal"}
+    {"name": "1_(!trueend)", "pos": [486, 29], "depth": 2.0, "shader": "Normal"}
   ],
   
   "idle_depths": [2.4],
