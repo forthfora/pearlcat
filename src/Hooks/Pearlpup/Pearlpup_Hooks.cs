@@ -88,8 +88,7 @@ public static class Pearlpup_Hooks
         // If pearlpup's ID and the pup with that ID fall out of sync for some reason, this should automatically convert them back into a pearlpup
         ConvertIntoPearlpupIfIdMatch(self);
 
-
-        if (!self.TryGetPearlpupModule(out var module))
+        if (!self.TryGetPearlpupModule(out _))
         {
             return;
         }

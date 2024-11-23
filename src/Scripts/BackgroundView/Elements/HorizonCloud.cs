@@ -3,18 +3,12 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class HorizonCloud : Cloud
+public class HorizonCloud(CustomBgScene scene, Vector2 pos, float depth, int index, float flatten, float alpha, float shaderColor)
+    : Cloud(scene, pos, depth, index)
 {
-    public float Flatten { get; set; } = 1.0f;
-    public float Alpha { get; set; } = 1.0f;
-    public float ShaderColor { get; set; }
-
-    public HorizonCloud(CustomBgScene scene, Vector2 pos, float depth, int index, float flatten, float alpha, float shaderColor) : base(scene, pos, depth, index)
-    {
-        Flatten = flatten;
-        Alpha = alpha;
-        ShaderColor = shaderColor;
-    }
+    public float Flatten { get; set; } = flatten;
+    public float Alpha { get; set; } = alpha;
+    public float ShaderColor { get; set; } = shaderColor;
 
     public override void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {

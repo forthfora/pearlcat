@@ -15,13 +15,12 @@ public static class Pearlpup_Helpers
 
     public static void ConvertIntoPearlpupIfIdMatch(Player self)
     {
-        var miscWorld = self.abstractCreature.world.game.GetMiscWorld();
+        var miscWorld = self.abstractCreature?.world?.game?.GetMiscWorld();
 
         if (miscWorld is null)
         {
             return;
         }
-
 
         if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
         {
@@ -33,12 +32,11 @@ public static class Pearlpup_Helpers
             return;
         }
 
-
-        if (self.abstractCreature.ID.number != miscWorld.PearlpupID)
+        if (self.abstractCreature?.ID.number != miscWorld.PearlpupID)
         {
             return;
         }
 
-        self.abstractCreature.TryMakePearlpup();
+        self.abstractCreature?.TryMakePearlpup();
     }
 }

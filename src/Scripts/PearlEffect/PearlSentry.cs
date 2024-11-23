@@ -16,7 +16,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     public Vector2 InitialPos { get; }
 
     public float HaloScale { get; set; } = 1.0f;
-    public float AnimCounter { get; set; }
+    public int AnimCounter { get; set; }
 
     public bool SpearBombArmed { get; set; }
     public AbstractRoom? SpearBombRoom { get; set; }
@@ -35,6 +35,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     public float HoloLightAlpha { get; set; }
     public bool HoloLightActive { get; set; }
 
+    public bool PlaysMusic { get; set; }
     public bool WasPlayingMusic { get; set; }
     public float MusicVolume { get; set; }
 
@@ -188,12 +189,18 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         player.mainBodyChunk.vel += Custom.DirVec(player.firstChunk.pos, pearl.firstChunk.pos) * Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 75.0f, 125.0f, 0.0f, 3.0f, 0.8f);
     }
 
+    // This can actually cause a memory leak if there are 2 or more music player pearls deployed at the same time - stopped it with a check but still dunno what causes the leak
     private void UpdateMusicSentry(DataPearl self, string songName)
     {
+        PlaysMusic = true;
+
         if (room is null)
         {
             return;
         }
+
+        var musicPlayer = room?.game?.manager?.musicPlayer;
+        var otherMusicPearlsExist = false;
 
         foreach (var objLayer in self.room.physicalObjects)
         {
@@ -214,14 +221,28 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                     continue;
                 }
 
-                if (sentryModule.WasPlayingMusic)
+                if (sentryModule.PlaysMusic)
                 {
-                    self.ConnectEffect(obj.firstChunk.pos, self.abstractPhysicalObject.GetObjectColor());
+                    otherMusicPearlsExist = true;
+
+                    if (musicPlayer?.song is not null && musicPlayer.song.name == songName)
+                    {
+                        musicPlayer.song.StopAndDestroy();
+                        musicPlayer.song = null;
+                    }
+
+                    if (AnimCounter % 30 == 0 && Custom.Dist(self.firstChunk.pos, obj.firstChunk.pos) < 1500.0f)
+                    {
+                        self.room.ConnectEffect(self.firstChunk.pos, obj.firstChunk.pos, self.abstractPhysicalObject.GetObjectColor(), lifeTime: 60.0f);
+                    }
                 }
             }
         }
 
-        var musicPlayer = room?.game?.manager?.musicPlayer;
+        if (otherMusicPearlsExist)
+        {
+            return;
+        }
 
         if (musicPlayer is null)
         {

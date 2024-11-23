@@ -194,6 +194,22 @@ public static class Menu_Hooks
             appendTag = "_(ascendscene)";
         }
 
+        // Non-Active Pearls
+        for (var i = 0; i < module.NonActivePearls.Count; i++)
+        {
+            var pearlData = module.NonActivePearls[i];
+
+            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, false, false)
+                : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+            self.AddIllustration(illustration);
+
+            var isUnique = GetUniquePearlIllustration(pearlData.DataPearlType) is not null;
+
+            illustration.GetModule().Init(illustration, MenuIllustrationModule.IllustrationType.PearlNonActive, i, isUnique);
+        }
+
+        // Active Pearl
         if (module.ActivePearl is not null)
         {
             var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, false, false)
@@ -212,20 +228,6 @@ public static class Menu_Hooks
             self.AddIllustration(haloIllustration);
 
             haloIllustration.GetModule().Init(haloIllustration, MenuIllustrationModule.IllustrationType.PearlActiveHalo);
-        }
-
-        for (var i = 0; i < module.NonActivePearls.Count; i++)
-        {
-            var pearlData = module.NonActivePearls[i];
-
-            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, false, false)
-                : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-            self.AddIllustration(illustration);
-
-            var isUnique = GetUniquePearlIllustration(pearlData.DataPearlType) is not null;
-
-            illustration.GetModule().Init(illustration, MenuIllustrationModule.IllustrationType.PearlNonActive, i, isUnique);
         }
 
         // Placeholder for when Pearlcat sleeps with no pearls stored
@@ -258,6 +260,11 @@ public static class Menu_Hooks
 
                 heartIllustration.GetModule().Init(heartIllustration, MenuIllustrationModule.IllustrationType.PearlHeart);
             }
+        }
+
+        foreach (var a in self.depthIllustrations.Concat(self.flatIllustrations))
+        {
+            Plugin.Logger.LogWarning(Path.GetFileNameWithoutExtension(a.fileName));
         }
     }
 

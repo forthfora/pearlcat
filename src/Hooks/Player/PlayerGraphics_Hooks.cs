@@ -320,11 +320,12 @@ public static class PlayerGraphics_Hooks
         }
 
 
-        List<Color> colors =
-        [
-            playerModule.ActiveColor * Custom.HSL2RGB(1.0f, 1.0f, 1.25f),
-            playerModule.ActiveColor
-        ];
+        List<Color> colors = [];
+
+        foreach (var item in playerModule.Inventory)
+        {
+            colors.Add(Color.Lerp(item.GetObjectColor(), Color.white, 0.5f));
+        }
 
 
         if (colors.Count == 0)

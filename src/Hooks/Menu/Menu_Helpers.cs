@@ -468,14 +468,7 @@ public static class Menu_Helpers
 
         if (isCore)
         {
-            if (coreBeat)
-            {
-                illustration.sprite.scale = 0.4f;
-            }
-            else
-            {
-                illustration.sprite.scale = Mathf.Lerp(currentScale, initialScale, 0.1f);
-            }
+            illustration.sprite.scale = coreBeat ? 0.4f : Mathf.Lerp(currentScale, initialScale, 0.1f);
         }
         else
         {
