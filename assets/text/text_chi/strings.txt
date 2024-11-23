@@ -118,7 +118,7 @@ Ability P3|能力 P3
 
 VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update...|版本警告<LINE> MIRA安装需要更新的PearlCat版本！请更新...
 
- SAVE| SAVE
+ SAVE| 保存
 
 When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|选中后，将使用下方的选项覆盖起始珍珠。与背包覆盖？不同，此选项仅在开始新游戏时生效。
 
@@ -254,7 +254,7 @@ When checked, the inventory HUD will be replaced with a more compact version.|�
 
 Something new to read... it has been too long...|一些要读的新东西……已经太久了……
 
-WARNING|WARNING
+WARNING|警告
 
 Let us see what- oh, again?|让我们看看- 哦，又来？
 
@@ -388,7 +388,7 @@ I am so sorry.|我很遗憾。
 
 Pearls may also be deployed as temporary sentries. Press (|珍珠也可以作为临时哨兵被部署。按下（
 
-Skip to Mira Storyline|跳过Mira故事情节
+Skip to Mira Storyline|跳过米拉的故事情节
 
 ...and you can gather more of that data you so clearly desire.|……并且你可以收集更多你明确想要的数据。
 
@@ -450,7 +450,7 @@ Given your unique abilities, if you are curious as to the contents of those pear
 
 There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|我无法阻止你，所以我的请求是：<LINE>别管我，或者快点结束这一切。
 
-To release possession, try to deploy the pearl as a sentry|要释放财产，请尝试将珍珠部署为哨兵
+To release possession, try to deploy the pearl as a sentry|要释放掌控之物，请尝试将珍珠部署为哨兵
 
 You have a knack for finding these pearls, yes?|你有找这些珍珠的诀窍，对吗？
 
@@ -492,7 +492,7 @@ Sentry P3|哨兵 P3
 
 Oh, hello there!|哦，你好！
 
-CREDITS|学分
+CREDITS|制作人员
 
 acursed|讨厌的
 
@@ -746,7 +746,7 @@ I'm sorry... it's wrong to be so invasive, it's none of my business really.|很�
 
 I will tolerate your pressence, so long as you bring me something meaningful.|我会容忍你的存在，只要你能给我带一些有意义的东西。
 
-I am... sorry.|我……很抱歉。
+I am... sorry.|我……很遗憾。
 
 ...and what happened to your parent...|……以及你的父母发生了什么……
 
