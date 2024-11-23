@@ -78,7 +78,7 @@ public static class Input_Helpers
             2 => Input.GetKey(ModOptions.StoreKeybindPlayer3.Value),
             3 => Input.GetKey(ModOptions.StoreKeybindPlayer4.Value),
 
-            _ => false
+            _ => false,
         };
     }
 
@@ -96,7 +96,7 @@ public static class Input_Helpers
             2 => Input.GetKey(ModOptions.SwapKeybindPlayer3.Value),
             3 => Input.GetKey(ModOptions.SwapKeybindPlayer4.Value),
 
-            _ => false
+            _ => false,
         };
     }
 
@@ -189,7 +189,7 @@ public static class Input_Helpers
             2 => Input.GetKey(ModOptions.AbilityKeybindPlayer3.Value),
             3 => Input.GetKey(ModOptions.AbilityKeybindPlayer4.Value),
 
-            _ => false
+            _ => false,
         };
     }
     
@@ -209,7 +209,7 @@ public static class Input_Helpers
                 2 => Input.GetKey(ModOptions.SentryKeybindPlayer3.Value),
                 3 => Input.GetKey(ModOptions.SentryKeybindPlayer4.Value),
 
-                _ => false
+                _ => false,
             };
         }
 

@@ -179,9 +179,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
     private void UpdateHeartSentry(AbstractPhysicalObject owner, DataPearl pearl)
     {
-        var player = owner.TryGetPlayerPearlOwner();
-
-        if (player == null)
+        if (!owner.TryGetPlayerPearlOwner(out var player))
         {
             return;
         }
@@ -297,7 +295,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 stopAtGate = true,
                 stopAtDeath = true,
                 fadeInTime = 1.0f,
-                playWhenReady = true
+                playWhenReady = true,
             };
 
             MusicVolume = 0.0f;
@@ -666,9 +664,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var player = owner.TryGetPlayerPearlOwner();
-
-        if (player == null)
+        if (!owner.TryGetPlayerPearlOwner(out var player))
         {
             return;
         }

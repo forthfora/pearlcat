@@ -48,7 +48,7 @@ public static partial class PlayerPearl_Helpers
                 Enums.Pearls.AS_PearlYellow,
                 Enums.Pearls.AS_PearlGreen,
                 Enums.Pearls.AS_PearlBlack,
-                Enums.Pearls.AS_PearlRed
+                Enums.Pearls.AS_PearlRed,
             ];
 
             if (!playerModule.IsAdultPearlpup)

@@ -17,7 +17,7 @@ public class BgBuilding(CustomBgScene scene, string assetName, Vector2 pos, floa
         sLeaser.sprites[0] = new FSprite(AssetName)
         {
             shader = Type == BgElementType.FgSupport ? Utils.Shaders["Basic"] : UseNonMultiplyShader ? Utils.Shaders["DistantBkgObjectAlpha"] : Utils.Shaders["DistantBkgObject"],
-            anchorY = 1.0f
+            anchorY = 1.0f,
         };
 
         var container = Type == BgElementType.FgSupport ? rCam.ReturnFContainer("Foreground") : null;

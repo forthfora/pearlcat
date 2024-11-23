@@ -6,16 +6,11 @@ namespace Pearlcat;
 
 public class PearlpupPearlModule
 {
-    public WeakReference<DataPearl.AbstractDataPearl> DataPearlRef { get; }
     public WeakReference<Player>? OwnerRef { get; } 
 
     public PearlpupPearlModule(DataPearl.AbstractDataPearl self)
     {
-        DataPearlRef = new(self);
-
-        var owner = self.TryGetPlayerPearlOwner();
-
-        if (owner != null)
+        if (self.TryGetPlayerPearlOwner(out var owner))
         {
             OwnerRef = new(owner);
         }
@@ -40,7 +35,6 @@ public class PearlpupPearlModule
 
 
     // Umbilical
-    public int UmbilicalSprite { get; set; }
     public UmbilicalGraphics? Umbilical { get; set; }
 
 

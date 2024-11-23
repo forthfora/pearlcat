@@ -548,7 +548,7 @@ public static class World_Hooks
                 [
                     Player.BodyModeIndex.Crawl,
                     Player.BodyModeIndex.ClimbIntoShortCut,
-                    Player.BodyModeIndex.CorridorClimb
+                    Player.BodyModeIndex.CorridorClimb,
                 ];
 
                 var target = player.canJump == 0 ? 1.0f : 0.85f;

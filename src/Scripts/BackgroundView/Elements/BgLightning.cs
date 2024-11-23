@@ -49,7 +49,7 @@ public class BgLightning : CustomBgElement
         sLeaser.sprites[0] = new FSprite(AssetName)
         {
             shader = Utils.Shaders["Background"],
-            anchorY = 1.0f
+            anchorY = 1.0f,
         };
 
         AddToContainer(sLeaser, rCam, null);

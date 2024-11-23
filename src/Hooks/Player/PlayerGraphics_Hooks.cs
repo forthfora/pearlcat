@@ -319,43 +319,7 @@ public static class PlayerGraphics_Hooks
             return result;
         }
 
-
-        List<Color> colors = [];
-
-        foreach (var item in playerModule.Inventory)
-        {
-            colors.Add(Color.Lerp(item.GetObjectColor(), Color.white, 0.5f));
-        }
-
-
-        if (colors.Count == 0)
-        {
-            return result;
-        }
-
-        playerModule.ShortcutColorTimer += SHORTCUT_COLOR_INCREMENT * playerModule.ShortcutColorTimerDirection;
-
-        if (playerModule.ShortcutColorTimerDirection == 1 && playerModule.ShortcutColorTimer > 1.0f)
-        {
-            playerModule.ShortcutColorTimerDirection = -1;
-            playerModule.ShortcutColorTimer += SHORTCUT_COLOR_INCREMENT * playerModule.ShortcutColorTimerDirection;
-
-        }
-        else if (playerModule.ShortcutColorTimerDirection == -1 && playerModule.ShortcutColorTimer < 0.0f)
-        {
-            playerModule.ShortcutColorTimerDirection = 1;
-            playerModule.ShortcutColorTimer += SHORTCUT_COLOR_INCREMENT * playerModule.ShortcutColorTimerDirection;
-        }
-
-        // https://gamedev.stackexchange.com/questions/98740/how-to-color-lerp-between-multiple-colors
-        var scaledTime = playerModule.ShortcutColorTimer * (colors.Count - 1);
-        var oldColor = colors[(int)scaledTime];
-
-        var nextIndex = (int)(scaledTime + 1.0f);
-        var newColor = nextIndex >= colors.Count ? oldColor : colors[nextIndex];
-
-        var newTime = scaledTime - Mathf.Floor(scaledTime);
-        return Color.Lerp(oldColor, newColor, newTime);
+        return Color.Lerp(playerModule.ActiveColor, Color.white, 0.25f);
     }
 
     private static void JollyPlayerSpecificHud_Draw(On.JollyCoop.JollyHUD.JollyPlayerSpecificHud.orig_Draw orig, JollyCoop.JollyHUD.JollyPlayerSpecificHud self, float timeStacker)

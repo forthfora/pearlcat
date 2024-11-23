@@ -71,7 +71,7 @@ public static class PlayerHeartPearl_Hooks
 
         var progressSprite = sLeaser.sprites[module.PossessProgressSprite] = new FSprite("Futile_White")
         {
-            shader = Utils.Shaders["HoldButtonCircle"]
+            shader = Utils.Shaders["HoldButtonCircle"],
         };
 
         var circleSprite = sLeaser.sprites[module.PossessCircleSprite] = new FSprite("pearlcat_possesscircle")

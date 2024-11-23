@@ -128,7 +128,24 @@ public static class Menu_Hooks
        
         var miscProg = Utils.MiscProgression;
 
-        if (ModOptions.InventoryOverride.Value || (miscProg.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
+        if (sceneID == Scenes.Dream_Pearlcat_Pebbles)
+        {
+            List<SaveMiscProgression.StoredPearlData> pearls = [];
+
+            for (var i = 0; i < 10; i++)
+            {
+                var pearlData = new SaveMiscProgression.StoredPearlData()
+                {
+                    DataPearlType = DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl.value,
+                    PebblesPearlType = i % 3,
+                };
+
+                pearls.Add(pearlData);
+            }
+
+            ModuleManager.MenuSceneData.Add(self, new(pearls, miscProg.StoredActivePearl));
+        }
+        else if (ModOptions.InventoryOverride.Value || (miscProg.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
         {
             var pearls = ModOptions.GetOverridenInventory(true);
             var activePearl = pearls.FirstOrDefault();
@@ -260,11 +277,6 @@ public static class Menu_Hooks
 
                 heartIllustration.GetModule().Init(heartIllustration, MenuIllustrationModule.IllustrationType.PearlHeart);
             }
-        }
-
-        foreach (var a in self.depthIllustrations.Concat(self.flatIllustrations))
-        {
-            Plugin.Logger.LogWarning(Path.GetFileNameWithoutExtension(a.fileName));
         }
     }
 

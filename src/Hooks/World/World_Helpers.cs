@@ -15,7 +15,7 @@ public static class World_Helpers
         "T1_CAR3",
         "T1_CAREND",
         "T1_END",
-        "T1_S01"
+        "T1_S01",
     ];
 
     public static bool IsGateOpenForPearlcat(this RegionGate gate)

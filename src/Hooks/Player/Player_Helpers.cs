@@ -87,7 +87,7 @@ public static class Player_Helpers
                 CicadaAI => aggression > 0.0f,
                 DropBugAI => true,
                 InspectorAI => aggression > 0.0f,
-                _ => false
+                _ => false,
             };
         }
 

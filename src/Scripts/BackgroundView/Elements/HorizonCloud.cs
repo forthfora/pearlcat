@@ -17,7 +17,7 @@ public class HorizonCloud(CustomBgScene scene, Vector2 pos, float depth, int ind
         sLeaser.sprites[0] = new FSprite("pearlcat_flyingclouds")
         {
             shader = Utils.Shaders["CloudDistant"],
-            anchorY = 1f
+            anchorY = 1f,
         };
 
         AddToContainer(sLeaser, rCam, null!);

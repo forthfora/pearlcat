@@ -58,7 +58,7 @@ public static partial class PlayerPearl_Helpers
     }
 
 
-    public static Player? TryGetPlayerPearlOwner(this AbstractPhysicalObject targetObject)
+    public static bool TryGetPlayerPearlOwner(this AbstractPhysicalObject targetObject, out Player player)
     {
         var playerData = targetObject.world.game.GetAllPearlcatModules();
 
@@ -66,13 +66,14 @@ public static partial class PlayerPearl_Helpers
         {
             var obj = playerModule.Inventory.FirstOrDefault(abstractObject => abstractObject == targetObject);
 
-            if (obj is not null && playerModule.PlayerRef.TryGetTarget(out var player))
+            if (obj is not null && playerModule.PlayerRef.TryGetTarget(out player))
             {
-                return player;
+                return true;
             }
         }
 
-        return null;
+        player = null!;
+        return false;
     }
 
 

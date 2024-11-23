@@ -363,7 +363,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         {
             -1 => null,
             > 9 => "pearlcat_over9",
-            _ => "pearlcat_" + num
+            _ => "pearlcat_" + num,
         };
     }
 

@@ -41,11 +41,6 @@ public partial class PlayerModule
     public Vector2 Ribbon2Offset { get; } = new(-3.0f, 0.0f);
 
 
-    // Shortcut Color
-    public float ShortcutColorTimer { get; set; }
-    public int ShortcutColorTimerDirection { get; set; } = 1;
-
-
     // Object Animation
     public int ObjectAnimationTimer { get; set; }
     public int ObjectAnimationDuration { get; set; }
@@ -91,14 +86,14 @@ public partial class PlayerModule
         List<PearlAnimation> animationPool =
         [
             new PearlAnimation_BasicOrbit(player),
-            new PearlAnimation_LayerOrbit(player)
+            new PearlAnimation_LayerOrbit(player),
         ];
 
         List<PearlAnimation> stillAnimationPool =
         [
             new PearlAnimation_MultiOrbit(player),
             new PearlAnimation_SineWave(player),
-            new PearlAnimation_SineWaveWeave(player)
+            new PearlAnimation_SineWaveWeave(player),
         ];
 
 

@@ -29,7 +29,7 @@ public class DistantCloud : Cloud
         sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString())
         {
             shader = Utils.Shaders["CloudDistant"],
-            anchorY = 1f
+            anchorY = 1f,
         };
 
         AddToContainer(sLeaser, rCam, null!);

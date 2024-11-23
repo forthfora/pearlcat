@@ -20,11 +20,8 @@ public static class PlayerGraphics_Helpers
     public const int HAND_L_SPRITE = 7;
     public const int HAND_R_SPRITE = 8;
     public const int FACE_SPRITE = 9;
-    public const int GLOW_SPRITE = 10;
+    public const int MARK_GLOW_SPRITE = 10;
     public const int MARK_SPRITE = 11;
-
-    // It's used for making pearlcat's color in a pipe slowly pulse (this effect is barely noticeable, remnant from one of the first things I implemented)
-    public const float SHORTCUT_COLOR_INCREMENT = 0.003f;
 
 
     public static void OrderAndColorSprites(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, Vector2 camPos, PlayerModule playerModule, FContainer? newContainer = null)
@@ -39,8 +36,8 @@ public static class PlayerGraphics_Helpers
         var handLSprite = sLeaser.sprites[HAND_L_SPRITE];
         var handRSprite = sLeaser.sprites[HAND_R_SPRITE];
         var legsSprite = sLeaser.sprites[LEGS_SPRITE];
+        var markGlowSprite = sLeaser.sprites[MARK_GLOW_SPRITE];
         var markSprite = sLeaser.sprites[MARK_SPRITE];
-        var faceSprite = sLeaser.sprites[FACE_SPRITE];
 
         var feetSprite = sLeaser.sprites[playerModule.FeetSprite];
         var scarSprite = sLeaser.sprites[playerModule.ScarSprite];
@@ -115,54 +112,52 @@ public static class PlayerGraphics_Helpers
         if (self.player.inVoidSea)
         {
             markSprite.alpha = 0.0f;
+            markGlowSprite.alpha = 0.0f;
         }
 
         if (playerModule.ActiveObject != null)
         {
             markSprite.y += 10.0f;
+            markGlowSprite.y += 10.0f;
         }
 
         // Possession
         if (playerModule.IsAdultPearlpup)
         {
-            var possesssionAlpha = playerModule.IsPossessingCreature ? 0.0f : 1.0f;
+            var isVisible = !playerModule.IsPossessingCreature;
 
-            feetSprite.alpha = possesssionAlpha;
+            for (var i = 0; i < sLeaser.sprites.Length; i++)
+            {
+                var sprite = sLeaser.sprites[i];
 
-            cloakSprite.alpha = possesssionAlpha;
-            scarfSprite.alpha = possesssionAlpha;
+                if (i == MARK_SPRITE)
+                {
+                    continue;
+                }
 
-            sleeveLSprite.alpha = possesssionAlpha;
-            sleeveRSprite.alpha = possesssionAlpha;
+                if (i == MARK_GLOW_SPRITE)
+                {
+                    continue;
+                }
 
-            earLSprite.alpha = possesssionAlpha;
-            earRSprite.alpha = possesssionAlpha;
+                sprite.alpha = isVisible ? 1.0f : 0.0f;
+            }
 
-            earLAccentSprite.alpha = possesssionAlpha;
-            earRAccentSprite.alpha = possesssionAlpha;
+            // Meshes, alpha doesn't work well here
+            tailSprite.isVisible = isVisible;
 
-            tailAccentSprite.alpha = possesssionAlpha;
+            earLSprite.isVisible = isVisible;
+            earRSprite.isVisible = isVisible;
 
-            ribbon1Sprite.alpha = possesssionAlpha;
-            ribbon2Sprite.alpha = possesssionAlpha;
+            earLAccentSprite.isVisible = isVisible;
+            earRAccentSprite.isVisible = isVisible;
 
-            scarfSprite.alpha = possesssionAlpha;
+            tailAccentSprite.isVisible = isVisible;
 
-            scarSprite.alpha = possesssionAlpha;
+            ribbon1Sprite.isVisible = isVisible;
+            ribbon2Sprite.isVisible = isVisible;
 
-            faceSprite.alpha = possesssionAlpha;
-            bodySprite.alpha = possesssionAlpha;
-            armLSprite.alpha = possesssionAlpha;
-            armRSprite.alpha = possesssionAlpha;
-            hipsSprite.alpha = possesssionAlpha;
-            tailSprite.alpha = possesssionAlpha;
-            headSprite.alpha = possesssionAlpha;
-            handLSprite.alpha = possesssionAlpha;
-            handRSprite.alpha = possesssionAlpha;
-            legsSprite.alpha = possesssionAlpha;
-            markSprite.alpha = possesssionAlpha;
-
-            playerModule.Cloak.visible = !playerModule.IsPossessingCreature;
+            playerModule.Cloak.visible = isVisible;
         }
 
         if (ModOptions.DisableCosmetics.Value)
@@ -308,6 +303,7 @@ public static class PlayerGraphics_Helpers
 
         // Color
         markSprite.color = playerModule.ActiveColor;
+        markGlowSprite.color = playerModule.ActiveColor;
 
         bodySprite.color = bodyColor;
         hipsSprite.color = bodyColor;
@@ -352,6 +348,7 @@ public static class PlayerGraphics_Helpers
 
             scarSprite.SetPosition(hipsSprite.GetPosition());
             scarSprite.SetAnchor(hipsSprite.GetAnchor());
+
             scarSprite.rotation = hipsSprite.rotation;
             scarSprite.isVisible = true;
 
