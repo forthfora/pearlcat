@@ -1,25 +1,40 @@
 ﻿using Menu;
-using System;
 using UnityEngine;
 
 namespace Pearlcat;
 
 public class MenuIllustrationModule
 {
-    public WeakReference<MenuIllustration> IllustrationRef { get; set; }
-    
-    public int Index { get; }
+    public IllustrationType Type { get; set; }
+
+    public enum IllustrationType
+    {
+        Default,
+
+        PearlNonActive,
+        PearlActive,
+        PearlActiveHalo,
+
+        PearlHeart,
+        PearlPlaceHolder,
+    }
+
+    public int NonActivePearlIndex { get; set; }
+    public bool HasUniquePearlIllustration { get; set; }
 
     public Vector2 InitialPos;
     public Vector2 SetPos;
     public Vector2 Vel;
 
-    public MenuIllustrationModule(MenuIllustration illustration, int index)
+    public void Init(MenuIllustration illustration, IllustrationType type, int nonActivePearlIndex = 0, bool hasUniquePearlIllustration = false)
     {
-        IllustrationRef = new(illustration);
-        Index = index;
+        Type = type;
+        NonActivePearlIndex = nonActivePearlIndex;
+        HasUniquePearlIllustration = hasUniquePearlIllustration;
 
-        InitialPos = illustration.pos;
-        SetPos = illustration.pos;
+        if (illustration.owner is MenuScene menuScene)
+        {
+            Menu_Helpers.DetermineIllustrationPosDepthLayer(illustration, menuScene, this);
+        }
     }
 }

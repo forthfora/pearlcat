@@ -56,9 +56,8 @@ public partial class PlayerModule
         var minTime = 480;
         var maxTime = 1600;
 
-
+        // RANDOM
         var randState = Random.state;
-
         Random.InitState((int)DateTime.Now.Ticks);
 
         CurrentObjectAnimation = GetObjectAnimation(player);

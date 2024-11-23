@@ -175,7 +175,7 @@ public static class CustomPearls_Helpers
 
         try
         {
-            // Completely useless verification check (thanks Joar)
+            // Unecessary verification check (thanks Joar)
             // if (Regex.Split(splitContents[0], "-")[1] != fileName)
             // {
             //     return;
@@ -206,6 +206,7 @@ public static class CustomPearls_Helpers
                     return;
                 }
 
+                // RANDOM
                 var state = Random.state;
                 Random.InitState(randomSeed);
 

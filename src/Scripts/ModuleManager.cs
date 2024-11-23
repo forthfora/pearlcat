@@ -130,9 +130,9 @@ public static class ModuleManager
     }
 
     public static ConditionalWeakTable<MenuIllustration, MenuIllustrationModule> MenuIllustrationData { get; } = new();
-    public static bool TryGetModule(this MenuIllustration self, out MenuIllustrationModule module)
+    public static MenuIllustrationModule GetModule(this MenuIllustration self)
     {
-        return MenuIllustrationData.TryGetValue(self, out module);
+        return MenuIllustrationData.GetValue(self, _ => new MenuIllustrationModule());
     }
 
     // Five Pebbles

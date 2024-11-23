@@ -121,30 +121,30 @@ public static class Menu_Hooks
     {
         orig(self, menu, owner, sceneID);
 
-        if (!sceneID.value.Contains("pearlcat"))
+        if (!sceneID.value.Contains("Pearlcat"))
         {
             return;
         }
-
        
-        var save = Utils.MiscProgression;
+        var miscProg = Utils.MiscProgression;
 
-        if (ModOptions.InventoryOverride.Value || (save.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
+        if (ModOptions.InventoryOverride.Value || (miscProg.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
         {
             var pearls = ModOptions.GetOverridenInventory(true);
             var activePearl = pearls.FirstOrDefault();
 
-            // TODO: impose a limit
-            // if (pearls.Count > 11)
-            // {
-            //     pearls.RemoveRange(11, pearls.Count - 11);
-            // }
+            var displayLimit = GetPearlDisplayLimit(sceneID);
+
+            if (pearls.Count > displayLimit)
+            {
+                pearls.RemoveRange(displayLimit, pearls.Count - displayLimit);
+            }
 
             pearls.Remove(activePearl);
 
             ModuleManager.MenuSceneData.Add(self, new(pearls.PearlTypeToStoredData(), activePearl?.PearlTypeToStoredData()));
         }
-        else if (save.IsNewPearlcatSave)
+        else if (miscProg.IsNewPearlcatSave)
         {
             List<DataPearl.AbstractDataPearl.DataPearlType> pearls =
             [
@@ -158,7 +158,7 @@ public static class Menu_Hooks
             var activePearl = Pearls.RM_Pearlcat;
 
             // Replace the active pearl with one of the pearl colors (+ remove it from the list)
-            if (save.HasTrueEnding)
+            if (miscProg.HasTrueEnding)
             {
                 activePearl = Pearls.AS_PearlRed;
                 pearls.Remove(activePearl);
@@ -168,14 +168,15 @@ public static class Menu_Hooks
         }
         else
         {
-            var pearls = save.StoredNonActivePearls;
+            var pearls = miscProg.StoredNonActivePearls;
+            var displayLimit = GetPearlDisplayLimit(sceneID);
 
-            if (pearls.Count > 11)
+            if (pearls.Count > displayLimit)
             {
-                pearls.RemoveRange(11, pearls.Count - 11);
+                pearls.RemoveRange(displayLimit, pearls.Count - displayLimit);
             }
 
-            ModuleManager.MenuSceneData.Add(self, new(save.StoredNonActivePearls, save.StoredActivePearl));
+            ModuleManager.MenuSceneData.Add(self, new(miscProg.StoredNonActivePearls, miscProg.StoredActivePearl));
         }
 
 
@@ -184,17 +185,64 @@ public static class Menu_Hooks
             return;
         }
 
-        if (module.ActivePearl is not null)
+        var illustrationFolder = Path.Combine("illustrations", "menupearls");
+        var appendTag = "";
+
+        if (sceneID == Scenes.Slugcat_Pearlcat_Ascended)
         {
-            var illustration = new MenuDepthIllustration(self.menu, self, "illustrations", "pearlcat_menupearl_active", Vector2.zero, 4.0f, MenuDepthIllustration.MenuShader.Basic);
-            self.AddIllustration(illustration);
+            appendTag = "_(ascendscene)";
         }
 
-        foreach (var pearlData in module.NonActivePearls)
+        if (module.ActivePearl is not null)
         {
-            var illustration = new MenuDepthIllustration(self.menu, self, "illustrations", "pearlcat_menupearl_active", Vector2.zero, 4.0f, MenuDepthIllustration.MenuShader.Basic);
-
+            var illustration = new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
             self.AddIllustration(illustration);
+
+            var isUnique = GetUniquePearlIllustration(module.ActivePearl.DataPearlType) is not null;
+
+            illustration.GetModule().Init(illustration, MenuIllustrationModule.IllustrationType.PearlActive, hasUniquePearlIllustration: isUnique);
+        }
+
+        for (var i = 0; i < module.NonActivePearls.Count; i++)
+        {
+            var pearlData = module.NonActivePearls[i];
+
+            var illustration = new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+            self.AddIllustration(illustration);
+
+            var isUnique = GetUniquePearlIllustration(pearlData.DataPearlType) is not null;
+
+            illustration.GetModule().Init(illustration, MenuIllustrationModule.IllustrationType.PearlNonActive, i, isUnique);
+        }
+
+
+        var haloIllustration = new MenuDepthIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+        self.AddIllustration(haloIllustration);
+
+        haloIllustration.GetModule().Init(haloIllustration, MenuIllustrationModule.IllustrationType.PearlActiveHalo);
+
+
+        // Placeholder for when Pearlcat sleeps with no pearls stored
+        if (sceneID == Scenes.Slugcat_Pearlcat_Sleep)
+        {
+            var illustration = new MenuDepthIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+            self.AddIllustration(illustration);
+
+            illustration.GetModule().Init(illustration, MenuIllustrationModule.IllustrationType.PearlPlaceHolder);
+        }
+
+        // Pearlpup heart
+        if (sceneID == Scenes.Slugcat_Pearlcat_Sleep || sceneID == Scenes.Slugcat_Pearlcat)
+        {
+            var heartIllustration = new MenuDepthIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+            self.AddIllustration(heartIllustration);
+
+            heartIllustration.GetModule().Init(heartIllustration, MenuIllustrationModule.IllustrationType.PearlHeart);
+
+            var heartCoreIllustration = new MenuDepthIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+            self.AddIllustration(heartCoreIllustration);
+
+            heartCoreIllustration.GetModule().Init(heartCoreIllustration, MenuIllustrationModule.IllustrationType.PearlHeart);
         }
     }
 
@@ -204,35 +252,17 @@ public static class Menu_Hooks
 
         var illustrations = self.flatMode ? self.flatIllustrations : self.depthIllustrations.ConvertAll(x => (MenuIllustration)x);
 
-        // foreach (var illustration in illustrations)
-        // {
-        //     if (self.TryGetModule(out var menuSceneModule))
-        //     {
-        //         continue;
-        //     }
-        //
-        //     if (!illustration.TryGetModule(out var illustrationModule))
-        //     {
-        //         continue;
-        //     }
-        //
-        //     if (self.sceneID == Scenes.Slugcat_Pearlcat)
-        //     {
-        //         UpdateSelectScreen(self, illustration, menuSceneModule, illustrationModule);
-        //     }
-        //     else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sleep)
-        //     {
-        //         UpdateSleepScreen(self, illustration, menuSceneModule, illustrationModule);
-        //     }
-        //     else if (self.sceneID == Scenes.Slugcat_Pearlcat_Ascended)
-        //     {
-        //         UpdateAscendedScreen(self, illustration, menuSceneModule, illustrationModule);
-        //     }
-        //     else if (self.sceneID == Scenes.Slugcat_Pearlcat_Sick)
-        //     {
-        //         UpdateSickScreen(self, illustration, menuSceneModule, illustrationModule);
-        //     }
-        // }
+        foreach (var illustration in illustrations)
+        {
+            if (!self.TryGetModule(out var menuSceneModule))
+            {
+                continue;
+            }
+
+            var illustrationModule = illustration.GetModule();
+
+            UpdateDynamicMenuSceneIllustration(self, illustration, menuSceneModule, illustrationModule);
+        }
     }
 
 
