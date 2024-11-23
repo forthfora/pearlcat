@@ -16,6 +16,8 @@ public class MenuIllustrationModule
         PearlActiveHalo,
 
         PearlHeart,
+        PearlHeartCore,
+
         PearlPlaceHolder,
     }
 

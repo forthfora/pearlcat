@@ -20,10 +20,6 @@
     
     {"name": "pearlcathead_(!trueend)", "pos": [0, 0], "depth": 2.8, "shader": "Basic"},
     
-    {"name": "pupheartcore", "pos": [770, 500], "depth": 2.3, "shader": "Basic"},
-    {"name": "pupheart", "pos": [770, 500], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearlactive", "pos": [675, 360], "depth": 2.3, "shader": "Basic"},
-    
     {"name": "1", "pos": [0, 0], "depth": 1.8, "shader": "Basic"}
   ],
   

@@ -5,21 +5,8 @@
     {"name": "flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
     {"name": "3", "pos": [0, 50], "depth": 6.0, "shader": "Normal"},
+    
     {"name": "pearlcat", "pos": [0, 20], "depth": 3.0, "shader": "Basic"},
-    
-    {"name": "pearl0", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl2", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl4", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl5", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl6", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl7", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl8", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "pearl9", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    
-    {"name": "pearlactive", "pos": [650, 600], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearlactivehalo", "pos": [0, 0], "depth": 2.1, "shader": "Basic"},
     
     {"name": "2", "pos": [0, 0], "depth": 2.5, "shader": "Normal"},
     {"name": "1", "pos": [400, 210], "depth": 1.6, "shader": "Normal"}

@@ -314,8 +314,6 @@ public static partial class PearlEffectManager
         RM.RunSpeedFac = 0.15f;
         RM.PoleClimbSpeedFac = 0.15f;
         RM.CorridorClimbSpeedFac = 0.15f;
-        RM.RollSpeedFac = 0.15f;
-        RM.SlideSpeedFac = 0.15f;
 
         SS = None;
         SS.MajorEffect = MajorEffectType.NONE;
@@ -324,8 +322,6 @@ public static partial class PearlEffectManager
         SS.RunSpeedFac = 0.3f;
         SS.PoleClimbSpeedFac = 0.3f;
         SS.CorridorClimbSpeedFac = 0.3f;
-        SS.RollSpeedFac = 0.3f;
-        SS.SlideSpeedFac = 0.3f;
 
         Heart_Pearlpup = None;
         Heart_Pearlpup.MajorEffect = MajorEffectType.NONE;
@@ -334,8 +330,6 @@ public static partial class PearlEffectManager
         Heart_Pearlpup.RunSpeedFac = 0.3f;
         Heart_Pearlpup.PoleClimbSpeedFac = 0.3f;
         Heart_Pearlpup.CorridorClimbSpeedFac = 0.3f;
-        Heart_Pearlpup.RollSpeedFac = 0.3f;
-        Heart_Pearlpup.SlideSpeedFac = 0.3f;
 
         CW = None;
         CW.MajorEffect = MajorEffectType.AGILITY;
@@ -344,7 +338,5 @@ public static partial class PearlEffectManager
         CW.RunSpeedFac = 0.15f;
         CW.PoleClimbSpeedFac = 0.15f;
         CW.CorridorClimbSpeedFac = 0.15f;
-        CW.RollSpeedFac = 0.15f;
-        CW.SlideSpeedFac = 0.15f;
     }
 }

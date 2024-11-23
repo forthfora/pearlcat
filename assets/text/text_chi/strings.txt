@@ -2,7 +2,7 @@
 
 pearl|pearl
 
-Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|从米拉的故事情节开始时开始……<line>世界将被保存，珍珠将延续下去！
+Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|从米拉的故事情节开始时开始……<LINE>世界将被保存，珍珠将延续下去！
 
 Is my memory so bad to forget how your little one looks? They seem paler...|难道是我记性太差，忘记了小家伙的长相吗？他们看起来更加苍白了……
 
@@ -16,7 +16,7 @@ Given you have inherited your mother's traits, if you want to make these visits 
 
 Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|在红色珍珠的范围内投掷武器会将武器投射追踪到附近的敌对生物身上
 
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP-尚无新结局！<line>如果你找到任何错误，请向forthfora报告！
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP-尚无新结局<LINE>如果你找到任何错误，请向forthfora报告！
 
 I... I have nothing more to say...|我……我无话可说……
 

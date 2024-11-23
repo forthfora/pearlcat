@@ -110,7 +110,7 @@ public class PlayerPearlSymbol
 
         ItemSymbol.shadowSprite1.element = Futile.atlasManager.GetElementWithName("pearlcat_hudshadow");
         ItemSymbol.shadowSprite2.element = Futile.atlasManager.GetElementWithName("pearlcat_hudshadow");
-        ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName(IsHeart ? "pearlcat_hudheart" : "pearlcat_hudpearl");
+        ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName(IsHeart ? "pearlcat_hudpearl_heart_pearlpup" : "pearlcat_hudpearl");
 
         ItemSymbol.shadowSprite1.SetPosition(ItemSymbol.symbolSprite.GetPosition());
         ItemSymbol.shadowSprite2.SetPosition(ItemSymbol.symbolSprite.GetPosition());
@@ -166,5 +166,19 @@ public class PlayerPearlSymbol
 
         SentrySprite.MoveInFrontOfOtherNode(ItemSymbol.symbolSprite);
         SentrySprite.SetPosition(ItemSymbol.symbolSprite.GetPosition());
+
+
+        // Allow for unique hud icons for important pearls (e.g. RM, SS_Pearlcat, CW_Pearlcat)
+        if (obj is DataPearl.AbstractDataPearl abstractDataPearl)
+        {
+            var pearlType = abstractDataPearl.dataPearlType;
+            var uniqueHudPearlElement = "pearlcat_hudpearl_" + pearlType.value.ToLower();
+
+            if (Futile.atlasManager.DoesContainElementWithName(uniqueHudPearlElement))
+            {
+                ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName(uniqueHudPearlElement);
+                ItemSymbol.symbolSprite.color = Color.white;
+            }
+        }
     }
 }

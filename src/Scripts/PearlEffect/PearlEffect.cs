@@ -32,10 +32,4 @@ public record struct PearlEffect
     public float BodyWeightFac { get; set; }
 
     public string? ThreatMusic { get; set; }
-
-
-    // These are unused lol
-    public float JumpHeightFac { get; set; }
-    public float SlideSpeedFac { get; set; }
-    public float RollSpeedFac { get; set; }
 }

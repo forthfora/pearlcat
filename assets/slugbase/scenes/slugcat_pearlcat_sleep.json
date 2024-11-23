@@ -9,22 +9,11 @@
     {"name": "flat_(trueend)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
     {"name": "pearlpup_(trueend)", "pos": [630, 30], "depth": 3.0, "shader": "Basic"},
-
-    {"name": "pupheartcore", "pos": [1000, 400], "depth": 2.3, "shader": "Basic"},
-    {"name": "pupheart", "pos": [1000, 400], "depth": 2.3, "shader": "Basic"},
     
     {"name": "4", "pos": [683, 265], "depth": 5.0, "shader": "Normal"},
     {"name": "3", "pos": [678, 188], "depth": 4.5, "shader": "Normal"},
     {"name": "2", "pos": [735, 179], "depth": 4.0, "shader": "Normal"},
     
-
-    {"name": "pearl0", "pos": [789, 472], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl1", "pos": [870, 558], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl2", "pos": [1193, 492], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl3", "pos": [1077, 648], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl4", "pos": [952, 647], "depth": 2.3, "shader": "Basic"},
-
-
     {"name": "pearlcat_(pup)_(!sad)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
     {"name": "pearlcat_(!trueend)_(sad)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
 
@@ -32,17 +21,7 @@
     
     {"name": "scarf_(!trueend)_(sad)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
     {"name": "pearlpup_(pup)_(sick)", "pos": [689, 67], "depth": 3.0, "shader": "Basic"},
-    
-    {"name": "pearlactiveplaceholder", "pos": [870, 406], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearlactive", "pos": [911, 406], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearlactivehalo", "pos": [911, 406], "depth": 2.1, "shader": "Basic"},
-    
-    {"name": "pearl5", "pos": [805, 327], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl6", "pos": [1106, 405], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl7", "pos": [1218, 330], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl8", "pos": [1005, 275], "depth": 2.3, "shader": "Basic"},
-    {"name": "pearl9", "pos": [1213, 599], "depth": 2.3, "shader": "Basic"},
-    
+
     {"name": "pearlpup_(pup)_(!sick)", "pos": [710, 67], "depth": 2.5, "shader": "Basic"},
 
     {"name": "1", "pos": [486, 29], "depth": 2.0, "shader": "Normal"}
@@ -53,4 +32,4 @@
   
   "select_menu_pos": [0, 0],
   "slugcat_depth": 2.0
-}
+}         

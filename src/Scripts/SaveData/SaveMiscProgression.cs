@@ -24,6 +24,11 @@ public class SaveMiscProgression
 
         public Color GetPearlColor()
         {
+            if (Menu_Helpers.GetUniquePearlIllustration(DataPearlType) is not null)
+            {
+                return Color.white;
+            }
+
             if (!ExtEnumBase.TryParse(typeof(DataPearl.AbstractDataPearl.DataPearlType), DataPearlType, false, out var type))
             {
                 return Color.white;
@@ -34,7 +39,7 @@ public class SaveMiscProgression
                 return Color.white;
             }
 
-            return dataPearlType.GetDataPearlColor();
+            return dataPearlType.GetDataPearlColor(PebblesPearlType);
         }
     }
 

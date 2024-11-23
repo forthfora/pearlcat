@@ -18,8 +18,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     public float HaloScale { get; set; } = 1.0f;
     public float AnimCounter { get; set; }
 
-
-    public LightSource? LightSource { get; set; }
     public bool SpearBombArmed { get; set; }
     public AbstractRoom? SpearBombRoom { get; set; }
 
@@ -161,6 +159,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         else if (pearl.IsHeartPearl())
         {
             UpdateMusicSentry(pearl, "Pearlcat_Heartmend");
+
             UpdateHeartSentry(owner, pearl);
         }
         else if (pearlType == Enums.Pearls.SS_Pearlcat)
@@ -189,11 +188,42 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         player.mainBodyChunk.vel += Custom.DirVec(player.firstChunk.pos, pearl.firstChunk.pos) * Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 75.0f, 125.0f, 0.0f, 3.0f, 0.8f);
     }
 
-    private void UpdateMusicSentry(DataPearl pearl, string songName)
+    private void UpdateMusicSentry(DataPearl self, string songName)
     {
+        if (room is null)
+        {
+            return;
+        }
+
+        foreach (var objLayer in self.room.physicalObjects)
+        {
+            foreach (var obj in objLayer)
+            {
+                if (obj == self)
+                {
+                    continue;
+                }
+
+                if (obj is not DataPearl dataPearl)
+                {
+                    continue;
+                }
+
+                if (!dataPearl.AbstractPearl.TryGetSentry(out var sentryModule))
+                {
+                    continue;
+                }
+
+                if (sentryModule.WasPlayingMusic)
+                {
+                    self.ConnectEffect(obj.firstChunk.pos, self.abstractPhysicalObject.GetObjectColor());
+                }
+            }
+        }
+
         var musicPlayer = room?.game?.manager?.musicPlayer;
 
-        if (musicPlayer == null || room == null)
+        if (musicPlayer is null)
         {
             return;
         }
@@ -211,9 +241,9 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
                 MusicVolume = Mathf.Lerp(MusicVolume, targetVolume, 0.025f);
 
-                if (room.game?.FirstAlivePlayer?.realizedCreature is Player player)
+                if (room?.game?.FirstAlivePlayer?.realizedCreature is Player player)
                 {
-                    song.volume = Custom.LerpMap(Custom.Dist(player.firstChunk.pos, pearl.firstChunk.pos), 50.0f, 1000.0f, MusicVolume, 0.0f);
+                    song.volume = Custom.LerpMap(Custom.Dist(player.firstChunk.pos, self.firstChunk.pos), 50.0f, 1000.0f, MusicVolume, 0.0f);
                 }
                 else
                 {
@@ -832,8 +862,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     public override void Destroy()
     {
         base.Destroy();
-
-        LightSource?.Destroy();
 
         foreach (var shortcut in LockedShortcutsSprites.Values)
         {

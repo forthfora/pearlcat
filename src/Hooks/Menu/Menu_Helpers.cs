@@ -2,6 +2,7 @@
 using Menu;
 using RWCustom;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -116,11 +117,20 @@ public static class Menu_Helpers
             UpdateSickScreenIllustration(self, illustration, menuSceneModule, illustrationModule);
         }
 
-        if (illustrationModule.Type == IllustrationType.PearlHeart)
+
+        if (illustrationModule.Type == IllustrationType.PearlHeart || illustrationModule.Type == IllustrationType.PearlHeartCore)
         {
-            UpdatePupHeartIllustration(self, illustration);
+            UpdatePupHeartIllustration(self, illustration, illustrationModule);
+        }
+
+        if (illustrationModule.Type == IllustrationType.PearlActiveHalo)
+        {
+            illustration.sprite.SetAnchor(Vector2.one * 0.5f);
+            illustration.sprite.scale = 0.3f;
+            illustration.pos = menuSceneModule.ActivePearlPos;
         }
     }
+
 
     public static void UpdateSelectScreenIllustration(MenuScene self, MenuIllustration illustration, MenuSceneModule menuSceneModule, MenuIllustrationModule illustrationModule)
     {
@@ -168,14 +178,6 @@ public static class Menu_Helpers
             illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
 
             menuSceneModule.ActivePearlPos = illustration.pos;
-            return;
-        }
-
-        if (illustrationModule.Type == IllustrationType.PearlActiveHalo)
-        {
-            illustration.sprite.SetAnchor(Vector2.one * 0.5f);
-            illustration.sprite.scale = 0.3f;
-            illustration.pos = menuSceneModule.ActivePearlPos;
             return;
         }
 
@@ -288,15 +290,7 @@ public static class Menu_Helpers
             return;
         }
 
-        if (illustrationModule.Type == IllustrationType.PearlActiveHalo)
-        {
-            illustration.sprite.SetAnchor(Vector2.one * 0.5f);
-            illustration.sprite.scale = 0.3f;
-            illustration.pos = menuSceneModule.ActivePearlPos;
-            return;
-        }
-
-        if (illustrationModule.Type == IllustrationType.PearlActiveHalo)
+        if (illustrationModule.Type == IllustrationType.PearlNonActive)
         {
             var pearls = menuSceneModule.NonActivePearls;
 
@@ -325,7 +319,7 @@ public static class Menu_Helpers
             var activePearlColor = menuSceneModule.ActivePearl?.GetPearlColor() ?? Color.white;
 
             illustration.visible = true;
-            illustration.color = (Color)activePearlColor;
+            illustration.color = activePearlColor;
             illustration.sprite.scale = 0.3f;
 
 
@@ -352,14 +346,6 @@ public static class Menu_Helpers
 
             illustrationModule.SetPos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 500.0f) * 25.0f;
             menuSceneModule.ActivePearlPos = illustration.pos;
-            return;
-        }
-
-        if (illustrationModule.Type == IllustrationType.PearlActiveHalo)
-        {
-            illustration.sprite.SetAnchor(Vector2.one * 0.5f);
-            illustration.sprite.scale = 0.3f;
-            illustration.pos = menuSceneModule.ActivePearlPos;
             return;
         }
 
@@ -428,14 +414,6 @@ public static class Menu_Helpers
             return;
         }
 
-        if (illustrationModule.Type == IllustrationType.PearlActiveHalo)
-        {
-            illustration.sprite.SetAnchor(Vector2.one * 0.5f);
-            illustration.sprite.scale = 0.3f;
-            illustration.pos = menuSceneModule.ActivePearlPos;
-            return;
-        }
-
         if (illustrationModule.Type == IllustrationType.PearlNonActive)
         {
             var pearls = menuSceneModule.NonActivePearls;
@@ -467,32 +445,12 @@ public static class Menu_Helpers
     }
 
 
-    public static void DetermineIllustrationPosDepthLayer(MenuIllustration illustration, MenuScene menuScene, MenuIllustrationModule menuIllustrationModule)
+    public static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration, MenuIllustrationModule module)
     {
-        var sceneId = menuScene.sceneID;
-        var illustrationType = menuIllustrationModule.Type;
-
-        if (sceneId == Scenes.Slugcat_Pearlcat)
-        {
-
-        }   
-    }
-
-    public static void UpdatePupHeartIllustration(MenuScene self, MenuIllustration illustration)
-    {
-        var miscProg = Utils.MiscProgression;
-
-        if (!miscProg.HasTrueEnding)
-        {
-            illustration.visible = false;
-            return;
-        }
-
-        var fileName = Path.GetFileNameWithoutExtension(illustration.fileName);
         illustration.visible = true;
 
         var initialScale = 0.3f;
-        var isCore = fileName == "pearlcat_menupearl_heartcore";
+        var isCore = module.Type == IllustrationType.PearlHeartCore;
 
         if (illustration.sprite.scale == 1.0f)
         {
@@ -547,6 +505,212 @@ public static class Menu_Helpers
     }
 
 
+    // Set the positions, depths, and layers of the dynamic pearls
+    public static void DetermineIllustrationPosDepthLayer(MenuIllustration i, MenuScene menuScene, MenuIllustrationModule menuIllustrationModule)
+    {
+        var sceneId = menuScene.sceneID;
+        var type = menuIllustrationModule.Type;
+        var index = menuIllustrationModule.NonActivePearlIndex;
+
+        if (sceneId == Scenes.Slugcat_Pearlcat)
+        {
+            if (type == IllustrationType.PearlNonActive)
+            {
+                i.SetDepth(2.0f);
+                i.MoveAfter("pearlpup_(!trueend)");
+                return;
+            }
+
+            if (type == IllustrationType.PearlActive)
+            {
+                i.SetPosition(675, 360);
+                i.SetDepth(2.3f);
+                i.MoveAfter("pearlcathead_(!trueend)");
+                return;
+            }
+
+            if (type == IllustrationType.PearlActiveHalo)
+            {
+                i.SetDepth(2.0f);
+                i.MoveAfter("pearlcathead_(!trueend)");
+                return;
+            }
+
+            if (type == IllustrationType.PearlHeart || type == IllustrationType.PearlHeartCore)
+            {
+                i.SetPosition(770, 500);
+                i.SetDepth(2.3f);
+                i.MoveAfter("pearlcathead_(!trueend)");
+                return;
+            }
+
+            return;
+        }
+
+        if (sceneId == Scenes.Slugcat_Pearlcat_Sleep)
+        {
+            if (type == IllustrationType.PearlNonActive)
+            {
+                var pos = index switch
+                {
+                    0 => new(789, 472),
+                    1 => new(870, 558),
+                    2 => new(1193, 492),
+                    3 => new(1077, 648),
+                    4 => new(952, 647),
+
+                    5 => new(805, 327),
+                    6 => new(1106, 405),
+                    7 => new(1218, 330),
+                    8 => new(1005, 275),
+                    9 => new(1213, 599),
+
+                    _ => Vector2.zero,
+                };
+                i.SetPosition(pos.x, pos.y);
+
+                i.SetDepth(2.3f);
+
+                if (index <= 4)
+                {
+                    i.MoveAfter("pearlpup_(pup)_(sick)");
+                }
+                else
+                {
+                    i.MoveAfter("pearlpup_(pup)_(!sick)");
+                }
+                return;
+            }
+
+            if (type == IllustrationType.PearlActive)
+            {
+                i.SetPosition(911, 406);
+                i.SetDepth(2.3f);
+                i.MoveAfter("pearlcathead_(!trueend)");
+                return;
+            }
+
+            if (type == IllustrationType.PearlPlaceHolder)
+            {
+                i.SetPosition(870, 406);
+                i.SetDepth(2.3f);
+                i.MoveAfter("pearlcathead_(!trueend)");
+                return;
+            }
+
+            if (type == IllustrationType.PearlActiveHalo)
+            {
+                i.SetDepth(2.1f);
+                i.MoveAfter("pearlcathead_(!trueend)");
+                return;
+            }
+
+            if (type == IllustrationType.PearlHeart || type == IllustrationType.PearlHeartCore)
+            {
+                i.SetPosition(1000, 400);
+                i.SetDepth(2.3f);
+                i.MoveAfter("pearlpup_(trueend)");
+                return;
+            }
+
+            return;
+        }
+
+        if (sceneId == Scenes.Slugcat_Pearlcat_Sick)
+        {
+            if (type == IllustrationType.PearlNonActive)
+            {
+                i.SetDepth(2.0f);
+                i.MoveAfter("pearlcat");
+                return;
+            }
+
+            if (type == IllustrationType.PearlActive)
+            {
+                i.SetPosition(650, 600);
+                i.SetDepth(2.3f);
+                i.MoveAfter("pearlcat");
+                return;
+            }
+
+            if (type == IllustrationType.PearlActiveHalo)
+            {
+                i.SetDepth(2.1f);
+                i.MoveAfter("pearlcat");
+                return;
+            }
+
+            return;
+        }
+
+        if (sceneId == Scenes.Slugcat_Pearlcat_Ascended)
+        {
+            if (type == IllustrationType.PearlNonActive)
+            {
+                i.SetDepth(2.0f);
+                i.MoveAfter("pearlcat_body");
+                return;
+            }
+
+            if (type == IllustrationType.PearlActive)
+            {
+                i.SetPosition(700, 600);
+                i.SetDepth(2.3f);
+                i.MoveAfter("pearlcat_head");
+                return;
+            }
+
+            if (type == IllustrationType.PearlActiveHalo)
+            {
+                i.SetDepth(2.0f);
+                i.MoveAfter("pearlcat_head");
+                return;
+            }
+
+            return;
+        }
+    }
+
+    public static void MoveAfter(this MenuIllustration illustration, string targetIllustrationName)
+    {
+        if (illustration.owner is not MenuScene menuScene)
+        {
+            return;
+        }
+
+        var illustrations = menuScene.flatIllustrations.Concat(menuScene.depthIllustrations).ToList();
+
+        var targetIllustration = illustrations.FirstOrDefault(x => x.fileName.EndsWith(Path.DirectorySeparatorChar + targetIllustrationName));
+
+        if (targetIllustration is null)
+        {
+            return;
+        }
+
+        var targetIndex = illustrations.IndexOf(targetIllustration);
+
+        illustrations.Insert(targetIndex, illustration);
+    }
+
+    public static void SetPosition(this MenuIllustration illustration, float x, float y)
+    {
+        var pos = new Vector2(x, y);
+        var module = illustration.GetModule();
+
+        illustration.pos = pos;
+        module.InitialPos = pos;
+        module.SetPos = pos;
+    }
+
+    public static void SetDepth(this MenuIllustration illustration, float depth)
+    {
+        if (illustration is MenuDepthIllustration depthIllustration)
+        {
+            depthIllustration.depth = depth;
+        }
+    }
+
+
     public static SaveMiscProgression.StoredPearlData? PearlTypeToStoredData(this DataPearl.AbstractDataPearl.DataPearlType? dataPearlType)
     {
         if (dataPearlType is null)
@@ -594,7 +758,7 @@ public static class Menu_Helpers
 
         var index = Random.Range(0, 10);
 
-        var illustration = $"pearlcat_menupearl_{index}{appendTag}";
+        var illustration = $"{index}{appendTag}";
 
         Random.state = randState;
 

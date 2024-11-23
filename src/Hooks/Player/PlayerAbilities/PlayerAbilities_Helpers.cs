@@ -6,18 +6,12 @@ public static partial class PlayerAbilities_Helpers
 {
     public static void UpdatePearlEffects(Player self, PlayerModule playerModule)
     {
-        var combinedEffect = new PearlEffect
-        {
-            JumpHeightFac = 1.0f,
-            RollSpeedFac = 1.0f,
-            SlideSpeedFac = 1.0f
-        };
+        var combinedEffect = new PearlEffect();
 
         foreach (var playerObject in playerModule.Inventory)
         {
             var effect = playerObject.GetPearlEffect();
             var mult = playerObject == playerModule.ActiveObject ? effect.ActiveMultiplier : 1.0f;
-
 
             combinedEffect.ThrowingSkill += effect.ThrowingSkill;
 
@@ -27,10 +21,6 @@ public static partial class PlayerAbilities_Helpers
 
             combinedEffect.LungsFac += effect.LungsFac * mult;
             combinedEffect.BodyWeightFac += effect.BodyWeightFac * mult;
-
-            combinedEffect.JumpHeightFac += effect.JumpHeightFac * mult;
-            combinedEffect.RollSpeedFac += effect.RollSpeedFac * mult;
-            combinedEffect.SlideSpeedFac += effect.SlideSpeedFac * mult;
         }
 
         if (playerModule.ActiveObject != null)

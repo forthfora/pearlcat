@@ -9,7 +9,8 @@
     {"name": "5", "pos": [0, 0], "depth": 4.5, "shader": "Basic"},
     {"name": "4_(pup)", "pos": [0, 0], "depth": 4.0, "shader": "Basic"},
     {"name": "3", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
-    {"name": "2", "pos": [0, 0], "depth": 2.0, "shader": "Basic"}
+    {"name": "2", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"}
   ],
   
   "idle_depths": [3.0],
