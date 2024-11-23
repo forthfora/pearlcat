@@ -492,7 +492,7 @@ Sentry P3|哨兵 P3
 
 Oh, hello there!|哦，你好！
 
-CREDITS|制作人员
+CREDITS|CREDITS
 
 acursed|讨厌的
 
