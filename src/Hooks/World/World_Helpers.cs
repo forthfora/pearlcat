@@ -147,8 +147,7 @@ public static class World_Helpers
     // Dreams
     public static List<DreamsState.DreamID> GetDreamPool(RainWorldGame self, SaveMiscWorld miscWorld)
     {
-        // HACK
-        List<DreamsState.DreamID> dreamPool = [Dreams.Dream_Pearlcat_Scholar];
+        List<DreamsState.DreamID> dreamPool = [];
 
         var storyGame = self.GetStorySession;
         var save = self.GetStorySession.saveState;

@@ -407,7 +407,7 @@ public static class Menu_Helpers
         if (illustrationModule.Type == IllustrationType.Default)
         {
             // Shift the grass over so it doesn't cover pearlpup
-            if (fileName == "1")
+            if (fileName == "1_(!trueend)")
             {
                 if (pearlcatSad || miscProg.HasPearlpup)
                 {
@@ -417,7 +417,7 @@ public static class Menu_Helpers
         }
         else if (illustrationModule.Type == IllustrationType.PearlActive || illustrationModule.Type == IllustrationType.PearlPlaceHolder)
         {
-            var sadPos = new Vector2(870, 330);
+            var sadPos = new Vector2(870, 350);
 
             if (pearlcatSad && illustrationModule.InitialPos != sadPos)
             {
