@@ -214,10 +214,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         miscWorld.PebblesMeetCount++;
         save.miscWorldSaveData.SSaiConversationsHad++;
 
-        if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
-        {
-            oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles);
-        }
+        oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles, false);
     }
 
     private void MiraSkipMeet(SaveMiscWorld miscWorld)

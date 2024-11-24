@@ -36,7 +36,9 @@ public static class Hooks
 
         // Pearlpup
         Pearlpup_Hooks.ApplyHooks();
+
         PearlpupGraphics_Hooks.ApplyHooks();
+
         PearlpupIllness_Hooks.ApplyHooks();
 
 
@@ -50,6 +52,7 @@ public static class Hooks
         PlayerPossessionFixes_HooksIL.ApplyHooks();
 
         PlayerPearl_Hooks.ApplyHooks();
+
         PlayerHeartPearl_Hooks.ApplyHooks();
 
 
@@ -70,6 +73,7 @@ public static class Hooks
         SSOracleConversation_HooksIL.ApplyHooks();
 
         SSOraclePearls_Hooks.ApplyHooks();
+        SSOraclePearls_HooksIL.ApplyHooks();
     }
 
 

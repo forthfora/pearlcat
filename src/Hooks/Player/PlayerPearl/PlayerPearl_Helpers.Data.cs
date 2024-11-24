@@ -120,6 +120,7 @@ public static partial class PlayerPearl_Helpers
 
         if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
         {
+            // 0 = orange, 1 = white, 2 = black, -1 = blue, -2 = orange
             switch (Mathf.Abs(pebblesPearlColor))
             {
                 case 1:

@@ -27,8 +27,6 @@ public static class SLOracle_Hooks
 
         if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
         {
-            self.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon);
-
             if (save.MoonSickPupMeetCount == 0)
             {
                 self.Dialog_Start("Oh! It is good to see you two again!");
@@ -89,6 +87,8 @@ public static class SLOracle_Hooks
 
             self.Dialog("So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...");
         }
+
+        self.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon, false);
 
         orig(self);
     }

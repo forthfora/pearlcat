@@ -23,7 +23,7 @@ public static partial class Enums
 
         // Dreams
         public static MenuScene.SceneID Dream_Pearlcat_Pearlpup { get; } = new(nameof(Dream_Pearlcat_Pearlpup));
-        public static MenuScene.SceneID Dream_Pearlcat_Tower { get; } = new(nameof(Dream_Pearlcat_Tower));
+        public static MenuScene.SceneID Dream_Pearlcat_Scholar { get; } = new(nameof(Dream_Pearlcat_Scholar));
 
         public static MenuScene.SceneID Dream_Pearlcat_Pebbles { get; } = new(nameof(Dream_Pearlcat_Pebbles));
         public static MenuScene.SceneID Dream_Pearlcat_Moon { get; } = new(nameof(Dream_Pearlcat_Moon));

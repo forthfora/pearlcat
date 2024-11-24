@@ -5,6 +5,16 @@ namespace Pearlcat;
 
 public static class SLOracle_Helpers
 {
+    public static bool IsMoon(this SLOracleBehavior? behavior)
+    {
+        return behavior?.oracle?.IsMoon() ?? false;
+    }
+    public static bool IsMoon(this Oracle? oracle)
+    {
+        return oracle?.ID == Oracle.OracleID.SL;
+    }
+
+
     // SL Dialog Helpers
     public static void Dialog(this SLOracleBehaviorHasMark self, string text)
     {
@@ -15,6 +25,7 @@ public static class SLOracle_Helpers
     {
         self.dialogBox.Interrupt(self.Translate(text), 10);
     }
+
 
     // SL Conversation Dialog Helpers
     public static void Dialog(this SLOracleBehaviorHasMark.MoonConversation self, string text, int initialWait, int textLinger)
@@ -245,8 +256,6 @@ public static class SLOracle_Helpers
         {
             return false;
         }
-
-        self.myBehavior.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon);
 
         if (miscWorld.MoonSickPupMeetCount == 0)
         {

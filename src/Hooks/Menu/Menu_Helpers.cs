@@ -16,6 +16,16 @@ using Scenes = Enums.Scenes;
 public static class Menu_Helpers
 {
     public static int MenuPearlAnimStacker { get; set; }
+    public static List<MenuScene.SceneID> MenuPearlScenes { get; } =
+    [
+        Scenes.Slugcat_Pearlcat,
+        Scenes.Slugcat_Pearlcat_Ascended,
+        Scenes.Slugcat_Pearlcat_Sick,
+
+        Scenes.Slugcat_Pearlcat_Sleep,
+
+        Scenes.Dream_Pearlcat_Pebbles,
+    ];
 
     public static string SecretPassword { get; set; } = "mira";
     public static int SecretIndex { get; set; }
@@ -100,20 +110,23 @@ public static class Menu_Helpers
     // Initialize dynamic pearls on menu scenes
     public static void InitMenuPearls(MenuScene self, MenuScene.SceneID sceneID)
     {
+        if (!MenuPearlScenes.Contains(sceneID))
+        {
+            return;
+        }
+
         var miscProg = Utils.MiscProgression;
 
         if (sceneID == Scenes.Dream_Pearlcat_Pebbles)
         {
             List<SaveMiscProgression.StoredPearlData> pearls = [];
 
+            var randState = Random.state;
+            Random.InitState((int)DateTime.Now.Ticks);
+
             for (var i = 0; i < 10; i++)
             {
-                var randState = Random.state;
-                Random.InitState((int)DateTime.Now.Ticks);
-
-                var pebblesPearlType = Random.Range(0, 2);
-
-                Random.state = randState;
+                var pebblesPearlType = Random.Range(0, 3);
 
                 var pearlData = new SaveMiscProgression.StoredPearlData()
                 {
@@ -123,6 +136,8 @@ public static class Menu_Helpers
 
                 pearls.Add(pearlData);
             }
+
+            Random.state = randState;
 
             ModuleManager.MenuSceneData.Add(self, new(pearls, miscProg.StoredActivePearl));
         }
@@ -557,18 +572,16 @@ public static class Menu_Helpers
             illustration.sprite.scale = 0.35f;
             illustration.color = menuSceneModule.ActivePearl?.GetPearlColor() ?? Color.white;
 
-            illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin((MenuPearlAnimStacker * 50.0f) / 50.0f) * 25.0f;
-        }
-        else if (illustrationModule.Type == IllustrationType.PearlActiveHalo)
-        {
-            illustration.visible = false;
+            illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 50.0f) * 25.0f;
+
+            menuSceneModule.ActivePearlPos = illustration.pos;
         }
         else if (illustrationModule.Type == IllustrationType.PearlNonActive)
         {
-            var origin = new Vector2(680, 700);
+            var origin = new Vector2(680, 605);
             var angleFrameAddition = 0.0015f;
 
-            var radius = 400.0f;
+            var radius = 450.0f;
             var radiusXYRatio = 1.0f;
 
             Func<float, float> scaleFunc = _ => 0.3f;
@@ -853,8 +866,15 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(680, 600);
+                i.SetPosition(685, 525);
                 i.SetDepth(2.3f);
+                i.LayerAfter("2");
+                return;
+            }
+
+            if (type == IllustrationType.PearlActiveHalo)
+            {
+                i.SetDepth(2.2f);
                 i.LayerAfter("2");
                 return;
             }
@@ -863,7 +883,7 @@ public static class Menu_Helpers
         }
     }
 
-    public static void LayerAfter(this MenuIllustration illustration, string targetIllustrationName)
+    public static void LayerAfter(this MenuIllustration illustration, string target)
     {
         if (illustration.owner is not MenuScene menuScene)
         {
@@ -872,7 +892,7 @@ public static class Menu_Helpers
 
         var illustrations = menuScene.flatIllustrations.Concat(menuScene.depthIllustrations).ToList();
 
-        var targetIllustration = illustrations.FirstOrDefault(x => x.fileName.EndsWith(Path.DirectorySeparatorChar + targetIllustrationName));
+        var targetIllustration = illustrations.FirstOrDefault(x => x.fileName.EndsWith(Path.DirectorySeparatorChar + target));
 
         if (targetIllustration is null)
         {

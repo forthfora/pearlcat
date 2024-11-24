@@ -1,8 +1,11 @@
 ﻿using MoreSlugcats;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Pearlcat;
+
+using Dreams = Enums.Dreams;
 
 public static class World_Helpers
 {
@@ -113,16 +116,6 @@ public static class World_Helpers
     }
 
 
-    public static bool IsPearlcatStory(this RainWorldGame? game)
-    {
-        return game?.StoryCharacter == Enums.Pearlcat;
-    }
-    public static bool IsSingleplayer(this Player player)
-    {
-        return player.abstractCreature.world.game.Players.Count == 1;
-    }
-
-
     // Pearl ID
     public static bool IsHeartPearl(this AbstractPhysicalObject? obj)
     {
@@ -151,30 +144,62 @@ public static class World_Helpers
     }
 
 
-    // Oracle ID
-    public static bool IsPebbles(this SSOracleBehavior? behavior)
+    // Dreams
+    public static List<DreamsState.DreamID> GetDreamPool(RainWorldGame self, SaveMiscWorld miscWorld)
     {
-        return behavior?.oracle?.IsPebbles() ?? false;
+        // HACK
+        List<DreamsState.DreamID> dreamPool = [Dreams.Dream_Pearlcat_Scholar];
+
+        var storyGame = self.GetStorySession;
+        var save = self.GetStorySession.saveState;
+        var miscProg = Utils.MiscProgression;
+
+        if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
+        {
+            var randomDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.25f;
+
+            // for reaching a full inventory of pearls (default size)
+            if (!ModOptions.InventoryOverride.Value && miscProg.StoredNonActivePearls.Count > 8 && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Scholar))
+            {
+                dreamPool.Add(Dreams.Dream_Pearlcat_Scholar);
+            }
+            else if (randomDream)
+            {
+                if (miscProg.IsPearlpupSick && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Sick))
+                {
+                    dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
+                }
+                else if (!storyGame.HasDreamt(Dreams.Dream_Pearlcat_Pearlpup))
+                {
+                    dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
+                }
+            }
+        }
+        else if (miscProg.HasTrueEnding) // Adult Pearlpup has recurring nightmares
+        {
+            var randomDream = Random.Range(0.0f, 1.0f) < 0.15f;
+
+            if (randomDream)
+            {
+                dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
+                dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
+            }
+        }
+        else if (!miscWorld.HasPearlpupWithPlayerDeadOrAlive && miscProg.DidHavePearlpup) // Pearlcat will have recurring nightmares if she loses her pup
+        {
+            var canDream = Random.Range(0.0f, 1.0f) < 0.15f;
+
+            if (canDream)
+            {
+                dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
+                dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
+            }
+        }
+
+        return dreamPool;
     }
 
-    public static bool IsMoon(this SLOracleBehavior? behavior)
-    {
-        return behavior?.oracle?.IsMoon() ?? false;
-    }
-
-    public static bool IsPebbles(this Oracle? oracle)
-    {
-        return oracle?.ID == Oracle.OracleID.SS;
-    }
-
-    public static bool IsMoon(this Oracle? oracle)
-    {
-        return oracle?.ID == Oracle.OracleID.SL;
-    }
-
-
-    // Misc
-    public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId, bool isRecurringDream = false)
+    public static void TryDream(this StoryGameSession storyGame, DreamsState.DreamID dreamId, bool onlyIfNew)
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
 
@@ -185,13 +210,38 @@ public static class World_Helpers
 
         var strId = dreamId.value;
 
-        if (miscWorld.PreviousDreams.Contains(strId) && !isRecurringDream)
+        if (storyGame.HasDreamt(dreamId) && onlyIfNew)
         {
             return;
         }
 
         miscWorld.CurrentDream = strId;
         SlugBase.Assets.CustomDreams.QueueDream(storyGame, dreamId);
+    }
+
+    public static bool HasDreamt(this StoryGameSession storyGame, DreamsState.DreamID dreamId)
+    {
+        var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
+
+        if (miscWorld == null)
+        {
+            return false;
+        }
+
+        var strId = dreamId.value;
+
+        return miscWorld.PreviousDreams.Contains(strId);
+    }
+
+    // Misc
+    public static bool IsPearlcatStory(this RainWorldGame? game)
+    {
+        return game?.StoryCharacter == Enums.Pearlcat;
+    }
+
+    public static bool IsSingleplayer(this Player player)
+    {
+        return player.abstractCreature.world.game.Players.Count == 1;
     }
 
     public static int GetFirstPearlcatIndex(this RainWorldGame? game)
@@ -223,73 +273,5 @@ public static class World_Helpers
         hideHud ??= ModManager.MMF;
 
         game.cameras.First().hud.textPrompt.AddMessage(Utils.Translator.Translate(text), wait, time, darken, (bool)hideHud);
-    }
-
-
-    // Save Presets
-    public static void GiveTrueEnding(this SaveState saveState)
-    {
-        if (saveState.saveStateNumber != Enums.Pearlcat)
-        {
-            return;
-        }
-
-        var miscProg = Utils.MiscProgression;
-        var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
-
-        if (miscWorld == null)
-        {
-            return;
-        }
-
-
-        miscProg.HasTrueEnding = true;
-        miscProg.IsPearlpupSick = false;
-
-        miscWorld.PebblesMeetCount = 0;
-
-        SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat);
-
-        // So the tutorial scripts can be added again
-        foreach (var regionState in saveState.regionStates)
-        {
-            regionState?.roomsVisited?.RemoveAll(x => x?.StartsWith("T1_") == true);
-        }
-    }
-
-    public static void StartFromMira(this SaveState saveState)
-    {
-        if (saveState.saveStateNumber != Enums.Pearlcat)
-        {
-            return;
-        }
-
-        var miscProg = Utils.MiscProgression;
-        var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
-        var baseMiscWorld = saveState.miscWorldSaveData;
-
-        if (miscWorld == null)
-        {
-            return;
-        }
-
-
-        miscProg.IsPearlpupSick = true;
-        miscProg.HasOEEnding = true;
-        miscProg.DidHavePearlpup = true;
-
-        miscWorld.ShownFullInventoryTutorial = true;
-        miscWorld.ShownSpearCreationTutorial = true;
-
-        miscWorld.PebblesMeetCount = 3;
-        miscWorld.MoonSickPupMeetCount = 1;
-        miscWorld.PebblesMetSickPup = true;
-
-        baseMiscWorld.SLOracleState.playerEncountersWithMark = 0;
-        baseMiscWorld.SLOracleState.playerEncounters = 1;
-
-        miscWorld.JustMiraSkipped = true;
-
-        SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
     }
 }

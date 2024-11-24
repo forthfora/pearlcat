@@ -3,7 +3,7 @@
   "scene_folder": "slugbase/scenes/dream_pearlcat_pebbles",
   "images": [
     {"name": "flat_(pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
-    {"name": "flat_(!pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+    {"name": "flat_(!pup)_(!trueend)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
     {"name": "6", "pos": [0, 0], "depth": 10.0, "shader": "Basic"},
     {"name": "5", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
@@ -11,11 +11,10 @@
     {"name": "3", "pos": [0, 0], "depth": 2.5, "shader": "Basic"},
     {"name": "2", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
     {"name": "1_(pup)", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
-    {"name": "1_(!pup)", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
+    {"name": "1_(!pup)_(!trueend)", "pos": [0, 0], "depth": 1.5, "shader": "Basic"},
     
     {"name": "dark", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
   ],
   
-  "idle_depths": [3.0],
-  "select_menu_pos": [0, -10]
+  "idle_depths": [3.0]
 }

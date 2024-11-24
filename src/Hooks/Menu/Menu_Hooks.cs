@@ -1,14 +1,10 @@
-﻿using System;
-using Menu;
+﻿using Menu;
 using RWCustom;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 using static Pearlcat.Enums;
 
 using static Pearlcat.Menu_Helpers;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -128,9 +124,7 @@ public static class Menu_Hooks
             return;
         }
 
-
         InitMenuPearls(self, sceneID);
-
 
         InitMenuPearlIllustrations(self, sceneID);
     }

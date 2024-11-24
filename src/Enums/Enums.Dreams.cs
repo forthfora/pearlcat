@@ -5,7 +5,7 @@ public static partial class Enums
     public static class Dreams
     {
         public static DreamsState.DreamID Dream_Pearlcat_Pearlpup { get; } = new(nameof(Dream_Pearlcat_Pearlpup), true);
-        public static DreamsState.DreamID Dream_Pearlcat_Tower { get; } = new(nameof(Dream_Pearlcat_Sick), true);
+        public static DreamsState.DreamID Dream_Pearlcat_Scholar { get; } = new(nameof(Dream_Pearlcat_Scholar), true);
 
         public static DreamsState.DreamID Dream_Pearlcat_Pebbles { get; } = new(nameof(Dream_Pearlcat_Pebbles), true);
         public static DreamsState.DreamID Dream_Pearlcat_Moon { get; } = new(nameof(Dream_Pearlcat_Moon), true);
@@ -19,7 +19,7 @@ public static partial class Enums
             SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Pearlpup, Scenes.Dream_Pearlcat_Pearlpup);
             SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Moon, Scenes.Dream_Pearlcat_Moon);
             SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Sick, Scenes.Dream_Pearlcat_Sick);
-            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Tower, Scenes.Dream_Pearlcat_Tower);
+            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Scholar, Scenes.Dream_Pearlcat_Scholar);
         }
     }
 }

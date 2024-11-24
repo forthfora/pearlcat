@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
+using Dreams = Enums.Dreams;
+
 public static class World_Hooks
 {
     public static void ApplyHooks()
@@ -31,7 +33,7 @@ public static class World_Hooks
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
 
         On.SlugcatStats.HiddenOrUnplayableSlugcat += SlugcatStats_HiddenOrUnplayableSlugcat;
-        
+
         On.GateKarmaGlyph.ctor += GateKarmaGlyph_ctor;
 
         On.RegionGate.customOEGateRequirements += RegionGate_customOEGateRequirements;
@@ -57,12 +59,7 @@ public static class World_Hooks
     {
         orig(self, manager);
 
-        if (!self.IsStorySession)
-        {
-            return;
-        }
-
-        if (self.StoryCharacter != Enums.Pearlcat)
+        if (!self.IsPearlcatStory())
         {
             return;
         }
@@ -74,48 +71,8 @@ public static class World_Hooks
             return;
         }
 
-        var save = self.GetStorySession.saveState;
-        var miscProg = Utils.MiscProgression;
 
-        var dreamPool = new List<DreamsState.DreamID>();
-
-        if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
-        {
-            var canDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.35f;
-
-            if (canDream)
-            {
-                if (miscProg.IsPearlpupSick)
-                {
-                    self.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Sick);
-                }
-                else
-                {
-                    self.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pearlpup);
-                }
-            }
-        }
-        else
-        {
-            var canDream = Random.Range(0.0f, 1.0f) < 0.2f;
-
-            if (canDream)
-            {
-                if (miscProg.HasTrueEnding)
-                {
-                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick);
-                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pearlpup);
-                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pebbles);
-                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Moon);
-                }
-                else if (!miscWorld.HasPearlpupWithPlayerDeadOrAlive && (miscProg.AscendedWithPup || miscProg.DidHavePearlpup))
-                {
-                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pearlpup);
-                    dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick);
-                }
-            }
-        }
-
+        var dreamPool = GetDreamPool(self, miscWorld);
 
         if (dreamPool.Count == 0)
         {
@@ -125,10 +82,11 @@ public static class World_Hooks
         var randState = Random.state;
         Random.InitState((int)DateTime.Now.Ticks);
 
-        self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], true);
+        self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], false);
 
         Random.state = randState;
     }
+
 
     private static void DreamsState_StaticEndOfCycleProgress(On.DreamsState.orig_StaticEndOfCycleProgress orig, SaveState saveState, string currentRegion, string denPosition, ref int cyclesSinceLastDream, ref int cyclesSinceLastFamilyDream, ref int cyclesSinceLastGuideDream, ref int inGWOrSHCounter, ref DreamsState.DreamID upcomingDream, ref DreamsState.DreamID eventDream, ref bool everSleptInSB, ref bool everSleptInSB_S01, ref bool guideHasShownHimselfToPlayer, ref int guideThread, ref bool guideHasShownMoonThisRound, ref int familyThread)
     {
