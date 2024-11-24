@@ -77,6 +77,7 @@ public class PlayerPearlSymbol
     {
         CooldownSprite.RemoveFromContainer();
         SentrySprite.RemoveFromContainer();
+        PossessionSprite.RemoveFromContainer();
 
         ItemSymbol?.RemoveSprites();
     }
@@ -103,22 +104,6 @@ public class PlayerPearlSymbol
         {
             return;
         }
-
-        if (!obj.TryGetPlayerPearlModule(out var pearlModule))
-        {
-            return;
-        }
-
-        if (!obj.TryGetPlayerPearlOwner(out var player))
-        {
-            return;
-        }
-
-        if (!player.TryGetPearlcatModule(out var playerModule))
-        {
-            return;
-        }
-
 
         ItemSymbol.Draw(timeStacker, Pos);
         ItemSymbol.symbolSprite.alpha = Fade * DistFade;
@@ -151,13 +136,24 @@ public class PlayerPearlSymbol
         ItemSymbol.shadowSprite2.color = Color.black;
 
 
-        CooldownSprite.isVisible = false;
-        CooldownSprite.alpha = ItemSymbol.symbolSprite.alpha * 0.75f;
-        CooldownSprite.scale = 0.2f;
+        // Below requires the item to be stored in the inventory
+        if (!obj.TryGetPlayerPearlModule(out var pearlModule))
+        {
+            return;
+        }
 
-        CooldownSprite.MoveInFrontOfOtherNode(ItemSymbol.symbolSprite);
+        if (!obj.TryGetPlayerPearlOwner(out var player))
+        {
+            return;
+        }
 
-        Flash = Mathf.Lerp(Flash, 0.0f, 0.01f);
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
+
+        var effect = obj.GetPearlEffect();
+
 
         if (pearlModule.InventoryFlash)
         {
@@ -165,10 +161,17 @@ public class PlayerPearlSymbol
             Flash = 5.0f;
         }
 
-        var effect = obj.GetPearlEffect();
+        Flash = Mathf.Lerp(Flash, 0.0f, 0.01f);
+
 
         var cooldownLerp = pearlModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(pearlModule.CooldownTimer, pearlModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
         var cooldownColor = effect.MajorEffect == PearlEffect.MajorEffectType.RAGE ? Color.white : (Color)new Color32(189, 13, 0, 255);
+
+        CooldownSprite.isVisible = false;
+        CooldownSprite.alpha = ItemSymbol.symbolSprite.alpha * 0.75f;
+        CooldownSprite.scale = 0.2f;
+
+        CooldownSprite.MoveInFrontOfOtherNode(ItemSymbol.symbolSprite);
 
         CooldownSprite.SetPosition(ItemSymbol.symbolSprite.GetPosition());
         CooldownSprite.color = Color.Lerp(ItemSymbol.symbolSprite.color, cooldownColor, cooldownLerp);
