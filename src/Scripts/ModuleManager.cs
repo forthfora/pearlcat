@@ -10,7 +10,7 @@ namespace Pearlcat;
 public static class ModuleManager
 {
     // Pearlcat
-    public static ConditionalWeakTable<Player, PlayerModule> PearlcatData { get; } = new();
+    public static ConditionalWeakTable<AbstractCreature, PlayerModule> PearlcatData { get; } = new();
     public static bool TryGetPearlcatModule(this Player self, out PlayerModule playerModule)
     {
         if (!self.IsPearlcat())
@@ -19,10 +19,10 @@ public static class ModuleManager
             return false;
         }
 
-        if (!PearlcatData.TryGetValue(self, out playerModule))
+        if (!PearlcatData.TryGetValue(self.abstractCreature, out playerModule))
         {
             playerModule = new PlayerModule(self);
-            PearlcatData.Add(self, playerModule);
+            PearlcatData.Add(self.abstractCreature, playerModule);
 
             playerModule.LoadSaveData(self);
         }
@@ -46,7 +46,7 @@ public static class ModuleManager
                 continue;
             }
 
-            if (!PearlcatData.TryGetValue(player, out var playerModule))
+            if (!PearlcatData.TryGetValue(player.abstractCreature, out var playerModule))
             {
                 continue;
             }
@@ -59,7 +59,7 @@ public static class ModuleManager
     
 
     // Pearlpup
-    public static ConditionalWeakTable<Player, PearlpupModule> PearlpupData { get; } = new();
+    public static ConditionalWeakTable<AbstractCreature, PearlpupModule> PearlpupData { get; } = new();
     public static bool TryGetPearlpupModule(this Player self, out PearlpupModule module)
     {
         if (!self.IsPearlpup())
@@ -68,10 +68,10 @@ public static class ModuleManager
             return false;
         }
 
-        if (!PearlpupData.TryGetValue(self, out module))
+        if (!PearlpupData.TryGetValue(self.abstractCreature, out module))
         {
             module = new PearlpupModule(self);
-            PearlpupData.Add(self, module);
+            PearlpupData.Add(self.abstractCreature, module);
         }
 
         return true;
@@ -184,8 +184,8 @@ public static class ModuleManager
 
 
     // Pearl Spear
-    public static ConditionalWeakTable<AbstractSpear, SpearModule> TempPearlSpearData { get; } = new();
-    public static bool TryGetModule(this AbstractSpear self, out SpearModule module)
+    public static ConditionalWeakTable<AbstractPhysicalObject, SpearModule> TempPearlSpearData { get; } = new();
+    public static bool TryGetModule(this AbstractPhysicalObject self, out SpearModule module)
     {
         var save = self.Room?.world?.game?.GetMiscWorld();
 
