@@ -181,15 +181,22 @@ public static class Menu_Helpers
         }
         else
         {
-            var pearls = miscProg.StoredNonActivePearls;
+            List<SaveMiscProgression.StoredPearlData> pearls = [];
             var displayLimit = GetPearlDisplayLimit(sceneID);
 
-            if (pearls.Count > displayLimit)
+            for (var i = 0; i < miscProg.StoredNonActivePearls.Count; i++)
             {
-                pearls.RemoveRange(displayLimit, pearls.Count - displayLimit);
+                var pearlData = miscProg.StoredNonActivePearls[i];
+
+                if (i >= displayLimit)
+                {
+                    break;
+                }
+
+                pearls.Add(pearlData);
             }
 
-            ModuleManager.MenuSceneData.Add(self, new(miscProg.StoredNonActivePearls, miscProg.StoredActivePearl));
+            ModuleManager.MenuSceneData.Add(self, new(pearls, miscProg.StoredActivePearl));
         }
     }
 
@@ -1027,6 +1034,6 @@ public static class Menu_Helpers
             return 100;
         }
 
-        return 11;
+        return 10;
     }
 }
