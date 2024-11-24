@@ -9,6 +9,57 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 {
     public WeakReference<AbstractPhysicalObject>? ObjectRef { get; }
 
+    public bool IsActiveObject { get; set; }
+    public Vector2 Pos { get; set; }
+
+    public Vector2? OverrideLastPos { get; set; }
+    public Vector2? OverridePos { get; set; }
+
+    public bool IsVisible { get; set; }
+
+    public bool DrawHalo { get; set; }
+    public int HaloSprite { get; set; }
+
+    public Color ActiveHaloColor { get; set; }
+    public Color HaloColor { get; set; }
+    public float HaloAlpha { get; set; }
+    public float HaloScale { get; set; }
+
+
+    public float CamoLerp { get; set; }
+
+    public int LaserSprite { get; set; }
+
+    public int ShieldCounterSprite { get; set; }
+    public int ReviveCounterSprite { get; set; }
+
+    public int SymbolSprite { get; set; }
+    public string? Symbol { get; set; }
+    public bool DrawSymbolCooldown { get; set; }
+
+    public int SpearSprite { get; set; }
+    public float DrawSpearLerp { get; set; }
+
+    public int ShieldCounter { get; set; }
+    public int ReviveCounter { get; set; }
+
+    public int SentrySprite { get; set; }
+    public bool IsSentry { get; set; }
+
+    public bool IsLaserVisible { get; set; }
+    public Vector2 LaserTarget { get; set; }
+    public float LaserLerp { get; set; }
+
+    public float SymbolScale { get; set; } = 0.85f;
+    public float SymbolAlpha { get; set; } = 0.75f;
+    public Color SymbolColor { get; set; } = Color.white;
+
+    public Vector2 ActiveOffset { get; } = new(17.5f, 10.0f);
+    public Vector2 InactiveOffset { get; } = new(7.5f, 5.0f);
+
+    public int ActiveRageSprite { get; set; }
+    public bool IsActiveRagePearl { get; set; }
+
     public PearlGraphics(AbstractPhysicalObject? abstractObject)
     {
         if (abstractObject?.realizedObject?.room == null)
@@ -134,6 +185,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
     public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) { }
 
+
     public void ParentGraphics_DrawSprites(PhysicalObject self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         var ParentSprite = sLeaser.sprites.FirstOrDefault();
@@ -149,58 +201,6 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         }
     }
 
-
-    public bool IsActiveObject { get; set; }
-    public Vector2 Pos { get; set; }
-
-    public Vector2? OverrideLastPos { get; set; }
-    public Vector2? OverridePos { get; set; }
-
-    public bool AllVisible { get; set; }
-
-    public bool DrawHalo { get; set; }
-    public int HaloSprite { get; set; }
-
-    public Color ActiveHaloColor { get; set; }
-    public Color HaloColor { get; set; }
-    public float HaloAlpha { get; set; }
-    public float HaloScale { get; set; }
-
-
-    public float CamoLerp { get; set; }
-
-    public int LaserSprite { get; set; }
-
-    public int ShieldCounterSprite { get; set; }
-    public int ReviveCounterSprite { get; set; }
-
-    public int SymbolSprite { get; set; }
-    public string? Symbol { get; set; }
-    public bool DrawSymbolCooldown { get; set; }
-
-    public int SpearSprite { get; set; }
-    public float DrawSpearLerp { get; set; }
-
-    public int ShieldCounter { get; set; }
-    public int ReviveCounter { get; set; }
-
-    public int SentrySprite { get; set; }
-    public bool IsSentry { get; set; }
-
-    public bool IsLaserVisible { get; set; }
-    public Vector2 LaserTarget { get; set; }
-    public float LaserLerp { get; set; }
-
-    public float SymbolScale { get; set; } = 0.85f;
-    public float SymbolAlpha { get; set; } = 0.75f;
-    public Color SymbolColor { get; set; } = Color.white;
-
-    public Vector2 ActiveOffset { get; } = new(17.5f, 10.0f);
-    public Vector2 InactiveOffset { get; } = new(7.5f, 5.0f);
-
-    public int ActiveRageSprite { get; set; }
-    public bool IsActiveRagePearl { get; set; }
-
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         if (slatedForDeletetion)
@@ -209,15 +209,15 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (!AllVisible)
+        if (!IsVisible)
         {
             foreach (var i in sLeaser.sprites)
             {
                 i.isVisible = false;
             }
-
             return;
         }
+
 
         foreach (var i in sLeaser.sprites)
         {
@@ -356,6 +356,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         sprite.SetPosition(Pos);
         sprite.color = SymbolColor;
     }
+
 
     public static string? SpriteFromNumber(int num)
     {

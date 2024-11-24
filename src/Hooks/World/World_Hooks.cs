@@ -67,15 +67,17 @@ public static class World_Hooks
             return;
         }
 
-        var save = self.GetStorySession.saveState;
         var miscWorld = self.GetMiscWorld();
-        var miscProg = Utils.MiscProgression;
 
         if (miscWorld == null)
         {
             return;
         }
 
+        var save = self.GetStorySession.saveState;
+        var miscProg = Utils.MiscProgression;
+
+        var dreamPool = new List<DreamsState.DreamID>();
 
         if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
         {
@@ -99,8 +101,6 @@ public static class World_Hooks
 
             if (canDream)
             {
-                var dreamPool = new List<DreamsState.DreamID>();
-
                 if (miscProg.HasTrueEnding)
                 {
                     dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick);
@@ -113,18 +113,21 @@ public static class World_Hooks
                     dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Pearlpup);
                     dreamPool.Add(Enums.Dreams.Dream_Pearlcat_Sick);
                 }
-
-                if (dreamPool.Count > 0)
-                {
-                    var randState = Random.state;
-                    Random.InitState((int)DateTime.Now.Ticks);
-
-                    self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], true);
-
-                    Random.state = randState;
-                }
             }
         }
+
+
+        if (dreamPool.Count == 0)
+        {
+            return;
+        }
+
+        var randState = Random.state;
+        Random.InitState((int)DateTime.Now.Ticks);
+
+        self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], true);
+
+        Random.state = randState;
     }
 
     private static void DreamsState_StaticEndOfCycleProgress(On.DreamsState.orig_StaticEndOfCycleProgress orig, SaveState saveState, string currentRegion, string denPosition, ref int cyclesSinceLastDream, ref int cyclesSinceLastFamilyDream, ref int cyclesSinceLastGuideDream, ref int inGWOrSHCounter, ref DreamsState.DreamID upcomingDream, ref DreamsState.DreamID eventDream, ref bool everSleptInSB, ref bool everSleptInSB_S01, ref bool guideHasShownHimselfToPlayer, ref int guideThread, ref bool guideHasShownMoonThisRound, ref int familyThread)

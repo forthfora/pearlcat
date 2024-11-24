@@ -10,6 +10,10 @@ public abstract class PearlAnimation
 {
     public int AnimTimer { get; set; }
 
+    public List<float> HaloEffectStackers { get; set; } = [];
+    public float HaloEffectFrameAddition { get; set; } = 0.02f;
+    public float HaloEffectDir { get; set; } = 1;
+
     public PearlAnimation(Player player)
     {
         InitAnimation(player);
@@ -29,6 +33,7 @@ public abstract class PearlAnimation
             HaloEffectStackers.Add((1.0f / playerModule.Inventory.Count) * i);
         }
     }
+
 
     public virtual void Update(Player player)
     {
@@ -63,12 +68,6 @@ public abstract class PearlAnimation
         UpdateHaloEffects(player);
         UpdateSymbolEffects(player);
     }
-
-
-
-    public List<float> HaloEffectStackers { get; set; } = [];
-    public float HaloEffectFrameAddition { get; set; } = 0.02f;
-    public float HaloEffectDir { get; set; } = 1;   
 
     public void UpdateHaloEffects(Player player)
     {
@@ -133,7 +132,6 @@ public abstract class PearlAnimation
         }
     }
 
-
     public void UpdateSymbolEffects(Player player)
     {
         if (!player.TryGetPearlcatModule(out var playerModule))
@@ -162,11 +160,11 @@ public abstract class PearlAnimation
 
             if (player.room == null || addon.Pos == Vector2.zero)
             {
-                addon.AllVisible = false;
+                addon.IsVisible = false;
                 continue;
             }
 
-            addon.AllVisible = true;
+            addon.IsVisible = true;
 
 
             var effect = abstractObject.GetPearlEffect();

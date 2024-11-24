@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 namespace Pearlcat;
 
 using IllustrationType = MenuIllustrationModule.IllustrationType;
+using Pearls = Enums.Pearls;
 using Scenes = Enums.Scenes;
 
 public static class Menu_Helpers
@@ -92,6 +93,175 @@ public static class Menu_Helpers
             }
 
             self.alpha = Mathf.Lerp(self.alpha, 0.99f, 0.015f);
+        }
+    }
+
+
+    // Initialize dynamic pearls on menu scenes
+    public static void InitMenuPearls(MenuScene self, MenuScene.SceneID sceneID)
+    {
+        var miscProg = Utils.MiscProgression;
+
+        if (sceneID == Scenes.Dream_Pearlcat_Pebbles)
+        {
+            List<SaveMiscProgression.StoredPearlData> pearls = [];
+
+            for (var i = 0; i < 10; i++)
+            {
+                var randState = Random.state;
+                Random.InitState((int)DateTime.Now.Ticks);
+
+                var pebblesPearlType = Random.Range(0, 2);
+
+                Random.state = randState;
+
+                var pearlData = new SaveMiscProgression.StoredPearlData()
+                {
+                    DataPearlType = DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl.value,
+                    PebblesPearlType = pebblesPearlType,
+                };
+
+                pearls.Add(pearlData);
+            }
+
+            ModuleManager.MenuSceneData.Add(self, new(pearls, miscProg.StoredActivePearl));
+        }
+        else if (ModOptions.InventoryOverride.Value || (miscProg.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
+        {
+            var pearls = ModOptions.GetOverridenInventory(true);
+            var activePearl = pearls.FirstOrDefault();
+
+            var displayLimit = GetPearlDisplayLimit(sceneID);
+
+            if (pearls.Count > displayLimit)
+            {
+                pearls.RemoveRange(displayLimit, pearls.Count - displayLimit);
+            }
+
+            pearls.Remove(activePearl);
+
+            ModuleManager.MenuSceneData.Add(self, new(pearls.PearlTypeToStoredData(), activePearl?.PearlTypeToStoredData()));
+        }
+        else if (miscProg.IsNewPearlcatSave)
+        {
+            List<DataPearl.AbstractDataPearl.DataPearlType> pearls =
+            [
+                Pearls.AS_PearlBlue,
+                Pearls.AS_PearlYellow,
+                Pearls.AS_PearlRed,
+                Pearls.AS_PearlGreen,
+                Pearls.AS_PearlBlack,
+            ];
+
+            var activePearl = Pearls.RM_Pearlcat;
+
+            // Replace the active pearl with one of the pearl colors (+ remove it from the list)
+            if (miscProg.HasTrueEnding)
+            {
+                activePearl = Pearls.AS_PearlRed;
+                pearls.Remove(activePearl);
+            }
+
+            ModuleManager.MenuSceneData.Add(self, new(pearls.PearlTypeToStoredData(), activePearl.PearlTypeToStoredData()));
+        }
+        else
+        {
+            var pearls = miscProg.StoredNonActivePearls;
+            var displayLimit = GetPearlDisplayLimit(sceneID);
+
+            if (pearls.Count > displayLimit)
+            {
+                pearls.RemoveRange(displayLimit, pearls.Count - displayLimit);
+            }
+
+            ModuleManager.MenuSceneData.Add(self, new(miscProg.StoredNonActivePearls, miscProg.StoredActivePearl));
+        }
+    }
+
+    public static void InitMenuPearlIllustrations(MenuScene self, MenuScene.SceneID sceneID)
+    {
+        if (!self.TryGetModule(out var module))
+        {
+            return;
+        }
+
+        var miscProg = Utils.MiscProgression;
+
+        var illustrationFolder = Path.Combine("illustrations", "pearlcat_menupearls");
+        var appendTag = "";
+        var flatMode = self.flatMode;
+
+        if (sceneID == Scenes.Slugcat_Pearlcat_Ascended)
+        {
+            appendTag = "_(ascendscene)";
+        }
+
+        // Non-Active Pearls
+        for (var i = 0; i < module.NonActivePearls.Count; i++)
+        {
+            var pearlData = module.NonActivePearls[i];
+
+            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, false, false)
+                : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+            self.AddIllustration(illustration);
+
+            var isUnique = GetUniquePearlIllustration(pearlData.DataPearlType) is not null;
+
+            illustration.GetModule().Init(illustration, IllustrationType.PearlNonActive, i, isUnique);
+        }
+
+        // Active Pearl
+        if (module.ActivePearl is not null)
+        {
+            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, false, false)
+                : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+            self.AddIllustration(illustration);
+
+            var isUnique = GetUniquePearlIllustration(module.ActivePearl.DataPearlType) is not null;
+
+            illustration.GetModule().Init(illustration, IllustrationType.PearlActive, hasUniquePearlIllustration: isUnique);
+
+
+            var haloIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, false, false)
+                : new MenuDepthIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+            self.AddIllustration(haloIllustration);
+
+            haloIllustration.GetModule().Init(haloIllustration, IllustrationType.PearlActiveHalo);
+        }
+
+        // Placeholder for when Pearlcat sleeps with no pearls stored
+        if (sceneID == Scenes.Slugcat_Pearlcat_Sleep && !miscProg.HasTrueEnding && miscProg.StoredActivePearl is null)
+        {
+            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, false, false)
+                : new MenuDepthIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+            self.AddIllustration(illustration);
+
+            illustration.GetModule().Init(illustration, IllustrationType.PearlPlaceHolder);
+        }
+
+        // Pearlpup heart
+        if (miscProg.HasTrueEnding)
+        {
+            if (sceneID == Scenes.Slugcat_Pearlcat_Sleep || sceneID == Scenes.Slugcat_Pearlcat)
+            {
+                var heartCoreIllustration = flatMode ?new MenuIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, false, false)
+                    : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+                self.AddIllustration(heartCoreIllustration);
+
+                heartCoreIllustration.GetModule().Init(heartCoreIllustration, IllustrationType.PearlHeartCore);
+
+                var heartIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, false, false)
+                    : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+                self.AddIllustration(heartIllustration);
+
+                heartIllustration.GetModule().Init(heartIllustration, IllustrationType.PearlHeart);
+            }
         }
     }
 
@@ -709,6 +879,11 @@ public static class Menu_Helpers
             return;
         }
 
+        illustration.sprite.MoveToBack();
+
+        illustration.sprite.MoveInFrontOfOtherNode(targetIllustration.sprite);
+
+        // i dunno if changing the index actually matters but makes it easier to see where stuff is
         var targetIndex = illustrations.IndexOf(targetIllustration);
 
         illustrations.Insert(targetIndex, illustration);

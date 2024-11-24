@@ -1,4 +1,5 @@
-﻿using Menu;
+﻿using System;
+using Menu;
 using RWCustom;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using UnityEngine;
 using static Pearlcat.Enums;
 
 using static Pearlcat.Menu_Helpers;
+using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -125,159 +127,12 @@ public static class Menu_Hooks
         {
             return;
         }
-       
-        var miscProg = Utils.MiscProgression;
-
-        if (sceneID == Scenes.Dream_Pearlcat_Pebbles)
-        {
-            List<SaveMiscProgression.StoredPearlData> pearls = [];
-
-            for (var i = 0; i < 10; i++)
-            {
-                var pearlData = new SaveMiscProgression.StoredPearlData()
-                {
-                    DataPearlType = DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl.value,
-                    PebblesPearlType = i % 3,
-                };
-
-                pearls.Add(pearlData);
-            }
-
-            ModuleManager.MenuSceneData.Add(self, new(pearls, miscProg.StoredActivePearl));
-        }
-        else if (ModOptions.InventoryOverride.Value || (miscProg.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
-        {
-            var pearls = ModOptions.GetOverridenInventory(true);
-            var activePearl = pearls.FirstOrDefault();
-
-            var displayLimit = GetPearlDisplayLimit(sceneID);
-
-            if (pearls.Count > displayLimit)
-            {
-                pearls.RemoveRange(displayLimit, pearls.Count - displayLimit);
-            }
-
-            pearls.Remove(activePearl);
-
-            ModuleManager.MenuSceneData.Add(self, new(pearls.PearlTypeToStoredData(), activePearl?.PearlTypeToStoredData()));
-        }
-        else if (miscProg.IsNewPearlcatSave)
-        {
-            List<DataPearl.AbstractDataPearl.DataPearlType> pearls =
-            [
-                Pearls.AS_PearlBlue,
-                Pearls.AS_PearlYellow,
-                Pearls.AS_PearlRed,
-                Pearls.AS_PearlGreen,
-                Pearls.AS_PearlBlack,
-            ];
-
-            var activePearl = Pearls.RM_Pearlcat;
-
-            // Replace the active pearl with one of the pearl colors (+ remove it from the list)
-            if (miscProg.HasTrueEnding)
-            {
-                activePearl = Pearls.AS_PearlRed;
-                pearls.Remove(activePearl);
-            }
-
-            ModuleManager.MenuSceneData.Add(self, new(pearls.PearlTypeToStoredData(), activePearl.PearlTypeToStoredData()));
-        }
-        else
-        {
-            var pearls = miscProg.StoredNonActivePearls;
-            var displayLimit = GetPearlDisplayLimit(sceneID);
-
-            if (pearls.Count > displayLimit)
-            {
-                pearls.RemoveRange(displayLimit, pearls.Count - displayLimit);
-            }
-
-            ModuleManager.MenuSceneData.Add(self, new(miscProg.StoredNonActivePearls, miscProg.StoredActivePearl));
-        }
 
 
-        if (!self.TryGetModule(out var module))
-        {
-            return;
-        }
-
-        var illustrationFolder = Path.Combine("illustrations", "pearlcat_menupearls");
-        var appendTag = "";
-        var flatMode = self.flatMode;
-
-        if (sceneID == Scenes.Slugcat_Pearlcat_Ascended)
-        {
-            appendTag = "_(ascendscene)";
-        }
-
-        // Non-Active Pearls
-        for (var i = 0; i < module.NonActivePearls.Count; i++)
-        {
-            var pearlData = module.NonActivePearls[i];
-
-            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, false, false)
-                : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-            self.AddIllustration(illustration);
-
-            var isUnique = GetUniquePearlIllustration(pearlData.DataPearlType) is not null;
-
-            illustration.GetModule().Init(illustration, MenuIllustrationModule.IllustrationType.PearlNonActive, i, isUnique);
-        }
-
-        // Active Pearl
-        if (module.ActivePearl is not null)
-        {
-            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, false, false)
-                : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-            self.AddIllustration(illustration);
-
-            var isUnique = GetUniquePearlIllustration(module.ActivePearl.DataPearlType) is not null;
-
-            illustration.GetModule().Init(illustration, MenuIllustrationModule.IllustrationType.PearlActive, hasUniquePearlIllustration: isUnique);
+        InitMenuPearls(self, sceneID);
 
 
-            var haloIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, false, false)
-                : new MenuDepthIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-            self.AddIllustration(haloIllustration);
-
-            haloIllustration.GetModule().Init(haloIllustration, MenuIllustrationModule.IllustrationType.PearlActiveHalo);
-        }
-
-        // Placeholder for when Pearlcat sleeps with no pearls stored
-        if (sceneID == Scenes.Slugcat_Pearlcat_Sleep && !miscProg.HasTrueEnding && miscProg.StoredActivePearl is null)
-        {
-            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, false, false)
-                : new MenuDepthIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-            self.AddIllustration(illustration);
-
-            illustration.GetModule().Init(illustration, MenuIllustrationModule.IllustrationType.PearlPlaceHolder);
-        }
-
-        // Pearlpup heart
-        if (miscProg.HasTrueEnding)
-        {
-            if (sceneID == Scenes.Slugcat_Pearlcat_Sleep || sceneID == Scenes.Slugcat_Pearlcat)
-            {
-                var heartCoreIllustration = flatMode ?new MenuIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, false, false)
-                    : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-                self.AddIllustration(heartCoreIllustration);
-
-                heartCoreIllustration.GetModule().Init(heartCoreIllustration, MenuIllustrationModule.IllustrationType.PearlHeartCore);
-
-                var heartIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, false, false)
-                    : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-                self.AddIllustration(heartIllustration);
-
-                heartIllustration.GetModule().Init(heartIllustration, MenuIllustrationModule.IllustrationType.PearlHeart);
-            }
-        }
+        InitMenuPearlIllustrations(self, sceneID);
     }
 
     private static void MenuScene_Update(On.Menu.MenuScene.orig_Update orig, MenuScene self)
