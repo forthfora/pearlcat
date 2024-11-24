@@ -15,6 +15,10 @@ public static partial class Enums
 
         public static DataPearl.AbstractDataPearl.DataPearlType Heart_Pearlpup { get; } = new(nameof(Heart_Pearlpup), true);
 
+        // Chasing Wind
         public static DataPearl.AbstractDataPearl.DataPearlType CW_Pearlcat { get; } = new(nameof(CW_Pearlcat), true);
+
+        // Shrouded Assembly - don't register, it's not part of Pearlcat
+        public static DataPearl.AbstractDataPearl.DataPearlType BigGoldenPearl { get; } = new(nameof(BigGoldenPearl));
     }
 }

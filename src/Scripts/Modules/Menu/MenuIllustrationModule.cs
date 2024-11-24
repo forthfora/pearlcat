@@ -30,6 +30,8 @@ public class MenuIllustrationModule
 
     public void Init(MenuIllustration illustration, IllustrationType type, int nonActivePearlIndex = 0, bool hasUniquePearlIllustration = false)
     {
+        illustration.sprite.SetAnchor(0.5f, 0.5f);
+
         Type = type;
         NonActivePearlIndex = nonActivePearlIndex;
         HasUniquePearlIllustration = hasUniquePearlIllustration;

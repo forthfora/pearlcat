@@ -223,7 +223,7 @@ public static class Menu_Helpers
         {
             var pearlData = module.NonActivePearls[i];
 
-            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, false, false)
+            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, false, true)
                 : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
 
             self.AddIllustration(illustration);
@@ -236,7 +236,15 @@ public static class Menu_Helpers
         // Active Pearl
         if (module.ActivePearl is not null)
         {
-            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, false, false)
+            var haloIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, false, true)
+                : new MenuDepthIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+            self.AddIllustration(haloIllustration);
+
+            haloIllustration.GetModule().Init(haloIllustration, IllustrationType.PearlActiveHalo);
+
+
+            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, false, true)
                 : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(module.ActivePearl.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
 
             self.AddIllustration(illustration);
@@ -244,20 +252,12 @@ public static class Menu_Helpers
             var isUnique = GetUniquePearlIllustration(module.ActivePearl.DataPearlType) is not null;
 
             illustration.GetModule().Init(illustration, IllustrationType.PearlActive, hasUniquePearlIllustration: isUnique);
-
-
-            var haloIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, false, false)
-                : new MenuDepthIllustration(self.menu, self, illustrationFolder, "halo" + appendTag, Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-            self.AddIllustration(haloIllustration);
-
-            haloIllustration.GetModule().Init(haloIllustration, IllustrationType.PearlActiveHalo);
         }
 
         // Placeholder for when Pearlcat sleeps with no pearls stored
         if (sceneID == Scenes.Slugcat_Pearlcat_Sleep && !miscProg.HasTrueEnding && miscProg.StoredActivePearl is null)
         {
-            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, false, false)
+            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, false, true)
                 : new MenuDepthIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
 
             self.AddIllustration(illustration);
@@ -270,14 +270,14 @@ public static class Menu_Helpers
         {
             if (sceneID == Scenes.Slugcat_Pearlcat_Sleep || sceneID == Scenes.Slugcat_Pearlcat)
             {
-                var heartCoreIllustration = flatMode ?new MenuIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, false, false)
+                var heartCoreIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, false, true)
                     : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
 
                 self.AddIllustration(heartCoreIllustration);
 
                 heartCoreIllustration.GetModule().Init(heartCoreIllustration, IllustrationType.PearlHeartCore);
 
-                var heartIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, false, false)
+                var heartIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, false, true)
                     : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
 
                 self.AddIllustration(heartIllustration);
@@ -1014,6 +1014,11 @@ public static class Menu_Helpers
         if (menuPearlType == "CW_Pearlcat")
         {
             return "unique_cw_pearlcat";
+        }
+
+        if (menuPearlType == "BigGoldenPearl")
+        {
+            return "unique_biggoldenpearl";
         }
 
         return null;

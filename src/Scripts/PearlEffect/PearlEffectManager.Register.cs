@@ -24,6 +24,8 @@ public static partial class PearlEffectManager
 
     public static PearlEffect CW;
 
+    public static PearlEffect BigGoldenPearl;
+
 
     // Vanilla & MSC
     public static PearlEffect Misc;
@@ -134,6 +136,8 @@ public static partial class PearlEffectManager
         PearlEffects.Add(Enums.Pearls.AS_PearlBlack, AsPearlBlack);
 
         PearlEffects.Add(Enums.Pearls.CW_Pearlcat, CW);
+
+        PearlEffects.Add(Enums.Pearls.BigGoldenPearl, BigGoldenPearl);
     }
 
     public static void SetEffects()
@@ -338,5 +342,13 @@ public static partial class PearlEffectManager
         CW.RunSpeedFac = 0.15f;
         CW.PoleClimbSpeedFac = 0.15f;
         CW.CorridorClimbSpeedFac = 0.15f;
+
+        BigGoldenPearl = None;
+        BigGoldenPearl.MajorEffect = MajorEffectType.SHIELD;
+        BigGoldenPearl.ActiveMultiplier = 2.0f;
+        BigGoldenPearl.LungsFac = -0.15f;
+        BigGoldenPearl.RunSpeedFac = 0.15f;
+        BigGoldenPearl.PoleClimbSpeedFac = 0.15f;
+        BigGoldenPearl.CorridorClimbSpeedFac = 0.15f;
     }
 }

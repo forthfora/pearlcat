@@ -149,6 +149,11 @@ public static partial class PlayerPearl_Helpers
             return Custom.hexToColor("0077ff");
         }
 
+        if (type == Enums.Pearls.BigGoldenPearl)
+        {
+            return Custom.hexToColor("dea700");
+        }
+
         return DataPearl.UniquePearlMainColor(type);
     }
 
