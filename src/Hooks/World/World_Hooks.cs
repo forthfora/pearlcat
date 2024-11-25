@@ -44,7 +44,6 @@ public static class World_Hooks
 
         On.PlacedObject.FilterData.FromString += FilterData_FromString;
 
-        On.DreamsState.StaticEndOfCycleProgress += DreamsState_StaticEndOfCycleProgress;
         On.RainWorldGame.ctor += RainWorldGame_ctor;
 
         On.AboveCloudsView.ctor += AboveCloudsView_ctor;
@@ -85,17 +84,6 @@ public static class World_Hooks
         self.GetStorySession.TryDream(dreamPool[Random.Range(0, dreamPool.Count)], false);
 
         Random.state = randState;
-    }
-
-
-    private static void DreamsState_StaticEndOfCycleProgress(On.DreamsState.orig_StaticEndOfCycleProgress orig, SaveState saveState, string currentRegion, string denPosition, ref int cyclesSinceLastDream, ref int cyclesSinceLastFamilyDream, ref int cyclesSinceLastGuideDream, ref int inGWOrSHCounter, ref DreamsState.DreamID upcomingDream, ref DreamsState.DreamID eventDream, ref bool everSleptInSB, ref bool everSleptInSB_S01, ref bool guideHasShownHimselfToPlayer, ref int guideThread, ref bool guideHasShownMoonThisRound, ref int familyThread)
-    {
-        if (saveState.saveStateNumber == Enums.Pearlcat && (eventDream == null || !eventDream.value.Contains("Pearlcat")))
-        {
-            return;
-        }
-
-        orig(saveState, currentRegion, denPosition, ref cyclesSinceLastDream, ref cyclesSinceLastFamilyDream, ref cyclesSinceLastGuideDream, ref inGWOrSHCounter, ref upcomingDream, ref eventDream, ref everSleptInSB, ref everSleptInSB_S01, ref guideHasShownHimselfToPlayer, ref guideThread, ref guideHasShownMoonThisRound, ref familyThread);
     }
 
 

@@ -130,13 +130,9 @@ public static class PlayerGraphics_Helpers
             {
                 var sprite = sLeaser.sprites[i];
 
-                if (i == MARK_SPRITE)
+                if (i == MARK_SPRITE || i == MARK_GLOW_SPRITE)
                 {
-                    continue;
-                }
-
-                if (i == MARK_GLOW_SPRITE)
-                {
+                    sprite.alpha = isVisible ? sprite.alpha : 0.0f;
                     continue;
                 }
 
@@ -206,7 +202,7 @@ public static class PlayerGraphics_Helpers
         feetSprite.MoveBehindOtherNode(cloakSprite);
         feetSprite.MoveInFrontOfOtherNode(legsSprite);
 
-        var upsideDown = self.head.pos.y < (self.legs.pos.y - 4.5f) && self.player.bodyMode != Player.BodyModeIndex.ZeroG;
+        var upsideDown = self.head.pos.y < (self.legs.pos.y - 4.5f) && self.player.bodyMode != Player.BodyModeIndex.ZeroG && self.player.bodyMode != Player.BodyModeIndex.Crawl;
 
         if (upsideDown)
         {

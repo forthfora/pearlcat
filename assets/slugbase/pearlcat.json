@@ -30,6 +30,7 @@
         "the_glow": true,
 
         "has_dreams": true,
+        "use_default_dreams": false,
 
         "back_spear": false,
         

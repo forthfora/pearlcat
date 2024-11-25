@@ -48,7 +48,7 @@ public class T1_START : UpdatableAndDeletable
 
             if (CurrentPhase == Phase.Init)
             {
-                player.playerState.foodInStomach = 6;
+                player.playerState.foodInStomach = player.slugcatStats.foodToHibernate;
                 room.game.cameras[0].hud.foodMeter.NewShowCount(player.FoodInStomach);
 
                 player.controller = new PearlcatController(new(this, player.playerState.playerNumber));

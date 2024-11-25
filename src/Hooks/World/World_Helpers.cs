@@ -186,9 +186,9 @@ public static class World_Helpers
         }
         else if (!miscWorld.HasPearlpupWithPlayerDeadOrAlive && miscProg.DidHavePearlpup) // Pearlcat will have recurring nightmares if she loses her pup
         {
-            var canDream = Random.Range(0.0f, 1.0f) < 0.15f;
+            var randomDream = Random.Range(0.0f, 1.0f) < 0.15f;
 
-            if (canDream)
+            if (randomDream)
             {
                 dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
                 dreamPool.Add(Dreams.Dream_Pearlcat_Sick);

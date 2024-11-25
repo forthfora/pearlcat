@@ -74,7 +74,7 @@ public static class PearlpupGraphics_Helpers
         sickSprite.MoveInFrontOfOtherNode(hipsSprite);
 
 
-        var upsideDown = self.head.pos.y < self.legs.pos.y || self.player.bodyMode == Player.BodyModeIndex.ZeroG;
+        var upsideDown = self.head.pos.y < self.legs.pos.y && self.player.bodyMode != Player.BodyModeIndex.ZeroG;
 
         if (upsideDown)
         {

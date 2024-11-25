@@ -46,7 +46,7 @@ public static class Menu_Helpers
         // If Pearlpup is alive and with the player (or a new save)
         if (fileName.HasConditionTag("pup", out var c))
         {
-            visible &= miscProg.HasPearlpup == c || miscProg.HasDeadPearlpup || miscProg.IsNewPearlcatSave;
+            visible &= miscProg.HasPearlpup == c || miscProg.HasDeadPearlpup || (miscProg.IsNewPearlcatSave && ModManager.MSC);
         }
 
         // If true ending achieved
@@ -218,20 +218,7 @@ public static class Menu_Helpers
             appendTag = "_(ascendscene)";
         }
 
-        // Non-Active Pearls
-        for (var i = 0; i < module.NonActivePearls.Count; i++)
-        {
-            var pearlData = module.NonActivePearls[i];
-
-            var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, false, true)
-                : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
-
-            self.AddIllustration(illustration);
-
-            var isUnique = GetUniquePearlIllustration(pearlData.DataPearlType) is not null;
-
-            illustration.GetModule().Init(illustration, IllustrationType.PearlNonActive, i, isUnique);
-        }
+        // Called First => Last, Nearest Layer => Furthest Layer
 
         // Active Pearl
         if (module.ActivePearl is not null)
@@ -254,6 +241,27 @@ public static class Menu_Helpers
             illustration.GetModule().Init(illustration, IllustrationType.PearlActive, hasUniquePearlIllustration: isUnique);
         }
 
+        // Pearlpup heart
+        if (miscProg.HasTrueEnding)
+        {
+            if (sceneID == Scenes.Slugcat_Pearlcat_Sleep || sceneID == Scenes.Slugcat_Pearlcat)
+            {
+                var heartIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, false, true)
+                    : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+                self.AddIllustration(heartIllustration);
+
+                heartIllustration.GetModule().Init(heartIllustration, IllustrationType.PearlHeart);
+
+                var heartCoreIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, false, true)
+                    : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+
+                self.AddIllustration(heartCoreIllustration);
+
+                heartCoreIllustration.GetModule().Init(heartCoreIllustration, IllustrationType.PearlHeartCore);
+            }
+        }
+
         // Placeholder for when Pearlcat sleeps with no pearls stored
         if (sceneID == Scenes.Slugcat_Pearlcat_Sleep && !miscProg.HasTrueEnding && miscProg.StoredActivePearl is null)
         {
@@ -265,25 +273,20 @@ public static class Menu_Helpers
             illustration.GetModule().Init(illustration, IllustrationType.PearlPlaceHolder);
         }
 
-        // Pearlpup heart
-        if (miscProg.HasTrueEnding)
+        // Non-Active Pearls
+        for (var i = 0; i < module.NonActivePearls.Count; i++)
         {
-            if (sceneID == Scenes.Slugcat_Pearlcat_Sleep || sceneID == Scenes.Slugcat_Pearlcat)
-            {
-                var heartCoreIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, false, true)
-                    : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+            var pearlData = module.NonActivePearls[i];
 
-                self.AddIllustration(heartCoreIllustration);
+            var illustration = flatMode
+                ? new MenuIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, false, true)
+                : new MenuDepthIllustration(self.menu, self, illustrationFolder, GetPearlIllustration(pearlData.DataPearlType, appendTag), Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
 
-                heartCoreIllustration.GetModule().Init(heartCoreIllustration, IllustrationType.PearlHeartCore);
+            self.AddIllustration(illustration);
 
-                var heartIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, false, true)
-                    : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heart", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
+            var isUnique = GetUniquePearlIllustration(pearlData.DataPearlType) is not null;
 
-                self.AddIllustration(heartIllustration);
-
-                heartIllustration.GetModule().Init(heartIllustration, IllustrationType.PearlHeart);
-            }
+            illustration.GetModule().Init(illustration, IllustrationType.PearlNonActive, i, isUnique);
         }
     }
 
@@ -776,7 +779,7 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(911, 406);
+                i.SetPosition(911, 425);
                 i.SetDepth(2.3f);
                 i.LayerAfter("pearlcathead_(!trueend)");
                 return;
@@ -840,22 +843,22 @@ public static class Menu_Helpers
             if (type == IllustrationType.PearlNonActive)
             {
                 i.SetDepth(2.0f);
-                i.LayerAfter("pearlcat_body");
+                i.LayerAfter("pearlcatbody");
                 return;
             }
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(700, 600);
+                i.SetPosition(700, 400);
                 i.SetDepth(2.3f);
-                i.LayerAfter("pearlcat_head");
+                i.LayerAfter("pearlcathead");
                 return;
             }
 
             if (type == IllustrationType.PearlActiveHalo)
             {
                 i.SetDepth(2.0f);
-                i.LayerAfter("pearlcat_head");
+                i.LayerAfter("pearlcathead");
                 return;
             }
 
