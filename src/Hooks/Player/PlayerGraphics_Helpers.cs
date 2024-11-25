@@ -115,7 +115,7 @@ public static class PlayerGraphics_Helpers
             markGlowSprite.alpha = 0.0f;
         }
 
-        if (playerModule.ActiveObject != null)
+        if (playerModule.ActiveObject is not null)
         {
             markSprite.y += 10.0f;
             markGlowSprite.y += 10.0f;

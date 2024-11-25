@@ -8,86 +8,99 @@
   },
   "scenes": [
     {
-      "name": "Scene1",
+      "name": "1",
       "fade_in_start": 4.0,
       "fade_out_start": 10.0, 
       "images": [
-        {"name": "flat_Outro1", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+        {"name": "1/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
-        {"name": "Outro1_1", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+        {"name": "1/flat", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
       ],
       "camera_path": [ [0, 0] ]
     },
     {
-      "name": "Scene2",
+      "name": "2",
       "fade_in_start": 12.0,
       "fade_out_start": 21.0,
       "images": [
-        {"name": "Outro2_2", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
-        {"name": "Outro2_1", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+        {"name": "2/flat_(!pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+        {"name": "2/flat_(pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "2/flat_(!pup)", "pos": [0, 0], "depth": -1.0, "shader": "Basic"},
+        {"name": "2/flat_(pup)", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
       ],
       "camera_path": [ [0, 0] ]
     },
     {
-      "name": "Scene3",
+      "name": "3",
       "fade_in_start": 22.0,
       "fade_out_start": 30.0,
       "images": [
-        {"name": "Outro3_3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Outro3_2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
-        {"name": "Outro3_1_(pup)", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+        {"name": "3/flat_(!pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+        {"name": "3/flat_(pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "3/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "3/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "3/1_(pup)", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [-200, 0] ]
     },
     {
-      "name": "Scene4",
+      "name": "4",
       "fade_in_start": 32.0,
       "fade_out_start": 40.0,
       "images": [
-        {"name": "Outro4_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Outro2_1_(pup)", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+        {"name": "4/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "4/2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "4/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [100, 100] ]
     },
     {
-      "name": "Scene5",
+      "name": "5",
       "fade_in_start": 42.0,
       "fade_out_start": 44.0,
       "images": [
-        {"name": "Outro5_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Outro5_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+        {"name": "5/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "5/2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "5/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [0, -100] ]
     },
     {
-      "name": "Scene6",
+      "name": "6",
       "fade_in_start": 45.0,
       "fade_out_start": 48.0,
       "images": [
-        {"name": "Outro6_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Outro6_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+        {"name": "6/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "6/2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "6/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [150, 100] ]
     },
     {
-      "name": "Scene7",
+      "name": "7",
       "fade_in_start": 49.0,
       "fade_out_start": 60.0,
       "images": [
-        {"name": "Outro7_5", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Outro7_4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Outro7_3", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
-        {"name": "Outro7_2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "Outro7_1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+        {"name": "7/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "7/4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "7/3", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
+        {"name": "7/2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "7/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [0, -200] ]
     },
     {
-      "name": "Black",
+      "name": "8",
       "fade_in_start": 62.0,
       "fade_out_start": 65.0,
       "images": [
-        {"name": "Black", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+        {"name": "black", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
       ],
       "camera_path": [ [0, 0] ]
     }

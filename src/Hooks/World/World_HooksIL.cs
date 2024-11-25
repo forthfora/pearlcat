@@ -107,32 +107,30 @@ public static class World_HooksIL
         c.Emit(OpCodes.Ldloc_0);
         c.EmitDelegate<Func<RainWorldGame, string, string>>((game, roomName) =>
         {
-            if (game.GetStorySession.saveStateNumber == Enums.Pearlcat)
-            {   
-                var deathSave = game.GetStorySession.saveState.deathPersistentSaveData;
-                deathSave.karma = deathSave.karmaCap;
-                
-                var miscProg = Utils.MiscProgression;
-
-
-                miscProg.IsPearlpupSick = true;
-                miscProg.HasOEEnding = true;
-
-
-                var miscWorld = game.GetMiscWorld();
-
-                if (miscWorld != null)
-                {
-                    miscWorld.JustBeatAltEnd = true;
-                }
-
-
-                SlugBase.Assets.CustomScene.SetSelectMenuScene(game.GetStorySession.saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
-
-                return "OE_SEXTRA";
+            if (game.GetStorySession.saveStateNumber != Enums.Pearlcat)
+            {
+                return roomName;
             }
 
-            return roomName;
+            var deathSave = game.GetStorySession.saveState.deathPersistentSaveData;
+
+            deathSave.karma = deathSave.karmaCap;
+
+            var miscProg = Utils.MiscProgression;
+
+            miscProg.IsPearlpupSick = true;
+            miscProg.HasOEEnding = true;
+
+            var miscWorld = game.GetMiscWorld();
+
+            if (miscWorld != null)
+            {
+                miscWorld.JustBeatAltEnd = true;
+            }
+
+            SlugBase.Assets.CustomScene.SetSelectMenuScene(game.GetStorySession.saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
+
+            return "OE_SEXTRA";
         });
 
         c.Emit(OpCodes.Stloc_0);

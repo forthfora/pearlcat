@@ -38,7 +38,7 @@ public static class SlideShow_HooksIL
             }
 
             self.manager.statsAfterCredits = true;
-            self.manager.nextSlideshow = Enums.Scenes.Pearlcat_AltOutro;
+            self.manager.nextSlideshow = Enums.Scenes.Pearlcat_Outro_Sick;
             self.manager.RequestMainProcessSwitch(ProcessManager.ProcessID.SlideShow);
         });
     }

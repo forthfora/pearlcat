@@ -19,7 +19,7 @@ public static partial class Enums
         public static MenuScene.SceneID Slugcat_Pearlcat_Statistics_Sick { get; } = new(nameof(Slugcat_Pearlcat_Statistics_Sick));
 
         // Cutscene
-        public static SlideShow.SlideShowID Pearlcat_AltOutro { get; } = new(nameof(Pearlcat_AltOutro));
+        public static SlideShow.SlideShowID Pearlcat_Outro_Sick { get; } = new(nameof(Pearlcat_Outro_Sick));
 
         // Dreams
         public static MenuScene.SceneID Dream_Pearlcat_Pearlpup { get; } = new(nameof(Dream_Pearlcat_Pearlpup));

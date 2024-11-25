@@ -1,0 +1,166 @@
+{
+  "id": "Pearlcat_Outro_Sick",
+  "slideshow_folder": "slugbase/slideshows/pearlcat_outro_sick",
+  "next_process": "Statistics",
+  "music": {
+    "name": "RW_Outro_Theme_B",
+    "fade_in": 40
+  },
+  "scenes": [
+    {
+      "name": "1",
+      "fade_in_start": 2.0,
+      "fade_in_end": 7.0,
+      "fade_out_start": 10.0,
+      "images": [
+        {"name": "1/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "1/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "1/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "1/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [100, 0] ]
+    },
+    {
+      "name": "2",
+      "fade_in_start": 15.5,
+      "fade_out_start": 23.0,
+      "images": [
+        {"name": "2/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+        
+        {"name": "2/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "2/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "2/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [100, 0] ]
+    },
+    {
+      "name": "3",
+      "fade_in_start": 31.0,
+      "fade_out_start": 38.0,
+      "images": [
+        {"name": "2/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "2/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "2/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "2/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [-70, 50] ]
+    },
+    {
+      "name": "4",
+      "fade_in_start": 39.0,
+      "fade_out_start": 43.0,
+      "images": [
+        {"name": "4/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "4/4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "4/3", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "4/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "4/1", "pos": [0, 0], "depth": 5.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [100, 100] ]
+    },
+    {
+      "name": "Black_1",
+      "fade_in_start": 45.0,
+      "fade_in_end": 46.0,
+      "fade_out_start": 46.5,
+      "images": [
+        {"name": "black", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+      ]
+    },
+    {
+      "name": "5",
+      "fade_in_start": 46.5,
+      "fade_in_end": 46.75,
+      "fade_out_start": 51.0,
+      "images": [
+        {"name": "5/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "5/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "5/2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "5/1", "pos": [0, 0], "depth": 5.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 50] ]
+    },
+    {
+      "name": "6",
+      "fade_in_start": 51.5,
+      "fade_out_start": 55.0,
+      "images": [
+        {"name": "6/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "6/3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "6/2", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+        {"name": "6/1", "pos": [0, 0], "depth": 1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 0] ]
+    },
+    {
+      "name": "7",
+      "fade_in_start": 55.5,
+      "fade_out_start": 60.0,
+      "images": [
+        {"name": "7/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "7/4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "7/3", "pos": [0, 0], "depth": 3.5, "shader": "Basic"},
+        {"name": "7/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "7/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [100, 0] ]
+    },
+    {
+      "name": "8",
+      "fade_in_start": 61.0,
+      "fade_out_start": 65.0,
+      "images": [
+        {"name": "8/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "8/4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "8/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "8/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "8/1", "pos": [0, 0], "depth": 5.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [200, 0] ]
+    },
+    {
+      "name": "9",
+      "fade_in_start": 66.0,
+      "fade_out_start": 69.0,
+      "images": [
+        {"name": "9/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "9/4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "9/3", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "9/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "9/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+      ],
+      "camera_path": [ [100, 100] ]
+    },
+    {
+      "name": "10",
+      "fade_in_start": 70.0,
+      "fade_out_start": 76.0,
+      "images": [
+        {"name": "10/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+        {"name": "10/flat_1", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+
+        {"name": "10/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "10/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "10/1", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+      ],
+      "camera_path": [ [0, 50] ]
+    },
+    {
+      "name": "Black_2",
+      "fade_in_start": 80.0,
+      "fade_in_end": 80.0,
+      "fade_out_start": 83.0,
+      "images": [
+        {"name": "black", "pos": [0, 0], "depth": -1.0, "shader": "Basic"}
+      ]
+    }
+  ]
+}

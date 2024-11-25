@@ -46,7 +46,7 @@ public static class Menu_Helpers
         // If Pearlpup is alive and with the player (or a new save)
         if (fileName.HasConditionTag("pup", out var c))
         {
-            visible &= miscProg.HasPearlpup == c || miscProg.HasDeadPearlpup || (miscProg.IsNewPearlcatSave && ModManager.MSC);
+            visible &= (miscProg.HasPearlpup || miscProg.HasDeadPearlpup || (miscProg.IsNewPearlcatSave && ModManager.MSC)) == c;
         }
 
         // If true ending achieved
@@ -92,10 +92,10 @@ public static class Menu_Helpers
     // Applies behavior specific to a given illustration
     public static void UpdateIllustrationSpecificBehavior(MenuIllustration self)
     {
-        var fileName = Path.GetFileNameWithoutExtension(self.fileName);
+        var filePath = self.fileName;
 
         // Outer Expanse Ending - fade this scene to black
-        if (fileName == "AltOutro10_1")
+        if (filePath.EndsWith(Path.Combine("pearlcat_outro_sick", "10", "1")) || filePath.EndsWith(Path.Combine("pearlcat_outro_sick", "10", "flat_1")))
         {
             if (self.alpha == 1.0f)
             {
@@ -263,7 +263,7 @@ public static class Menu_Helpers
         }
 
         // Placeholder for when Pearlcat sleeps with no pearls stored
-        if (sceneID == Scenes.Slugcat_Pearlcat_Sleep && !miscProg.HasTrueEnding && miscProg.StoredActivePearl is null)
+        if (sceneID == Scenes.Slugcat_Pearlcat_Sleep && !miscProg.IsNewPearlcatSave && !miscProg.HasTrueEnding && miscProg.StoredActivePearl is null)
         {
             var illustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, false, true)
                 : new MenuDepthIllustration(self.menu, self, illustrationFolder, "placeholder", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
@@ -378,7 +378,7 @@ public static class Menu_Helpers
         }
         else if (illustrationModule.Type == IllustrationType.PearlNonActive)
         {
-            var origin = new Vector2(675, 400);
+            var origin = new Vector2(685, 400);
             var angleFrameAddition = 0.00675f;
 
             var radius = 150.0f;
@@ -513,7 +513,7 @@ public static class Menu_Helpers
         }
         else if (illustrationModule.Type == IllustrationType.PearlNonActive)
         {
-            var origin = new Vector2(650, 490);
+            var origin = new Vector2(685, 490);
             var angleFrameAddition = 0.0045f;
 
             var radius = 90.0f;
@@ -561,7 +561,7 @@ public static class Menu_Helpers
         }
         else if (illustrationModule.Type == IllustrationType.PearlNonActive)
         {
-            var origin = new Vector2(680, 360);
+            var origin = new Vector2(685, 360);
             var angleFrameAddition = 0.0045f;
 
             var radius = 90.0f;
@@ -718,7 +718,7 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(675, 360);
+                i.SetPosition(685, 400);
                 i.SetDepth(2.3f);
                 i.LayerAfter("pearlcathead_(!trueend)");
                 return;
@@ -787,7 +787,7 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlPlaceHolder)
             {
-                i.SetPosition(870, 406);
+                i.SetPosition(900, 425);
                 i.SetDepth(2.3f);
                 i.LayerAfter("pearlcathead_(!trueend)");
                 return;
@@ -822,7 +822,7 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(650, 600);
+                i.SetPosition(685, 630);
                 i.SetDepth(2.3f);
                 i.LayerAfter("pearlcat");
                 return;
@@ -849,7 +849,7 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(700, 400);
+                i.SetPosition(685, 375);
                 i.SetDepth(2.3f);
                 i.LayerAfter("pearlcathead");
                 return;

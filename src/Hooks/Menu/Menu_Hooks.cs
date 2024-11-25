@@ -164,8 +164,6 @@ public static class Menu_Hooks
 
         self.effectColor = color ?? Color.white;
 
-        self.markOffset = save.HasPearlpup ? new(0.0f, 50.0f) : new(20.0f, 50.0f);
-
         if (SecretIndex == SecretPassword.Length)
         {
             save.IsSecretEnabled = !save.IsSecretEnabled;
