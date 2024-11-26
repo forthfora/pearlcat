@@ -194,7 +194,7 @@ public static class World_Hooks
     {
         var result = orig(i);
 
-        if (i == Enums.SSOracle.PearlcatPebbles)
+        if (i == Enums.Oracle.PearlcatPebbles)
         {
             return true;
         }

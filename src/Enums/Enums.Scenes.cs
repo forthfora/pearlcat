@@ -4,6 +4,7 @@ namespace Pearlcat;
 
 public static partial class Enums
 {
+    // Don't need to register these, SlugBase does it for us
     public static class Scenes
     {
         // Select Screen

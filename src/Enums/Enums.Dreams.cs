@@ -15,11 +15,13 @@ public static partial class Enums
 
         public static void RegisterDreams()
         {
-            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Pebbles, Scenes.Dream_Pearlcat_Pebbles);
             SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Pearlpup, Scenes.Dream_Pearlcat_Pearlpup);
-            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Moon, Scenes.Dream_Pearlcat_Moon);
-            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Sick, Scenes.Dream_Pearlcat_Sick);
             SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Scholar, Scenes.Dream_Pearlcat_Scholar);
+
+            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Pebbles, Scenes.Dream_Pearlcat_Pebbles);
+            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Moon, Scenes.Dream_Pearlcat_Moon);
+
+            SlugBase.Assets.CustomDreams.SetDreamScene(Dream_Pearlcat_Sick, Scenes.Dream_Pearlcat_Sick);
         }
     }
 }

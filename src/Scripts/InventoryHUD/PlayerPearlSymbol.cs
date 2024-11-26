@@ -135,6 +135,19 @@ public class PlayerPearlSymbol
         ItemSymbol.shadowSprite1.color = Color.white;
         ItemSymbol.shadowSprite2.color = Color.black;
 
+        // Allow for unique hud icons for important pearls (e.g. RM, SS_Pearlcat, CW_Pearlcat)
+        if (obj is DataPearl.AbstractDataPearl abstractDataPearl)
+        {
+            var pearlType = abstractDataPearl.dataPearlType;
+            var uniqueHudPearlElement = "pearlcat_hudpearl_" + pearlType.value.ToLower();
+
+            if (Futile.atlasManager.DoesContainElementWithName(uniqueHudPearlElement))
+            {
+                ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName(uniqueHudPearlElement);
+                ItemSymbol.symbolSprite.color = Color.white;
+            }
+        }
+
 
         // Below requires the item to be stored in the inventory
         if (!obj.TryGetPlayerPearlModule(out var pearlModule))
@@ -195,19 +208,5 @@ public class PlayerPearlSymbol
 
         PossessionSprite.MoveInFrontOfOtherNode(ItemSymbol.symbolSprite);
         PossessionSprite.SetPosition(ItemSymbol.symbolSprite.GetPosition());
-
-
-        // Allow for unique hud icons for important pearls (e.g. RM, SS_Pearlcat, CW_Pearlcat)
-        if (obj is DataPearl.AbstractDataPearl abstractDataPearl)
-        {
-            var pearlType = abstractDataPearl.dataPearlType;
-            var uniqueHudPearlElement = "pearlcat_hudpearl_" + pearlType.value.ToLower();
-
-            if (Futile.atlasManager.DoesContainElementWithName(uniqueHudPearlElement))
-            {
-                ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName(uniqueHudPearlElement);
-                ItemSymbol.symbolSprite.color = Color.white;
-            }
-        }
     }
 }

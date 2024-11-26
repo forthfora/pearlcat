@@ -154,7 +154,7 @@ public static class SSOracleConversation_Helpers
         var id = self.id;
         var e = self.events;
 
-        if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
+        if (id == Enums.Oracle.Pearlcat_SSConvoFirstMeet)
         {
             if (miscWorld?.HasPearlpupWithPlayer == true)
             {
@@ -234,7 +234,7 @@ public static class SSOracleConversation_Helpers
             return true;
         }
 
-        if (id == Enums.SSOracle.Pearlcat_SSConvoFirstLeave)
+        if (id == Enums.Oracle.Pearlcat_SSConvoFirstLeave)
         {
             e.Add(new WaitEvent(self, 120));
 
@@ -288,7 +288,7 @@ public static class SSOracleConversation_Helpers
             return true;
         }
 
-        if (id == Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect)
+        if (id == Enums.Oracle.Pearlcat_SSConvoRMPearlInspect)
         {
             module.TakeRMTimer = 120;
             module.GiveSSTimer = 60;
@@ -336,7 +336,7 @@ public static class SSOracleConversation_Helpers
             return true;
         }
 
-        if (id == Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl)
+        if (id == Enums.Oracle.Pearlcat_SSConvoTakeRMPearl)
         {
             e.Add(new WaitEvent(self, 200));
 
@@ -346,7 +346,7 @@ public static class SSOracleConversation_Helpers
             return true;
         }
 
-        if (id == Enums.SSOracle.Pearlcat_SSConvoSickPup)
+        if (id == Enums.Oracle.Pearlcat_SSConvoSickPup)
         {
             if (miscWorld != null)
             {
@@ -381,7 +381,7 @@ public static class SSOracleConversation_Helpers
             return true;
         }
 
-        if (id == Enums.SSOracle.Pearlcat_SSConvoFirstMeetTrueEnd)
+        if (id == Enums.Oracle.Pearlcat_SSConvoFirstMeetTrueEnd)
         {
             e.Add(new WaitEvent(self, 240));
 
@@ -434,7 +434,7 @@ public static class SSOracleConversation_Helpers
             return true;
         }
 
-        if (id == Enums.SSOracle.Pearlcat_SSConvoUnlockMira)
+        if (id == Enums.Oracle.Pearlcat_SSConvoUnlockMira)
         {
             miscProg.UnlockedMira = true;
 

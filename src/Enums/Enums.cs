@@ -8,10 +8,9 @@ public static partial class Enums
     {
         _ = Pearlcat;
 
-        _ = SSOracle.Pearlcat_SSActionGeneral;
+        _ = Oracle.PearlcatPebbles;
         _ = Pearls.RM_Pearlcat;
-        _ = Sounds.Pearlcat_PearlScroll;
-
+        _ = Sounds.Pearlcat_MenuCrackle;
         _ = Scenes.Slugcat_Pearlcat;
 
         Dreams.RegisterDreams();

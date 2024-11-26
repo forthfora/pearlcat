@@ -153,45 +153,51 @@ public static class World_Helpers
         var save = self.GetStorySession.saveState;
         var miscProg = Utils.MiscProgression;
 
-        if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
+        if (miscProg.HasTrueEnding) // Adult Pearlpup has recurring nightmares
         {
-            var randomDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.25f;
+            var randomDream = Random.Range(0.0f, 1.0f) < 0.1f;
 
-            // for reaching a full inventory of pearls (default size)
-            if (!ModOptions.InventoryOverride.Value && miscProg.StoredNonActivePearls.Count > 8 && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Scholar))
+            if (randomDream)
             {
-                dreamPool.Add(Dreams.Dream_Pearlcat_Scholar);
+                dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
+                dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
             }
-            else if (randomDream)
+        }
+        else
+        {
+            if (miscWorld.HasPearlpupWithPlayerDeadOrAlive)
             {
-                if (miscProg.IsPearlpupSick && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Sick))
+                var randomDream = save.cycleNumber > 4 && Random.Range(0.0f, 1.0f) < 0.15f;
+
+                if (randomDream)
                 {
-                    dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
+                    if (miscProg.IsPearlpupSick && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Sick))
+                    {
+                        dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
+                    }
+                    else if (!storyGame.HasDreamt(Dreams.Dream_Pearlcat_Pearlpup))
+                    {
+                        dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
+                    }
                 }
-                else if (!storyGame.HasDreamt(Dreams.Dream_Pearlcat_Pearlpup))
+            }
+
+            // Pearlcat will have recurring nightmares if she loses her pup
+            if (!miscWorld.HasPearlpupWithPlayerDeadOrAlive && miscProg.DidHavePearlpup)
+            {
+                var randomDream = Random.Range(0.0f, 1.0f) < 0.1f;
+
+                if (randomDream)
                 {
                     dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
+                    dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
                 }
             }
-        }
-        else if (miscProg.HasTrueEnding) // Adult Pearlpup has recurring nightmares
-        {
-            var randomDream = Random.Range(0.0f, 1.0f) < 0.15f;
 
-            if (randomDream)
+            // for reaching a full inventory of pearls (default size)
+            if (!ModOptions.InventoryOverride.Value && miscProg.StoredNonActivePearls.Count >= 8 && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Scholar))
             {
-                dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
-                dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
-            }
-        }
-        else if (!miscWorld.HasPearlpupWithPlayerDeadOrAlive && miscProg.DidHavePearlpup) // Pearlcat will have recurring nightmares if she loses her pup
-        {
-            var randomDream = Random.Range(0.0f, 1.0f) < 0.15f;
-
-            if (randomDream)
-            {
-                dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
-                dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
+                dreamPool.Add(Dreams.Dream_Pearlcat_Scholar);
             }
         }
 

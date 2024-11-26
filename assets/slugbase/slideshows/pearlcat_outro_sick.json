@@ -39,11 +39,11 @@
       "fade_in_start": 31.0,
       "fade_out_start": 38.0,
       "images": [
-        {"name": "2/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
+        {"name": "3/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
-        {"name": "2/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
-        {"name": "2/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
-        {"name": "2/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
+        {"name": "3/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "3/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
+        {"name": "3/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
       "camera_path": [ [-70, 50] ]
     },

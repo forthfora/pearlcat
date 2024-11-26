@@ -31,6 +31,7 @@ public class SaveMiscWorld
 
     // Looks to the Moon
     public int MoonSickPupMeetCount { get; set; }
+    public int MoonTrueEndMeetCount { get; set; }
 
 
     // Tutorial

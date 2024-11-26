@@ -906,6 +906,7 @@ public static class Menu_Helpers
 
         if (targetIllustration is null)
         {
+            Plugin.Logger.LogError($"Failed to layer menu scene! Not fatal, but indicates a target layer is named incorrectly and needs fixing.\nScene: {menuScene.sceneID.value}, Missing Target: {target}");
             return;
         }
 

@@ -10,85 +10,105 @@ public static class SLOracle_Hooks
     {
         On.SLOracleBehaviorHasMark.MoonConversation.AddEvents += MoonConversation_AddEvents;
         On.SLOracleBehaviorHasMark.NameForPlayer += SLOracleBehaviorHasMark_NameForPlayer;
-        On.SLOracleBehaviorHasMark.ThirdAndUpGreeting += SLOracleBehaviorHasMark_ThirdAndUpGreeting;
+        On.SLOracleBehaviorHasMark.InitateConversation += SLOracleBehaviorHasMarkOnInitateConversation;
+        On.SLOracleBehaviorHasMark.MoonConversation.PearlIntro += MoonConversationOnPearlIntro;
     }
 
 
-    private static void SLOracleBehaviorHasMark_ThirdAndUpGreeting(On.SLOracleBehaviorHasMark.orig_ThirdAndUpGreeting orig, SLOracleBehaviorHasMark self)
+    private static void SLOracleBehaviorHasMarkOnInitateConversation(On.SLOracleBehaviorHasMark.orig_InitateConversation orig, SLOracleBehaviorHasMark self)
     {
-        if (!self.oracle.room.game.IsPearlcatStory() || !self.IsMoon())
+        if (self.oracle.room.game.IsPearlcatStory() && self.IsMoon())
+        {
+            // Only override these, rest can be handled by the game normally
+            if (self.currentConversation?.id == Conversation.ID.MoonFirstPostMarkConversation || self.currentConversation?.id == Conversation.ID.MoonSecondPostMarkConversation
+                || self.State.playerEncountersWithMark >= 2) // >= 2 = ThirdAndUpGreeting
+            {
+                self.currentConversation = new SLOracleBehaviorHasMark.MoonConversation(Enums.Oracle.Pearlcat_SLConvoMeeting, self, SLOracleBehaviorHasMark.MiscItemType.NA);
+                return;
+            }
+        }
+
+        orig(self);
+    }
+
+    private static void MoonConversation_AddEvents(On.SLOracleBehaviorHasMark.MoonConversation.orig_AddEvents orig, SLOracleBehaviorHasMark.MoonConversation self)
+    {
+        if (self.myBehavior?.oracle?.room?.game?.IsPearlcatStory() == false || self.myBehavior?.oracle?.IsMoon() == false)
         {
             orig(self);
             return;
         }
 
-        var save = self.oracle.room.game.GetMiscWorld();
         var miscProg = Utils.MiscProgression;
+        var miscWorld = self.myBehavior?.oracle?.abstractPhysicalObject.world.game.GetMiscWorld();
 
-        if (save?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
+        if (miscWorld is null || self.myBehavior is not SLOracleBehaviorHasMark behavior)
         {
-            if (save.MoonSickPupMeetCount == 0)
+            orig(self);
+            return;
+        }
+
+        // Custom Meeting Dialog
+        if (self.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
+        {
+            var timesMetBefore = self.State.playerEncountersWithMark;
+
+            // First & Second Meeting Dialog
+            if (miscProg.HasTrueEnding)
             {
-                self.Dialog_Start("Oh! It is good to see you two again!");
+                if (TryHandleMoonDialog_TrueEnd(self, miscWorld.MoonTrueEndMeetCount))
+                {
+                    miscWorld.MoonTrueEndMeetCount++;
+                    return;
+                }
 
-                self.Dialog("Is my memory so bad to forget how your little one looks? They seem paler...");
+                // Fallback
+                if (timesMetBefore < 2)
+                {
+                    self.id = timesMetBefore == 0 ? Conversation.ID.MoonFirstPostMarkConversation : Conversation.ID.MoonSecondPostMarkConversation;
+                    orig(self);
+                    return;
+                }
 
-                self.Dialog("Oh... oh no...");
-
-                self.Dialog("They are unwell, <PlayerName>, very unwell indeed.");
-
-                self.Dialog("I... wish there was more I could do... but even... nevermind in my current state.");
-
-                self.Dialog("I am so sorry.");
-
-
-                self.Dialog(". . .");
-
-                self.Dialog("My neighbour, Five Pebbles, is a little temperamental, but means well.");
-
-                self.Dialog("He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.");
-
-                self.Dialog("In any case, you are welcome to stay as long as you like. Anything to ease the pain.");
-
-                save.MoonSickPupMeetCount++;
-            }
-            else if (save.MoonSickPupMeetCount == 1)
-            {
-                self.Dialog_Start("Welcome back, <PlayerName>, and your little one too.");
-
-                self.Dialog("I hope the cycles have been treating you well... it must be hard to take care of eachother out there.");
-
-                self.Dialog(". . .");
-
-                self.Dialog("...I am not sure if this is comforting, but...");
-
-                self.Dialog("Death is not the end... even death that seems permanent.");
-
-                self.Dialog("I know that quite well.");
-
-                save.MoonSickPupMeetCount++;
+                if (MoonTrueEndDialog_ThirdAndUpGreeting(behavior))
+                {
+                    miscWorld.MoonTrueEndMeetCount++;
+                    return;
+                }
             }
             else
             {
-                self.Dialog_Start("Welcome back, you two!");
+                if (TryHandleMoonDialog(self, timesMetBefore))
+                {
+                    return;
+                }
 
-                self.Dialog("I hope you are staying safe out there...");
+                // Fallback
+                if (timesMetBefore < 2)
+                {
+                    self.id = timesMetBefore == 0 ? Conversation.ID.MoonFirstPostMarkConversation : Conversation.ID.MoonSecondPostMarkConversation;
+                    orig(self);
+                    return;
+                }
+
+                if (MoonDialog_ThirdAndUpGreeting(behavior))
+                {
+                    return;
+                }
             }
+
+            // Fallback if wasn't handled by the custom dialog
+            behavior.ThirdAndUpGreeting();
+            return;
         }
-        else if (miscProg.HasTrueEnding && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
+
+        // Custom Pearl Reading (only the pearls Pearlcat adds)
+        if (self.id.IsCustomPearlConvo())
         {
-            self.Dialog_Start("Welcome back, <PlayerName>!");
-
-            self.Dialog("Ah, you didn't happen to find a way to tell me about your travels, did you?");
-
-            self.Dialog("I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...");
-
-            self.Dialog("For now, my only lens into the outside is those pearls you carry.");
-
-            self.Dialog("So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...");
+            self.PearlIntro();
+            self.LoadCustomEventsFromFile("PearlcatMoon_" + self.id.value);
+            return;
         }
-
-        self.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon, false);
 
         orig(self);
     }
@@ -121,38 +141,15 @@ public static class SLOracle_Hooks
         return prefix + (damagedSpeech ? t.Translate("... ") : " ") + name;
     }
 
-    private static void MoonConversation_AddEvents(On.SLOracleBehaviorHasMark.MoonConversation.orig_AddEvents orig, SLOracleBehaviorHasMark.MoonConversation self)
+
+    // Dream after moon reads pearls
+    private static void MoonConversationOnPearlIntro(On.SLOracleBehaviorHasMark.MoonConversation.orig_PearlIntro orig, SLOracleBehaviorHasMark.MoonConversation self)
     {
-        if (self.myBehavior?.oracle?.room?.game?.IsPearlcatStory() == false || self.myBehavior?.oracle?.IsMoon() == false)
-        {
-            orig(self);
-            return;
-        }
-
-        var miscProg = Utils.MiscProgression;
-
-        if (miscProg.HasTrueEnding)
-        {
-            if (TryHandleMoonDialog_TrueEnd(self))
-            {
-                return;
-            }
-        }
-        else
-        {
-            if (TryHandleMoonDialog(self))
-            {
-                return;
-            }
-        }
-
-        if (self.id.IsCustomPearlConvo())
-        {
-            self.PearlIntro();
-            self.LoadCustomEventsFromFile("PearlcatMoon_" + self.id.value);
-            return;
-        }
-
         orig(self);
+
+        if (self.myBehavior?.oracle?.room?.game?.IsPearlcatStory() == true && self.myBehavior.oracle.IsMoon())
+        {
+            self.myBehavior.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon, false);
+        }
     }
 }

@@ -63,13 +63,13 @@ public static class SLOracle_Helpers
 
 
     // Pearlcat
-    public static bool TryHandleMoonDialog(SLOracleBehaviorHasMark.MoonConversation self)
+    public static bool TryHandleMoonDialog(SLOracleBehaviorHasMark.MoonConversation self, int timesMetBefore)
     {
         var miscProg = Utils.MiscProgression;
         var miscWorld = self.myBehavior.oracle.room.game.GetMiscWorld();
 
         // First meeting
-        if (self.id == Conversation.ID.MoonFirstPostMarkConversation)
+        if (timesMetBefore == 0)
         {
             return MoonDialog_FirstMeet(self);
         }
@@ -77,20 +77,18 @@ public static class SLOracle_Helpers
         // Not first meeting, pup is sick
         if (miscWorld?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && self.myBehavior is SLOracleBehaviorHasMark mark && !mark.DamagedMode)
         {
-            if (MoonDialog_MeetSickPup(self))
-            {
-                return true;
-            }
+            return MoonDialog_MeetSickPup(self);
         }
 
-        // Not first meeting
-        if (self.id == Conversation.ID.MoonSecondPostMarkConversation)
+        // Second Meeting, pup is not sick
+        if (timesMetBefore == 1)
         {
             return MoonDialog_SecondMeet(self);
         }
 
         return false;
     }
+
     private static bool MoonDialog_FirstMeet(SLOracleBehaviorHasMark.MoonConversation self)
     {
         var miscProg = Utils.MiscProgression;
@@ -108,7 +106,7 @@ public static class SLOracle_Helpers
                 self.Dialog("...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?", 60, 0);
                 return true;
 
-            case 5:
+            case 4 or 5:
                 self.Dialog_NoLinger("Oh, hello! Hello!");
 
                 self.Dialog_NoLinger("You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...");
@@ -166,13 +164,23 @@ public static class SLOracle_Helpers
                 return true;
 
             default:
-                return true;
+                return false;
         }
     }
     private static bool MoonDialog_SecondMeet(SLOracleBehaviorHasMark.MoonConversation self)
     {
         switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
         {
+            case 2:
+                self.Dialog("Get... get away... strange... thing.", 30, 10);
+                self.Dialog("Please... this all I have left... you have so much... ...why take mine?", 0, 10);
+                return true;
+
+            case 3:
+                self.Dialog("YOU!", 30, 10);
+                self.Dialog("...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?", 60, 0);
+                return true;
+
             case 4:
                 if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
                 {
@@ -245,9 +253,10 @@ public static class SLOracle_Helpers
                 return true;
 
             default:
-                return true;
+                return false;
         }
     }
+
     private static bool MoonDialog_MeetSickPup(SLOracleBehaviorHasMark.MoonConversation self)
     {
         var miscWorld = self.myBehavior.oracle.room.game.GetMiscWorld();
@@ -308,11 +317,75 @@ public static class SLOracle_Helpers
         return false;
     }
 
+    public static bool MoonDialog_ThirdAndUpGreeting(SLOracleBehaviorHasMark self)
+    {
+        var miscWorld = self.oracle.room.game.GetMiscWorld();
+        var miscProg = Utils.MiscProgression;
+
+        if (miscWorld?.HasPearlpupWithPlayer == true && miscProg.IsPearlpupSick && self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode)
+        {
+            if (miscWorld.MoonSickPupMeetCount == 0)
+            {
+                self.Dialog_Start("Oh! It is good to see you two again!");
+
+                self.Dialog("Is my memory so bad to forget how your little one looks? They seem paler...");
+
+                self.Dialog("Oh... oh no...");
+
+                self.Dialog("They are unwell, <PlayerName>, very unwell indeed.");
+
+                self.Dialog("I... wish there was more I could do... but even... nevermind in my current state.");
+
+                self.Dialog("I am so sorry.");
+
+
+                self.Dialog(". . .");
+
+                self.Dialog("My neighbour, Five Pebbles, is a little temperamental, but means well.");
+
+                self.Dialog("He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.");
+
+                self.Dialog("In any case, you are welcome to stay as long as you like. Anything to ease the pain.");
+
+                miscWorld.MoonSickPupMeetCount++;
+                return true;
+            }
+
+            if (miscWorld.MoonSickPupMeetCount == 1)
+            {
+                self.Dialog_Start("Welcome back, <PlayerName>, and your little one too.");
+
+                self.Dialog("I hope the cycles have been treating you well... it must be hard to take care of eachother out there.");
+
+                self.Dialog(". . .");
+
+                self.Dialog("...I am not sure if this is comforting, but...");
+
+                self.Dialog("Death is not the end... even death that seems permanent.");
+
+                self.Dialog("I know that quite well.");
+
+                miscWorld.MoonSickPupMeetCount++;
+                return true;
+            }
+
+            if (miscWorld.MoonSickPupMeetCount >= 2)
+            {
+                self.Dialog_Start("Welcome back, you two!");
+
+                self.Dialog("I hope you are staying safe out there...");
+
+                miscWorld.MoonSickPupMeetCount++;
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // Adult Pearlpup
-    public static bool TryHandleMoonDialog_TrueEnd(SLOracleBehaviorHasMark.MoonConversation self)
+    public static bool TryHandleMoonDialog_TrueEnd(SLOracleBehaviorHasMark.MoonConversation self, int timesMetBefore)
     {
-        var metMoon = self.myBehavior.oracle.room.game.GetStorySession.saveState.miscWorldSaveData.EverMetMoon;
         var miscWorld = self.myBehavior.oracle.room.game.GetMiscWorld();
 
         if (miscWorld is null)
@@ -320,332 +393,351 @@ public static class SLOracle_Helpers
             return false;
         }
 
+        var pearlcatMetMoon = self.myBehavior.oracle.room.game.GetStorySession.saveState.miscWorldSaveData.EverMetMoon;
+
         // Moon never met Pearlcat
-        if (!metMoon)
+        if (!pearlcatMetMoon)
         {
-            if (self.id == Conversation.ID.MoonFirstPostMarkConversation)
+            if (timesMetBefore == 0)
             {
                 return MoonDialogTrueEnd_NeverMet_FirstMeet(self);
             }
 
-            if (self.id == Conversation.ID.MoonSecondPostMarkConversation)
+            if (timesMetBefore == 1)
             {
                 return MoonDialogTrueEnd_NeverMet_SecondMeet(self);
             }
         }
-
         // Moon met Pearlcat but never met sick Pearlpup
         else if (miscWorld.MoonSickPupMeetCount == 0)
         {
-            if (self.id == Conversation.ID.MoonFirstPostMarkConversation)
+            if (timesMetBefore == 0)
             {
-                switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
-                {
-                    case 2:
-                        self.Dialog("...hello?", 30, 10);
-
-                        self.Dialog("...familiar ...help... please...", 0, 10);
-                        return true;
-
-                    case 3:
-                        self.Dialog("Who... who is there?", 30, 10);
-
-                        self.Dialog("I have so little... please don't take... this... this is all I have...", 0, 10);
-
-                        self.Dialog_Wait(10);
-
-                        self.Dialog("You are... so familiar...", 0, 10);
-                        return true;
-
-                    case 5:
-                        self.Dialog_NoLinger("Oh, hello there!");
-
-                        self.Dialog_Wait(10);
-
-                        self.Dialog_NoLinger("...are you alright, little one? The modifications to your body are quite... unusual.");
-
-                        self.Dialog_Wait(5);
-
-                        self.Dialog_NoLinger("Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.");
-
-                        self.Dialog_Wait(5);
-
-                        self.Dialog("Ah... you seem, familiar...? ...but in such a strange way...", 0, 5);
-
-                        self.Dialog("A scholar with the ability to manipulate pearls...? Oh... yes! I remember!", 0, 5);
-
-                        self.Dialog("...but, you are not like I remember them? Am I misremembering so badly?", 0, 5);
-
-                        self.Dialog_Wait(10);
-
-                        self.Dialog("...did they have a child? ...could you be?", 0, 5);
-
-                        self.Dialog_Wait(10);
-
-                        self.Dialog("Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.", 0, 5);
-
-                        self.Dialog("Has it really been so long...? And considering your current state, you've been through a lot...", 0, 5);
-
-                        self.Dialog_NoLinger("Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...");
-
-                        self.Dialog_NoLinger("...and what happened to your parent...");
-
-                        self.Dialog_Wait(5);
-
-                        self.Dialog("Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.", 0, 5);
-
-                        self.Dialog("I won't be going anywhere any time soon... if you need company, you know who to visit!", 0, 5);
-                        return true;
-
-                    default:
-                        return true;
-                }
+                return MoonDialogTrueEnd_NeverMetSick_FirstMeet(self);
             }
 
-            if (self.id == Conversation.ID.MoonSecondPostMarkConversation)
+            if (timesMetBefore == 1)
             {
-                switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
-                {
-                    case 4:
-                        if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
-                        {
-                            self.Dialog("Hello! Strange scholar, it is good to see you!", 30, 0);
-
-                            self.Dialog_NoLinger("Was it really so long ago that you were only half my height...?");
-
-                            self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
-
-                            self.Dialog_NoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
-                            return true;
-                        }
-
-                        if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
-                        {
-                            self.Dialog("You...", 30, 0);
-
-                            self.Dialog_NoLinger("What do you want? To take away more of my life...?");
-
-                            self.Dialog_NoLinger("Look at yourself! You know how it feels, to be within an inch of death...");
-
-                            self.Dialog_NoLinger("I... I have nothing more to say...");
-                            return true;
-                        }
-
-                        self.Dialog("Hello again, strange scholar...", 30, 0);
-
-                        self.Dialog("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
-                        return true;
-
-                    case 5:
-                        if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
-                        {
-                            self.Dialog("You... I still remember what you did.", 0, 10);
-
-                            self.Dialog("It would be pointless to ask why...", 0, 10);
-
-                            self.Dialog("I've accepted my fate - and one day, you will meet an end too...", 0, 10);
-                            return true;
-                        }
-
-                        if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
-                        {
-                            self.Dialog("Hello again, strange scholar!", 0, 10);
-
-                            self.Dialog_NoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
-
-                            self.Dialog_NoLinger("Oh... the memories can hurt a little... but I shouldn't well on them.");
-
-                            if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
-                            {
-                                self.Dialog("You and your family are always welcome here - please visit often!", 0, 5);
-                                return true;
-                            }
-
-                            else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
-                            {
-                                self.Dialog("The company of you and your friend makes my day, strange scholar.", 0, 5);
-
-                                self.Dialog("You're more than welcome to stay a while... your ability will always be a miracle to me...", 0, 5);
-                                return true;
-                            }
-
-                            self.Dialog("I'll always enjoy your company... it gets lonely out here.", 0, 5);
-
-                            self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
-                            return true;
-                        }
-
-                        self.Dialog("Oh, hello strange scholar!", 0, 10);
-
-                        self.Dialog_NoLinger("You really do remind me so much of your mother...");
-                        return true;
-
-                    default:
-                        return true;
-                }
+                return MoonDialogTrueEnd_NeverMetSick_SecondMeet(self);
             }
         }
-
         // Moon met Pearlcat & sick Pearlpup
         else
         {
-            if (self.id == Conversation.ID.MoonFirstPostMarkConversation)
+            if (timesMetBefore == 0)
             {
-                switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
-                {
-                    case 2:
-                        self.Dialog("...hello?", 30, 10);
-
-                        self.Dialog("...familiar ...help... please...", 0, 10);
-                        return true;
-
-                    case 3:
-                        self.Dialog("Who... who is there?", 30, 10);
-
-                        self.Dialog("I have so little... please don't take... this... this is all I have...", 0, 10);
-
-                        self.Dialog_Wait(10);
-
-                        self.Dialog("You are... so familiar...", 0, 10);
-
-                        self.Dialog("...scholar?", 0, 10);
-                        return true;
-
-                    case 5:
-                        self.Dialog_NoLinger("Oh, hello! Hello...");
-
-                        self.Dialog_Wait(10);
-
-                        self.Dialog_NoLinger("...are you alright, little one? The modifications to your body are quite... extreme.");
-
-                        self.Dialog_Wait(5);
-
-                        self.Dialog_NoLinger("Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.");
-
-                        self.Dialog_Wait(5);
-
-                        self.Dialog("Ah... you seem, familiar...? ...but in such a strange way...", 0, 5);
-
-                        self.Dialog("A scholar with the ability to manipulate pearls...? Oh... yes! I remember!", 0, 5);
-
-                        self.Dialog("...but, you are not like I remember them? Am I misremembering so badly?", 0, 5);
-
-                        self.Dialog_Wait(10);
-
-                        self.Dialog("...did they have a child? ...could you be?", 0, 5);
-
-                        self.Dialog_Wait(10);
-
-                        self.Dialog("Is that you, little scholar? I'm speechless...", 0, 5);
-
-                        self.Dialog("Has it really been so long...? And considering your current state, you've been through a lot...", 0, 5);
-
-                        self.Dialog_NoLinger("I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?");
-
-                        self.Dialog_NoLinger("...and what happened to your parent...");
-
-                        self.Dialog_Wait(5);
-
-                        self.Dialog("I'm sorry... it's wrong to be so invasive, it's none of my business really.", 0, 5);
-
-                        self.Dialog("I'm just so glad you're safe, too many things have come into my memory, only to be washed away...", 0, 5);
-
-                        self.Dialog("Please, stay as long as you'd like, I can't begin to imagine what you've been through.", 0, 5);
-
-                        self.Dialog("I still don't have much to offer, sadly... aside from my pearl readings, and company of course!", 0, 5);
-                        return true;
-
-                    default:
-                        return true;
-                }
+                return MoonDialogTrueEnd_MetSick_FirstMeet(self);
             }
 
-            if (self.id == Conversation.ID.MoonSecondPostMarkConversation)
+            if (timesMetBefore == 1)
             {
-                switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
-                {
-                    case 4:
-                        if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
-                        {
-                            self.Dialog("Hello! Strange scholar, it is good to see you!", 30, 0);
-
-                            self.Dialog_NoLinger("Was it really so long ago that you were only half my height...?");
-
-                            self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
-
-                            self.Dialog_NoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
-                            return true;
-                        }
-
-                        if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
-                        {
-                            self.Dialog("You...", 30, 0);
-
-                            self.Dialog_NoLinger("What do you want? To take away more of my life...?");
-
-                            self.Dialog_NoLinger("Look at yourself! You know how it feels, to be within an inch of death...");
-
-                            self.Dialog_NoLinger("I... I have nothing more to say...");
-                            return true;
-                        }
-
-                        self.Dialog("Hello again, strange scholar...", 30, 0);
-
-                        self.Dialog("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
-                        return true;
-
-                    case 5:
-                        if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
-                        {
-                            self.Dialog("You... I still remember what you did.", 0, 10);
-
-                            self.Dialog("It would be pointless to ask why...", 0, 10);
-
-                            self.Dialog("I've accepted my fate - and one day, you will meet an end too...", 0, 10);
-                            return true;
-                        }
-
-                        if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
-                        {
-                            self.Dialog("Hello again, strange scholar!", 0, 10);
-
-                            self.Dialog_NoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
-
-                            self.Dialog_NoLinger("Oh... the memories can hurt a little... but I shouldn't well on them.");
-
-                            if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
-                            {
-                                self.Dialog("You and your family are always welcome here - please visit often!", 0, 5);
-                                return true;
-                            }
-
-                            else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
-                            {
-                                self.Dialog("The company of you and your friend makes my day, strange scholar.", 0, 5);
-
-                                self.Dialog("You're more than welcome to stay a while... your ability will always be a little miracle to me...", 0, 5);
-                                return true;
-                            }
-
-                            self.Dialog("I'll always enjoy your company... it gets lonely out here.", 0, 5);
-
-                            self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
-                            return true;
-                        }
-
-                        self.Dialog("Oh, hello strange scholar!", 0, 10);
-
-                        self.Dialog_NoLinger("You really do remind me so much of your mother...");
-                        return true;
-
-                    default:
-                        return true;
-                }
+                return MoonDialogTrueEnd_MetSick_SecondMeet(self);
             }
         }
 
         return false;
     }
+
+    private static bool MoonDialogTrueEnd_MetSick_FirstMeet(SLOracleBehaviorHasMark.MoonConversation self)
+    {
+        switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
+        {
+            case 2:
+                self.Dialog("...hello?", 30, 10);
+
+                self.Dialog("...familiar ...help... please...", 0, 10);
+                return true;
+
+            case 3:
+                self.Dialog("Who... who is there?", 30, 10);
+
+                self.Dialog("I have so little... please don't take... this... this is all I have...", 0, 10);
+
+                self.Dialog_Wait(10);
+
+                self.Dialog("You are... so familiar...", 0, 10);
+
+                self.Dialog("...scholar?", 20, 10);
+                return true;
+
+            case 4 or 5:
+                self.Dialog_NoLinger("Oh, hello! Hello...");
+
+                self.Dialog_Wait(10);
+
+                self.Dialog_NoLinger("...are you alright, little one? The modifications to your body are quite... extreme.");
+
+                self.Dialog_Wait(5);
+
+                self.Dialog_NoLinger("Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.");
+
+                self.Dialog_Wait(5);
+
+                self.Dialog("Ah... you seem, familiar...? ...but in such a strange way...", 0, 5);
+
+                self.Dialog("A scholar with the ability to manipulate pearls...? Oh... yes! I remember!", 0, 5);
+
+                self.Dialog("...but, you are not like I remember them? Am I misremembering so badly?", 0, 5);
+
+                self.Dialog_Wait(10);
+
+                self.Dialog("...did they have a child? ...could you be?", 0, 5);
+
+                self.Dialog_Wait(10);
+
+                self.Dialog("Is that you, little scholar? I'm speechless...", 0, 5);
+
+                self.Dialog("Has it really been so long...? And considering your current state, you've been through a lot...", 0, 5);
+
+                self.Dialog_NoLinger("I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?");
+
+                self.Dialog_NoLinger("...and what happened to your parent...");
+
+                self.Dialog_Wait(5);
+
+                self.Dialog("I'm sorry... it's wrong to be so invasive, it's none of my business really.", 0, 5);
+
+                self.Dialog("I'm just so glad you're safe, too many things have come into my memory, only to be washed away...", 0, 5);
+
+                self.Dialog("Please, stay as long as you'd like, I can't begin to imagine what you've been through.", 0, 5);
+
+                self.Dialog("I still don't have much to offer, sadly... aside from my pearl readings, and company of course!", 0, 5);
+                return true;
+
+            default:
+                return true;
+        }
+    }
+    private static bool MoonDialogTrueEnd_MetSick_SecondMeet(SLOracleBehaviorHasMark.MoonConversation self)
+    {
+        switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
+        {
+            case 3:
+                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                {
+                    self.Dialog("Hello! Strange scholar, it is good to see you!", 30, 0);
+
+                    self.Dialog_NoLinger("Was it really so long ago that you were only half my height...?");
+
+                    self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
+
+                    self.Dialog_NoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
+                    return true;
+                }
+
+                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
+                {
+                    self.Dialog("You...", 30, 0);
+
+                    self.Dialog_NoLinger("What do you want? To take away more of my life...?");
+
+                    self.Dialog_NoLinger("Look at yourself! You know how it feels, to be within an inch of death...");
+
+                    self.Dialog_NoLinger("I... I have nothing more to say...");
+                    return true;
+                }
+
+                self.Dialog("Hello again, strange scholar...", 30, 0);
+
+                self.Dialog("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
+                return true;
+
+            case 4 or 5:
+                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
+                {
+                    self.Dialog("You... I still remember what you did.", 0, 10);
+
+                    self.Dialog("It would be pointless to ask why...", 0, 10);
+
+                    self.Dialog("I've accepted my fate - and one day, you will meet an end too...", 0, 10);
+                    return true;
+                }
+
+                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                {
+                    self.Dialog("Hello again, strange scholar!", 0, 10);
+
+                    self.Dialog_NoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
+
+                    self.Dialog_NoLinger("Oh... the memories can hurt a little... but I shouldn't well on them.");
+
+                    if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
+                    {
+                        self.Dialog("You and your family are always welcome here - please visit often!", 0, 5);
+                        return true;
+                    }
+
+                    else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
+                    {
+                        self.Dialog("The company of you and your friend makes my day, strange scholar.", 0, 5);
+
+                        self.Dialog("You're more than welcome to stay a while... your ability will always be a little miracle to me...", 0, 5);
+                        return true;
+                    }
+
+                    self.Dialog("I'll always enjoy your company... it gets lonely out here.", 0, 5);
+
+                    self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
+                    return true;
+                }
+
+                self.Dialog("Oh, hello strange scholar!", 0, 10);
+
+                self.Dialog_NoLinger("You really do remind me so much of your mother...");
+                return true;
+
+            default:
+                return true;
+        }
+    }
+
+    private static bool MoonDialogTrueEnd_NeverMetSick_FirstMeet(SLOracleBehaviorHasMark.MoonConversation self)
+    {
+        switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
+        {
+            case 2:
+                self.Dialog("...hello?", 30, 10);
+
+                self.Dialog("...familiar ...help... please...", 0, 10);
+                return true;
+
+            case 3:
+                self.Dialog("Who... who is there?", 30, 10);
+
+                self.Dialog("I have so little... please don't take... this... this is all I have...", 0, 10);
+
+                self.Dialog_Wait(10);
+
+                self.Dialog("You are... so familiar...", 0, 10);
+                return true;
+
+            case 4 or 5:
+                self.Dialog_NoLinger("Oh, hello there!");
+
+                self.Dialog_Wait(10);
+
+                self.Dialog_NoLinger("...are you alright, little one? The modifications to your body are quite... unusual.");
+
+                self.Dialog_Wait(5);
+
+                self.Dialog_NoLinger("Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.");
+
+                self.Dialog_Wait(5);
+
+                self.Dialog("Ah... you seem, familiar...? ...but in such a strange way...", 0, 5);
+
+                self.Dialog("A scholar with the ability to manipulate pearls...? Oh... yes! I remember!", 0, 5);
+
+                self.Dialog("...but, you are not like I remember them? Am I misremembering so badly?", 0, 5);
+
+                self.Dialog_Wait(10);
+
+                self.Dialog("...did they have a child? ...could you be?", 0, 5);
+
+                self.Dialog_Wait(10);
+
+                self.Dialog("Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.", 0, 5);
+
+                self.Dialog("Has it really been so long...? And considering your current state, you've been through a lot...", 0, 5);
+
+                self.Dialog_NoLinger("Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...");
+
+                self.Dialog_NoLinger("...and what happened to your parent...");
+
+                self.Dialog_Wait(5);
+
+                self.Dialog("Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.", 0, 5);
+
+                self.Dialog("I won't be going anywhere any time soon... if you need company, you know who to visit!", 0, 5);
+                return true;
+
+            default:
+                return true;
+        }
+    }
+    private static bool MoonDialogTrueEnd_NeverMetSick_SecondMeet(SLOracleBehaviorHasMark.MoonConversation self)
+    {
+        switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
+        {
+            case 3:
+                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                {
+                    self.Dialog("Hello! Strange scholar, it is good to see you!", 30, 0);
+
+                    self.Dialog_NoLinger("Was it really so long ago that you were only half my height...?");
+
+                    self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
+
+                    self.Dialog_NoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
+                    return true;
+                }
+
+                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
+                {
+                    self.Dialog("You...", 30, 0);
+
+                    self.Dialog_NoLinger("What do you want? To take away more of my life...?");
+
+                    self.Dialog_NoLinger("Look at yourself! You know how it feels, to be within an inch of death...");
+
+                    self.Dialog_NoLinger("I... I have nothing more to say...");
+                    return true;
+                }
+
+                self.Dialog("Hello again, strange scholar...", 30, 0);
+
+                self.Dialog("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
+                return true;
+
+            case 4 or 5:
+                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
+                {
+                    self.Dialog("You... I still remember what you did.", 0, 10);
+
+                    self.Dialog("It would be pointless to ask why...", 0, 10);
+
+                    self.Dialog("I've accepted my fate - and one day, you will meet an end too...", 0, 10);
+                    return true;
+                }
+
+                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                {
+                    self.Dialog("Hello again, strange scholar!", 0, 10);
+
+                    self.Dialog_NoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
+
+                    self.Dialog_NoLinger("Oh... the memories can hurt a little... but I shouldn't well on them.");
+
+                    if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
+                    {
+                        self.Dialog("You and your family are always welcome here - please visit often!", 0, 5);
+                        return true;
+                    }
+
+                    else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
+                    {
+                        self.Dialog("The company of you and your friend makes my day, strange scholar.", 0, 5);
+
+                        self.Dialog("You're more than welcome to stay a while... your ability will always be a miracle to me...", 0, 5);
+                        return true;
+                    }
+
+                    self.Dialog("I'll always enjoy your company... it gets lonely out here.", 0, 5);
+
+                    self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
+                    return true;
+                }
+
+                self.Dialog("Oh, hello strange scholar!", 0, 10);
+
+                self.Dialog_NoLinger("You really do remind me so much of your mother...");
+                return true;
+
+            default:
+                return true;
+        }
+    }
+
     private static bool MoonDialogTrueEnd_NeverMet_FirstMeet(SLOracleBehaviorHasMark.MoonConversation self)
     {
         switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
@@ -660,7 +752,7 @@ public static class SLOracle_Helpers
                 self.Dialog("I have so little... please don't take... this... this is all I have...", 0, 10);
                 return true;
 
-            case 5:
+            case 4 or 5:
                 self.Dialog_NoLinger("Oh...? Hello! Hello...");
 
                 self.Dialog_Wait(10);
@@ -692,7 +784,7 @@ public static class SLOracle_Helpers
     {
         switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
         {
-            case 4:
+            case 3:
                 if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
                 {
                     self.Dialog("Hello! I remember you! I remember...", 30, 0);
@@ -723,7 +815,7 @@ public static class SLOracle_Helpers
                 self.Dialog("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
                 return true;
 
-            case 5:
+            case 4 or 5:
                 if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
                 {
                     self.Dialog("You... I still remember what you did.", 0, 10);
@@ -768,5 +860,28 @@ public static class SLOracle_Helpers
             default:
                 return true;
         }
+    }
+
+    public static bool MoonTrueEndDialog_ThirdAndUpGreeting(SLOracleBehaviorHasMark self)
+    {
+        var miscWorld = self.oracle.room.game.GetMiscWorld();
+
+        if (self.State.GetOpinion != SLOrcacleState.PlayerOpinion.Dislikes && !self.DamagedMode && miscWorld?.MoonTrueEndMeetCount == 2)
+        {
+            self.Dialog_Start("Welcome back, <PlayerName>!");
+
+            self.Dialog("Ah, you didn't happen to find a way to tell me about your travels, did you?");
+
+            self.Dialog("I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...");
+
+            self.Dialog("For now, my only lens into the outside is those pearls you carry.");
+
+            self.Dialog("So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...");
+
+            miscWorld.MoonTrueEndMeetCount++;
+            return true;
+        }
+
+        return false;
     }
 }

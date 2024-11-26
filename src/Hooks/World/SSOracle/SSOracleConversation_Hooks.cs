@@ -31,7 +31,7 @@ public static class SSOracleConversation_Hooks
             var oneRandomLine = RandomLineConvoIds.Contains(self.id);
 
             self.PebblesPearlIntro();
-            self.LoadEventsFromFile(fileName, Enums.SSOracle.PearlcatPebbles, oneRandomLine, rand);
+            self.LoadEventsFromFile(fileName, Enums.Oracle.PearlcatPebbles, oneRandomLine, rand);
             return;
         }
 

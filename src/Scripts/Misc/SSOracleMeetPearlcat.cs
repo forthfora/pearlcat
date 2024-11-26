@@ -13,7 +13,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 {
     public int ConvoCount { get; set; }
 
-    public SSOracleMeetPearlcat(SSOracleBehavior owner) : base(owner, Enums.SSOracle.Pearlcat_SSSubBehavGeneral, Enums.SSOracle.Pearlcat_SSConvoFirstMeet)
+    public SSOracleMeetPearlcat(SSOracleBehavior owner) : base(owner, Enums.Oracle.Pearlcat_SSSubBehavGeneral, Enums.Oracle.Pearlcat_SSConvoFirstMeet)
     {
         if (!oracle.room.game.IsStorySession)
         {
@@ -213,8 +213,6 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         miscWorld.PebblesMeetCount++;
         save.miscWorldSaveData.SSaiConversationsHad++;
-
-        oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles, false);
     }
 
     private void MiraSkipMeet(SaveMiscWorld miscWorld)
@@ -341,7 +339,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             }
         }
 
-        if (owner.conversation?.id != null && owner.conversation.id == Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl)
+        if (owner.conversation?.id != null && owner.conversation.id == Enums.Oracle.Pearlcat_SSConvoTakeRMPearl)
         {
             if (module.TakeRMTimer > 0)
             {
@@ -387,7 +385,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 if (ConvoCount == 0)
                 {
                     owner.LockShortcuts();
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstMeetTrueEnd, this);
+                    owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoFirstMeetTrueEnd, this);
                     ConvoCount++;
                 }
                 else
@@ -411,14 +409,14 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 if (ConvoCount == 0)
                 {
                     owner.LockShortcuts();
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstMeet, this);
+                    owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoFirstMeet, this);
                     ConvoCount++;
                 }
                 else if (ConvoCount == 1)
                 {
                     if (HasRMPearl(oracle))
                     {
-                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
+                        owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoRMPearlInspect, this);
                     }
 
                     ConvoCount++;
@@ -427,21 +425,21 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 {
                     if (HasRMPearl(oracle))
                     {
-                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl, this);
+                        owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoTakeRMPearl, this);
                     }
 
                     ConvoCount++;
                 }
                 else if (ConvoCount == 3)
                 {
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoFirstLeave, this);
+                    owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoFirstLeave, this);
                     ConvoCount++;
                 }
                 else if (ConvoCount == 4)
                 {
                     if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick)
                     {
-                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+                        owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoSickPup, this);
                     }
 
                     ConvoCount++;
@@ -450,7 +448,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 {
                     if (ModCompat_Helpers.IsModEnabled_MiraInstallation && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
                     {
-                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
+                        owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoUnlockMira, this);
                     }
 
                     ConvoCount++;
@@ -466,7 +464,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             {
                 if (ConvoCount == 1 && HasRMPearl(oracle))
                 {
-                    owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoTakeRMPearl, this);
+                    owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoTakeRMPearl, this);
                     ConvoCount++;
                 }
                 else
@@ -480,7 +478,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                         owner.LockShortcuts();
                         owner.getToWorking = 0.0f;
 
-                        owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoRMPearlInspect, this);
+                        owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoRMPearlInspect, this);
                         ConvoCount++;
                     }
                     else if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
@@ -490,7 +488,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                             owner.LockShortcuts();
                             owner.getToWorking = 0.0f;
 
-                            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoSickPup, this);
+                            owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoSickPup, this);
 
                             ConvoCount++;
                         }
@@ -499,7 +497,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                             owner.LockShortcuts();
                             owner.getToWorking = 0.0f;
 
-                            owner.InitateConversation(Enums.SSOracle.Pearlcat_SSConvoUnlockMira, this);
+                            owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoUnlockMira, this);
 
                             ConvoCount++;
                         }
@@ -676,6 +674,8 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         {
             owner.InitateConversation(DataPearlToConversation(type), this);
         }
+        
+        oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles, false);
     }
 
 
