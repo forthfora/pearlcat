@@ -12,7 +12,6 @@ namespace Pearlcat;
 public partial class PlayerModule
 {
     public bool IsAdultPearlpupAppearance => IsAdultPearlpup;
-    public int GraphicsResetCounter { get; set; }
 
 
     // Sprites

@@ -17,6 +17,8 @@ public static class SLOracle_Hooks
 
     private static void SLOracleBehaviorHasMarkOnInitateConversation(On.SLOracleBehaviorHasMark.orig_InitateConversation orig, SLOracleBehaviorHasMark self)
     {
+        orig(self);
+
         if (self.oracle.room.game.IsPearlcatStory() && self.IsMoon())
         {
             if (self.currentConversation?.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
@@ -29,11 +31,8 @@ public static class SLOracle_Hooks
                 || self.State.playerEncountersWithMark >= 2) // >= 2 = ThirdAndUpGreeting
             {
                 self.currentConversation = new SLOracleBehaviorHasMark.MoonConversation(Enums.Oracle.Pearlcat_SLConvoMeeting, self, SLOracleBehaviorHasMark.MiscItemType.NA);
-                return;
             }
         }
-
-        orig(self);
     }
 
     private static void MoonConversation_AddEvents(On.SLOracleBehaviorHasMark.MoonConversation.orig_AddEvents orig, SLOracleBehaviorHasMark.MoonConversation self)
@@ -57,6 +56,8 @@ public static class SLOracle_Hooks
         if (self.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
         {
             var timesMetBefore = self.State.playerEncountersWithMark;
+
+            Plugin.Logger.LogWarning(timesMetBefore);
 
             // First & Second Meeting Dialog
             if (miscProg.HasTrueEnding)

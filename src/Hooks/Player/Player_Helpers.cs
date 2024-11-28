@@ -380,14 +380,6 @@ public static class Player_Helpers
             self.AbstractizeInventory();
         }
 
-        // To constantly reset the player's graphics for a few frames (believe this is only used for the void sea ghosts to prevent glitchy graphics when they first spawn)
-        if (playerModule.GraphicsResetCounter > 0)
-        {
-            playerModule.GraphicsResetCounter--;
-            self.graphicsModule?.Reset();
-        }
-
-
         // Main Methods
         UpdatePlayerDaze(self, playerModule);
 

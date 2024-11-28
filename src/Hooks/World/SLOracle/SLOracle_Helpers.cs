@@ -182,18 +182,6 @@ public static class SLOracle_Helpers
                 return true;
 
             case 4:
-                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
-                {
-                    self.Dialog("Hello! I remember you! I remember...", 30, 0);
-
-                    self.Dialog_NoLinger("You would be a hard one to forget after all, <PlayerName>!");
-
-                    self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
-
-                    self.Dialog_NoLinger("I do not have much else to occupy my time with these days...");
-                    return true;
-                }
-
                 if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
                 {
 
@@ -207,9 +195,14 @@ public static class SLOracle_Helpers
                     return true;
                 }
 
-                self.Dialog("You... I didn't forget...", 30, 0);
+                self.Dialog("Hello! I remember you! I remember...", 30, 0);
 
-                self.Dialog("I can only hope you have not come... to hurt me more.", 30, 0);
+                self.Dialog_NoLinger("You would be a hard one to forget after all, <PlayerName>!");
+
+                self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
+
+                self.Dialog_NoLinger("I do not have much else to occupy my time with these days...");
+
                 return true;
 
             case 5:
@@ -219,37 +212,31 @@ public static class SLOracle_Helpers
                     return true;
                 }
 
-                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                self.Dialog("Hello again, <PlayerName>!", 0, 10);
+
+                self.Dialog_NoLinger("So curious... I wonder what it is you're searching for?");
+
+                self.Dialog_NoLinger("I have nothing for you, I'm afraid... but I hope you find the answers you seek.");
+
+                if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
                 {
-                    self.Dialog("Hello again, <PlayerName>!", 0, 10);
+                    self.Dialog("I very much enjoy the company though... you and your little friend are always welcome here.", 0, 5);
 
-                    self.Dialog_NoLinger("So curious... I wonder what it is you're searching for?");
-
-                    self.Dialog_NoLinger("I have nothing for you, I'm afraid... but I hope you find the answers you seek.");
-
-                    if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
-                    {
-                        self.Dialog("I very much enjoy the company though... you and your little friend are always welcome here.", 0, 5);
-
-                        self.Dialog("I would guess they will grow up into quite the scholar themself, someday...", 0, 5);
-                        return true;
-                    }
-
-                    if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
-                    {
-                        self.Dialog("I do enjoy the company of you and your friend though, <PlayerName>.", 0, 5);
-
-                        self.Dialog("You're welcome to stay a while... your ability is fascinating.", 0, 5);
-                        return true;
-                    }
-
-                    self.Dialog("I do enjoy the company though... it gets lonely out here.", 0, 5);
-
-                    self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
+                    self.Dialog("I would guess they will grow up into quite the scholar themself, someday...", 0, 5);
                     return true;
                 }
 
-                self.Dialog("Oh, hello <PlayerName>!", 0, 10);
+                if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
+                {
+                    self.Dialog("I do enjoy the company of you and your friend though, <PlayerName>.", 0, 5);
+
+                    self.Dialog("You're welcome to stay a while... your ability is fascinating.", 0, 5);
+                    return true;
+                }
+
+                self.Dialog("I do enjoy the company though... it gets lonely out here.", 0, 5);
+
+                self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
                 return true;
 
             default:
@@ -513,18 +500,6 @@ public static class SLOracle_Helpers
         switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
         {
             case 3:
-                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
-                {
-                    self.Dialog("Hello! Strange scholar, it is good to see you!", 30, 0);
-
-                    self.Dialog_NoLinger("Was it really so long ago that you were only half my height...?");
-
-                    self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
-
-                    self.Dialog_NoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
-                    return true;
-                }
-
                 if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
                 {
                     self.Dialog("You...", 30, 0);
@@ -537,9 +512,13 @@ public static class SLOracle_Helpers
                     return true;
                 }
 
-                self.Dialog("Hello again, strange scholar...", 30, 0);
+                self.Dialog("Hello! Strange scholar, it is good to see you!", 30, 0);
 
-                self.Dialog("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
+                self.Dialog_NoLinger("Was it really so long ago that you were only half my height...?");
+
+                self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
+
+                self.Dialog_NoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
                 return true;
 
             case 4 or 5:
@@ -553,37 +532,29 @@ public static class SLOracle_Helpers
                     return true;
                 }
 
-                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                self.Dialog("Hello again, strange scholar!", 0, 10);
+
+                self.Dialog_NoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
+
+                self.Dialog_NoLinger("Oh... the memories can hurt a little... but I shouldn't well on them.");
+
+                if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
                 {
-                    self.Dialog("Hello again, strange scholar!", 0, 10);
-
-                    self.Dialog_NoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
-
-                    self.Dialog_NoLinger("Oh... the memories can hurt a little... but I shouldn't well on them.");
-
-                    if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
-                    {
-                        self.Dialog("You and your family are always welcome here - please visit often!", 0, 5);
-                        return true;
-                    }
-
-                    else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
-                    {
-                        self.Dialog("The company of you and your friend makes my day, strange scholar.", 0, 5);
-
-                        self.Dialog("You're more than welcome to stay a while... your ability will always be a little miracle to me...", 0, 5);
-                        return true;
-                    }
-
-                    self.Dialog("I'll always enjoy your company... it gets lonely out here.", 0, 5);
-
-                    self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
+                    self.Dialog("You and your family are always welcome here - please visit often!", 0, 5);
                     return true;
                 }
 
-                self.Dialog("Oh, hello strange scholar!", 0, 10);
+                if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
+                {
+                    self.Dialog("The company of you and your friend makes my day, strange scholar.", 0, 5);
 
-                self.Dialog_NoLinger("You really do remind me so much of your mother...");
+                    self.Dialog("You're more than welcome to stay a while... your ability will always be a little miracle to me...", 0, 5);
+                    return true;
+                }
+
+                self.Dialog("I'll always enjoy your company... it gets lonely out here.", 0, 5);
+
+                self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
                 return true;
 
             default:
@@ -660,18 +631,6 @@ public static class SLOracle_Helpers
         switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
         {
             case 3:
-                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
-                {
-                    self.Dialog("Hello! Strange scholar, it is good to see you!", 30, 0);
-
-                    self.Dialog_NoLinger("Was it really so long ago that you were only half my height...?");
-
-                    self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
-
-                    self.Dialog_NoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
-                    return true;
-                }
-
                 if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
                 {
                     self.Dialog("You...", 30, 0);
@@ -684,9 +643,13 @@ public static class SLOracle_Helpers
                     return true;
                 }
 
-                self.Dialog("Hello again, strange scholar...", 30, 0);
+                self.Dialog("Hello! Strange scholar, it is good to see you!", 30, 0);
 
-                self.Dialog("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
+                self.Dialog_NoLinger("Was it really so long ago that you were only half my height...?");
+
+                self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
+
+                self.Dialog_NoLinger("Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...");
                 return true;
 
             case 4 or 5:
@@ -700,37 +663,29 @@ public static class SLOracle_Helpers
                     return true;
                 }
 
-                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                self.Dialog("Hello again, strange scholar!", 0, 10);
+
+                self.Dialog_NoLinger("You really do remind me so much of your mother...");
+
+                self.Dialog_NoLinger("Oh... the memories can hurt a little... but I shouldn't dwell on them.");
+
+                if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
                 {
-                    self.Dialog("Hello again, strange scholar!", 0, 10);
-
-                    self.Dialog_NoLinger("I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...");
-
-                    self.Dialog_NoLinger("Oh... the memories can hurt a little... but I shouldn't well on them.");
-
-                    if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
-                    {
-                        self.Dialog("You and your family are always welcome here - please visit often!", 0, 5);
-                        return true;
-                    }
-
-                    else if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
-                    {
-                        self.Dialog("The company of you and your friend makes my day, strange scholar.", 0, 5);
-
-                        self.Dialog("You're more than welcome to stay a while... your ability will always be a miracle to me...", 0, 5);
-                        return true;
-                    }
-
-                    self.Dialog("I'll always enjoy your company... it gets lonely out here.", 0, 5);
-
-                    self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
+                    self.Dialog("You and your family are always welcome here - please visit often!", 0, 5);
                     return true;
                 }
 
-                self.Dialog("Oh, hello strange scholar!", 0, 10);
+                if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
+                {
+                    self.Dialog("The company of you and your friend makes my day, strange scholar.", 0, 5);
 
-                self.Dialog_NoLinger("You really do remind me so much of your mother...");
+                    self.Dialog("You're more than welcome to stay a while... your ability will always be a miracle to me...", 0, 5);
+                    return true;
+                }
+
+                self.Dialog("I'll always enjoy your company... it gets lonely out here.", 0, 5);
+
+                self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
                 return true;
 
             default:
@@ -785,18 +740,6 @@ public static class SLOracle_Helpers
         switch (Mathf.Clamp(self.State.neuronsLeft, 0, 5))
         {
             case 3:
-                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
-                {
-                    self.Dialog("Hello! I remember you! I remember...", 30, 0);
-
-                    self.Dialog_NoLinger("You would be a hard one to forget after all, strange scholar!");
-
-                    self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
-
-                    self.Dialog_NoLinger("I do not have much else to occupy my time with these days...");
-                    return true;
-                }
-
                 if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Dislikes)
                 {
 
@@ -810,9 +753,13 @@ public static class SLOracle_Helpers
                     return true;
                 }
 
-                self.Dialog("Hello again, strange scholar...", 30, 0);
+                self.Dialog("Hello! I remember you! I remember...", 30, 0);
 
-                self.Dialog("Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.", 30, 0);
+                self.Dialog_NoLinger("You would be a hard one to forget after all, strange scholar!");
+
+                self.Dialog_NoLinger("I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.");
+
+                self.Dialog_NoLinger("I do not have much else to occupy my time with these days...");
                 return true;
 
             case 4 or 5:
@@ -826,35 +773,29 @@ public static class SLOracle_Helpers
                     return true;
                 }
 
-                if (self.State.GetOpinion == SLOrcacleState.PlayerOpinion.Likes)
+                self.Dialog("Hello again, strange scholar!", 0, 10);
+
+                self.Dialog_NoLinger("So curious... I wonder what it is you're searching for?");
+
+                self.Dialog_NoLinger("I have nothing for you, I'm afraid... but I hope you find the answers you seek.");
+
+                if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
                 {
-                    self.Dialog("Hello again, strange scholar!", 0, 10);
-
-                    self.Dialog_NoLinger("So curious... I wonder what it is you're searching for?");
-
-                    self.Dialog_NoLinger("I have nothing for you, I'm afraid... but I hope you find the answers you seek.");
-
-                    if (ModManager.MSC && self.myBehavior.CheckSlugpupsInRoom())
-                    {
-                        self.Dialog("I very much enjoy the company though... you and your family are always welcome here.", 0, 5);
-                        return true;
-                    }
-
-                    if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
-                    {
-                        self.Dialog("I do enjoy the company of you and your friend though, strange scholar.", 0, 5);
-
-                        self.Dialog("You're welcome to stay a while... your ability is fascinating.", 0, 5);
-                        return true;
-                    }
-
-                    self.Dialog("I do enjoy the company though... it gets lonely out here.", 0, 5);
-
-                    self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
+                    self.Dialog("I very much enjoy the company though... you and your family are always welcome here.", 0, 5);
                     return true;
                 }
 
-                self.Dialog("Oh, hello strange scholar!", 0, 10);
+                if (ModManager.MMF && self.myBehavior.CheckStrayCreatureInRoom() != CreatureTemplate.Type.StandardGroundCreature)
+                {
+                    self.Dialog("I do enjoy the company of you and your friend though, strange scholar.", 0, 5);
+
+                    self.Dialog("You're welcome to stay a while... your ability is fascinating.", 0, 5);
+                    return true;
+                }
+
+                self.Dialog("I do enjoy the company though... it gets lonely out here.", 0, 5);
+
+                self.Dialog_NoLinger("If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.");
                 return true;
 
             default:

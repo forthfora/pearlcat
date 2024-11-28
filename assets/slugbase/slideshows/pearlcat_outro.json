@@ -39,7 +39,7 @@
         {"name": "3/flat_(!pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
         {"name": "3/flat_(pup)", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
-        {"name": "3/3", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "3/3", "pos": [0, 0], "depth": 10.0, "shader": "Basic"},
         {"name": "3/2", "pos": [0, 0], "depth": 1.0, "shader": "Basic"},
         {"name": "3/1_(pup)", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
@@ -88,12 +88,12 @@
       "images": [
         {"name": "7/flat", "pos": [0, 0], "depth": -1.0, "flatmode": true},
 
-        {"name": "7/4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+        {"name": "7/4", "pos": [0, 0], "depth": 10.0, "shader": "Basic"},
         {"name": "7/3", "pos": [0, 0], "depth": 3.0, "shader": "Basic"},
         {"name": "7/2", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
         {"name": "7/1", "pos": [0, 0], "depth": 0.5, "shader": "Basic"}
       ],
-      "camera_path": [ [0, -200] ]
+      "camera_path": [ [0, -100] ]
     },
     {
       "name": "8",

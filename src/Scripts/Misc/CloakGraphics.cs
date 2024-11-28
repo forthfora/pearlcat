@@ -30,6 +30,7 @@ public class CloakGraphics
         sprite = playerModule.CloakSprite;
     }
 
+
     public void Update()
     {
         if (!visible || owner.player.room == null)
@@ -40,16 +41,7 @@ public class CloakGraphics
 
         if (needsReset)
         {
-            for (var i = 0; i < divs; i++)
-            {
-                for (var j = 0; j < divs; j++)
-                {
-                    clothPoints[i, j, 1] = owner.player.bodyChunks[1].pos;
-                    clothPoints[i, j, 0] = owner.player.bodyChunks[1].pos;
-                    clothPoints[i, j, 2] *= 0f;
-                }
-            }
-            needsReset = false;
+            Reset();
         }
 
         var cloakAttachPos = Vector2.Lerp(owner.head.pos, owner.player.bodyChunks[1].pos, 0.6f);
@@ -120,6 +112,20 @@ public class CloakGraphics
         }
     }
 
+    public void Reset()
+    {
+        for (var i = 0; i < divs; i++)
+        {
+            for (var j = 0; j < divs; j++)
+            {
+                clothPoints[i, j, 1] = owner.player.firstChunk.pos;
+                clothPoints[i, j, 0] = owner.player.firstChunk.pos;
+                clothPoints[i, j, 2] = Vector2.zero;
+            }
+        }
+        needsReset = false;
+    }
+
     public Vector2 IdealPosForPoint(int x, int y, Vector2 bodyPos, Vector2 dir, Vector2 perp)
     {
         var num = Mathf.InverseLerp(0f, divs - 1, x);
@@ -153,19 +159,6 @@ public class CloakGraphics
         }
     }
 
-    public void UpdateColor(RoomCamera.SpriteLeaser sLeaser)
-    {
-        sLeaser.sprites[sprite].color = Color.white;
-
-        for (var i = 0; i < divs; i++)
-        {
-            for (var j = 0; j < divs; j++)
-            {
-                ((TriangleMesh)sLeaser.sprites[sprite]).verticeColors[j * divs + i] = CloakColorAtPos(i / (float)(divs - 1));
-            }
-        }
-    }
-
     public void DrawSprite(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         sLeaser.sprites[sprite].isVisible = (visible && owner.player.room != null);
@@ -180,6 +173,19 @@ public class CloakGraphics
             for (var j = 0; j < divs; j++)
             {
                 ((TriangleMesh)sLeaser.sprites[sprite]).MoveVertice(i * divs + j, Vector2.Lerp(clothPoints[i, j, 1], clothPoints[i, j, 0], timeStacker) - camPos);
+            }
+        }
+    }
+
+    public void UpdateColor(RoomCamera.SpriteLeaser sLeaser)
+    {
+        sLeaser.sprites[sprite].color = Color.white;
+
+        for (var i = 0; i < divs; i++)
+        {
+            for (var j = 0; j < divs; j++)
+            {
+                ((TriangleMesh)sLeaser.sprites[sprite]).verticeColors[j * divs + i] = CloakColorAtPos(i / (float)(divs - 1));
             }
         }
     }

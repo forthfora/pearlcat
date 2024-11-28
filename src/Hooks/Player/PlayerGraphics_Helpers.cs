@@ -121,10 +121,28 @@ public static class PlayerGraphics_Helpers
             markGlowSprite.y += 10.0f;
         }
 
-        // Possession
-        if (playerModule.IsAdultPearlpup)
+        // Possession (or ghost, to stop the graphics glitching when spawning)
+        if (playerModule.IsAdultPearlpup || self.player.playerState.isGhost)
         {
             var isVisible = !playerModule.IsPossessingCreature;
+
+            if (self.player.playerState.isGhost)
+            {
+                var firstPlayerPos = self.player.abstractCreature.world.game.FirstAlivePlayer.realizedCreature.firstChunk.pos;
+                var ghostPos = self.player.firstChunk.pos;
+
+                // within visual range of the player
+                isVisible = ghostPos.x > firstPlayerPos.x - 820.0f &&
+                            ghostPos.x < firstPlayerPos.x + 820.0f &&
+                            ghostPos.y > firstPlayerPos.y - 420.0f &&
+                            ghostPos.y < firstPlayerPos.y + 420.0f;
+
+                if (!isVisible)
+                {
+                    self.Reset();
+                    playerModule.Cloak.needsReset = true;
+                }
+            }
 
             for (var i = 0; i < sLeaser.sprites.Length; i++)
             {

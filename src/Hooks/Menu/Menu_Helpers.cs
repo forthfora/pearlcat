@@ -767,7 +767,7 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(911, 425);
+                i.SetPosition(911, 450);
                 i.SetDepth(2.3f);
                 i.LayerInFrontOf("pearlcat_(pup)_(!sad)");
                 return;
@@ -905,7 +905,11 @@ public static class Menu_Helpers
 
         if (targetIllustration is null)
         {
-            Plugin.Logger.LogError($"Failed to layer menu scene! Not fatal, but indicates a target layer is named incorrectly and needs fixing.\nScene: {menuScene.sceneID.value}, Missing Target: {target}");
+            // the normal scenes are missing in flatmode so don't wanna cause uncessary errors, probably fine as we don't need to layer in flatmode usually
+            if (!menuScene.flatMode)
+            {
+                Plugin.Logger.LogError($"Failed to layer menu scene! Not fatal, but indicates a target layer is named incorrectly and needs fixing.\nScene: {menuScene.sceneID.value}, Missing Target: {target}");
+            }
             return;
         }
 

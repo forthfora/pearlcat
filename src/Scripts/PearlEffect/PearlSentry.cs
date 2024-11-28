@@ -1034,7 +1034,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
             if (songsToStop.Contains(musicPlayer.song.name))
             {
-                musicPlayer.song.StopAndDestroy();
+                musicPlayer.song?.StopAndDestroy();
                 musicPlayer.song = null;
             }
         }

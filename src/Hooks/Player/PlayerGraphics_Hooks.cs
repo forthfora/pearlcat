@@ -116,11 +116,6 @@ public static class PlayerGraphics_Hooks
         }
 
         self.AddToContainer(sLeaser, rCam, null);
-
-        if (self.player.inVoidSea || self.player.playerState.isGhost)
-        {
-            playerModule.GraphicsResetCounter = 20;
-        }
     }
 
     private static void PlayerGraphics_AddToContainer(On.PlayerGraphics.orig_AddToContainer orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer? newContatiner)
@@ -173,7 +168,7 @@ public static class PlayerGraphics_Hooks
             segment.Reset(playerModule.EarRAttachPos);
         }
 
-        playerModule.Cloak.needsReset = true;
+        playerModule.Cloak.Reset();
 
         ResetRibbon(self, playerModule, playerModule.Ribbon1, playerModule.Ribbon1Offset);
         ResetRibbon(self, playerModule, playerModule.Ribbon2, playerModule.Ribbon2Offset);

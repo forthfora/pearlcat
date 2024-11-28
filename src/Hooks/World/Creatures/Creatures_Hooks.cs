@@ -110,6 +110,7 @@ public static class Creatures_Hooks
                 return 0.0f;
             }
 
+            // TODO: remove this when true end ascension is done
             if (player.TryGetPearlcatModule(out var playerModule) && playerModule.IsAdultPearlpup)
             {
                 return 500f / (self.ProtectExitDistance(crit.BestGuessForPosition().Tile) + (crit.TicksSinceSeen / 2f));
