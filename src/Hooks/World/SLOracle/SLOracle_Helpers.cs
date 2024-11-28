@@ -135,7 +135,13 @@ public static class SLOracle_Helpers
 
                         self.Dialog_NoLinger("I am so sorry.");
 
-                        self.Dialog_NoLinger("You are welcome to stay as long as you like. Anything to ease the pain.");
+                        self.Dialog_NoLinger(". . .");
+
+                        self.Dialog_NoLinger("My neighbour, Five Pebbles, is a little temperamental, but means well.");
+
+                        self.Dialog_NoLinger("He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.");
+
+                        self.Dialog_NoLinger("In any case, you are welcome to stay as long as you like. Anything to ease the pain.");
 
                         miscWorld.MoonSickPupMeetCount++;
                         return true;

@@ -545,7 +545,7 @@ public static class Menu_Helpers
         else if (illustrationModule.Type == IllustrationType.PearlActive)
         {
             illustration.visible = true;
-            illustration.sprite.scale = 0.25f;
+            illustration.sprite.scale = 0.3f;
             illustration.color = Color.Lerp(menuSceneModule.ActivePearl?.GetPearlColor() ?? Color.white, Color.white, 0.5f);
 
             illustration.pos.y = illustrationModule.InitialPos.y + Mathf.Sin(MenuPearlAnimStacker / 80.0f) * 15.0f;
@@ -756,11 +756,11 @@ public static class Menu_Helpers
 
                 if (index <= 4)
                 {
-                    i.LayerInFrontOf("pearlpup_(pup)_(sad)");
+                    i.LayerInFrontOf("pearlpup_(pup)_(!sad)");
                 }
                 else
                 {
-                    i.LayerInFrontOf("pearlpup_(pup)_(!sad)");
+                    i.LayerInFrontOf("pearlcat_(!trueend)_(!pup)_(!sad)");
                 }
                 return;
             }
@@ -769,7 +769,7 @@ public static class Menu_Helpers
             {
                 i.SetPosition(911, 450);
                 i.SetDepth(2.3f);
-                i.LayerInFrontOf("pearlcat_(pup)_(!sad)");
+                i.LayerInFrontOf("pearlcat_(!trueend)_(!pup)_(!sad)");
                 return;
             }
 
@@ -777,14 +777,14 @@ public static class Menu_Helpers
             {
                 i.SetPosition(900, 425);
                 i.SetDepth(2.3f);
-                i.LayerInFrontOf("pearlcat_(pup)_(!sad)");
+                i.LayerInFrontOf("pearlcat_(!trueend)_(!pup)_(!sad)");
                 return;
             }
 
             if (type == IllustrationType.PearlActiveHalo)
             {
                 i.SetDepth(2.1f);
-                i.LayerInFrontOf("pearlcat_(pup)_(!sad)");
+                i.LayerInFrontOf("pearlcat_(!trueend)_(!pup)_(!sad)");
                 return;
             }
 
