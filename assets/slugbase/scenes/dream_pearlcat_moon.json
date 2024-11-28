@@ -9,8 +9,8 @@
     {"name": "6", "pos": [0, 0], "depth": 9.0, "shader": "Basic"},
     {"name": "5", "pos": [0, 0], "depth": 8.5, "shader": "Basic"},
 
-    {"name": "4", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
-    {"name": "3", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},
+    {"name": "4", "pos": [0, 0], "depth": 5.0, "shader": "Basic"},
+    {"name": "3", "pos": [0, 0], "depth": 4.0, "shader": "Basic"},
     
     {"name": "2_(pup)", "pos": [0, 0], "depth": 2.5, "shader": "Basic"},
     {"name": "1", "pos": [0, 0], "depth": 2.0, "shader": "Basic"},

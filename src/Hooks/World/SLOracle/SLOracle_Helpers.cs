@@ -314,7 +314,7 @@ public static class SLOracle_Helpers
         self.Dialog_NoLinger("Welcome back, you two!");
 
         self.Dialog_NoLinger("I hope you are staying safe out there...");
-        return false;
+        return true;
     }
 
     public static bool MoonDialog_ThirdAndUpGreeting(SLOracleBehaviorHasMark self)
@@ -505,7 +505,7 @@ public static class SLOracle_Helpers
                 return true;
 
             default:
-                return true;
+                return false;
         }
     }
     private static bool MoonDialogTrueEnd_MetSick_SecondMeet(SLOracleBehaviorHasMark.MoonConversation self)
@@ -587,7 +587,7 @@ public static class SLOracle_Helpers
                 return true;
 
             default:
-                return true;
+                return false;
         }
     }
 
@@ -652,7 +652,7 @@ public static class SLOracle_Helpers
                 return true;
 
             default:
-                return true;
+                return false;
         }
     }
     private static bool MoonDialogTrueEnd_NeverMetSick_SecondMeet(SLOracleBehaviorHasMark.MoonConversation self)
@@ -734,7 +734,7 @@ public static class SLOracle_Helpers
                 return true;
 
             default:
-                return true;
+                return false;
         }
     }
 
@@ -777,7 +777,7 @@ public static class SLOracle_Helpers
                 return true;
 
             default:
-                return true;
+                return false;
         }
     }
     private static bool MoonDialogTrueEnd_NeverMet_SecondMeet(SLOracleBehaviorHasMark.MoonConversation self)
@@ -858,7 +858,7 @@ public static class SLOracle_Helpers
                 return true;
 
             default:
-                return true;
+                return false;
         }
     }
 

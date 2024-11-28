@@ -26,7 +26,7 @@ public class PlayerPearlSymbol
 
     public bool SlatedForDeletion { get; set; }
 
-    public PlayerPearlSymbol(InventoryHUD owner, Vector2 pos, PlayerModule playerModule)
+    public PlayerPearlSymbol(InventoryHUD owner, Vector2 pos)
     {
         Pos = pos;
         Owner = owner;

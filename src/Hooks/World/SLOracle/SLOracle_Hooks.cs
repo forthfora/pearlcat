@@ -19,6 +19,11 @@ public static class SLOracle_Hooks
     {
         if (self.oracle.room.game.IsPearlcatStory() && self.IsMoon())
         {
+            if (self.currentConversation?.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
+            {
+                return;
+            }
+
             // Only override these, rest can be handled by the game normally
             if (self.currentConversation?.id == Conversation.ID.MoonFirstPostMarkConversation || self.currentConversation?.id == Conversation.ID.MoonSecondPostMarkConversation
                 || self.State.playerEncountersWithMark >= 2) // >= 2 = ThirdAndUpGreeting

@@ -250,7 +250,7 @@ public class InventoryHUD : HudPart
                 Symbols.Remove(abstractObject);
             }
 
-            symbol = new PlayerPearlSymbol(this, Vector2.zero, playerModule);
+            symbol = new PlayerPearlSymbol(this, Vector2.zero);
             Symbols.Add(abstractObject, symbol);
             AllSymbols.Add(symbol);
         }

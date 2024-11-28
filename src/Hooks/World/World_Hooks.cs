@@ -9,8 +9,6 @@ using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
-using Dreams = Enums.Dreams;
-
 public static class World_Hooks
 {
     public static void ApplyHooks()

@@ -346,9 +346,9 @@ public static partial class PearlEffectManager
         BigGoldenPearl = None;
         BigGoldenPearl.MajorEffect = MajorEffectType.SHIELD;
         BigGoldenPearl.ActiveMultiplier = 2.0f;
-        BigGoldenPearl.LungsFac = -0.15f;
-        BigGoldenPearl.RunSpeedFac = 0.15f;
-        BigGoldenPearl.PoleClimbSpeedFac = 0.15f;
-        BigGoldenPearl.CorridorClimbSpeedFac = 0.15f;
+        BigGoldenPearl.LungsFac = -0.3f;
+        BigGoldenPearl.RunSpeedFac = 0.3f;
+        BigGoldenPearl.PoleClimbSpeedFac = 0.3f;
+        BigGoldenPearl.CorridorClimbSpeedFac = 0.3f;
     }
 }
