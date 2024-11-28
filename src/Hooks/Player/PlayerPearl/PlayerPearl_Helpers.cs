@@ -240,7 +240,7 @@ public static partial class PlayerPearl_Helpers
 
         self.UpdateInventorySaveData(playerModule);
 
-        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SPEAR_CREATION && !ModOptions.DisableTutorials.Value)
+        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SPEAR_CREATION && abstractObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType != DataPearlType.PebblesPearl && !ModOptions.DisableTutorials.Value)
         {
             save.ShownSpearCreationTutorial = true;
 
