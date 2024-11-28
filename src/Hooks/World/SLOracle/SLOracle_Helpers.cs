@@ -15,6 +15,30 @@ public static class SLOracle_Helpers
     }
 
 
+    public static bool TryOverrideMoonConversation(SLOracleBehaviorHasMark self)
+    {
+        if (!self.oracle.room.game.IsPearlcatStory() || !self.IsMoon())
+        {
+            return false;
+        }
+
+        if (self.currentConversation?.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
+        {
+            return true;
+        }
+
+        // Only override these, rest can be handled by the game normally
+        if (self.currentConversation?.id == Conversation.ID.MoonFirstPostMarkConversation || self.currentConversation?.id == Conversation.ID.MoonSecondPostMarkConversation
+                                                                                          || self.State.playerEncountersWithMark >= 2) // >= 2 = ThirdAndUpGreeting
+        {
+            self.currentConversation = new SLOracleBehaviorHasMark.MoonConversation(Enums.Oracle.Pearlcat_SLConvoMeeting, self, SLOracleBehaviorHasMark.MiscItemType.NA);
+            return true;
+        }
+
+        return false;
+    }
+
+
     // SL Dialog Helpers
     public static void Dialog(this SLOracleBehaviorHasMark self, string text)
     {

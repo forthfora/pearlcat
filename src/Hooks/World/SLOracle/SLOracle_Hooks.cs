@@ -19,23 +19,16 @@ public static class SLOracle_Hooks
 
     private static void SLOracleBehaviorHasMarkOnInitateConversation(On.SLOracleBehaviorHasMark.orig_InitateConversation orig, SLOracleBehaviorHasMark self)
     {
+        if (TryOverrideMoonConversation(self))
+        {
+            return;
+        }
+
         orig(self);
 
-        if (self.oracle.room.game.IsPearlcatStory() && self.IsMoon())
-        {
-            if (self.currentConversation?.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
-            {
-                return;
-            }
-
-            // Only override these, rest can be handled by the game normally
-            if (self.currentConversation?.id == Conversation.ID.MoonFirstPostMarkConversation || self.currentConversation?.id == Conversation.ID.MoonSecondPostMarkConversation
-                || self.State.playerEncountersWithMark >= 2) // >= 2 = ThirdAndUpGreeting
-            {
-                self.currentConversation = new SLOracleBehaviorHasMark.MoonConversation(Enums.Oracle.Pearlcat_SLConvoMeeting, self, SLOracleBehaviorHasMark.MiscItemType.NA);
-            }
-        }
+        TryOverrideMoonConversation(self);
     }
+
 
     private static void MoonConversation_AddEvents(On.SLOracleBehaviorHasMark.MoonConversation.orig_AddEvents orig, SLOracleBehaviorHasMark.MoonConversation self)
     {
