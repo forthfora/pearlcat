@@ -794,6 +794,8 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                 thisOracle.room.game.GetStorySession.RemovePersistentTracker(physicalObject.abstractPhysicalObject);
 
+                physicalObject.AllGraspsLetGoOfThisObject(true);
+
                 physicalObject.abstractPhysicalObject.destroyOnAbstraction = true;
                 physicalObject.abstractPhysicalObject.Abstractize(physicalObject.abstractPhysicalObject.pos);
             }
