@@ -11,7 +11,9 @@ public static class SLOracle_Hooks
         On.SLOracleBehaviorHasMark.MoonConversation.AddEvents += MoonConversation_AddEvents;
         On.SLOracleBehaviorHasMark.NameForPlayer += SLOracleBehaviorHasMark_NameForPlayer;
         On.SLOracleBehaviorHasMark.InitateConversation += SLOracleBehaviorHasMarkOnInitateConversation;
+
         On.SLOracleBehaviorHasMark.MoonConversation.PearlIntro += MoonConversationOnPearlIntro;
+        On.SLOracleBehaviorHasMark.MoonConversation.PebblesPearl += MoonConversationOnPebblesPearl;
     }
 
 
@@ -56,7 +58,7 @@ public static class SLOracle_Hooks
         if (self.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
         {
             var timesMetBefore = self.State.playerEncountersWithMark;
-            
+
             // First & Second Meeting Dialog
             if (miscProg.HasTrueEnding)
             {
@@ -148,6 +150,16 @@ public static class SLOracle_Hooks
 
     // Dream after moon reads pearls
     private static void MoonConversationOnPearlIntro(On.SLOracleBehaviorHasMark.MoonConversation.orig_PearlIntro orig, SLOracleBehaviorHasMark.MoonConversation self)
+    {
+        orig(self);
+
+        if (self.myBehavior?.oracle?.room?.game?.IsPearlcatStory() == true && self.myBehavior.oracle.IsMoon())
+        {
+            self.myBehavior.oracle.room.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon, false);
+        }
+    }
+
+    private static void MoonConversationOnPebblesPearl(On.SLOracleBehaviorHasMark.MoonConversation.orig_PebblesPearl orig, SLOracleBehaviorHasMark.MoonConversation self)
     {
         orig(self);
 
