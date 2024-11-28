@@ -56,9 +56,7 @@ public static class SLOracle_Hooks
         if (self.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
         {
             var timesMetBefore = self.State.playerEncountersWithMark;
-
-            Plugin.Logger.LogWarning(timesMetBefore);
-
+            
             // First & Second Meeting Dialog
             if (miscProg.HasTrueEnding)
             {
