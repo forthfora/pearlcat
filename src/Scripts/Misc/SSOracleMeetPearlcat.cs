@@ -285,8 +285,6 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             }
         }
 
-        world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles, false);
-
         miscWorld.JustMiraSkipped = false;
     }
 

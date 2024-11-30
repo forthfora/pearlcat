@@ -60,8 +60,6 @@ public static class Hooks
         World_Hooks.ApplyHooks();
         World_HooksIL.ApplyHooks();
 
-        Room_Hooks.ApplyHooks();
-
         Creatures_Hooks.ApplyHooks();
         Creatures_HooksIL.ApplyHooks();
 
