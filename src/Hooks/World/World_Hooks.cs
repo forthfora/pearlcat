@@ -311,7 +311,7 @@ public static class World_Hooks
                         self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
 
-                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
+                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, player.firstChunk.pos, 0.8f, 3.5f);
                         self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, player.firstChunk.pos, 1.0f, 1.0f);
                     }
 
@@ -330,7 +330,7 @@ public static class World_Hooks
                         self.room.AddObject(new ShockWave(handPos, 15.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, handPos, 10, 5.0f, 10, 10.0f, 40.0f, color));
 
-                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
+                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, player.firstChunk.pos, 0.8f, 3.5f);
                     }
 
                     self.AllGraspsLetGoOfThisObject(true);

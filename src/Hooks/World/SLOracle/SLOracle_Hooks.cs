@@ -39,7 +39,7 @@ public static class SLOracle_Hooks
         }
 
         var miscProg = Utils.MiscProgression;
-        var miscWorld = self.myBehavior?.oracle?.abstractPhysicalObject.world.game.GetMiscWorld();
+        var miscWorld = self.myBehavior?.oracle?.abstractPhysicalObject?.world?.game?.GetMiscWorld();
 
         if (miscWorld is null || self.myBehavior is not SLOracleBehaviorHasMark behavior)
         {
