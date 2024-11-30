@@ -119,11 +119,6 @@ public static class Menu_Hooks
     {
         orig(self, menu, owner, sceneID);
 
-        if (sceneID is null)
-        {
-            return;
-        }
-
         if (!sceneID.value.Contains("Pearlcat"))
         {
             return;

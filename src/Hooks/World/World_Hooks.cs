@@ -300,7 +300,7 @@ public static class World_Hooks
                         self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
 
-                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, player.firstChunk.pos, 0.8f, 3.5f);
+                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
                         self.room.PlaySound(Enums.Sounds.Pearlcat_PearlStore, player.firstChunk.pos, 1.0f, 1.0f);
                     }
 
@@ -319,7 +319,7 @@ public static class World_Hooks
                         self.room.AddObject(new ShockWave(handPos, 15.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, handPos, 10, 5.0f, 10, 10.0f, 40.0f, color));
 
-                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, player.firstChunk.pos, 0.8f, 3.5f);
+                        self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, prevPos, 1.0f, 3.5f);
                     }
 
                     self.AllGraspsLetGoOfThisObject(true);
@@ -438,15 +438,11 @@ public static class World_Hooks
         {
             if (soundId == SoundID.Spear_Bounce_Off_Creauture_Shell)
             {
-                self.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, chunk, false, 0.5f, Random.Range(1.2f, 1.5f));
-
                 return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
             }
 
             if (soundId == SoundID.Spear_Stick_In_Creature)
             {
-                self.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, chunk, false, 0.5f, Random.Range(1.1f, 1.25f));
-
                 return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
             }
 
@@ -457,8 +453,6 @@ public static class World_Hooks
 
             if (soundId == SoundID.Spear_Stick_In_Wall)
             {
-                self.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, chunk, false, 0.5f, Random.Range(1.2f, 1.5f));
-
                 return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
             }
 
