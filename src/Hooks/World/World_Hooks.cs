@@ -669,11 +669,15 @@ public static class World_Hooks
         {
             if (soundId == SoundID.Spear_Bounce_Off_Creauture_Shell)
             {
+                self.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, chunk, false, 0.5f, Random.Range(1.2f, 1.5f));
+
                 return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
             }
 
             if (soundId == SoundID.Spear_Stick_In_Creature)
             {
+                self.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, chunk, false, 0.5f, Random.Range(1.1f, 1.25f));
+
                 return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
             }
 
@@ -684,6 +688,8 @@ public static class World_Hooks
 
             if (soundId == SoundID.Spear_Stick_In_Wall)
             {
+                self.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, chunk, false, 0.5f, Random.Range(1.2f, 1.5f));
+
                 return self.PlaySound(soundId, chunk, false, 1f, 1.5f);
             }
 
