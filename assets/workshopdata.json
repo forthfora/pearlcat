@@ -3,12 +3,17 @@
   "Description": "",
   "ID": "",
   "Version": "",
-  "TargetGameVersion": "",
+  "TargetGameVersion": "v1.9.06",
   "Requirements": "",
   "RequirementNames": "",
   "Authors": "",
-  "Visibility": "Public",
-  "Tags": [],
+  "Visibility": "Unlisted",
+  "Tags": [
+    "Campaigns",
+    "Game Mechanics",
+    "Translations",
+    "Custom Slugcat"
+  ],
   "WorkshopID": 3009145654,
   "UploadFilesOnly": true,
   "UploadThumbnail": false
