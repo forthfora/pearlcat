@@ -7,7 +7,7 @@ namespace Pearlcat;
 
 public class PearlpupModule(Player self)
 {
-    public WeakReference<Player> PupRef { get; private set; } = new(self);
+    public WeakReference<Player> PupRef { get; } = new(self);
     public int ID { get; } = self.abstractCreature.ID.number;
 
     public int FirstSprite { get; set; }

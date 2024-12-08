@@ -9,7 +9,7 @@ namespace Pearlcat;
 public sealed class TrainView : CustomBgScene
 {
     public bool IsInit { get; private set; }
-    public bool IsOutside { get; private set; }
+    public bool IsOutside { get; }
 
     public readonly int[] BgElementTimers;
 

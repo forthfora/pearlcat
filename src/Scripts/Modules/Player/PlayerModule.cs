@@ -6,7 +6,7 @@ namespace Pearlcat;
 
 public partial class PlayerModule
 {
-    public WeakReference<Player> PlayerRef { get; private set; }
+    public WeakReference<Player> PlayerRef { get; }
     public WeakReference<Player>? PearlpupRef { get; set; }
 
     public PlayerModule(Player self)
@@ -26,7 +26,7 @@ public partial class PlayerModule
     public int PlayerNumber { get; }
 
     public SlugcatStats BaseStats { get; set; }
-    public SlugcatStats NormalStats { get; private set; } = new(Enums.Pearlcat, false);
+    public SlugcatStats NormalStats { get; } = new(Enums.Pearlcat, false);
     public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.Pearlcat, true);
 
 

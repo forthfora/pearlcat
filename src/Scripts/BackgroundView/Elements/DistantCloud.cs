@@ -5,7 +5,7 @@ namespace Pearlcat;
 
 public class DistantCloud : Cloud
 {
-    public float DistantCloudDepth { get; private set; }
+    public float DistantCloudDepth { get; }
 
     public DistantCloud(CustomBgScene scene, Vector2 pos, float depth, int index) : base(scene, pos, scene.DepthFromDistantCloud(depth), index)
     {
