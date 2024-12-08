@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public static partial class PlayerAbilities_Helpers
+public static class PlayerAbilities_Helpers_Rage
 {
-    public static void UpdateRage(Player self, PlayerModule playerModule, PearlEffect effect)
+    public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
         foreach (var item in playerModule.Inventory)
         {
@@ -29,7 +29,7 @@ public static partial class PlayerAbilities_Helpers
 
         if (ModOptions.DisableRage.Value || self.inVoidSea)
         {
-            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.RAGE);
+            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Rage);
             return;
         }
 
@@ -39,7 +39,7 @@ public static partial class PlayerAbilities_Helpers
             return;
         }
 
-        if (effect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+        if (effect.MajorEffect != PearlEffect.MajorEffectType.Rage)
         {
             return;
         }
@@ -67,7 +67,7 @@ public static partial class PlayerAbilities_Helpers
         {
             var itemEffect = item.GetPearlEffect();
 
-            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.Rage)
             {
                 continue;
             }
@@ -105,7 +105,7 @@ public static partial class PlayerAbilities_Helpers
             var angle = (i * Mathf.PI * 2.0f / ragePearls.Count) + angleFrameAddition * playerModule.RageAnimTimer;
             var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
-            PlayerPearl_Helpers.AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
+            PlayerPearl_Helpers_Data.AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
         }
 
         foreach (var ragePearl in ragePearls)
@@ -149,7 +149,7 @@ public static partial class PlayerAbilities_Helpers
                         module.VisitedObjects.Remove(physObj);
                     }
                 }
-                else if (physObj.abstractPhysicalObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.RAGE)
+                else if (physObj.abstractPhysicalObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage)
                 {
                     if (physObj == pearl)
                     {
@@ -211,9 +211,8 @@ public static partial class PlayerAbilities_Helpers
                         continue;
                     }
 
-
-                    if (!player.IsHostileToMe(creature) &&
-                        !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly))
+                    // Tutorial flies are VERY HOSTILE
+                    if (!player.IsHostileToMe(creature) && !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly))
                     {
                         continue;
                     }
@@ -444,7 +443,7 @@ public static partial class PlayerAbilities_Helpers
 
             var itemEffect = item.GetPearlEffect();
 
-            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.Rage)
             {
                 continue;
             }
@@ -456,7 +455,7 @@ public static partial class PlayerAbilities_Helpers
 
             module.LaserLerp = 0.0f;
 
-            if (effect.MajorEffect != PearlEffect.MajorEffectType.RAGE || playerModule.RageTarget == null ||
+            if (effect.MajorEffect != PearlEffect.MajorEffectType.Rage || playerModule.RageTarget == null ||
                 !playerModule.RageTarget.TryGetTarget(out _))
             {
                 module.LaserTimer = shootTime + ragePearlCounter * 5;
@@ -467,11 +466,11 @@ public static partial class PlayerAbilities_Helpers
 
         if (ModOptions.DisableRage.Value || self.inVoidSea)
         {
-            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.RAGE);
+            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Rage);
             return;
         }
 
-        if (effect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+        if (effect.MajorEffect != PearlEffect.MajorEffectType.Rage)
         {
             return;
         }
@@ -572,7 +571,7 @@ public static partial class PlayerAbilities_Helpers
 
                         var itemEffect = item.GetPearlEffect();
 
-                        if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+                        if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.Rage)
                         {
                             continue;
                         }
@@ -636,7 +635,7 @@ public static partial class PlayerAbilities_Helpers
 
             var itemEffect = item.GetPearlEffect();
 
-            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.RAGE)
+            if (itemEffect.MajorEffect != PearlEffect.MajorEffectType.Rage)
             {
                 continue;
             }

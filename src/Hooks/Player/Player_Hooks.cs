@@ -147,7 +147,7 @@ public static class Player_Hooks
             playerModule.PostDeathInventory.Add(abstractObject);
 
 
-            if (i < PlayerPearl_Helpers.MaxPearlsWithEffects)
+            if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
                 if (playerModule.ReviveCount <= 0)
                 {
@@ -266,7 +266,7 @@ public static class Player_Hooks
                 }
 
                 var effect = item.GetPearlEffect();
-                if (effect.MajorEffect != PearlEffect.MajorEffectType.SHIELD)
+                if (effect.MajorEffect != PearlEffect.MajorEffectType.Shield)
                 {
                     continue;
                 }

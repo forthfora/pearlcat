@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public static partial class PlayerAbilities_Helpers
+public static class PlayerAbilities_Helpers_Shield
 {
-    public static void UpdateShield(Player self, PlayerModule playerModule, PearlEffect effect)
+    public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
         if (playerModule.ShieldTimer > 0)
         {
@@ -23,7 +23,7 @@ public static partial class PlayerAbilities_Helpers
                 {
                     var item = playerModule.Inventory[i];
 
-                    if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects)
+                    if (i >= PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
                     {
                         break;
                     }
@@ -48,7 +48,7 @@ public static partial class PlayerAbilities_Helpers
                         continue;
                     }
 
-                    if (itemEffect.MajorEffect == PearlEffect.MajorEffectType.SHIELD && !item.TryGetSentry(out _))
+                    if (itemEffect.MajorEffect == PearlEffect.MajorEffectType.Shield && !item.TryGetSentry(out _))
                     {
                         item.realizedObject.ConnectEffect(self.firstChunk.pos);
                     }
@@ -81,7 +81,7 @@ public static partial class PlayerAbilities_Helpers
 
         if (ModOptions.DisableShield.Value || self.inVoidSea)
         {
-            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.SHIELD);
+            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Shield);
             return;
         }
 

@@ -170,7 +170,7 @@ public abstract class PearlAnimation
             var effect = abstractObject.GetPearlEffect();
 
             addon.IsActiveObject = i == playerModule.ActiveObjectIndex;
-            addon.SymbolColor = effect.MajorEffect == PearlEffect.MajorEffectType.CAMOFLAGUE ? Color.white : abstractObject.GetObjectColor();
+            addon.SymbolColor = effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage ? Color.white : abstractObject.GetObjectColor();
 
             if (pearlModule.CooldownTimer != 0)
             {
@@ -182,7 +182,7 @@ public abstract class PearlAnimation
                 addon.DrawSymbolCooldown = true;
 
                 var cooldownLerp = pearlModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(pearlModule.CooldownTimer, pearlModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
-                var cooldownColor = effect.MajorEffect == PearlEffect.MajorEffectType.RAGE ? Color.white : (Color)new Color32(189, 13, 0, 255);
+                var cooldownColor = effect.MajorEffect == PearlEffect.MajorEffectType.Rage ? Color.white : (Color)new Color32(189, 13, 0, 255);
 
                 addon.SymbolColor = Color.Lerp(Color.Lerp(addon.SymbolColor, cooldownColor, 0.4f), cooldownColor, cooldownLerp);
             }
@@ -208,7 +208,7 @@ public abstract class PearlAnimation
 
             addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject && !abstractObject.IsHeartPearl() && !addon.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
 
-            if ((!ModOptions.HidePearls.Value || addon.IsActiveObject) && effect.MajorEffect == PearlEffect.MajorEffectType.CAMOFLAGUE)
+            if ((!ModOptions.HidePearls.Value || addon.IsActiveObject) && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
             {
                 addon.CamoLerp = 0.0f;
             }
@@ -231,7 +231,7 @@ public abstract class PearlAnimation
                 }
 
                 // gross code
-                if (PlayerPearl_Helpers.TargetPositions.TryGetValue(abstractObject, out var targetPos))
+                if (PlayerPearl_Helpers_Data.TargetPositions.TryGetValue(abstractObject, out var targetPos))
                 {
                     addon.OverridePos ??= abstractObject.realizedObject.firstChunk.pos;
                     addon.OverrideLastPos = addon.OverridePos;
@@ -250,7 +250,7 @@ public abstract class PearlAnimation
                 addon.OverrideLastPos = null;
             }
 
-            var returnPos = PlayerPearl_Helpers.TargetPositions.TryGetValue(abstractObject, out var pos) ? pos.Value : player.GetActivePearlPos();
+            var returnPos = PlayerPearl_Helpers_Data.TargetPositions.TryGetValue(abstractObject, out var pos) ? pos.Value : player.GetActivePearlPos();
             var returned = Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, returnPos, 8.0f);
 
 
@@ -278,7 +278,7 @@ public abstract class PearlAnimation
 
             if (ModOptions.OldRedPearlAbility.Value)
             {
-                addon.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.RAGE && playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.RAGE;
+                addon.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.Rage && playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage;
                 addon.LaserLerp = pearlModule.LaserLerp;
             }
             else

@@ -178,7 +178,7 @@ public class PlayerPearlSymbol
 
 
         var cooldownLerp = pearlModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(pearlModule.CooldownTimer, pearlModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
-        var cooldownColor = effect.MajorEffect == PearlEffect.MajorEffectType.RAGE ? Color.white : (Color)new Color32(189, 13, 0, 255);
+        var cooldownColor = effect.MajorEffect == PearlEffect.MajorEffectType.Rage ? Color.white : (Color)new Color32(189, 13, 0, 255);
 
         CooldownSprite.isVisible = false;
         CooldownSprite.alpha = ItemSymbol.symbolSprite.alpha * 0.75f;

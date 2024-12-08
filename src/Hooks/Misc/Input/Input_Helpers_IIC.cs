@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Pearlcat;
 
 // Improved Input Config integration - need the buffer methods so it's not a hard dependency
-public static partial class Input_Helpers
+public static class Input_Helpers_IIC
 {
     public static void InitIICKeybinds()
     {

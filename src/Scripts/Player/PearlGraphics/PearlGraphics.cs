@@ -372,12 +372,12 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
     {
         return effect switch
         {
-            PearlEffect.MajorEffectType.SPEAR_CREATION => "BigGlyph2",
-            PearlEffect.MajorEffectType.AGILITY => "BigGlyph8",
-            PearlEffect.MajorEffectType.REVIVE => "BigGlyph10",
-            PearlEffect.MajorEffectType.SHIELD => "BigGlyph11",
-            PearlEffect.MajorEffectType.RAGE => "BigGlyph6",
-            PearlEffect.MajorEffectType.CAMOFLAGUE => "BigGlyph12",
+            PearlEffect.MajorEffectType.SpearCreation => "BigGlyph2",
+            PearlEffect.MajorEffectType.Agility => "BigGlyph8",
+            PearlEffect.MajorEffectType.Revive => "BigGlyph10",
+            PearlEffect.MajorEffectType.Shield => "BigGlyph11",
+            PearlEffect.MajorEffectType.Rage => "BigGlyph6",
+            PearlEffect.MajorEffectType.Camouflage => "BigGlyph12",
 
             _ => "pearlcat_glyphcooldown",
         };

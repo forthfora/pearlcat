@@ -2,7 +2,7 @@
 
 namespace Pearlcat;
 
-public static partial class PlayerAbilities_Helpers
+public static class PlayerAbilities_Helpers
 {
     public static void UpdatePearlEffects(Player self, PlayerModule playerModule)
     {
@@ -77,12 +77,13 @@ public static partial class PlayerAbilities_Helpers
 
         playerModule.DisabledEffects.Clear();
 
-        UpdateSpearCreation(self, playerModule, effect);
-        UpdateAgility(self, playerModule, effect);
-        UpdateRevive(self, playerModule, effect);
-        UpdateShield(self, playerModule, effect);
-        UpdateRage(self, playerModule, effect);
-        UpdateCamouflage(self, playerModule, effect);
+
+        PlayerAbilities_Helpers_SpearCreation.Update(self, playerModule, effect);
+        PlayerAbilities_Helpers_Agility.Update(self, playerModule, effect);
+        PlayerAbilities_Helpers_Revive.Update(self, playerModule, effect);
+        PlayerAbilities_Helpers_Shield.Update(self, playerModule, effect);
+        PlayerAbilities_Helpers_Rage.Update(self, playerModule, effect);
+        PlayerAbilities_Helpers_Camouflage.Update(self, playerModule, effect);
 
 
         if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller != null)

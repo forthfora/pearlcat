@@ -682,7 +682,7 @@ public static class Player_Helpers
                 var abstractObject = playerModule.Inventory[i];
 
                 // just handle this before it gets out of hand
-                if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects)
+                if (i >= PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
                 {
                     break;
                 }

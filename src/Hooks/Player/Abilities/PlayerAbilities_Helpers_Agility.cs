@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public static partial class PlayerAbilities_Helpers
+public static class PlayerAbilities_Helpers_Agility
 {
-    public static void UpdateAgility(Player self, PlayerModule playerModule, PearlEffect effect)
+    public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
         if (playerModule.AgilityOveruseTimer > 0)
         {
@@ -15,11 +15,11 @@ public static partial class PlayerAbilities_Helpers
 
         if (ModOptions.DisableAgility.Value || self.inVoidSea || playerModule.PossessedCreature != null)
         {
-            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.AGILITY);
+            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Agility);
             return;
         }
 
-        var maxOveruse = playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.AGILITY
+        var maxOveruse = playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Agility
             ? 180
             : 120;
 

@@ -1,21 +1,19 @@
 ﻿
 namespace Pearlcat;
 
-public record struct PearlEffect
+public record struct PearlEffect()
 {
-    public PearlEffect() { }
-
-    public MajorEffectType MajorEffect { get; set; } = MajorEffectType.NONE;
+    public MajorEffectType MajorEffect { get; set; } = MajorEffectType.None;
 
     public enum MajorEffectType
     {
-        NONE,
-        SPEAR_CREATION, // White (Very Common)
-        AGILITY, // Blue (8 + 2)
-        REVIVE, // Green (5 + 1)
-        SHIELD, // Yellow (3 + 3, common at iterators)
-        RAGE, // Red (8 + 1)
-        CAMOFLAGUE, // Black (iterators only, but common)
+        None,
+        SpearCreation, // White (Very Common)
+        Agility, // Blue (8 + 2)
+        Revive, // Green (5 + 1)
+        Shield, // Yellow (3 + 3, common at iterators)
+        Rage, // Red (8 + 1)
+        Camouflage, // Black (iterators only, but common)
     }
 
     // When the PO is active, percentages are multiplied by this value before being applied

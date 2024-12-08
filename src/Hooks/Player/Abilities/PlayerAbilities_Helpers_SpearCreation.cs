@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public static partial class PlayerAbilities_Helpers
+public static class PlayerAbilities_Helpers_SpearCreation
 {
-    public static void UpdateSpearCreation(Player self, PlayerModule playerModule, PearlEffect effect)
+    public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
         if (ModOptions.DisableSpear.Value || self.inVoidSea || playerModule.PossessedCreature != null)
         {
-            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.SPEAR_CREATION);
+            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.SpearCreation);
             return;
         }
 
@@ -19,7 +19,7 @@ public static partial class PlayerAbilities_Helpers
 
         playerModule.ForceLockSpearOnBack = false;
 
-        if (effect.MajorEffect != PearlEffect.MajorEffectType.SPEAR_CREATION)
+        if (effect.MajorEffect != PearlEffect.MajorEffectType.SpearCreation)
         {
             playerModule.SpearTimer = 0;
             playerModule.SpearDelay = 0;

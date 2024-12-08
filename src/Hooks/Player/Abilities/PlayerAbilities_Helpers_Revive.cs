@@ -1,12 +1,12 @@
 namespace Pearlcat;
 
-public static partial class PlayerAbilities_Helpers
+public static class PlayerAbilities_Helpers_Revive
 {
-    public static void UpdateRevive(Player self, PlayerModule playerModule, PearlEffect effect)
+    public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
         if (ModOptions.DisableRevive.Value || self.inVoidSea)
         {
-            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.REVIVE);
+            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Revive);
             return;
         }
 
@@ -18,7 +18,7 @@ public static partial class PlayerAbilities_Helpers
 
         var abilityInput = self.IsReviveKeybindPressed(playerModule);
 
-        if (effect.MajorEffect != PearlEffect.MajorEffectType.REVIVE || !abilityInput)
+        if (effect.MajorEffect != PearlEffect.MajorEffectType.Revive || !abilityInput)
         {
             playerModule.ReviveTimer = 0;
             return;

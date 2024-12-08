@@ -8,7 +8,7 @@ public static class ModCompat_Helpers
     {
         if (IsModEnabled_ImprovedInputConfig)
         {
-            Input_Helpers.InitIICKeybinds();
+            Input_Helpers_IIC.InitIICKeybinds();
         }
 
         if (IsModEnabled_ChasingWind)

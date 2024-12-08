@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public static partial class PlayerAbilities_Helpers
+public static class PlayerAbilities_Helpers_Camouflage
 {
-    public static void UpdateCamouflage(Player self, PlayerModule playerModule, PearlEffect effect)
+    public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
         var possessingNightVisionCreature = false;
 
-        if (effect.MajorEffect != PearlEffect.MajorEffectType.CAMOFLAGUE || playerModule.ActiveObject == null ||
+        if (effect.MajorEffect != PearlEffect.MajorEffectType.Camouflage || playerModule.ActiveObject == null ||
             playerModule.ActiveObject.TryGetSentry(out _))
         {
             // Give these creatures night vision by default
@@ -56,7 +56,7 @@ public static partial class PlayerAbilities_Helpers
 
         if (ModOptions.DisableCamoflague.Value || self.inVoidSea)
         {
-            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.CAMOFLAGUE);
+            playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Camouflage);
             return;
         }
 
@@ -69,7 +69,7 @@ public static partial class PlayerAbilities_Helpers
                             self.bodyMode == Player.BodyModeIndex.CorridorClimb)
                            && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) ||
                           self.bodyMode == Player.BodyModeIndex.Crawl)
-                         && effect.MajorEffect == PearlEffect.MajorEffectType.CAMOFLAGUE &&
+                         && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage &&
                          playerModule.StoreObjectTimer <= 0 && playerModule.CamoCount > 0;
 
         // LAG CAUSER
@@ -98,7 +98,7 @@ public static partial class PlayerAbilities_Helpers
             ? Custom.LerpAndTick(playerModule.CamoLerp, 1.0f, 0.1f, camoSpeed)
             : Custom.LerpAndTick(playerModule.CamoLerp, 0.0f, 0.1f, camoSpeed);
 
-        if (effect.MajorEffect == PearlEffect.MajorEffectType.CAMOFLAGUE && playerModule.CamoCount > 0 &&
+        if (effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage && playerModule.CamoCount > 0 &&
             self.room?.Darkness(self.mainBodyChunk.pos) >= 0.75f && !possessingNightVisionCreature)
         {
             var targetScale = Custom.LerpMap(playerModule.CamoCount, 1, 5, 40.0f, 150.0f);

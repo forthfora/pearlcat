@@ -6,7 +6,7 @@ using Color = UnityEngine.Color;
 
 namespace Pearlcat;
 
-public static partial class PlayerPearl_Helpers
+public static class PlayerPearl_Helpers_Data
 {
     public static bool IsPlayerPearl(this AbstractPhysicalObject targetObject)
     {

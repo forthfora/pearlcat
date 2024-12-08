@@ -4,7 +4,7 @@ using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
-public static partial class PlayerPearl_Helpers
+public static class PlayerPearl_Helpers
 {
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
@@ -117,7 +117,7 @@ public static partial class PlayerPearl_Helpers
 
             abstractObject.MarkAsPlayerObject();
 
-            if (i < MaxPearlsWithEffects)
+            if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
                 if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
                 {
@@ -154,11 +154,11 @@ public static partial class PlayerPearl_Helpers
                 module.RemoveSentry(abstractObject);
             }
 
-            if (i < MaxPearlsWithEffects)
+            if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
                 if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
                 {
-                    AbstractedEffect(abstractObject.realizedObject);
+                    abstractObject.realizedObject.AbstractedEffect();
                 }
             }
             
@@ -240,7 +240,7 @@ public static partial class PlayerPearl_Helpers
 
         self.UpdateInventorySaveData(playerModule);
 
-        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SPEAR_CREATION && abstractObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType != DataPearlType.PebblesPearl && !ModOptions.DisableTutorials.Value)
+        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SpearCreation && abstractObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType != DataPearlType.PebblesPearl && !ModOptions.DisableTutorials.Value)
         {
             save.ShownSpearCreationTutorial = true;
 

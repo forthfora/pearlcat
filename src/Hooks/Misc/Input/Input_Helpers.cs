@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public static partial class Input_Helpers
+public static class Input_Helpers
 {
     // Unity doesn't allow us to change the Input Map in a built project... luckily the PS axis overlaps with the Xbox triggers, discovery courtesy of Andrew (thanks Andrew)
     // Only works for Xbox controllers though, big sad
@@ -250,7 +250,7 @@ public static partial class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return GetStoreKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetStoreKeybindIIC(controller).GetDisplayName();
         }
 
         return (controller ? ModOptions.StoreKeybindPlayer1.Value : ModOptions.StoreKeybindKeyboard.Value).GetDisplayName();
@@ -260,7 +260,7 @@ public static partial class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return GetSwapKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetSwapKeybindIIC(controller).GetDisplayName();
         }
 
         return (controller ? ModOptions.SwapKeybindPlayer1.Value : ModOptions.SwapKeybindKeyboard.Value).GetDisplayName();
@@ -270,7 +270,7 @@ public static partial class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return GetSentryKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetSentryKeybindIIC(controller).GetDisplayName();
         }
 
         return (controller ? ModOptions.SentryKeybindPlayer1.Value : ModOptions.SentryKeybindKeyboard.Value).GetDisplayName();
@@ -280,7 +280,7 @@ public static partial class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return GetAbilityKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetAbilityKeybindIIC(controller).GetDisplayName();
         }
 
         return (controller ? ModOptions.AbilityKeybindPlayer1.Value : ModOptions.AbilityKeybindKeyboard.Value).GetDisplayName();
@@ -291,7 +291,7 @@ public static partial class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return GetSwapLeftKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetSwapLeftKeybindIIC(controller).GetDisplayName();
         }
 
         return ModOptions.SwapLeftKeybind.Value.GetDisplayName();
@@ -301,7 +301,7 @@ public static partial class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return GetSwapRightKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetSwapRightKeybindIIC(controller).GetDisplayName();
         }
 
         return ModOptions.SwapRightKeybind.Value.GetDisplayName();

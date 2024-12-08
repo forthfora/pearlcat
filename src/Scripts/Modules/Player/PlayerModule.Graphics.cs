@@ -13,7 +13,6 @@ public partial class PlayerModule
 {
     public bool IsAdultPearlpupAppearance => IsAdultPearlpup;
 
-
     // Sprites
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }
@@ -66,7 +65,7 @@ public partial class PlayerModule
         {
             var abstractObject = Inventory[i];
 
-            if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects)
+            if (i >= PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
                 break;
             }

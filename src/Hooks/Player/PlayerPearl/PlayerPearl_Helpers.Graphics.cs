@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
-public static partial class PlayerPearl_Helpers
+public static class PlayerPearl_Helpers_Graphics
 {
     public static int MaxPearlsWithEffects => Utils.RainWorld.options.quality == Options.Quality.LOW ? 3 : 9;
 
@@ -16,7 +16,7 @@ public static partial class PlayerPearl_Helpers
             return;
         }
 
-        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 6, GetObjectColor(physicalObject.abstractPhysicalObject)));
+        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 6, physicalObject.abstractPhysicalObject.GetObjectColor()));
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 15.0f, 0.07f, 10));
     }
 
@@ -27,7 +27,7 @@ public static partial class PlayerPearl_Helpers
             return;
         }
 
-        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 3, GetObjectColor(physicalObject.abstractPhysicalObject)));
+        physicalObject.room.AddObject(new Explosion.ExplosionLight(physicalObject.firstChunk.pos, 100.0f, 1.0f, 3, physicalObject.abstractPhysicalObject.GetObjectColor()));
         physicalObject.room.AddObject(new ShockWave(physicalObject.firstChunk.pos, 25.0f, 0.07f, 10));
     }
 
@@ -54,7 +54,7 @@ public static partial class PlayerPearl_Helpers
         {
             intensity = 0.35f,
             lifeTime = 7.0f,
-            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
+            lightningType = Custom.RGB2HSL(physicalObject.abstractPhysicalObject.GetObjectColor()).x,
         };
         physicalObject.room.AddObject(lightningBoltOld);
 
@@ -62,7 +62,7 @@ public static partial class PlayerPearl_Helpers
         {
             intensity = 0.75f,
             lifeTime = 12.0f,
-            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
+            lightningType = Custom.RGB2HSL(physicalObject.abstractPhysicalObject.GetObjectColor()).x,
         };
         physicalObject.room.AddObject(lightningBoltNew);
     }
@@ -83,7 +83,7 @@ public static partial class PlayerPearl_Helpers
         {
             intensity = 0.35f,
             lifeTime = 7.0f,
-            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
+            lightningType = Custom.RGB2HSL(physicalObject.abstractPhysicalObject.GetObjectColor()).x,
         };
         physicalObject.room.AddObject(lightningBoltOld);
 
@@ -91,7 +91,7 @@ public static partial class PlayerPearl_Helpers
         {
             intensity = 0.75f,
             lifeTime = 12.0f,
-            lightningType = Custom.RGB2HSL(GetObjectColor(physicalObject.abstractPhysicalObject)).x,
+            lightningType = Custom.RGB2HSL(physicalObject.abstractPhysicalObject.GetObjectColor()).x,
         };
         physicalObject.room.AddObject(lightningBoltNew);
     }
@@ -109,7 +109,7 @@ public static partial class PlayerPearl_Helpers
             return;
         }
 
-        var color = overrideColor ?? GetObjectColor(physicalObject.abstractPhysicalObject);
+        var color = overrideColor ?? physicalObject.abstractPhysicalObject.GetObjectColor();
 
         var lightningBolt = new MoreSlugcats.LightningBolt(physicalObject.firstChunk.pos, pos, 0, Mathf.Lerp(1.2f, 1.5f, Random.value))
         {
