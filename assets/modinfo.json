@@ -7,5 +7,5 @@
 	"requirements": ["slime-cubed.slugbase"],
 	"requirements_names": ["SlugBase"],
 	"tags": ["Custom Slugcat", "Game Mechanics", "Campaigns", "Translations"],
-	"checksum_override_version": false
+	"checksum_override_version": true
 }
