@@ -33,13 +33,19 @@ public static partial class PlayerAbilities_Helpers
                     CreatureTemplate.Type.SmallCentipede,
                     CreatureTemplate.Type.Overseer,
                     CreatureTemplate.Type.MirosBird,
-
-                    MoreSlugcatsEnums.CreatureTemplateType.AquaCenti,
-                    MoreSlugcatsEnums.CreatureTemplateType.Inspector,
-                    MoreSlugcatsEnums.CreatureTemplateType.MotherSpider,
-                    MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs,
-                    MoreSlugcatsEnums.CreatureTemplateType.MirosVulture,
                 };
+
+                if (ModManager.MSC)
+                {
+                    nightVisionCreatures.AddRange(new List<CreatureTemplate.Type>
+                    {
+                        MoreSlugcatsEnums.CreatureTemplateType.AquaCenti,
+                        MoreSlugcatsEnums.CreatureTemplateType.Inspector,
+                        MoreSlugcatsEnums.CreatureTemplateType.MotherSpider,
+                        MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs,
+                        MoreSlugcatsEnums.CreatureTemplateType.MirosVulture,
+                    });
+                }
 
                 if (nightVisionCreatures.Contains(creature.creatureTemplate.type))
                 {

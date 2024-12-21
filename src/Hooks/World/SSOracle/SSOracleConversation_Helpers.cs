@@ -9,53 +9,59 @@ namespace Pearlcat;
 
 public static class SSOracleConversation_Helpers
 {
-    public static Dictionary<ID, int> ConvoIdFileIdMap { get; } = new()
+    public static Dictionary<ID, int> ConvoIdFileIdMap { get; } = new();
+    public static List<ID> RandomLineConvoIds { get; } = [ID.Moon_Pearl_Misc, ID.Moon_Pearl_Misc2, ID.Moon_Pebbles_Pearl];
+
+    public static void RegisterConvoIdFileMap()
     {
+        ConvoIdFileIdMap.Clear();
+
         // Random Line
-        { ID.Moon_Pearl_Misc, 38 },
-        { ID.Moon_Pearl_Misc2, 38 },
-        { ID.Moon_Pebbles_Pearl, 40 },
+        ConvoIdFileIdMap[ID.Moon_Pearl_Misc] = 38;
+        ConvoIdFileIdMap[ID.Moon_Pearl_Misc2] = 38;
+        ConvoIdFileIdMap[ID.Moon_Pebbles_Pearl] = 40;
 
-        // Base Game
-        { ID.Moon_Pearl_SL_moon, 18 },
-        { ID.Moon_Pearl_SL_chimney, 54 },
-        { ID.Moon_Pearl_SL_bridge, 17 },
-        { ID.Moon_Pearl_SB_filtration, 15 },
-        { ID.Moon_Pearl_SB_ravine, 43 },
-        { ID.Moon_Pearl_SU, 41 },
-        { ID.Moon_Pearl_HI, 12 },
-        { ID.Moon_Pearl_GW, 16 },
-        { ID.Moon_Pearl_DS, 14 },
-        { ID.Moon_Pearl_SH, 13 },
-        { ID.Moon_Pearl_CC, 7 },
-        { ID.Moon_Pearl_UW, 42 },
-        { ID.Moon_Pearl_LF_bottom, 11 },
-        { ID.Moon_Pearl_LF_west, 10 },
+        // Base game
+        ConvoIdFileIdMap[ID.Moon_Pearl_SL_moon] = 18;
+        ConvoIdFileIdMap[ID.Moon_Pearl_SL_chimney] = 54;
+        ConvoIdFileIdMap[ID.Moon_Pearl_SL_bridge] = 17;
+        ConvoIdFileIdMap[ID.Moon_Pearl_SB_filtration] = 15;
+        ConvoIdFileIdMap[ID.Moon_Pearl_SB_ravine] = 43;
+        ConvoIdFileIdMap[ID.Moon_Pearl_SU] = 41;
+        ConvoIdFileIdMap[ID.Moon_Pearl_HI] = 12;
+        ConvoIdFileIdMap[ID.Moon_Pearl_GW] = 16;
+        ConvoIdFileIdMap[ID.Moon_Pearl_DS] = 14;
+        ConvoIdFileIdMap[ID.Moon_Pearl_SH] = 13;
+        ConvoIdFileIdMap[ID.Moon_Pearl_CC] = 7;
+        ConvoIdFileIdMap[ID.Moon_Pearl_UW] = 42;
+        ConvoIdFileIdMap[ID.Moon_Pearl_LF_bottom] = 11;
+        ConvoIdFileIdMap[ID.Moon_Pearl_LF_west] = 10;
 
-        { ID.Moon_Pearl_SI_west, 20 },
-        { ID.Moon_Pearl_SI_top, 21 },
+        ConvoIdFileIdMap[ID.Moon_Pearl_SI_west] = 20;
+        ConvoIdFileIdMap[ID.Moon_Pearl_SI_top] = 21;
 
-        { ID.Moon_Pearl_Red_stomach, 51 },
+        ConvoIdFileIdMap[ID.Moon_Pearl_Red_stomach] = 51;
 
         // MSC
-        { MSCID.Moon_Pearl_SI_chat3, 22 },
-        { MSCID.Moon_Pearl_SI_chat4, 23 },
-        { MSCID.Moon_Pearl_SI_chat5, 24 },
+        if (ModManager.MSC)
+        {
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_SI_chat3] = 22;
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_SI_chat4] = 23;
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_SI_chat5] = 24;
 
-        { MSCID.Moon_Pearl_VS, 128 },
-        { MSCID.Moon_Pearl_SU_filt, 101 },
-        { MSCID.Moon_Pearl_OE, 104 },
-        { MSCID.Moon_Pearl_LC, 103 },
-        { MSCID.Moon_Pearl_LC_second, 121 },
-        { MSCID.Moon_Pearl_MS, 105 },
-        { MSCID.Moon_Pearl_DM, 102 },
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_VS] = 128;
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_SU_filt] = 101;
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_OE] = 104;
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_LC] = 103;
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_LC_second] = 121;
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_MS] = 105;
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_DM] = 102;
 
-        { MSCID.Moon_Pearl_Rivulet_stomach, 119 },
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_Rivulet_stomach] = 119;
 
-        { MSCID.Moon_Pearl_RM, 106 },
-    };
-
-    public static List<ID> RandomLineConvoIds = [ID.Moon_Pearl_Misc, ID.Moon_Pearl_Misc2, ID.Moon_Pebbles_Pearl];
+            ConvoIdFileIdMap[MSCID.Moon_Pearl_RM] = 106;
+        }
+    }
 
 
     // Determines the first lines of dialogue before anything else Pebbles says

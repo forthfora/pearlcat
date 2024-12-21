@@ -139,8 +139,7 @@ public static class World_Helpers
 
     public static bool IsHalcyonPearl(this DataPearl.AbstractDataPearl dataPearl)
     {
-        return dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat ||
-               dataPearl.dataPearlType == MoreSlugcatsEnums.DataPearlType.RM;
+        return dataPearl.dataPearlType == Enums.Pearls.RM_Pearlcat || (ModManager.MSC && dataPearl.dataPearlType == MoreSlugcatsEnums.DataPearlType.RM);
     }
 
 

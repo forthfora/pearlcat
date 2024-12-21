@@ -38,14 +38,17 @@ public static partial class PlayerPearl_Helpers
             return true;
         }
 
-        if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.HalcyonPearl)
+        if (ModManager.MSC)
         {
-            return true;
-        }
+            if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.HalcyonPearl)
+            {
+                return true;
+            }
 
-        if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl)
-        {
-            return true;
+            if (abstractObject.type == MoreSlugcats.MoreSlugcatsEnums.AbstractObjectType.Spearmasterpearl)
+            {
+                return true;
+            }
         }
 
         // Pearl Spear
