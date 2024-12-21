@@ -141,6 +141,8 @@ public static class Hooks
         try
         {
             PearlEffectManager.RegisterEffects();
+
+            SSOracleConversation_Helpers.RegisterConvoIdFileMap();
         }
         catch (Exception e)
         {
@@ -156,28 +158,28 @@ public static class Hooks
     // These are only here for backwards compatability - mods rely on these methods that have now been renamed or moved
 
     // Rotund World
-    [UsedImplicitly]
+    [PublicAPI]
     public static bool TryGetPearlcatModule(Player player, out PlayerModule playerModule)
     {
         return player.TryGetPearlcatModule(out playerModule);
     }
 
     // Gate Scanner
-    [UsedImplicitly]
+    [PublicAPI]
     public static bool IsPlayerObject(AbstractPhysicalObject abstractPhysicalObject)
     {
         return abstractPhysicalObject.IsPlayerPearl();
     }
 
     // Pups+
-    [UsedImplicitly]
+    [PublicAPI]
     public static bool IsPearlpup(Player player)
     {
         return player.abstractCreature.IsPearlpup();
     }
 
     // PupBase
-    [UsedImplicitly]
+    [PublicAPI]
     public static bool IsPearlpup(AbstractCreature abstractCreature)
     {
         return abstractCreature.IsPearlpup();

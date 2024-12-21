@@ -52,7 +52,7 @@ public static class Pearlpup_Hooks
             return;
         }
 
-        if (self.SlugCatClass != MoreSlugcatsEnums.SlugcatStatsName.Slugpup)
+        if (!ModManager.MSC || self.SlugCatClass != MoreSlugcatsEnums.SlugcatStatsName.Slugpup)
         {
             return;
         }

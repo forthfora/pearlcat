@@ -47,6 +47,9 @@ public static class SLOracle_Hooks
             return;
         }
 
+        // Dream on first meeting
+        behavior.oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Moon, true);
+
         // Custom Meeting Dialog
         if (self.id == Enums.Oracle.Pearlcat_SLConvoMeeting)
         {

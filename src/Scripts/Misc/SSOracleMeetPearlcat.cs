@@ -210,9 +210,11 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             }
         }
 
-
         miscWorld.PebblesMeetCount++;
         save.miscWorldSaveData.SSaiConversationsHad++;
+
+        // Dream on first meeting
+        oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles, true);
     }
 
     private void MiraSkipMeet(SaveMiscWorld miscWorld)
@@ -656,17 +658,13 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         {
             owner.InitateConversation(type.GetCustomPearlConvoId(), this);
         }
-        else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1 || type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc) // temp broadcast fix
+        else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc || type.Index == -1 || (ModManager.MSC && type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc))
         {
             owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc, this);
         }
         else if (type == DataPearl.AbstractDataPearl.DataPearlType.Misc2)
         {
             owner.InitateConversation(Conversation.ID.Moon_Pearl_Misc2, this);
-        }
-        else if (ModManager.MSC && type == MoreSlugcatsEnums.DataPearlType.BroadcastMisc)
-        {
-            owner.InitateConversation(MoreSlugcatsEnums.ConversationID.Moon_Pearl_BroadcastMisc, this);
         }
         else if (type == DataPearl.AbstractDataPearl.DataPearlType.PebblesPearl)
         {
