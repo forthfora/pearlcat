@@ -154,6 +154,11 @@ public static class PlayerGraphics_Helpers
                     continue;
                 }
 
+                if (sprite == shieldSprite || sprite == holoLightSprite)
+                {
+                    continue;
+                }
+
                 sprite.alpha = isVisible ? 1.0f : 0.0f;
             }
 
