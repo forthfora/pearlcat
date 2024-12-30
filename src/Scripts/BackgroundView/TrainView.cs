@@ -17,7 +17,8 @@ public sealed class TrainView : CustomBgScene
     public static readonly int MultiplyColor = Shader.PropertyToID("_MultiplyColor");
     public static readonly int WindDir = Shader.PropertyToID("_windDir");
 
-    public const float TRAIN_WIND_DIR = 7.0f;
+    // Sort of important it's unique for compat, so add some extra decimals (but I don't know any mod that actually changes this param)
+    public const float TRAIN_WIND_DIR = 7.00237f;
     public const float TRAIN_VIEW_YSHIFT = -20000.0f;
 
     public TrainView(Room room) : base(room)

@@ -23,23 +23,19 @@ public static class Room_Hooks
 
         var roomName = room.roomSettings.name;
 
-        // Mira will handle all these if it's enabled
-        if (!ModCompat_Helpers.IsModEnabled_MiraInstallation)
+        if (roomName == "T1_S01")
         {
-            if (roomName == "T1_S01")
-            {
-                room.AddObject(new T1_S01(room));
-            }
+            room.AddObject(new T1_S01(room));
+        }
 
-            if (roomName == "SS_T1_S01")
-            {
-                room.AddObject(new SS_T1_S01(room));
-            }
+        if (roomName == "SS_T1_S01")
+        {
+            room.AddObject(new SS_T1_S01(room));
+        }
 
-            if (roomName == "SS_T1_CROSS")
-            {
-                room.AddObject(new SS_T1_CROSS(room));
-            }
+        if (roomName == "SS_T1_CROSS")
+        {
+            room.AddObject(new SS_T1_CROSS(room));
         }
 
         if (!room.game.IsPearlcatStory())
@@ -171,13 +167,6 @@ public static class Room_Hooks
             }
         }
 
-
-        // Better if Mira handles nighttime / daytime, except in Pearlcat's campaign
-        if (ModCompat_Helpers.IsModEnabled_MiraInstallation && !self.game.IsPearlcatStory())
-        {
-            return;
-        }
-
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {
             // Train view screen shake
@@ -199,18 +188,9 @@ public static class Room_Hooks
     }
 
 
-    //
-    // Below is handled by Mira, if it's enabled
-    //
-
     private static void Room_Loaded(On.Room.orig_Loaded orig, Room self)
     {
         orig(self);
-
-        if (ModCompat_Helpers.IsModEnabled_MiraInstallation)
-        {
-            return;
-        }
 
         if (TrainViewRooms.Contains(self.roomSettings.name))
         {
@@ -222,11 +202,6 @@ public static class Room_Hooks
     private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        if (ModCompat_Helpers.IsModEnabled_MiraInstallation)
-        {
-            return;
-        }
 
         if (self.myShelter.room.roomSettings.name == "T1_S01")
         {
@@ -241,11 +216,6 @@ public static class Room_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (ModCompat_Helpers.IsModEnabled_MiraInstallation)
-        {
-            return;
-        }
-
         if (self.room.roomSettings.name == "T1_S01")
         {
             foreach (var sprite in sLeaser.sprites)
@@ -258,12 +228,9 @@ public static class Room_Hooks
     // Reset this here instead, better for compat
     private static void AboveCloudsView_ctor(On.AboveCloudsView.orig_ctor orig, AboveCloudsView self, Room room, RoomSettings.RoomEffect effect)
     {
-        if (!ModCompat_Helpers.IsModEnabled_MiraInstallation)
+        if (Shader.GetGlobalFloat(TrainView.WindDir) == TrainView.TRAIN_WIND_DIR)
         {
-            if (Shader.GetGlobalFloat(TrainView.WindDir) == TrainView.TRAIN_WIND_DIR)
-            {
-                Shader.SetGlobalFloat(TrainView.WindDir, ModManager.MSC ? -1.0f : 1.0f);
-            }
+            Shader.SetGlobalFloat(TrainView.WindDir, ModManager.MSC ? -1.0f : 1.0f);
         }
 
         orig(self, room, effect);
