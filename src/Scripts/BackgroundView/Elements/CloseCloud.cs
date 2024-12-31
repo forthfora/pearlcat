@@ -27,7 +27,7 @@ public class CloseCloud : Cloud
 
         };
         
-        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString())
+        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3))
         {
             shader = Utils.Shaders["Cloud"],
             anchorY = 1f,

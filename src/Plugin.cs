@@ -46,6 +46,7 @@ public class Plugin : BaseUnityPlugin
 
         if (input)
         {
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             LogPearlcatDebugInfo();
         }
     }

@@ -69,7 +69,7 @@ public static class ModCompat_Hooks
 
         List<string> songs = [];
 
-        var files = AssetManager.ListDirectory("Music" + Path.DirectorySeparatorChar.ToString() + "Songs");
+        var files = AssetManager.ListDirectory("Music" + Path.DirectorySeparatorChar + "Songs");
 
         foreach (var file in files)
         {
