@@ -197,10 +197,11 @@ public static class PlayerGraphics_Helpers
 
             tailAccentSprite.isVisible = false;
 
+            // Adult Pearlpup
             ribbon1Sprite.isVisible = false;
             ribbon2Sprite.isVisible = false;
 
-            scarfSprite.isVisible = false;
+            scarSprite.isVisible = false;
             return;
         }
 
@@ -481,10 +482,20 @@ public static class PlayerGraphics_Helpers
     }
 
 
+    public static TriangleMesh CopyMesh(TriangleMesh meshToCopy)
+    {
+        return new("Futile_White", meshToCopy.triangles.Clone() as TriangleMesh.Triangle[], true);
+    }
+
     public static void CopyMeshVertexPosAndUV(RoomCamera.SpriteLeaser sLeaser, int spriteToCopy, int targetSprite)
     {
         if (sLeaser.sprites[spriteToCopy] is TriangleMesh meshToCopy && sLeaser.sprites[targetSprite] is TriangleMesh targetMesh)
         {
+            if (targetMesh.vertices.Length != meshToCopy.vertices.Length)
+            {
+                targetMesh = CopyMesh(meshToCopy);
+            }
+
             if (targetMesh.verticeColors is null || targetMesh.verticeColors.Length != targetMesh.vertices.Length)
             {
                 targetMesh.verticeColors = new Color[targetMesh.vertices.Length];

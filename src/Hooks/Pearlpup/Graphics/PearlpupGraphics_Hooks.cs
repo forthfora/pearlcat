@@ -82,10 +82,7 @@ public static class PearlpupGraphics_Hooks
         GenerateEarMesh(sLeaser, module.EarR, module.EarRAccentSprite, "pearlcat_earaccent_r");
 
         // Copy the original tail's tris
-        if (sLeaser.sprites[TAIL_SPRITE] is TriangleMesh mesh)
-        {
-            sLeaser.sprites[module.TailAccentSprite] = new TriangleMesh("Futile_White", mesh.triangles.Clone() as TriangleMesh.Triangle[], true);
-        }
+        sLeaser.sprites[module.TailAccentSprite] = CopyMesh((TriangleMesh)sLeaser.sprites[TAIL_SPRITE]);
 
         self.AddToContainer(sLeaser, rCam, null);
     }

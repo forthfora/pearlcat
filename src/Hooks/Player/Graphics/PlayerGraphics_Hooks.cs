@@ -110,10 +110,7 @@ public static class PlayerGraphics_Hooks
         GenerateRibbonMesh(sLeaser, rCam, playerModule, playerModule.Ribbon2Sprite, playerModule.Ribbon2);
 
         // Copy the original tail's tris
-        if (sLeaser.sprites[TAIL_SPRITE] is TriangleMesh mesh)
-        {
-            sLeaser.sprites[playerModule.TailAccentSprite] = new TriangleMesh("Futile_White", mesh.triangles.Clone() as TriangleMesh.Triangle[], true);
-        }
+        sLeaser.sprites[playerModule.TailAccentSprite] = CopyMesh((TriangleMesh)sLeaser.sprites[TAIL_SPRITE]);
 
         self.AddToContainer(sLeaser, rCam, null);
     }
