@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using static Pearlcat.World_Helpers;
+using static Pearlcat.Room_Helpers;
 
 namespace Pearlcat;
 
@@ -23,65 +24,9 @@ public static class Room_Hooks
 
         var roomName = room.roomSettings.name;
 
-        if (roomName == "T1_S01")
-        {
-            room.AddObject(new T1_S01(room));
-        }
+        AddRoomSpecificScript_SS(room, roomName);
 
-        if (roomName == "SS_T1_S01")
-        {
-            room.AddObject(new SS_T1_S01(room));
-        }
-
-        if (roomName == "SS_T1_CROSS")
-        {
-            room.AddObject(new SS_T1_CROSS(room));
-        }
-
-        if (!room.game.IsPearlcatStory())
-        {
-            return;
-        }
-
-        var miscProg = Utils.MiscProgression;
-        var everVisited = room.game.GetStorySession.saveState.regionStates[room.world.region.regionNumber].roomsVisited.Contains(room.abstractRoom.name);
-
-        // Tutorial
-        if (!everVisited)
-        {
-            // Start
-            if (roomName == "T1_START")
-            {
-                room.AddObject(new T1_START(room));
-            }
-
-            // Rage (+ Possession)
-            if (roomName == "T1_CAR2")
-            {
-                room.AddObject(new T1_CAR2(room));
-            }
-
-            if (!miscProg.HasTrueEnding)
-            {
-                // Agility
-                if (roomName == "T1_CAR0")
-                {
-                    room.AddObject(new T1_CAR0(room));
-                }
-
-                // Shield
-                if (roomName == "T1_CAR1")
-                {
-                    room.AddObject(new T1_CAR1(room));
-                }
-
-                // Revive
-                if (roomName == "T1_CAR3")
-                {
-                    room.AddObject(new T1_CAR3(room));
-                }
-            }
-        }
+        AddRoomSpecificScript_T1(room, roomName);
     }
 
     private static void Room_Update(On.Room.orig_Update orig, Room self)
