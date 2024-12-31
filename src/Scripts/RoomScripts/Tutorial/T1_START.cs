@@ -242,7 +242,7 @@ public class T1_START : UpdatableAndDeletable
         public T1_START Owner { get; }
         public int PlayerNumber { get; }
 
-        public bool MainPlayer => Player != null && Player.playerState.playerNumber == 0;
+        public bool MainPlayer => Player is not null && Player.playerState.playerNumber == 0;
 
         public Player? Player => (Owner.room?.game.Players[PlayerNumber].realizedCreature) as Player;
 
@@ -254,7 +254,7 @@ public class T1_START : UpdatableAndDeletable
 
         public void Update()
         {
-            if (Player == null)
+            if (Player is null)
             {
                 return;
             }
@@ -264,7 +264,7 @@ public class T1_START : UpdatableAndDeletable
 
         public Player.InputPackage GetInput()
         {
-            if (Player == null)
+            if (Player is null)
             {
                 return new Player.InputPackage(false, Options.ControlSetup.Preset.None, 0, 0, false, false, false, false, false);
             }

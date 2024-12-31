@@ -45,7 +45,7 @@ public abstract class PearlAnimation
 
         foreach (var abstractObject in playerModule.Inventory)
         {
-            if (abstractObject.realizedObject == null)
+            if (abstractObject.realizedObject is null)
             {
                 continue;
             }
@@ -81,7 +81,7 @@ public abstract class PearlAnimation
         {
             var abstractObject = playerModule.Inventory[i];
 
-            if (abstractObject.realizedObject == null)
+            if (abstractObject.realizedObject is null)
             {
                 continue;
             }
@@ -143,7 +143,7 @@ public abstract class PearlAnimation
         {
             var abstractObject = playerModule.Inventory[i];
 
-            if (abstractObject.realizedObject == null)
+            if (abstractObject.realizedObject is null)
             {
                 continue;
             }
@@ -158,7 +158,7 @@ public abstract class PearlAnimation
                 continue;
             }
 
-            if (player.room == null || addon.Pos == Vector2.zero)
+            if (player.room is null || addon.Pos == Vector2.zero)
             {
                 addon.IsVisible = false;
                 continue;
@@ -238,7 +238,7 @@ public abstract class PearlAnimation
 
                     addon.OverridePos = Vector2.Lerp((Vector2)addon.OverridePos, addon.IsActiveObject ? player.GetActivePearlPos(timeStacker: 1.0f) : targetPos.Value, 0.7f);
 
-                    if (addon.OverrideLastPos != null && !Custom.DistLess((Vector2)addon.OverridePos, (Vector2)addon.OverrideLastPos, 100.0f))
+                    if (addon.OverrideLastPos is not null && !Custom.DistLess((Vector2)addon.OverridePos, (Vector2)addon.OverrideLastPos, 100.0f))
                     {
                         addon.OverrideLastPos = addon.OverridePos;
                     }

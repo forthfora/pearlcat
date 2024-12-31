@@ -98,7 +98,7 @@ public sealed class PearlAnimation_MultiOrbit : PearlAnimation
 
     public bool ReplaceActiveForOrbit(List<AbstractPhysicalObject> orbitPearls, AbstractPhysicalObject? activeObject, AbstractPhysicalObject? objToReplace)
     {
-        if (activeObject == null || objToReplace == null)
+        if (activeObject is null || objToReplace is null)
         {
             return false;
         }

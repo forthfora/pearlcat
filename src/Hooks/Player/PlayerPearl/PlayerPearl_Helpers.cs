@@ -69,7 +69,7 @@ public static class PlayerPearl_Helpers
 
         playerModule.GivenPearls = true;
 
-        if (miscWorld != null && !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber))
+        if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber))
         {
             miscWorld.PlayersGivenPearls.Add(self.playerState.playerNumber);
         }
@@ -79,7 +79,7 @@ public static class PlayerPearl_Helpers
     // Realization & Abstraction
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -99,12 +99,12 @@ public static class PlayerPearl_Helpers
         {
             var abstractObject = playerModule.Inventory[i];
             
-            if (abstractObject == null)
+            if (abstractObject is null)
             {
                 continue;
             }
 
-            if (abstractObject.realizedObject != null)
+            if (abstractObject.realizedObject is not null)
             {
                 abstractObject.MarkAsPlayerObject();
                 continue;
@@ -139,7 +139,7 @@ public static class PlayerPearl_Helpers
         {
             var abstractObject = playerModule.Inventory[i];
             
-            if (abstractObject.realizedObject == null)
+            if (abstractObject.realizedObject is null)
             {
                 continue;
             }
@@ -229,7 +229,7 @@ public static class PlayerPearl_Helpers
 
         self.AddToInventory(abstractObject, storeBeforeActive);
 
-        if (!storeBeforeActive || playerModule.ActiveObjectIndex == null)
+        if (!storeBeforeActive || playerModule.ActiveObjectIndex is null)
         {
             var targetIndex = playerModule.ActiveObjectIndex ?? 0;
             self.ActivateObjectInStorage(targetIndex);
@@ -273,7 +273,7 @@ public static class PlayerPearl_Helpers
         }
 
         var activeObject = playerModule.ActiveObject;
-        if (activeObject == null)
+        if (activeObject is null)
         {
             return;
         }
@@ -284,11 +284,11 @@ public static class PlayerPearl_Helpers
         playerModule.PickObjectAnimation(self);
         playerModule.ShowHUD(30);
 
-        if (playerModule.ActiveObject == null && playerModule.Inventory.Count > 0)
+        if (playerModule.ActiveObject is null && playerModule.Inventory.Count > 0)
         {
             var targetIndex = playerModule.ActiveObjectIndex ?? 0;
 
-            if (playerModule.ActiveObjectIndex != null)
+            if (playerModule.ActiveObjectIndex is not null)
             {
                 targetIndex = playerModule.ActiveObjectIndex.Value - 1;
 
@@ -320,7 +320,7 @@ public static class PlayerPearl_Helpers
         }
         else if (storeBeforeActive)
         {
-            if (playerModule.ActiveObjectIndex != null)
+            if (playerModule.ActiveObjectIndex is not null)
             {
                 targetIndex -= 1;
 
@@ -383,7 +383,7 @@ public static class PlayerPearl_Helpers
         }
 
 
-        if (playerModule.ActiveObjectIndex == null)
+        if (playerModule.ActiveObjectIndex is null)
         {
             return;
         }
@@ -412,7 +412,7 @@ public static class PlayerPearl_Helpers
         }
 
 
-        if (playerModule.ActiveObjectIndex == null)
+        if (playerModule.ActiveObjectIndex is null)
         {
             return;
         }
@@ -461,12 +461,12 @@ public static class PlayerPearl_Helpers
         
         var save = self.room.game.GetMiscWorld();
 
-        if (save != null)
+        if (save is not null)
         {
             save.ActiveObjectIndex[self.playerState.playerNumber] = objectIndex;
         }
 
-        if (self.graphicsModule is not PlayerGraphics pGraphics || newObject == null)
+        if (self.graphicsModule is not PlayerGraphics pGraphics || newObject is null)
         {
             return;
         }
@@ -488,7 +488,7 @@ public static class PlayerPearl_Helpers
 
         var save = self.room.game.GetMiscWorld();
 
-        if (save == null)
+        if (save is null)
         {
             return;
         }

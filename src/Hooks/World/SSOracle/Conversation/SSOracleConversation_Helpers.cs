@@ -70,7 +70,7 @@ public static class SSOracleConversation_Helpers
         var module = self.owner.GetModule();
         var save = self.owner.oracle.room.game.GetMiscWorld();
 
-        if (save == null)
+        if (save is null)
         {
             return;
         }
@@ -354,7 +354,7 @@ public static class SSOracleConversation_Helpers
 
         if (id == Enums.Oracle.Pearlcat_SSConvoSickPup)
         {
-            if (miscWorld != null)
+            if (miscWorld is not null)
             {
                 miscWorld.PebblesMetSickPup = true;
             }

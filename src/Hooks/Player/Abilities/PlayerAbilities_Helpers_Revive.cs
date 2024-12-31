@@ -10,7 +10,7 @@ public static class PlayerAbilities_Helpers_Revive
             return;
         }
 
-        if (playerModule.ActiveObject == null ||
+        if (playerModule.ActiveObject is null ||
             !playerModule.ActiveObject.TryGetPlayerPearlModule(out var poModule))
         {
             return;

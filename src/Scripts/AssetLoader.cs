@@ -65,7 +65,7 @@ public static class AssetLoader
 
             var texture = FileToTexture2D(filePath);
 
-            if (texture == null)
+            if (texture is null)
             {
                 continue;
             }

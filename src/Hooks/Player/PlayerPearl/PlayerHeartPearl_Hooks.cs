@@ -103,7 +103,7 @@ public static class PlayerHeartPearl_Hooks
             return;
         }
 
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -161,7 +161,7 @@ public static class PlayerHeartPearl_Hooks
         var possessProgressSprite = sLeaser.sprites[module.PossessProgressSprite];
         var possessCircleSprite = sLeaser.sprites[module.PossessCircleSprite];
 
-        if (playerModule != null && playerModule.PossessionTarget?.TryGetTarget(out var target) == true)
+        if (playerModule is not null && playerModule.PossessionTarget?.TryGetTarget(out var target) == true)
         {
             var possessionColor = target.abstractPhysicalObject.GetObjectColor();
 
@@ -293,9 +293,9 @@ public static class PlayerHeartPearl_Hooks
         // Umbilical
         // Disconnected from player, i.e. pearlpup is dead
         // Also hide when cosmetics are disabled
-        if (module.OwnerRef == null || !module.OwnerRef.TryGetTarget(out player) || !self.abstractPhysicalObject.IsPlayerPearl() || ModOptions.DisableCosmetics.Value)
+        if (module.OwnerRef is null || !module.OwnerRef.TryGetTarget(out player) || !self.abstractPhysicalObject.IsPlayerPearl() || ModOptions.DisableCosmetics.Value)
         {
-            if (module.Umbilical != null)
+            if (module.Umbilical is not null)
             {
                 module.Umbilical.IsVisible = false;
             }
@@ -311,7 +311,7 @@ public static class PlayerHeartPearl_Hooks
             var umbilicalStartPos = playerModule.ScarPos;
             var umbilicalEndPos = self.firstChunk.pos;
 
-            if (module.Umbilical != null)
+            if (module.Umbilical is not null)
             {
                 module.Umbilical.IsVisible = true;
                 module.Umbilical.Update(umbilicalStartPos, umbilicalEndPos, self.room);

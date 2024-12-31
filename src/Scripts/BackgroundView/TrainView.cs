@@ -150,7 +150,7 @@ public sealed class TrainView : CustomBgScene
         foreach (var newElement in DynamicBgElements)
         {
             var newSLeaser = sLeasers.FirstOrDefault(x => x.drawableObject == newElement);
-            if (newSLeaser == null)
+            if (newSLeaser is null)
             {
                 continue;
             }
@@ -175,7 +175,7 @@ public sealed class TrainView : CustomBgScene
                 }
             }
 
-            if (targetLeaser != null)
+            if (targetLeaser is not null)
             {
                 foreach (var sprite in targetLeaser.sprites)
                 {
@@ -414,7 +414,7 @@ public sealed class TrainView : CustomBgScene
             _ => null,
         };
 
-        if (light == null)
+        if (light is null)
         {
             return;
         }

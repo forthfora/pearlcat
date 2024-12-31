@@ -77,7 +77,7 @@ public class T1_CAR2 : UpdatableAndDeletable
             }
             else if (CurrentPhase == Phase.PreTutorial)
             {
-                if (TutorialPearl != null && TutorialPearl.IsPlayerPearl())
+                if (TutorialPearl is not null && TutorialPearl.IsPlayerPearl())
                 {
                     CurrentPhase = Phase.Tutorial;
                 }

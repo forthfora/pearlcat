@@ -19,7 +19,7 @@ public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(play
 
         var activeObject = playerModule.ActiveObject;
 
-        if (activeObject != null)
+        if (activeObject is not null)
         {
             fallingObjects.Remove(activeObject);
             activeObject.TryToAnimateToTargetPos(player, player.GetActivePearlPos(new Vector2(0.0f, 30.0f)));
@@ -28,7 +28,7 @@ public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(play
 
         foreach (var abstractObject in fallingObjects)
         {
-            if (abstractObject.realizedObject == null)
+            if (abstractObject.realizedObject is null)
             {
                 continue;
             }

@@ -43,7 +43,7 @@ public static class PearlpupGraphics_Helpers
 
 
         // Container
-        if (newContainer != null)
+        if (newContainer is not null)
         {
             newContainer.AddChild(scarfSprite);
 
@@ -223,7 +223,7 @@ public static class PearlpupGraphics_Helpers
             return;
         }
 
-        if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
+        if (tailMesh.verticeColors is null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
         {
             tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
         }
@@ -268,7 +268,7 @@ public static class PearlpupGraphics_Helpers
         var scarf = module.Scarf;
         var scarfSprite = sLeaser.sprites[module.ScarfSprite] as TriangleMesh;
 
-        if (scarfSprite == null)
+        if (scarfSprite is null)
         {
             return;
         }
@@ -392,7 +392,7 @@ public static class PearlpupGraphics_Helpers
         var earL = module.EarL;
         var earR = module.EarR;
 
-        if (earL == null || earR == null)
+        if (earL is null || earR is null)
         {
             return;
         }

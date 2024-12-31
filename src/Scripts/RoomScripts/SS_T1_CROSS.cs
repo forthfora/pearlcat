@@ -18,14 +18,14 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
     {
         base.Update(eu);
 
-        if (slatedForDeletetion || room == null)
+        if (slatedForDeletetion || room is null)
         {
             return;
         }
 
         var gate = room.regionGate;
 
-        if (gate == null)
+        if (gate is null)
         {
             return;
         }
@@ -60,19 +60,19 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        if (slatedForDeletetion || room == null)
+        if (slatedForDeletetion || room is null)
         {
             return;
         }
 
-        if (RegionGateGraphics == null)
+        if (RegionGateGraphics is null)
         {
             return;
         }
 
         var gateLeaser = rCam.spriteLeasers.FirstOrDefault(x => x.drawableObject == room.regionGate);
 
-        if (gateLeaser == null)
+        if (gateLeaser is null)
         {
             return;
         }
@@ -103,7 +103,7 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
         middleDoor.posZ = new(2200.0f, 265.0f);
 
 
-        if (RegionGateGlyphs == null)
+        if (RegionGateGlyphs is null)
         {
             return;
         }

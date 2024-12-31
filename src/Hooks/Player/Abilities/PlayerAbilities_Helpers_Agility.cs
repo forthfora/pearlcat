@@ -13,7 +13,7 @@ public static class PlayerAbilities_Helpers_Agility
             playerModule.AgilityOveruseTimer--;
         }
 
-        if (ModOptions.DisableAgility.Value || self.inVoidSea || playerModule.PossessedCreature != null)
+        if (ModOptions.DisableAgility.Value || self.inVoidSea || playerModule.PossessedCreature is not null)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Agility);
             return;
@@ -40,7 +40,7 @@ public static class PlayerAbilities_Helpers_Agility
                             self.bodyMode != Player.BodyModeIndex.WallClimb &&
                             self.animation != Player.AnimationIndex.AntlerClimb &&
                             self.animation != Player.AnimationIndex.VineGrab &&
-                            self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.onBack == null;
+                            self.animation != Player.AnimationIndex.ZeroGPoleGrab && self.onBack is null;
 
         if (abilityInput && !wasAbilityInput && canUseAbility)
         {
@@ -121,7 +121,7 @@ public static class PlayerAbilities_Helpers_Agility
 
             var targetPos = self.firstChunk.pos + self.firstChunk.vel * -10.0f;
 
-            if (agilityObject != null)
+            if (agilityObject is not null)
             {
                 if (isCWPearl && agilityObject.TryGetPlayerPearlModule(out var playerPearlModule) && playerPearlModule.CooldownTimer == -1)
                 {

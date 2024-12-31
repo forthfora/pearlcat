@@ -49,14 +49,14 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (owner.realizedObject == null)
+        if (owner.realizedObject is null)
         {
             return;
         }
 
         var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-        if (playerModule == null)
+        if (playerModule is null)
         {
             return;
         }
@@ -113,7 +113,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             shortcut.RemoveFromContainer();
         }
 
-        if (room == null || !OwnerRef.TryGetTarget(out var owner) || owner.Room != room.abstractRoom)
+        if (room is null || !OwnerRef.TryGetTarget(out var owner) || owner.Room != room.abstractRoom)
         {
             Destroy();
             return;
@@ -247,7 +247,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (musicPlayer.song != null)
+        if (musicPlayer.song is not null)
         {
             if (musicPlayer.song.name == songName)
             {
@@ -288,7 +288,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             }
         }
 
-        if (musicPlayer.song == null && room?.game?.manager is not null)
+        if (musicPlayer.song is null && room?.game?.manager is not null)
         {
             musicPlayer.song = new Song(room.game.manager.musicPlayer, songName, MusicPlayer.MusicContext.StoryMode)
             {
@@ -438,7 +438,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         var inGate = player.room?.IsGateRoom() ?? false;
         var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
-        var possessingCreature = playerModule.PossessedCreature != null;
+        var possessingCreature = playerModule.PossessedCreature is not null;
 
         var canTP = !tooClose && !inGate && !possessingCreature;
 
@@ -635,9 +635,9 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         // i don't fricking trust this
         try
         {
-            if (ShieldHoldLoop?.owner?.room != null && (ShieldHoldLoop?.emitter == null || ShieldHoldLoop?.emitter?.room != null))
+            if (ShieldHoldLoop?.owner?.room is not null && (ShieldHoldLoop?.emitter is null || ShieldHoldLoop?.emitter?.room is not null))
             {
-                if (ShieldHoldLoop != null)
+                if (ShieldHoldLoop is not null)
                 {
                     ShieldHoldLoop.Update();
                     ShieldHoldLoop.Volume = Mathf.Lerp(ShieldHoldLoop.Volume, ShieldTimer > 0 ? 1.0f : 0.0f, 0.1f);
@@ -717,13 +717,13 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         module.LaserLerp = 0.0f;
 
-        if (RageTarget == null || !RageTarget.TryGetTarget(out _))
+        if (RageTarget is null || !RageTarget.TryGetTarget(out _))
         {
             module.LaserTimer = shootTime;
         }
 
 
-        if (RageTarget == null || !RageTarget.TryGetTarget(out var target))
+        if (RageTarget is null || !RageTarget.TryGetTarget(out var target))
         {
             Creature? bestTarget = null;
             var shortestDist = float.MaxValue;
@@ -787,7 +787,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 }
             }
 
-            if (bestTarget != null)
+            if (bestTarget is not null)
             {
                 RageTarget = new(bestTarget);
             }
@@ -825,7 +825,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         }
 
 
-        if (RageTarget == null || !RageTarget.TryGetTarget(out target))
+        if (RageTarget is null || !RageTarget.TryGetTarget(out target))
         {
             return;
         }
@@ -899,9 +899,9 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
             var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-            if (owner.TryGetPearlGraphicsModule(out var addon) && playerModule != null && playerModule.PlayerRef.TryGetTarget(out var player))
+            if (owner.TryGetPearlGraphicsModule(out var addon) && playerModule is not null && playerModule.PlayerRef.TryGetTarget(out var player))
             {
-                if (room != null && owner.realizedObject != null)
+                if (room is not null && owner.realizedObject is not null)
                 {
                     room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 0.5f);
 
@@ -912,7 +912,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 // Agility Teleport
                 if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && AgilityRoom == player.abstractCreature.Room)
                 {
-                    if (room != null && owner.realizedObject != null)
+                    if (room is not null && owner.realizedObject is not null)
                     {
                         player.ConnectEffect(agilityPos, addon.SymbolColor);
                         room.AddObject(new ShockWave(agilityPos, 100.0f, 0.3f, 20));
@@ -944,7 +944,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 // Spear Bomb
                 if (SpearBombArmed && SpearBombRoom == player.abstractCreature.Room)
                 {
-                    if (room != null && owner.realizedObject != null)
+                    if (room is not null && owner.realizedObject is not null)
                     {
                         var pos = owner.realizedObject.firstChunk.pos;
                         var color = addon.SymbolColor;
@@ -1020,7 +1020,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             }
         }
 
-        if (WasPlayingMusic && room != null)
+        if (WasPlayingMusic && room is not null)
         {
             var musicPlayer = room.game.manager.musicPlayer;
 
@@ -1133,7 +1133,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         }
 
         guideSprite.SetPosition(targetPos);
-        guideSprite.color = effect.MajorEffect == MajorEffectType.Agility && AgilityPos == null ? Color.red : addon.SymbolColor;
+        guideSprite.color = effect.MajorEffect == MajorEffectType.Agility && AgilityPos is null ? Color.red : addon.SymbolColor;
         guideSprite.isVisible =
             effect.MajorEffect == MajorEffectType.Shield
             || effect.MajorEffect == MajorEffectType.Agility
@@ -1161,7 +1161,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         shieldSprite.scale = Mathf.Lerp(shieldSprite.scale, ShieldTimer > 5 ? 8.0f : 0.0f, 0.1f);
 
 
-        laserSprite.isVisible = RageTarget != null && RageCounter > 0;
+        laserSprite.isVisible = RageTarget is not null && RageCounter > 0;
         var laserLerp = addon.LaserLerp;
 
         laserSprite.alpha = Custom.LerpMap(laserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
@@ -1202,7 +1202,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 continue;
             }
 
-            if (sprite.container == null)
+            if (sprite.container is null)
             {
                 rCam.ReturnFContainer("HUD").AddChild(sprite);
             }

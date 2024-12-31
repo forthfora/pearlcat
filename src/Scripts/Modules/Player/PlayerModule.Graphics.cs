@@ -230,7 +230,7 @@ public partial class PlayerModule
             return;
         }
 
-        if (player.graphicsModule == null)
+        if (player.graphicsModule is null)
         {
             return;
         }
@@ -262,7 +262,7 @@ public partial class PlayerModule
         }
 
 
-        if (EarL != null)
+        if (EarL is not null)
         {
             for (var i = 0; i < newEarL.Length && i < EarL.Length; i++)
             {
@@ -274,7 +274,7 @@ public partial class PlayerModule
             }
         }
 
-        if (EarR != null)
+        if (EarR is not null)
         {
             for (var i = 0; i < newEarR.Length && i < EarR.Length; i++)
             {
@@ -313,7 +313,7 @@ public partial class PlayerModule
             return;
         }
 
-        if (player.graphicsModule == null)
+        if (player.graphicsModule is null)
         {
             return;
         }

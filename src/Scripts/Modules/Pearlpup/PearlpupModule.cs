@@ -114,7 +114,7 @@ public class PearlpupModule(Player self)
             return;
         }
 
-        if (pup.graphicsModule == null)
+        if (pup.graphicsModule is null)
         {
             return;
         }
@@ -173,7 +173,7 @@ public class PearlpupModule(Player self)
             return;
         }
 
-        if (player.graphicsModule == null)
+        if (player.graphicsModule is null)
         {
             return;
         }
@@ -184,7 +184,7 @@ public class PearlpupModule(Player self)
         newEarL[0] = new(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
         newEarL[1] = new(self, 3.0f, 6.0f, newEarL[0], 0.85f, 1.0f, 0.05f, true);
 
-        if (EarL != null)
+        if (EarL is not null)
         {
             for (var i = 0; i < newEarL.Length && i < EarL.Length; i++)
             {
@@ -200,7 +200,7 @@ public class PearlpupModule(Player self)
         newEarR[0] = new(self, 2.5f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
         newEarR[1] = new(self, 3.0f, 6.0f, newEarR[0], 0.85f, 1.0f, 0.05f, true);
 
-        if (EarR != null)
+        if (EarR is not null)
         {
             for (var i = 0; i < newEarR.Length && i < EarR.Length; i++)
             {

@@ -119,7 +119,7 @@ public static class Room_Hooks
                     continue;
                 }
 
-                if (playerModule.EarL == null || playerModule.EarR == null)
+                if (playerModule.EarL is null || playerModule.EarR is null)
                 {
                     continue;
                 }

@@ -34,7 +34,7 @@ public static class ModuleManager
         List<PlayerModule> allPlayerData = [];
         var players = game.Players;
 
-        if (players == null)
+        if (players is null)
         {
             return allPlayerData;
         }
@@ -90,12 +90,12 @@ public static class ModuleManager
 
         var save = abstractCreature.world.game.GetMiscWorld();
 
-        if (save == null)
+        if (save is null)
         {
             return;
         }
 
-        if (save.PearlpupID != null)
+        if (save.PearlpupID is not null)
         {
             return;
         }

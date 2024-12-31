@@ -23,7 +23,7 @@ public static class PlayerAbilities_Helpers
             combinedEffect.BodyWeightFac += effect.BodyWeightFac * mult;
         }
 
-        if (playerModule.ActiveObject != null)
+        if (playerModule.ActiveObject is not null)
         {
             var effect = playerModule.ActiveObject.GetPearlEffect();
             combinedEffect.MajorEffect = effect.MajorEffect;
@@ -86,14 +86,14 @@ public static class PlayerAbilities_Helpers
         PlayerAbilities_Helpers_Camouflage.Update(self, playerModule, effect);
 
 
-        if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller != null)
+        if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller is not null)
         {
             return;
         }
 
         var activeObj = playerModule.ActiveObject;
 
-        if (activeObj == null || !activeObj.TryGetPlayerPearlModule(out var poModule))
+        if (activeObj is null || !activeObj.TryGetPlayerPearlModule(out var poModule))
         {
             return;
         }

@@ -25,7 +25,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         var miscWorld = oracle.room.game.GetMiscWorld();
         var miscProg = Utils.MiscProgression;
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }
@@ -226,7 +226,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         Player? pup = null;
 
-        if (miscWorld.PearlpupID == null && ModManager.MSC)
+        if (miscWorld.PearlpupID is null && ModManager.MSC)
         {
             var abstractSlugpup = new AbstractCreature(world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC),
                 null, new(oracle.abstractPhysicalObject.Room.index, -1, -1, 0), world.game.GetNewID());
@@ -269,7 +269,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             }
         }
 
-        if (pup != null)
+        if (pup is not null)
         {
             pup.graphicsModule.Reset();
             pup.playerState.foodInStomach = 3;
@@ -294,7 +294,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public override void Update()
     {
-        if (player == null)
+        if (player is null)
         {
             return;
         }
@@ -303,7 +303,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         var miscWorld = oracle.room.game.GetMiscWorld();
         var miscProg = Utils.MiscProgression;
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }
@@ -314,7 +314,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         ReadPearlUpdate(module);
 
-        if (module.PearlToReturn != null)
+        if (module.PearlToReturn is not null)
         {
             if (module.PearlToReturn.grabbedBy.Count > 0 || module.PlayerToReturnTo?.TryGetTarget(out var thisPlayer) != true)
             {
@@ -343,7 +343,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             }
         }
 
-        if (owner.conversation?.id != null && owner.conversation.id == Enums.Oracle.Pearlcat_SSConvoTakeRMPearl)
+        if (owner.conversation?.id is not null && owner.conversation.id == Enums.Oracle.Pearlcat_SSConvoTakeRMPearl)
         {
             if (module.TakeRMTimer > 0)
             {
@@ -369,12 +369,12 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             }
         }
 
-        if (owner.conversation != null && !owner.conversation.slatedForDeletion)
+        if (owner.conversation is not null && !owner.conversation.slatedForDeletion)
         {
             return;
         }
 
-        if (module.PearlBeingRead != null)
+        if (module.PearlBeingRead is not null)
         {
             module.PearlBeingRead.gravity = 0.0f;
         }
@@ -517,7 +517,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         var graphics = oracle.graphicsModule as OracleGraphics;
         var handPos = graphics?.hands?.FirstOrDefault()?.pos ?? oracle.firstChunk.pos;
 
-        if (module.PearlBeingRead != null)
+        if (module.PearlBeingRead is not null)
         {
             module.PearlBeingRead.AllGraspsLetGoOfThisObject(true);
             module.PearlBeingRead.gravity = 0.0f;
@@ -531,7 +531,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
             return;
         }
 
-        if (module.PearlToRead != null)
+        if (module.PearlToRead is not null)
         {
             owner.LockShortcuts();
             owner.getToWorking = 0.0f;
@@ -630,7 +630,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
     {
         var save = pearl.room.game.GetMiscWorld();
 
-        if (save == null)
+        if (save is null)
         {
             return;
         }
@@ -683,7 +683,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
     {
         var miscWorld = thisOracle.room.game.GetMiscWorld();
 
-        if (miscWorld != null)
+        if (miscWorld is not null)
         {
             if (miscWorld.PebblesTookHalcyonPearl)
             {
@@ -714,7 +714,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
     {
         var miscWorld = thisOracle.room.game.GetMiscWorld();
 
-        if (miscWorld != null)
+        if (miscWorld is not null)
         {
             miscWorld.PebblesTookHalcyonPearl = true;
         }
@@ -748,7 +748,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                             continue;
                         }
 
-                        if (item.realizedObject != null)
+                        if (item.realizedObject is not null)
                         {
                             item.realizedObject.AbstractedEffect();
                             thisOracle.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, thisPlayer.firstChunk.pos);

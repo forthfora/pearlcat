@@ -62,7 +62,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
     public PearlGraphics(AbstractPhysicalObject? abstractObject)
     {
-        if (abstractObject?.realizedObject?.room == null)
+        if (abstractObject?.realizedObject?.room is null)
         {
             Destroy();
             return;
@@ -83,7 +83,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         if (ObjectRef is null
             || !ObjectRef.TryGetTarget(out var abstractObject)
             || abstractObject.slatedForDeletion
-            || abstractObject.realizedObject == null
+            || abstractObject.realizedObject is null
             || abstractObject.realizedObject.slatedForDeletetion
             || room != abstractObject.realizedObject.room)
         {
@@ -265,12 +265,12 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
             spriteName = "pearlcat_glyphcooldown";
         }
 
-        if (spriteName != null)
+        if (spriteName is not null)
         {
             sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
         }
 
-        sprite.isVisible = spriteName != null;
+        sprite.isVisible = spriteName is not null;
 
         sprite.SetPosition(setPos + offset);
         sprite.scale = SymbolScale;
@@ -284,12 +284,12 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
         spriteName = !IsActiveObject ? null : SpriteFromNumber(ShieldCounter);
 
-        if (spriteName != null)
+        if (spriteName is not null)
         {
             sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
         }
 
-        sprite.isVisible = spriteName != null;
+        sprite.isVisible = spriteName is not null;
 
         sprite.SetPosition(setPos + offset);
         sprite.scale = SymbolScale;
@@ -305,12 +305,12 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
         spriteName = !IsActiveObject ? null : SpriteFromNumber(ReviveCounter);
 
-        if (spriteName != null)
+        if (spriteName is not null)
         {
             sprite.element = Futile.atlasManager.GetElementWithName(spriteName);
         }
 
-        sprite.isVisible = spriteName != null;
+        sprite.isVisible = spriteName is not null;
 
         sprite.SetPosition(setPos + offset);
         sprite.scale = SymbolScale;

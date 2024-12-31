@@ -49,7 +49,7 @@ public static class Player_Hooks
 
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
-        if (self.TryGetPearlcatModule(out var playerModule) && self.spearOnBack != null)
+        if (self.TryGetPearlcatModule(out var playerModule) && self.spearOnBack is not null)
         {
             playerModule.WasSpearOnBack = self.spearOnBack.HasASpear;
         }
@@ -57,7 +57,7 @@ public static class Player_Hooks
         orig(self, eu);
 
         // zero G movement assist - applies to all slugcats
-        if (self.room != null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
+        if (self.room is not null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
         {
             if (self.firstChunk.vel.magnitude < 7.5f)
             {
@@ -70,7 +70,7 @@ public static class Player_Hooks
             }
         }
 
-        if (playerModule == null)
+        if (playerModule is null)
         {
             return;
         }
@@ -205,7 +205,7 @@ public static class Player_Hooks
     {
         var result = orig(self, obj);
 
-        if (obj != null && obj.abstractPhysicalObject.IsPlayerPearl())
+        if (obj is not null && obj.abstractPhysicalObject.IsPlayerPearl())
         {
             return Player.ObjectGrabability.CantGrab;
         }
@@ -276,7 +276,7 @@ public static class Player_Hooks
                     continue;
                 }
 
-                if (owner.realizedObject == null)
+                if (owner.realizedObject is null)
                 {
                     continue;
                 }

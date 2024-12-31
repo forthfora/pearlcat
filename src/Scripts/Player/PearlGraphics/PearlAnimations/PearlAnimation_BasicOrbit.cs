@@ -21,7 +21,7 @@ public class PearlAnimation_BasicOrbit(Player player) : PearlAnimation(player)
 
         var activeObject = playerModule.ActiveObject;
         
-        if (activeObject != null)
+        if (activeObject is not null)
         {
             orbitObjects.Remove(activeObject);
             activeObject.TryToAnimateToTargetPos(player, player.GetActivePearlPos());

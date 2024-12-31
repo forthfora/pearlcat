@@ -82,7 +82,7 @@ public static class PlayerPearl_Helpers_Data
 
     public static Color GetObjectColor(this AbstractPhysicalObject abstractObject)
     {
-        if (abstractObject == null)
+        if (abstractObject is null)
         {
             return Color.white;
         }
@@ -106,7 +106,7 @@ public static class PlayerPearl_Helpers_Data
 
         var symbolData = ItemSymbol.SymbolDataFromItem(abstractObject);
             
-        if (symbolData != null)
+        if (symbolData is not null)
         {
             return ItemSymbol.ColorForItem(abstractObject.type, symbolData.Value.intData);
         }
@@ -116,7 +116,7 @@ public static class PlayerPearl_Helpers_Data
 
     public static Color GetDataPearlColor(this DataPearl.AbstractDataPearl.DataPearlType type, int pebblesPearlColor = 0)
     {
-        if (type == null)
+        if (type is null)
         {
             return Color.white;
         }
@@ -165,7 +165,7 @@ public static class PlayerPearl_Helpers_Data
     {
         var activeObjectOffset = new Vector2(0.0f, 50.0f);
 
-        if (overrideOffset != null)
+        if (overrideOffset is not null)
         {
             activeObjectOffset = overrideOffset.Value;
         }
@@ -206,7 +206,7 @@ public static class PlayerPearl_Helpers_Data
             return;
         }
 
-        if (abstractObject.realizedObject == null)
+        if (abstractObject.realizedObject is null)
         {
             return;
         }

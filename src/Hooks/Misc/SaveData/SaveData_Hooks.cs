@@ -48,7 +48,7 @@ public static class SaveData_Hooks
     {
         var miscWorld = game.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }

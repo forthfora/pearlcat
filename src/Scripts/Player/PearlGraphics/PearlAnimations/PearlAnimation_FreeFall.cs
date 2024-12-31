@@ -19,7 +19,7 @@ public class PearlAnimation_FreeFall(Player player) : PearlAnimation(player)
                 continue;
             }
 
-            if (abstractObject.realizedObject == null)
+            if (abstractObject.realizedObject is null)
             {
                 continue;
             }

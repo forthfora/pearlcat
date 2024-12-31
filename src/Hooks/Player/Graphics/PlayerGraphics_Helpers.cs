@@ -71,7 +71,7 @@ public static class PlayerGraphics_Helpers
 
 
         // Container
-        if (newContainer != null)
+        if (newContainer is not null)
         {
             var hudContainer = rCam.ReturnFContainer("HUD");
 
@@ -393,14 +393,14 @@ public static class PlayerGraphics_Helpers
 
         var atlas = AssetLoader.GetAtlas(atlasName);
 
-        if (atlas == null)
+        if (atlas is null)
         {
             return;
         }
 
         var name = sLeaser.sprites[spriteIndexToCopy]?.element?.name;
 
-        if (name == null)
+        if (name is null)
         {
             return;
         }
@@ -432,14 +432,14 @@ public static class PlayerGraphics_Helpers
     {
         var atlas = AssetLoader.GetAtlas(atlasName);
 
-        if (atlas == null)
+        if (atlas is null)
         {
             return;
         }
 
         var name = sLeaser.sprites[spriteIndex]?.element?.name;
 
-        if (name == null)
+        if (name is null)
         {
             return;
         }
@@ -459,12 +459,12 @@ public static class PlayerGraphics_Helpers
 
     public static void UpdateLightSource(PlayerGraphics self, PlayerModule playerModule)
     {
-        if (self.lightSource == null)
+        if (self.lightSource is null)
         {
             return;
         }
 
-        if (self.player.room == null)
+        if (self.player.room is null)
         {
             return;
         }
@@ -475,7 +475,7 @@ public static class PlayerGraphics_Helpers
             return;
         }
 
-        var maxAlpha = playerModule.ActiveObject?.realizedObject == null ? 0.6f : 1.0f;
+        var maxAlpha = playerModule.ActiveObject?.realizedObject is null ? 0.6f : 1.0f;
 
         self.lightSource.color = Color.Lerp(playerModule.ActiveColor, Color.white, 0.75f);
         self.lightSource.alpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, maxAlpha);
@@ -526,7 +526,7 @@ public static class PlayerGraphics_Helpers
             return;
         }
 
-        if (tailMesh.verticeColors == null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
+        if (tailMesh.verticeColors is null || tailMesh.verticeColors.Length != tailMesh.vertices.Length)
         {
             tailMesh.verticeColors = new Color[tailMesh.vertices.Length];
         }
@@ -603,7 +603,7 @@ public static class PlayerGraphics_Helpers
             return;
         }
 
-        if (self.player.onBack != null)
+        if (self.player.onBack is not null)
         {
             return;
         }
@@ -685,7 +685,7 @@ public static class PlayerGraphics_Helpers
     // Ears
     public static void GenerateEarMesh(RoomCamera.SpriteLeaser sLeaser, TailSegment[]? ear, int earSprite, string imageName)
     {
-        if (ear == null)
+        if (ear is null)
         {
             return;
         }
@@ -721,7 +721,7 @@ public static class PlayerGraphics_Helpers
 
     public static void DrawEar(RoomCamera.SpriteLeaser sLeaser, float timestacker, Vector2 camPos, TailSegment[]? ear, int earSprite, Vector2 attachPos, int earFlipDirection)
     {
-        if (ear == null || ear.Length == 0)
+        if (ear is null || ear.Length == 0)
         {
             return;
         }
@@ -768,7 +768,7 @@ public static class PlayerGraphics_Helpers
 
 
         // Color & UV Map
-        if (earMesh.verticeColors == null || earMesh.verticeColors.Length != earMesh.vertices.Length)
+        if (earMesh.verticeColors is null || earMesh.verticeColors.Length != earMesh.vertices.Length)
         {
             earMesh.verticeColors = new Color[earMesh.vertices.Length];
         }
@@ -807,7 +807,7 @@ public static class PlayerGraphics_Helpers
 
     public static void UpdateEarSegments(PlayerGraphics self, TailSegment[]? ear, Vector2 earAttachPos)
     {
-        if (ear == null)
+        if (ear is null)
         {
             return;
         }
@@ -892,7 +892,7 @@ public static class PlayerGraphics_Helpers
         var earL = playerModule.EarL;
         var earR = playerModule.EarR;
 
-        if (earL == null || earR == null)
+        if (earL is null || earR is null)
         {
             return;
         }
@@ -954,7 +954,7 @@ public static class PlayerGraphics_Helpers
 
         var ribbonSprite = sLeaser.sprites[spriteIndex] as TriangleMesh;
 
-        if (ribbonSprite == null)
+        if (ribbonSprite is null)
         {
             return;
         }

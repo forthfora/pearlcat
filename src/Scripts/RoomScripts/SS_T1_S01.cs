@@ -28,7 +28,7 @@ public class SS_T1_S01 : UpdatableAndDeletable
         {
             foreach (var player in room.PlayersInRoom)
             {
-                if (player == null)
+                if (player is null)
                 {
                     continue;
                 }

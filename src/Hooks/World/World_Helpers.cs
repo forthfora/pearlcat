@@ -25,7 +25,7 @@ public static class World_Helpers
     {
         var roomName = gate.room?.roomSettings?.name;
 
-        if (gate.room == null || roomName == null)
+        if (gate.room is null || roomName is null)
         {
             return false;
         }
@@ -92,7 +92,7 @@ public static class World_Helpers
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (var i = 0; i < room.shortcuts.Length; i++)
-            if (shortcutGraphics.entranceSprites.Length > i && shortcutGraphics.entranceSprites[i, 0] != null)
+            if (shortcutGraphics.entranceSprites.Length > i && shortcutGraphics.entranceSprites[i, 0] is not null)
             {
                 shortcutGraphics.entranceSprites[i, 0].isVisible = false;
             }
@@ -109,7 +109,7 @@ public static class World_Helpers
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (var i = 0; i < room.shortcuts.Length; i++)
-            if (shortcutGraphics.entranceSprites[i, 0] != null)
+            if (shortcutGraphics.entranceSprites[i, 0] is not null)
             {
                 shortcutGraphics.entranceSprites[i, 0].isVisible = true;
             }
@@ -207,7 +207,7 @@ public static class World_Helpers
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }
@@ -227,7 +227,7 @@ public static class World_Helpers
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return false;
         }
@@ -250,7 +250,7 @@ public static class World_Helpers
 
     public static int GetFirstPearlcatIndex(this RainWorldGame? game)
     {
-        if (game == null)
+        if (game is null)
         {
             return -1;
         }

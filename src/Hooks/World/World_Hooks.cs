@@ -82,7 +82,7 @@ public static class World_Hooks
 
         var miscWorld = self.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }
@@ -170,7 +170,7 @@ public static class World_Hooks
 
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (wasPlayer != null && wasEatCounter != null)
+        if (wasPlayer is not null && wasEatCounter is not null)
         {
             wasPlayer.eatCounter = (int)wasEatCounter;
         }
@@ -295,7 +295,7 @@ public static class World_Hooks
 
                 if ((player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1 || freeHand == -1) && playerModule.Inventory.Count < ModOptions.MaxPearlCount.Value)
                 {
-                    if (self.room != null)
+                    if (self.room is not null)
                     {
                         self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
@@ -309,7 +309,7 @@ public static class World_Hooks
                 }
                 else if (freeHand != -1 && player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) == -1)
                 {
-                    if (self.room != null && player.graphicsModule != null)
+                    if (self.room is not null && player.graphicsModule is not null)
                     {
                         self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
@@ -409,7 +409,7 @@ public static class World_Hooks
 
         if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
         {
-            if (abstractObject.realizedObject != null && abstractObject.IsPlayerPearl())
+            if (abstractObject.realizedObject is not null && abstractObject.IsPlayerPearl())
             {
                 return null;
             }

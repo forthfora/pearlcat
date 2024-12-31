@@ -13,7 +13,7 @@ public partial class PlayerModule
     // Possession
     public WeakReference<Creature>? PossessionTarget { get; set; }
     public WeakReference<AbstractCreature>? PossessedCreature { get; set; }
-    public bool IsPossessingCreature => PossessedCreature != null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup;
+    public bool IsPossessingCreature => PossessedCreature is not null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup;
 
     // Shield
     public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value && PlayerRef.TryGetTarget(out var player) && !player.dead;

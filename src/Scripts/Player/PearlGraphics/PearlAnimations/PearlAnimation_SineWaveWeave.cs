@@ -20,7 +20,7 @@ public sealed class PearlAnimation_SineWaveWeave(Player player) : PearlAnimation
 
         var activeObject = playerModule.ActiveObject;
 
-        if (activeObject != null)
+        if (activeObject is not null)
         {
             floatingObjects.Remove(activeObject);
             activeObject.TryToAnimateToTargetPos(player, player.GetActivePearlPos());

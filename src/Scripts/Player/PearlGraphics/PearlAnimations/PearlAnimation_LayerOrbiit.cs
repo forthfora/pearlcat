@@ -93,7 +93,7 @@ public class PearlAnimation_LayerOrbit : PearlAnimation
 
     public bool ReplaceActiveForOrbit(List<AbstractPhysicalObject> orbitPearls, AbstractPhysicalObject? activeObject, AbstractPhysicalObject? objToReplace)
     {
-        if (activeObject == null || objToReplace == null)
+        if (activeObject is null || objToReplace is null)
         {
             return false;
         }

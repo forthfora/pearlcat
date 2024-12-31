@@ -251,7 +251,7 @@ public static class Menu_Hooks
             }
         }
 
-        if (page is SlugcatSelectMenu.SlugcatPageContinue continuePage && module.OriginalRegionLabelText != null)
+        if (page is SlugcatSelectMenu.SlugcatPageContinue continuePage && module.OriginalRegionLabelText is not null)
         {
             var regionLabel = continuePage.regionLabel;
 
@@ -399,7 +399,7 @@ public static class Menu_Hooks
 
         if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
         {
-            if (abstractObject.realizedObject != null && abstractObject.IsPlayerPearl())
+            if (abstractObject.realizedObject is not null && abstractObject.IsPlayerPearl())
             {
                 return null;
             }

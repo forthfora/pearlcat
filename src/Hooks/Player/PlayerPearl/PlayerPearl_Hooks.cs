@@ -35,7 +35,7 @@ public static class PlayerPearl_Hooks
 
         var physicalObject = abstractObject.realizedObject;
         
-        if (abstractObject.realizedObject == null)
+        if (abstractObject.realizedObject is null)
         {
             return;
         }
@@ -71,7 +71,7 @@ public static class PlayerPearl_Hooks
         }
 
         var physicalObject = abstractObject.realizedObject;
-        if (physicalObject == null)
+        if (physicalObject is null)
         {
             return;
         }
@@ -135,7 +135,7 @@ public static class PlayerPearl_Hooks
             var playerModule = self.room.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
             var effect = self.abstractPhysicalObject.GetPearlEffect();
             
-            if (effect.MajorEffect != PearlEffect.MajorEffectType.Shield || (playerModule != null && module.CooldownTimer != 0 && playerModule.PlayerRef.TryGetTarget(out var player) && player.airInLungs == 1.0f))
+            if (effect.MajorEffect != PearlEffect.MajorEffectType.Shield || (playerModule is not null && module.CooldownTimer != 0 && playerModule.PlayerRef.TryGetTarget(out var player) && player.airInLungs == 1.0f))
             {
                 module.CooldownTimer--;
             }
@@ -259,7 +259,7 @@ public static class PlayerPearl_Hooks
         var result = orig(self, obj, weaponFiltered);
 
         // weird nullref here
-        if (obj?.abstractPhysicalObject != null && obj.abstractPhysicalObject.IsPlayerPearl())
+        if (obj?.abstractPhysicalObject is not null && obj.abstractPhysicalObject.IsPlayerPearl())
         {
             return 0;
         }

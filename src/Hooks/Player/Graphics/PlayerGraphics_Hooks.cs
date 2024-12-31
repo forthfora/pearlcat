@@ -143,7 +143,7 @@ public static class PlayerGraphics_Hooks
             return;
         }
 
-        if (playerModule.EarL == null || playerModule.EarR == null)
+        if (playerModule.EarL is null || playerModule.EarR is null)
         {
             return;
         }
@@ -292,7 +292,7 @@ public static class PlayerGraphics_Hooks
     {
         var result = orig(self, obj);
 
-        if (obj != null && obj.abstractPhysicalObject.IsPlayerPearl())
+        if (obj is not null && obj.abstractPhysicalObject.IsPlayerPearl())
         {
             return 0.0f;
         }

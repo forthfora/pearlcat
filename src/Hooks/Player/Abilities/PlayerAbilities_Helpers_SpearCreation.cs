@@ -8,7 +8,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
 {
     public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
-        if (ModOptions.DisableSpear.Value || self.inVoidSea || playerModule.PossessedCreature != null)
+        if (ModOptions.DisableSpear.Value || self.inVoidSea || playerModule.PossessedCreature is not null)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.SpearCreation);
             return;
@@ -31,7 +31,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
             return;
         }
 
-        playerModule.ForceLockSpearOnBack = self.spearOnBack != null && (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack);
+        playerModule.ForceLockSpearOnBack = self.spearOnBack is not null && (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack);
 
         bool IsHoldingFoodOrPlayer(Player player)
         {
@@ -39,7 +39,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
 
             foreach (var grasp in grasps)
             {
-                if (grasp == null)
+                if (grasp is null)
                 {
                     continue;
                 }
@@ -70,7 +70,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
                 }
 
                 if (grasp.grabbed?.abstractPhysicalObject is AbstractConsumable consumable
-                    && consumable.realizedObject != null
+                    && consumable.realizedObject is not null
                     && PlayerFeatures.Diet.TryGet(self, out diet)
                     && diet.GetFoodMultiplier(consumable.realizedObject) > 0)
                 {
@@ -88,11 +88,11 @@ public static class PlayerAbilities_Helpers_SpearCreation
 
         //Plugin.Logger.LogWarning(self.eatCounter);
 
-        if (abilityInput && ((self.spearOnBack == null && !holdingSpear) ||
-                             (self.spearOnBack != null &&
+        if (abilityInput && ((self.spearOnBack is null && !holdingSpear) ||
+                             (self.spearOnBack is not null &&
                               (self.spearOnBack.interactionLocked || (!holdingSpear && !self.spearOnBack.HasASpear)) &&
                               !(holdingSpear && self.spearOnBack.HasASpear) &&
-                              !(self.spearOnBack.HasASpear && self.onBack != null))))
+                              !(self.spearOnBack.HasASpear && self.onBack is not null))))
         {
             playerModule.ForceLockSpearOnBack = true;
 
@@ -126,7 +126,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
                     var save = self.abstractCreature.Room.world.game.GetMiscWorld();
 
                     // Story
-                    if (save != null)
+                    if (save is not null)
                     {
                         save.PearlSpears.Add(abstractSpear.ID.number, spearModule);
                     }
@@ -137,7 +137,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
                     }
 
 
-                    if (self.spearOnBack != null && (holdingSpear || self.onBack != null))
+                    if (self.spearOnBack is not null && (holdingSpear || self.onBack is not null))
                     {
                         self.spearOnBack.SpearToBack((Spear)abstractSpear.realizedObject);
                     }
@@ -151,7 +151,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
                     self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk, false, 0.5f,
                         Random.Range(2.2f, 2.5f));
 
-                    if (playerModule.ActiveObject != null)
+                    if (playerModule.ActiveObject is not null)
                     {
                         var activeObj = playerModule.ActiveObject;
                         self.RemoveFromInventory(playerModule.ActiveObject);

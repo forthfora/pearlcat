@@ -71,7 +71,7 @@ public static class PlayerAbilities_Helpers_Shield
             playerModule.ActivateVisualShield();
         }
 
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }

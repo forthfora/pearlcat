@@ -115,7 +115,7 @@ public static class PearlpupGraphics_Hooks
             return;
         }
 
-        if (module.EarL == null || module.EarR == null)
+        if (module.EarL is null || module.EarR is null)
         {
             return;
         }

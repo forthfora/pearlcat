@@ -33,7 +33,7 @@ public class CloakGraphics
 
     public void Update()
     {
-        if (!visible || owner.player.room == null)
+        if (!visible || owner.player.room is null)
         {
             needsReset = true;
             return;
@@ -161,7 +161,7 @@ public class CloakGraphics
 
     public void DrawSprite(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        sLeaser.sprites[sprite].isVisible = (visible && owner.player.room != null);
+        sLeaser.sprites[sprite].isVisible = (visible && owner.player.room is not null);
         
         if (!sLeaser.sprites[sprite].isVisible)
         {

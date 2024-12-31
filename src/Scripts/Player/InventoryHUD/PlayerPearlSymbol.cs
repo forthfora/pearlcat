@@ -53,7 +53,7 @@ public class PlayerPearlSymbol
 
     public void UpdateIcon(AbstractPhysicalObject abstractObject)
     {
-        if (TargetObjectRef != null && TargetObjectRef.TryGetTarget(out var targetObject) && targetObject == abstractObject)
+        if (TargetObjectRef is not null && TargetObjectRef.TryGetTarget(out var targetObject) && targetObject == abstractObject)
         {
             return;
         }
@@ -95,12 +95,12 @@ public class PlayerPearlSymbol
             return;
         }
 
-        if (ItemSymbol == null)
+        if (ItemSymbol is null)
         {
             return;
         }
 
-        if (TargetObjectRef == null || !TargetObjectRef.TryGetTarget(out var obj))
+        if (TargetObjectRef is null || !TargetObjectRef.TryGetTarget(out var obj))
         {
             return;
         }

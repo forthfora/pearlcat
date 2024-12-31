@@ -56,7 +56,7 @@ public static class SSOracle_Hooks
 
             var subBehavior = self.allSubBehaviors.FirstOrDefault(x => x.ID == Enums.Oracle.Pearlcat_SSSubBehavGeneral);
             
-            if (subBehavior == null)
+            if (subBehavior is null)
             {
                 self.allSubBehaviors.Add(subBehavior = new SSOracleMeetPearlcat(self));
             }

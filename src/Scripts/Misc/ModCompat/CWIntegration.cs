@@ -85,7 +85,7 @@ public static class CWIntegration
         var miscProg = Utils.MiscProgression;
         var miscWorld = room.game.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }

@@ -19,7 +19,7 @@ public class PearlAnimation_SineWave(Player player) : PearlAnimation(player)
 
         var activeObject = playerModule.ActiveObject;
 
-        if (activeObject != null)
+        if (activeObject is not null)
         {
             floatingObjects.Remove(activeObject);
             activeObject.TryToAnimateToTargetPos(player, player.GetActivePearlPos());

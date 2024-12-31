@@ -44,7 +44,7 @@ public static class PlayerAbilities_Helpers_Rage
             return;
         }
 
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -303,7 +303,7 @@ public static class PlayerAbilities_Helpers_Rage
                 PhysicalObject? bestTarget = null;
                 Vector2? bestTargetPos = null!;
 
-                if (closestRed != null && bestEnemy != null)
+                if (closestRed is not null && bestEnemy is not null)
                 {
                     if (player.room.VisualContact(closestRed.firstChunk.pos, bestEnemy.firstChunk.pos))
                     {
@@ -314,17 +314,17 @@ public static class PlayerAbilities_Helpers_Rage
                         bestTarget = bestEnemy;
                     }
                 }
-                else if (closestRed != null)
+                else if (closestRed is not null)
                 {
                     bestTarget = closestRed;
                 }
-                else if (bestEnemy != null)
+                else if (bestEnemy is not null)
                 {
                     bestTarget = bestEnemy;
                 }
 
 
-                if (bestTarget != null)
+                if (bestTarget is not null)
                 {
                     if (bestTarget == bestEnemy)
                     {
@@ -351,7 +351,7 @@ public static class PlayerAbilities_Helpers_Rage
                 //Plugin.Logger.LogWarning(bestTargetPos);
 
                 // Maybe play a sound if the pearlspear has no valid targets left
-                if (bestTargetPos == null || bestTarget == null)
+                if (bestTargetPos is null || bestTarget is null)
                 {
                     //pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.8f, 0.75f);
                     return;
@@ -455,7 +455,7 @@ public static class PlayerAbilities_Helpers_Rage
 
             module.LaserLerp = 0.0f;
 
-            if (effect.MajorEffect != PearlEffect.MajorEffectType.Rage || playerModule.RageTarget == null ||
+            if (effect.MajorEffect != PearlEffect.MajorEffectType.Rage || playerModule.RageTarget is null ||
                 !playerModule.RageTarget.TryGetTarget(out _))
             {
                 module.LaserTimer = shootTime + ragePearlCounter * 5;
@@ -475,7 +475,7 @@ public static class PlayerAbilities_Helpers_Rage
             return;
         }
 
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -489,7 +489,7 @@ public static class PlayerAbilities_Helpers_Rage
         var playerRoom = self.room;
 
         // search for target
-        if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out var target))
+        if (playerModule.RageTarget is null || !playerModule.RageTarget.TryGetTarget(out var target))
         {
             Creature? bestTarget = null;
             var shortestDist = float.MaxValue;
@@ -554,7 +554,7 @@ public static class PlayerAbilities_Helpers_Rage
                 }
             }
 
-            if (bestTarget != null)
+            if (bestTarget is not null)
             {
                 playerModule.RageTarget = new(bestTarget);
 
@@ -615,7 +615,7 @@ public static class PlayerAbilities_Helpers_Rage
         }
 
 
-        if (playerModule.RageTarget == null || !playerModule.RageTarget.TryGetTarget(out target))
+        if (playerModule.RageTarget is null || !playerModule.RageTarget.TryGetTarget(out target))
         {
             return;
         }

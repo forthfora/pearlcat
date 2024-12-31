@@ -332,7 +332,7 @@ public abstract class OptionsTemplate : OptionInterface
             autoWrap = true,
         };
 
-		if (color != null)
+		if (color is not null)
 		{
 			textLabel.color = (Color)color;
 		}
@@ -506,7 +506,7 @@ public abstract class OptionsTemplate : OptionInterface
 		right.sprite.SetAnchor(0.5f, 0.0f);
 		right.sprite.rotation = 90.0f;
 
-        if (color != null)
+        if (color is not null)
         {
             left.color = (Color)color;
             right.color = (Color)color;

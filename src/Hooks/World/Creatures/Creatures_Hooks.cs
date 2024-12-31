@@ -188,13 +188,13 @@ public static class Creatures_Hooks
 
         var grabbedPlayer = self.grabChunk?.owner as Player;
 
-        if ((grabbedPlayer != null || self.grabChunk?.owner == grabbedPlayer?.slugOnBack?.slugcat) && grabbedPlayer?.TryGetPearlcatModule(out var playerModule) == true && playerModule.ShieldActive)
+        if ((grabbedPlayer is not null || self.grabChunk?.owner == grabbedPlayer?.slugOnBack?.slugcat) && grabbedPlayer?.TryGetPearlcatModule(out var playerModule) == true && playerModule.ShieldActive)
         {
             playerModule.ActivateVisualShield();
 
             if (playerModule.ShieldTimer > 0)
             {
-                if (self.grabChunk != null)
+                if (self.grabChunk is not null)
                 {
                     self.room.DeflectEffect(self.grabChunk.pos);
                 }
@@ -228,7 +228,7 @@ public static class Creatures_Hooks
                 continue;
             }
 
-            if (self.impaleChunk == null || self.impaleChunk.owner != player)
+            if (self.impaleChunk is null || self.impaleChunk.owner != player)
             {
                 continue;
             }
@@ -305,7 +305,7 @@ public static class Creatures_Hooks
     {
         orig(self);
 
-        if (self.impaleChunk != null && self.impaleChunk.owner is Player impaledPlayer)
+        if (self.impaleChunk is not null && self.impaleChunk.owner is Player impaledPlayer)
         {
             if (impaledPlayer.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0)
             {
@@ -357,7 +357,7 @@ public static class Creatures_Hooks
 
         var playerPull = self.patch?.trackedCreatures?.FirstOrDefault(x => x.creature == self.attachedChunk.owner);
 
-        if (playerPull == null)
+        if (playerPull is null)
         {
             return;
         }

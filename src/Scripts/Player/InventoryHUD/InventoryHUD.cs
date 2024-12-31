@@ -113,7 +113,7 @@ public class InventoryHUD : HudPart
 
                 circle.SetPosition(Custom.Dist(circle.GetPosition(), truePos) > 300.0f ? truePos : Vector2.Lerp(circle.GetPosition(), truePos, 0.1f));
                 circle.scale = Custom.LerpMap(playerModule.HudFade, 0.0f, 1.0f, 0.75f, 1.05f);
-                circle.alpha = player.room == null ? 0.0f : Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 0.0f, 0.4f);
+                circle.alpha = player.room is null ? 0.0f : Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 0.0f, 0.4f);
             }
             else
             {
@@ -144,7 +144,7 @@ public class InventoryHUD : HudPart
                     itemPos.x += spacing;
                     itemPos.x -= (activeIndex ?? 0.0f) * GAP;
 
-                    if (player.onBack != null)
+                    if (player.onBack is not null)
                     {
                         itemPos.y += 30.0f;
                     }
@@ -180,7 +180,7 @@ public class InventoryHUD : HudPart
         {
             var symbol = AllSymbols[i];
             
-            if (symbol == null || symbol.SlatedForDeletion)
+            if (symbol is null || symbol.SlatedForDeletion)
             {
                 AllSymbols.RemoveAt(i);
             }
@@ -245,7 +245,7 @@ public class InventoryHUD : HudPart
     {
         if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
         {
-            if (symbol != null)
+            if (symbol is not null)
             {
                 Symbols.Remove(abstractObject);
             }
@@ -263,7 +263,7 @@ public class InventoryHUD : HudPart
         symbol.UpdateIcon(abstractObject);
         symbol.Update();
 
-        symbol.Fade = playerModule.PlayerRef.TryGetTarget(out var player) && player.room == null ? 0.0f : playerModule.HudFade;
+        symbol.Fade = playerModule.PlayerRef.TryGetTarget(out var player) && player.room is null ? 0.0f : playerModule.HudFade;
 
         updatedSymbols.Add(symbol);
     }

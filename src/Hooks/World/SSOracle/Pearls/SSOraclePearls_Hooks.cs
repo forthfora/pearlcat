@@ -61,7 +61,7 @@ public static class SSOraclePearls_Hooks
                 continue;
             }
 
-            if (self.player != null && Custom.DistLess(self.player.firstChunk.pos, self.oracle.firstChunk.pos, 180.0f))
+            if (self.player is not null && Custom.DistLess(self.player.firstChunk.pos, self.oracle.firstChunk.pos, 180.0f))
             {
                 orbitLarge.Add(dataPearl);
                 continue;

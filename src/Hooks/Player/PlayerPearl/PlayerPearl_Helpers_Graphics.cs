@@ -11,7 +11,7 @@ public static class PlayerPearl_Helpers_Graphics
 
     public static void RealizedEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject?.room == null)
+        if (physicalObject?.room is null)
         {
             return;
         }
@@ -22,7 +22,7 @@ public static class PlayerPearl_Helpers_Graphics
 
     public static void AbstractedEffect(this PhysicalObject? physicalObject)
     {
-        if (physicalObject?.room == null)
+        if (physicalObject?.room is null)
         {
             return;
         }
@@ -40,7 +40,7 @@ public static class PlayerPearl_Helpers_Graphics
 
     public static void SwapEffect(this PhysicalObject? physicalObject, PhysicalObject? newObject)
     {
-        if (physicalObject?.room == null || newObject == null)
+        if (physicalObject?.room is null || newObject is null)
         {
             return;
         }
@@ -69,7 +69,7 @@ public static class PlayerPearl_Helpers_Graphics
 
     public static void SwapEffect(this PhysicalObject? physicalObject, Vector2 nextPos)
     {
-        if (physicalObject?.room == null)
+        if (physicalObject?.room is null)
         {
             return;
         }
@@ -99,7 +99,7 @@ public static class PlayerPearl_Helpers_Graphics
 
     public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null)
     {
-        if (physicalObject?.room == null)
+        if (physicalObject?.room is null)
         {
             return;
         }
@@ -122,7 +122,7 @@ public static class PlayerPearl_Helpers_Graphics
 
     public static void ConnectEffect(this Room? room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f)
     {
-        if (room == null)
+        if (room is null)
         {
             return;
         }
@@ -140,7 +140,7 @@ public static class PlayerPearl_Helpers_Graphics
 
     public static void DeflectEffect(this Room? room, Vector2 pos)
     {
-        if (room == null)
+        if (room is null)
         {
             return;
         }
@@ -156,7 +156,7 @@ public static class PlayerPearl_Helpers_Graphics
 
     public static void ReviveEffect(this Room? room, Vector2 pos)
     {
-        if (room == null)
+        if (room is null)
         {
             return;
         }

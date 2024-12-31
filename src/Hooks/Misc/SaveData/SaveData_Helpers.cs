@@ -12,7 +12,7 @@ public static class SaveData_Helpers
         var miscProg = Utils.MiscProgression;
         var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }
@@ -43,7 +43,7 @@ public static class SaveData_Helpers
         var miscWorld = saveState.miscWorldSaveData.GetMiscWorld();
         var baseMiscWorld = saveState.miscWorldSaveData;
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }

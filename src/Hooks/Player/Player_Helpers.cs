@@ -32,7 +32,7 @@ public static class Player_Helpers
         {
             var grasp = self.grasps[i];
 
-            if (grasp == null)
+            if (grasp is null)
             {
                 continue;
             }
@@ -74,7 +74,7 @@ public static class Player_Helpers
 
             var rep = AI.tracker.RepresentationForCreature(self.abstractCreature, false);
 
-            if (rep?.dynamicRelationship == null)
+            if (rep?.dynamicRelationship is null)
             {
                 return false;
             }
@@ -134,7 +134,7 @@ public static class Player_Helpers
             return;
         }
 
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -206,7 +206,7 @@ public static class Player_Helpers
     // Possession (Adult Pearlpup)
     public static void TryToRemoveHeart(Player self, PlayerModule playerModule)
     {
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -311,7 +311,7 @@ public static class Player_Helpers
     {
         // Input
         var unblockedInput = playerModule.UnblockedInput;
-        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && self.controller == null;
+        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && self.controller is null;
 
         var swapLeftInput = self.IsSwapLeftInput() && allowInput;
         var swapRightInput = self.IsSwapRightInput() && allowInput;
@@ -363,13 +363,13 @@ public static class Player_Helpers
         self.TryRealizeInventory(playerModule);
 
         // Warp Fix
-        if (self.room != null && playerModule.JustWarped)
+        if (self.room is not null && playerModule.JustWarped)
         {
             playerModule.LoadSaveData(self);
             playerModule.JustWarped = false;
         }
 
-        if (self.room != null)
+        if (self.room is not null)
         {
             self.GivePearls(playerModule);
         }
@@ -439,7 +439,7 @@ public static class Player_Helpers
 
             var slugOnBack = self.slugOnBack?.slugcat;
 
-            if (slugOnBack != null)
+            if (slugOnBack is not null)
             {
                 slugOnBack.SuperHardSetPosition(playerModule.LastGroundedPos);
                 slugOnBack.graphicsModule?.Reset();
@@ -456,7 +456,7 @@ public static class Player_Helpers
         }
 
         // Revive pearlpup if they fall into a death pit (consumes a revive)
-        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup) && pup.room != null && pup.InDeathPit() && playerModule.ReviveCount > 0)
+        if (playerModule.PearlpupRef is not null && playerModule.PearlpupRef.TryGetTarget(out var pup) && pup.room is not null && pup.InDeathPit() && playerModule.ReviveCount > 0)
         {
             pup.SuperHardSetPosition(self.firstChunk.pos);
 
@@ -483,7 +483,7 @@ public static class Player_Helpers
         var toStore = self.grasps[0]?.grabbed;
         var isStoring = self.grasps[0]?.grabbed.abstractPhysicalObject.IsObjectStorable() ?? false;
 
-        if (isStoring && toStore == null)
+        if (isStoring && toStore is null)
         {
             return;
         }
@@ -493,7 +493,7 @@ public static class Player_Helpers
             return;
         }
 
-        if (!isStoring && playerModule.ActiveObject == null)
+        if (!isStoring && playerModule.ActiveObject is null)
         {
             return;
         }
@@ -502,17 +502,17 @@ public static class Player_Helpers
         // Longer delay removing heart
         if (playerModule.ActiveObject.IsHeartPearl() && !isStoring)
         {
-            storeObjectDelay = playerModule.PossessionTarget == null ? REMOVE_HEART_DELAY : POSSESSION_DELAY;
+            storeObjectDelay = playerModule.PossessionTarget is null ? REMOVE_HEART_DELAY : POSSESSION_DELAY;
         }
 
 
         if (playerModule.StoreObjectTimer > storeObjectDelay)
         {
-            if (isStoring && toStore != null)
+            if (isStoring && toStore is not null)
             {
                 self.StoreObject(toStore.abstractPhysicalObject, true);
             }
-            else if (playerModule.ActiveObject != null)
+            else if (playerModule.ActiveObject is not null)
             {
                 if (playerModule.ActiveObject.IsHeartPearl())
                 {
@@ -533,7 +533,7 @@ public static class Player_Helpers
         {
             if (playerModule.StoreObjectTimer >= 0)
             {
-                if (isStoring || (playerModule.ActiveObject != null && playerModule.ActiveObject.TryGetPlayerPearlModule(out var module) && !module.IsReturningSentry))
+                if (isStoring || (playerModule.ActiveObject is not null && playerModule.ActiveObject.TryGetPlayerPearlModule(out var module) && !module.IsReturningSentry))
                 {
                     playerModule.StoreObjectTimer++;
 
@@ -573,7 +573,7 @@ public static class Player_Helpers
                     {
 
                         // Removing the heart without any possessable creatures nearby
-                        if (playerModule.PossessionTarget == null && playerModule.StoreObjectTimer > heartRemovalStart)
+                        if (playerModule.PossessionTarget is null && playerModule.StoreObjectTimer > heartRemovalStart)
                         {
                             var heart = (DataPearl)abstractHeart.realizedObject;
                             var bigSparkFreq = (int)Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 35, 1);
@@ -629,7 +629,7 @@ public static class Player_Helpers
             var item = playerModule.PostDeathInventory[i];
             playerModule.PostDeathInventory.RemoveAt(i);
 
-            if (item.realizedObject == null)
+            if (item.realizedObject is null)
             {
                 continue;
             }
@@ -657,7 +657,7 @@ public static class Player_Helpers
             self.StoreObject(item);
         }
 
-        if (playerModule.PostDeathActiveObjectIndex != null)
+        if (playerModule.PostDeathActiveObjectIndex is not null)
         {
             self.ActivateObjectInStorage((int)playerModule.PostDeathActiveObjectIndex);
         }
@@ -775,7 +775,7 @@ public static class Player_Helpers
 
     public static void UpdateRevive(Player self, PlayerModule playerModule)
     {
-        var shouldTryRevive = self.dead || (self.dangerGraspTime >= 60 && self.AI == null);
+        var shouldTryRevive = self.dead || (self.dangerGraspTime >= 60 && self.AI is null);
 
         if (!shouldTryRevive)
         {
@@ -800,7 +800,7 @@ public static class Player_Helpers
             playerModule.PostDeathInventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl());
 
         // Give heart if it is missing
-        if (self.room != null && !self.dead && !hasHeart)
+        if (self.room is not null && !self.dead && !hasHeart)
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world,
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
@@ -929,7 +929,7 @@ public static class Player_Helpers
         const float possessionLostDist = 400.0f;
 
         // search for target
-        if (playerModule.PossessionTarget == null || !playerModule.PossessionTarget.TryGetTarget(out var target))
+        if (playerModule.PossessionTarget is null || !playerModule.PossessionTarget.TryGetTarget(out var target))
         {
             Creature? bestTarget = null;
             var shortestDist = float.MaxValue;
@@ -987,7 +987,7 @@ public static class Player_Helpers
                 }
             }
 
-            if (bestTarget != null)
+            if (bestTarget is not null)
             {
                 playerModule.PossessionTarget = new(bestTarget);
             }
@@ -1045,7 +1045,7 @@ public static class Player_Helpers
         miscProg.HasPearlpup = false;
         miscProg.HasDeadPearlpup = false;
 
-        if (save != null)
+        if (save is not null)
         {
             save.HasPearlpupWithPlayer = false;
             save.HasPearlpupWithPlayerDeadOrAlive = false;
@@ -1053,7 +1053,7 @@ public static class Player_Helpers
 
 
         // Can get a reference to pearlpup (i.e. they're in the world somewhere)
-        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup))
+        if (playerModule.PearlpupRef is not null && playerModule.PearlpupRef.TryGetTarget(out var pup))
         {
             var sameRoom = pup.abstractCreature.Room == self.abstractCreature.Room;
 
@@ -1071,7 +1071,7 @@ public static class Player_Helpers
         }
 
 
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }

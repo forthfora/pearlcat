@@ -41,7 +41,7 @@ public static class Sound_HooksIL
             var track = self.instruction.layers[j].tracks[k];
             var module = musicPlayer.GetModule();
 
-            return module.Subregion != null && track.subRegions != null && track.subRegions.Contains(module.Subregion);
+            return module.Subregion is not null && track.subRegions is not null && track.subRegions.Contains(module.Subregion);
         });
 
         c.Emit(OpCodes.Or);

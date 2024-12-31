@@ -63,7 +63,7 @@ public partial class PlayerModule
     public List<AbstractPhysicalObject> PostDeathInventory { get; } = [];
     public int? PostDeathActiveObjectIndex { get; set; }
     public AbstractPhysicalObject? ActiveObject =>
-        ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count
+        ActiveObjectIndex is not null && ActiveObjectIndex < Inventory.Count
             ? Inventory[(int)ActiveObjectIndex]
             : null;
 
@@ -99,7 +99,7 @@ public partial class PlayerModule
         var world = self.abstractCreature.world;
         var save = world.game.GetMiscWorld();
 
-        if (save == null)
+        if (save is null)
         {
             return;
         }

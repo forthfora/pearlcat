@@ -112,7 +112,7 @@ public class Plugin : BaseUnityPlugin
                 $"{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n";
 
 
-            if (saveState != null && pearlcatMiscWorld != null)
+            if (saveState is not null && pearlcatMiscWorld is not null)
             {
                 message +=
                     $"\n-------------------\n" +
