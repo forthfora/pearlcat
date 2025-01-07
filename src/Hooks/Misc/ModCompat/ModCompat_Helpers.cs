@@ -15,6 +15,11 @@ public static class ModCompat_Helpers
         {
             InitCWIntegration();
         }
+
+        if (IsModEnabled_RainMeadow)
+        {
+            ModCompat_RainMeadow_Hooks.ApplyHooks();
+        }
     }
 
 
@@ -32,7 +37,6 @@ public static class ModCompat_Helpers
 
     // Chasing Wind
     public static bool IsModEnabled_ChasingWind => ModManager.ActiveMods.Any(x => x.id == "myr.chasing_wind");
-
     public static void InitCWIntegration()
     {
         CWIntegration.Init();
@@ -41,6 +45,9 @@ public static class ModCompat_Helpers
 
     // Improved Input Config
     public static bool IsModEnabled_ImprovedInputConfig => ModManager.ActiveMods.Any(x => x.id == "improved-input-config");
-
     public static bool IsIICActive => IsModEnabled_ImprovedInputConfig && !ModOptions.DisableImprovedInputConfig.Value;
+
+
+    // Rain Meadow
+    public static bool IsModEnabled_RainMeadow => ModManager.ActiveMods.Any(x => x.id == "henpemaz_rainmeadow");
 }

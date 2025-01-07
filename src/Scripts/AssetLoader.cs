@@ -61,40 +61,15 @@ public static class AssetLoader
                 continue;
             }
 
-            var spriteFileName = Path.GetFileNameWithoutExtension(filePath);
+            var spriteName = Path.GetFileNameWithoutExtension(filePath);
+            var spriteFilePath = filePath.TrimEnd(Path.GetExtension(filePath));
 
-            var texture = FileToTexture2D(filePath);
-
-            if (texture is null)
-            {
-                continue;
-            }
-
-            Futile.atlasManager.LoadAtlasFromTexture(spriteFileName, texture, false);
+            Futile.atlasManager.ActuallyLoadAtlasOrImage(spriteName, spriteFilePath + Futile.resourceSuffix, "");
         }
 
         foreach (var dirPath in AssetManager.ListDirectory(targetDirPath, true))
         {
             LoadSprites(dirPath);
         }
-    }
-
-    // https://answers.unity.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
-    private static Texture2D? FileToTexture2D(string filePath)
-    {
-        var fileData = File.ReadAllBytes(filePath);
-
-        var texture = new Texture2D(0, 0, TextureFormat, false)
-        {
-            anisoLevel = 0,
-            filterMode = FilterMode.Point,
-        };
-
-        if (!texture.LoadImage(fileData))
-        {
-            return null;
-        }
-
-        return texture;
     }
 }
