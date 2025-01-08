@@ -109,7 +109,7 @@ public partial class PlayerModule
         if (!ModOptions.InventoryOverride.Value)
         {
             Inventory.Clear();
-            
+
             if (save.Inventory.TryGetValue(playerNumber, out var inventory))
             {
                 foreach (var item in inventory)
@@ -127,6 +127,11 @@ public partial class PlayerModule
         }
 
         PickObjectAnimation(self);
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            ModCompat_RainMeadow_Helpers.RPC_LoadSaveData(self);
+        }
     }
 
 

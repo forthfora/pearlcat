@@ -64,6 +64,7 @@ public static class PlayerPearl_Helpers
         foreach (var pearlType in pearlsToAdd)
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
+
             self.StoreObject(pearl, overrideLimit: overrideLimit);
         }
 
@@ -128,7 +129,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.RealizeInventory(self);
+            ModCompat_RainMeadow_Helpers.RPC_RealizeInventory(self);
         }
     }
 
@@ -172,7 +173,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.AbstractizeInventory(self);
+            ModCompat_RainMeadow_Helpers.RPC_AbstractizeInventory(self);
         }
     }
 
@@ -351,7 +352,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.AddPearlToInventory(self, abstractObject);
+            ModCompat_RainMeadow_Helpers.RPC_AddPearlToInventory(self, abstractObject);
         }
     }
     
@@ -389,7 +390,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.RemovePearlFromInventory(self, abstractObject);
+            ModCompat_RainMeadow_Helpers.RPC_RemovePearlFromInventory(self, abstractObject);
         }
     }
 

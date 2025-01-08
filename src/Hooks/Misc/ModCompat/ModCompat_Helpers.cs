@@ -50,8 +50,5 @@ public static class ModCompat_Helpers
 
     // Rain Meadow
     public static bool IsModEnabled_RainMeadow => ModManager.ActiveMods.Any(x => x.id == "henpemaz_rainmeadow");
-    public static bool RainMeadow_IsObjectMine(AbstractPhysicalObject abstractObject)
-    {
-        return !IsModEnabled_RainMeadow || ModCompat_RainMeadow_Helpers.IsObjectMine(abstractObject);
-    }
+    public static bool RainMeadow_IsOwner => !IsModEnabled_RainMeadow || ModCompat_RainMeadow_Helpers.IsOwner;
 }

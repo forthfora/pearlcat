@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using RainMeadow;
 
@@ -57,7 +54,7 @@ public static class MeadowRPCs
             return;
         }
 
-        if (pearlOpo.apo is not DataPearl.AbstractDataPearl adp)
+        if (pearlOpo.apo is not AbstractPhysicalObject adp)
         {
             return;
         }
@@ -116,5 +113,28 @@ public static class MeadowRPCs
         var inputData = JsonConvert.DeserializeObject<PlayerModule.MeadowInputData>(inputString);
 
         playerModule.MeadowInput = inputData!;
+    }
+
+    [RPCMethod]
+    public static void LoadSaveData(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    {
+        if (playerOpo.apo is not AbstractPhysicalObject apo)
+        {
+            return;
+        }
+
+        if (apo.realizedObject is not Player player)
+        {
+            return;
+        }
+
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
+
+        playerModule.LoadSaveData(player);
+
+        Plugin.Logger.LogInfo("Meadow: Loaded pearl save data");
     }
 }

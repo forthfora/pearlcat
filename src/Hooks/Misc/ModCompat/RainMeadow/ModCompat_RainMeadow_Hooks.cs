@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using RainMeadow;
 
@@ -27,19 +26,21 @@ public static class ModCompat_RainMeadow_Hooks
         }
 
         // Sync Inputs
-        playerModule.MeadowInput.Store = self.IsStoreKeybindPressed(playerModule);
+        if (self.IsLocal())
+        {
+            playerModule.MeadowInput.Store = self.IsStoreKeybindPressed(playerModule);
 
-        playerModule.MeadowInput.Swap = self.IsSwapKeybindPressed();
-        playerModule.MeadowInput.SwapLeft = self.IsSwapLeftInput();
-        playerModule.MeadowInput.SwapRight = self.IsSwapRightInput();
+            playerModule.MeadowInput.Swap = self.IsSwapKeybindPressed();
+            playerModule.MeadowInput.SwapLeft = self.IsSwapLeftInput();
+            playerModule.MeadowInput.SwapRight = self.IsSwapRightInput();
 
-        playerModule.MeadowInput.Ability = self.IsCustomAbilityKeybindPressed();
-        playerModule.MeadowInput.Semtry = self.IsSentryKeybindPressed(playerModule);
+            playerModule.MeadowInput.Ability = self.IsCustomAbilityKeybindPressed();
+            playerModule.MeadowInput.Semtry = self.IsSentryKeybindPressed(playerModule);
 
-        playerModule.MeadowInput.Agility = self.IsAgilityKeybindPressed(playerModule);
-        playerModule.MeadowInput.SpearCreation = self.IsSpearCreationKeybindPressed(playerModule);
-        playerModule.MeadowInput.Revive = self.IsReviveKeybindPressed(playerModule);
-
+            playerModule.MeadowInput.Agility = self.IsAgilityKeybindPressed(playerModule);
+            playerModule.MeadowInput.SpearCreation = self.IsSpearCreationKeybindPressed(playerModule);
+            playerModule.MeadowInput.Revive = self.IsReviveKeybindPressed(playerModule);
+        }
 
         foreach (var player in OnlineManager.players)
         {
