@@ -59,7 +59,7 @@ public partial class PlayerModule
 
 
     // Inventory
-    public List<AbstractPhysicalObject> Inventory { get; } = [];
+    public List<AbstractPhysicalObject> Inventory { get; set; } = [];
     public List<AbstractPhysicalObject> PostDeathInventory { get; } = [];
     public int? PostDeathActiveObjectIndex { get; set; }
     public AbstractPhysicalObject? ActiveObject =>
@@ -127,5 +127,25 @@ public partial class PlayerModule
         }
 
         PickObjectAnimation(self);
+    }
+
+
+    // Rain Meadow
+    public MeadowInputData MeadowInput { get; set; } = new();
+
+    public class MeadowInputData
+    {
+        public bool Store { get; set; }
+
+        public bool Swap { get; set; }
+        public bool SwapLeft { get; set; }
+        public bool SwapRight { get; set; }
+
+        public bool Ability { get; set; }
+        public bool Semtry { get; set; }
+
+        public bool Agility { get; set; }
+        public bool SpearCreation { get; set; }
+        public bool Revive { get; set; }
     }
 }

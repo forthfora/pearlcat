@@ -55,6 +55,10 @@
       <HintPath>lib\Managed\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Rain Meadow">
+      <HintPath>lib\Rain Meadow.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>lib\Managed\Unity.Mathematics.dll</HintPath>
       <Private>False</Private>

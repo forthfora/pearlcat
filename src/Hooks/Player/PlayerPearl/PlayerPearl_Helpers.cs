@@ -98,7 +98,7 @@ public static class PlayerPearl_Helpers
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
-            
+
             if (abstractObject is null)
             {
                 continue;
@@ -109,10 +109,10 @@ public static class PlayerPearl_Helpers
                 abstractObject.MarkAsPlayerObject();
                 continue;
             }
-            
-            abstractObject.pos = self.abstractCreature.pos;   
+
+            abstractObject.pos = self.abstractCreature.pos;
             self.room.abstractRoom.AddEntity(abstractObject);
-            
+
             abstractObject.RealizeInRoom();
 
             abstractObject.MarkAsPlayerObject();
@@ -124,6 +124,11 @@ public static class PlayerPearl_Helpers
                     abstractObject.realizedObject?.RealizedEffect();
                 }
             }
+        }
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            ModCompat_RainMeadow_Helpers.RealizeInventory(self);
         }
     }
 
@@ -138,7 +143,7 @@ public static class PlayerPearl_Helpers
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
-            
+
             if (abstractObject.realizedObject is null)
             {
                 continue;
@@ -161,8 +166,13 @@ public static class PlayerPearl_Helpers
                     abstractObject.realizedObject.AbstractedEffect();
                 }
             }
-            
+
             abstractObject.Abstractize(abstractObject.pos);
+        }
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            ModCompat_RainMeadow_Helpers.AbstractizeInventory(self);
         }
     }
 
@@ -338,6 +348,11 @@ public static class PlayerPearl_Helpers
         }
 
         abstractObject.MarkAsPlayerObject();
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            ModCompat_RainMeadow_Helpers.AddPearlToInventory(self, abstractObject);
+        }
     }
     
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
@@ -371,6 +386,11 @@ public static class PlayerPearl_Helpers
         }
 
         InventoryHUD.Symbols.Remove(abstractObject);
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            ModCompat_RainMeadow_Helpers.RemovePearlFromInventory(self, abstractObject);
+        }
     }
 
 

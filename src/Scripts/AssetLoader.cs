@@ -5,10 +5,8 @@ namespace Pearlcat;
 
 public static class AssetLoader
 {
-    public static TextureFormat TextureFormat { get; set; } = TextureFormat.RGBA32;
-
-    public static string AtlasesDirPath { get; set; } = $"{Plugin.MOD_ID}_atlases";
-    public static string SpritesDirPath { get; set; } = $"{Plugin.MOD_ID}_sprites";
+    public static string AtlasesDirPath => $"{Plugin.MOD_ID}_atlases";
+    public static string SpritesDirPath => $"{Plugin.MOD_ID}_sprites";
 
 
     public static FAtlas? GetAtlas(string atlasName)

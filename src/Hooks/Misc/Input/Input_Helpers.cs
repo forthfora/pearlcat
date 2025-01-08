@@ -13,6 +13,11 @@ public static class Input_Helpers
     // Inventory
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (player.IsMeadowInput())
+        {
+            return playerModule.MeadowInput.Store;
+        }
+
         if (player.bodyMode != Player.BodyModeIndex.Stand
             && player.bodyMode != Player.BodyModeIndex.ZeroG
             && player.bodyMode != Player.BodyModeIndex.Swimming
@@ -47,6 +52,11 @@ public static class Input_Helpers
 
     public static bool IsSwapKeybindPressed(this Player player)
     {
+        if (player.IsMeadowInput() && player.TryGetPearlcatModule(out var playerModule))
+        {
+            return playerModule.MeadowInput.Swap;
+        }
+
         if (ModCompat_Helpers.IsIICActive)
         {
             return player.IsSwapPressedIIC();
@@ -65,6 +75,11 @@ public static class Input_Helpers
 
     public static bool IsSwapLeftInput(this Player player)
     {
+        if (player.IsMeadowInput() && player.TryGetPearlcatModule(out var playerModule))
+        {
+            return playerModule.MeadowInput.SwapLeft;
+        }
+
         if (ModOptions.SwapTriggerPlayer.Value != 0)
         {
             // Normal
@@ -101,6 +116,11 @@ public static class Input_Helpers
 
     public static bool IsSwapRightInput(this Player player)
     {
+        if (player.IsMeadowInput() && player.TryGetPearlcatModule(out var playerModule))
+        {
+            return playerModule.MeadowInput.SwapRight;
+        }
+
         if (ModOptions.SwapTriggerPlayer.Value != 0)
         {
             // Normal
@@ -137,8 +157,13 @@ public static class Input_Helpers
 
 
     // Ability
-    public static bool IsCustomAbilityKeybindPressed(this Player player, PlayerModule playerModule)
+    public static bool IsCustomAbilityKeybindPressed(this Player player)
     {
+        if (player.IsMeadowInput() && player.TryGetPearlcatModule(out var playerModule))
+        {
+            return playerModule.MeadowInput.Ability;
+        }
+
         if (ModCompat_Helpers.IsIICActive)
         {
             return player.IsAbilityPressedIIC();
@@ -157,6 +182,11 @@ public static class Input_Helpers
     
     public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (player.IsMeadowInput())
+        {
+            return playerModule.MeadowInput.Semtry;
+        }
+
         if (ModOptions.CustomSentryKeybind.Value)
         {
             if (ModCompat_Helpers.IsIICActive)
@@ -184,9 +214,14 @@ public static class Input_Helpers
     // Custom Ability
     public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (player.IsMeadowInput())
+        {
+            return playerModule.MeadowInput.Agility;
+        }
+
         if (ModOptions.CustomAgilityKeybind.Value)
         {
-            return IsCustomAbilityKeybindPressed(player, playerModule);
+            return IsCustomAbilityKeybindPressed(player);
         }
 
         var input = playerModule.UnblockedInput;
@@ -195,9 +230,14 @@ public static class Input_Helpers
 
     public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (player.IsMeadowInput())
+        {
+            return playerModule.MeadowInput.SpearCreation;
+        }
+
         if (ModOptions.CustomSpearKeybind.Value)
         {
-            return IsCustomAbilityKeybindPressed(player, playerModule);
+            return IsCustomAbilityKeybindPressed(player);
         }
 
         var input = playerModule.UnblockedInput;
@@ -206,6 +246,11 @@ public static class Input_Helpers
 
     public static bool IsReviveKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (player.IsMeadowInput())
+        {
+            return playerModule.MeadowInput.Revive;
+        }
+
         var input = playerModule.UnblockedInput;
         return input.pckp;
     }
@@ -305,5 +350,17 @@ public static class Input_Helpers
         }
 
         return ModOptions.SwapRightKeybind.Value.GetDisplayName();
+    }
+
+
+    // Rain Meadow
+    public static bool IsMeadowInput(this Player player)
+    {
+        if (!ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            return false;
+        }
+
+        return ModCompat_RainMeadow_Helpers.IsMeadowInput(player);
     }
 }
