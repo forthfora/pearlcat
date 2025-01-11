@@ -38,7 +38,7 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void RemoteInput(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo, byte inputByte)
+    public static void DeploySentry(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo, OnlinePhysicalObject pearlOpo)
     {
         if (playerOpo.apo is not AbstractPhysicalObject absPlayer)
         {
@@ -50,11 +50,27 @@ public static class MeadowRPCs
             return;
         }
 
-        if (!player.TryGetPearlcatModule(out var playerModule))
+        if (pearlOpo.apo is not AbstractPhysicalObject pearl)
         {
             return;
         }
 
-        playerModule.RemoteInput.FromByte(inputByte);
+        PlayerAbilities_Helpers.DeploySentry_Local(player, pearl);
+    }
+
+    [RPCMethod]
+    public static void RemoveSentry(RPCEvent rpcEvent, OnlinePhysicalObject pearlOpo)
+    {
+        if (pearlOpo.apo is not AbstractPhysicalObject pearl)
+        {
+            return;
+        }
+
+        if (!pearl.TryGetPlayerPearlModule(out var module))
+        {
+            return;
+        }
+
+        module.RemoveSentry_Local(pearl);
     }
 }

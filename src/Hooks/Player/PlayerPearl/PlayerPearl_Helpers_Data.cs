@@ -202,7 +202,7 @@ public static class PlayerPearl_Helpers_Data
             return;
         }
 
-        if (abstractObject.TryGetPearlGraphicsModule(out var addon) && addon.IsActiveRagePearl)
+        if (abstractObject.TryGetPearlGraphicsModule(out var pearlGraphics) && pearlGraphics.IsActiveRagePearl)
         {
             return;
         }

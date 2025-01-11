@@ -49,6 +49,8 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
+        ModuleManager.SentryData.Add(owner, this);
+
         if (owner.realizedObject is null)
         {
             return;
@@ -66,16 +68,12 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        ModuleManager.SentryData.Add(owner, this);
-
         room = owner.realizedObject.room;
         InitialPos = player.GetActivePearlPos();
 
-        Plugin.Logger.LogWarning("SENTRY POS: " + InitialPos);
-
         var effect = owner.GetPearlEffect();
 
-        if (!owner.TryGetPearlGraphicsModule(out var addon))
+        if (!owner.TryGetPearlGraphicsModule(out var pearlGraphics))
         {
             return;
         }
@@ -83,8 +81,8 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 2.0f);
 
         //room.AddObject(new ShockWave(InitialPos, 30.0f, 0.5f, 10));
-        room.AddObject(new ExplosionSpikes(room, InitialPos, 5, 30.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
-        room.AddObject(new LightningMachine.Impact(InitialPos, 0.1f, addon.SymbolColor, true));
+        room.AddObject(new ExplosionSpikes(room, InitialPos, 5, 30.0f, 10, 10.0f, 20.0f, pearlGraphics.SymbolColor));
+        room.AddObject(new LightningMachine.Impact(InitialPos, 0.1f, pearlGraphics.SymbolColor, true));
 
         if (!owner.TryGetPlayerPearlModule(out var module))
         {
@@ -133,16 +131,21 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
 
         var pearlType = pearl.AbstractPearl.dataPearlType;
-        var targetPos = InitialPos + new Vector2(0.0f, -40.0f);
 
-        // Pearls with floating animation
-        if (pearl.IsHalcyonPearl() || pearl.IsHeartPearl() || pearlType == Enums.Pearls.SS_Pearlcat || pearlType == Enums.Pearls.CW_Pearlcat)
+        if (ModCompat_Helpers.RainMeadow_IsMine(pearl.abstractPhysicalObject)) // for remote players, meadow will sync it for us
         {
-            targetPos.y += Mathf.Sin(AnimCounter / 60.0f) * 20.0f;
+            var targetPos = InitialPos + new Vector2(0.0f, -40.0f);
+
+            // Pearls with floating animation
+            if (pearl.IsHalcyonPearl() || pearl.IsHeartPearl() || pearlType == Enums.Pearls.SS_Pearlcat || pearlType == Enums.Pearls.CW_Pearlcat)
+            {
+                targetPos.y += Mathf.Sin(AnimCounter / 60.0f) * 20.0f;
+            }
+
+            pearl.firstChunk.pos = Vector2.Lerp(pearl.firstChunk.pos, targetPos, 0.1f);
+            pearl.firstChunk.vel = Vector2.zero;
         }
 
-        pearl.firstChunk.pos = Vector2.Lerp(pearl.firstChunk.pos, targetPos, 0.1f);
-        pearl.firstChunk.vel = Vector2.zero;
         pearl.gravity = 0.0f;
 
         var effect = pearl.abstractPhysicalObject.GetPearlEffect();
@@ -356,7 +359,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (!owner.TryGetPearlGraphicsModule(out var addon))
+        if (!owner.TryGetPearlGraphicsModule(out var pearlGraphics))
         {
             return;
         }
@@ -398,11 +401,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
             healthState.health = Mathf.Min(1.0f, healthState.health + 0.25f);
 
-            room.AddObject(new LightningMachine.Impact(crit.mainBodyChunk.pos, 0.6f, addon.SymbolColor, true));
-            room.AddObject(new ExplosionSpikes(room, crit.mainBodyChunk.pos, 5, 70.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
+            room.AddObject(new LightningMachine.Impact(crit.mainBodyChunk.pos, 0.6f, pearlGraphics.SymbolColor, true));
+            room.AddObject(new ExplosionSpikes(room, crit.mainBodyChunk.pos, 5, 70.0f, 10, 10.0f, 20.0f, pearlGraphics.SymbolColor));
             room.AddObject(new ShockWave(pearl.firstChunk.pos, 30.0f, 0.2f, 10));
 
-            room.ConnectEffect(crit.mainBodyChunk.pos, pearl.firstChunk.pos, addon.SymbolColor, 2.0f, 60);
+            room.ConnectEffect(crit.mainBodyChunk.pos, pearl.firstChunk.pos, pearlGraphics.SymbolColor, 2.0f, 60);
             didHeal = true;
         }
 
@@ -413,7 +416,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         module.CooldownTimer = 160;
 
-        room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, addon.SymbolColor, true));
+        room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, pearlGraphics.SymbolColor, true));
         room.AddObject(new ShockWave(pearl.firstChunk.pos, 30.0f, 0.2f, 10));
         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos);
     }
@@ -497,7 +500,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (!owner.TryGetPearlGraphicsModule(out var addon))
+        if (!owner.TryGetPearlGraphicsModule(out var pearlGraphics))
         {
             return;
         }
@@ -517,8 +520,8 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         if (module.CooldownTimer == 1)
         {
-            room.AddObject(new ExplosionSpikes(room, InitialPos, 5, 30.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
-            room.AddObject(new LightningMachine.Impact(InitialPos, 0.1f, addon.SymbolColor, true));
+            room.AddObject(new ExplosionSpikes(room, InitialPos, 5, 30.0f, 10, 10.0f, 20.0f, pearlGraphics.SymbolColor));
+            room.AddObject(new LightningMachine.Impact(InitialPos, 0.1f, pearlGraphics.SymbolColor, true));
         }
 
         if (module.CooldownTimer == 0 || ShieldTimer > 0)
@@ -681,7 +684,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (!owner.TryGetPearlGraphicsModule(out var addon))
+        if (!owner.TryGetPearlGraphicsModule(out var pearlGraphics))
         {
             return;
         }
@@ -708,8 +711,8 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         {
             if (RageCounter <= 0)
             {
-                room.ConnectEffect(player.firstChunk.pos, pearl.firstChunk.pos, addon.SymbolColor, lifeTime: 24);
-                room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, addon.SymbolColor, true));
+                room.ConnectEffect(player.firstChunk.pos, pearl.firstChunk.pos, pearlGraphics.SymbolColor, lifeTime: 24);
+                room.AddObject(new LightningMachine.Impact(pearl.firstChunk.pos, 0.1f, pearlGraphics.SymbolColor, true));
 
                 room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 3.0f);
             }
@@ -851,10 +854,10 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
             // shoot laser
             pearl.room.PlaySound(SoundID.Bomb_Explode, targetPos, 0.8f, Random.Range(0.7f, 1.3f));
-            pearl.room.AddObject(new LightningMachine.Impact(targetPos, 0.5f, addon.SymbolColor, true));
+            pearl.room.AddObject(new LightningMachine.Impact(targetPos, 0.5f, pearlGraphics.SymbolColor, true));
 
             pearl.room.AddObject(new ShockWave(targetPos, 30.0f, 0.4f, 5));
-            room.AddObject(new ExplosionSpikes(pearl.room, targetPos, 5, 20.0f, 10, 20.0f, 20.0f, addon.SymbolColor));
+            room.AddObject(new ExplosionSpikes(pearl.room, targetPos, 5, 20.0f, 10, 20.0f, 20.0f, pearlGraphics.SymbolColor));
 
             target.SetKillTag(player.abstractCreature);
             target.Violence(player.mainBodyChunk, null, target.mainBodyChunk, null, Creature.DamageType.Explosion, shootDamage, 5.0f);
@@ -865,7 +868,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             }
             else
             {
-                room.ConnectEffect(player.firstChunk.pos, pearl.firstChunk.pos, addon.SymbolColor, lifeTime: 24);
+                room.ConnectEffect(player.firstChunk.pos, pearl.firstChunk.pos, pearlGraphics.SymbolColor, lifeTime: 24);
             }
         }
         else
@@ -901,14 +904,14 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
             var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-            if (owner.TryGetPearlGraphicsModule(out var addon) && playerModule is not null && playerModule.PlayerRef.TryGetTarget(out var player))
+            if (owner.TryGetPearlGraphicsModule(out var pearlGraphics) && playerModule is not null && playerModule.PlayerRef.TryGetTarget(out var player))
             {
                 if (room is not null && owner.realizedObject is not null)
                 {
                     room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 0.5f);
 
-                    room.AddObject(new ExplosionSpikes(room, owner.realizedObject.firstChunk.pos, 5, 30.0f, 10, 10.0f, 20.0f, addon.SymbolColor));
-                    room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
+                    room.AddObject(new ExplosionSpikes(room, owner.realizedObject.firstChunk.pos, 5, 30.0f, 10, 10.0f, 20.0f, pearlGraphics.SymbolColor));
+                    room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, pearlGraphics.SymbolColor, true));
                 }
 
                 // Agility Teleport
@@ -916,9 +919,9 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 {
                     if (room is not null && owner.realizedObject is not null)
                     {
-                        player.ConnectEffect(agilityPos, addon.SymbolColor);
+                        player.ConnectEffect(agilityPos, pearlGraphics.SymbolColor);
                         room.AddObject(new ShockWave(agilityPos, 100.0f, 0.3f, 20));
-                        room.AddObject(new ExplosionSpikes(room, agilityPos, 5, 70.0f, 25, 10.0f, 40.0f, addon.SymbolColor));
+                        room.AddObject(new ExplosionSpikes(room, agilityPos, 5, 70.0f, 25, 10.0f, 40.0f, pearlGraphics.SymbolColor));
 
 
                         room.PlaySound(Enums.Sounds.Pearlcat_CamoFade, owner.realizedObject.firstChunk, false, 1.0f, 1.5f);
@@ -949,7 +952,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                     if (room is not null && owner.realizedObject is not null)
                     {
                         var pos = owner.realizedObject.firstChunk.pos;
-                        var color = addon.SymbolColor;
+                        var color = pearlGraphics.SymbolColor;
 
                         room.AddObject(new SootMark(room, pos, 40f, true));
 
@@ -1098,7 +1101,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (!pearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var addon))
+        if (!pearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var pearlGraphics))
         {
             return;
         }
@@ -1115,18 +1118,18 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         var counterSprite = sLeaser.sprites[5];
         var holoLightSprite = sLeaser.sprites[6];
 
-        symbolSprite.element = Futile.atlasManager.GetElementWithName(addon.DrawSymbolCooldown && RageCounter > 0 ? "pearlcat_glyphcooldown" : PearlGraphics.SpriteFromPearl(pearl.abstractPhysicalObject));
+        symbolSprite.element = Futile.atlasManager.GetElementWithName(pearlGraphics.DrawSymbolCooldown && RageCounter > 0 ? "pearlcat_glyphcooldown" : PearlGraphics.SpriteFromPearl(pearl.abstractPhysicalObject));
         symbolSprite.SetPosition(targetPos + new Vector2(15.0f, 15.0f));
-        symbolSprite.color = addon.SymbolColor;
+        symbolSprite.color = pearlGraphics.SymbolColor;
 
 
         haloSprite.SetPosition(targetPos);
-        haloSprite.color = addon.SymbolColor;
+        haloSprite.color = pearlGraphics.SymbolColor;
         haloSprite.scale = HaloScale;
 
         if (effect.MajorEffect == MajorEffectType.None || pearl.AbstractPearl.dataPearlType == Enums.Pearls.CW_Pearlcat)
         {
-            haloSprite.color = addon.ActiveHaloColor;
+            haloSprite.color = pearlGraphics.ActiveHaloColor;
             haloSprite.element = Futile.atlasManager.GetElementWithName("LizardBubble6");
         }
         else
@@ -1135,7 +1138,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         }
 
         guideSprite.SetPosition(targetPos);
-        guideSprite.color = effect.MajorEffect == MajorEffectType.Agility && AgilityPos is null ? Color.red : addon.SymbolColor;
+        guideSprite.color = effect.MajorEffect == MajorEffectType.Agility && AgilityPos is null ? Color.red : pearlGraphics.SymbolColor;
         guideSprite.isVisible =
             effect.MajorEffect == MajorEffectType.Shield
             || effect.MajorEffect == MajorEffectType.Agility
@@ -1164,10 +1167,10 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
 
         laserSprite.isVisible = RageTarget is not null && RageCounter > 0;
-        var laserLerp = addon.LaserLerp;
+        var laserLerp = pearlGraphics.LaserLerp;
 
         laserSprite.alpha = Custom.LerpMap(laserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
-        laserSprite.color = laserLerp > 0.97f || laserLerp == 0.0 ? Color.white : addon.SymbolColor;
+        laserSprite.color = laserLerp > 0.97f || laserLerp == 0.0 ? Color.white : pearlGraphics.SymbolColor;
 
         Creature? target = null;
         RageTarget?.TryGetTarget(out target);
@@ -1187,7 +1190,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         laserSprite.SetPosition(startPos + dir * laserLength / 2.0f);
 
         counterSprite.SetPosition(targetPos + new Vector2(-15.0f, 15.0f));
-        counterSprite.color = addon.SymbolColor;
+        counterSprite.color = pearlGraphics.SymbolColor;
         counterSprite.isVisible = false;
 
         if (effect.MajorEffect == MajorEffectType.Rage && ModOptions.OldRedPearlAbility.Value)
@@ -1209,10 +1212,10 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 rCam.ReturnFContainer("HUD").AddChild(sprite);
             }
 
-            sprite.color = addon.SymbolColor;
+            sprite.color = pearlGraphics.SymbolColor;
             sprite.SetPosition(room.MiddleOfTile(shortcut.startCoord) - camPos);
 
-            sprite.isVisible = !addon.DrawSymbolCooldown || ShieldTimer > 0;
+            sprite.isVisible = !pearlGraphics.DrawSymbolCooldown || ShieldTimer > 0;
         }
 
         holoLightSprite.SetPosition(targetPos);

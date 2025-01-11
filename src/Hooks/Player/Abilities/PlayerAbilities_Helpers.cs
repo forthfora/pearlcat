@@ -8,10 +8,10 @@ public static class PlayerAbilities_Helpers
     {
         var combinedEffect = new PearlEffect();
 
-        foreach (var playerObject in playerModule.Inventory)
+        foreach (var playerPearl in playerModule.Inventory)
         {
-            var effect = playerObject.GetPearlEffect();
-            var mult = playerObject == playerModule.ActiveObject ? effect.ActiveMultiplier : 1.0f;
+            var effect = playerPearl.GetPearlEffect();
+            var mult = playerPearl == playerModule.ActiveObject ? effect.ActiveMultiplier : 1.0f;
 
             combinedEffect.ThrowingSkill += effect.ThrowingSkill;
 
@@ -93,7 +93,7 @@ public static class PlayerAbilities_Helpers
 
         var activeObj = playerModule.ActiveObject;
 
-        if (activeObj is null || !activeObj.TryGetPlayerPearlModule(out var poModule))
+        if (activeObj is null)
         {
             return;
         }
@@ -103,21 +103,46 @@ public static class PlayerAbilities_Helpers
 
         if (abilityInput && !wasAbilityInput)
         {
-            if (activeObj.IsHeartPearl() && playerModule.IsPossessingCreature)
+            DeploySentry(self, activeObj);
+        }
+    }
+
+    public static void DeploySentry(Player self, AbstractPhysicalObject activeObj)
+    {
+        DeploySentry_Local(self, activeObj);
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            MeadowCompat.RPC_DeploySentry(self, activeObj);
+        }
+    }
+
+    public static void DeploySentry_Local(Player self, AbstractPhysicalObject activeObj)
+    {
+        if (!self.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
+
+        if (!activeObj.TryGetPlayerPearlModule(out var pearlModule))
+        {
+            return;
+        }
+
+        if (activeObj.IsHeartPearl() && playerModule.IsPossessingCreature)
+        {
+            Player_Helpers.ReleasePossession(self, playerModule);
+        }
+        else if (!pearlModule.IsReturningSentry)
+        {
+            if (!pearlModule.IsSentry)
             {
-                Player_Helpers.ReleasePossession(self, playerModule);
+                pearlModule.IsSentry = true;
+                self.room.AddObject(new PearlSentry(activeObj));
             }
-            else if (!poModule.IsReturningSentry)
+            else
             {
-                if (!poModule.IsSentry)
-                {
-                    poModule.IsSentry = true;
-                    self.room.AddObject(new PearlSentry(activeObj));
-                }
-                else
-                {
-                    poModule.RemoveSentry(activeObj);
-                }
+                pearlModule.RemoveSentry(activeObj);
             }
         }
     }

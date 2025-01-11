@@ -14,11 +14,10 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
     public int activeObjectIndex;
 
     [OnlineField]
-    public byte remoteInput;
-
-    [OnlineField]
     public int currentPearlAnimation;
 
+    [OnlineField]
+    public byte remoteInput;
 
     [UsedImplicitly]
     public MeadowPearlcatState()
@@ -35,23 +34,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         }
 
         playerPearls = new(playerModule.Inventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
-
-        // Ownership goes to the player who's storing the pearl
-        foreach (var pearl in playerModule.Inventory)
-        {
-            var onlinePearl = pearl.GetOnlineObject();
-
-            if (onlinePearl?.owner is null)
-            {
-                continue;
-            }
-
-            if (onlinePearl.owner != onlineEntity.owner)
-            {
-                onlinePearl.NewOwner(onlineEntity.owner);
-            }
-
-        }
 
         activeObjectIndex = playerModule.ActiveObjectIndex ?? -1;
 
@@ -99,8 +81,8 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
         playerModule.ActiveObjectIndex = activeObjectIndex == -1 ? null : activeObjectIndex;
 
-        playerModule.RemoteInput.FromByte(remoteInput);
 
+        // Pearl Animation
         if (currentPearlAnimation == -1)
         {
             playerModule.CurrentPearlAnimation = null;
@@ -108,6 +90,27 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         else if (playerModule.CurrentPearlAnimation?.GetType() != playerModule.PearlAnimationMap[currentPearlAnimation])
         {
             playerModule.CurrentPearlAnimation = (PearlAnimation)Activator.CreateInstance(playerModule.PearlAnimationMap[currentPearlAnimation], player);
+        }
+
+
+        // Input
+        playerModule.RemoteInput.FromByte(remoteInput);
+
+
+        // Ownership goes to the player who's storing the pearl
+        foreach (var pearl in playerModule.Inventory)
+        {
+            var onlinePearl = pearl.GetOnlineObject();
+
+            if (onlinePearl?.owner is null)
+            {
+                continue;
+            }
+
+            if (onlinePearl.owner != onlineEntity.owner)
+            {
+                onlinePearl.NewOwner(onlineEntity.owner);
+            }
         }
     }
 

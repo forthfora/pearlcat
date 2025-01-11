@@ -11,7 +11,7 @@ public static class PlayerAbilities_Helpers_Revive
         }
 
         if (playerModule.ActiveObject is null ||
-            !playerModule.ActiveObject.TryGetPlayerPearlModule(out var poModule))
+            !playerModule.ActiveObject.TryGetPlayerPearlModule(out var pearlModule))
         {
             return;
         }
@@ -24,7 +24,7 @@ public static class PlayerAbilities_Helpers_Revive
             return;
         }
 
-        if (poModule.CooldownTimer != 0)
+        if (pearlModule.CooldownTimer != 0)
         {
             return;
         }
@@ -48,7 +48,7 @@ public static class PlayerAbilities_Helpers_Revive
 
             self.Blink(5);
 
-            if (playerModule.ReviveTimer % 3 == 0 && !poModule.IsReturningSentry)
+            if (playerModule.ReviveTimer % 3 == 0 && !pearlModule.IsReturningSentry)
             {
                 playerModule.ActiveObject.realizedObject.ConnectEffect(creature.firstChunk.pos);
             }
@@ -87,9 +87,9 @@ public static class PlayerAbilities_Helpers_Revive
         }
         else
         {
-            poModule.RemoveSentry(playerModule.ActiveObject);
+            pearlModule.RemoveSentry(playerModule.ActiveObject);
 
-            if (!poModule.IsReturningSentry)
+            if (!pearlModule.IsReturningSentry)
             {
                 playerModule.ReviveTimer++;
             }

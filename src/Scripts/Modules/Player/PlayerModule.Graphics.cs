@@ -44,6 +44,17 @@ public partial class PlayerModule
     public int PearlAnimationDuration { get; set; }
     public PearlAnimation? CurrentPearlAnimation { get; set; }
 
+    public List<Type> PearlAnimationMap { get; } =
+    [
+        typeof(PearlAnimation_Sleeping),
+        typeof(PearlAnimation_BasicOrbit),
+        typeof(PearlAnimation_FreeFall),
+        typeof(PearlAnimation_LayerOrbit),
+        typeof(PearlAnimation_MultiOrbit),
+        typeof(PearlAnimation_SineWave),
+        typeof(PearlAnimation_SineWaveWeave),
+    ];
+
     public void PickPearlAnimation(Player player)
     {
         if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractCreature))

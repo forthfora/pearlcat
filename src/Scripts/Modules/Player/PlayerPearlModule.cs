@@ -46,7 +46,17 @@ public class PlayerPearlModule
     }
 
 
-    public void RemoveSentry(AbstractPhysicalObject obj)
+    public void RemoveSentry(AbstractPhysicalObject sentry)
+    {
+        RemoveSentry_Local(sentry);
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            MeadowCompat.RPC_RemoveSentry(sentry);
+        }
+    }
+
+    public void RemoveSentry_Local(AbstractPhysicalObject obj)
     {
         if (IsSentry)
         {

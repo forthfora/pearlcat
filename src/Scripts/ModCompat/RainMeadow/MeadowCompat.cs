@@ -66,11 +66,18 @@ public static class MeadowCompat
         }
     }
 
-    public static void RPC_RemoteInput(AbstractPhysicalObject player, byte inputByte)
+    public static void RPC_DeploySentry(Player player, AbstractPhysicalObject pearl)
     {
-        var playerOpo = player.GetOnlineObject();
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
 
         if (playerOpo is null)
+        {
+            return;
+        }
+
+        var pearlOpo = pearl.GetOnlineObject();
+
+        if (pearlOpo is null)
         {
             return;
         }
@@ -82,7 +89,27 @@ public static class MeadowCompat
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RemoteInput))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, byte>)), playerOpo, inputByte);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.DeploySentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject>)), playerOpo, pearlOpo);
+        }
+    }
+
+    public static void RPC_RemoveSentry(AbstractPhysicalObject pearl)
+    {
+        var pearlOpo = pearl.GetOnlineObject();
+
+        if (pearlOpo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RemoveSentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), pearlOpo);
         }
     }
 }

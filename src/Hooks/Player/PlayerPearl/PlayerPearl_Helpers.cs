@@ -111,7 +111,7 @@ public static class PlayerPearl_Helpers
 
             if (abstractObject.realizedObject is not null)
             {
-                abstractObject.MarkAsPlayerObject();
+                abstractObject.MarkAsPlayerPearl();
                 continue;
             }
 
@@ -153,7 +153,7 @@ public static class PlayerPearl_Helpers
 
         abstractObject.RealizeInRoom();
 
-        abstractObject.MarkAsPlayerObject();
+        abstractObject.MarkAsPlayerPearl();
 
         if (hasEffect)
         {
@@ -392,7 +392,7 @@ public static class PlayerPearl_Helpers
             playerModule.Inventory.Insert(targetIndex, abstractObject);
         }
 
-        abstractObject.MarkAsPlayerObject();
+        abstractObject.MarkAsPlayerPearl();
     }
 
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
@@ -408,11 +408,11 @@ public static class PlayerPearl_Helpers
         }
 
         playerModule.Inventory.Remove(abstractObject);
-        abstractObject.ClearAsPlayerObject();
+        abstractObject.ClearAsPlayerPearl();
 
-        if (abstractObject.TryGetPearlGraphicsModule(out var addon))
+        if (abstractObject.TryGetPearlGraphicsModule(out var pearlGraphics))
         {
-            addon.Destroy();
+            pearlGraphics.Destroy();
         }
 
         if (abstractObject.TryGetPlayerPearlModule(out var module))

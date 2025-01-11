@@ -24,7 +24,7 @@ public static class PlayerPearl_Hooks
 
     
     // Management
-    public static void MarkAsPlayerObject(this AbstractPhysicalObject abstractObject)
+    public static void MarkAsPlayerPearl(this AbstractPhysicalObject abstractObject)
     {
         var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule());
 
@@ -58,7 +58,7 @@ public static class PlayerPearl_Hooks
         }
     }
 
-    public static void ClearAsPlayerObject(this AbstractPhysicalObject abstractObject)
+    public static void ClearAsPlayerPearl(this AbstractPhysicalObject abstractObject)
     {
         if (!abstractObject.TryGetPlayerPearlModule(out var module))
         {

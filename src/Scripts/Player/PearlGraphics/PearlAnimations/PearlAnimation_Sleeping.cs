@@ -35,7 +35,7 @@ public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(play
 
             var realizedObject = abstractObject.realizedObject;
 
-            if (!realizedObject.abstractPhysicalObject.TryGetPlayerPearlModule(out var playerObjectModule))
+            if (!realizedObject.abstractPhysicalObject.TryGetPlayerPearlModule(out var playerPearlModule))
             {
                 continue;
             }
@@ -43,7 +43,7 @@ public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(play
             realizedObject.gravity = 0.05f;
             realizedObject.CollideWithTerrain = true;
 
-            playerObjectModule.PlayCollisionSound = false;
+            playerPearlModule.PlayCollisionSound = false;
         }
     }
 }

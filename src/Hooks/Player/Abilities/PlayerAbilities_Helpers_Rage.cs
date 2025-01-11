@@ -12,9 +12,9 @@ public static class PlayerAbilities_Helpers_Rage
     {
         foreach (var item in playerModule.Inventory)
         {
-            if (item.TryGetPearlGraphicsModule(out var addon))
+            if (item.TryGetPearlGraphicsModule(out var pearlGraphics))
             {
-                addon.IsActiveRagePearl = false;
+                pearlGraphics.IsActiveRagePearl = false;
             }
         }
 
@@ -95,12 +95,12 @@ public static class PlayerAbilities_Helpers_Rage
         {
             var ragePearl = ragePearls[i];
 
-            if (!ragePearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var addon))
+            if (!ragePearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var pearlGraphics))
             {
                 continue;
             }
 
-            addon.IsActiveRagePearl = true;
+            pearlGraphics.IsActiveRagePearl = true;
 
             var angle = (i * Mathf.PI * 2.0f / ragePearls.Count) + angleFrameAddition * playerModule.RageAnimTimer;
             var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
@@ -417,10 +417,10 @@ public static class PlayerAbilities_Helpers_Rage
                 room.AddObject(new ExplosionSpikes(pearl.room, pearl.firstChunk.pos, 10, 15.0f, 15, 5.0f, 70.0f,
                     pearlColor));
 
-                if (pearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var addon))
+                if (pearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var pearlGraphics))
                 {
-                    addon.LaserTarget = (Vector2)bestTargetPos;
-                    addon.LaserLerp = 1.0f;
+                    pearlGraphics.LaserTarget = (Vector2)bestTargetPos;
+                    pearlGraphics.LaserLerp = 1.0f;
                 }
             }
         }
@@ -627,7 +627,7 @@ public static class PlayerAbilities_Helpers_Rage
                 continue;
             }
 
-            if (!item.TryGetPearlGraphicsModule(out var addon))
+            if (!item.TryGetPearlGraphicsModule(out var pearlGraphics))
             {
                 continue;
             }
@@ -659,11 +659,11 @@ public static class PlayerAbilities_Helpers_Rage
 
                 // shoot laser
                 self.room.PlaySound(SoundID.Bomb_Explode, targetPos, 0.8f, Random.Range(0.7f, 1.3f));
-                self.room.AddObject(new LightningMachine.Impact(targetPos, 0.5f, addon.SymbolColor, true));
+                self.room.AddObject(new LightningMachine.Impact(targetPos, 0.5f, pearlGraphics.SymbolColor, true));
 
                 self.room.AddObject(new ShockWave(targetPos, 30.0f, 0.4f, 5));
                 self.room.AddObject(new ExplosionSpikes(self.room, targetPos, 5, 20.0f, 10, 20.0f, 20.0f,
-                    addon.SymbolColor));
+                    pearlGraphics.SymbolColor));
 
                 target.SetKillTag(self.abstractCreature);
                 target.Violence(self.mainBodyChunk, null, target.mainBodyChunk, null, Creature.DamageType.Explosion,

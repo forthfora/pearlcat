@@ -87,9 +87,9 @@ public static class Creatures_HooksIL
             {
                 foreach (var item in module.Inventory)
                 {
-                    if (item.TryGetPlayerPearlModule(out var poModule))
+                    if (item.TryGetPlayerPearlModule(out var pearlModule))
                     {
-                        if (poModule.VisitedObjects.TryGetValue(weapon, out _))
+                        if (pearlModule.VisitedObjects.TryGetValue(weapon, out _))
                         {
                             return true;
                         }
@@ -143,9 +143,9 @@ public static class Creatures_HooksIL
             {
                 foreach (var item in module.Inventory)
                 {
-                    if (item.TryGetPlayerPearlModule(out var poModule))
+                    if (item.TryGetPlayerPearlModule(out var pearlModule))
                     {
-                        if (poModule.VisitedObjects.TryGetValue(weapon, out _))
+                        if (pearlModule.VisitedObjects.TryGetValue(weapon, out _))
                         {
                             return true;
                         }

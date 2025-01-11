@@ -141,16 +141,6 @@ public partial class PlayerModule
 
     // Rain Meadow
     public MeadowRemoteInput RemoteInput { get; set; } = new();
-    public List<Type> PearlAnimationMap { get; } =
-    [
-        typeof(PearlAnimation_Sleeping),
-        typeof(PearlAnimation_BasicOrbit),
-        typeof(PearlAnimation_FreeFall),
-        typeof(PearlAnimation_LayerOrbit),
-        typeof(PearlAnimation_MultiOrbit),
-        typeof(PearlAnimation_SineWave),
-        typeof(PearlAnimation_SineWaveWeave),
-    ];
 
     public void UpdateRemoteInput(Player self)
     {
@@ -171,11 +161,6 @@ public partial class PlayerModule
 
         RemoteInput.Agility = self.IsAgilityKeybindPressed(this);
         RemoteInput.SpearCreation = self.IsSpearCreationKeybindPressed(this);
-
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
-        {
-            MeadowCompat.RPC_RemoteInput(self.abstractPhysicalObject, RemoteInput.ToByte());
-        }
     }
 
     public class MeadowRemoteInput

@@ -86,35 +86,35 @@ public abstract class PearlAnimation
                 continue;
             }
 
-            if (!abstractObject.TryGetPearlGraphicsModule(out var addon))
+            if (!abstractObject.TryGetPearlGraphicsModule(out var pearlGraphics))
             {
                 continue;
             }
 
 
-            addon.DrawHalo = true;
+            pearlGraphics.DrawHalo = true;
             var haloEffectTimer = HaloEffectStackers[i];
 
-            addon.ActiveHaloColor = abstractObject.GetObjectColor() * new Color(1.0f, 0.25f, 0.25f);
+            pearlGraphics.ActiveHaloColor = abstractObject.GetObjectColor() * new Color(1.0f, 0.25f, 0.25f);
 
             // CW Pearl unique halo color
             if (abstractObject is DataPearl.AbstractDataPearl dataPearl &&
                 dataPearl.dataPearlType == Enums.Pearls.CW_Pearlcat)
             {
-                addon.ActiveHaloColor = Custom.hexToColor("bf934d");
+                pearlGraphics.ActiveHaloColor = Custom.hexToColor("bf934d");
             }
 
             if (i == playerModule.ActiveObjectIndex)
             {
-                addon.HaloColor = addon.ActiveHaloColor;
-                addon.HaloScale = 1.0f + 0.45f * haloEffectTimer;
-                addon.HaloAlpha = 0.8f;
+                pearlGraphics.HaloColor = pearlGraphics.ActiveHaloColor;
+                pearlGraphics.HaloScale = 1.0f + 0.45f * haloEffectTimer;
+                pearlGraphics.HaloAlpha = 0.8f;
             }
             else
             {
-                addon.HaloColor = abstractObject.GetObjectColor() * new Color(0.25f, 0.25f, 1.0f);
-                addon.HaloScale = 0.3f + 0.45f * haloEffectTimer;
-                addon.HaloAlpha = ModOptions.HidePearls.Value && !abstractObject.IsHeartPearl() ? 0.0f : 0.6f;
+                pearlGraphics.HaloColor = abstractObject.GetObjectColor() * new Color(0.25f, 0.25f, 1.0f);
+                pearlGraphics.HaloScale = 0.3f + 0.45f * haloEffectTimer;
+                pearlGraphics.HaloAlpha = ModOptions.HidePearls.Value && !abstractObject.IsHeartPearl() ? 0.0f : 0.6f;
             }
 
 
@@ -148,7 +148,7 @@ public abstract class PearlAnimation
                 continue;
             }
 
-            if (!abstractObject.TryGetPearlGraphicsModule(out var addon))
+            if (!abstractObject.TryGetPearlGraphicsModule(out var pearlGraphics))
             {
                 continue;
             }
@@ -158,19 +158,19 @@ public abstract class PearlAnimation
                 continue;
             }
 
-            if (player.room is null || addon.Pos == Vector2.zero)
+            if (player.room is null || pearlGraphics.Pos == Vector2.zero)
             {
-                addon.IsVisible = false;
+                pearlGraphics.IsVisible = false;
                 continue;
             }
 
-            addon.IsVisible = true;
+            pearlGraphics.IsVisible = true;
 
 
             var effect = abstractObject.GetPearlEffect();
 
-            addon.IsActiveObject = i == playerModule.ActiveObjectIndex;
-            addon.SymbolColor = effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage ? Color.white : abstractObject.GetObjectColor();
+            pearlGraphics.IsActiveObject = i == playerModule.ActiveObjectIndex;
+            pearlGraphics.SymbolColor = effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage ? Color.white : abstractObject.GetObjectColor();
 
             if (pearlModule.CooldownTimer != 0)
             {
@@ -179,82 +179,82 @@ public abstract class PearlAnimation
                     abstractObject.realizedObject.room.AddObject(new ShockWave(abstractObject.realizedObject.firstChunk.pos, 10.0f, 1.0f, 5, true));
                 }
 
-                addon.DrawSymbolCooldown = true;
+                pearlGraphics.DrawSymbolCooldown = true;
 
                 var cooldownLerp = pearlModule.CooldownTimer < 0 ? 1.0f : Custom.LerpMap(pearlModule.CooldownTimer, pearlModule.CurrentCooldownTime / 2.0f, 0.0f, 1.0f, 0.0f);
                 var cooldownColor = effect.MajorEffect == PearlEffect.MajorEffectType.Rage ? Color.white : (Color)new Color32(189, 13, 0, 255);
 
-                addon.SymbolColor = Color.Lerp(Color.Lerp(addon.SymbolColor, cooldownColor, 0.4f), cooldownColor, cooldownLerp);
+                pearlGraphics.SymbolColor = Color.Lerp(Color.Lerp(pearlGraphics.SymbolColor, cooldownColor, 0.4f), cooldownColor, cooldownLerp);
             }
             else
             {
-                addon.DrawSymbolCooldown = false;
+                pearlGraphics.DrawSymbolCooldown = false;
             }
 
             if (playerModule.DisabledEffects.Contains(effect.MajorEffect))
             {
-                addon.DrawSymbolCooldown = true;
-                addon.SymbolColor = Color.white;
+                pearlGraphics.DrawSymbolCooldown = true;
+                pearlGraphics.SymbolColor = Color.white;
             }
 
-            if (ModOptions.HidePearls.Value && !addon.IsActiveObject)
+            if (ModOptions.HidePearls.Value && !pearlGraphics.IsActiveObject)
             {
-                addon.DrawSymbolCooldown = false;
+                pearlGraphics.DrawSymbolCooldown = false;
             }
 
 
-            addon.Symbol = PearlGraphics.SpriteFromPearl(abstractObject);
-            addon.SymbolAlpha = addon.IsActiveObject ? Mathf.Lerp(addon.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(addon.SymbolAlpha, 0.0f, 0.05f);
+            pearlGraphics.Symbol = PearlGraphics.SpriteFromPearl(abstractObject);
+            pearlGraphics.SymbolAlpha = pearlGraphics.IsActiveObject ? Mathf.Lerp(pearlGraphics.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(pearlGraphics.SymbolAlpha, 0.0f, 0.05f);
 
-            addon.CamoLerp = ModOptions.HidePearls.Value && !addon.IsActiveObject && !abstractObject.IsHeartPearl() && !addon.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
+            pearlGraphics.CamoLerp = ModOptions.HidePearls.Value && !pearlGraphics.IsActiveObject && !abstractObject.IsHeartPearl() && !pearlGraphics.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
 
-            if ((!ModOptions.HidePearls.Value || addon.IsActiveObject) && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
+            if ((!ModOptions.HidePearls.Value || pearlGraphics.IsActiveObject) && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
             {
-                addon.CamoLerp = 0.0f;
+                pearlGraphics.CamoLerp = 0.0f;
             }
 
-            addon.DrawSpearLerp = playerModule.SpearLerp;
+            pearlGraphics.DrawSpearLerp = playerModule.SpearLerp;
 
-            addon.ShieldCounter = playerModule.ShieldCount;
-            addon.ReviveCounter = playerModule.ReviveCount;
+            pearlGraphics.ShieldCounter = playerModule.ShieldCount;
+            pearlGraphics.ReviveCounter = playerModule.ReviveCount;
 
 
 
-            addon.IsSentry = pearlModule.IsSentry || pearlModule.IsReturningSentry;
+            pearlGraphics.IsSentry = pearlModule.IsSentry || pearlModule.IsReturningSentry;
 
-            if (addon.IsSentry || addon.IsActiveRagePearl)
+            if (pearlGraphics.IsSentry || pearlGraphics.IsActiveRagePearl)
             {
-                if (addon.IsSentry)
+                if (pearlGraphics.IsSentry)
                 {
-                    addon.CamoLerp = 0.0f;
-                    addon.Symbol = "pearlcat_glyphsentry";
+                    pearlGraphics.CamoLerp = 0.0f;
+                    pearlGraphics.Symbol = "pearlcat_glyphsentry";
                 }
 
                 // gross code
                 if (PlayerPearl_Helpers_Data.TargetPositions.TryGetValue(abstractObject, out var targetPos))
                 {
-                    addon.OverridePos ??= abstractObject.realizedObject.firstChunk.pos;
-                    addon.OverrideLastPos = addon.OverridePos;
+                    pearlGraphics.OverridePos ??= abstractObject.realizedObject.firstChunk.pos;
+                    pearlGraphics.OverrideLastPos = pearlGraphics.OverridePos;
 
-                    addon.OverridePos = Vector2.Lerp((Vector2)addon.OverridePos, addon.IsActiveObject ? player.GetActivePearlPos(timeStacker: 1.0f) : targetPos.Value, 0.7f);
+                    pearlGraphics.OverridePos = Vector2.Lerp((Vector2)pearlGraphics.OverridePos, pearlGraphics.IsActiveObject ? player.GetActivePearlPos(timeStacker: 1.0f) : targetPos.Value, 0.7f);
 
-                    if (addon.OverrideLastPos is not null && !Custom.DistLess((Vector2)addon.OverridePos, (Vector2)addon.OverrideLastPos, 100.0f))
+                    if (pearlGraphics.OverrideLastPos is not null && !Custom.DistLess((Vector2)pearlGraphics.OverridePos, (Vector2)pearlGraphics.OverrideLastPos, 100.0f))
                     {
-                        addon.OverrideLastPos = addon.OverridePos;
+                        pearlGraphics.OverrideLastPos = pearlGraphics.OverridePos;
                     }
                 }
             }
             else
             {
-                addon.OverridePos = null;
-                addon.OverrideLastPos = null;
+                pearlGraphics.OverridePos = null;
+                pearlGraphics.OverrideLastPos = null;
             }
 
             var returnPos = PlayerPearl_Helpers_Data.TargetPositions.TryGetValue(abstractObject, out var pos) ? pos.Value : player.GetActivePearlPos();
             var returned = Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, returnPos, 8.0f);
 
 
-            if (addon.IsActiveRagePearl)
+            if (pearlGraphics.IsActiveRagePearl)
             {
                 returnPos = player.firstChunk.pos;
                 returned = Custom.DistLess(abstractObject.realizedObject.firstChunk.pos, returnPos, 80.0f);
@@ -263,34 +263,34 @@ public abstract class PearlAnimation
             if (pearlModule.IsReturningSentry && returned)
             {
                 abstractObject.realizedObject.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, abstractObject.realizedObject.firstChunk.pos, 0.5f, 3.0f);
-                abstractObject.realizedObject.room.AddObject(new LightningMachine.Impact(abstractObject.realizedObject.firstChunk.pos, 0.1f, addon.SymbolColor, true));
+                abstractObject.realizedObject.room.AddObject(new LightningMachine.Impact(abstractObject.realizedObject.firstChunk.pos, 0.1f, pearlGraphics.SymbolColor, true));
 
                 pearlModule.IsReturningSentry = false;
             }
 
             var hasTarget = false;
 
-            if (!addon.IsSentry && playerModule.RageTarget?.TryGetTarget(out var target) == true)
+            if (!pearlGraphics.IsSentry && playerModule.RageTarget?.TryGetTarget(out var target) == true)
             {
                 hasTarget = true;
-                addon.LaserTarget = target.mainBodyChunk.pos;
+                pearlGraphics.LaserTarget = target.mainBodyChunk.pos;
             }
 
             if (ModOptions.OldRedPearlAbility.Value)
             {
-                addon.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.Rage && playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage;
-                addon.LaserLerp = pearlModule.LaserLerp;
+                pearlGraphics.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.Rage && playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage;
+                pearlGraphics.LaserLerp = pearlModule.LaserLerp;
             }
             else
             {
-                addon.LaserLerp = Custom.LerpAndTick(addon.LaserLerp, 0.0f, 0.025f, 0.005f);
-                addon.IsLaserVisible = addon.LaserLerp > 0.02f;
+                pearlGraphics.LaserLerp = Custom.LerpAndTick(pearlGraphics.LaserLerp, 0.0f, 0.025f, 0.005f);
+                pearlGraphics.IsLaserVisible = pearlGraphics.LaserLerp > 0.02f;
             }
 
             // CW Pearl is on second double jump
             if (pearlModule.IsCWDoubleJumpUsed && pearlModule.CooldownTimer == 0)
             {
-                addon.SymbolColor = Custom.hexToColor("ffc800");
+                pearlGraphics.SymbolColor = Custom.hexToColor("ffc800");
             }
         }
     }
