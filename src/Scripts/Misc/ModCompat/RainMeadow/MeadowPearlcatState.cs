@@ -7,7 +7,7 @@ namespace Pearlcat;
 
 public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 {
-    [OnlineField]
+    [OnlineField(nullable = true)]
     public RainMeadow.Generics.DynamicOrderedEntityIDs playerPearls = null!;
 
     [OnlineField]
@@ -15,6 +15,10 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
     [OnlineField]
     public byte remoteInput;
+
+    [OnlineField]
+    public int currentPearlAnimation;
+
 
     [UsedImplicitly]
     public MeadowPearlcatState()
@@ -32,9 +36,29 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
         playerPearls = new(playerModule.Inventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
 
+        // Ownership goes to the player who's storing the pearl
+        foreach (var pearl in playerModule.Inventory)
+        {
+            var onlinePearl = pearl.GetOnlineObject();
+
+            if (onlinePearl is null)
+            {
+                continue;
+            }
+
+            onlinePearl.NewOwner(onlineEntity.owner);
+        }
+
         activeObjectIndex = playerModule.ActiveObjectIndex ?? -1;
 
+        currentPearlAnimation = playerModule.PearlAnimationMap.IndexOf(currentPearlAnimation.GetType());
+
         remoteInput = playerModule.RemoteInput.ToByte();
+
+        Plugin.Logger.LogWarning($"Owner ID: {onlineEntity.owner.id}");
+        Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
+        Plugin.Logger.LogWarning($"Object Animation: {activeObjectIndex}");
+        Plugin.Logger.LogWarning("Remote Input: " + string.Join(" ", remoteInput.ByteToBools().Select(x => x ? "1" : "0")));
     }
 
     public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
@@ -54,8 +78,8 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
         var localInventory = playerModule.Inventory;
 
-        var pearlsToAdd = remoteInventory.Where(x => localInventory.Contains(x));
-        var pearlsToRemove = localInventory.Where(x => remoteInventory.Contains(x));
+        var pearlsToAdd = remoteInventory.Where(x => !localInventory.Contains(x));
+        var pearlsToRemove = localInventory.Where(x => !remoteInventory.Contains(x));
 
         foreach (var pearl in pearlsToAdd)
         {
@@ -72,6 +96,15 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         playerModule.ActiveObjectIndex = activeObjectIndex == -1 ? null : activeObjectIndex;
 
         playerModule.RemoteInput.FromByte(remoteInput);
+
+        if (currentPearlAnimation == -1)
+        {
+            playerModule.CurrentPearlAnimation = null;
+        }
+        else if (playerModule.CurrentPearlAnimation is not null && playerModule.CurrentPearlAnimation.GetType() != playerModule.PearlAnimationMap[currentPearlAnimation])
+        {
+            playerModule.CurrentPearlAnimation = (PearlAnimation)Activator.CreateInstance(playerModule.PearlAnimationMap[currentPearlAnimation], player);
+        }
     }
 
     public override Type GetDataType()

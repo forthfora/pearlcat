@@ -177,7 +177,7 @@ public static class Player_Helpers
             return;
         }
 
-        playerModule.PickObjectAnimation(self);
+        playerModule.PickPearlAnimation(self);
     }
 
     public static void Revive(this Creature self)
@@ -671,13 +671,13 @@ public static class Player_Helpers
     {
         if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
         {
-            playerModule.CurrentObjectAnimation = new PearlAnimation_FreeFall(self);
+            playerModule.CurrentPearlAnimation = new PearlAnimation_FreeFall(self);
         }
         else if (self.Sleeping || self.sleepCurlUp > 0.0f)
         {
-            playerModule.CurrentObjectAnimation = new PearlAnimation_Sleeping(self);
+            playerModule.CurrentPearlAnimation = new PearlAnimation_Sleeping(self);
         }
-        else if (playerModule.CurrentObjectAnimation is PearlAnimation_Sleeping or PearlAnimation_FreeFall)
+        else if (playerModule.CurrentPearlAnimation is PearlAnimation_Sleeping or PearlAnimation_FreeFall)
         {
             for (var i = 0; i < playerModule.Inventory.Count; i++)
             {
@@ -705,23 +705,23 @@ public static class Player_Helpers
                 abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
             }
 
-            playerModule.PickObjectAnimation(self);
+            playerModule.PickPearlAnimation(self);
         }
         else
         {
-            if (playerModule.CurrentObjectAnimation is PearlAnimation_SineWaveWeave or PearlAnimation_SineWave && self.firstChunk.vel.magnitude > 4.0f)
+            if (playerModule.CurrentPearlAnimation is PearlAnimation_SineWaveWeave or PearlAnimation_SineWave && self.firstChunk.vel.magnitude > 4.0f)
             {
-                playerModule.PickObjectAnimation(self);
+                playerModule.PickPearlAnimation(self);
             }
         }
 
-        if (playerModule.ObjectAnimationTimer > playerModule.ObjectAnimationDuration)
+        if (playerModule.PearlAnimationTimer > playerModule.PearlAnimationDuration)
         {
-            playerModule.PickObjectAnimation(self);
+            playerModule.PickPearlAnimation(self);
         }
 
-        playerModule.CurrentObjectAnimation?.Update(self);
-        playerModule.ObjectAnimationTimer++;
+        playerModule.CurrentPearlAnimation?.Update(self);
+        playerModule.PearlAnimationTimer++;
     }
 
     public static void UpdateSFX(Player self, PlayerModule playerModule)

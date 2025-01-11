@@ -13,7 +13,7 @@ public static class Input_Helpers
     // Inventory
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
         {
             return playerModule.RemoteInput.Store;
         }
@@ -57,7 +57,7 @@ public static class Input_Helpers
             return false;
         }
 
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
         {
             return playerModule.RemoteInput.Swap;
         }
@@ -85,7 +85,7 @@ public static class Input_Helpers
             return false;
         }
 
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
         {
             return playerModule.RemoteInput.SwapLeft;
         }
@@ -131,7 +131,7 @@ public static class Input_Helpers
             return false;
         }
 
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
         {
             return playerModule.RemoteInput.SwapRight;
         }
@@ -179,7 +179,7 @@ public static class Input_Helpers
             return false;
         }
 
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
         {
             return playerModule.RemoteInput.Ability;
         }
@@ -203,7 +203,7 @@ public static class Input_Helpers
     
     public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
         {
             return playerModule.RemoteInput.Sentry;
         }
@@ -235,7 +235,7 @@ public static class Input_Helpers
     // Custom Ability
     public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
         {
             return playerModule.RemoteInput.Agility;
         }
@@ -251,7 +251,7 @@ public static class Input_Helpers
 
     public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
         {
             return playerModule.RemoteInput.SpearCreation;
         }

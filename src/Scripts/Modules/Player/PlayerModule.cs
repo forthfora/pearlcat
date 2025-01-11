@@ -135,17 +135,27 @@ public partial class PlayerModule
             ActiveObjectIndex = activeObjectIndex < Inventory.Count ? activeObjectIndex : 0;
         }
 
-        PickObjectAnimation(self);
+        PickPearlAnimation(self);
     }
 
 
     // Rain Meadow
     public MeadowRemoteInput RemoteInput { get; set; } = new();
+    public List<Type> PearlAnimationMap { get; } =
+    [
+        typeof(PearlAnimation_Sleeping),
+        typeof(PearlAnimation_BasicOrbit),
+        typeof(PearlAnimation_FreeFall),
+        typeof(PearlAnimation_LayerOrbit),
+        typeof(PearlAnimation_MultiOrbit),
+        typeof(PearlAnimation_SineWave),
+        typeof(PearlAnimation_SineWaveWeave),
+    ];
 
     public void UpdateRemoteInput(Player self)
     {
         // we're only in charge of these if we're the owner
-        if (!ModCompat_Helpers.RainMeadow_IsLocal(self.abstractCreature))
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractCreature))
         {
             return;
         }

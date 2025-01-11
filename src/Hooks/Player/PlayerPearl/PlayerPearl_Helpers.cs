@@ -290,7 +290,7 @@ public static class PlayerPearl_Helpers
             self.ActivateObjectInStorage(targetIndex);
         }
         
-        playerModule.PickObjectAnimation(self);
+        playerModule.PickPearlAnimation(self);
         playerModule.ShowHUD(30);
 
         self.UpdateInventorySaveData(playerModule);
@@ -336,7 +336,7 @@ public static class PlayerPearl_Helpers
         self.RemoveFromInventory(activeObject);
         self.SlugcatGrab(activeObject.realizedObject, self.FreeHand());
 
-        playerModule.PickObjectAnimation(self);
+        playerModule.PickPearlAnimation(self);
         playerModule.ShowHUD(30);
 
         if (playerModule.ActiveObject is null && playerModule.Inventory.Count > 0)

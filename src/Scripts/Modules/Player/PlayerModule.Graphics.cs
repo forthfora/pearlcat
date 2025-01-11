@@ -40,12 +40,16 @@ public partial class PlayerModule
 
 
     // Object Animation
-    public int ObjectAnimationTimer { get; set; }
-    public int ObjectAnimationDuration { get; set; }
-    public PearlAnimation? CurrentObjectAnimation { get; set; }
+    public int PearlAnimationTimer { get; set; }
+    public int PearlAnimationDuration { get; set; }
+    public PearlAnimation? CurrentPearlAnimation { get; set; }
 
-    public void PickObjectAnimation(Player player)
+    public void PickPearlAnimation(Player player)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractCreature))
+        {
+            return;
+        }
 
         var minTime = 480;
         var maxTime = 1600;
@@ -55,10 +59,10 @@ public partial class PlayerModule
         var randState = Random.state;
         Random.InitState(randomSeed);
 
-        CurrentObjectAnimation = GetObjectAnimation(player);
-        ObjectAnimationTimer = 0;
+        CurrentPearlAnimation = GetPearlAnimation(player);
+        PearlAnimationTimer = 0;
 
-        ObjectAnimationDuration = Random.Range(minTime, maxTime);
+        PearlAnimationDuration = Random.Range(minTime, maxTime);
 
         Random.state = randState;
 
@@ -75,7 +79,7 @@ public partial class PlayerModule
         }
     }
 
-    public PearlAnimation GetObjectAnimation(Player player)
+    public PearlAnimation GetPearlAnimation(Player player)
     {
         if (ModOptions.HidePearls.Value)
         {
@@ -101,9 +105,9 @@ public partial class PlayerModule
             animationPool.AddRange(stillAnimationPool);
         }
 
-        if (CurrentObjectAnimation is not null && animationPool.Count > 1)
+        if (CurrentPearlAnimation is not null && animationPool.Count > 1)
         {
-            animationPool.RemoveAll(x => x.GetType() == CurrentObjectAnimation.GetType());
+            animationPool.RemoveAll(x => x.GetType() == CurrentPearlAnimation.GetType());
         }
 
         return animationPool[Random.Range(0, animationPool.Count)];
