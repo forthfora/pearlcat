@@ -30,18 +30,27 @@ public class PlayerPearlModule
     public ConditionalWeakTable<PhysicalObject, StrongBox<bool>> VisitedObjects = new();
 
 
-    private int cooldownTimer;
+    public PlayerPearlModule(AbstractPhysicalObject pearl)
+    {
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            MeadowCompat.InitMeadowPlayerPearlData(pearl);
+        }
+    }
+
+
+    public int _cooldownTimer;
     public int CooldownTimer
     {
-        get => cooldownTimer;
+        get => _cooldownTimer;
         set
         {
-            if (cooldownTimer <= 0)
+            if (_cooldownTimer <= 0)
             {
                 CurrentCooldownTime = value;
             }
 
-            cooldownTimer = value;
+            _cooldownTimer = value;
         }
     }
 

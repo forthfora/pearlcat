@@ -2,11 +2,13 @@ using System;
 using System.Linq;
 using JetBrains.Annotations;
 using RainMeadow;
+using UnityEngine;
 
 namespace Pearlcat;
 
 public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 {
+    // Inventory & Input
     [OnlineField(nullable = true)]
     public RainMeadow.Generics.DynamicOrderedEntityIDs playerPearls = null!;
 
@@ -18,6 +20,44 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
     [OnlineField]
     public byte remoteInput;
+
+
+    // Colors
+    [OnlineField]
+    public Color baseBodyColor;
+
+    [OnlineField]
+    public Color baseAccentColor;
+
+    [OnlineField]
+    public Color baseCloakColor;
+
+    [OnlineField]
+    public Color baseFaceColor;
+
+
+    // Abilities
+    [OnlineField]
+    public int flyTimer;
+
+    [OnlineField]
+    public int groundedTimer;
+
+    [OnlineField]
+    public int dazeTimer;
+
+    [OnlineField]
+    public int reviveTimer;
+
+    [OnlineField]
+    public int shieldTimer;
+
+    [OnlineField]
+    public int spearTimer;
+
+    [OnlineField]
+    public int agilityOveruseTimer;
+
 
     [UsedImplicitly]
     public MeadowPearlcatState()
@@ -41,10 +81,20 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
         remoteInput = playerModule.RemoteInput.ToByte();
 
-        // Plugin.Logger.LogWarning($"Owner ID: {onlineEntity.owner.id}");
-        // Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
-        // Plugin.Logger.LogWarning($"Pearl Animation: {activeObjectIndex}");
-        // Plugin.Logger.LogWarning("Remote Input: " + string.Join(" ", remoteInput.ByteToBools().Select(x => x ? "1" : "0")));
+
+        baseBodyColor = playerModule.BaseBodyColor;
+        baseAccentColor = playerModule.BaseAccentColor;
+        baseCloakColor = playerModule.BaseCloakColor;
+        baseFaceColor = playerModule.BaseFaceColor;
+
+
+        flyTimer = playerModule.FlyTimer;
+        groundedTimer = playerModule.GroundedTimer;
+        dazeTimer = playerModule.DazeTimer;
+        reviveTimer = playerModule.ReviveTimer;
+        shieldTimer = playerModule.ShieldTimer;
+        spearTimer = playerModule.SpearTimer;
+        agilityOveruseTimer = playerModule.AgilityOveruseTimer;
     }
 
     public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
@@ -112,6 +162,21 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
                 onlinePearl.NewOwner(onlineEntity.owner);
             }
         }
+
+
+        playerModule.BaseBodyColor = baseBodyColor;
+        playerModule.BaseAccentColor = baseAccentColor;
+        playerModule.BaseCloakColor = baseCloakColor;
+        playerModule.BaseFaceColor = baseFaceColor;
+
+
+        playerModule.FlyTimer = flyTimer;
+        playerModule.GroundedTimer = groundedTimer;
+        playerModule.DazeTimer = dazeTimer;
+        playerModule.ReviveTimer = reviveTimer;
+        playerModule.ShieldTimer = shieldTimer;
+        playerModule.SpearTimer = spearTimer;
+        playerModule.AgilityOveruseTimer = agilityOveruseTimer;
     }
 
     public override Type GetDataType()

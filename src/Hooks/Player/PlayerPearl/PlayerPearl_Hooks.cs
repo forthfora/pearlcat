@@ -26,7 +26,7 @@ public static class PlayerPearl_Hooks
     // Management
     public static void MarkAsPlayerPearl(this AbstractPhysicalObject abstractObject)
     {
-        var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule());
+        var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule(abstractObject));
 
         if (module.IsCurrentlyStored)
         {

@@ -188,6 +188,7 @@ public partial class PlayerModule
                 Ability,
                 Agility,
                 SpearCreation,
+                false,
             ];
 
             var result = values.BoolsToByte();

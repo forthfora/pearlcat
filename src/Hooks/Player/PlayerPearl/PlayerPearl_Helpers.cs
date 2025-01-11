@@ -535,6 +535,11 @@ public static class PlayerPearl_Helpers
     // Save
     public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        {
+            return;
+        }
+
         if (ModOptions.InventoryOverride.Value)
         {
             return;

@@ -5,6 +5,8 @@ namespace Pearlcat;
 
 public static class MeadowCompat
 {
+    public static bool IsMeadowGameMode => OnlineManager.lobby is not null && OnlineManager.lobby.gameMode is MeadowGameMode;
+
     public static bool IsLocal(AbstractPhysicalObject abstractPhysicalObject)
     {
         return abstractPhysicalObject.IsLocal();
@@ -15,6 +17,30 @@ public static class MeadowCompat
         var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
 
         playerOpo?.AddData(new MeadowPearlcatData());
+    }
+
+    public static void InitMeadowPlayerPearlData(AbstractPhysicalObject pearl)
+    {
+        var pearlOpo = pearl.GetOnlineObject();
+
+        pearlOpo?.AddData(new MeadowPlayerPearlData());
+    }
+
+    public static void SetMeadowColors(Player player, PlayerModule playerModule)
+    {
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        if (!playerOpo.TryGetData<SlugcatCustomization>(out var customization))
+        {
+            return;
+        }
+
+        // TODO
     }
 
 

@@ -164,11 +164,8 @@ public partial class PlayerModule
     public Color BaseCloakColor { get; set; }
 
     public static Color DefaultBodyColor => Custom.hexToColor("283b2c");
-
     public static Color DefaultFaceColor => Color.white;
-
     public static Color DefaultAccentColor => Color.white;
-
     public static Color DefaultCloakColor => Custom.hexToColor("ca471b");
 
     public Color ActiveColor => ActiveObject?.GetObjectColor() ?? Color.white;
@@ -180,6 +177,11 @@ public partial class PlayerModule
 
         BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? DefaultAccentColor;
         BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? DefaultCloakColor;
+
+        if (ModCompat_Helpers.RainMeadow_IsMeadowGameMode)
+        {
+            MeadowCompat.SetMeadowColors(self.player, this);
+        }
 
         if (IsAdultPearlpupAppearance)
         {
