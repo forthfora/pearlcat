@@ -191,6 +191,12 @@ public static class PlayerPearl_Helpers_Data
         var pos = TargetPositions.GetValue(abstractObject, _ => new StrongBox<Vector2>());
         pos.Value = targetPos;
 
+        // Just let meadow handle the position, sync it from the owner
+        if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
+        {
+            return;
+        }
+
         if (abstractObject.TryGetSentry(out _))
         {
             return;

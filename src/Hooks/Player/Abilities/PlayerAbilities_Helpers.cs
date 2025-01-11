@@ -86,7 +86,7 @@ public static class PlayerAbilities_Helpers
         PlayerAbilities_Helpers_Camouflage.Update(self, playerModule, effect);
 
 
-        if (self.inVoidSea || !self.Consious || self.Sleeping || self.controller is not null)
+        if (self.inVoidSea || !self.Consious || self.Sleeping || (self.controller is not null && ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))) // Meadow uses the player controller, don't block in that case
         {
             return;
         }

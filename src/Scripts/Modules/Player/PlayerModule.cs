@@ -18,7 +18,7 @@ public partial class PlayerModule
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            MeadowIntegration.InitMeadowPearlcatData(self);
+            MeadowCompat.InitMeadowPearlcatData(self);
         }
     }
 
@@ -100,7 +100,7 @@ public partial class PlayerModule
 
     public void LoadSaveData(Player self)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsOwner)
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
         {
             return;
         }
@@ -171,6 +171,11 @@ public partial class PlayerModule
 
         RemoteInput.Agility = self.IsAgilityKeybindPressed(this);
         RemoteInput.SpearCreation = self.IsSpearCreationKeybindPressed(this);
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            MeadowCompat.RPC_RemoteInput(self.abstractPhysicalObject, RemoteInput.ToByte());
+        }
     }
 
     public class MeadowRemoteInput

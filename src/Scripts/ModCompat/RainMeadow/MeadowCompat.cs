@@ -3,10 +3,8 @@ using RainMeadow;
 
 namespace Pearlcat;
 
-public static class MeadowIntegration
+public static class MeadowCompat
 {
-    public static bool IsOwner => OnlineManager.lobby.isOwner;
-
     public static bool IsLocal(AbstractPhysicalObject abstractPhysicalObject)
     {
         return abstractPhysicalObject.IsLocal();
@@ -16,12 +14,7 @@ public static class MeadowIntegration
     {
         var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
 
-        if (playerOpo is null)
-        {
-            return;
-        }
-
-        playerOpo.AddData(new MeadowPearlcatData());
+        playerOpo?.AddData(new MeadowPearlcatData());
     }
 
 
@@ -70,6 +63,26 @@ public static class MeadowIntegration
             }
 
             onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.AbstractPlayerPearl))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, bool>)), pearlOpo, hasEffect);
+        }
+    }
+
+    public static void RPC_RemoteInput(AbstractPhysicalObject player, byte inputByte)
+    {
+        var playerOpo = player.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RemoteInput))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, byte>)), playerOpo, inputByte);
         }
     }
 }

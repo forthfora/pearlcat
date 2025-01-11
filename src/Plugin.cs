@@ -20,6 +20,7 @@ namespace Pearlcat;
 
 [BepInDependency("improved-input-config", BepInDependency.DependencyFlags.SoftDependency)] // Improved Input Config
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
+[BepInDependency("henpemaz.rainmeadow", BepInDependency.DependencyFlags.SoftDependency)] // Rain Meadow
 
 [BepInPlugin(MOD_ID, MOD_ID, "0.0.0")]
 public class Plugin : BaseUnityPlugin

@@ -36,4 +36,25 @@ public static class MeadowRPCs
 
         PlayerPearl_Helpers.AbstractPlayerPearl_Local(pearl, hasEffect);
     }
+
+    [RPCMethod]
+    public static void RemoteInput(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo, byte inputByte)
+    {
+        if (playerOpo.apo is not AbstractPhysicalObject absPlayer)
+        {
+            return;
+        }
+
+        if (absPlayer.realizedObject is not Player player)
+        {
+            return;
+        }
+
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
+
+        playerModule.RemoteInput.FromByte(inputByte);
+    }
 }

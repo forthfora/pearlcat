@@ -8,7 +8,7 @@ public static class PlayerPearl_Helpers
 {
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsOwner)
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
         {
             return;
         }
@@ -135,7 +135,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            MeadowIntegration.RPC_RealizePlayerPearl(self, abstractObject, hasEffect);
+            MeadowCompat.RPC_RealizePlayerPearl(self, abstractObject, hasEffect);
         }
     }
 
@@ -182,11 +182,6 @@ public static class PlayerPearl_Helpers
                 continue;
             }
 
-            if (abstractObject.TryGetPlayerPearlModule(out var module))
-            {
-                module.RemoveSentry(abstractObject);
-            }
-
             var hasEffect = false;
 
             if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
@@ -207,7 +202,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            MeadowIntegration.RPC_AbstractPlayerPearl(abstractObject, hasEffect);
+            MeadowCompat.RPC_AbstractPlayerPearl(abstractObject, hasEffect);
         }
     }
 
@@ -216,6 +211,11 @@ public static class PlayerPearl_Helpers
         if (hasEffect)
         {
             abstractObject.realizedObject.AbstractedEffect();
+        }
+
+        if (abstractObject.TryGetPlayerPearlModule(out var module))
+        {
+            module.RemoveSentry(abstractObject);
         }
 
         abstractObject.Abstractize(abstractObject.pos);

@@ -41,24 +41,28 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         {
             var onlinePearl = pearl.GetOnlineObject();
 
-            if (onlinePearl is null)
+            if (onlinePearl?.owner is null)
             {
                 continue;
             }
 
-            onlinePearl.NewOwner(onlineEntity.owner);
+            if (onlinePearl.owner != onlineEntity.owner)
+            {
+                onlinePearl.NewOwner(onlineEntity.owner);
+            }
+
         }
 
         activeObjectIndex = playerModule.ActiveObjectIndex ?? -1;
 
-        currentPearlAnimation = playerModule.PearlAnimationMap.IndexOf(currentPearlAnimation.GetType());
+        currentPearlAnimation = playerModule.CurrentPearlAnimation is null ? -1 : playerModule.PearlAnimationMap.IndexOf(playerModule.CurrentPearlAnimation.GetType());
 
         remoteInput = playerModule.RemoteInput.ToByte();
 
-        Plugin.Logger.LogWarning($"Owner ID: {onlineEntity.owner.id}");
-        Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
-        Plugin.Logger.LogWarning($"Object Animation: {activeObjectIndex}");
-        Plugin.Logger.LogWarning("Remote Input: " + string.Join(" ", remoteInput.ByteToBools().Select(x => x ? "1" : "0")));
+        // Plugin.Logger.LogWarning($"Owner ID: {onlineEntity.owner.id}");
+        // Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
+        // Plugin.Logger.LogWarning($"Pearl Animation: {activeObjectIndex}");
+        // Plugin.Logger.LogWarning("Remote Input: " + string.Join(" ", remoteInput.ByteToBools().Select(x => x ? "1" : "0")));
     }
 
     public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
@@ -101,7 +105,7 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         {
             playerModule.CurrentPearlAnimation = null;
         }
-        else if (playerModule.CurrentPearlAnimation is not null && playerModule.CurrentPearlAnimation.GetType() != playerModule.PearlAnimationMap[currentPearlAnimation])
+        else if (playerModule.CurrentPearlAnimation?.GetType() != playerModule.PearlAnimationMap[currentPearlAnimation])
         {
             playerModule.CurrentPearlAnimation = (PearlAnimation)Activator.CreateInstance(playerModule.PearlAnimationMap[currentPearlAnimation], player);
         }

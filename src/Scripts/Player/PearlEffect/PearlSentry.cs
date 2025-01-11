@@ -71,6 +71,8 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         room = owner.realizedObject.room;
         InitialPos = player.GetActivePearlPos();
 
+        Plugin.Logger.LogWarning("SENTRY POS: " + InitialPos);
+
         var effect = owner.GetPearlEffect();
 
         if (!owner.TryGetPearlGraphicsModule(out var addon))
