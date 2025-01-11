@@ -15,11 +15,6 @@ public static class ModCompat_Helpers
         {
             InitCWIntegration();
         }
-
-        if (IsModEnabled_RainMeadow)
-        {
-            ModCompat_RainMeadow_Hooks.ApplyHooks();
-        }
     }
 
 
@@ -50,11 +45,9 @@ public static class ModCompat_Helpers
 
     // Rain Meadow
     public static bool IsModEnabled_RainMeadow => ModManager.ActiveMods.Any(x => x.id == "henpemaz_rainmeadow");
-
+    public static bool RainMeadow_IsOwner => !IsModEnabled_RainMeadow || ModCompat_RainMeadow_Helpers.IsOwner;
     public static bool RainMeadow_IsLocal(AbstractPhysicalObject obj)
     {
         return !IsModEnabled_RainMeadow || ModCompat_RainMeadow_Helpers.IsLocal(obj);
     }
-
-    public static bool RainMeadow_IsOwner => !IsModEnabled_RainMeadow || ModCompat_RainMeadow_Helpers.IsOwner;
 }

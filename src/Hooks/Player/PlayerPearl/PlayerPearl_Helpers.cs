@@ -141,7 +141,15 @@ public static class PlayerPearl_Helpers
 
     public static void RealizePlayerPearl_Local(Player self, AbstractPhysicalObject abstractObject, bool hasEffect)
     {
-        abstractObject.Move(self.abstractPhysicalObject.pos);
+        if (abstractObject.Room is not null)
+        {
+            abstractObject.Move(self.abstractPhysicalObject.pos);
+        }
+        else
+        {
+            abstractObject.pos = self.abstractCreature.pos;
+            self.room.abstractRoom.AddEntity(abstractObject);
+        }
 
         abstractObject.RealizeInRoom();
 
@@ -354,16 +362,6 @@ public static class PlayerPearl_Helpers
 
     public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool addToEnd = false, bool storeBeforeActive = false)
     {
-        AddToInventory_Local(self, abstractObject, addToEnd, storeBeforeActive);
-
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
-        {
-            ModCompat_RainMeadow_Helpers.RPC_AddPearlToInventory(self, abstractObject, addToEnd, storeBeforeActive);
-        }
-    }
-
-    public static void AddToInventory_Local(Player self, AbstractPhysicalObject abstractObject, bool addToEnd, bool storeBeforeActive)
-    {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
             return;
@@ -399,27 +397,14 @@ public static class PlayerPearl_Helpers
 
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
-        if (RemoveFromInventory_Local(self, abstractObject))
+        if (!self.TryGetPearlcatModule(out var playerModule))
         {
             return;
         }
 
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
-        {
-            ModCompat_RainMeadow_Helpers.RPC_RemovePearlFromInventory(self, abstractObject);
-        }
-    }
-
-    public static bool RemoveFromInventory_Local(Player self, AbstractPhysicalObject abstractObject)
-    {
-        if (!self.TryGetPearlcatModule(out var playerModule))
-        {
-            return true;
-        }
-
         if (!playerModule.Inventory.Contains(abstractObject))
         {
-            return true;
+            return;
         }
 
         playerModule.Inventory.Remove(abstractObject);
@@ -441,9 +426,7 @@ public static class PlayerPearl_Helpers
         }
 
         InventoryHUD.Symbols.Remove(abstractObject);
-        return false;
     }
-
 
     // Selection
     public static void SelectNextObject(this Player self)

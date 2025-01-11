@@ -46,22 +46,12 @@ public partial class PlayerModule
 
     public void PickObjectAnimation(Player player)
     {
-        var randomSeed = (int)DateTime.Now.Ticks;
 
-        PickObjectAnimation_Local(player, randomSeed);
-
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
-        {
-            ModCompat_RainMeadow_Helpers.RPC_PickObjectAnimation(player, randomSeed);
-        }
-    }
-
-    public void PickObjectAnimation_Local(Player player, int randomSeed)
-    {
         var minTime = 480;
         var maxTime = 1600;
 
         // RANDOM
+        var randomSeed = (int)DateTime.Now.Ticks;
         var randState = Random.state;
         Random.InitState(randomSeed);
 

@@ -322,6 +322,8 @@ public static class Player_Helpers
         var agilityInput = self.IsAgilityKeybindPressed(playerModule) && allowInput;
         var sentryInput = self.IsSentryKeybindPressed(playerModule) && allowInput;
 
+        playerModule.UpdateRemoteInput(self);
+
         playerModule.BlockInput = false;
 
         if (swapLeftInput && !playerModule.WasSwapLeftInput)

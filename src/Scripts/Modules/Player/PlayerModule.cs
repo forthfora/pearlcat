@@ -15,6 +15,11 @@ public partial class PlayerModule
 
         PlayerNumber = self.playerState.playerNumber;
         BaseStats = NormalStats;
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            ModCompat_RainMeadow_Helpers.InitMeadowPearlcatData(self);
+        }
     }
 
 
@@ -54,7 +59,6 @@ public partial class PlayerModule
 
 
     public bool IsDazed => DazeTimer > 0;
-
     public int DazeTimer { get; set; }
 
 
@@ -136,9 +140,30 @@ public partial class PlayerModule
 
 
     // Rain Meadow
-    public MeadowInputData MeadowInput { get; set; } = new();
+    public MeadowRemoteInput RemoteInput { get; set; } = new();
 
-    public class MeadowInputData
+    public void UpdateRemoteInput(Player self)
+    {
+        // we're only in charge of these if we're the owner
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(self.abstractCreature))
+        {
+            return;
+        }
+
+        RemoteInput.Store = self.IsStoreKeybindPressed(this);
+
+        RemoteInput.Swap = self.IsSwapKeybindPressed();
+        RemoteInput.SwapLeft = self.IsSwapLeftInput();
+        RemoteInput.SwapRight = self.IsSwapRightInput();
+
+        RemoteInput.Ability = self.IsCustomAbilityKeybindPressed();
+        RemoteInput.Sentry = self.IsSentryKeybindPressed(this);
+
+        RemoteInput.Agility = self.IsAgilityKeybindPressed(this);
+        RemoteInput.SpearCreation = self.IsSpearCreationKeybindPressed(this);
+    }
+
+    public class MeadowRemoteInput
     {
         public bool Store { get; set; }
 
@@ -147,10 +172,42 @@ public partial class PlayerModule
         public bool SwapRight { get; set; }
 
         public bool Ability { get; set; }
-        public bool Semtry { get; set; }
+        public bool Sentry { get; set; }
 
         public bool Agility { get; set; }
         public bool SpearCreation { get; set; }
-        public bool Revive { get; set; }
+
+        public byte ToByte()
+        {
+            bool[] values =
+            [
+                Store,
+                Swap,
+                SwapLeft,
+                SwapRight,
+                Ability,
+                Sentry,
+                Agility,
+                SpearCreation,
+            ];
+
+            var result = values.BoolsToByte();
+
+            return result;
+        }
+
+        public void FromByte(byte source)
+        {
+            var bools = source.ByteToBools();
+
+            Store = bools[0];
+            Swap = bools[1];
+            SwapLeft = bools[2];
+            SwapRight = bools[3];
+            Ability = bools[4];
+            Sentry = bools[5];
+            Agility = bools[6];
+            SpearCreation = bools[7];
+        }
     }
 }
