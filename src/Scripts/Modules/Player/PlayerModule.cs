@@ -157,7 +157,6 @@ public partial class PlayerModule
         RemoteInput.SwapRight = self.IsSwapRightInput();
 
         RemoteInput.Ability = self.IsCustomAbilityKeybindPressed();
-        RemoteInput.Sentry = self.IsSentryKeybindPressed(this);
 
         RemoteInput.Agility = self.IsAgilityKeybindPressed(this);
         RemoteInput.SpearCreation = self.IsSpearCreationKeybindPressed(this);
@@ -165,6 +164,8 @@ public partial class PlayerModule
 
     public class MeadowRemoteInput
     {
+        // sentry is handled by RPCs so we don't need to sync it
+
         public bool Store { get; set; }
 
         public bool Swap { get; set; }
@@ -172,7 +173,6 @@ public partial class PlayerModule
         public bool SwapRight { get; set; }
 
         public bool Ability { get; set; }
-        public bool Sentry { get; set; }
 
         public bool Agility { get; set; }
         public bool SpearCreation { get; set; }
@@ -186,7 +186,6 @@ public partial class PlayerModule
                 SwapLeft,
                 SwapRight,
                 Ability,
-                Sentry,
                 Agility,
                 SpearCreation,
             ];
@@ -205,9 +204,8 @@ public partial class PlayerModule
             SwapLeft = bools[2];
             SwapRight = bools[3];
             Ability = bools[4];
-            Sentry = bools[5];
-            Agility = bools[6];
-            SpearCreation = bools[7];
+            Agility = bools[5];
+            SpearCreation = bools[6];
         }
     }
 }

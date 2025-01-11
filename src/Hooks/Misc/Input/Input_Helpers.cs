@@ -203,11 +203,6 @@ public static class Input_Helpers
     
     public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
-        {
-            return playerModule.RemoteInput.Sentry;
-        }
-
         if (ModOptions.CustomSentryKeybind.Value)
         {
             if (ModCompat_Helpers.IsIICActive)
