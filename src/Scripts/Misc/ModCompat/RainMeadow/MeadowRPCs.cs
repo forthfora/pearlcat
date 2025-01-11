@@ -24,8 +24,6 @@ public static class MeadowRPCs
         }
 
         PlayerPearl_Helpers.RealizePlayerPearl_Local(player, pearl, hasEffect);
-
-        Plugin.Logger.LogInfo("Meadow: Realized pearlcat inventory");
     }
 
     [RPCMethod]
@@ -37,8 +35,6 @@ public static class MeadowRPCs
         }
 
         PlayerPearl_Helpers.AbstractPlayerPearl_Local(pearl, hasEffect);
-
-        Plugin.Logger.LogInfo("Meadow: Abstracted pearlcat inventory");
     }
 
     [RPCMethod]
@@ -60,8 +56,6 @@ public static class MeadowRPCs
         }
 
         PlayerPearl_Helpers.AddToInventory_Local(player, pearl, addToEnd, storeBeforeActive);
-
-        Plugin.Logger.LogInfo("Meadow: Added pearl to inventory");
     }
 
     [RPCMethod]
@@ -83,8 +77,6 @@ public static class MeadowRPCs
         }
 
         PlayerPearl_Helpers.RemoveFromInventory_Local(player, pearl);
-
-        Plugin.Logger.LogInfo("Meadow: Removed pearl from inventory");
     }
 
     [RPCMethod]
@@ -129,7 +121,5 @@ public static class MeadowRPCs
         }
 
         playerModule.PickObjectAnimation_Local(player, randomSeed);
-
-        Plugin.Logger.LogInfo("Meadow: Added pearl to inventory");
     }
 }

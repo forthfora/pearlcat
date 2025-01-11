@@ -72,7 +72,6 @@ public partial class PlayerModule
 
         Random.state = randState;
 
-
         for (var i = 0; i < Inventory.Count; i++)
         {
             var abstractObject = Inventory[i];

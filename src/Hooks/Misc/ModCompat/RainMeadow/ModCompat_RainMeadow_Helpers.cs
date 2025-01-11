@@ -68,6 +68,7 @@ public static class ModCompat_RainMeadow_Helpers
 
         if (playerOpo is null)
         {
+            Plugin.Logger.LogWarning("C");
             return;
         }
 
@@ -75,15 +76,19 @@ public static class ModCompat_RainMeadow_Helpers
 
         if (pearlOpo is null)
         {
-            var resource = player.abstractPhysicalObject.Room.GetResource();
+            Plugin.Logger.LogWarning("A");
+            var room = player.abstractPhysicalObject.Room;
 
-            if (resource is null)
+            room.world.GetResource()?.ApoEnteringWorld(pearl);
+            room.GetResource()?.ApoEnteringRoom(pearl, player.abstractPhysicalObject.pos);
+
+            pearlOpo = pearl.GetOnlineObject();
+
+            if (pearlOpo is null)
             {
+                Plugin.Logger.LogWarning("B");
                 return;
             }
-
-            pearlOpo = OnlinePhysicalObject.RegisterPhysicalObject(pearl);
-            pearlOpo.EnterResource(resource);
         }
 
         foreach (var onlinePlayer in OnlineManager.players)

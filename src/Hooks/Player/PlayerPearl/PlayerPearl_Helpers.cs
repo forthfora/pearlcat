@@ -399,7 +399,10 @@ public static class PlayerPearl_Helpers
 
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
-        if (RemoveFromInventory_Local(self, abstractObject)) return;
+        if (RemoveFromInventory_Local(self, abstractObject))
+        {
+            return;
+        }
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
