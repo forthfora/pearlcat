@@ -3,7 +3,7 @@ using RainMeadow;
 
 namespace Pearlcat;
 
-public static class ModCompat_RainMeadow_Helpers
+public static class MeadowIntegration
 {
     public static bool IsOwner => OnlineManager.lobby.isOwner;
 

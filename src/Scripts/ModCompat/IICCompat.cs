@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Pearlcat;
 
 
-public static class IICKeybinds
+public static class IICCompat
 {
     public static void InitKeybinds()
     {

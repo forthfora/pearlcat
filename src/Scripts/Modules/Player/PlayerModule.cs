@@ -18,7 +18,7 @@ public partial class PlayerModule
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.InitMeadowPearlcatData(self);
+            MeadowIntegration.InitMeadowPearlcatData(self);
         }
     }
 

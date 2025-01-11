@@ -135,7 +135,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.RPC_RealizePlayerPearl(self, abstractObject, hasEffect);
+            MeadowIntegration.RPC_RealizePlayerPearl(self, abstractObject, hasEffect);
         }
     }
 
@@ -207,7 +207,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.RPC_AbstractPlayerPearl(abstractObject, hasEffect);
+            MeadowIntegration.RPC_AbstractPlayerPearl(abstractObject, hasEffect);
         }
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public static class CWIntegration
+public static class CWCompat
 {
     public static void Init()
     {
