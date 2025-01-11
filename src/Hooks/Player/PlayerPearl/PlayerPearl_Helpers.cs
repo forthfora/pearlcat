@@ -8,6 +8,11 @@ public static class PlayerPearl_Helpers
 {
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsOwner)
+        {
+            return;
+        }
+
         if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
         {
             playerModule.GivenPearls = false;
@@ -95,7 +100,6 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
@@ -111,25 +115,41 @@ public static class PlayerPearl_Helpers
                 continue;
             }
 
-            abstractObject.pos = self.abstractCreature.pos;
-            self.room.abstractRoom.AddEntity(abstractObject);
-
-            abstractObject.RealizeInRoom();
-
-            abstractObject.MarkAsPlayerObject();
+            var hasEffect = false;
 
             if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
                 if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
                 {
-                    abstractObject.realizedObject?.RealizedEffect();
+                    hasEffect = true;
                 }
             }
+
+            RealizePlayerPearl(self, abstractObject, hasEffect);
         }
+    }
+
+    private static void RealizePlayerPearl(Player self, AbstractPhysicalObject abstractObject, bool hasEffect)
+    {
+        RealizePlayerPearl_Local(self, abstractObject, hasEffect);
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.RPC_RealizeInventory(self);
+            ModCompat_RainMeadow_Helpers.RPC_RealizePlayerPearl(self, abstractObject, hasEffect);
+        }
+    }
+
+    public static void RealizePlayerPearl_Local(Player self, AbstractPhysicalObject abstractObject, bool hasEffect)
+    {
+        abstractObject.Move(self.abstractPhysicalObject.pos);
+
+        abstractObject.RealizeInRoom();
+
+        abstractObject.MarkAsPlayerObject();
+
+        if (hasEffect)
+        {
+            abstractObject.realizedObject?.RealizedEffect();
         }
     }
 
@@ -139,7 +159,6 @@ public static class PlayerPearl_Helpers
         {
             return;
         }
-
 
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
@@ -160,21 +179,38 @@ public static class PlayerPearl_Helpers
                 module.RemoveSentry(abstractObject);
             }
 
+            var hasEffect = false;
+
             if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
                 if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
                 {
-                    abstractObject.realizedObject.AbstractedEffect();
+                    hasEffect = true;
                 }
             }
 
-            abstractObject.Abstractize(abstractObject.pos);
+            AbstractPlayerPearl(abstractObject, hasEffect);
         }
+    }
+
+    public static void AbstractPlayerPearl(AbstractPhysicalObject abstractObject, bool hasEffect)
+    {
+        AbstractPlayerPearl_Local(abstractObject, hasEffect);
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.RPC_AbstractizeInventory(self);
+            ModCompat_RainMeadow_Helpers.RPC_AbstractPlayerPearl(abstractObject, hasEffect);
         }
+    }
+
+    public static void AbstractPlayerPearl_Local(AbstractPhysicalObject abstractObject, bool hasEffect)
+    {
+        if (hasEffect)
+        {
+            abstractObject.realizedObject.AbstractedEffect();
+        }
+
+        abstractObject.Abstractize(abstractObject.pos);
     }
 
 
@@ -318,6 +354,16 @@ public static class PlayerPearl_Helpers
 
     public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool addToEnd = false, bool storeBeforeActive = false)
     {
+        AddToInventory_Local(self, abstractObject, addToEnd, storeBeforeActive);
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            ModCompat_RainMeadow_Helpers.RPC_AddPearlToInventory(self, abstractObject, addToEnd, storeBeforeActive);
+        }
+    }
+
+    public static void AddToInventory_Local(Player self, AbstractPhysicalObject abstractObject, bool addToEnd, bool storeBeforeActive)
+    {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
             return;
@@ -349,23 +395,28 @@ public static class PlayerPearl_Helpers
         }
 
         abstractObject.MarkAsPlayerObject();
+    }
+
+    public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
+    {
+        if (RemoveFromInventory_Local(self, abstractObject)) return;
 
         if (ModCompat_Helpers.IsModEnabled_RainMeadow)
         {
-            ModCompat_RainMeadow_Helpers.RPC_AddPearlToInventory(self, abstractObject);
+            ModCompat_RainMeadow_Helpers.RPC_RemovePearlFromInventory(self, abstractObject);
         }
     }
-    
-    public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
+
+    public static bool RemoveFromInventory_Local(Player self, AbstractPhysicalObject abstractObject)
     {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
-            return;
+            return true;
         }
 
         if (!playerModule.Inventory.Contains(abstractObject))
         {
-            return;
+            return true;
         }
 
         playerModule.Inventory.Remove(abstractObject);
@@ -387,11 +438,7 @@ public static class PlayerPearl_Helpers
         }
 
         InventoryHUD.Symbols.Remove(abstractObject);
-
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
-        {
-            ModCompat_RainMeadow_Helpers.RPC_RemovePearlFromInventory(self, abstractObject);
-        }
+        return false;
     }
 
 

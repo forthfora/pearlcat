@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using RainMeadow;
 
 namespace Pearlcat;
@@ -7,26 +8,25 @@ public static class ModCompat_RainMeadow_Helpers
 {
     public static bool IsOwner => OnlineManager.lobby.isOwner;
 
-    public static bool IsMeadowInput(Player player)
+    public static bool IsLocal(AbstractPhysicalObject abstractPhysicalObject)
     {
-        if (!OnlinePhysicalObject.map.TryGetValue(player.abstractPhysicalObject, out var opo))
-        {
-            return false;
-        }
-
-        return !opo.isMine;
+        return abstractPhysicalObject.IsLocal();
     }
 
 
     // Remote Calls
-    public static void RPC_RealizeInventory(Player player)
+    public static void RPC_RealizePlayerPearl(Player player, AbstractPhysicalObject pearl, bool hasEffect)
     {
-        if (!OnlinePhysicalObject.map.TryGetValue(player.abstractPhysicalObject, out var playerOpo))
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
         {
             return;
         }
 
-        if (!player.abstractPhysicalObject.IsLocal())
+        var pearlOpo = pearl.GetOnlineObject();
+
+        if (pearlOpo is null)
         {
             return;
         }
@@ -38,18 +38,15 @@ public static class ModCompat_RainMeadow_Helpers
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RealizeInventory))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RealizePlayerPearl))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject, bool>)), playerOpo, pearlOpo, hasEffect);
         }
     }
 
-    public static void RPC_AbstractizeInventory(Player player)
+    public static void RPC_AbstractPlayerPearl(AbstractPhysicalObject pearl, bool hasEffect)
     {
-        if (!OnlinePhysicalObject.map.TryGetValue(player.abstractPhysicalObject, out var playerOpo))
-        {
-            return;
-        }
+        var pearlOpo = pearl.GetOnlineObject();
 
-        if (!player.abstractPhysicalObject.IsLocal())
+        if (pearlOpo is null)
         {
             return;
         }
@@ -61,25 +58,32 @@ public static class ModCompat_RainMeadow_Helpers
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.AbstractInventory))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.AbstractPlayerPearl))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, bool>)), pearlOpo, hasEffect);
         }
     }
 
-    public static void RPC_AddPearlToInventory(Player player, AbstractPhysicalObject dataPearl)
+    public static void RPC_AddPearlToInventory(Player player, AbstractPhysicalObject pearl, bool addToEnd, bool storeBeforeActive)
     {
-        if (!OnlinePhysicalObject.map.TryGetValue(player.abstractPhysicalObject, out var playerOpo))
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
         {
             return;
         }
 
-        if (!player.abstractPhysicalObject.IsLocal())
-        {
-            return;
-        }
+        var pearlOpo = pearl.GetOnlineObject();
 
-        if (!OnlinePhysicalObject.map.TryGetValue(dataPearl, out var pearlOpo))
+        if (pearlOpo is null)
         {
-            return;
+            var resource = player.abstractPhysicalObject.Room.GetResource();
+
+            if (resource is null)
+            {
+                return;
+            }
+
+            pearlOpo = OnlinePhysicalObject.RegisterPhysicalObject(pearl);
+            pearlOpo.EnterResource(resource);
         }
 
         foreach (var onlinePlayer in OnlineManager.players)
@@ -89,23 +93,22 @@ public static class ModCompat_RainMeadow_Helpers
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.AddPearlToInventory))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject>)), playerOpo, pearlOpo);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.AddPearlToInventory))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject, bool, bool>)), playerOpo, pearlOpo, addToEnd, storeBeforeActive);
         }
     }
 
-    public static void RPC_RemovePearlFromInventory(Player player, AbstractPhysicalObject dataPearl)
+    public static void RPC_RemovePearlFromInventory(Player player, AbstractPhysicalObject pearl)
     {
-        if (!OnlinePhysicalObject.map.TryGetValue(player.abstractPhysicalObject, out var playerOpo))
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
         {
             return;
         }
 
-        if (!player.abstractPhysicalObject.IsLocal())
-        {
-            return;
-        }
+        var pearlOpo = pearl.GetOnlineObject();
 
-        if (!OnlinePhysicalObject.map.TryGetValue(dataPearl, out var pearlOpo))
+        if (pearlOpo is null)
         {
             return;
         }
@@ -120,15 +123,11 @@ public static class ModCompat_RainMeadow_Helpers
             onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RemovePearlFromInventory))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject>)), playerOpo, pearlOpo);
         }
     }
-
-    public static void RPC_LoadSaveData(Player player)
+    public static void RPC_ReceivePearlcatInput(Player player, PlayerModule playerModule)
     {
-        if (!OnlinePhysicalObject.map.TryGetValue(player.abstractPhysicalObject, out var playerOpo))
-        {
-            return;
-        }
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
 
-        if (!player.abstractPhysicalObject.IsLocal())
+        if (playerOpo is null)
         {
             return;
         }
@@ -140,7 +139,29 @@ public static class ModCompat_RainMeadow_Helpers
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.LoadSaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
+            var inputString = JsonConvert.SerializeObject(playerModule.MeadowInput);
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ReceivePearlcatInput))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, string>)), playerOpo, inputString);
+        }
+    }
+
+    public static void RPC_PickObjectAnimation(Player player, int randomSeed)
+    {
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.PickObjectAnimation))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, int>)), playerOpo, randomSeed);
         }
     }
 }

@@ -96,6 +96,11 @@ public partial class PlayerModule
 
     public void LoadSaveData(Player self)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsOwner)
+        {
+            return;
+        }
+
         var world = self.abstractCreature.world;
         var save = world.game.GetMiscWorld();
 
@@ -127,11 +132,6 @@ public partial class PlayerModule
         }
 
         PickObjectAnimation(self);
-
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
-        {
-            ModCompat_RainMeadow_Helpers.RPC_LoadSaveData(self);
-        }
     }
 
 

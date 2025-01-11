@@ -13,9 +13,9 @@ public static class Input_Helpers
     // Inventory
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (player.IsMeadowInput())
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
         {
-            return playerModule.MeadowInput.Store;
+            return playerModule.MeadowInput.SwapRight;
         }
 
         if (player.bodyMode != Player.BodyModeIndex.Stand
@@ -52,9 +52,14 @@ public static class Input_Helpers
 
     public static bool IsSwapKeybindPressed(this Player player)
     {
-        if (player.IsMeadowInput() && player.TryGetPearlcatModule(out var playerModule))
+        if (!player.TryGetPearlcatModule(out var playerModule))
         {
-            return playerModule.MeadowInput.Swap;
+            return false;
+        }
+
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        {
+            return playerModule.MeadowInput.SwapRight;
         }
 
         if (ModCompat_Helpers.IsIICActive)
@@ -75,9 +80,14 @@ public static class Input_Helpers
 
     public static bool IsSwapLeftInput(this Player player)
     {
-        if (player.IsMeadowInput() && player.TryGetPearlcatModule(out var playerModule))
+        if (!player.TryGetPearlcatModule(out var playerModule))
         {
-            return playerModule.MeadowInput.SwapLeft;
+            return false;
+        }
+
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        {
+            return playerModule.MeadowInput.SwapRight;
         }
 
         if (ModOptions.SwapTriggerPlayer.Value != 0)
@@ -116,7 +126,12 @@ public static class Input_Helpers
 
     public static bool IsSwapRightInput(this Player player)
     {
-        if (player.IsMeadowInput() && player.TryGetPearlcatModule(out var playerModule))
+        if (!player.TryGetPearlcatModule(out var playerModule))
+        {
+            return false;
+        }
+
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
         {
             return playerModule.MeadowInput.SwapRight;
         }
@@ -159,10 +174,16 @@ public static class Input_Helpers
     // Ability
     public static bool IsCustomAbilityKeybindPressed(this Player player)
     {
-        if (player.IsMeadowInput() && player.TryGetPearlcatModule(out var playerModule))
+        if (!player.TryGetPearlcatModule(out var playerModule))
         {
-            return playerModule.MeadowInput.Ability;
+            return false;
         }
+
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
+        {
+            return playerModule.MeadowInput.SwapRight;
+        }
+
 
         if (ModCompat_Helpers.IsIICActive)
         {
@@ -182,9 +203,9 @@ public static class Input_Helpers
     
     public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (player.IsMeadowInput())
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
         {
-            return playerModule.MeadowInput.Semtry;
+            return playerModule.MeadowInput.SwapRight;
         }
 
         if (ModOptions.CustomSentryKeybind.Value)
@@ -214,9 +235,9 @@ public static class Input_Helpers
     // Custom Ability
     public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (player.IsMeadowInput())
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
         {
-            return playerModule.MeadowInput.Agility;
+            return playerModule.MeadowInput.SwapRight;
         }
 
         if (ModOptions.CustomAgilityKeybind.Value)
@@ -230,9 +251,9 @@ public static class Input_Helpers
 
     public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (player.IsMeadowInput())
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
         {
-            return playerModule.MeadowInput.SpearCreation;
+            return playerModule.MeadowInput.SwapRight;
         }
 
         if (ModOptions.CustomSpearKeybind.Value)
@@ -246,9 +267,9 @@ public static class Input_Helpers
 
     public static bool IsReviveKeybindPressed(this Player player, PlayerModule playerModule)
     {
-        if (player.IsMeadowInput())
+        if (!ModCompat_Helpers.RainMeadow_IsLocal(player.abstractPhysicalObject))
         {
-            return playerModule.MeadowInput.Revive;
+            return playerModule.MeadowInput.SwapRight;
         }
 
         var input = playerModule.UnblockedInput;
@@ -350,17 +371,5 @@ public static class Input_Helpers
         }
 
         return ModOptions.SwapRightKeybind.Value.GetDisplayName();
-    }
-
-
-    // Rain Meadow
-    public static bool IsMeadowInput(this Player player)
-    {
-        if (!ModCompat_Helpers.IsModEnabled_RainMeadow)
-        {
-            return false;
-        }
-
-        return ModCompat_RainMeadow_Helpers.IsMeadowInput(player);
     }
 }
