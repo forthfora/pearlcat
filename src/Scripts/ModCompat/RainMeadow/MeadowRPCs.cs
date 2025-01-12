@@ -22,6 +22,8 @@ public static class MeadowRPCs
             return;
         }
 
+        pearlOpo.apo.InDen = false;
+
         PlayerPearl_Helpers.RealizePlayerPearl_Local(player, pearl, hasEffect);
     }
 
@@ -32,6 +34,8 @@ public static class MeadowRPCs
         {
             return;
         }
+
+        pearlOpo.apo.InDen = true;
 
         PlayerPearl_Helpers.AbstractPlayerPearl_Local(pearl, hasEffect);
     }

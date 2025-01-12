@@ -27,7 +27,7 @@ public static class ModCompat_Helpers
 
     // Mira Installation
     public static bool IsModEnabled_MiraInstallation => ModManager.ActiveMods.Any(x => x.id == "mira");
-    public static bool ShowMiraVersionWarning => true; // TODO
+    public static bool ShowMiraVersionWarning => IsModEnabled_MiraInstallation; // TODO
 
 
     // Chasing Wind

@@ -22,12 +22,13 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
     public bool isCWDoubleJumpUsed;
 
 
-    // Graphics
-    [OnlineField(nullable = true)]
-    public Vector2? overridePos;
-
-    [OnlineField(nullable = true)]
-    public Vector2? overrideLastPos;
+    // TODO: check if we need this
+    // // Graphics
+    // [OnlineField(nullable = true)]
+    // public Vector2? overridePos;
+    //
+    // [OnlineField(nullable = true)]
+    // public Vector2? overrideLastPos;
 
 
     // Sentry
@@ -64,11 +65,11 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
             isReturningSentry = pearlModule.IsReturningSentry;
         }
 
-        if (pearl.TryGetPearlGraphicsModule(out var graphics))
-        {
-            overridePos = graphics.OverridePos;
-            overrideLastPos = graphics.OverrideLastPos;
-        }
+        // if (pearl.TryGetPearlGraphicsModule(out var graphics))
+        // {
+        //     overridePos = graphics.OverridePos;
+        //     overrideLastPos = graphics.OverrideLastPos;
+        // }
 
         if (pearl.TryGetSentry(out var sentry))
         {
@@ -89,19 +90,13 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
             pearlModule.IsCWDoubleJumpUsed = isCWDoubleJumpUsed;
 
             pearlModule.IsReturningSentry = isReturningSentry;
-
-            // Sentry is deployed when it shouldn't be (idk when this would happen tbh)
-            if (pearlModule.IsSentry && !isSentry)
-            {
-                pearlModule.RemoveSentry_Local(pearl);
-            }
         }
 
-        if (pearl.TryGetPearlGraphicsModule(out var graphics))
-        {
-            graphics.OverridePos = overridePos;
-            graphics.OverrideLastPos = overrideLastPos;
-        }
+        // if (pearl.TryGetPearlGraphicsModule(out var graphics))
+        // {
+        //     graphics.OverridePos = overridePos;
+        //     graphics.OverrideLastPos = overrideLastPos;
+        // }
 
         if (pearl.TryGetSentry(out var sentry))
         {
@@ -110,11 +105,12 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
         }
         else
         {
-            // Sync sentry deployment for newly joined players
-            if (isSentry && pearl.TryGetPlayerPearlOwner(out var player))
-            {
-                PlayerAbilities_Helpers.DeploySentry_Local(player, pearl);
-            }
+            // TODO: fix this
+            // // Sync sentry deployment for newly joined players
+            // if (isSentry && pearl.TryGetPlayerPearlOwner(out var player))
+            // {
+            //     PlayerAbilities_Helpers.DeploySentry_Local(player, pearl);
+            // }
         }
     }
 

@@ -98,25 +98,25 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
 
         // Ownership goes to the player who's storing the pearl
-        foreach (var pearl in playerModule.Inventory)
-        {
-            var onlinePearl = pearl.GetOnlineObject();
-
-            if (onlinePearl is null)
-            {
-                continue;
-            }
-
-            // Pearlcat who's storing the pearl
-            var shouldBeOwner = onlineEntity.owner;
-
-            if (onlinePearl.owner == onlineEntity.owner)
-            {
-                continue;
-            }
-
-            onlinePearl.NewOwner(shouldBeOwner);
-        }
+        // foreach (var pearl in playerModule.Inventory)
+        // {
+        //     var onlinePearl = pearl.GetOnlineObject();
+        //
+        //     if (onlinePearl is null)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     // Pearlcat who's storing the pearl
+        //     var shouldBeOwner = onlineEntity.owner;
+        //
+        //     if (onlinePearl.owner == onlineEntity.owner)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     onlinePearl.NewOwner(shouldBeOwner);
+        // }
 
 
         Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE SENDER: ");
