@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using RainMeadow;
 
 namespace Pearlcat;
@@ -22,6 +24,11 @@ public static class MeadowCompat
         }
 
         opo.realized = realized;
+    }
+
+    public static List<AbstractCreature> GetAllPlayers()
+    {
+        return OnlineManager.lobby.playerAvatars.Select(kvp => kvp.Value.FindEntity()).Select(oe => (oe as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
     }
 
     public static void AddMeadowPlayerData(Player player)

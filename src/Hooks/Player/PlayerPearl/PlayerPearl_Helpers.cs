@@ -136,12 +136,15 @@ public static class PlayerPearl_Helpers
 
     public static void RealizePlayerPearl(Player self, AbstractPhysicalObject abstractObject)
     {
+        // Meadow needs this, before realization
         abstractObject.InDen = false;
 
+        // Standard realization
         abstractObject.pos = self.abstractCreature.pos;
         self.room.abstractRoom.AddEntity(abstractObject);
         abstractObject.RealizeInRoom();
 
+        // Pearlcat stuff
         abstractObject.MarkAsPlayerPearl();
     }
 
@@ -189,17 +192,21 @@ public static class PlayerPearl_Helpers
     {
         if (abstractObject.TryGetPlayerPearlModule(out var module))
         {
+            // Pearlcat stuff
             module.ReturnSentry(abstractObject);
         }
 
         if (MeadowCompat.IsOnline)
         {
+            // Meadow, set realized on the OnlinePhysicalObject to false
             MeadowCompat.SetRealized(abstractObject, false);
         }
 
+        // Standard abstraction
         abstractObject.Abstractize(abstractObject.pos);
         abstractObject.Room.RemoveEntity(abstractObject);
 
+        // Meadow needs these
         abstractObject.InDen = true;
         abstractObject.pos.WashNode();
     }

@@ -66,6 +66,8 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
     public MeadowPearlcatState(MeadowPearlcatData data, OnlineEntity onlineEntity)
     {
+        _ = data;
+
         var player = (Player)((OnlinePhysicalObject)onlineEntity).apo.realizedObject;
 
         if (!player.TryGetPearlcatModule(out var playerModule))
@@ -93,18 +95,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         shieldTimer = playerModule.ShieldTimer;
         spearTimer = playerModule.SpearTimer;
         agilityOveruseTimer = playerModule.AgilityOveruseTimer;
-
-
-        // Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE SENDER: ");
-        //
-        // Plugin.Logger.LogWarning("Inventory: ");
-        // foreach (var item in playerModule.Inventory)
-        // {
-        //     Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
-        // }
-        //
-        // Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
-        // Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
     }
 
     public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
@@ -162,18 +152,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         playerModule.ShieldTimer = shieldTimer;
         playerModule.SpearTimer = spearTimer;
         playerModule.AgilityOveruseTimer = agilityOveruseTimer;
-
-
-        // Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE RECEIVER: ");
-        //
-        // Plugin.Logger.LogWarning("Inventory: ");
-        // foreach (var item in remoteInventory)
-        // {
-        //     Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
-        // }
-        //
-        // Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
-        // Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
     }
 
     public override Type GetDataType()

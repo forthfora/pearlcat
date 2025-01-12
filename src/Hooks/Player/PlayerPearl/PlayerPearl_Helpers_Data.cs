@@ -10,9 +10,12 @@ public static class PlayerPearl_Helpers_Data
 {
     public static bool IsPlayerPearl(this AbstractPhysicalObject targetObject)
     {
-        var playerData = targetObject.world.game.GetAllPearlcatModules();
+        if (targetObject.TryGetPlayerPearlModule(out var playerPearlModule))
+        {
+            return playerPearlModule.IsCurrentlyStored;
+        }
 
-        return playerData.Any(playerModule => playerModule.Inventory.Any(abstractObject => abstractObject == targetObject));
+        return false;
     }
 
     public static bool IsObjectStorable(this AbstractPhysicalObject abstractObject)
@@ -168,6 +171,11 @@ public static class PlayerPearl_Helpers_Data
         if (overrideOffset is not null)
         {
             activeObjectOffset = overrideOffset.Value;
+        }
+
+        if (self.graphicsModule is null)
+        {
+            return activeObjectOffset;
         }
 
         var playerGraphics = (PlayerGraphics)self.graphicsModule;

@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using JetBrains.Annotations;
 using RainMeadow;
-using UnityEngine;
 
 namespace Pearlcat;
 
@@ -43,6 +41,8 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
 
     public MeadowPlayerPearlState(MeadowPlayerPearlData data, OnlineEntity onlineEntity)
     {
+        _ = data;
+
         var pearl = (DataPearl.AbstractDataPearl)((OnlinePhysicalObject)onlineEntity).apo;
 
         var pearlModule = ModuleManager.PlayerPearlData.GetValue(pearl, _ => new PlayerPearlModule());
@@ -88,9 +88,6 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
             // Return sentry
             pearlModule.ReturnSentry(pearl);
         }
-
-        pearlModule.IsSentry = isSentry;
-        pearlModule.IsReturningSentry = isReturningSentry;
 
         if (pearl.TryGetSentry(out var sentry))
         {

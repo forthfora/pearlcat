@@ -31,30 +31,31 @@ public static class ModuleManager
     }
     public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game)
     {
-        List<PlayerModule> allPlayerData = [];
+        List<PlayerModule> allPlayerModules = [];
         var players = game.Players;
+
+        // TODO: kill it with fire
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            players = MeadowCompat.GetAllPlayers();
+        }
 
         if (players is null)
         {
-            return allPlayerData;
+            return allPlayerModules;
         }
 
-        foreach (var creature in players)
+        foreach (var abstractCreature in players)
         {
-            if (creature.realizedCreature is not Player player)
+            if (!PearlcatData.TryGetValue(abstractCreature, out var playerModule))
             {
                 continue;
             }
 
-            if (!PearlcatData.TryGetValue(player.abstractCreature, out var playerModule))
-            {
-                continue;
-            }
-
-            allPlayerData.Add(playerModule);
+            allPlayerModules.Add(playerModule);
         }
 
-        return allPlayerData;
+        return allPlayerModules;
     }
     
 

@@ -814,8 +814,10 @@ public static class PlayerGraphics_Helpers
 
         ear[0].connectedPoint = earAttachPos;
 
-        for (var segment = 0; segment < ear.Length; segment++)
-            ear[segment].Update();
+        foreach (var segment in ear)
+        {
+            segment.Update();
+        }
 
         var negFlipDir = -self.player.flipDirection;
 
