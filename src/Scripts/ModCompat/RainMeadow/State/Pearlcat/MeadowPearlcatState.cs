@@ -96,7 +96,7 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         spearTimer = playerModule.SpearTimer;
         agilityOveruseTimer = playerModule.AgilityOveruseTimer;
 
-
+        // TODO: try and avoid this mess
         // Ownership goes to the player who's storing the pearl
         // foreach (var pearl in playerModule.Inventory)
         // {
