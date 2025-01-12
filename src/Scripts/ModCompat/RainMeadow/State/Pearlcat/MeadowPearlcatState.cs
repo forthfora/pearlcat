@@ -79,8 +79,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
         currentPearlAnimation = playerModule.CurrentPearlAnimation is null ? 0 : playerModule.PearlAnimationMap.IndexOf(playerModule.CurrentPearlAnimation.GetType());
 
-        remoteInput = playerModule.RemoteInput.ToByte();
-
 
         baseBodyColor = playerModule.BaseBodyColor;
         baseAccentColor = playerModule.BaseAccentColor;
@@ -96,28 +94,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         spearTimer = playerModule.SpearTimer;
         agilityOveruseTimer = playerModule.AgilityOveruseTimer;
 
-        // TODO: try and avoid this mess
-        // Ownership goes to the player who's storing the pearl
-        // foreach (var pearl in playerModule.Inventory)
-        // {
-        //     var onlinePearl = pearl.GetOnlineObject();
-        //
-        //     if (onlinePearl is null)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     // Pearlcat who's storing the pearl
-        //     var shouldBeOwner = onlineEntity.owner;
-        //
-        //     if (onlinePearl.owner == onlineEntity.owner)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     onlinePearl.NewOwner(shouldBeOwner);
-        // }
-
 
         // Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE SENDER: ");
         //
@@ -127,7 +103,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         //     Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
         // }
         //
-        // Plugin.Logger.LogWarning($"Input: {string.Join(" ", remoteInput.ByteToBools().Select(x => x ? 1 : 0))}");
         // Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
         // Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
     }
@@ -174,10 +149,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         }
 
 
-        // Input
-        playerModule.RemoteInput.FromByte(remoteInput);
-
-
         playerModule.BaseBodyColor = baseBodyColor;
         playerModule.BaseAccentColor = baseAccentColor;
         playerModule.BaseCloakColor = baseCloakColor;
@@ -201,7 +172,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         //     Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
         // }
         //
-        // Plugin.Logger.LogWarning($"Input: {string.Join(" ", remoteInput.ByteToBools().Select(x => x ? 1 : 0))}");
         // Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
         // Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
     }

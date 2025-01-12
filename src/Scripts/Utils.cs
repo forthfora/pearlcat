@@ -49,37 +49,4 @@ public static class Utils
 
         return source.Remove(source.LastIndexOf(value, StringComparison.Ordinal));
     }
-
-    public static byte BoolsToByte(this bool[] source)
-    {
-        byte result = 0;
-
-        var index = 8 - source.Length;
-
-        foreach (var bit in source)
-        {
-            if (bit)
-            {
-                result |= (byte)(1 << (7 - index));
-            }
-
-            index++;
-        }
-
-        return result;
-    }
-
-    public static bool[] ByteToBools(this byte source)
-    {
-        var result = new bool[8];
-
-        for (var i = 0; i < 8; i++)
-        {
-            result[i] = (source & (1 << i)) != 0;
-        }
-
-        Array.Reverse(result);
-
-        return result;
-    }
 }

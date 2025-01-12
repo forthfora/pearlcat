@@ -310,8 +310,6 @@ public static class Player_Helpers
     public static void UpdatePearlcat(Player self, PlayerModule playerModule)
     {
         // Input
-        playerModule.UpdateRemoteInput(self);
-
         var unblockedInput = playerModule.UnblockedInput;
         var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && (self.controller is null || !ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject)); // meadow remote control
 

@@ -74,19 +74,13 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
         pearlModule.IsCWDoubleJumpUsed = isCWDoubleJumpUsed;
 
         // Sync sentry state
-        var sentriesSynced = true;
-
         if (isSentry && !pearlModule.IsSentry)
         {
             // Deploy sentry
             if (pearl.TryGetPlayerPearlOwner(out var player))
             {
-                PlayerAbilities_Helpers.DeploySentry(player, pearl);
-            }
-            else
-            {
-                // shouldn't fail, but just in case
-                sentriesSynced = false;
+                pearlModule.IsSentry = true;
+                player.room.AddObject(new PearlSentry(pearl));
             }
         }
         else if (!isSentry && pearlModule.IsSentry)
@@ -95,11 +89,8 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
             pearlModule.ReturnSentry(pearl);
         }
 
-        if (sentriesSynced)
-        {
-            pearlModule.IsSentry = isSentry;
-            pearlModule.IsReturningSentry = isReturningSentry;
-        }
+        pearlModule.IsSentry = isSentry;
+        pearlModule.IsReturningSentry = isReturningSentry;
 
         if (pearl.TryGetSentry(out var sentry))
         {
