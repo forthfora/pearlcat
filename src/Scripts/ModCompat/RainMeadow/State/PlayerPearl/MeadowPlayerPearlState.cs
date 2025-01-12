@@ -18,10 +18,25 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
     [OnlineField]
     public int currentCooldownTime;
 
-    [OnlineField] public bool isCWDoubleJumpUsed;
+    [OnlineField]
+    public bool isCWDoubleJumpUsed;
+
+
+    // Graphics
+    [OnlineField(nullable = true)]
+    public Vector2? overridePos;
+
+    [OnlineField(nullable = true)]
+    public Vector2? overrideLastPos;
 
 
     // Sentry
+    [OnlineField]
+    public bool isSentry;
+
+    [OnlineField]
+    public bool isReturningSentry;
+
     [OnlineField]
     public float sentryShieldTimer;
 
@@ -44,6 +59,15 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
             _cooldownTimer = pearlModule._cooldownTimer;
             laserTimer = pearlModule.LaserTimer;
             isCWDoubleJumpUsed = pearlModule.IsCWDoubleJumpUsed;
+
+            isSentry = pearlModule.IsSentry;
+            isReturningSentry = pearlModule.IsReturningSentry;
+        }
+
+        if (pearl.TryGetPearlGraphicsModule(out var graphics))
+        {
+            overridePos = graphics.OverridePos;
+            overrideLastPos = graphics.OverrideLastPos;
         }
 
         if (pearl.TryGetSentry(out var sentry))
@@ -63,12 +87,34 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
             pearlModule._cooldownTimer = _cooldownTimer;
             pearlModule.LaserTimer = laserTimer;
             pearlModule.IsCWDoubleJumpUsed = isCWDoubleJumpUsed;
+
+            pearlModule.IsReturningSentry = isReturningSentry;
+
+            // Sentry is deployed when it shouldn't be (idk when this would happen tbh)
+            if (pearlModule.IsSentry && !isSentry)
+            {
+                pearlModule.RemoveSentry_Local(pearl);
+            }
+        }
+
+        if (pearl.TryGetPearlGraphicsModule(out var graphics))
+        {
+            graphics.OverridePos = overridePos;
+            graphics.OverrideLastPos = overrideLastPos;
         }
 
         if (pearl.TryGetSentry(out var sentry))
         {
             sentry.ShieldTimer = sentryShieldTimer;
             sentry.RageCounter = sentryRageCounter;
+        }
+        else
+        {
+            // Sync sentry deployment for newly joined players
+            if (isSentry && pearl.TryGetPlayerPearlOwner(out var player))
+            {
+                PlayerAbilities_Helpers.DeploySentry_Local(player, pearl);
+            }
         }
     }
 

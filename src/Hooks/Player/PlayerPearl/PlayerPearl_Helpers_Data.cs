@@ -188,14 +188,14 @@ public static class PlayerPearl_Helpers_Data
 
     public static void TryToAnimateToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
     {
+        var pos = TargetPositions.GetValue(abstractObject, _ => new StrongBox<Vector2>());
+        pos.Value = targetPos;
+
         // Just let meadow handle the position, sync it from the owner
         if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
         {
             return;
         }
-
-        var pos = TargetPositions.GetValue(abstractObject, _ => new StrongBox<Vector2>());
-        pos.Value = targetPos;
 
         if (abstractObject.TryGetSentry(out _))
         {

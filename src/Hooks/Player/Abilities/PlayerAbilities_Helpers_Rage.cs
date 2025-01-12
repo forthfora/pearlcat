@@ -102,6 +102,12 @@ public static class PlayerAbilities_Helpers_Rage
 
             pearlGraphics.IsActiveRagePearl = true;
 
+            // Meadow will handle the position better
+            if (!ModCompat_Helpers.RainMeadow_IsMine(ragePearl.abstractPhysicalObject))
+            {
+                continue;
+            }
+
             var angle = (i * Mathf.PI * 2.0f / ragePearls.Count) + angleFrameAddition * playerModule.RageAnimTimer;
             var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
