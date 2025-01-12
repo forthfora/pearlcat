@@ -119,17 +119,17 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         // }
 
 
-        Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE SENDER: ");
-
-        Plugin.Logger.LogWarning("Inventory: ");
-        foreach (var item in playerModule.Inventory)
-        {
-            Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
-        }
-
-        Plugin.Logger.LogWarning($"Input: {string.Join(" ", remoteInput.ByteToBools().Select(x => x ? 1 : 0))}");
-        Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
-        Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
+        // Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE SENDER: ");
+        //
+        // Plugin.Logger.LogWarning("Inventory: ");
+        // foreach (var item in playerModule.Inventory)
+        // {
+        //     Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
+        // }
+        //
+        // Plugin.Logger.LogWarning($"Input: {string.Join(" ", remoteInput.ByteToBools().Select(x => x ? 1 : 0))}");
+        // Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
+        // Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
     }
 
     public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
@@ -193,17 +193,17 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         playerModule.AgilityOveruseTimer = agilityOveruseTimer;
 
 
-        Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE RECEIVER: ");
-
-        Plugin.Logger.LogWarning("Inventory: ");
-        foreach (var item in remoteInventory)
-        {
-            Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
-        }
-
-        Plugin.Logger.LogWarning($"Input: {string.Join(" ", remoteInput.ByteToBools().Select(x => x ? 1 : 0))}");
-        Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
-        Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
+        // Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE RECEIVER: ");
+        //
+        // Plugin.Logger.LogWarning("Inventory: ");
+        // foreach (var item in remoteInventory)
+        // {
+        //     Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
+        // }
+        //
+        // Plugin.Logger.LogWarning($"Input: {string.Join(" ", remoteInput.ByteToBools().Select(x => x ? 1 : 0))}");
+        // Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
+        // Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
     }
 
     public override Type GetDataType()

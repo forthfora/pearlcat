@@ -14,9 +14,9 @@ public static class Player_Helpers
 
 
     // Player Check
-    public static bool IsPearlcat(this Player player)
+    public static bool IsPearlcat(this Player? player)
     {
-        return player.SlugCatClass == Enums.Pearlcat;
+        return player?.SlugCatClass == Enums.Pearlcat;
     }
 
     public static bool IsFirstPearlcat(this Player player)
@@ -743,7 +743,7 @@ public static class Player_Helpers
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("Handled exception updating player SFX:\n" + e);
+            Plugin.Logger.LogError("Handled exception updating player SFX:\n" + e + "\n" + e.StackTrace);
         }
     }
 

@@ -111,7 +111,7 @@ public static class PlayerAbilities_Helpers
     {
         DeploySentry_Local(self, activeObj);
 
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             MeadowCompat.RPC_DeploySentry(self, activeObj);
         }

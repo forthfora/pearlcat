@@ -65,8 +65,15 @@ public static class MeadowCompat
         }
     }
 
-    public static void RPC_AbstractPlayerPearl(AbstractPhysicalObject pearl, bool hasEffect)
+    public static void RPC_AbstractPlayerPearl(Player player, AbstractPhysicalObject pearl, bool hasEffect)
     {
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
         var pearlOpo = pearl.GetOnlineObject();
 
         if (pearlOpo is null)
@@ -81,7 +88,7 @@ public static class MeadowCompat
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.AbstractPlayerPearl))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, bool>)), pearlOpo, hasEffect);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.AbstractPlayerPearl))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject, bool>)), playerOpo, pearlOpo, hasEffect);
         }
     }
 

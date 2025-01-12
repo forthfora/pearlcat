@@ -50,7 +50,7 @@ public class PlayerPearlModule
     {
         RemoveSentry_Local(sentry);
 
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             MeadowCompat.RPC_RemoveSentry(sentry);
         }

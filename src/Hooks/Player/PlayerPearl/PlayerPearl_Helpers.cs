@@ -133,7 +133,7 @@ public static class PlayerPearl_Helpers
     {
         RealizePlayerPearl_Local(self, abstractObject, hasEffect);
 
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             MeadowCompat.RPC_RealizePlayerPearl(self, abstractObject, hasEffect);
         }
@@ -141,16 +141,8 @@ public static class PlayerPearl_Helpers
 
     public static void RealizePlayerPearl_Local(Player self, AbstractPhysicalObject abstractObject, bool hasEffect)
     {
-        if (abstractObject.Room is not null)
-        {
-            abstractObject.Move(self.abstractPhysicalObject.pos);
-        }
-        else
-        {
-            abstractObject.pos = self.abstractCreature.pos;
-            self.room.abstractRoom.AddEntity(abstractObject);
-        }
-
+        abstractObject.pos = self.abstractCreature.pos;
+        self.room.abstractRoom.AddEntity(abstractObject);
         abstractObject.RealizeInRoom();
 
         abstractObject.MarkAsPlayerPearl();
@@ -192,17 +184,17 @@ public static class PlayerPearl_Helpers
                 }
             }
 
-            AbstractPlayerPearl(abstractObject, hasEffect);
+            AbstractPlayerPearl(self, abstractObject, hasEffect);
         }
     }
 
-    public static void AbstractPlayerPearl(AbstractPhysicalObject abstractObject, bool hasEffect)
+    public static void AbstractPlayerPearl(Player self, AbstractPhysicalObject abstractObject, bool hasEffect)
     {
         AbstractPlayerPearl_Local(abstractObject, hasEffect);
 
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            MeadowCompat.RPC_AbstractPlayerPearl(abstractObject, hasEffect);
+            MeadowCompat.RPC_AbstractPlayerPearl(self, abstractObject, hasEffect);
         }
     }
 
@@ -218,7 +210,9 @@ public static class PlayerPearl_Helpers
             module.RemoveSentry(abstractObject);
         }
 
+        abstractObject.realizedObject?.RemoveFromRoom();
         abstractObject.Abstractize(abstractObject.pos);
+        abstractObject.Room.RemoveEntity(abstractObject);
     }
 
 

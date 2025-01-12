@@ -22,22 +22,25 @@ public static class MeadowRPCs
             return;
         }
 
-        pearlOpo.apo.InDen = false;
+        pearl.InDen = false;
 
         PlayerPearl_Helpers.RealizePlayerPearl_Local(player, pearl, hasEffect);
     }
 
     [RPCMethod]
-    public static void AbstractPlayerPearl(RPCEvent rpcEvent, OnlinePhysicalObject pearlOpo, bool hasEffect)
+    public static void AbstractPlayerPearl(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo, OnlinePhysicalObject pearlOpo, bool hasEffect)
     {
         if (pearlOpo.apo is not AbstractPhysicalObject pearl)
         {
             return;
         }
 
-        pearlOpo.apo.InDen = true;
+        playerOpo.realized = false;
 
         PlayerPearl_Helpers.AbstractPlayerPearl_Local(pearl, hasEffect);
+
+        pearl.InDen = true;
+        pearl.pos.WashNode();
     }
 
     [RPCMethod]
