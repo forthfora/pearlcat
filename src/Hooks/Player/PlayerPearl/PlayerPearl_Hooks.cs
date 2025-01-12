@@ -26,7 +26,7 @@ public static class PlayerPearl_Hooks
     // Management
     public static void MarkAsPlayerPearl(this AbstractPhysicalObject abstractObject)
     {
-        var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule(abstractObject));
+        var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule());
 
         if (module.IsCurrentlyStored)
         {
@@ -55,6 +55,11 @@ public static class PlayerPearl_Hooks
         if (physicalObject is Weapon weapon)
         {
             module.WeaponRotationSpeed = weapon.rotationSpeed;
+        }
+
+        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        {
+            MeadowCompat.AddMeadowPlayerPearlData(abstractObject);
         }
     }
 

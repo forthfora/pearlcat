@@ -27,16 +27,7 @@ public class PlayerPearlModule
     public bool IsSentry { get; set; }
     public bool IsReturningSentry { get; set; }
 
-    public ConditionalWeakTable<PhysicalObject, StrongBox<bool>> VisitedObjects = new();
-
-
-    public PlayerPearlModule(AbstractPhysicalObject pearl)
-    {
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
-        {
-            MeadowCompat.InitMeadowPlayerPearlData(pearl);
-        }
-    }
+    public ConditionalWeakTable<PhysicalObject, StrongBox<bool>> VisitedObjects { get; } = new();
 
 
     public int _cooldownTimer;

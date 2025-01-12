@@ -10,7 +10,7 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 {
     // Inventory & Input
     [OnlineField(nullable = true)]
-    public RainMeadow.Generics.DynamicOrderedEntityIDs playerPearls = null!;
+    public RainMeadow.Generics.DynamicOrderedEntityIDs inventory = null!;
 
     [OnlineField]
     public int activeObjectIndex;
@@ -73,11 +73,11 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
             return;
         }
 
-        playerPearls = new(playerModule.Inventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
+        inventory = new(playerModule.Inventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
 
         activeObjectIndex = playerModule.ActiveObjectIndex ?? -1;
 
-        currentPearlAnimation = playerModule.CurrentPearlAnimation is null ? -1 : playerModule.PearlAnimationMap.IndexOf(playerModule.CurrentPearlAnimation.GetType());
+        currentPearlAnimation = playerModule.CurrentPearlAnimation is null ? 0 : playerModule.PearlAnimationMap.IndexOf(playerModule.CurrentPearlAnimation.GetType());
 
         remoteInput = playerModule.RemoteInput.ToByte();
 
@@ -95,6 +95,41 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         shieldTimer = playerModule.ShieldTimer;
         spearTimer = playerModule.SpearTimer;
         agilityOveruseTimer = playerModule.AgilityOveruseTimer;
+
+
+        // Ownership goes to the player who's storing the pearl
+        foreach (var pearl in playerModule.Inventory)
+        {
+            var onlinePearl = pearl.GetOnlineObject();
+
+            if (onlinePearl is null)
+            {
+                continue;
+            }
+
+            // Pearlcat who's storing the pearl
+            var shouldBeOwner = onlineEntity.owner;
+
+            if (onlinePearl.owner == onlineEntity.owner)
+            {
+                continue;
+            }
+
+            onlinePearl.NewOwner(shouldBeOwner);
+        }
+
+
+        Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE SENDER: ");
+
+        Plugin.Logger.LogWarning("Inventory: ");
+        foreach (var item in playerModule.Inventory)
+        {
+            Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
+        }
+
+        Plugin.Logger.LogWarning($"Input: {string.Join(" ", remoteInput.ByteToBools().Select(x => x ? 1 : 0))}");
+        Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
+        Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
     }
 
     public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
@@ -107,7 +142,7 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         }
 
         // Compare local and remote inventory, call AddToInventory / RemoveFromInventory where appropriate to sync local to remote
-        var remoteInventory = playerPearls.list
+        var remoteInventory = inventory.list
             .Where(x => x.FindEntity() is OnlinePhysicalObject)
             .Select(x => ((OnlinePhysicalObject)x.FindEntity()).apo)
             .ToList();
@@ -133,11 +168,7 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
 
         // Pearl Animation
-        if (currentPearlAnimation == -1)
-        {
-            playerModule.CurrentPearlAnimation = null;
-        }
-        else if (playerModule.CurrentPearlAnimation?.GetType() != playerModule.PearlAnimationMap[currentPearlAnimation])
+        if (playerModule.CurrentPearlAnimation?.GetType() != playerModule.PearlAnimationMap[currentPearlAnimation])
         {
             playerModule.CurrentPearlAnimation = (PearlAnimation)Activator.CreateInstance(playerModule.PearlAnimationMap[currentPearlAnimation], player);
         }
@@ -145,23 +176,6 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
 
         // Input
         playerModule.RemoteInput.FromByte(remoteInput);
-
-
-        // Ownership goes to the player who's storing the pearl
-        foreach (var pearl in playerModule.Inventory)
-        {
-            var onlinePearl = pearl.GetOnlineObject();
-
-            if (onlinePearl?.owner is null)
-            {
-                continue;
-            }
-
-            if (onlinePearl.owner != onlineEntity.owner)
-            {
-                onlinePearl.NewOwner(onlineEntity.owner);
-            }
-        }
 
 
         playerModule.BaseBodyColor = baseBodyColor;
@@ -177,6 +191,19 @@ public class MeadowPearlcatState : OnlineEntity.EntityData.EntityDataState
         playerModule.ShieldTimer = shieldTimer;
         playerModule.SpearTimer = spearTimer;
         playerModule.AgilityOveruseTimer = agilityOveruseTimer;
+
+
+        Plugin.Logger.LogWarning("MEADOW PEARLCAT STATE RECEIVER: ");
+
+        Plugin.Logger.LogWarning("Inventory: ");
+        foreach (var item in remoteInventory)
+        {
+            Plugin.Logger.LogWarning((item as DataPearl.AbstractDataPearl)?.dataPearlType.value ?? "[Invalid Pearl]");
+        }
+
+        Plugin.Logger.LogWarning($"Input: {string.Join(" ", remoteInput.ByteToBools().Select(x => x ? 1 : 0))}");
+        Plugin.Logger.LogWarning($"Active Object Index: {activeObjectIndex}");
+        Plugin.Logger.LogWarning($"Current Pearl Animation: {currentPearlAnimation}");
     }
 
     public override Type GetDataType()

@@ -27,7 +27,7 @@ public static class ModCompat_Helpers
 
     // Mira Installation
     public static bool IsModEnabled_MiraInstallation => ModManager.ActiveMods.Any(x => x.id == "mira");
-    public static bool ShowMiraVersionWarning => false; // TODO
+    public static bool ShowMiraVersionWarning => true; // TODO
 
 
     // Chasing Wind
@@ -45,7 +45,7 @@ public static class ModCompat_Helpers
 
     // Rain Meadow
     public static bool IsModEnabled_RainMeadow => ModManager.ActiveMods.Any(x => x.id == "henpemaz_rainmeadow");
-    public static bool RainMeadow_IsMeadowGameMode => IsModEnabled_RainMeadow && MeadowCompat.IsMeadowGameMode;
+    public static bool RainMeadow_IsOnline => IsModEnabled_RainMeadow && MeadowCompat.IsOnline;
 
     public static bool RainMeadow_IsMine(AbstractPhysicalObject obj)
     {

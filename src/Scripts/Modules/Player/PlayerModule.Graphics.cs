@@ -1,9 +1,9 @@
-﻿using SlugBase.DataTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using RWCustom;
+using SlugBase.DataTypes;
 using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
 
@@ -46,13 +46,13 @@ public partial class PlayerModule
 
     public List<Type> PearlAnimationMap { get; } =
     [
-        typeof(PearlAnimation_Sleeping),
         typeof(PearlAnimation_BasicOrbit),
-        typeof(PearlAnimation_FreeFall),
         typeof(PearlAnimation_LayerOrbit),
         typeof(PearlAnimation_MultiOrbit),
         typeof(PearlAnimation_SineWave),
         typeof(PearlAnimation_SineWaveWeave),
+        typeof(PearlAnimation_FreeFall),
+        typeof(PearlAnimation_Sleeping),
     ];
 
     public void PickPearlAnimation(Player player)
@@ -178,9 +178,24 @@ public partial class PlayerModule
         BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? DefaultAccentColor;
         BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? DefaultCloakColor;
 
-        if (ModCompat_Helpers.RainMeadow_IsMeadowGameMode)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            MeadowCompat.SetMeadowColors(self.player, this);
+            if (PlayerGraphics.CustomColorsEnabled()) // TODO: Fix it
+            {
+                BaseBodyColor = PlayerGraphics.CustomColorSafety(0);
+                BaseFaceColor = PlayerGraphics.CustomColorSafety(1);
+
+                BaseAccentColor = PlayerGraphics.CustomColorSafety(2);
+                BaseCloakColor = PlayerGraphics.CustomColorSafety(3);
+            }
+            else
+            {
+                BaseBodyColor = DefaultBodyColor;
+                BaseFaceColor = DefaultFaceColor;
+
+                BaseAccentColor = DefaultAccentColor;
+                BaseCloakColor = DefaultCloakColor;
+            }
         }
 
         if (IsAdultPearlpupAppearance)

@@ -18,16 +18,7 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
     [OnlineField]
     public int currentCooldownTime;
 
-    [OnlineField]
-    public bool isCWDoubleJumpUsed;
-
-
-    // Graphics
-    [OnlineField(nullable = true)]
-    public Vector2? overridePos;
-
-    [OnlineField(nullable = true)]
-    public Vector2? overrideLastPos;
+    [OnlineField] public bool isCWDoubleJumpUsed;
 
 
     // Sentry
@@ -55,12 +46,6 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
             isCWDoubleJumpUsed = pearlModule.IsCWDoubleJumpUsed;
         }
 
-        if (pearl.TryGetPearlGraphicsModule(out var graphics))
-        {
-            overridePos = graphics.OverridePos;
-            overrideLastPos = graphics.OverrideLastPos;
-        }
-
         if (pearl.TryGetSentry(out var sentry))
         {
             sentryShieldTimer = sentry.ShieldTimer;
@@ -78,12 +63,6 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
             pearlModule._cooldownTimer = _cooldownTimer;
             pearlModule.LaserTimer = laserTimer;
             pearlModule.IsCWDoubleJumpUsed = isCWDoubleJumpUsed;
-        }
-
-        if (pearl.TryGetPearlGraphicsModule(out var graphics))
-        {
-            graphics.OverridePos = overridePos;
-            graphics.OverrideLastPos = overrideLastPos;
         }
 
         if (pearl.TryGetSentry(out var sentry))

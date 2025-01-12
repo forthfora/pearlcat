@@ -226,7 +226,6 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
         var setPos = Vector2.Lerp(OverrideLastPos - camPos ?? Pos, OverridePos - camPos ?? Pos, timeStacker);
 
-
         // Halo
         var sprite = sLeaser.sprites[HaloSprite];
         sprite.isVisible = DrawHalo;
