@@ -22,15 +22,6 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
     public bool isCWDoubleJumpUsed;
 
 
-    // TODO: check if we need this
-    // // Graphics
-    // [OnlineField(nullable = true)]
-    // public Vector2? overridePos;
-    //
-    // [OnlineField(nullable = true)]
-    // public Vector2? overrideLastPos;
-
-
     // Sentry
     [OnlineField]
     public bool isSentry;
@@ -54,22 +45,15 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
     {
         var pearl = (DataPearl.AbstractDataPearl)((OnlinePhysicalObject)onlineEntity).apo;
 
-        if (pearl.TryGetPlayerPearlModule(out var pearlModule))
-        {
-            currentCooldownTime = pearlModule.CurrentCooldownTime;
-            _cooldownTimer = pearlModule._cooldownTimer;
-            laserTimer = pearlModule.LaserTimer;
-            isCWDoubleJumpUsed = pearlModule.IsCWDoubleJumpUsed;
+        var pearlModule = ModuleManager.PlayerPearlData.GetValue(pearl, _ => new PlayerPearlModule());
 
-            isSentry = pearlModule.IsSentry;
-            isReturningSentry = pearlModule.IsReturningSentry;
-        }
+        currentCooldownTime = pearlModule.CurrentCooldownTime;
+        _cooldownTimer = pearlModule._cooldownTimer;
+        laserTimer = pearlModule.LaserTimer;
+        isCWDoubleJumpUsed = pearlModule.IsCWDoubleJumpUsed;
 
-        // if (pearl.TryGetPearlGraphicsModule(out var graphics))
-        // {
-        //     overridePos = graphics.OverridePos;
-        //     overrideLastPos = graphics.OverrideLastPos;
-        // }
+        isSentry = pearlModule.IsSentry;
+        isReturningSentry = pearlModule.IsReturningSentry;
 
         if (pearl.TryGetSentry(out var sentry))
         {
@@ -82,35 +66,45 @@ public class MeadowPlayerPearlState : OnlineEntity.EntityData.EntityDataState
     {
         var pearl = (DataPearl.AbstractDataPearl)((OnlinePhysicalObject)onlineEntity).apo;
 
-        if (pearl.TryGetPlayerPearlModule(out var pearlModule))
-        {
-            pearlModule.CurrentCooldownTime = currentCooldownTime;
-            pearlModule._cooldownTimer = _cooldownTimer;
-            pearlModule.LaserTimer = laserTimer;
-            pearlModule.IsCWDoubleJumpUsed = isCWDoubleJumpUsed;
+        var pearlModule = ModuleManager.PlayerPearlData.GetValue(pearl, _ => new PlayerPearlModule());
 
-            pearlModule.IsReturningSentry = isReturningSentry;
+        pearlModule.CurrentCooldownTime = currentCooldownTime;
+        pearlModule._cooldownTimer = _cooldownTimer;
+        pearlModule.LaserTimer = laserTimer;
+        pearlModule.IsCWDoubleJumpUsed = isCWDoubleJumpUsed;
+
+        // Sync sentry state
+        var sentriesSynced = true;
+
+        if (isSentry && !pearlModule.IsSentry)
+        {
+            // Deploy sentry
+            if (pearl.TryGetPlayerPearlOwner(out var player))
+            {
+                PlayerAbilities_Helpers.DeploySentry(player, pearl);
+            }
+            else
+            {
+                // shouldn't fail, but just in case
+                sentriesSynced = false;
+            }
+        }
+        else if (!isSentry && pearlModule.IsSentry)
+        {
+            // Return sentry
+            pearlModule.ReturnSentry(pearl);
         }
 
-        // if (pearl.TryGetPearlGraphicsModule(out var graphics))
-        // {
-        //     graphics.OverridePos = overridePos;
-        //     graphics.OverrideLastPos = overrideLastPos;
-        // }
+        if (sentriesSynced)
+        {
+            pearlModule.IsSentry = isSentry;
+            pearlModule.IsReturningSentry = isReturningSentry;
+        }
 
         if (pearl.TryGetSentry(out var sentry))
         {
             sentry.ShieldTimer = sentryShieldTimer;
             sentry.RageCounter = sentryRageCounter;
-        }
-        else
-        {
-            // TODO: fix this
-            // // Sync sentry deployment for newly joined players
-            // if (isSentry && pearl.TryGetPlayerPearlOwner(out var player))
-            // {
-            //     PlayerAbilities_Helpers.DeploySentry_Local(player, pearl);
-            // }
         }
     }
 

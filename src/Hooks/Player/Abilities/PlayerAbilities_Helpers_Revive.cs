@@ -87,7 +87,7 @@ public static class PlayerAbilities_Helpers_Revive
         }
         else
         {
-            pearlModule.RemoveSentry(playerModule.ActiveObject);
+            pearlModule.ReturnSentry(playerModule.ActiveObject);
 
             if (!pearlModule.IsReturningSentry)
             {

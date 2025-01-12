@@ -559,7 +559,7 @@ public static class Player_Helpers
                                     activeObj.ConnectEffect(self.firstChunk.pos);
                                 }
 
-                                module.RemoveSentry(playerModule.ActiveObject);
+                                module.ReturnSentry(playerModule.ActiveObject);
                             }
                             else
                             {

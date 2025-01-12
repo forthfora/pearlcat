@@ -899,7 +899,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
             if (module.IsSentry)
             {
-                module.RemoveSentry(owner);
+                module.ReturnSentry(owner);
             }
 
             var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));

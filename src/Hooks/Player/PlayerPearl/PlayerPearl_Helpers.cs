@@ -125,32 +125,24 @@ public static class PlayerPearl_Helpers
                 }
             }
 
-            RealizePlayerPearl(self, abstractObject, hasEffect);
+            RealizePlayerPearl(self, abstractObject);
+
+            if (hasEffect)
+            {
+                abstractObject.realizedObject?.RealizedEffect();
+            }
         }
     }
 
-    private static void RealizePlayerPearl(Player self, AbstractPhysicalObject abstractObject, bool hasEffect)
+    public static void RealizePlayerPearl(Player self, AbstractPhysicalObject abstractObject)
     {
-        RealizePlayerPearl_Local(self, abstractObject, hasEffect);
+        abstractObject.InDen = false;
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            MeadowCompat.RPC_RealizePlayerPearl(self, abstractObject, hasEffect);
-        }
-    }
-
-    public static void RealizePlayerPearl_Local(Player self, AbstractPhysicalObject abstractObject, bool hasEffect)
-    {
         abstractObject.pos = self.abstractCreature.pos;
         self.room.abstractRoom.AddEntity(abstractObject);
         abstractObject.RealizeInRoom();
 
         abstractObject.MarkAsPlayerPearl();
-
-        if (hasEffect)
-        {
-            abstractObject.realizedObject?.RealizedEffect();
-        }
     }
 
     public static void AbstractizeInventory(this Player self, bool excludeSentries = false)
@@ -184,35 +176,32 @@ public static class PlayerPearl_Helpers
                 }
             }
 
-            AbstractPlayerPearl(self, abstractObject, hasEffect);
+            if (hasEffect)
+            {
+                abstractObject.realizedObject.AbstractedEffect();
+            }
+
+            AbstractPlayerPearl(abstractObject);
         }
     }
 
-    public static void AbstractPlayerPearl(Player self, AbstractPhysicalObject abstractObject, bool hasEffect)
+    public static void AbstractPlayerPearl(AbstractPhysicalObject abstractObject)
     {
-        AbstractPlayerPearl_Local(abstractObject, hasEffect);
-
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            MeadowCompat.RPC_AbstractPlayerPearl(self, abstractObject, hasEffect);
-        }
-    }
-
-    public static void AbstractPlayerPearl_Local(AbstractPhysicalObject abstractObject, bool hasEffect)
-    {
-        if (hasEffect)
-        {
-            abstractObject.realizedObject.AbstractedEffect();
-        }
-
         if (abstractObject.TryGetPlayerPearlModule(out var module))
         {
-            module.RemoveSentry(abstractObject);
+            module.ReturnSentry(abstractObject);
         }
 
-        abstractObject.realizedObject?.RemoveFromRoom();
+        if (MeadowCompat.IsOnline)
+        {
+            MeadowCompat.SetRealized(abstractObject, false);
+        }
+
         abstractObject.Abstractize(abstractObject.pos);
         abstractObject.Room.RemoveEntity(abstractObject);
+
+        abstractObject.InDen = true;
+        abstractObject.pos.WashNode();
     }
 
 
@@ -411,7 +400,7 @@ public static class PlayerPearl_Helpers
 
         if (abstractObject.TryGetPlayerPearlModule(out var module))
         {
-            module.RemoveSentry(abstractObject);
+            module.ReturnSentry(abstractObject);
         }
 
         if (playerModule.Inventory.Count == 0)

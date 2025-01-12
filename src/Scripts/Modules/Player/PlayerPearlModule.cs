@@ -29,7 +29,6 @@ public class PlayerPearlModule
 
     public ConditionalWeakTable<PhysicalObject, StrongBox<bool>> VisitedObjects { get; } = new();
 
-
     public int _cooldownTimer;
     public int CooldownTimer
     {
@@ -45,18 +44,7 @@ public class PlayerPearlModule
         }
     }
 
-
-    public void RemoveSentry(AbstractPhysicalObject sentry)
-    {
-        RemoveSentry_Local(sentry);
-
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            MeadowCompat.RPC_RemoveSentry(sentry);
-        }
-    }
-
-    public void RemoveSentry_Local(AbstractPhysicalObject obj)
+    public void ReturnSentry(AbstractPhysicalObject pearl)
     {
         if (IsSentry)
         {
@@ -65,12 +53,11 @@ public class PlayerPearlModule
 
         IsSentry = false;
 
-        if (obj.TryGetSentry(out var sentry))
+        if (pearl.TryGetSentry(out var sentry))
         {
             sentry.Destroy();
         }
     }
-
 
     // Special flag for CW Pearl - allows 2 double jumps
     public bool IsCWDoubleJumpUsed { get; set; }

@@ -109,16 +109,6 @@ public static class PlayerAbilities_Helpers
 
     public static void DeploySentry(Player self, AbstractPhysicalObject activeObj)
     {
-        DeploySentry_Local(self, activeObj);
-
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            MeadowCompat.RPC_DeploySentry(self, activeObj);
-        }
-    }
-
-    public static void DeploySentry_Local(Player self, AbstractPhysicalObject activeObj)
-    {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
             return;
@@ -142,7 +132,7 @@ public static class PlayerAbilities_Helpers
             }
             else
             {
-                pearlModule.RemoveSentry(activeObj);
+                pearlModule.ReturnSentry(activeObj);
             }
         }
     }

@@ -12,6 +12,18 @@ public static class MeadowCompat
         return abstractPhysicalObject.IsLocal();
     }
 
+    public static void SetRealized(AbstractPhysicalObject abstractPhysicalObject, bool realized)
+    {
+        var opo = abstractPhysicalObject.GetOnlineObject();
+
+        if (opo is null)
+        {
+            return;
+        }
+
+        opo.realized = realized;
+    }
+
     public static void AddMeadowPlayerData(Player player)
     {
         var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
@@ -38,21 +50,9 @@ public static class MeadowCompat
 
 
     // Remote Calls
-    public static void RPC_RealizePlayerPearl(Player player, AbstractPhysicalObject pearl, bool hasEffect)
+    public static void RPC_SyncModOptions()
     {
-        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
-
-        if (playerOpo is null)
-        {
-            return;
-        }
-
-        var pearlOpo = pearl.GetOnlineObject();
-
-        if (pearlOpo is null)
-        {
-            return;
-        }
+        var modOptionsJson = "";
 
         foreach (var onlinePlayer in OnlineManager.players)
         {
@@ -61,81 +61,7 @@ public static class MeadowCompat
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RealizePlayerPearl))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject, bool>)), playerOpo, pearlOpo, hasEffect);
-        }
-    }
-
-    public static void RPC_AbstractPlayerPearl(Player player, AbstractPhysicalObject pearl, bool hasEffect)
-    {
-        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
-
-        if (playerOpo is null)
-        {
-            return;
-        }
-
-        var pearlOpo = pearl.GetOnlineObject();
-
-        if (pearlOpo is null)
-        {
-            return;
-        }
-
-        foreach (var onlinePlayer in OnlineManager.players)
-        {
-            if (onlinePlayer.isMe)
-            {
-                continue;
-            }
-
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.AbstractPlayerPearl))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject, bool>)), playerOpo, pearlOpo, hasEffect);
-        }
-    }
-
-    public static void RPC_DeploySentry(Player player, AbstractPhysicalObject pearl)
-    {
-        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
-
-        if (playerOpo is null)
-        {
-            return;
-        }
-
-        var pearlOpo = pearl.GetOnlineObject();
-
-        if (pearlOpo is null)
-        {
-            return;
-        }
-
-        foreach (var onlinePlayer in OnlineManager.players)
-        {
-            if (onlinePlayer.isMe)
-            {
-                continue;
-            }
-
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.DeploySentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, OnlinePhysicalObject>)), playerOpo, pearlOpo);
-        }
-    }
-
-    public static void RPC_RemoveSentry(AbstractPhysicalObject pearl)
-    {
-        var pearlOpo = pearl.GetOnlineObject();
-
-        if (pearlOpo is null)
-        {
-            return;
-        }
-
-        foreach (var onlinePlayer in OnlineManager.players)
-        {
-            if (onlinePlayer.isMe)
-            {
-                continue;
-            }
-
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RemoveSentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), pearlOpo);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ReceiveModOptions))!.CreateDelegate(typeof(Action<RPCEvent, string>)), modOptionsJson);
         }
     }
 }
