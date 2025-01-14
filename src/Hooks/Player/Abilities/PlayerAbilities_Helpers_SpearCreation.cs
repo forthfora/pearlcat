@@ -136,6 +136,11 @@ public static class PlayerAbilities_Helpers_SpearCreation
                         ModuleManager.TempPearlSpearData.Add(abstractSpear, spearModule);
                     }
 
+                    if (ModCompat_Helpers.RainMeadow_IsOnline)
+                    {
+                        MeadowCompat.AddMeadowPearlSpearData(abstractSpear);
+                    }
+
 
                     if (self.spearOnBack is not null && (holdingSpear || self.onBack is not null))
                     {

@@ -50,7 +50,10 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
 
         public State(OnlineEntity onlineEntity)
         {
-            var pearl = (DataPearl.AbstractDataPearl)((OnlinePhysicalObject)onlineEntity).apo;
+            if ((onlineEntity as OnlinePhysicalObject)?.apo is not DataPearl.AbstractDataPearl pearl)
+            {
+                return;
+            }
 
             var pearlModule = ModuleManager.PlayerPearlData.GetValue(pearl, _ => new PlayerPearlModule());
 
@@ -70,8 +73,11 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
 
         public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
         {
-            var pearl = (DataPearl.AbstractDataPearl)((OnlinePhysicalObject)onlineEntity).apo;
-
+            if ((onlineEntity as OnlinePhysicalObject)?.apo is not DataPearl.AbstractDataPearl pearl)
+            {
+                return;
+            }
+            
             var pearlModule = ModuleManager.PlayerPearlData.GetValue(pearl, _ => new PlayerPearlModule());
 
             pearlModule.CurrentCooldownTime = currentCooldownTime;

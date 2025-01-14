@@ -14,7 +14,7 @@ public static class MeadowCompat
         try
         {
             _ = new Hook(
-                typeof(Lobby).GetMethod("AvailableImpl", BindingFlags.Instance | BindingFlags.NonPublic),
+                typeof(OnlineResource).GetMethod("Available", BindingFlags.Instance | BindingFlags.NonPublic),
                 typeof(MeadowCompat).GetMethod(nameof(OnLobbyAvailable), BindingFlags.Static | BindingFlags.NonPublic)
             );
 
@@ -101,8 +101,8 @@ public static class MeadowCompat
         }
     }
 
-    private delegate void orig_OnLobbyAvailable(Lobby self);
-    private static void OnLobbyAvailable(orig_OnLobbyAvailable orig, Lobby self)
+    private delegate void orig_OnLobbyAvailable(OnlineResource self);
+    private static void OnLobbyAvailable(orig_OnLobbyAvailable orig, OnlineResource self)
     {
         orig(self);
 
@@ -134,6 +134,13 @@ public static class MeadowCompat
         }
 
         pearlOpo.AddData(new MeadowPlayerPearlData());
+    }
+
+    public static void AddMeadowPearlSpearData(AbstractPhysicalObject pearl)
+    {
+        var spearOpo = pearl.GetOnlineObject();
+
+        spearOpo?.AddData(new MeadowPearlSpearData());
     }
 
 

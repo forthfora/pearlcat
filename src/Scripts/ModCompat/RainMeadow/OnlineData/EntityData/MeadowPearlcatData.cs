@@ -86,7 +86,10 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
         public State(OnlineEntity onlineEntity)
         {
-            var player = (Player)((OnlinePhysicalObject)onlineEntity).apo.realizedObject;
+            if ((onlineEntity as OnlinePhysicalObject)?.apo?.realizedObject is not Player player)
+            {
+                return;
+            }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
@@ -125,7 +128,10 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
         public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
         {
-            var player = (Player)((OnlinePhysicalObject)onlineEntity).apo.realizedObject;
+            if ((onlineEntity as OnlinePhysicalObject)?.apo?.realizedObject is not Player player)
+            {
+                return;
+            }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
