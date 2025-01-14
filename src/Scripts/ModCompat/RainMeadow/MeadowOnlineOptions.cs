@@ -22,7 +22,7 @@ public static class MeadowOnlineOptions
     public static int ShieldRechargeTime { get; set; }
     public static int ShieldDuration { get; set; }
 
-    public static int LaserDamage { get; set; }
+    public static float LaserDamage { get; set; }
     public static int LaserWindupTime { get; set; }
     public static int LaserRechargeTime { get; set; }
 
