@@ -8,7 +8,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
 {
     public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
-        if (ModOptions.DisableSpear.Value || self.inVoidSea || playerModule.PossessedCreature is not null)
+        if (ModOptions.DisableSpear || self.inVoidSea || playerModule.PossessedCreature is not null)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.SpearCreation);
             return;

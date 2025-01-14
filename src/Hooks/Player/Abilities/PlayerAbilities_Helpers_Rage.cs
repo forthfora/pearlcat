@@ -21,13 +21,13 @@ public static class PlayerAbilities_Helpers_Rage
         playerModule.RageAnimTimer++;
 
 
-        if (ModOptions.OldRedPearlAbility.Value)
+        if (ModOptions.OldRedPearlAbility)
         {
             UpdateOldRage(self, playerModule, effect);
             return;
         }
 
-        if (ModOptions.DisableRage.Value || self.inVoidSea)
+        if (ModOptions.DisableRage || self.inVoidSea)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Rage);
             return;
@@ -434,9 +434,9 @@ public static class PlayerAbilities_Helpers_Rage
 
     private static void UpdateOldRage(Player self, PlayerModule playerModule, PearlEffect effect)
     {
-        var shootTime = ModOptions.LaserWindupTime.Value;
-        var cooldownTime = ModOptions.LaserRechargeTime.Value;
-        var shootDamage = ModOptions.LaserDamage.Value;
+        var shootTime = ModOptions.LaserWindupTime;
+        var cooldownTime = ModOptions.LaserRechargeTime;
+        var shootDamage = ModOptions.LaserDamage;
 
         var ragePearlCounter = 0;
 
@@ -470,7 +470,7 @@ public static class PlayerAbilities_Helpers_Rage
             ragePearlCounter++;
         }
 
-        if (ModOptions.DisableRage.Value || self.inVoidSea)
+        if (ModOptions.DisableRage || self.inVoidSea)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Rage);
             return;

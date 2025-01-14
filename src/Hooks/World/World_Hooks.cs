@@ -50,9 +50,9 @@ public static class World_Hooks
 
         if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
         {
-            if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
+            if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride))
             {
-                return ModOptions.StartShelterOverride.Value;
+                return ModOptions.StartShelterOverride;
             }
         }
 
@@ -293,7 +293,7 @@ public static class World_Hooks
                 var freeHand = player.FreeHand();
 
 
-                if ((player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1 || freeHand == -1) && playerModule.Inventory.Count < ModOptions.MaxPearlCount.Value)
+                if ((player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1 || freeHand == -1) && playerModule.Inventory.Count < ModOptions.MaxPearlCount)
                 {
                     if (self.room is not null)
                     {

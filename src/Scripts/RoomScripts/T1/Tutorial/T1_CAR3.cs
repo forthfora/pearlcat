@@ -80,7 +80,7 @@ public class T1_CAR3 : UpdatableAndDeletable
 
 
                     TutorialPearl = abstractPearl;
-                    CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
+                    CurrentPhase = ModOptions.DisableTutorials || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
                 }
             }
             else if (CurrentPhase == Phase.PreTutorial)

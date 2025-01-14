@@ -192,7 +192,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
         foreach (var sprite in sLeaser.sprites)
         {
-            sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, ModOptions.HidePearls.Value ? 0.0f : 0.1f);
+            sprite.alpha = Custom.LerpMap(CamoLerp, 0.0f, 1.0f, 1.0f, ModOptions.HidePearls ? 0.0f : 0.1f);
         }
 
         if (ParentSprite is not null)
@@ -233,7 +233,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         sprite.scale = HaloScale;
         sprite.alpha = HaloAlpha;
         sprite.color = HaloColor;
-        sprite.isVisible = !ModOptions.HidePearls.Value || IsActiveObject || (ObjectRef?.TryGetTarget(out var obj) == true && obj.IsHeartPearl());
+        sprite.isVisible = !ModOptions.HidePearls || IsActiveObject || (ObjectRef?.TryGetTarget(out var obj) == true && obj.IsHeartPearl());
 
 
         // Spear
@@ -324,7 +324,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         sprite.scale = 1.0f;
         sprite.isVisible = IsLaserVisible;
 
-        if (ModOptions.OldRedPearlAbility.Value)
+        if (ModOptions.OldRedPearlAbility)
         {
             sprite.alpha = Custom.LerpMap(LaserLerp, 0.0f, 1.0f, 0.75f, 1.0f);
             sprite.color = LaserLerp > 0.97f || LaserLerp == 0.0 ? Color.white : SymbolColor;
@@ -334,7 +334,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
             sprite.alpha = LaserLerp; 
         }
 
-        var startPos = ModOptions.OldRedPearlAbility.Value ? setPos : Pos;
+        var startPos = ModOptions.OldRedPearlAbility ? setPos : Pos;
         var targetPos = LaserTarget - camPos;
 
         var dir = Custom.DirVec(startPos, targetPos);

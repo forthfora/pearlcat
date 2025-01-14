@@ -55,35 +55,16 @@ public class InventoryHUD : HudPart
             var cameras = player.abstractCreature.world.game.cameras;
             var rCam = cameras.First();
 
-            //var rCam = cameras[1];
-
-            //foreach (var c in cameras)
-            //{
-            //    foreach (var hudPart in rCam.hud.parts)
-            //    {
-            //        if (hudPart is not JollyPlayerSpecificHud jollyHud) continue;
-
-            //        if (jollyHud.playerNumber != playerNum) continue;
-
-            //        rCam = jollyHud.Camera; // splitscreen IL hooks this so it returns what we want (?)
-
-            //        // seems to alwawys return camera 0 though...
-            //        break;
-            //    }
-            //}
-
             var playerChunkPos = Vector2.Lerp(player.firstChunk.lastPos, player.firstChunk.pos, timeStacker);
             var playerPos = player.abstractCreature.world.RoomToWorldPos(playerChunkPos, player.abstractCreature.Room.index);
             var roomPos = player.abstractCreature.world.RoomToWorldPos(rCam.pos, rCam.room.abstractRoom.index);
 
-            //var truePos = playerPos - roomPos - rCam.GetSplitScreenHUDOffset(rCam.cameraNumber); // method from splitscreen, via reflection
             var truePos = playerPos - roomPos;
 
-            //Plugin.Logger.LogWarning(playerModule.PlayerNumber + " - " + truePos);
 
             var activeIndex = playerModule.ActiveObjectIndex;
 
-            if (!ModOptions.CompactInventoryHUD.Value)
+            if (!ModOptions.CompactInventoryHUD)
             {
                 for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {

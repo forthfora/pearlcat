@@ -375,12 +375,12 @@ public static class PearlEffectManager
         {
             var effect = abstractPearl.GetPearlEffect();
 
-            if ((effect.MajorEffect == MajorEffectType.Agility && ModOptions.DisableAgility.Value)
-                || (effect.MajorEffect == MajorEffectType.SpearCreation && ModOptions.DisableSpear.Value)
-                || (effect.MajorEffect == MajorEffectType.Rage && ModOptions.DisableRage.Value)
-                || (effect.MajorEffect == MajorEffectType.Revive && ModOptions.DisableRevive.Value)
-                || (effect.MajorEffect == MajorEffectType.Shield && ModOptions.DisableShield.Value)
-                || (effect.MajorEffect == MajorEffectType.Camouflage && ModOptions.DisableCamoflague.Value))
+            if ((effect.MajorEffect == MajorEffectType.Agility && ModOptions.DisableAgility)
+                || (effect.MajorEffect == MajorEffectType.SpearCreation && ModOptions.DisableSpear)
+                || (effect.MajorEffect == MajorEffectType.Rage && ModOptions.DisableRage)
+                || (effect.MajorEffect == MajorEffectType.Revive && ModOptions.DisableRevive)
+                || (effect.MajorEffect == MajorEffectType.Shield && ModOptions.DisableShield)
+                || (effect.MajorEffect == MajorEffectType.Camouflage && ModOptions.DisableCamoflague))
             {
                 var newEffect = Misc;
 

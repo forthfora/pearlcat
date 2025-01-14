@@ -194,7 +194,7 @@ public static class World_Helpers
             }
 
             // for reaching a full inventory of pearls (default size)
-            if (!ModOptions.InventoryOverride.Value && miscProg.StoredNonActivePearls.Count >= 8 && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Scholar))
+            if (!ModOptions.InventoryOverride && miscProg.StoredNonActivePearls.Count >= 8 && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Scholar))
             {
                 dreamPool.Add(Dreams.Dream_Pearlcat_Scholar);
             }

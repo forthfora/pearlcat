@@ -57,7 +57,7 @@ public class T1_CAR0 : UpdatableAndDeletable
 
 
                     TutorialPearl = abstractPearl;
-                    CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
+                    CurrentPhase = ModOptions.DisableTutorials || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
                 }
             }
             else if (CurrentPhase == Phase.PreTutorial)
@@ -73,7 +73,7 @@ public class T1_CAR0 : UpdatableAndDeletable
 
                 var t = Utils.Translator;
 
-                if (ModOptions.CustomAgilityKeybind.Value)
+                if (ModOptions.CustomAgilityKeybind)
                 {
                     game.AddTextPrompt(t.Translate("Press (") + Input_Helpers.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetAbilityKeybindDisplayName(true) + t.Translate(") while in the air to perform a double jump"), 0, 600);
                 }

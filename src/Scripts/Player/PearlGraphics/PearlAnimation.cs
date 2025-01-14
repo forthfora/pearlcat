@@ -114,7 +114,7 @@ public abstract class PearlAnimation
             {
                 pearlGraphics.HaloColor = abstractObject.GetObjectColor() * new Color(0.25f, 0.25f, 1.0f);
                 pearlGraphics.HaloScale = 0.3f + 0.45f * haloEffectTimer;
-                pearlGraphics.HaloAlpha = ModOptions.HidePearls.Value && !abstractObject.IsHeartPearl() ? 0.0f : 0.6f;
+                pearlGraphics.HaloAlpha = ModOptions.HidePearls && !abstractObject.IsHeartPearl() ? 0.0f : 0.6f;
             }
 
 
@@ -197,7 +197,7 @@ public abstract class PearlAnimation
                 pearlGraphics.SymbolColor = Color.white;
             }
 
-            if (ModOptions.HidePearls.Value && !pearlGraphics.IsActiveObject)
+            if (ModOptions.HidePearls && !pearlGraphics.IsActiveObject)
             {
                 pearlGraphics.DrawSymbolCooldown = false;
             }
@@ -206,9 +206,9 @@ public abstract class PearlAnimation
             pearlGraphics.Symbol = PearlGraphics.SpriteFromPearl(abstractObject);
             pearlGraphics.SymbolAlpha = pearlGraphics.IsActiveObject ? Mathf.Lerp(pearlGraphics.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(pearlGraphics.SymbolAlpha, 0.0f, 0.05f);
 
-            pearlGraphics.CamoLerp = ModOptions.HidePearls.Value && !pearlGraphics.IsActiveObject && !abstractObject.IsHeartPearl() && !pearlGraphics.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
+            pearlGraphics.CamoLerp = ModOptions.HidePearls && !pearlGraphics.IsActiveObject && !abstractObject.IsHeartPearl() && !pearlGraphics.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
 
-            if ((!ModOptions.HidePearls.Value || pearlGraphics.IsActiveObject) && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
+            if ((!ModOptions.HidePearls || pearlGraphics.IsActiveObject) && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
             {
                 pearlGraphics.CamoLerp = 0.0f;
             }
@@ -276,7 +276,7 @@ public abstract class PearlAnimation
                 pearlGraphics.LaserTarget = target.mainBodyChunk.pos;
             }
 
-            if (ModOptions.OldRedPearlAbility.Value)
+            if (ModOptions.OldRedPearlAbility)
             {
                 pearlGraphics.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.Rage && playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage;
                 pearlGraphics.LaserLerp = pearlModule.LaserLerp;

@@ -558,7 +558,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                     
                             if (ShieldTimer <= 0)
                             {
-                                ShieldTimer = ModOptions.ShieldDuration.Value * 3.0f;
+                                ShieldTimer = ModOptions.ShieldDuration * 3.0f;
                                 room.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, pearl.firstChunk);
                             }
                         }
@@ -585,7 +585,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                         if (ShieldTimer <= 0)
                         {
                             pearl.room.DeflectEffect(crit.mainBodyChunk.pos);
-                            ShieldTimer = ModOptions.ShieldDuration.Value * 3.0f;
+                            ShieldTimer = ModOptions.ShieldDuration * 3.0f;
                             room.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, pearl.firstChunk);
                         }
                     }
@@ -595,7 +595,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         if (ShieldTimer > 0)
         {
-            module.CooldownTimer = ModOptions.ShieldRechargeTime.Value;
+            module.CooldownTimer = ModOptions.ShieldRechargeTime;
             ShieldTimer--;
 
             if (ShieldTimer == 0)
@@ -658,7 +658,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
     public void UpdateRageSentry(AbstractPhysicalObject owner, PlayerPearlModule module, DataPearl pearl, PearlEffect effect)
     {
-        if (ModOptions.OldRedPearlAbility.Value)
+        if (ModOptions.OldRedPearlAbility)
         {
             UpdateOldRageSentry(owner, module, pearl, effect);
             return;
@@ -689,9 +689,9 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var shootTime = ModOptions.LaserWindupTime.Value;
-        var cooldownTime = ModOptions.LaserRechargeTime.Value;
-        var shootDamage = ModOptions.LaserDamage.Value;
+        var shootTime = ModOptions.LaserWindupTime;
+        var cooldownTime = ModOptions.LaserRechargeTime;
+        var shootDamage = ModOptions.LaserDamage;
 
         var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
@@ -1150,7 +1150,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         {
             MajorEffectType.Agility => "pearlcat_agilitysentry",
             MajorEffectType.Revive => "pearlcat_revivesentry",
-            MajorEffectType.Rage => ModOptions.OldRedPearlAbility.Value ? "pearlcat_agilitysentry" : "pearlcat_ragesentry",
+            MajorEffectType.Rage => ModOptions.OldRedPearlAbility ? "pearlcat_agilitysentry" : "pearlcat_ragesentry",
             MajorEffectType.SpearCreation => "pearlcat_agilitysentry",
 
             _ => "pearlcat_shieldsentry",
@@ -1193,7 +1193,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         counterSprite.color = pearlGraphics.SymbolColor;
         counterSprite.isVisible = false;
 
-        if (effect.MajorEffect == MajorEffectType.Rage && ModOptions.OldRedPearlAbility.Value)
+        if (effect.MajorEffect == MajorEffectType.Rage && ModOptions.OldRedPearlAbility)
         {
             counterSprite.isVisible = true;
             counterSprite.element = Futile.atlasManager.GetElementWithName(PearlGraphics.SpriteFromNumber(RageCounter) ?? "pearlcat_glyphcooldown");

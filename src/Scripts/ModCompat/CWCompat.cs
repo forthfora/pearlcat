@@ -106,14 +106,7 @@ public static class CWCompat
             switch (miscWorld.CWTrueEndMeetCount)
             {
                 case 0:
-                    if (miscWorld.CWMeetCount > 0)
-                    {
-                        CWConversation.CWEventsFromFile(self, "Pearlcat_FirstEncounter_TrueEnd_Recognised");
-                    }
-                    else
-                    {
-                        CWConversation.CWEventsFromFile(self, "Pearlcat_FirstEncounter_TrueEnd");
-                    }
+                    CWConversation.CWEventsFromFile(self, miscWorld.CWMeetCount > 0 ? "Pearlcat_FirstEncounter_TrueEnd_Recognised" : "Pearlcat_FirstEncounter_TrueEnd");
                     break;
 
                 case 1:
@@ -240,7 +233,7 @@ public static class CWCompat
 
                 var abstractPearl = new DataPearl.AbstractDataPearl(oracle.room.world, AbstractPhysicalObject.AbstractObjectType.DataPearl, null, player.abstractCreature.pos, oracle.room.game.GetNewID(), -1, -1, null, Enums.Pearls.CW_Pearlcat);
 
-                if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value)
+                if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount)
                 {
                     abstractPearl.pos = player.abstractCreature.pos;
                     oracle.room.abstractRoom.AddEntity(abstractPearl);

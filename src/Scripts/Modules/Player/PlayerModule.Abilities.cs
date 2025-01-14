@@ -16,7 +16,7 @@ public partial class PlayerModule
     public bool IsPossessingCreature => PossessedCreature is not null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup;
 
     // Shield
-    public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield.Value && PlayerRef.TryGetTarget(out var player) && !player.dead;
+    public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield && PlayerRef.TryGetTarget(out var player) && !player.dead;
     public int ShieldTimer { get; set; }
     public float ShieldAlpha { get; set; }
     public float ShieldScale { get; set; }
@@ -33,12 +33,12 @@ public partial class PlayerModule
 
 
     // Count
-    public int RageCount => ModOptions.DisableRage.Value ? 0 : MajorEffectCount(MajorEffectType.Rage);
-    public int AgilityCount => ModOptions.DisableAgility.Value ? 0 : MajorEffectCount(MajorEffectType.Agility);
-    public int CamoCount => ModOptions.DisableCamoflague.Value ? 0 : MajorEffectCount(MajorEffectType.Camouflage);
-    public int ReviveCount => ModOptions.DisableRevive.Value ? 0 : MajorEffectCount(MajorEffectType.Revive);
-    public int SpearCount => ModOptions.DisableSpear.Value ? 0 : MajorEffectCount(MajorEffectType.SpearCreation);
-    public int ShieldCount => ModOptions.DisableShield.Value ? 0 : MajorEffectCount(MajorEffectType.Shield);
+    public int RageCount => ModOptions.DisableRage ? 0 : MajorEffectCount(MajorEffectType.Rage);
+    public int AgilityCount => ModOptions.DisableAgility ? 0 : MajorEffectCount(MajorEffectType.Agility);
+    public int CamoCount => ModOptions.DisableCamoflague ? 0 : MajorEffectCount(MajorEffectType.Camouflage);
+    public int ReviveCount => ModOptions.DisableRevive ? 0 : MajorEffectCount(MajorEffectType.Revive);
+    public int SpearCount => ModOptions.DisableSpear ? 0 : MajorEffectCount(MajorEffectType.SpearCreation);
+    public int ShieldCount => ModOptions.DisableShield ? 0 : MajorEffectCount(MajorEffectType.Shield);
 
     public int MajorEffectCount(MajorEffectType type)
     {
@@ -107,7 +107,7 @@ public partial class PlayerModule
             module.InventoryFlash = true;
         }
 
-        if (ModOptions.InventoryPings.Value)
+        if (ModOptions.InventoryPings)
         {
             ShowHUD(80);
         }
@@ -182,9 +182,9 @@ public partial class PlayerModule
             return;
         }
 
-        var obj = SetShieldCooldown(ModOptions.ShieldRechargeTime.Value);
+        var obj = SetShieldCooldown(ModOptions.ShieldRechargeTime);
 
-        ShieldTimer = ModOptions.ShieldDuration.Value;
+        ShieldTimer = ModOptions.ShieldDuration;
         ShieldTimer *= (int)(ActiveObject?.GetPearlEffect().MajorEffect == MajorEffectType.Shield ? 2.0f : 1.0f);
 
         if (PlayerRef.TryGetTarget(out var player))
@@ -197,7 +197,7 @@ public partial class PlayerModule
             module.InventoryFlash = true;
         }
 
-        if (ModOptions.InventoryPings.Value)
+        if (ModOptions.InventoryPings)
         {
             ShowHUD(60);
         }

@@ -184,7 +184,7 @@ public static class PlayerGraphics_Hooks
 
         UpdateLightSource(self, playerModule);
 
-        if (ModOptions.DisableCosmetics.Value)
+        if (ModOptions.DisableCosmetics)
         {
             OrderAndColorSprites(self, sLeaser, rCam, camPos, playerModule);
             return;

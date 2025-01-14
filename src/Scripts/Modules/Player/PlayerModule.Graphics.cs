@@ -92,7 +92,7 @@ public partial class PlayerModule
 
     public PearlAnimation GetPearlAnimation(Player player)
     {
-        if (ModOptions.HidePearls.Value)
+        if (ModOptions.HidePearls)
         {
             return new PearlAnimation_BasicOrbit(player);
         }
@@ -336,7 +336,7 @@ public partial class PlayerModule
 
     public void GenerateTailBodyParts()
     {
-        if (ModOptions.DisableCosmetics.Value)
+        if (ModOptions.DisableCosmetics)
         {
             return;
         }

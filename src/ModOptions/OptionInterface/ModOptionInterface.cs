@@ -17,43 +17,6 @@ public sealed partial class ModOptionInterface : OptionsTemplate
         }
     }
 
-    public static List<DataPearlType> GetOverridenInventory(bool giveHalcyonPearl)
-    {
-        List<DataPearlType> pearls = [];
-
-        for (var i = 0; i < AgilityPearlCount.Value; i++)
-        {
-            pearls.Add(Pearls.AS_PearlBlue);
-        }
-
-        for (var i = 0; i < ShieldPearlCount.Value; i++)
-        {
-            pearls.Add(Pearls.AS_PearlYellow);
-        }
-
-        for (var i = 0; i < RevivePearlCount.Value; i++)
-        {
-            pearls.Add(Pearls.AS_PearlGreen);
-        }
-
-        for (var i = 0; i < CamoPearlCount.Value; i++)
-        {
-            pearls.Add(Pearls.AS_PearlBlack);
-        }
-
-        for (var i = 0; i < RagePearlCount.Value; i++)
-        {
-            pearls.Add(Pearls.AS_PearlRed);
-        }
-
-        for (var i = 0; i < SpearPearlCount.Value; i++)
-        {
-            pearls.Add(i == 0 && giveHalcyonPearl ? Pearls.RM_Pearlcat : DataPearlType.Misc);
-        }
-
-        return pearls;
-    }
-
 
     // OPTIONS
     public static Configurable<bool> PearlpupRespawn { get; } = Instance.config.Bind(nameof(PearlpupRespawn), false, new ConfigurableInfo(

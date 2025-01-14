@@ -41,7 +41,7 @@ public static class Player_Hooks
             return;
         }
 
-        if (ModOptions.EnableBackSpear.Value)
+        if (ModOptions.EnableBackSpear)
         {
             self.spearOnBack ??= new Player.SpearOnBack(self);
         }
@@ -288,7 +288,7 @@ public static class Player_Hooks
 
                 if (sentry.ShieldTimer <= 0)
                 {
-                    sentry.ShieldTimer = ModOptions.ShieldDuration.Value * 3.0f;
+                    sentry.ShieldTimer = ModOptions.ShieldDuration * 3.0f;
                 }
 
                 owner.realizedObject.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.7f);

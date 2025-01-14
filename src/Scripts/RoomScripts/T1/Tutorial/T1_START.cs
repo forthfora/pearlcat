@@ -56,7 +56,7 @@ public class T1_START : UpdatableAndDeletable
                 if (!save.HasTrueEnding)
                 {
                     // Remove Default Inventory
-                    if (player.TryGetPearlcatModule(out var playerModule) && !ModOptions.StartingInventoryOverride.Value && !ModOptions.InventoryOverride.Value && player.playerState.playerNumber == 0)
+                    if (player.TryGetPearlcatModule(out var playerModule) && !ModOptions.StartingInventoryOverride && !ModOptions.InventoryOverride && player.playerState.playerNumber == 0)
                     {
                         // Clear default pearls
                         for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
@@ -149,7 +149,7 @@ public class T1_START : UpdatableAndDeletable
                         room.game.cameras[0].hud.foodMeter.fade = 0f;
                         room.game.cameras[0].hud.foodMeter.lastFade = 0f;
 
-                        if (ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat)
+                        if (ModOptions.DisableTutorials || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat)
                         {
                             CurrentPhase = Phase.End;
                         }
@@ -176,7 +176,7 @@ public class T1_START : UpdatableAndDeletable
                 {
                     var t = Utils.Translator;
 
-                    if (ModOptions.UsesCustomStoreKeybind.Value)
+                    if (ModOptions.UsesCustomStoreKeybind)
                     {
                         game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + Input_Helpers.GetStoreKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetStoreKeybindDisplayName(true) + t.Translate(")"), 0, 800);
                     }
@@ -195,7 +195,7 @@ public class T1_START : UpdatableAndDeletable
                 {
                     var t = Utils.Translator;
 
-                    if (ModOptions.CustomSentryKeybind.Value)
+                    if (ModOptions.CustomSentryKeybind)
                     {
                         game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + Input_Helpers.GetSentryKeybindDisplayName(false) + t.Translate(") or (")
                             + Input_Helpers.GetSentryKeybindDisplayName(true) + t.Translate(") to deploy, and again to return."), 0, 600);

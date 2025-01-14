@@ -28,7 +28,7 @@ public static class PlayerAbilities_Helpers_Shield
                         break;
                     }
 
-                    if (ModOptions.HidePearls.Value)
+                    if (ModOptions.HidePearls)
                     {
                         if (item != playerModule.ActiveObject)
                         {
@@ -79,7 +79,7 @@ public static class PlayerAbilities_Helpers_Shield
         var roomObjects = self.room.updateList;
         var shouldActivate = false;
 
-        if (ModOptions.DisableShield.Value || self.inVoidSea)
+        if (ModOptions.DisableShield || self.inVoidSea)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Shield);
             return;

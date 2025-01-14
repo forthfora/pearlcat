@@ -146,7 +146,7 @@ public static class Menu_Helpers
 
             ModuleManager.MenuSceneData.Add(self, new(pearls, miscProg.StoredActivePearl));
         }
-        else if (ModOptions.InventoryOverride.Value || (miscProg.IsNewPearlcatSave && ModOptions.StartingInventoryOverride.Value))
+        else if (ModOptions.InventoryOverride || (miscProg.IsNewPearlcatSave && ModOptions.StartingInventoryOverride))
         {
             var pearls = ModOptions.GetOverridenInventory(true);
             var activePearl = pearls.FirstOrDefault();

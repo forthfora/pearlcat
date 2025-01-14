@@ -20,7 +20,7 @@ public class MeadowOptionsData : OnlineResource.ResourceData
     public class State() : ResourceDataState
     {
         [OnlineField]
-        public bool pearlpupRespawn = ModOptions_TEMPNAME.PearlpupRespawn;
+        public bool pearlpupRespawn = ModOptions.PearlpupRespawn;
 
 
         public override void ReadTo(OnlineResource.ResourceData data, OnlineResource resource)

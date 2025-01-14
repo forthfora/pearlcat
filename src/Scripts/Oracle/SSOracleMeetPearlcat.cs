@@ -821,7 +821,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                 var abstractPearl = new DataPearl.AbstractDataPearl(thisOracle.room.world, AbstractObjectType.DataPearl, null, thisPlayer.abstractCreature.pos, thisOracle.room.game.GetNewID(), -1, -1, null, Enums.Pearls.SS_Pearlcat);
 
-                if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value)
+                if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount)
                 {
                     abstractPearl.pos = thisPlayer.abstractCreature.pos;
                     thisOracle.room.abstractRoom.AddEntity(abstractPearl);

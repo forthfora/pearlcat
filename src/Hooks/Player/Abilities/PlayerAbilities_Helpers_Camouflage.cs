@@ -60,7 +60,7 @@ public static class PlayerAbilities_Helpers_Camouflage
             }
         }
 
-        if (ModOptions.DisableCamoflague.Value || self.inVoidSea)
+        if (ModOptions.DisableCamoflague || self.inVoidSea)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Camouflage);
             return;

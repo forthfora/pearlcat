@@ -159,7 +159,7 @@ public static class World_HooksIL
                 var save = game.GetMiscWorld();
                 var miscProg = Utils.MiscProgression;
 
-                if (save?.PearlpupID is null && ModOptions_TEMPNAME.PearlpupRespawn && !miscProg.HasTrueEnding)
+                if (save?.PearlpupID is null && ModOptions.PearlpupRespawn && !miscProg.HasTrueEnding)
                 {
                     return 0;
                 }

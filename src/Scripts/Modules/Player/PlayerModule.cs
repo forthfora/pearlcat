@@ -129,7 +129,7 @@ public partial class PlayerModule
 
         var playerNumber = self.playerState.playerNumber;
 
-        if (!ModOptions.InventoryOverride.Value)
+        if (!ModOptions.InventoryOverride)
         {
             Inventory.Clear();
 

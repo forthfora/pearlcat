@@ -1,13 +1,53 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pearlcat;
 
+using DataPearlType = DataPearl.AbstractDataPearl.DataPearlType;
 using OnlineOptions = MeadowOnlineOptions;
 using OI = ModOptionInterface;
 
 public static class ModOptions
 {
     public static bool IsOnline => !ModCompat_Helpers.RainMeadow_IsLobbyOwner;
+
+    public static List<DataPearlType> GetOverridenInventory(bool giveHalcyonPearl)
+    {
+        List<DataPearlType> pearls = [];
+
+        for (var i = 0; i < AgilityPearlCount; i++)
+        {
+            pearls.Add(Enums.Pearls.AS_PearlBlue);
+        }
+
+        for (var i = 0; i < ShieldPearlCount; i++)
+        {
+            pearls.Add(Enums.Pearls.AS_PearlYellow);
+        }
+
+        for (var i = 0; i < RevivePearlCount; i++)
+        {
+            pearls.Add(Enums.Pearls.AS_PearlGreen);
+        }
+
+        for (var i = 0; i < CamoPearlCount; i++)
+        {
+            pearls.Add(Enums.Pearls.AS_PearlBlack);
+        }
+
+        for (var i = 0; i < RagePearlCount; i++)
+        {
+            pearls.Add(Enums.Pearls.AS_PearlRed);
+        }
+
+        for (var i = 0; i < SpearPearlCount; i++)
+        {
+            pearls.Add(i == 0 && giveHalcyonPearl ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc);
+        }
+
+        return pearls;
+    }
+
 
     // OPTIONS
     public static bool PearlpupRespawn => IsOnline ? OnlineOptions.PearlpupRespawn : OI.PearlpupRespawn.Value;
@@ -26,7 +66,7 @@ public static class ModOptions
 
 
     // MISC GAMEPLAY
-    public static int MaxPearlCount => IsOnline ? OnlineOptions.MaxPearlCount : OI.MaxPearlCount;
+    public static int MaxPearlCount => IsOnline ? OnlineOptions.MaxPearlCount : OI.MaxPearlCount.Value;
 
     public static string StartShelterOverride => IsOnline ? "" : OI.StartShelterOverride.Value;
 

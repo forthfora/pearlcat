@@ -47,7 +47,7 @@ public static class Pearlpup_Hooks
     {
         orig(self, abstractCreature, world);
 
-        if (!ModOptions.PearlpupRespawn.Value)
+        if (!ModOptions.PearlpupRespawn)
         {
             return;
         }

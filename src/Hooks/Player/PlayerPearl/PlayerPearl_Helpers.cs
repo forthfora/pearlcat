@@ -13,7 +13,7 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
+        if (ModOptions.InventoryOverride && playerModule.JustWarped)
         {
             playerModule.GivenPearls = false;
         }
@@ -28,7 +28,7 @@ public static class PlayerPearl_Helpers
 
         var alreadyGivenPearls = miscWorld is not null && miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber);
 
-        if (alreadyGivenPearls && !ModOptions.InventoryOverride.Value)
+        if (alreadyGivenPearls && !ModOptions.InventoryOverride)
         {
             return;
         }
@@ -37,7 +37,7 @@ public static class PlayerPearl_Helpers
         List<DataPearlType> pearlsToAdd;
         var overrideLimit = false;
 
-        if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
+        if (ModOptions.InventoryOverride || ModOptions.StartingInventoryOverride)
         {
             // Halcyon pearl condition
             var giveHalcyonPearl = self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession;
@@ -119,7 +119,7 @@ public static class PlayerPearl_Helpers
 
             if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
-                if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
+                if (!ModOptions.HidePearls || abstractObject == playerModule.ActiveObject)
                 {
                     hasEffect = true;
                 }
@@ -173,7 +173,7 @@ public static class PlayerPearl_Helpers
 
             if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
-                if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
+                if (!ModOptions.HidePearls || abstractObject == playerModule.ActiveObject)
                 {
                     hasEffect = true;
                 }
@@ -222,14 +222,14 @@ public static class PlayerPearl_Helpers
 
         var save = self.abstractCreature.world.game.GetMiscWorld();
     
-        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value && !overrideLimit)
+        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount && !overrideLimit)
         {
-            if (save?.ShownFullInventoryTutorial == false && !ModOptions.DisableTutorials.Value)
+            if (save?.ShownFullInventoryTutorial == false && !ModOptions.DisableTutorials)
             {
                 var t = Utils.Translator;
 
                 save.ShownFullInventoryTutorial = true;
-                self.abstractCreature.world.game.AddTextPrompt(t.Translate("Storage limit reached (") + ModOptions.MaxPearlCount.Value + t.Translate("): swap out a pearl, or change the limit in the Remix options"), 40, 600);
+                self.abstractCreature.world.game.AddTextPrompt(t.Translate("Storage limit reached (") + ModOptions.MaxPearlCount + t.Translate("): swap out a pearl, or change the limit in the Remix options"), 40, 600);
             }
 
             self.room?.PlaySound(SoundID.MENU_Error_Ping, self.firstChunk, false, 2.0f, 1.0f);
@@ -285,13 +285,13 @@ public static class PlayerPearl_Helpers
 
         self.UpdateInventorySaveData(playerModule);
 
-        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SpearCreation && abstractObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType != DataPearlType.PebblesPearl && !ModOptions.DisableTutorials.Value)
+        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SpearCreation && abstractObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType != DataPearlType.PebblesPearl && !ModOptions.DisableTutorials)
         {
             save.ShownSpearCreationTutorial = true;
 
             var t = Utils.Translator;
 
-            if (ModOptions.CustomSpearKeybind.Value)
+            if (ModOptions.CustomSpearKeybind)
             {
                 self.abstractCreature.world.game.AddTextPrompt(
                     t.Translate("Hold (") + Input_Helpers.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetAbilityKeybindDisplayName(true) + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
@@ -530,7 +530,7 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        if (ModOptions.InventoryOverride.Value)
+        if (ModOptions.InventoryOverride)
         {
             return;
         }

@@ -179,7 +179,7 @@ public static class PlayerGraphics_Helpers
             playerModule.Cloak.visible = isVisible;
         }
 
-        if (ModOptions.DisableCosmetics.Value)
+        if (ModOptions.DisableCosmetics)
         {
             feetSprite.isVisible = false;
 
@@ -516,7 +516,7 @@ public static class PlayerGraphics_Helpers
     // Tail
     public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule, int tailSprite)
     {
-        if (ModOptions.DisableCosmetics.Value)
+        if (ModOptions.DisableCosmetics)
         {
             return;
         }
@@ -598,7 +598,7 @@ public static class PlayerGraphics_Helpers
         }
 
 
-        if (ModOptions.DisableCosmetics.Value)
+        if (ModOptions.DisableCosmetics)
         {
             return;
         }
@@ -659,12 +659,11 @@ public static class PlayerGraphics_Helpers
 
         for (var i = 0; i < self.tail.Length; i++)
         {
-            if (!tailSegmentVelocities.ContainsKey(i))
+            if (!tailSegmentVelocities.TryGetValue(i, out var segmentVel))
             {
                 continue;
             }
 
-            var segmentVel = tailSegmentVelocities[i];
             var facingDir = new Vector2(self.player.flipDirection, 1.0f);
 
             if (self.player.bodyMode == Player.BodyModeIndex.Crawl)

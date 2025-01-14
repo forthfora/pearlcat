@@ -53,7 +53,7 @@ public static class Sound_Hooks
 
     private static void MusicPlayer_Update(On.Music.MusicPlayer.orig_Update orig, MusicPlayer self)
     {
-        if (!ModOptions.PearlThreatMusic.Value)
+        if (!ModOptions.PearlThreatMusic)
         {
             orig(self);
             return;

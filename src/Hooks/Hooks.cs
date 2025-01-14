@@ -83,7 +83,7 @@ public static class Hooks
     {
         try
         {
-            ModOptions.RegisterOI();
+            ModOptionInterface.RegisterOI();
 
             if (IsInit)
             {

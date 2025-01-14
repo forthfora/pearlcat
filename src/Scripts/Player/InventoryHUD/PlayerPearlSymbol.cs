@@ -129,7 +129,7 @@ public class PlayerPearlSymbol
         ItemSymbol.shadowSprite2.SetPosition(ItemSymbol.symbolSprite.GetPosition());
 
         ItemSymbol.shadowSprite1.scale *= 0.12f;
-        ItemSymbol.shadowSprite2.scale *= ModOptions.CompactInventoryHUD.Value ? 0.15f : 0.2f;
+        ItemSymbol.shadowSprite2.scale *= ModOptions.CompactInventoryHUD ? 0.15f : 0.2f;
         ItemSymbol.symbolSprite.scale *= 0.1f;
 
         ItemSymbol.shadowSprite1.color = Color.white;

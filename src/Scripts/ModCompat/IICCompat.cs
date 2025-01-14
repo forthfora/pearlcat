@@ -17,7 +17,7 @@ public static class IICCompat
         SentryKeybind.Description = t.Translate("Deploys the active pearl as a sentry, or returns it if it is already deployed.");
         AbilityKeybind.Description = t.Translate("Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.");
 
-        var hide = ModOptions.DisableImprovedInputConfig.Value;
+        var hide = ModOptions.DisableImprovedInputConfig;
 
         StoreKeybind.HideConfig = hide;
         SwapKeybind.HideConfig = hide;

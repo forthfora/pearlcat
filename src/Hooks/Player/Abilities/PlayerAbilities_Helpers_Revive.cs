@@ -4,7 +4,7 @@ public static class PlayerAbilities_Helpers_Revive
 {
     public static void Update(Player self, PlayerModule playerModule, PearlEffect effect)
     {
-        if (ModOptions.DisableRevive.Value || self.inVoidSea)
+        if (ModOptions.DisableRevive || self.inVoidSea)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Revive);
             return;

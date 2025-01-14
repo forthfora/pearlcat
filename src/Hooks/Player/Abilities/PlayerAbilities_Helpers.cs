@@ -40,7 +40,7 @@ public static class PlayerAbilities_Helpers
         var stats = self.slugcatStats;
         var baseStats = playerModule.BaseStats;
 
-        if (ModOptions.DisableMinorEffects.Value)
+        if (ModOptions.DisableMinorEffects)
         {
             if (!self.Malnourished)
             {
@@ -69,7 +69,7 @@ public static class PlayerAbilities_Helpers
             stats.bodyWeightFac = Mathf.Clamp(baseStats.bodyWeightFac + effect.BodyWeightFac, 0.5f, float.MaxValue);
         }
 
-        var visibilityMult = ModOptions.VisibilityMultiplier.Value / 100.0f;
+        var visibilityMult = ModOptions.VisibilityMultiplier / 100.0f;
 
         stats.loudnessFac = baseStats.loudnessFac * visibilityMult;
         stats.visualStealthInSneakMode = baseStats.visualStealthInSneakMode * visibilityMult;

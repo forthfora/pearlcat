@@ -13,7 +13,7 @@ public static class PlayerAbilities_Helpers_Agility
             playerModule.AgilityOveruseTimer--;
         }
 
-        if (ModOptions.DisableAgility.Value || self.inVoidSea || playerModule.PossessedCreature is not null)
+        if (ModOptions.DisableAgility || self.inVoidSea || playerModule.PossessedCreature is not null)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Agility);
             return;

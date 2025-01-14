@@ -693,7 +693,7 @@ public static class Player_Helpers
                     continue;
                 }
 
-                if (ModOptions.HidePearls.Value)
+                if (ModOptions.HidePearls)
                 {
                     if (playerModule.ActiveObject != abstractObject && !abstractObject.IsHeartPearl())
                     {

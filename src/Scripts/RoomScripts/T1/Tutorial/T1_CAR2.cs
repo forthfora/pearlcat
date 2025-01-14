@@ -67,7 +67,7 @@ public class T1_CAR2 : UpdatableAndDeletable
 
 
                         TutorialPearl = abstractPearl;
-                        CurrentPhase = ModOptions.DisableTutorials.Value || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
+                        CurrentPhase = ModOptions.DisableTutorials || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat ? Phase.End : Phase.PreTutorial;
                     }
                     else
                     {
@@ -101,7 +101,7 @@ public class T1_CAR2 : UpdatableAndDeletable
                         PhaseTimer = 1200;
                     }
                 }
-                else if (ModOptions.OldRedPearlAbility.Value)
+                else if (ModOptions.OldRedPearlAbility)
                 {
                     game.AddTextPrompt("RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted", 0, 600);
                 

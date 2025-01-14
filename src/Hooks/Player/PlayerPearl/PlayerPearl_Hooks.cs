@@ -147,7 +147,7 @@ public static class PlayerPearl_Hooks
 
             if (module.CooldownTimer == 0 && effect.MajorEffect == PearlEffect.MajorEffectType.Shield)
             {
-                if (ModOptions.InventoryPings.Value)
+                if (ModOptions.InventoryPings)
                 {
                     playerModule?.ShowHUD(80);
                 }
