@@ -8,7 +8,8 @@ public static class ModCompat_Helpers
     {
         if (IsModEnabled_ImprovedInputConfig)
         {
-            IICCompat.InitCompat();
+            // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
+            InitIICCompat();
         }
 
         if (IsModEnabled_ChasingWind)
@@ -42,6 +43,10 @@ public static class ModCompat_Helpers
     // Improved Input Config
     public static bool IsModEnabled_ImprovedInputConfig => ModManager.ActiveMods.Any(x => x.id == "improved-input-config");
     public static bool IsIICActive => IsModEnabled_ImprovedInputConfig && !ModOptions.DisableImprovedInputConfig;
+    public static void InitIICCompat()
+    {
+        IICCompat.InitCompat();
+    }
 
 
     // Rain Meadow

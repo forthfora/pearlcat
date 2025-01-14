@@ -104,8 +104,8 @@ public static class ModuleManager
         save.PearlpupID = abstractCreature.ID.number;
     }
 
-    public static ConditionalWeakTable<DataPearl.AbstractDataPearl, PearlpupPearlModule> PearlpupPearlData { get; } = new();
-    public static bool TryGetPearlpupPearlModule(this DataPearl.AbstractDataPearl dataPearl, out PearlpupPearlModule module)
+    public static ConditionalWeakTable<DataPearl.AbstractDataPearl, HeartPearlModule> HeartPearlData { get; } = new();
+    public static bool TryGetHeartPearlModule(this DataPearl.AbstractDataPearl dataPearl, out HeartPearlModule module)
     {
         if (!dataPearl.IsHeartPearl())
         {
@@ -113,10 +113,10 @@ public static class ModuleManager
             return false;
         }
 
-        if (!PearlpupPearlData.TryGetValue(dataPearl, out module))
+        if (!HeartPearlData.TryGetValue(dataPearl, out module))
         {
             module = new(dataPearl);
-            PearlpupPearlData.Add(dataPearl, module);
+            HeartPearlData.Add(dataPearl, module);
         }
 
         return true;

@@ -51,8 +51,8 @@ public static class ModCompat_Hooks
                     }
 
                     // Issue lies here (only when warping between other regions) (only affects colored pearls)
-                    item.destroyOnAbstraction = true;
-                    item.Abstractize(item.pos);
+                    item.realizedObject?.Destroy();
+                    item.Destroy();
                 }
 
                 playerModule.JustWarped = true;

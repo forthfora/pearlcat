@@ -92,7 +92,7 @@ public static class Player_Helpers
         }
 
         // Player vs Player
-        if (self is Player && creature is Player player2 && !player2.isSlugpup)
+        if (self is Player && creature is Player otherPlayer && !otherPlayer.isSlugpup)
         {
             var game = self.abstractCreature.world.game;
 
@@ -100,12 +100,25 @@ public static class Player_Helpers
             {
                 return true;
             }
+
+            if (ModCompat_Helpers.RainMeadow_IsOnline)
+            {
+                if (ModCompat_Helpers.RainMeadow_FriendlyFire)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire)
+                {
+                    return true;
+                }
+            }
         }
 
-        var myRelationship =
-            self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
-        var creatureRelationship =
-            creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
+        var myRelationship = self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
+        var creatureRelationship = creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
 
         return myRelationship.GoForKill || creatureRelationship.GoForKill;
     }
@@ -158,6 +171,16 @@ public static class Player_Helpers
     }
 
     public static void RevivePlayer(this Player self)
+    {
+        RevivePlayer_Local(self);
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.RPC_RevivePlayer(self);
+        }
+    }
+
+    public static void RevivePlayer_Local(Player self)
     {
         self.Revive();
 

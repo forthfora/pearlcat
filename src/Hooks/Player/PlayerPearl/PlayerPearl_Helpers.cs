@@ -248,8 +248,8 @@ public static class PlayerPearl_Helpers
 
         if (abstractObject is AbstractSpear spear && spear.TryGetModule(out var spearModule))
         {
-            abstractObject.destroyOnAbstraction = true;
-            abstractObject.Abstractize(abstractObject.pos);
+            abstractObject.realizedObject?.Destroy();
+            abstractObject.Destroy();
 
             ExtEnumBase.TryParse(typeof(DataPearlType), spearModule.PearlType, false, out var type);
 

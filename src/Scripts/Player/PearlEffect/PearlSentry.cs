@@ -1018,8 +1018,8 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
                         player.RemoveFromInventory(owner);
 
-                        owner.destroyOnAbstraction = true;
-                        owner.Abstractize(owner.pos);
+                        owner.realizedObject?.Destroy();
+                        owner.Destroy();
                     }
                 }
             }

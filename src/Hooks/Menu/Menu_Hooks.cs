@@ -383,7 +383,7 @@ public static class Menu_Hooks
     {
         if (ModCompat_Helpers.IsModEnabled_ImprovedInputConfig)
         {
-            IICCompat.InitCompat();
+            ModCompat_Helpers.InitIICCompat();
         }
 
         orig(self, manager);

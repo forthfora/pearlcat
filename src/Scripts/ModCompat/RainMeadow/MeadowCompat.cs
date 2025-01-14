@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using MonoMod.RuntimeDetour;
 using RainMeadow;
 
 namespace Pearlcat;
@@ -9,7 +11,32 @@ public static class MeadowCompat
 {
     public static void InitCompat()
     {
-        OnlineResource.ResourceAvailable += OnlineResourceOnResourceAvailable;
+        try
+        {
+            _ = new Hook(
+                typeof(Lobby).GetMethod("AvailableImpl", BindingFlags.Instance | BindingFlags.NonPublic),
+                typeof(MeadowCompat).GetMethod(nameof(OnLobbyAvailable), BindingFlags.Static | BindingFlags.NonPublic)
+            );
+
+            // use this event instead when it's been pushed
+            // Lobby.ResourceAvailable
+        }
+        catch (Exception e)
+        {
+            e.LogHookException();
+        }
+
+        try
+        {
+            _ = new Hook(
+                typeof(OnlineResource).GetMethod("ParticipantLeft", BindingFlags.Instance | BindingFlags.NonPublic),
+                typeof(MeadowCompat).GetMethod(nameof(OnParticipantLeft), BindingFlags.Static | BindingFlags.NonPublic)
+            );
+        }
+        catch (Exception e)
+        {
+            e.LogHookException();
+        }
     }
 
     public static bool IsLobbyOwner => !IsOnline || OnlineManager.lobby.isOwner;
@@ -39,16 +66,52 @@ public static class MeadowCompat
     }
 
 
-    // Add Online Data
-    private static void OnlineResourceOnResourceAvailable(OnlineResource obj)
+    // Hooks
+    private delegate void orig_OnParticipantLeft(OnlineResource self, OnlinePlayer onlinePlayer);
+    private static void OnParticipantLeft(orig_OnParticipantLeft orig, OnlineResource self, OnlinePlayer onlinePlayer)
     {
-        // Add Mod Options data
-        if (obj is Lobby lobby)
+        orig(self, onlinePlayer);
+
+        if (self.activeEntities is null)
         {
-            lobby.AddData(new MeadowOptionsData());
+            return;
+        }
+
+        var playerPearls = self.activeEntities.OfType<OnlinePhysicalObject>().Select(x => x.apo).Where(x => x.IsPlayerPearl());
+
+        foreach (var pearl in playerPearls)
+        {
+            if (pearl.TryGetPlayerPearlOwner(out var player))
+            {
+                var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+                if (playerOpo is null)
+                {
+                    continue;
+                }
+
+                if (playerOpo.owner != onlinePlayer)
+                {
+                    continue;
+                }
+            }
+
+            pearl.realizedObject?.Destroy();
+            pearl.Destroy();
         }
     }
 
+    private delegate void orig_OnLobbyAvailable(Lobby self);
+    private static void OnLobbyAvailable(orig_OnLobbyAvailable orig, Lobby self)
+    {
+        orig(self);
+
+        // Add Mod Options data
+        self.AddData(new MeadowOptionsData());
+    }
+
+
+    // Add Online Data
     public static void AddMeadowPlayerData(Player player)
     {
         var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
@@ -75,9 +138,14 @@ public static class MeadowCompat
 
 
     // Remote Calls
-    public static void RPC_SyncModOptions()
+    public static void RPC_RevivePlayer(Player player)
     {
-        var modOptionsJson = "";
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
 
         foreach (var onlinePlayer in OnlineManager.players)
         {
@@ -86,7 +154,7 @@ public static class MeadowCompat
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ReceiveModOptions))!.CreateDelegate(typeof(Action<RPCEvent, string>)), modOptionsJson);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RevivePlayer))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
         }
     }
 }

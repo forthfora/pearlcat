@@ -85,6 +85,12 @@ public static class PlayerAbilities_Helpers_Shield
             return;
         }
 
+        // Otherwise, shield deflects things without actually activating
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        {
+            return;
+        }
+
         if (playerModule.ShieldActive)
         {
             for (var i = roomObjects.Count - 1; i >= 0; i--)
@@ -108,7 +114,7 @@ public static class PlayerAbilities_Helpers_Shield
                         }
 
                         // Jolly FF is off, doesn't apply to arena sessions, also check meadow FF if it's enabled
-                        if (!self.abstractCreature.world.game.IsArenaSession && !Utils.RainWorld.options.friendlyFire && !ModCompat_Helpers.RainMeadow_FriendlyFire)
+                        if (!self.abstractCreature.world.game.IsArenaSession && !(ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire) && !ModCompat_Helpers.RainMeadow_FriendlyFire)
                         {
                             continue;
                         }
@@ -130,8 +136,7 @@ public static class PlayerAbilities_Helpers_Shield
                     }
 
 
-                    if (weapon.mode == Weapon.Mode.Thrown &&
-                        Custom.DistLess(weapon.firstChunk.pos, self.firstChunk.pos, 75.0f))
+                    if (weapon.mode == Weapon.Mode.Thrown && Custom.DistLess(weapon.firstChunk.pos, self.firstChunk.pos, 75.0f))
                     {
                         weapon.ChangeMode(Weapon.Mode.Free);
                         weapon.SetRandomSpin();

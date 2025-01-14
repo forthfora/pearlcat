@@ -21,7 +21,7 @@ public static class PlayerHeartPearl_Hooks
     {
         orig(self, placeRoom);
 
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module))
+        if (!self.AbstractPearl.TryGetHeartPearlModule(out var module))
         {
             return;
         }
@@ -33,7 +33,7 @@ public static class PlayerHeartPearl_Hooks
     {
         orig(self, sLeaser, rCam);
 
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module))
+        if (!self.AbstractPearl.TryGetHeartPearlModule(out var module))
         {
             return;
         }
@@ -93,7 +93,7 @@ public static class PlayerHeartPearl_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module))
+        if (!self.AbstractPearl.TryGetHeartPearlModule(out var module))
         {
             return;
         }
@@ -220,7 +220,7 @@ public static class PlayerHeartPearl_Hooks
     {
         orig(self, eu);
 
-        if (!self.AbstractPearl.TryGetPearlpupPearlModule(out var module))
+        if (!self.AbstractPearl.TryGetHeartPearlModule(out var module))
         {
             return;
         }

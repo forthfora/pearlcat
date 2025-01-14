@@ -763,9 +763,8 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                         thisOracle.room.game.GetStorySession.RemovePersistentTracker(item);
                             
-                        item.destroyOnAbstraction = true;
-                        item.Abstractize(item.pos);
-
+                        item.realizedObject?.Destroy();
+                        item.Destroy();
                     }
                     continue;
                 }
@@ -796,8 +795,8 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                 physicalObject.AllGraspsLetGoOfThisObject(true);
 
-                physicalObject.abstractPhysicalObject.destroyOnAbstraction = true;
-                physicalObject.abstractPhysicalObject.Abstractize(physicalObject.abstractPhysicalObject.pos);
+                physicalObject.Destroy();
+                physicalObject.abstractPhysicalObject.Destroy();
             }
         }
     }

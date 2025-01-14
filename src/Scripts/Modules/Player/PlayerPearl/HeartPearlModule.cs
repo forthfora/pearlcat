@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class PearlpupPearlModule
+public class HeartPearlModule
 {
     public WeakReference<Player>? OwnerRef { get; } 
 
-    public PearlpupPearlModule(DataPearl.AbstractDataPearl self)
+    public HeartPearlModule(DataPearl.AbstractDataPearl self)
     {
         if (self.TryGetPlayerPearlOwner(out var owner))
         {

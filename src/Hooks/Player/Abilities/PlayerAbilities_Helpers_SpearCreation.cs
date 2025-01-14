@@ -156,8 +156,8 @@ public static class PlayerAbilities_Helpers_SpearCreation
                         var activeObj = playerModule.ActiveObject;
                         self.RemoveFromInventory(playerModule.ActiveObject);
 
-                        activeObj.destroyOnAbstraction = true;
-                        activeObj.Abstractize(activeObj.pos);
+                        activeObj.realizedObject.Destroy();
+                        activeObj.Destroy();
 
                         self.UpdateInventorySaveData(playerModule);
                     }

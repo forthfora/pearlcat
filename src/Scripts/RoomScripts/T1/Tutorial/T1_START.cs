@@ -73,8 +73,8 @@ public class T1_START : UpdatableAndDeletable
 
                             player.RemoveFromInventory(item);
 
-                            item.destroyOnAbstraction = true;
-                            item.Abstractize(item.pos);
+                            item.realizedObject?.Destroy();
+                            item.Destroy();
                         }
 
                         player.UpdateInventorySaveData(playerModule);
