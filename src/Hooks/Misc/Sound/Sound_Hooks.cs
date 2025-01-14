@@ -78,12 +78,12 @@ public static class Sound_Hooks
                     continue;
                 }
 
-                if (playerModule.ActiveObject is null)
+                if (playerModule.ActivePearl is null)
                 {
                     continue;
                 }
 
-                var effect = playerModule.ActiveObject.GetPearlEffect();
+                var effect = playerModule.ActivePearl.GetPearlEffect();
 
                 if (effect.ThreatMusic is not null)
                 {

@@ -106,8 +106,8 @@ public static class MeadowCompat
     {
         orig(self);
 
-        // Add Mod Options data
         self.AddData(new MeadowOptionsData());
+        self.AddData(new MeadowSaveData());
     }
 
 
@@ -155,6 +155,26 @@ public static class MeadowCompat
             }
 
             onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RevivePlayer))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
+        }
+    }
+
+    public static void RPC_ActivateVisualShield(Player player)
+    {
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ActivateVisualShield))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
         }
     }
 }

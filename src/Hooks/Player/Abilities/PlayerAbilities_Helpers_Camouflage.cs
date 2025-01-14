@@ -11,8 +11,8 @@ public static class PlayerAbilities_Helpers_Camouflage
     {
         var possessingNightVisionCreature = false;
 
-        if (effect.MajorEffect != PearlEffect.MajorEffectType.Camouflage || playerModule.ActiveObject is null ||
-            playerModule.ActiveObject.TryGetSentry(out _))
+        if (effect.MajorEffect != PearlEffect.MajorEffectType.Camouflage || playerModule.ActivePearl is null ||
+            playerModule.ActivePearl.TryGetSentry(out _))
         {
             // Give these creatures night vision by default
             if (playerModule.PossessedCreature?.TryGetTarget(out var creature) == true &&

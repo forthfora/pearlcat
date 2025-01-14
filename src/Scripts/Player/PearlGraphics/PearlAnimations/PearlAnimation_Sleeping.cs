@@ -17,12 +17,12 @@ public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(play
         var fallingObjects = new List<AbstractPhysicalObject>();
         fallingObjects.AddRange(playerModule.Inventory);
 
-        var activeObject = playerModule.ActiveObject;
+        var activePearl = playerModule.ActivePearl;
 
-        if (activeObject is not null)
+        if (activePearl is not null)
         {
-            fallingObjects.Remove(activeObject);
-            activeObject.TryToAnimateToTargetPos(player, player.GetActivePearlPos(new Vector2(0.0f, 30.0f)));
+            fallingObjects.Remove(activePearl);
+            activePearl.TryToAnimateToTargetPos(player, player.GetActivePearlPos(new Vector2(0.0f, 30.0f)));
         }
 
 

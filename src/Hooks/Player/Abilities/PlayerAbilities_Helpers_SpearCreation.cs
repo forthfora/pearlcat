@@ -112,12 +112,12 @@ public static class PlayerAbilities_Helpers_SpearCreation
                     abstractSpear.pos = self.abstractCreature.pos;
                     abstractSpear.RealizeInRoom();
 
-                    var dataPearlType = (playerModule.ActiveObject as DataPearl.AbstractDataPearl)?.dataPearlType.value;
+                    var dataPearlType = (playerModule.ActivePearl as DataPearl.AbstractDataPearl)?.dataPearlType.value;
 
 
                     var spearModule = new SpearModule(playerModule.ActiveColor, dataPearlType ?? "");
 
-                    if (playerModule.ActiveObject is PebblesPearl.AbstractPebblesPearl pebblesPearl)
+                    if (playerModule.ActivePearl is PebblesPearl.AbstractPebblesPearl pebblesPearl)
                     {
                         spearModule.PebblesColor = pebblesPearl.color;
                     }
@@ -146,15 +146,15 @@ public static class PlayerAbilities_Helpers_SpearCreation
                         self.SlugcatGrab(abstractSpear.realizedObject, self.FreeHand());
                     }
 
-                    (playerModule.ActiveObject?.realizedObject).ConnectEffect(abstractSpear.realizedObject.firstChunk.pos);
+                    (playerModule.ActivePearl?.realizedObject).ConnectEffect(abstractSpear.realizedObject.firstChunk.pos);
 
                     self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk, false, 0.5f,
                         Random.Range(2.2f, 2.5f));
 
-                    if (playerModule.ActiveObject is not null)
+                    if (playerModule.ActivePearl is not null)
                     {
-                        var activeObj = playerModule.ActiveObject;
-                        self.RemoveFromInventory(playerModule.ActiveObject);
+                        var activeObj = playerModule.ActivePearl;
+                        self.RemoveFromInventory(playerModule.ActivePearl);
 
                         activeObj.realizedObject.Destroy();
                         activeObj.Destroy();
@@ -172,7 +172,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
         {
             if (playerModule.SpearTimer > spearCreationTime / 2.0f)
             {
-                self.room?.AddObject(new ShockWave(playerModule.ActiveObject!.realizedObject.firstChunk.pos, 30.0f,
+                self.room?.AddObject(new ShockWave(playerModule.ActivePearl!.realizedObject.firstChunk.pos, 30.0f,
                     0.5f, 6));
             }
 

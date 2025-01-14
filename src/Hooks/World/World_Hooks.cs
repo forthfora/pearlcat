@@ -305,7 +305,7 @@ public static class World_Hooks
                     }
 
                     self.AllGraspsLetGoOfThisObject(true);
-                    player.StoreObject(self.abstractSpear, noSound: true, storeBeforeActive: true);
+                    player.StorePearl(self.abstractSpear, noSound: true, storeBeforeActive: true);
                 }
                 else if (freeHand != -1 && player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) == -1)
                 {

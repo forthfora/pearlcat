@@ -9,7 +9,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 {
     public WeakReference<AbstractPhysicalObject>? ObjectRef { get; }
 
-    public bool IsActiveObject { get; set; }
+    public bool IsActivePearl { get; set; }
     public Vector2 Pos { get; set; }
 
     public Vector2? OverrideLastPos { get; set; }
@@ -233,14 +233,14 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         sprite.scale = HaloScale;
         sprite.alpha = HaloAlpha;
         sprite.color = HaloColor;
-        sprite.isVisible = !ModOptions.HidePearls || IsActiveObject || (ObjectRef?.TryGetTarget(out var obj) == true && obj.IsHeartPearl());
+        sprite.isVisible = !ModOptions.HidePearls || IsActivePearl || (ObjectRef?.TryGetTarget(out var obj) == true && obj.IsHeartPearl());
 
 
         // Spear
         sprite = sLeaser.sprites[SpearSprite];
-        sprite.isVisible = IsActiveObject && !IsSentry;
+        sprite.isVisible = IsActivePearl && !IsSentry;
         sprite.SetPosition(setPos);
-        sprite.scaleY = IsActiveObject ? DrawSpearLerp : 0.0f;
+        sprite.scaleY = IsActivePearl ? DrawSpearLerp : 0.0f;
         sprite.color = SymbolColor;
         sprite.rotation = 0.0f;
 
@@ -255,9 +255,9 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
         // Symbol
         sprite = sLeaser.sprites[SymbolSprite];
-        var offset = IsActiveObject ? ActiveOffset : InactiveOffset;
+        var offset = IsActivePearl ? ActiveOffset : InactiveOffset;
 
-        var spriteName = !IsActiveObject ? null : Symbol;
+        var spriteName = !IsActivePearl ? null : Symbol;
         
         if (DrawSymbolCooldown)
         {
@@ -281,7 +281,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         sprite = sLeaser.sprites[ShieldCounterSprite];
         offset = new Vector2(-17.5f, 7.0f);
 
-        spriteName = !IsActiveObject ? null : SpriteFromNumber(ShieldCounter);
+        spriteName = !IsActivePearl ? null : SpriteFromNumber(ShieldCounter);
 
         if (spriteName is not null)
         {
@@ -302,7 +302,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         sprite = sLeaser.sprites[ReviveCounterSprite];
         offset = new Vector2(-17.5f, -7.0f);
 
-        spriteName = !IsActiveObject ? null : SpriteFromNumber(ReviveCounter);
+        spriteName = !IsActivePearl ? null : SpriteFromNumber(ReviveCounter);
 
         if (spriteName is not null)
         {

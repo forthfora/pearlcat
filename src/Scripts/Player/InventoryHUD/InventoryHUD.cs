@@ -62,7 +62,7 @@ public class InventoryHUD : HudPart
             var truePos = playerPos - roomPos;
 
 
-            var activeIndex = playerModule.ActiveObjectIndex;
+            var activeIndex = playerModule.ActivePearlIndex;
 
             if (!ModOptions.CompactInventoryHUD)
             {
@@ -71,7 +71,7 @@ public class InventoryHUD : HudPart
                     var abstractObject = playerModule.Inventory[i];
                     var diff = i - activeIndex;
 
-                    var isActiveObject = playerModule.ActiveObject == abstractObject;
+                    var isActiveObject = playerModule.ActivePearl == abstractObject;
 
                     if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
                     {
@@ -106,7 +106,7 @@ public class InventoryHUD : HudPart
                     var diff = i - activeIndex;
                     var absDiff = Mathf.Abs(diff ?? 0.0f);
 
-                    var isActiveObject = playerModule.ActiveObject == abstractObject;
+                    var isActiveObject = playerModule.ActivePearl == abstractObject;
 
                     if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
                     {

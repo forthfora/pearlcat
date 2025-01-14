@@ -115,7 +115,7 @@ public static class PlayerGraphics_Helpers
             markGlowSprite.alpha = 0.0f;
         }
 
-        if (playerModule.ActiveObject is not null)
+        if (playerModule.ActivePearl is not null)
         {
             markSprite.y += 10.0f;
             markGlowSprite.y += 10.0f;
@@ -475,7 +475,7 @@ public static class PlayerGraphics_Helpers
             return;
         }
 
-        var maxAlpha = playerModule.ActiveObject?.realizedObject is null ? 0.6f : 1.0f;
+        var maxAlpha = playerModule.ActivePearl?.realizedObject is null ? 0.6f : 1.0f;
 
         self.lightSource.color = Color.Lerp(playerModule.ActiveColor, Color.white, 0.75f);
         self.lightSource.alpha = Custom.LerpMap(self.player.room.Darkness(self.player.mainBodyChunk.pos), 0.5f, 0.9f, 0.0f, maxAlpha);

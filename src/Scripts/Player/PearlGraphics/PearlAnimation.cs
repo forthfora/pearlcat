@@ -104,7 +104,7 @@ public abstract class PearlAnimation
                 pearlGraphics.ActiveHaloColor = Custom.hexToColor("bf934d");
             }
 
-            if (i == playerModule.ActiveObjectIndex)
+            if (i == playerModule.ActivePearlIndex)
             {
                 pearlGraphics.HaloColor = pearlGraphics.ActiveHaloColor;
                 pearlGraphics.HaloScale = 1.0f + 0.45f * haloEffectTimer;
@@ -169,7 +169,7 @@ public abstract class PearlAnimation
 
             var effect = abstractObject.GetPearlEffect();
 
-            pearlGraphics.IsActiveObject = i == playerModule.ActiveObjectIndex;
+            pearlGraphics.IsActivePearl = i == playerModule.ActivePearlIndex;
             pearlGraphics.SymbolColor = effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage ? Color.white : abstractObject.GetObjectColor();
 
             if (pearlModule.CooldownTimer != 0)
@@ -197,18 +197,18 @@ public abstract class PearlAnimation
                 pearlGraphics.SymbolColor = Color.white;
             }
 
-            if (ModOptions.HidePearls && !pearlGraphics.IsActiveObject)
+            if (ModOptions.HidePearls && !pearlGraphics.IsActivePearl)
             {
                 pearlGraphics.DrawSymbolCooldown = false;
             }
 
 
             pearlGraphics.Symbol = PearlGraphics.SpriteFromPearl(abstractObject);
-            pearlGraphics.SymbolAlpha = pearlGraphics.IsActiveObject ? Mathf.Lerp(pearlGraphics.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(pearlGraphics.SymbolAlpha, 0.0f, 0.05f);
+            pearlGraphics.SymbolAlpha = pearlGraphics.IsActivePearl ? Mathf.Lerp(pearlGraphics.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(pearlGraphics.SymbolAlpha, 0.0f, 0.05f);
 
-            pearlGraphics.CamoLerp = ModOptions.HidePearls && !pearlGraphics.IsActiveObject && !abstractObject.IsHeartPearl() && !pearlGraphics.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
+            pearlGraphics.CamoLerp = ModOptions.HidePearls && !pearlGraphics.IsActivePearl && !abstractObject.IsHeartPearl() && !pearlGraphics.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
 
-            if ((!ModOptions.HidePearls || pearlGraphics.IsActiveObject) && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
+            if ((!ModOptions.HidePearls || pearlGraphics.IsActivePearl) && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
             {
                 pearlGraphics.CamoLerp = 0.0f;
             }
@@ -236,7 +236,7 @@ public abstract class PearlAnimation
                     pearlGraphics.OverridePos ??= abstractObject.realizedObject.firstChunk.pos;
                     pearlGraphics.OverrideLastPos = pearlGraphics.OverridePos;
 
-                    pearlGraphics.OverridePos = Vector2.Lerp((Vector2)pearlGraphics.OverridePos, pearlGraphics.IsActiveObject ? player.GetActivePearlPos(timeStacker: 1.0f) : targetPos.Value, 0.7f);
+                    pearlGraphics.OverridePos = Vector2.Lerp((Vector2)pearlGraphics.OverridePos, pearlGraphics.IsActivePearl ? player.GetActivePearlPos(timeStacker: 1.0f) : targetPos.Value, 0.7f);
 
                     if (pearlGraphics.OverrideLastPos is not null && !Custom.DistLess((Vector2)pearlGraphics.OverridePos, (Vector2)pearlGraphics.OverrideLastPos, 100.0f))
                     {
@@ -278,7 +278,7 @@ public abstract class PearlAnimation
 
             if (ModOptions.OldRedPearlAbility)
             {
-                pearlGraphics.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.Rage && playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage;
+                pearlGraphics.IsLaserVisible = hasTarget && effect.MajorEffect == PearlEffect.MajorEffectType.Rage && playerModule.ActivePearl?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage;
                 pearlGraphics.LaserLerp = pearlModule.LaserLerp;
             }
             else

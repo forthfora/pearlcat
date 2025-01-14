@@ -11,7 +11,7 @@ public static class PlayerAbilities_Helpers
         foreach (var playerPearl in playerModule.Inventory)
         {
             var effect = playerPearl.GetPearlEffect();
-            var mult = playerPearl == playerModule.ActiveObject ? effect.ActiveMultiplier : 1.0f;
+            var mult = playerPearl == playerModule.ActivePearl ? effect.ActiveMultiplier : 1.0f;
 
             combinedEffect.ThrowingSkill += effect.ThrowingSkill;
 
@@ -23,9 +23,9 @@ public static class PlayerAbilities_Helpers
             combinedEffect.BodyWeightFac += effect.BodyWeightFac * mult;
         }
 
-        if (playerModule.ActiveObject is not null)
+        if (playerModule.ActivePearl is not null)
         {
-            var effect = playerModule.ActiveObject.GetPearlEffect();
+            var effect = playerModule.ActivePearl.GetPearlEffect();
             combinedEffect.MajorEffect = effect.MajorEffect;
         }
 
@@ -91,7 +91,7 @@ public static class PlayerAbilities_Helpers
             return;
         }
 
-        var activeObj = playerModule.ActiveObject;
+        var activeObj = playerModule.ActivePearl;
 
         if (activeObj is null)
         {

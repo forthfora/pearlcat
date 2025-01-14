@@ -129,7 +129,7 @@ public class Plugin : BaseUnityPlugin
 
                     "\n" +
 
-                    $"{nameof(SaveMiscWorld.ActiveObjectIndex)}:\n{string.Join("\n", pearlcatMiscWorld.ActiveObjectIndex)}\n" +
+                    $"{nameof(SaveMiscWorld.ActivePearlIndex)}:\n{string.Join("\n", pearlcatMiscWorld.ActivePearlIndex)}\n" +
 
 
                     "\n" +

@@ -19,7 +19,7 @@ public static class PlayerAbilities_Helpers_Agility
             return;
         }
 
-        var maxOveruse = playerModule.ActiveObject?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Agility
+        var maxOveruse = playerModule.ActivePearl?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Agility
             ? 180
             : 120;
 

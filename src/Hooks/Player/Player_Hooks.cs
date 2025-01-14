@@ -127,7 +127,7 @@ public static class Player_Hooks
         playerModule.ShieldTimer = 0;
         playerModule.SpearTimer = 0;
 
-        playerModule.PostDeathActiveObjectIndex = playerModule.ActiveObjectIndex;
+        playerModule.PostDeathActivePearlIndex = playerModule.ActivePearlIndex;
 
         self.room?.PlaySound(SoundID.Zapper_Zap, self.firstChunk.pos, 0.4f, 0.6f);
         self.room?.PlaySound(SoundID.Fire_Spear_Explode, self.firstChunk.pos, 0.7f, 0.6f);

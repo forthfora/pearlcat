@@ -182,10 +182,20 @@ public partial class PlayerModule
             return;
         }
 
+        ActivateVisualShield_Local();
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline && PlayerRef.TryGetTarget(out var player))
+        {
+            MeadowCompat.RPC_ActivateVisualShield(player);
+        }
+    }
+
+    public void ActivateVisualShield_Local()
+    {
         var obj = SetShieldCooldown(ModOptions.ShieldRechargeTime);
 
         ShieldTimer = ModOptions.ShieldDuration;
-        ShieldTimer *= (int)(ActiveObject?.GetPearlEffect().MajorEffect == MajorEffectType.Shield ? 2.0f : 1.0f);
+        ShieldTimer *= (int)(ActivePearl?.GetPearlEffect().MajorEffect == MajorEffectType.Shield ? 2.0f : 1.0f);
 
         if (PlayerRef.TryGetTarget(out var player))
         {

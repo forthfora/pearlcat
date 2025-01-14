@@ -350,11 +350,11 @@ public static class Player_Helpers
 
         if (swapLeftInput && !playerModule.WasSwapLeftInput)
         {
-            self.SelectPreviousObject();
+            self.SelectPreviousPearl();
         }
         else if (swapRightInput && !playerModule.WasSwapRightInput)
         {
-            self.SelectNextObject();
+            self.SelectNextPearl();
         }
         else if (swapInput)
         {
@@ -365,12 +365,12 @@ public static class Player_Helpers
             {
                 if (unblockedInput.x < -0.5f)
                 {
-                    self.SelectPreviousObject();
+                    self.SelectPreviousPearl();
                     playerModule.WasSwapped = true;
                 }
                 else if (unblockedInput.x > 0.5f)
                 {
-                    self.SelectNextObject();
+                    self.SelectNextPearl();
                     playerModule.WasSwapped = true;
                 }
             }
@@ -517,14 +517,14 @@ public static class Player_Helpers
             return;
         }
 
-        if (!isStoring && playerModule.ActiveObject is null)
+        if (!isStoring && playerModule.ActivePearl is null)
         {
             return;
         }
 
 
         // Longer delay removing heart
-        if (playerModule.ActiveObject.IsHeartPearl() && !isStoring)
+        if (playerModule.ActivePearl.IsHeartPearl() && !isStoring)
         {
             storeObjectDelay = playerModule.PossessionTarget is null ? REMOVE_HEART_DELAY : POSSESSION_DELAY;
         }
@@ -534,18 +534,18 @@ public static class Player_Helpers
         {
             if (isStoring && toStore is not null)
             {
-                self.StoreObject(toStore.abstractPhysicalObject, true);
+                self.StorePearl(toStore.abstractPhysicalObject, true);
             }
-            else if (playerModule.ActiveObject is not null)
+            else if (playerModule.ActivePearl is not null)
             {
-                if (playerModule.ActiveObject.IsHeartPearl())
+                if (playerModule.ActivePearl.IsHeartPearl())
                 {
                     TryToRemoveHeart(self, playerModule);
                 }
                 else
                 {
-                    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActiveObject.realizedObject.firstChunk);
-                    self.RetrieveActiveObject();
+                    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActivePearl.realizedObject.firstChunk);
+                    self.RetrieveActivePearl();
                 }
             }
 
@@ -557,7 +557,7 @@ public static class Player_Helpers
         {
             if (playerModule.StoreObjectTimer >= 0)
             {
-                if (isStoring || (playerModule.ActiveObject is not null && playerModule.ActiveObject.TryGetPlayerPearlModule(out var module) && !module.IsReturningSentry))
+                if (isStoring || (playerModule.ActivePearl is not null && playerModule.ActivePearl.TryGetPlayerPearlModule(out var module) && !module.IsReturningSentry))
                 {
                     playerModule.StoreObjectTimer++;
 
@@ -571,16 +571,16 @@ public static class Player_Helpers
                         }
                         else
                         {
-                            var activeObj = playerModule.ActiveObject?.realizedObject;
+                            var activeObj = playerModule.ActivePearl?.realizedObject;
 
-                            if (playerModule.ActiveObject?.TryGetPlayerPearlModule(out module) == true)
+                            if (playerModule.ActivePearl?.TryGetPlayerPearlModule(out module) == true)
                             {
                                 if (!module.IsReturningSentry)
                                 {
                                     activeObj.ConnectEffect(self.firstChunk.pos);
                                 }
 
-                                module.ReturnSentry(playerModule.ActiveObject);
+                                module.ReturnSentry(playerModule.ActivePearl);
                             }
                             else
                             {
@@ -593,7 +593,7 @@ public static class Player_Helpers
                     var heartRemovalStart = 40;
 
                     // trying to remove heart
-                    if (playerModule.ActiveObject is DataPearl.AbstractDataPearl abstractHeart && abstractHeart.IsHeartPearl() && !isStoring)
+                    if (playerModule.ActivePearl is DataPearl.AbstractDataPearl abstractHeart && abstractHeart.IsHeartPearl() && !isStoring)
                     {
 
                         // Removing the heart without any possessable creatures nearby
@@ -678,15 +678,15 @@ public static class Player_Helpers
                 ModuleManager.PlayerPearlGraphicsData.Remove(item);
             }
 
-            self.StoreObject(item);
+            self.StorePearl(item);
         }
 
-        if (playerModule.PostDeathActiveObjectIndex is not null)
+        if (playerModule.PostDeathActivePearlIndex is not null)
         {
-            self.ActivateObjectInStorage((int)playerModule.PostDeathActiveObjectIndex);
+            self.SetActivePearl((int)playerModule.PostDeathActivePearlIndex);
         }
 
-        playerModule.PostDeathActiveObjectIndex = null;
+        playerModule.PostDeathActivePearlIndex = null;
     }
 
     public static void UpdatePlayerPearlAnimation(Player self, PlayerModule playerModule)
@@ -718,7 +718,7 @@ public static class Player_Helpers
 
                 if (ModOptions.HidePearls)
                 {
-                    if (playerModule.ActiveObject != abstractObject && !abstractObject.IsHeartPearl())
+                    if (playerModule.ActivePearl != abstractObject && !abstractObject.IsHeartPearl())
                     {
                         continue;
                     }
@@ -830,7 +830,7 @@ public static class Player_Helpers
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
                 self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
 
-            self.StoreObject(pearl, overrideLimit: true);
+            self.StorePearl(pearl, overrideLimit: true);
         }
 
         if (playerModule.IsPossessingCreature)
@@ -943,7 +943,7 @@ public static class Player_Helpers
             return;
         }
 
-        if (!playerModule.ActiveObject.IsHeartPearl())
+        if (!playerModule.ActivePearl.IsHeartPearl())
         {
             playerModule.PossessionTarget = null;
             return;

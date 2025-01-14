@@ -10,10 +10,10 @@ public class SaveMiscWorld
 
 
     // Pearlcat
-    public List<int> PlayersGivenPearls { get; } = [];
-    public Dictionary<int, List<string>> Inventory { get; } = new();
-    public Dictionary<int, int?> ActiveObjectIndex { get; } = new();
-    public Dictionary<int, SpearModule> PearlSpears { get; } = new();
+    public List<int> PlayersGivenPearls { get; set; } = [];
+    public Dictionary<int, List<string>> Inventory { get; set; } = new();
+    public Dictionary<int, int?> ActivePearlIndex { get; set; } = new();
+    public Dictionary<int, SpearModule> PearlSpears { get; set; } = new();
 
 
     // Pearlpup

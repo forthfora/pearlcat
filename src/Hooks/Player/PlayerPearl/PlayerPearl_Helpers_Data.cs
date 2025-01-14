@@ -166,21 +166,21 @@ public static class PlayerPearl_Helpers_Data
 
     public static Vector2 GetActivePearlPos(this Player self, Vector2? overrideOffset = null, float timeStacker = 1.0f)
     {
-        var activeObjectOffset = new Vector2(0.0f, 50.0f);
+        var activePearlOffset = new Vector2(0.0f, 50.0f);
 
         if (overrideOffset is not null)
         {
-            activeObjectOffset = overrideOffset.Value;
+            activePearlOffset = overrideOffset.Value;
         }
 
         if (self.graphicsModule is null)
         {
-            return activeObjectOffset;
+            return activePearlOffset;
         }
 
         var playerGraphics = (PlayerGraphics)self.graphicsModule;
 
-        var pos = Vector2.Lerp(playerGraphics.head.lastPos, playerGraphics.head.pos, timeStacker) + activeObjectOffset;
+        var pos = Vector2.Lerp(playerGraphics.head.lastPos, playerGraphics.head.pos, timeStacker) + activePearlOffset;
         pos.x += self.mainBodyChunk.vel.x * 1.0f;
 
         if (self.TryGetPearlcatModule(out var playerModule) && playerModule.ShieldTimer > 0 || self.onBack?.IsPearlcat() == true)

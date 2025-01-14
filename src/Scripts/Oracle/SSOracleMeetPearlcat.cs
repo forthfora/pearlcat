@@ -835,7 +835,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 }
                 else
                 {
-                    thisPlayer.StoreObject(abstractPearl);
+                    thisPlayer.StorePearl(abstractPearl);
 
                     if (withEffect)
                     {

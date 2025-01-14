@@ -17,12 +17,12 @@ public class PearlAnimation_SineWave(Player player) : PearlAnimation(player)
         var floatingObjects = new List<AbstractPhysicalObject>();
         floatingObjects.AddRange(playerModule.Inventory);
 
-        var activeObject = playerModule.ActiveObject;
+        var activePearl = playerModule.ActivePearl;
 
-        if (activeObject is not null)
+        if (activePearl is not null)
         {
-            floatingObjects.Remove(activeObject);
-            activeObject.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
+            floatingObjects.Remove(activePearl);
+            activePearl.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
         }
 
         for (var i = 0; i < floatingObjects.Count; i++)

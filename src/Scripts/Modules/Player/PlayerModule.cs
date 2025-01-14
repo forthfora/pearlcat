@@ -64,14 +64,12 @@ public partial class PlayerModule
 
     // Inventory
     public List<AbstractPhysicalObject> Inventory { get; set; } = [];
-    public List<AbstractPhysicalObject> PostDeathInventory { get; } = [];
-    public int? PostDeathActiveObjectIndex { get; set; }
-    public AbstractPhysicalObject? ActiveObject =>
-        ActiveObjectIndex is not null && ActiveObjectIndex < Inventory.Count
-            ? Inventory[(int)ActiveObjectIndex]
-            : null;
+    public int? ActivePearlIndex { get; set; }
 
-    public int? ActiveObjectIndex { get; set; }
+    public List<AbstractPhysicalObject> PostDeathInventory { get; set; } = [];
+    public int? PostDeathActivePearlIndex { get; set; }
+
+    public AbstractPhysicalObject? ActivePearl => ActivePearlIndex is not null && ActivePearlIndex < Inventory.Count ? Inventory[(int)ActivePearlIndex] : null;
 
 
     // Input
@@ -142,11 +140,11 @@ public partial class PlayerModule
             }
         }
 
-        ActiveObjectIndex = null;
+        ActivePearlIndex = null;
 
-        if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex) && Inventory.Count > 0)
+        if (save.ActivePearlIndex.TryGetValue(playerNumber, out var activePearlIndex) && Inventory.Count > 0)
         {
-            ActiveObjectIndex = activeObjectIndex < Inventory.Count ? activeObjectIndex : 0;
+            ActivePearlIndex = activePearlIndex < Inventory.Count ? activePearlIndex : 0;
         }
 
         PickPearlAnimation(self);

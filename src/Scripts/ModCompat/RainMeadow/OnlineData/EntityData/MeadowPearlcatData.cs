@@ -20,18 +20,24 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
     public class State : EntityDataState
     {
-        // Inventory & Input
+        // Inventory
         [OnlineField(nullable = true)]
         public RainMeadow.Generics.DynamicOrderedEntityIDs inventory = null!;
 
+        [OnlineField(nullable = true)]
+        public RainMeadow.Generics.DynamicOrderedEntityIDs postDeathInventory = null!;
+
         [OnlineField]
-        public int activeObjectIndex;
+        public int postDeathActivePearlIndex;
+
+        [OnlineField]
+        public int activePearlIndex;
 
         [OnlineField]
         public int currentPearlAnimation;
 
 
-        // Colors
+        // Graphics
         [OnlineField]
         public Color baseBodyColor;
 
@@ -68,6 +74,11 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         public int agilityOveruseTimer;
 
 
+        // Misc
+        [OnlineField]
+        public int blink;
+
+
         [UsedImplicitly]
         public State()
         {
@@ -83,8 +94,10 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             }
 
             inventory = new(playerModule.Inventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
+            postDeathInventory = new(playerModule.PostDeathInventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
 
-            activeObjectIndex = playerModule.ActiveObjectIndex ?? -1;
+            activePearlIndex = playerModule.ActivePearlIndex ?? -1;
+            postDeathActivePearlIndex = playerModule.PostDeathActivePearlIndex ?? -1;
 
             currentPearlAnimation = playerModule.CurrentPearlAnimation is null ? 0 : playerModule.PearlAnimationMap.IndexOf(playerModule.CurrentPearlAnimation.GetType());
 
@@ -102,6 +115,12 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             shieldTimer = playerModule.ShieldTimer;
             spearTimer = playerModule.SpearTimer;
             agilityOveruseTimer = playerModule.AgilityOveruseTimer;
+
+
+            if (player.graphicsModule is PlayerGraphics graphics)
+            {
+                blink = graphics.blink;
+            }
         }
 
         public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
@@ -136,7 +155,24 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             playerModule.Inventory = remoteInventory;
 
-            playerModule.ActiveObjectIndex = activeObjectIndex == -1 ? null : activeObjectIndex;
+
+            var remotePostDeathInventory = postDeathInventory.list
+                .Where(x => x.FindEntity() is OnlinePhysicalObject)
+                .Select(x => ((OnlinePhysicalObject)x.FindEntity()).apo)
+                .ToList();
+
+            playerModule.PostDeathInventory = remotePostDeathInventory;
+
+
+            if (activePearlIndex == -1)
+            {
+                playerModule.ActivePearlIndex = null;
+            }
+            else if (activePearlIndex != playerModule.ActivePearlIndex)
+            {
+                player.SetActivePearl(activePearlIndex);
+            }
+            playerModule.PostDeathActivePearlIndex = postDeathActivePearlIndex == -1 ? null : postDeathActivePearlIndex;
 
 
             // Pearl Animation
@@ -159,6 +195,12 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             playerModule.ShieldTimer = shieldTimer;
             playerModule.SpearTimer = spearTimer;
             playerModule.AgilityOveruseTimer = agilityOveruseTimer;
+
+
+            if (player.graphicsModule is PlayerGraphics graphics)
+            {
+                graphics.blink = blink;
+            }
         }
 
         public override Type GetDataType()

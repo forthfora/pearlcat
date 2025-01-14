@@ -248,7 +248,7 @@ public static class CWCompat
                 }
                 else
                 {
-                    player.StoreObject(abstractPearl);
+                    player.StorePearl(abstractPearl);
 
                     if (withEffect)
                     {

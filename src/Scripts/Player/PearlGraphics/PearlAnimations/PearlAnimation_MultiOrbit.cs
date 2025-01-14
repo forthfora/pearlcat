@@ -37,7 +37,7 @@ public sealed class PearlAnimation_MultiOrbit : PearlAnimation
         {
             var item = playerModule.Inventory[randIndex];
 
-            if (item == playerModule.ActiveObject)
+            if (item == playerModule.ActivePearl)
             {
                 continue;
             }
@@ -66,7 +66,7 @@ public sealed class PearlAnimation_MultiOrbit : PearlAnimation
             return;
         }
 
-        if (playerModule.ActiveObject != prevActiveObject)
+        if (playerModule.ActivePearl != prevActiveObject)
         {
             ReplaceActive(playerModule);
         }
@@ -77,38 +77,38 @@ public sealed class PearlAnimation_MultiOrbit : PearlAnimation
         AnimateOrbit(player, headPos + (OrbitPearls_5.Count == 0 ? OrbitPearls_5_Offset : OrbitPearls_3_Offset), RADIUS_3, F_ADDITION_3, OrbitPearls_3);
         AnimateOrbit(player, headPos + OrbitPearls_2_Offset, RADIUS_2, F_ADDITION_2, OrbitPearls_2);
 
-        playerModule.ActiveObject?.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
-        prevActiveObject = playerModule.ActiveObject;
+        playerModule.ActivePearl?.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
+        prevActiveObject = playerModule.ActivePearl;
     }
 
     public void ReplaceActive(PlayerModule playerModule)
     {
-        if (ReplaceActiveForOrbit(OrbitPearls_5, playerModule.ActiveObject, prevActiveObject))
+        if (ReplaceActiveForOrbit(OrbitPearls_5, playerModule.ActivePearl, prevActiveObject))
         {
             return;
         }
 
-        if (ReplaceActiveForOrbit(OrbitPearls_3, playerModule.ActiveObject, prevActiveObject))
+        if (ReplaceActiveForOrbit(OrbitPearls_3, playerModule.ActivePearl, prevActiveObject))
         {
             return;
         }
 
-        _ = ReplaceActiveForOrbit(OrbitPearls_2, playerModule.ActiveObject, prevActiveObject);
+        _ = ReplaceActiveForOrbit(OrbitPearls_2, playerModule.ActivePearl, prevActiveObject);
     }
 
-    public bool ReplaceActiveForOrbit(List<AbstractPhysicalObject> orbitPearls, AbstractPhysicalObject? activeObject, AbstractPhysicalObject? objToReplace)
+    public bool ReplaceActiveForOrbit(List<AbstractPhysicalObject> orbitPearls, AbstractPhysicalObject? activePearl, AbstractPhysicalObject? objToReplace)
     {
-        if (activeObject is null || objToReplace is null)
+        if (activePearl is null || objToReplace is null)
         {
             return false;
         }
 
-        if (!orbitPearls.Contains(activeObject))
+        if (!orbitPearls.Contains(activePearl))
         {
             return false;
         }
 
-        orbitPearls.Remove(activeObject);
+        orbitPearls.Remove(activePearl);
         orbitPearls.Add(objToReplace);
         return true;
     }

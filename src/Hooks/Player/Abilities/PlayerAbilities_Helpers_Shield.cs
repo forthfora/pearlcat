@@ -30,7 +30,7 @@ public static class PlayerAbilities_Helpers_Shield
 
                     if (ModOptions.HidePearls)
                     {
-                        if (item != playerModule.ActiveObject)
+                        if (item != playerModule.ActivePearl)
                         {
                             continue;
                         }
@@ -82,12 +82,6 @@ public static class PlayerAbilities_Helpers_Shield
         if (ModOptions.DisableShield || self.inVoidSea)
         {
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Shield);
-            return;
-        }
-
-        // Otherwise, shield deflects things without actually activating
-        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
-        {
             return;
         }
 
