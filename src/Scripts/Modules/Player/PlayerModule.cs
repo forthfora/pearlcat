@@ -91,6 +91,20 @@ public partial class PlayerModule
     // HUD
     public void ShowHUD(int duration)
     {
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            if (!PlayerRef.TryGetTarget(out var player))
+            {
+                return;
+            }
+
+            // No need to show the HUD for other players in meadow
+            if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractCreature))
+            {
+                return;
+            }
+        }
+
         HudFadeTimer = duration;
     }
 

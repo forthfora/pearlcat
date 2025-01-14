@@ -5,11 +5,6 @@ namespace Pearlcat;
 // Improved Input Config integration - need the buffer methods so it's not a hard dependency
 public static class Input_Helpers_IIC
 {
-    public static void InitIICKeybinds()
-    {
-        IICCompat.InitKeybinds();
-    }
-
     public static bool IsStorePressedIIC(this Player player)
     {
         return IICCompat.IsStorePressed(player);

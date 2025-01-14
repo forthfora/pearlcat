@@ -107,8 +107,8 @@ public static class PlayerAbilities_Helpers_Shield
                             continue;
                         }
 
-                        // Jolly FF is off, doesn't apply to arena sessions
-                        if (!self.abstractCreature.world.game.IsArenaSession && !Utils.RainWorld.options.friendlyFire)
+                        // Jolly FF is off, doesn't apply to arena sessions, also check meadow FF if it's enabled
+                        if (!self.abstractCreature.world.game.IsArenaSession && !Utils.RainWorld.options.friendlyFire && !ModCompat_Helpers.RainMeadow_FriendlyFire)
                         {
                             continue;
                         }
@@ -122,7 +122,7 @@ public static class PlayerAbilities_Helpers_Shield
                     }
 
 
-                    // When posessing a creature don't let the spears activate our shield (only relevant for posessing scavs really)
+                    // When possessing a creature, don't let the spears activate our shield (only relevant for possessing scavs really)
                     if (playerModule.PossessedCreature?.TryGetTarget(out var possessed) == true &&
                         possessed.realizedCreature == weapon.thrownBy)
                     {

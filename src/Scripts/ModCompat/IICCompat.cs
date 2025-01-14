@@ -6,7 +6,7 @@ namespace Pearlcat;
 
 public static class IICCompat
 {
-    public static void InitKeybinds()
+    public static void InitCompat()
     {
         var t = Utils.Translator;
 

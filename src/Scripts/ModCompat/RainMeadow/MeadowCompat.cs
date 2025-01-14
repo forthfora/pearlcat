@@ -7,7 +7,14 @@ namespace Pearlcat;
 
 public static class MeadowCompat
 {
+    public static void InitCompat()
+    {
+        OnlineResource.ResourceAvailable += OnlineResourceOnResourceAvailable;
+    }
+
+    public static bool IsLobbyOwner => !IsOnline || OnlineManager.lobby.isOwner;
     public static bool IsOnline => OnlineManager.lobby is not null;
+    public static bool FriendlyFire => RainMeadow.RainMeadow.isStoryMode(out var story) && story.friendlyFire;
 
     public static bool IsLocal(AbstractPhysicalObject abstractPhysicalObject)
     {
@@ -29,6 +36,17 @@ public static class MeadowCompat
     public static List<AbstractCreature> GetAllPlayers()
     {
         return OnlineManager.lobby.playerAvatars.Select(kvp => kvp.Value.FindEntity()).Select(oe => (oe as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
+    }
+
+
+    // Add Online Data
+    private static void OnlineResourceOnResourceAvailable(OnlineResource obj)
+    {
+        // Add Mod Options data
+        if (obj is Lobby lobby)
+        {
+            lobby.AddData(new MeadowOptionsData());
+        }
     }
 
     public static void AddMeadowPlayerData(Player player)

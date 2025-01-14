@@ -5,9 +5,9 @@ using static Pearlcat.Enums;
 
 namespace Pearlcat;
 
-public sealed partial class ModOptions : OptionsTemplate
+public sealed partial class ModOptionInterface : OptionsTemplate
 {
-    public static ModOptions Instance { get; } = new();
+    public static ModOptionInterface Instance { get; } = new();
 
     public static void RegisterOI()
     {

@@ -5,7 +5,7 @@ namespace Pearlcat;
 
 public static class CWCompat
 {
-    public static void Init()
+    public static void InitCompat()
     {
         On.SSOracleBehavior.SpecialEvent += SSOracleBehavior_SpecialEvent;
         On.SSOracleBehavior.StartItemConversation += SSOracleBehaviorOnStartItemConversation;

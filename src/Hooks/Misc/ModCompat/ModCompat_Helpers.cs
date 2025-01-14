@@ -8,12 +8,17 @@ public static class ModCompat_Helpers
     {
         if (IsModEnabled_ImprovedInputConfig)
         {
-            Input_Helpers_IIC.InitIICKeybinds();
+            IICCompat.InitCompat();
         }
 
         if (IsModEnabled_ChasingWind)
         {
-            InitChasingWindCompat();
+            CWCompat.InitCompat();
+        }
+
+        if (IsModEnabled_RainMeadow)
+        {
+            MeadowCompat.InitCompat();
         }
     }
 
@@ -32,10 +37,6 @@ public static class ModCompat_Helpers
 
     // Chasing Wind
     public static bool IsModEnabled_ChasingWind => ModManager.ActiveMods.Any(x => x.id == "myr.chasing_wind");
-    public static void InitChasingWindCompat()
-    {
-        CWCompat.Init();
-    }
 
 
     // Improved Input Config
@@ -45,7 +46,10 @@ public static class ModCompat_Helpers
 
     // Rain Meadow
     public static bool IsModEnabled_RainMeadow => ModManager.ActiveMods.Any(x => x.id == "henpemaz_rainmeadow");
+
+    public static bool RainMeadow_IsLobbyOwner => !IsModEnabled_RainMeadow || MeadowCompat.IsLobbyOwner;
     public static bool RainMeadow_IsOnline => IsModEnabled_RainMeadow && MeadowCompat.IsOnline;
+    public static bool RainMeadow_FriendlyFire => IsModEnabled_RainMeadow && MeadowCompat.FriendlyFire;
 
     public static bool RainMeadow_IsMine(AbstractPhysicalObject obj)
     {

@@ -154,7 +154,7 @@ public static class Input_Helpers
             _ => false,
         };
     }
-    
+
     public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
     {
         if (ModOptions.CustomSentryKeybind.Value)

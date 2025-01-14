@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public sealed partial class ModOptions
+public sealed partial class ModOptionInterface
 {
     private const int TAB_COUNT = 7;
 
