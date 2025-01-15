@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
 
@@ -13,12 +14,8 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        if (ModOptions.InventoryOverride && playerModule.JustWarped)
-        {
-            playerModule.GivenPearls = false;
-        }
-
-        if (playerModule.GivenPearls)
+        // Only give pearls once per cycle (exception is warping with inventory override)
+        if (playerModule.GivenPearlsThisCycle && !(ModOptions.InventoryOverride && playerModule.JustWarped))
         {
             return;
         }
@@ -73,7 +70,7 @@ public static class PlayerPearl_Helpers
             self.StorePearl(pearl, overrideLimit: overrideLimit);
         }
 
-        playerModule.GivenPearls = true;
+        playerModule.GivenPearlsThisCycle = true;
 
         if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber))
         {
@@ -196,7 +193,7 @@ public static class PlayerPearl_Helpers
             module.ReturnSentry(abstractObject);
         }
 
-        if (MeadowCompat.IsOnline)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             // Meadow, set realized on the OnlinePhysicalObject to false
             MeadowCompat.SetRealized(abstractObject, false);
@@ -283,7 +280,7 @@ public static class PlayerPearl_Helpers
         playerModule.PickPearlAnimation(self);
         playerModule.ShowHUD(30);
 
-        self.UpdateInventorySaveData(playerModule);
+        self.UpdateInventorySaveData();
 
         if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SpearCreation && abstractObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType != DataPearlType.PebblesPearl && !ModOptions.DisableTutorials)
         {
@@ -326,9 +323,6 @@ public static class PlayerPearl_Helpers
         self.RemoveFromInventory(activePearl);
         self.SlugcatGrab(activePearl.realizedObject, self.FreeHand());
 
-        playerModule.PickPearlAnimation(self);
-        playerModule.ShowHUD(30);
-
         if (playerModule.ActivePearl is null && playerModule.Inventory.Count > 0)
         {
             var targetIndex = playerModule.ActivePearlIndex ?? 0;
@@ -346,7 +340,10 @@ public static class PlayerPearl_Helpers
             self.SetActivePearl(targetIndex);
         }
 
-        self.UpdateInventorySaveData(playerModule);
+        playerModule.PickPearlAnimation(self);
+        playerModule.ShowHUD(30);
+
+        self.UpdateInventorySaveData();
     }
 
 
@@ -518,12 +515,12 @@ public static class PlayerPearl_Helpers
         //player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
         pGraphics.LookAtPoint(newActive.firstChunk.pos, 1.0f);
 
-        self.UpdateInventorySaveData(playerModule);
+        self.UpdateInventorySaveData();
     }
 
 
     // Save
-    public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
+    public static void UpdateInventorySaveData(this Player self)
     {
         if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
         {
@@ -535,6 +532,11 @@ public static class PlayerPearl_Helpers
             return;
         }
 
+        if (!self.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
+
         var save = self.room.game.GetMiscWorld();
 
         if (save is null)
@@ -542,20 +544,9 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        List<string> inventory = [];
+        var playerNumber = self.playerState.playerNumber;
 
-        foreach (var item in playerModule.Inventory)
-        {
-            inventory.Add(item.ToString());
-        }
-
-
-        save.Inventory[self.playerState.playerNumber] = inventory;
-
-        if (playerModule.Inventory.Count == 0)
-        {
-            playerModule.ActivePearlIndex = null;
-            save.ActivePearlIndex[self.playerState.playerNumber] = null;
-        }
+        save.Inventory[playerNumber] = playerModule.Inventory.Select(x => x.ToString()).ToList();
+        save.ActivePearlIndex[playerNumber] = playerModule.ActivePearlIndex;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -16,7 +17,7 @@ public partial class PlayerModule
         PlayerNumber = self.playerState.playerNumber;
         BaseStats = NormalStats;
 
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             MeadowCompat.AddMeadowPlayerData(self);
         }
@@ -38,7 +39,7 @@ public partial class PlayerModule
     public bool JustWarped { get; set; }
     public AbstractRoom? LastRoom { get; set; }
     public int MaskCounter { get; set; }
-    public bool GivenPearls { get; set; }
+    public bool GivenPearlsThisCycle { get; set; }
 
 
     public int SpearTimer { get; set; }
@@ -110,7 +111,7 @@ public partial class PlayerModule
     public float HudFadeTimer { get; set; }
 
 
-    public void LoadSaveData(Player self)
+    public void LoadInventorySaveData(Player self)
     {
         if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
         {
@@ -140,11 +141,21 @@ public partial class PlayerModule
             }
         }
 
-        ActivePearlIndex = null;
-
-        if (save.ActivePearlIndex.TryGetValue(playerNumber, out var activePearlIndex) && Inventory.Count > 0)
+        if (Inventory.Any())
         {
-            ActivePearlIndex = activePearlIndex < Inventory.Count ? activePearlIndex : 0;
+            if (save.ActivePearlIndex.TryGetValue(playerNumber, out var activePearlIndex) && activePearlIndex < Inventory.Count)
+            {
+                ActivePearlIndex = activePearlIndex;
+            }
+            else
+            {
+                // Just in case
+                ActivePearlIndex = 0;
+            }
+        }
+        else
+        {
+            ActivePearlIndex = null;
         }
 
         PickPearlAnimation(self);

@@ -86,7 +86,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
         public State(OnlineEntity onlineEntity)
         {
-            if ((onlineEntity as OnlinePhysicalObject)?.apo?.realizedObject is not Player player)
+            if ((onlineEntity as OnlinePhysicalObject)?.apo.realizedObject is not Player player)
             {
                 return;
             }
@@ -128,7 +128,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
         public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
         {
-            if ((onlineEntity as OnlinePhysicalObject)?.apo?.realizedObject is not Player player)
+            if ((onlineEntity as OnlinePhysicalObject)?.apo.realizedObject is not Player player)
             {
                 return;
             }
@@ -146,16 +146,18 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             var localInventory = playerModule.Inventory;
 
-            var pearlsToAdd = remoteInventory.Where(x => !localInventory.Contains(x));
-            var pearlsToRemove = localInventory.Where(x => !remoteInventory.Contains(x));
+            var pearlsToAdd = remoteInventory.Where(x => !localInventory.Contains(x)).ToList();
+            var pearlsToRemove = localInventory.Where(x => !remoteInventory.Contains(x)).ToList();
 
             foreach (var pearl in pearlsToAdd)
             {
                 player.AddToInventory(pearl);
             }
 
-            foreach (var pearl in pearlsToRemove)
+            for (var i = pearlsToRemove.Count - 1; i >= 0; i--) // prevent 'collection was modified' exceptions
             {
+                var pearl = pearlsToRemove[i];
+
                 player.RemoveFromInventory(pearl);
             }
 
@@ -205,7 +207,8 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             if (player.graphicsModule is PlayerGraphics graphics)
             {
-                graphics.blink = blink;
+                // needs a bit of buffer
+                graphics.blink = blink + 2;
             }
         }
 

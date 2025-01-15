@@ -7,7 +7,7 @@ public static class MeadowRPCs
     [RPCMethod]
     public static void RevivePlayer(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
     {
-        if (playerOpo?.apo?.realizedObject is not Player player)
+        if (playerOpo.apo.realizedObject is not Player player)
         {
             return;
         }
@@ -18,7 +18,7 @@ public static class MeadowRPCs
     [RPCMethod]
     public static void ActivateVisualShield(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
     {
-        if (playerOpo?.apo?.realizedObject is not Player player)
+        if (playerOpo.apo.realizedObject is not Player player)
         {
             return;
         }

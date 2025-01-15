@@ -77,7 +77,7 @@ public class T1_START : UpdatableAndDeletable
                             item.Destroy();
                         }
 
-                        player.UpdateInventorySaveData(playerModule);
+                        player.UpdateInventorySaveData();
                     }
                 }
             }

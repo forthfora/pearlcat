@@ -28,7 +28,7 @@ public static class PlayerPearl_Hooks
     {
         var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule());
 
-        if (ModCompat_Helpers.IsModEnabled_RainMeadow)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             MeadowCompat.AddMeadowPlayerPearlData(abstractObject);
         }

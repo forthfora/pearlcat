@@ -389,7 +389,7 @@ public static class Player_Helpers
         // Warp Fix
         if (self.room is not null && playerModule.JustWarped)
         {
-            playerModule.LoadSaveData(self);
+            playerModule.LoadInventorySaveData(self);
             playerModule.JustWarped = false;
         }
 
@@ -691,6 +691,11 @@ public static class Player_Helpers
 
     public static void UpdatePlayerPearlAnimation(Player self, PlayerModule playerModule)
     {
+        if (self.graphicsModule is null)
+        {
+            return;
+        }
+
         if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
         {
             playerModule.CurrentPearlAnimation = new PearlAnimation_FreeFall(self);

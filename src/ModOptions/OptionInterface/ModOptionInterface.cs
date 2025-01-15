@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using static DataPearl.AbstractDataPearl;
-using static Pearlcat.Enums;
+﻿using UnityEngine;
 
 namespace Pearlcat;
 

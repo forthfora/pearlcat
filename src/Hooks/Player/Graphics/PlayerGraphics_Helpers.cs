@@ -901,6 +901,18 @@ public static class PlayerGraphics_Helpers
         UpdateEarSegments(self, earL, playerModule.EarLAttachPos);
         UpdateEarSegments(self, earR, playerModule.EarRAttachPos);
 
+        // Make ears look less horizontal when running
+        if (self.player.bodyMode == Player.BodyModeIndex.Stand && self.player.firstChunk.vel.magnitude > 1.0f)
+        {
+            earL[0].vel.y += 0.25f;
+            earL[1].vel.y += 0.25f;
+            earL[2].vel.y += 0.25f;
+
+            earR[0].vel.y += 0.25f;
+            earR[1].vel.y += 0.25f;
+            earR[2].vel.y += 0.25f;
+        }
+
         // pups play with ears
         if (self.player.slugOnBack?.slugcat is Player slugpup && slugpup.isNPC && !slugpup.dead)
         {
@@ -911,7 +923,6 @@ public static class PlayerGraphics_Helpers
             earR[0].vel.x += 0.05f;
             earR[1].vel.x += 0.05f;
             earR[2].vel.x += 0.05f;
-
 
             var dir = Random.Range(0, 2) == 0 ? 1 : -1;
             var mult = Random.Range(0.8f, 1.3f);

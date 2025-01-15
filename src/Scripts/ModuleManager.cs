@@ -24,7 +24,7 @@ public static class ModuleManager
             playerModule = new PlayerModule(self);
             PearlcatData.Add(self.abstractCreature, playerModule);
 
-            playerModule.LoadSaveData(self);
+            playerModule.LoadInventorySaveData(self);
         }
 
         return true;

@@ -70,7 +70,7 @@ public partial class PlayerModule
         var randState = Random.state;
         Random.InitState(randomSeed);
 
-        CurrentPearlAnimation = GetPearlAnimation(player);
+        CurrentPearlAnimation = GetRandomPearlAnimation(player);
         PearlAnimationTimer = 0;
 
         PearlAnimationDuration = Random.Range(minTime, maxTime);
@@ -90,7 +90,7 @@ public partial class PlayerModule
         }
     }
 
-    public PearlAnimation GetPearlAnimation(Player player)
+    public PearlAnimation GetRandomPearlAnimation(Player player)
     {
         if (ModOptions.HidePearls)
         {
@@ -111,7 +111,7 @@ public partial class PlayerModule
         ];
 
 
-        if (player.firstChunk.vel.magnitude < 4.0f)
+        if (player.firstChunk.vel.magnitude < 4.0f && Inventory.Count > 1)
         {
             animationPool.AddRange(stillAnimationPool);
         }
