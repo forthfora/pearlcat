@@ -400,7 +400,7 @@ public static class World_Hooks
     }
 
 
-    // Prevent PlayerPearls being saved in the shelter
+    // Prevent player pearls from being displayed on the map when in a shelter
     private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
     {
         var result = orig(world, room, index);
@@ -409,7 +409,7 @@ public static class World_Hooks
 
         if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
         {
-            if (abstractObject.realizedObject is not null && abstractObject.IsPlayerPearl())
+            if (abstractObject.IsPlayerPearl())
             {
                 return null;
             }

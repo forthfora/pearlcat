@@ -70,7 +70,7 @@ public static class PlayerAbilities_Helpers_Revive
                         creature.abstractCreature.world.game.session.creatureCommunities.InfluenceLikeOfPlayer(
                             creature.abstractCreature.creatureTemplate.communityID,
                             creature.abstractCreature.world.RegionNumber,
-                            playerModule.PlayerNumber,
+                            player.playerState.playerNumber,
                             1.0f, 0.0f, 0.0f);
                     }
                 }

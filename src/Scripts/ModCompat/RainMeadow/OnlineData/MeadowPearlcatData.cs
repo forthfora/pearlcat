@@ -8,6 +8,8 @@ namespace Pearlcat;
 
 public class MeadowPearlcatData : OnlineEntity.EntityData
 {
+    public bool InventorySaveDataNeedsUpdate { get; set; }
+
     [UsedImplicitly]
     public MeadowPearlcatData()
     {
@@ -128,7 +130,14 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
         public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
         {
-            if ((onlineEntity as OnlinePhysicalObject)?.apo.realizedObject is not Player player)
+            if (data is not MeadowPearlcatData meadowPearlcatData)
+            {
+                return;
+            }
+
+            var playerOpo = onlineEntity as OnlinePhysicalObject;
+
+            if (playerOpo?.apo.realizedObject is not Player player)
             {
                 return;
             }
@@ -209,6 +218,21 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             {
                 // needs a bit of buffer
                 graphics.blink = blink + 2;
+            }
+
+            if (meadowPearlcatData.InventorySaveDataNeedsUpdate)
+            {
+                meadowPearlcatData.InventorySaveDataNeedsUpdate = false;
+
+                var save = player.abstractPhysicalObject.world.game.GetMiscWorld();
+
+                if (save is not null)
+                {
+                    var id = playerOpo.owner.id.GetHashCode();
+
+                    save.Inventory[id] = playerModule.Inventory.Select(x => x.ToString()).ToList();
+                    save.ActivePearlIndex[id] = playerModule.ActivePearlIndex;
+                }
             }
         }
 

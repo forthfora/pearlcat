@@ -10,26 +10,10 @@ public partial class PlayerModule
     public WeakReference<Player> PlayerRef { get; }
     public WeakReference<Player>? PearlpupRef { get; set; }
 
-    public PlayerModule(Player self)
-    {
-        PlayerRef = new(self);
-
-        PlayerNumber = self.playerState.playerNumber;
-        BaseStats = NormalStats;
-
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            MeadowCompat.AddMeadowPlayerData(self);
-        }
-    }
-
-
     public bool IsAdultPearlpup =>
         PlayerRef.TryGetTarget(out var player) &&
         player.abstractCreature.Room.world.game.IsPearlcatStory() &&
         Utils.MiscProgression.HasTrueEnding;
-
-    public int PlayerNumber { get; }
 
     public SlugcatStats BaseStats { get; set; }
     public SlugcatStats NormalStats { get; } = new(Enums.Pearlcat, false);
@@ -86,8 +70,24 @@ public partial class PlayerModule
 
     public int StoreObjectTimer { get; set; }
 
-    
+
     // HUD
+    public float HudFade { get; set; }
+    public float HudFadeTimer { get; set; }
+
+
+    public PlayerModule(Player self)
+    {
+        PlayerRef = new(self);
+
+        BaseStats = NormalStats;
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.AddMeadowPlayerData(self);
+        }
+    }
+
     public void ShowHUD(int duration)
     {
         if (ModCompat_Helpers.RainMeadow_IsOnline)
@@ -107,10 +107,6 @@ public partial class PlayerModule
         HudFadeTimer = duration;
     }
 
-    public float HudFade { get; set; }
-    public float HudFadeTimer { get; set; }
-
-
     public void LoadInventorySaveData(Player self)
     {
         if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
@@ -126,13 +122,19 @@ public partial class PlayerModule
             return;
         }
 
-        var playerNumber = self.playerState.playerNumber;
+        var id = self.playerState.playerNumber;
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            id = ModCompat_Helpers.GetOwnerId(self.abstractPhysicalObject);
+        }
+
 
         if (!ModOptions.InventoryOverride)
         {
             Inventory.Clear();
 
-            if (save.Inventory.TryGetValue(playerNumber, out var inventory))
+            if (save.Inventory.TryGetValue(id, out var inventory))
             {
                 foreach (var item in inventory)
                 {
@@ -143,7 +145,7 @@ public partial class PlayerModule
 
         if (Inventory.Any())
         {
-            if (save.ActivePearlIndex.TryGetValue(playerNumber, out var activePearlIndex) && activePearlIndex < Inventory.Count)
+            if (save.ActivePearlIndex.TryGetValue(id, out var activePearlIndex) && activePearlIndex < Inventory.Count)
             {
                 ActivePearlIndex = activePearlIndex;
             }

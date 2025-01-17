@@ -128,6 +128,11 @@ public static class Creatures_Hooks
 
         if (obj?.abstractPhysicalObject is AbstractSpear spear && spear.TryGetModule(out _))
         {
+            if (ModManager.MMF && MoreSlugcats.MMF.cfgHunterBackspearProtect.Value && spear.onPlayerBack)
+            {
+                return 0;
+            }
+
             return 12;
         }
 

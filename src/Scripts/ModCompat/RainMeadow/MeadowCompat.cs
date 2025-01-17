@@ -38,8 +38,6 @@ public static class MeadowCompat
         {
             e.LogHookException();
         }
-
-        On.SaveState.LoadGame += SaveStateOnLoadGame;
     }
 
     public static bool IsLobbyOwner => !IsOnline || OnlineManager.lobby.isOwner;
@@ -49,6 +47,18 @@ public static class MeadowCompat
     public static bool IsLocal(AbstractPhysicalObject abstractPhysicalObject)
     {
         return abstractPhysicalObject.IsLocal();
+    }
+
+    public static int GetOwnerId(AbstractPhysicalObject abstractPhysicalObject)
+    {
+        var opo = abstractPhysicalObject.GetOnlineObject();
+
+        if (opo is null)
+        {
+            return 0;
+        }
+
+        return opo.owner.id.GetHashCode();
     }
 
     public static void SetRealized(AbstractPhysicalObject abstractPhysicalObject, bool realized)
@@ -68,48 +78,6 @@ public static class MeadowCompat
         return OnlineManager.lobby.playerAvatars.Select(kvp => kvp.Value.FindEntity()).Select(oe => (oe as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
     }
 
-    private static void SaveStateOnLoadGame(On.SaveState.orig_LoadGame orig, SaveState self, string str, RainWorldGame game)
-    {
-        if (ModCompat_Helpers.RainMeadow_IsLobbyOwner)
-        {
-            orig(self, str, game);
-            return;
-        }
-
-        var pearlcatSaveKey = "pearlcat_SlugBaseSaveData_";
-
-        // Grab the data before meadow overwrites it
-        var pearlcatSaveData = self.miscWorldSaveData?.unrecognizedSaveStrings?.FirstOrDefault(x => x.StartsWith(pearlcatSaveKey));
-
-        orig(self, str, game);
-
-        if (pearlcatSaveData is null)
-        {
-            return;
-        }
-
-        if (self.miscWorldSaveData?.unrecognizedSaveStrings is null)
-        {
-            return;
-        }
-
-        var saveStrings = self.miscWorldSaveData.unrecognizedSaveStrings;
-
-        var indexToReplace = saveStrings.FindIndex(x => x.StartsWith(pearlcatSaveKey));
-
-        if (indexToReplace == -1)
-        {
-            return;
-        }
-
-        Plugin.Logger.LogWarning($"BEFORE:\n{saveStrings[indexToReplace]}");
-
-        // Insert the save data again, preserving it after the overwrite
-        saveStrings[indexToReplace] = pearlcatSaveData;
-
-        Plugin.Logger.LogWarning($"AFTER:\n{saveStrings[indexToReplace]}");
-
-    }
 
     private delegate void orig_OnParticipantLeft(OnlineResource self, OnlinePlayer onlinePlayer);
     private static void OnParticipantLeft(orig_OnParticipantLeft orig, OnlineResource self, OnlinePlayer onlinePlayer)
@@ -151,6 +119,7 @@ public static class MeadowCompat
         orig(self);
 
         self.AddData(new MeadowOptionsData());
+        self.AddData(new MeadowSaveData());
     }
 
 
@@ -226,5 +195,43 @@ public static class MeadowCompat
 
             onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ActivateVisualShield))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
         }
+    }
+
+    public static void RPC_UpdateInventorySaveData(Player player)
+    {
+        if (IsLobbyOwner)
+        {
+            return;
+        }
+
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        var owner = OnlineManager.lobby.owner;
+
+        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateInventorySaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
+    }
+
+    public static void RPC_UpdateGivenPearlsSaveData(Player player)
+    {
+        if (IsLobbyOwner)
+        {
+            return;
+        }
+
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        var owner = OnlineManager.lobby.owner;
+
+        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateGivenPearlsSaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
     }
 }

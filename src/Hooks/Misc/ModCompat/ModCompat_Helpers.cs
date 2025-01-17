@@ -60,4 +60,9 @@ public static class ModCompat_Helpers
     {
         return !IsModEnabled_RainMeadow || MeadowCompat.IsLocal(obj);
     }
+
+    public static int GetOwnerId(AbstractPhysicalObject obj)
+    {
+        return RainMeadow_IsOnline ? MeadowCompat.GetOwnerId(obj) : 0;
+    }
 }

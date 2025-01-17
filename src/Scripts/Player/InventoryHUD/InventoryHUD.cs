@@ -90,7 +90,7 @@ public class InventoryHUD : HudPart
                     symbol.Scale = isActiveObject ? 2.0f : 0.8f;
                 }
 
-                var circle = InventoryCircles[playerModule.PlayerNumber];
+                var circle = InventoryCircles[player.playerState.playerNumber];
 
                 circle.SetPosition(Custom.Dist(circle.GetPosition(), truePos) > 300.0f ? truePos : Vector2.Lerp(circle.GetPosition(), truePos, 0.1f));
                 circle.scale = Custom.LerpMap(playerModule.HudFade, 0.0f, 1.0f, 0.75f, 1.05f);

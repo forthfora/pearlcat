@@ -23,7 +23,14 @@ public static class PlayerPearl_Helpers
 
         var miscWorld = self.room.game.GetMiscWorld();
 
-        var alreadyGivenPearls = miscWorld is not null && miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber);
+        var id = self.playerState.playerNumber;
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            id = ModCompat_Helpers.GetOwnerId(self.abstractPhysicalObject);
+        }
+
+        var alreadyGivenPearls = miscWorld is not null && miscWorld.PlayersGivenPearls.Contains(id);
 
         if (alreadyGivenPearls && !ModOptions.InventoryOverride)
         {
@@ -72,9 +79,14 @@ public static class PlayerPearl_Helpers
 
         playerModule.GivenPearlsThisCycle = true;
 
-        if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber))
+        if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
         {
-            miscWorld.PlayersGivenPearls.Add(self.playerState.playerNumber);
+            miscWorld.PlayersGivenPearls.Add(id);
+        }
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.RPC_UpdateGivenPearlsSaveData(self);
         }
     }
 
@@ -548,5 +560,10 @@ public static class PlayerPearl_Helpers
 
         save.Inventory[playerNumber] = playerModule.Inventory.Select(x => x.ToString()).ToList();
         save.ActivePearlIndex[playerNumber] = playerModule.ActivePearlIndex;
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.RPC_UpdateInventorySaveData(self);
+        }
     }
 }
