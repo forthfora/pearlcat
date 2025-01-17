@@ -27,8 +27,14 @@ public static class Room_Helpers
             room.AddObject(new T1_S01(room));
         }
 
-        if (!room.game.IsPearlcatStory())
+        // Starting room that only sets the correct position + adds food
+        if (!room.game.IsPearlcatStory() || ModCompat_Helpers.RainMeadow_IsOnline)
         {
+            if (roomName == "T1_START")
+            {
+                room.AddObject(new T1_START_Alt(room));
+            }
+
             return;
         }
 

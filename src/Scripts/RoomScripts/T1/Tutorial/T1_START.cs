@@ -149,7 +149,7 @@ public class T1_START : UpdatableAndDeletable
                         room.game.cameras[0].hud.foodMeter.fade = 0f;
                         room.game.cameras[0].hud.foodMeter.lastFade = 0f;
 
-                        if (ModOptions.DisableTutorials || room.game.GetStorySession.saveStateNumber != Enums.Pearlcat)
+                        if (ModOptions.DisableTutorials)
                         {
                             CurrentPhase = Phase.End;
                         }

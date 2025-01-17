@@ -40,31 +40,10 @@ public static class MeadowRPCs
             return;
         }
 
-        //
         meadowPearlcatData.InventorySaveDataNeedsUpdate = true;
 
-        if (playerOpo.apo.realizedObject is not Player player)
-        {
-            return;
-        }
-
-        if (!player.TryGetPearlcatModule(out var playerModule))
-        {
-            return;
-        }
-
-        var save = player.abstractPhysicalObject.world.game.GetMiscWorld();
-
-        if (save is null)
-        {
-            return;
-        }
-
         // Can try update it immediately anyways, can't hurt
-        var id = playerOpo.owner.id.GetHashCode();
-
-        save.Inventory[id] = playerModule.Inventory.Select(x => x.ToString()).ToList();
-        save.ActiveObjectIndex[id] = playerModule.ActivePearlIndex;
+        MeadowCompat.UpdateOnlineInventorySaveData(playerOpo);
     }
 
     [RPCMethod]

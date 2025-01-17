@@ -510,12 +510,7 @@ public static class PlayerPearl_Helpers
         playerModule.ShowHUD(60);
         self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
 
-        var save = self.room.game.GetMiscWorld();
-
-        if (save is not null)
-        {
-            save.ActiveObjectIndex[self.playerState.playerNumber] = pearlIndex;
-        }
+        self.UpdateInventorySaveData();
 
         if (self.graphicsModule is not PlayerGraphics pGraphics || newActive is null)
         {
@@ -524,8 +519,6 @@ public static class PlayerPearl_Helpers
 
         //player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
         pGraphics.LookAtPoint(newActive.firstChunk.pos, 1.0f);
-
-        self.UpdateInventorySaveData();
     }
 
 
@@ -533,11 +526,6 @@ public static class PlayerPearl_Helpers
     public static void UpdateInventorySaveData(this Player self)
     {
         if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
-        {
-            return;
-        }
-
-        if (ModOptions.InventoryOverride)
         {
             return;
         }
@@ -554,14 +542,20 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        var playerNumber = self.playerState.playerNumber;
-
-        save.Inventory[playerNumber] = playerModule.Inventory.Select(x => x.ToString()).ToList();
-        save.ActiveObjectIndex[playerNumber] = playerModule.ActivePearlIndex;
-
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             MeadowCompat.RPC_UpdateInventorySaveData(self);
+        }
+        else
+        {
+            var playerNumber = self.playerState.playerNumber;
+
+            if (!ModOptions.InventoryOverride)
+            {
+                save.Inventory[playerNumber] = playerModule.Inventory.Select(x => x.ToString()).ToList();
+            }
+
+            save.ActiveObjectIndex[playerNumber] = playerModule.ActivePearlIndex;
         }
     }
 }

@@ -60,7 +60,7 @@ public class T1_CAR3 : UpdatableAndDeletable
                     var pearl = abstractPearl.realizedObject;
                     pearl.firstChunk.HardSetPosition(TutorialPearlPos);
 
-                    if (ModManager.MSC)
+                    if (ModManager.MSC && !ModCompat_Helpers.RainMeadow_IsOnline) // TODO: maybe allow pearlpup online
                     {
                         var abstractSlugpup = new AbstractCreature(room.world, StaticWorld.GetCreatureTemplate(MoreSlugcatsEnums.CreatureTemplateType.SlugNPC), null, new(room.abstractRoom.index, -1, -1, 0), room.game.GetNewID());
                         abstractSlugpup.TryMakePearlpup();

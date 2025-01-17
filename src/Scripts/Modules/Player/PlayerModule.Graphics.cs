@@ -180,22 +180,12 @@ public partial class PlayerModule
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            if (PlayerGraphics.CustomColorsEnabled()) // TODO: Fix it
-            {
-                BaseBodyColor = PlayerGraphics.CustomColorSafety(0);
-                BaseFaceColor = PlayerGraphics.CustomColorSafety(1);
+            // TODO: Fix it
+            BaseBodyColor = DefaultBodyColor;
+            BaseFaceColor = DefaultFaceColor;
 
-                BaseAccentColor = PlayerGraphics.CustomColorSafety(2);
-                BaseCloakColor = PlayerGraphics.CustomColorSafety(3);
-            }
-            else
-            {
-                BaseBodyColor = DefaultBodyColor;
-                BaseFaceColor = DefaultFaceColor;
-
-                BaseAccentColor = DefaultAccentColor;
-                BaseCloakColor = DefaultCloakColor;
-            }
+            BaseAccentColor = DefaultAccentColor;
+            BaseCloakColor = DefaultCloakColor;
         }
 
         if (IsAdultPearlpupAppearance)

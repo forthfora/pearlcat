@@ -224,15 +224,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             {
                 meadowPearlcatData.InventorySaveDataNeedsUpdate = false;
 
-                var save = player.abstractPhysicalObject.world.game.GetMiscWorld();
-
-                if (save is not null)
-                {
-                    var id = playerOpo.owner.id.GetHashCode();
-
-                    save.Inventory[id] = playerModule.Inventory.Select(x => x.ToString()).ToList();
-                    save.ActiveObjectIndex[id] = playerModule.ActivePearlIndex;
-                }
+                MeadowCompat.UpdateOnlineInventorySaveData(playerOpo);
             }
         }
 
