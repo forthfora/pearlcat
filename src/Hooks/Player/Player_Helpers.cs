@@ -332,6 +332,36 @@ public static class Player_Helpers
     // Update
     public static void UpdatePearlcat(Player self, PlayerModule playerModule)
     {
+        if (!playerModule.PlayerRef.TryGetTarget(out var player) || player != self)
+        {
+            playerModule.PlayerRef.SetTarget(self);
+        }
+
+        playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
+
+        if (self.room is not null)
+        {
+            self.GivePearls(playerModule);
+        }
+
+        // If a pearl is in the wrong room abstract to reset it to the player's room
+        foreach (var pearl in playerModule.Inventory)
+        {
+            if (pearl.Room != self.abstractCreature.Room)
+            {
+                PlayerPearl_Helpers.AbstractPlayerPearl(pearl);
+            }
+        }
+
+        // Do not show pearls in the void sea
+        if (self.inVoidSea)
+        {
+            self.AbstractizeInventory();
+        }
+
+        self.TryRealizeInventory(playerModule);
+
+
         // Input
         var unblockedInput = playerModule.UnblockedInput;
         var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && (self.controller is null || !ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject)); // meadow remote control
@@ -380,29 +410,6 @@ public static class Player_Helpers
             }
         }
 
-
-        // Misc
-        playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
-
-        self.TryRealizeInventory(playerModule);
-
-        // Warp Fix
-        if (self.room is not null && playerModule.JustWarped)
-        {
-            playerModule.LoadInventorySaveData(self);
-            playerModule.JustWarped = false;
-        }
-
-        if (self.room is not null)
-        {
-            self.GivePearls(playerModule);
-        }
-
-        // Do not show pearls in the void sea, or if a pearl is in the wrong room abstract to reset it to the player's room
-        if (self.inVoidSea || playerModule.Inventory.Any(x => x.Room != self.abstractCreature.Room))
-        {
-            self.AbstractizeInventory();
-        }
 
         // Main Methods
         UpdatePlayerDaze(self, playerModule);

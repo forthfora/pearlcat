@@ -24,13 +24,6 @@ public static class ModCompat_Helpers
     }
 
 
-    // Warp
-    public static bool IsWarpAllowed(this RainWorldGame game)
-    {
-        return game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
-    }
-
-
     // Mira Installation
     public static bool IsModEnabled_MiraInstallation => ModManager.ActiveMods.Any(x => x.id == "mira");
     public static bool ShowMiraVersionWarning => IsModEnabled_MiraInstallation; // TODO

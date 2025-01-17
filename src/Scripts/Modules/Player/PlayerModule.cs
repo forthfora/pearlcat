@@ -20,17 +20,17 @@ public partial class PlayerModule
     public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.Pearlcat, true);
 
 
-    public bool JustWarped { get; set; }
-    public AbstractRoom? LastRoom { get; set; }
-    public int MaskCounter { get; set; }
     public bool GivenPearlsThisCycle { get; set; }
+    public AbstractRoom? LastRoom { get; set; }
+
+
+    public bool ForceLockSpearOnBack { get; set; }
+    public bool WasSpearOnBack { get; set; }
 
 
     public int SpearTimer { get; set; }
     public int SpearDelay { get; set; }
-    public bool ForceLockSpearOnBack { get; set; }
     public float SpearLerp { get; set; }
-    public bool WasSpearOnBack { get; set; }
 
 
     public float HoloLightAlpha { get; set; } = 1.0f;
@@ -45,6 +45,9 @@ public partial class PlayerModule
 
     public bool IsDazed => DazeTimer > 0;
     public int DazeTimer { get; set; }
+
+
+    public int MaskCounter { get; set; }
 
 
     // Inventory

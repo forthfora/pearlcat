@@ -71,7 +71,7 @@ public static class ModuleManager
 
         if (!PearlpupData.TryGetValue(self.abstractCreature, out module))
         {
-            module = new PearlpupModule(self);
+            module = new PearlpupModule();
             PearlpupData.Add(self.abstractCreature, module);
         }
 

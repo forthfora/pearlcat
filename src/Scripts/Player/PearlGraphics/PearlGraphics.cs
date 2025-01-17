@@ -7,7 +7,7 @@ namespace Pearlcat;
 
 public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 {
-    public WeakReference<AbstractPhysicalObject>? ObjectRef { get; }
+    public WeakReference<AbstractPhysicalObject>? PearlRef { get; }
 
     public bool IsActivePearl { get; set; }
     public Vector2 Pos { get; set; }
@@ -68,39 +68,42 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        ObjectRef = new(abstractObject);
+        PearlRef = new(abstractObject);
         ModuleManager.PlayerPearlGraphicsData.Add(abstractObject, this);
 
         abstractObject.realizedObject.room.AddObject(this);
     }
 
-
     public override void Update(bool eu)
     {
         base.Update(eu);
 
-
-        if (ObjectRef is null
-            || !ObjectRef.TryGetTarget(out var abstractObject)
-            || abstractObject.slatedForDeletion
-            || abstractObject.realizedObject is null
-            || abstractObject.realizedObject.slatedForDeletetion
-            || room != abstractObject.realizedObject.room)
-        {
-            Destroy();
-        }
+        CheckIfShouldDestroy();
     }
 
     public override void Destroy()
     {
         base.Destroy();
 
-        if (ObjectRef?.TryGetTarget(out var abstractObject) == true)
+        if (PearlRef?.TryGetTarget(out var abstractObject) == true)
         {
             ModuleManager.PlayerPearlGraphicsData.Remove(abstractObject);
         }
 
         RemoveFromRoom();
+    }
+
+    public void CheckIfShouldDestroy()
+    {
+        if (PearlRef is null
+            || !PearlRef.TryGetTarget(out var pearl)
+            || pearl.slatedForDeletion
+            || pearl.realizedObject is null
+            || pearl.realizedObject.slatedForDeletetion
+            || room != pearl.realizedObject.room)
+        {
+            Destroy();
+        }
     }
 
 
@@ -233,7 +236,7 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
         sprite.scale = HaloScale;
         sprite.alpha = HaloAlpha;
         sprite.color = HaloColor;
-        sprite.isVisible = !ModOptions.HidePearls || IsActivePearl || (ObjectRef?.TryGetTarget(out var obj) == true && obj.IsHeartPearl());
+        sprite.isVisible = !ModOptions.HidePearls || IsActivePearl || (PearlRef?.TryGetTarget(out var obj) == true && obj.IsHeartPearl());
 
 
         // Spear

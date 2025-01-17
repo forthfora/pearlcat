@@ -70,8 +70,8 @@ public static class PearlpupGraphics_Hooks
 
 
         // Generate body parts & meshes
-        module.GenerateTailBodyParts();
-        module.GenerateEarsBodyParts();
+        module.GenerateTailBodyParts(self.player);
+        module.GenerateEarsBodyParts(self.player);
 
         GenerateScarfMesh(sLeaser, module);
 

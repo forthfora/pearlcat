@@ -190,16 +190,19 @@ public static class PlayerPearl_Hooks
     {
         orig(self, eu);
 
-        if (!self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) || !module.IsCurrentlyStored)
+        if (self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) && module.IsCurrentlyStored)
         {
-            return;
+            self.CollideWithObjects = false;
+            self.CollideWithSlopes = false;
+            self.CollideWithTerrain = false;
+
+            self.glimmerWait = 40;
         }
 
-        self.CollideWithObjects = false;
-        self.CollideWithSlopes = false;
-        self.CollideWithTerrain = false;
-
-        self.glimmerWait = 40;
+        if (self.abstractPhysicalObject.TryGetPearlGraphicsModule(out var graphics))
+        {
+            graphics.CheckIfShouldDestroy();
+        }
     }
 
     private static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)

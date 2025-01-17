@@ -94,8 +94,8 @@ public static class PlayerGraphics_Hooks
 
 
         // Generate Body Parts & Meshes
-        playerModule.GenerateTailBodyParts();
-        playerModule.GenerateEarsBodyParts();
+        playerModule.GenerateTailBodyParts(self.player);
+        playerModule.GenerateEarsBodyParts(self.player);
 
         GenerateEarMesh(sLeaser, playerModule.EarL, playerModule.EarLSprite, "Futile_White");
         GenerateEarMesh(sLeaser, playerModule.EarR, playerModule.EarRSprite, "Futile_White");

@@ -65,12 +65,12 @@ public static class PlayerAbilities_Helpers_Revive
                 {
                     creature.Revive();
 
-                    if (playerModule.PlayerRef.TryGetTarget(out player) && creature.killTag != player.abstractCreature)
+                    if (creature.killTag != self.abstractCreature)
                     {
                         creature.abstractCreature.world.game.session.creatureCommunities.InfluenceLikeOfPlayer(
                             creature.abstractCreature.creatureTemplate.communityID,
                             creature.abstractCreature.world.RegionNumber,
-                            player.playerState.playerNumber,
+                            self.playerState.playerNumber,
                             1.0f, 0.0f, 0.0f);
                     }
                 }

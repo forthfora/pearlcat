@@ -108,7 +108,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
 
                     var abstractSpear = new AbstractSpear(self.room.world, null,
                         self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.room.game.GetNewID(), false);
-                    self.room.abstractRoom.AddEntity(abstractSpear);
+                    self.abstractCreature.Room.AddEntity(abstractSpear);
                     abstractSpear.pos = self.abstractCreature.pos;
                     abstractSpear.RealizeInRoom();
 

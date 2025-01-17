@@ -5,11 +5,8 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class PearlpupModule(Player self)
+public class PearlpupModule
 {
-    public WeakReference<Player> PupRef { get; } = new(self);
-    public int ID { get; } = self.abstractCreature.ID.number;
-
     public int FirstSprite { get; set; }
     public int LastSprite { get; set; }
 
@@ -107,19 +104,14 @@ public class PearlpupModule(Player self)
     // Tail
     public int TailAccentSprite { get; set; }
 
-    public void GenerateTailBodyParts()
+    public void GenerateTailBodyParts(Player player)
     {
-        if (!PupRef.TryGetTarget(out var pup))
+        if (player.graphicsModule is null)
         {
             return;
         }
 
-        if (pup.graphicsModule is null)
-        {
-            return;
-        }
-
-        var self = (PlayerGraphics)pup.graphicsModule;
+        var self = (PlayerGraphics)player.graphicsModule;
 
         var newTail = new TailSegment[4];
         newTail[0] = new(self, 6.0f, 4.0f, null, 0.85f, 1.0f, 1.0f, true);
@@ -166,13 +158,8 @@ public class PearlpupModule(Player self)
     public int EarLFlipDirection { get; set; } = 1;
     public int EarRFlipDirection { get; set; } = 1;
 
-    public void GenerateEarsBodyParts()
+    public void GenerateEarsBodyParts(Player player)
     {
-        if (!PupRef.TryGetTarget(out var player))
-        {
-            return;
-        }
-
         if (player.graphicsModule is null)
         {
             return;

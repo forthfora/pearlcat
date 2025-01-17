@@ -256,13 +256,8 @@ public partial class PlayerModule
     public int EarLFlipDirection { get; set; } = 1;
     public int EarRFlipDirection { get; set; } = 1;
 
-    public void GenerateEarsBodyParts()
+    public void GenerateEarsBodyParts(Player player)
     {
-        if (!PlayerRef.TryGetTarget(out var player))
-        {
-            return;
-        }
-
         if (player.graphicsModule is null)
         {
             return;
@@ -334,14 +329,9 @@ public partial class PlayerModule
     // Tail
     public int TailAccentSprite { get; set; }
 
-    public void GenerateTailBodyParts()
+    public void GenerateTailBodyParts(Player player)
     {
         if (ModOptions.DisableCosmetics)
-        {
-            return;
-        }
-
-        if (!PlayerRef.TryGetTarget(out var player))
         {
             return;
         }

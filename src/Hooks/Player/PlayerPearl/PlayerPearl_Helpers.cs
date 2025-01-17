@@ -14,8 +14,8 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        // Only give pearls once per cycle (exception is warping with inventory override)
-        if (playerModule.GivenPearlsThisCycle && !(ModOptions.InventoryOverride && playerModule.JustWarped))
+        // Only give pearls once per cycle
+        if (playerModule.GivenPearlsThisCycle)
         {
             return;
         }
@@ -99,11 +99,6 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        if (playerModule.JustWarped)
-        {
-            return;
-        }
-
         if (self.inVoidSea)
         {
             return;
@@ -145,12 +140,15 @@ public static class PlayerPearl_Helpers
 
     public static void RealizePlayerPearl(Player self, AbstractPhysicalObject abstractObject)
     {
+        // For warp
+        abstractObject.world = self.abstractCreature.world;
+
         // Meadow needs this, before realization
         abstractObject.InDen = false;
 
         // Standard realization
         abstractObject.pos = self.abstractCreature.pos;
-        self.room.abstractRoom.AddEntity(abstractObject);
+        self.abstractCreature.Room.AddEntity(abstractObject);
         abstractObject.RealizeInRoom();
 
         // Pearlcat stuff
@@ -213,7 +211,7 @@ public static class PlayerPearl_Helpers
 
         // Standard abstraction
         abstractObject.Abstractize(abstractObject.pos);
-        abstractObject.Room.RemoveEntity(abstractObject);
+        abstractObject.Room?.RemoveEntity(abstractObject);
 
         // Meadow needs these
         abstractObject.InDen = true;
