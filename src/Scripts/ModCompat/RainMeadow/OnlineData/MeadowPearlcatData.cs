@@ -231,7 +231,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
                     var id = playerOpo.owner.id.GetHashCode();
 
                     save.Inventory[id] = playerModule.Inventory.Select(x => x.ToString()).ToList();
-                    save.ActivePearlIndex[id] = playerModule.ActivePearlIndex;
+                    save.ActiveObjectIndex[id] = playerModule.ActivePearlIndex;
                 }
             }
         }

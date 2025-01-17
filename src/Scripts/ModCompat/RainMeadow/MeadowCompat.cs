@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
 using RainMeadow;
-using SlugBase.SaveData;
 
 namespace Pearlcat;
 

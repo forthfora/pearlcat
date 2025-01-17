@@ -163,7 +163,7 @@ public static class Menu_Hooks
         }
 
         var save = Utils.MiscProgression;
-        var color = ModOptions.InventoryOverride ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.StoredActivePearl?.GetPearlColor();
+        var color = ModOptions.InventoryOverride ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.StoredActivePearl?.GetPearlColor(true);
 
         self.effectColor = color ?? Color.white;
 

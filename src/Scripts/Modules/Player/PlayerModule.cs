@@ -148,7 +148,7 @@ public partial class PlayerModule
 
         if (Inventory.Any())
         {
-            if (save.ActivePearlIndex.TryGetValue(id, out var activePearlIndex) && activePearlIndex < Inventory.Count)
+            if (save.ActiveObjectIndex.TryGetValue(id, out var activePearlIndex) && activePearlIndex < Inventory.Count)
             {
                 ActivePearlIndex = activePearlIndex;
             }

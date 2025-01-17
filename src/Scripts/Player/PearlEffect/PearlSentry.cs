@@ -1084,6 +1084,10 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             scale = 0.0f,
         };
 
+        foreach (var sprite in sLeaser.sprites)
+        {
+            sprite.SetPosition(InitialPos - rCam.pos);
+        }
 
         AddToContainer(sLeaser, rCam, rCam.ReturnFContainer("HUD"));
     }

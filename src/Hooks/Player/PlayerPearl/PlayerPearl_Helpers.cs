@@ -514,7 +514,7 @@ public static class PlayerPearl_Helpers
 
         if (save is not null)
         {
-            save.ActivePearlIndex[self.playerState.playerNumber] = pearlIndex;
+            save.ActiveObjectIndex[self.playerState.playerNumber] = pearlIndex;
         }
 
         if (self.graphicsModule is not PlayerGraphics pGraphics || newActive is null)
@@ -557,7 +557,7 @@ public static class PlayerPearl_Helpers
         var playerNumber = self.playerState.playerNumber;
 
         save.Inventory[playerNumber] = playerModule.Inventory.Select(x => x.ToString()).ToList();
-        save.ActivePearlIndex[playerNumber] = playerModule.ActivePearlIndex;
+        save.ActiveObjectIndex[playerNumber] = playerModule.ActivePearlIndex;
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {

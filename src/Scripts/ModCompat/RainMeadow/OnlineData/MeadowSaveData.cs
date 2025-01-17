@@ -45,7 +45,7 @@ public class MeadowSaveData : OnlineResource.ResourceData
             playersGivenPearls = miscWorld.PlayersGivenPearls;
 
             inventory = JsonConvert.SerializeObject(miscWorld.Inventory);
-            activePearlIndex = JsonConvert.SerializeObject(miscWorld.ActivePearlIndex);
+            activePearlIndex = JsonConvert.SerializeObject(miscWorld.ActiveObjectIndex);
         }
 
         public override void ReadTo(OnlineResource.ResourceData data, OnlineResource resource)
@@ -62,7 +62,7 @@ public class MeadowSaveData : OnlineResource.ResourceData
             miscWorld.PlayersGivenPearls = playersGivenPearls;
 
             miscWorld.Inventory = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(inventory)!;
-            miscWorld.ActivePearlIndex = JsonConvert.DeserializeObject<Dictionary<int, int?>>(activePearlIndex)!;
+            miscWorld.ActiveObjectIndex = JsonConvert.DeserializeObject<Dictionary<int, int?>>(activePearlIndex)!;
         }
 
         public override Type GetDataType()

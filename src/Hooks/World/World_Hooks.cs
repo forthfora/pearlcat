@@ -2,6 +2,7 @@
 using RWCustom;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using static Pearlcat.World_Helpers;
 using Random = UnityEngine.Random;
@@ -15,6 +16,7 @@ public static class World_Hooks
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
 
         On.RegionState.AdaptRegionStateToWorld += RegionState_AdaptRegionStateToWorld;
+        On.RegionState.AdaptWorldToRegionState += RegionStateOnAdaptWorldToRegionState;
 
         On.Spear.DrawSprites += Spear_DrawSprites_PearlSpear;
         On.Spear.Update += Spear_Update_PearlSpear;
@@ -360,8 +362,33 @@ public static class World_Hooks
         }
     }
 
+    // Another way to player pearls being saved in the shelter (duplicating), the other doesn't work in meadow for some reason
+    private static void RegionStateOnAdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
+    {
+        var miscWorld = self.world.game.GetMiscWorld();
 
-    // Remove Persistent Trackers from Pearls
+        if (miscWorld is not null)
+        {
+            foreach (var inventory in miscWorld.Inventory.Values)
+            {
+                foreach (var pearl in inventory)
+                {
+                    var pearlId = EntityID.FromString(Regex.Split(pearl, "<oA>")[0]);
+
+                    self.savedObjects.RemoveAll(x => SaveStringToId(x) == pearlId);
+                }
+            }
+        }
+
+        orig(self);
+
+        EntityID SaveStringToId(string x)
+        {
+            return EntityID.FromString(Regex.Split(x, "<oA>")[0]);
+        }
+    }
+
+    // Stop player pearls being saved in the shelter (duplicating)
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
     {
         try
@@ -393,7 +420,7 @@ public static class World_Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("ERROR REMOVING PERSISTENT TRACKERS FROM STORED OBJECTS: \n" + e + "\n" + e.StackTrace);
+            Plugin.Logger.LogError("Error removing player pearls from the world state: \n" + e + "\n" + e.StackTrace);
         }
 
         orig(self, playerShelter, activeGate);

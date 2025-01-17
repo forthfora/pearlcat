@@ -12,7 +12,7 @@ public class SaveMiscWorld
     // Pearlcat
     public List<int> PlayersGivenPearls { get; set; } = [];
     public Dictionary<int, List<string>> Inventory { get; set; } = new();
-    public Dictionary<int, int?> ActivePearlIndex { get; set; } = new();
+    public Dictionary<int, int?> ActiveObjectIndex { get; set; } = new();
     public Dictionary<int, SpearModule> PearlSpears { get; set; } = new();
 
 
