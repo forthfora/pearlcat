@@ -258,6 +258,7 @@ public static class Menu_Helpers
 
                 heartIllustration.GetModule().Init(heartIllustration, IllustrationType.PearlHeart);
 
+
                 var heartCoreIllustration = flatMode ? new MenuIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, false, true)
                     : new MenuDepthIllustration(self.menu, self, illustrationFolder, "heartcore", Vector2.zero, -1.0f, MenuDepthIllustration.MenuShader.Basic);
 
@@ -364,13 +365,13 @@ public static class Menu_Helpers
         }
         else if (illustrationModule.Type == IllustrationType.PearlNonActive)
         {
-            var origin = new Vector2(685, 400);
-            var angleFrameAddition = 0.00675f;
+            var origin = new Vector2(660, 400);
+            var angleFrameAddition = 0.0055f;
 
-            var radius = 150.0f;
-            var radiusXYRatio = 1.0f;
+            var radius = 80.0f;
+            var radiusXYRatio = 2.0f;
 
-            Func<float, float> scaleFunc = angle => Custom.LerpMap(Mathf.Sin(angle), -1.0f, 1.0f, 0.35f, 0.25f);
+            Func<float, float> scaleFunc = angle => Custom.LerpMap(Mathf.Sin(angle), -1.0f, 1.0f, 0.3f, 0.2f);
             Func<Color, Color> colorFunc = color => color;
 
             if (miscProg.HasTrueEnding)
@@ -378,9 +379,16 @@ public static class Menu_Helpers
                 origin = new Vector2(675.0f, 350.0f);
                 angleFrameAddition = 0.0045f;
                 radius = 130.0f;
+                radiusXYRatio = 1.0f;
             }
 
             AnimateMenuPearl_Orbit(illustration, menuSceneModule, illustrationModule, angleFrameAddition, origin, radius, radiusXYRatio, scaleFunc, colorFunc);
+        }
+
+        if (miscProg.HasTrueEnding && self.owner is SlugcatSelectMenu.SlugcatPage slugcatPage)
+        {
+            // TODO: True end select screen
+            slugcatPage.markOffset = new Vector2(0.0f, 80.0f);
         }
     }
 
@@ -695,35 +703,63 @@ public static class Menu_Helpers
         var type = menuIllustrationModule.Type;
         var index = menuIllustrationModule.NonActivePearlIndex;
 
+        var miscProg = Utils.MiscProgression;
+
         if (sceneId == Scenes.Slugcat_Pearlcat)
         {
             if (type == IllustrationType.PearlNonActive)
             {
                 i.SetDepth(2.0f);
-                i.LayerInFrontOf("pearlpup_(!trueend)_(pup)");
+
+                if (miscProg.HasTrueEnding)
+                {
+                    i.LayerInFrontOf("(trueend)"); // TODO: True end select screen
+                    i.SetDepth(20.0f);
+                }
+                else
+                {
+                    if (menuScene.flatMode)
+                    {
+                        i.LayerInFrontOf("flat_(!trueend)_3");
+                    }
+                    else
+                    {
+                        i.LayerInFrontOf("(!trueend)_3");
+                    }
+                }
                 return;
             }
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(685, 400);
+                i.SetPosition(645, 540);
                 i.SetDepth(2.3f);
-                i.LayerInFrontOf("pearlcathead_(!trueend)");
+                i.LayerInFrontOf("(!trueend)_1_(pup)");
+
+                if (miscProg.HasTrueEnding)
+                {
+                    i.SetDepth(20.0f);
+                }
                 return;
             }
 
             if (type == IllustrationType.PearlActiveHalo)
             {
                 i.SetDepth(2.0f);
-                i.LayerInFrontOf("pearlcathead_(!trueend)");
+                i.LayerInFrontOf("(!trueend)_1_(pup)");
+
+                if (miscProg.HasTrueEnding)
+                {
+                    i.SetDepth(20.0f);
+                }
                 return;
             }
 
             if (type == IllustrationType.PearlHeart || type == IllustrationType.PearlHeartCore)
             {
                 i.SetPosition(770, 500);
-                i.SetDepth(2.3f);
-                i.LayerInFrontOf("pearlcathead_(!trueend)");
+                i.SetDepth(20.0f);
+                i.LayerInFrontOf("(trueend)"); // TODO: True end select screen
                 return;
             }
 
