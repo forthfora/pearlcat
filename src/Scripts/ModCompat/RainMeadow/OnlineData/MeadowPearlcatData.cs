@@ -40,6 +40,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
 
         // Graphics
+        // TODO: can get rid of it when sync PR is merged in meadow
         [OnlineField]
         public Color baseBodyColor;
 

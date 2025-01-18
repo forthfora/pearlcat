@@ -92,10 +92,17 @@ public static class World_Helpers
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (var i = 0; i < room.shortcuts.Length; i++)
-            if (shortcutGraphics.entranceSprites.Length > i && shortcutGraphics.entranceSprites[i, 0] is not null)
+        {
+            if (shortcutGraphics.entranceSprites.Length <= i)
+            {
+                continue;
+            }
+
+            if (shortcutGraphics.entranceSprites[i, 0] is not null)
             {
                 shortcutGraphics.entranceSprites[i, 0].isVisible = false;
             }
+        }
     }
     public static void ShowShortcuts(this Room room)
     {
@@ -109,10 +116,17 @@ public static class World_Helpers
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (var i = 0; i < room.shortcuts.Length; i++)
+        {
+            if (shortcutGraphics.entranceSprites.Length <= i)
+            {
+                continue;
+            }
+
             if (shortcutGraphics.entranceSprites[i, 0] is not null)
             {
                 shortcutGraphics.entranceSprites[i, 0].isVisible = true;
             }
+        }
     }
 
 

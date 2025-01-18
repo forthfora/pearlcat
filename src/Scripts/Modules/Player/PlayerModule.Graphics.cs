@@ -179,6 +179,7 @@ public partial class PlayerModule
         BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? DefaultAccentColor;
         BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? DefaultCloakColor;
 
+        // TODO: can remove it when fix PR is merged
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             var id = self.player.SlugCatClass;

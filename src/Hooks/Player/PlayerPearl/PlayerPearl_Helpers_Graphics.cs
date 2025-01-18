@@ -146,7 +146,9 @@ public static class PlayerPearl_Helpers_Graphics
         }
 
         for (var i = 0; i < 5; i++)
+        {
             room.AddObject(new Spark(pos, Custom.RNV(), Color.white, null, 16, 24));
+        }
 
         room.AddObject(new Explosion.ExplosionLight(pos, 150f, 1f, 8, Color.white));
         room.AddObject(new ShockWave(pos, 60f, 0.1f, 8));
