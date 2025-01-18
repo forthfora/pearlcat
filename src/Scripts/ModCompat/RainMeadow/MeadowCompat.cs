@@ -156,6 +156,16 @@ public static class MeadowCompat
     {
         var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
 
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        if (playerOpo.TryGetData<MeadowPlayerPearlData>(out _))
+        {
+            return;
+        }
+
         playerOpo?.AddData(new MeadowPearlcatData());
     }
 
@@ -179,6 +189,16 @@ public static class MeadowCompat
     public static void AddMeadowPearlSpearData(AbstractPhysicalObject pearl)
     {
         var spearOpo = pearl.GetOnlineObject();
+
+        if (spearOpo is null)
+        {
+            return;
+        }
+
+        if (spearOpo.TryGetData<MeadowPearlSpearData>(out _))
+        {
+            return;
+        }
 
         spearOpo?.AddData(new MeadowPearlSpearData());
     }

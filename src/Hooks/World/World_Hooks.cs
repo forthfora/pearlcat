@@ -365,6 +365,14 @@ public static class World_Hooks
     // Another way to player pearls being saved in the shelter (duplicating), the other doesn't work in meadow for some reason
     private static void RegionStateOnAdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
     {
+        RemoveInventorySaveObjects(self);
+
+        orig(self);
+    }
+
+    // TODO: move this
+    private static void RemoveInventorySaveObjects(RegionState self)
+    {
         var miscWorld = self.world.game.GetMiscWorld();
 
         if (miscWorld is not null)
@@ -379,8 +387,6 @@ public static class World_Hooks
                 }
             }
         }
-
-        orig(self);
 
         EntityID SaveStringToId(string x)
         {
@@ -424,6 +430,8 @@ public static class World_Hooks
         }
 
         orig(self, playerShelter, activeGate);
+
+        RemoveInventorySaveObjects(self);
     }
 
 
