@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using RWCustom;
@@ -180,12 +181,12 @@ public partial class PlayerModule
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            // TODO: Fix it
-            BaseBodyColor = DefaultBodyColor;
-            BaseFaceColor = DefaultFaceColor;
+            var id = self.player.SlugCatClass;
 
-            BaseAccentColor = DefaultAccentColor;
-            BaseCloakColor = DefaultCloakColor;
+            BaseBodyColor = GetPlayerColorFromMiscProg(id, 0) ?? DefaultBodyColor;
+            BaseFaceColor = GetPlayerColorFromMiscProg(id, 1) ?? DefaultFaceColor;
+            BaseAccentColor = GetPlayerColorFromMiscProg(id, 2) ?? DefaultAccentColor;
+            BaseCloakColor = GetPlayerColorFromMiscProg(id, 3) ?? DefaultCloakColor;
         }
 
         if (IsAdultPearlpupAppearance)
@@ -205,6 +206,43 @@ public partial class PlayerModule
             BaseAccentColor = accentColor;
             BaseCloakColor = cloakColor;
         }
+    }
+
+    private static Color? GetPlayerColorFromMiscProg(SlugcatStats.Name id, int partIndex)
+    {
+        var miscProg = Utils.RainWorld.progression.miscProgressionData;
+
+        if (!miscProg.colorsEnabled.TryGetValue(id.value, out var colorsEnabled))
+        {
+            return null;
+        }
+
+        if (!colorsEnabled)
+        {
+            return null;
+        }
+
+        if (!miscProg.colorChoices.TryGetValue(id.value, out var partColors))
+        {
+            return null;
+        }
+
+        if (partIndex < 0 || partIndex >= partColors.Count)
+        {
+            return null;
+        }
+
+        var partColor = partColors[partIndex];
+
+        if (!partColor.Contains(","))
+        {
+            return null;
+        }
+
+        var hslString = partColor.Split([',']);
+        var hsl = new Vector3(float.Parse(hslString[0], NumberStyles.Any, CultureInfo.InvariantCulture), float.Parse(hslString[1], NumberStyles.Any, CultureInfo.InvariantCulture), float.Parse(hslString[2], NumberStyles.Any, CultureInfo.InvariantCulture));
+
+        return Custom.HSL2RGB(hsl[0], hsl[1], hsl[2]);
     }
 
     public void UpdateColors(PlayerGraphics self)

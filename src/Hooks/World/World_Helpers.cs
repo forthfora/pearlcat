@@ -258,6 +258,7 @@ public static class World_Helpers
         for (var i = 0; i < game.Players.Count; i++)
         {
             var abstractCreature = game.Players[i];
+
             if (abstractCreature.realizedCreature is not Player player)
             {
                 continue;

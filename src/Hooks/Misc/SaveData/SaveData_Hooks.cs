@@ -89,6 +89,11 @@ public static class SaveData_Hooks
 
         var firstPearlcatIndex = game.GetFirstPearlcatIndex();
 
+        if (ModCompat_Helpers.RainMeadow_IsOnline && firstPearlcatIndex != -1)
+        {
+            firstPearlcatIndex = ModCompat_Helpers.GetOwnerId(game.Players[firstPearlcatIndex]);
+        }
+
         if (miscWorld.Inventory.TryGetValue(firstPearlcatIndex, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(firstPearlcatIndex, out var activeIndex))
         {
             for (var i = 0; i < inventory.Count; i++)

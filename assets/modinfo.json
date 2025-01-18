@@ -1,7 +1,7 @@
 {
 	"id": "pearlcat",
-	"name": "Pearlcat [DEV]",
-	"version": "0.0.0",
+	"name": "Pearlcat",
+	"version": "1.4.0-rc3",
 	"authors": "forthfora, Geahgeah, Sidera",
 	"description": "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.",
 	"requirements": ["slime-cubed.slugbase"],

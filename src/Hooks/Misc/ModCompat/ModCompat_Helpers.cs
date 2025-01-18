@@ -51,7 +51,7 @@ public static class ModCompat_Helpers
 
     public static bool RainMeadow_IsMine(AbstractPhysicalObject obj)
     {
-        return !IsModEnabled_RainMeadow || MeadowCompat.IsLocal(obj);
+        return !RainMeadow_IsOnline || MeadowCompat.IsLocal(obj);
     }
 
     public static int GetOwnerId(AbstractPhysicalObject obj)
