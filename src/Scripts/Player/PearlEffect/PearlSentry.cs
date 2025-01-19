@@ -63,13 +63,13 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        if (!playerModule.PlayerRef.TryGetTarget(out var player))
+        if (playerModule.PlayerRef is null)
         {
             return;
         }
 
         room = owner.realizedObject.room;
-        InitialPos = player.GetActivePearlPos();
+        InitialPos = playerModule.PlayerRef.GetActivePearlPos();
 
         var effect = owner.GetPearlEffect();
 
@@ -431,15 +431,12 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-        if (playerModule is null)
+        if (playerModule?.PlayerRef is null)
         {
             return;
         }
 
-        if (!playerModule.PlayerRef.TryGetTarget(out var player))
-        {
-            return;
-        }
+        var player = playerModule.PlayerRef;
 
         var inGate = player.room?.IsGateRoom() ?? false;
         var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
@@ -461,16 +458,12 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-        if (playerModule is null)
+        if (playerModule?.PlayerRef is null)
         {
             return;
         }
 
-        if (!playerModule.PlayerRef.TryGetTarget(out var player))
-        {
-            return;
-        }
-
+        var player = playerModule.PlayerRef;
 
         var armCooldown = 80;
         var tooClose = Custom.DistLess(player.firstChunk.pos, pearl.firstChunk.pos, 75.0f);
@@ -507,16 +500,12 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-        if (playerModule is null)
+        if (playerModule?.PlayerRef is null)
         {
             return;
         }
 
-        if (!playerModule.PlayerRef.TryGetTarget(out var player))
-        {
-            return;
-        }
-
+        var player = playerModule.PlayerRef;
 
         if (module.CooldownTimer == 1)
         {
@@ -695,15 +684,12 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-        if (playerModule is null)
+        if (playerModule?.PlayerRef is null)
         {
             return;
         }
 
-        if (!playerModule.PlayerRef.TryGetTarget(out var player))
-        {
-            return;
-        }
+        var player = playerModule.PlayerRef;
 
         var playerInRange = Custom.DistLess(pearl.firstChunk.pos, player.firstChunk.pos, 90.0f);
 
@@ -904,8 +890,10 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
             var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
-            if (owner.TryGetPearlGraphicsModule(out var pearlGraphics) && playerModule is not null && playerModule.PlayerRef.TryGetTarget(out var player))
+            if (owner.TryGetPearlGraphicsModule(out var pearlGraphics) && playerModule is not null && playerModule.PlayerRef is not null)
             {
+                var player = playerModule.PlayerRef;
+
                 if (room is not null && owner.realizedObject is not null)
                 {
                     room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 0.5f);

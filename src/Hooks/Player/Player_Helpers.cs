@@ -332,11 +332,6 @@ public static class Player_Helpers
     // Update
     public static void UpdatePearlcat(Player self, PlayerModule playerModule)
     {
-        if (!playerModule.PlayerRef.TryGetTarget(out var player) || player != self)
-        {
-            playerModule.PlayerRef.SetTarget(self);
-        }
-
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
         if (self.room is not null)
@@ -487,8 +482,10 @@ public static class Player_Helpers
         }
 
         // Revive pearlpup if they fall into a death pit (consumes a revive)
-        if (playerModule.PearlpupRef is not null && playerModule.PearlpupRef.TryGetTarget(out var pup) && pup.room is not null && pup.InDeathPit() && playerModule.ReviveCount > 0)
+        if (playerModule.PearlpupRef?.room is not null && playerModule.PearlpupRef.InDeathPit() && playerModule.ReviveCount > 0)
         {
+            var pup = playerModule.PearlpupRef;
+
             pup.SuperHardSetPosition(self.firstChunk.pos);
 
             pup.Die();
@@ -1089,8 +1086,10 @@ public static class Player_Helpers
 
 
         // Can get a reference to pearlpup (i.e. they're in the world somewhere)
-        if (playerModule.PearlpupRef is not null && playerModule.PearlpupRef.TryGetTarget(out var pup))
+        if (playerModule.PearlpupRef is not null)
         {
+            var pup = playerModule.PearlpupRef;
+
             var sameRoom = pup.abstractCreature.Room == self.abstractCreature.Room;
 
             miscProg.HasPearlpup = !pup.dead && sameRoom;
@@ -1123,12 +1122,12 @@ public static class Player_Helpers
 
                 if (player.IsPearlpup())
                 {
-                    playerModule.PearlpupRef = new(player);
+                    playerModule.AbstractPearlpupRef = new(player.abstractCreature);
                     return;
                 }
             }
         }
 
-        playerModule.PearlpupRef = null;
+        playerModule.AbstractPearlpupRef = null;
     }
 }

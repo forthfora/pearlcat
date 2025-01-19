@@ -415,9 +415,9 @@ public static class Creatures_Hooks
     {
         foreach (var module in self.abstractCreature.world.game.GetAllPearlcatModules())
         {
-            if (module.PossessedCreature?.TryGetTarget(out var target) == true && target == self.abstractCreature && module.PlayerRef.TryGetTarget(out var player))
+            if (module.PossessedCreature?.TryGetTarget(out var target) == true && target == self.abstractCreature && module.PlayerRef is not null)
             {
-                playerIndex = player.playerState.playerNumber;
+                playerIndex = module.PlayerRef.playerState.playerNumber;
             }
         }
 

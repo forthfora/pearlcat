@@ -16,7 +16,7 @@ public partial class PlayerModule
     public bool IsPossessingCreature => PossessedCreature is not null && PossessedCreature.TryGetTarget(out _) && IsAdultPearlpup;
 
     // Shield
-    public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield && PlayerRef.TryGetTarget(out var player) && !player.dead;
+    public bool ShieldActive => (ShieldTimer > 0 || ShieldCount > 0) && !ModOptions.DisableShield && PlayerRef is not null && !PlayerRef.dead;
     public int ShieldTimer { get; set; }
     public float ShieldAlpha { get; set; }
     public float ShieldScale { get; set; }
@@ -184,9 +184,9 @@ public partial class PlayerModule
 
         ActivateVisualShield_Local();
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline && PlayerRef.TryGetTarget(out var player))
+        if (ModCompat_Helpers.RainMeadow_IsOnline && PlayerRef is not null)
         {
-            MeadowCompat.RPC_ActivateVisualShield(player);
+            MeadowCompat.RPC_ActivateVisualShield(PlayerRef);
         }
     }
 
@@ -197,10 +197,7 @@ public partial class PlayerModule
         ShieldTimer = ModOptions.ShieldDuration;
         ShieldTimer *= (int)(ActivePearl?.GetPearlEffect().MajorEffect == MajorEffectType.Shield ? 2.0f : 1.0f);
 
-        if (PlayerRef.TryGetTarget(out var player))
-        {
-            player.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, player.firstChunk);
-        }
+        PlayerRef?.room?.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, PlayerRef.firstChunk);
 
         if (obj?.TryGetPlayerPearlModule(out var module) == true)
         {

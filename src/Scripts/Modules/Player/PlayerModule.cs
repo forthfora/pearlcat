@@ -7,12 +7,15 @@ namespace Pearlcat;
 
 public partial class PlayerModule
 {
-    public WeakReference<Player> PlayerRef { get; }
-    public WeakReference<Player>? PearlpupRef { get; set; }
+    public WeakReference<AbstractCreature> AbstractPlayerRef { get; }
+    public Player? PlayerRef => AbstractPlayerRef.TryGetTarget(out var player) ? player.realizedCreature as Player : null;
+
+    public WeakReference<AbstractCreature>? AbstractPearlpupRef { get; set; }
+    public Player? PearlpupRef => AbstractPearlpupRef?.TryGetTarget(out var player) == true ? player.realizedCreature as Player : null;
 
     public bool IsAdultPearlpup =>
-        PlayerRef.TryGetTarget(out var player) &&
-        player.abstractCreature.Room.world.game.IsPearlcatStory() &&
+        PlayerRef is not null &&
+        PlayerRef.abstractCreature.Room.world.game.IsPearlcatStory() &&
         Utils.MiscProgression.HasTrueEnding;
 
     public SlugcatStats BaseStats { get; set; }
@@ -81,7 +84,7 @@ public partial class PlayerModule
 
     public PlayerModule(Player self)
     {
-        PlayerRef = new(self);
+        AbstractPlayerRef = new(self.abstractCreature);
 
         BaseStats = NormalStats;
 
@@ -95,13 +98,13 @@ public partial class PlayerModule
     {
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            if (!PlayerRef.TryGetTarget(out var player))
+            if (PlayerRef is null)
             {
                 return;
             }
 
             // No need to show the HUD for other players in meadow
-            if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractCreature))
+            if (!ModCompat_Helpers.RainMeadow_IsMine(PlayerRef.abstractCreature))
             {
                 return;
             }

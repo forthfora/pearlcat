@@ -47,10 +47,12 @@ public class InventoryHUD : HudPart
 
         foreach (var playerModule in game.GetAllPearlcatModules())
         {
-            if (!playerModule.PlayerRef.TryGetTarget(out var player))
+            if (playerModule.PlayerRef is null)
             {
                 continue;
             }
+
+            var player = playerModule.PlayerRef;
 
             var cameras = player.abstractCreature.world.game.cameras;
             var rCam = cameras.First();
@@ -188,10 +190,12 @@ public class InventoryHUD : HudPart
 
         foreach (var playerModule in playerData)
         {
-            if (!playerModule.PlayerRef.TryGetTarget(out var player))
+            if (playerModule.PlayerRef is null)
             {
                 continue;
             }
+
+            var player = playerModule.PlayerRef;
 
             foreach (var item in playerModule.Inventory)
             {
@@ -244,7 +248,7 @@ public class InventoryHUD : HudPart
         symbol.UpdateIcon(abstractObject);
         symbol.Update();
 
-        symbol.Fade = playerModule.PlayerRef.TryGetTarget(out var player) && player.room is null ? 0.0f : playerModule.HudFade;
+        symbol.Fade = playerModule.PlayerRef?.room is null ? 0.0f : playerModule.HudFade;
 
         updatedSymbols.Add(symbol);
     }

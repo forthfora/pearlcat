@@ -87,12 +87,14 @@ public static class ModOptions
     public static bool InventoryOverride => IsRemote ? OnlineOptions.InventoryOverride : OI.InventoryOverride.Value;
     public static bool StartingInventoryOverride => IsRemote ? OnlineOptions.StartingInventoryOverride : OI.StartingInventoryOverride.Value;
 
-    public static int SpearPearlCount => OI.SpearPearlCount.Value;
-    public static int RevivePearlCount => OI.RevivePearlCount.Value;
-    public static int AgilityPearlCount => OI.AgilityPearlCount.Value;
-    public static int RagePearlCount => OI.RagePearlCount.Value;
-    public static int ShieldPearlCount => OI.ShieldPearlCount.Value;
-    public static int CamoPearlCount => OI.CamoPearlCount.Value;
+    // Starting inventory override specifically gives the host authority over the counts
+    private static bool UseRemoteInventoryCounts => IsRemote && StartingInventoryOverride && !InventoryOverride;
+    public static int SpearPearlCount => UseRemoteInventoryCounts ? OnlineOptions.SpearPearlCount : OI.SpearPearlCount.Value;
+    public static int RevivePearlCount => UseRemoteInventoryCounts ? OnlineOptions.RevivePearlCount : OI.RevivePearlCount.Value;
+    public static int AgilityPearlCount => UseRemoteInventoryCounts ? OnlineOptions.AgilityPearlCount : OI.AgilityPearlCount.Value;
+    public static int RagePearlCount => UseRemoteInventoryCounts ? OnlineOptions.RagePearlCount : OI.RagePearlCount.Value;
+    public static int ShieldPearlCount => UseRemoteInventoryCounts ? OnlineOptions.ShieldPearlCount : OI.ShieldPearlCount.Value;
+    public static int CamoPearlCount => UseRemoteInventoryCounts ? OnlineOptions.CamoPearlCount : OI.CamoPearlCount.Value;
 
 
     // ABILITY CONFIG

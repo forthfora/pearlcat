@@ -63,6 +63,25 @@ public class MeadowOptionsData : OnlineResource.ResourceData
 
 
         [OnlineField]
+        public int spearPearlCount = ModOptions.SpearPearlCount;
+
+        [OnlineField]
+        public int revivePearlCount = ModOptions.RevivePearlCount;
+
+        [OnlineField]
+        public int agilityPearlCount = ModOptions.AgilityPearlCount;
+
+        [OnlineField]
+        public int ragePearlCount = ModOptions.RagePearlCount;
+
+        [OnlineField]
+        public int shieldPearlCount = ModOptions.ShieldPearlCount;
+
+        [OnlineField]
+        public int camoPearlCount = ModOptions.CamoPearlCount;
+
+
+        [OnlineField]
         public int shieldRechargeTime = ModOptions.ShieldRechargeTime;
 
         [OnlineField]
@@ -106,6 +125,13 @@ public class MeadowOptionsData : OnlineResource.ResourceData
 
             MeadowOnlineOptions.InventoryOverride = inventoryOverride;
             MeadowOnlineOptions.StartingInventoryOverride = startingInventoryOverride;
+
+            MeadowOnlineOptions.SpearPearlCount = spearPearlCount;
+            MeadowOnlineOptions.RevivePearlCount = revivePearlCount;
+            MeadowOnlineOptions.AgilityPearlCount = agilityPearlCount;
+            MeadowOnlineOptions.RagePearlCount = ragePearlCount;
+            MeadowOnlineOptions.ShieldPearlCount = shieldPearlCount;
+            MeadowOnlineOptions.CamoPearlCount = camoPearlCount;
 
             MeadowOnlineOptions.ShieldRechargeTime = shieldRechargeTime;
             MeadowOnlineOptions.ShieldDuration = shieldDuration;

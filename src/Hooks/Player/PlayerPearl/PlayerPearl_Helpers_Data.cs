@@ -70,12 +70,15 @@ public static class PlayerPearl_Helpers_Data
 
         foreach (var playerModule in playerData)
         {
-            var obj = playerModule.Inventory.FirstOrDefault(abstractObject => abstractObject == targetObject);
+            var pearl = playerModule.Inventory.FirstOrDefault(abstractObject => abstractObject == targetObject);
 
-            if (obj is not null && playerModule.PlayerRef.TryGetTarget(out player))
+            if (pearl is null || playerModule.PlayerRef is null)
             {
-                return true;
+                continue;
             }
+
+            player = playerModule.PlayerRef;
+            return true;
         }
 
         player = null!;

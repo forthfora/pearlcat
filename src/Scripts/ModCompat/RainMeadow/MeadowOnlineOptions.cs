@@ -19,6 +19,13 @@ public static class MeadowOnlineOptions
     public static bool InventoryOverride { get; set; }
     public static bool StartingInventoryOverride { get; set; }
 
+    public static int SpearPearlCount { get; set; }
+    public static int RevivePearlCount { get; set; }
+    public static int AgilityPearlCount { get; set; }
+    public static int RagePearlCount { get; set; }
+    public static int ShieldPearlCount { get; set; }
+    public static int CamoPearlCount { get; set; }
+
     public static int ShieldRechargeTime { get; set; }
     public static int ShieldDuration { get; set; }
 

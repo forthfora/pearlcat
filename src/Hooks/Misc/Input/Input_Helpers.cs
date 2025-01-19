@@ -13,6 +13,11 @@ public static class Input_Helpers
     // Inventory
     public static bool IsStoreKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         if (player.bodyMode != Player.BodyModeIndex.Stand
             && player.bodyMode != Player.BodyModeIndex.ZeroG
             && player.bodyMode != Player.BodyModeIndex.Swimming
@@ -47,6 +52,11 @@ public static class Input_Helpers
 
     public static bool IsSwapKeybindPressed(this Player player)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         if (ModCompat_Helpers.IsIICActive)
         {
             return player.IsSwapPressedIIC();
@@ -65,6 +75,11 @@ public static class Input_Helpers
 
     public static bool IsSwapLeftInput(this Player player)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         if (ModOptions.SwapTriggerPlayer != 0)
         {
             // Normal
@@ -101,6 +116,11 @@ public static class Input_Helpers
 
     public static bool IsSwapRightInput(this Player player)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         if (ModOptions.SwapTriggerPlayer != 0)
         {
             // Normal
@@ -139,6 +159,11 @@ public static class Input_Helpers
     // Ability
     public static bool IsCustomAbilityKeybindPressed(this Player player)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         if (ModCompat_Helpers.IsIICActive)
         {
             return player.IsAbilityPressedIIC();
@@ -157,6 +182,11 @@ public static class Input_Helpers
 
     public static bool IsSentryKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         if (ModOptions.CustomSentryKeybind)
         {
             if (ModCompat_Helpers.IsIICActive)
@@ -184,6 +214,11 @@ public static class Input_Helpers
     // Custom Ability
     public static bool IsAgilityKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         if (ModOptions.CustomAgilityKeybind)
         {
             return IsCustomAbilityKeybindPressed(player);
@@ -195,6 +230,11 @@ public static class Input_Helpers
 
     public static bool IsSpearCreationKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         if (ModOptions.CustomSpearKeybind)
         {
             return IsCustomAbilityKeybindPressed(player);
@@ -206,6 +246,11 @@ public static class Input_Helpers
 
     public static bool IsReviveKeybindPressed(this Player player, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractPhysicalObject))
+        {
+            return false;
+        }
+
         var input = playerModule.UnblockedInput;
         return input.pckp;
     }
