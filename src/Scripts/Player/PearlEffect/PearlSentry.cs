@@ -1048,6 +1048,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         sLeaser.sprites[2] = new("pearlcat_shieldsentry")
         {
             shader = Utils.Shaders["Hologram"],
+            isVisible = false,
         };
 
         sLeaser.sprites[3] = new("Futile_White")
@@ -1059,11 +1060,13 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         sLeaser.sprites[4] = new("pixel")
         {
             shader = Utils.Shaders["HologramBehindTerrain"],
+            isVisible = false,
         };
 
         sLeaser.sprites[5] = new("pixel")
         {
             shader = Utils.Shaders["GateHologram"],
+            isVisible = false,
         };
 
         sLeaser.sprites[6] = new("Futile_White")

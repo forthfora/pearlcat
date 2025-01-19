@@ -37,7 +37,22 @@ public static class MeadowCompat
         {
             e.LogHookException();
         }
+
+        try
+        {
+            _ = new Hook(
+                typeof(PlayerSpecificOnlineHud).GetMethod(nameof(PlayerSpecificOnlineHud.Update), BindingFlags.Instance | BindingFlags.Public),
+                typeof(MeadowCompat).GetMethod(nameof(OnPlayerSpecificOnlineHudUpdate), BindingFlags.Static | BindingFlags.NonPublic)
+            );
+        }
+        catch (Exception e)
+        {
+            e.LogHookException();
+        }
+
+        On.SlugcatStats.ctor += SlugcatStatsOnctor;
     }
+
 
     public static bool IsLobbyOwner => !IsOnline || OnlineManager.lobby.isOwner;
     public static bool IsOnline => OnlineManager.lobby is not null;
@@ -110,6 +125,45 @@ public static class MeadowCompat
             pearl.realizedObject?.Destroy();
             pearl.Destroy();
         }
+    }
+
+    private static void SlugcatStatsOnctor(On.SlugcatStats.orig_ctor orig, SlugcatStats self, SlugcatStats.Name slugcat, bool malnourished)
+    {
+        orig(self, slugcat, malnourished);
+
+        if (slugcat != Enums.Pearlcat)
+        {
+            return;
+        }
+
+        if (!RainMeadow.RainMeadow.isStoryMode(out var storyGameMode))
+        {
+            return;
+        }
+
+        var onlineFood = SlugcatStats.SlugcatFoodMeter(storyGameMode.currentCampaign);
+
+        self.maxFood = onlineFood.x;
+        self.foodToHibernate = onlineFood.y;
+    }
+
+    private delegate void orig_OnPlayerSpecificOnlineHudUpdate(PlayerSpecificOnlineHud self);
+    private static void OnPlayerSpecificOnlineHudUpdate(orig_OnPlayerSpecificOnlineHudUpdate orig, PlayerSpecificOnlineHud self)
+    {
+        orig(self);
+
+        if (!self.RealizedPlayer.TryGetPearlcatModule(out var playerModule))
+        {
+            return;
+        }
+
+        if (playerModule.ActivePearl is null)
+        {
+            return;
+        }
+
+        // Raise the HUD so it doesn't obscure the active pearl
+        self.drawpos.y += 50.0f;
     }
 
     public static void UpdateOnlineInventorySaveData(OnlinePhysicalObject playerOpo)
