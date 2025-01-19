@@ -161,12 +161,12 @@ public static class MeadowCompat
             return;
         }
 
-        if (playerOpo.TryGetData<MeadowPlayerPearlData>(out _))
+        if (playerOpo.TryGetData<MeadowPearlcatData>(out _))
         {
             return;
         }
 
-        playerOpo?.AddData(new MeadowPearlcatData());
+        playerOpo.AddData(new MeadowPearlcatData());
     }
 
     public static void AddMeadowPlayerPearlData(AbstractPhysicalObject pearl)
@@ -200,7 +200,7 @@ public static class MeadowCompat
             return;
         }
 
-        spearOpo?.AddData(new MeadowPearlSpearData());
+        spearOpo.AddData(new MeadowPearlSpearData());
     }
 
 
