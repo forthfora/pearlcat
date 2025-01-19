@@ -25,7 +25,7 @@ public class InventoryHUD : HudPart
             return;
         }
 
-        for (var i = 0; i < Mathf.Max(4, game.Players.Count); i++)
+        for (var i = 0; i < game.Players.Count; i++)
         {
             var circle = new FSprite("pearlcat_hudcircle")
             {
@@ -45,6 +45,7 @@ public class InventoryHUD : HudPart
             return;
         }
 
+
         foreach (var playerModule in game.GetAllPearlcatModules())
         {
             if (playerModule.PlayerRef is null)
@@ -53,6 +54,12 @@ public class InventoryHUD : HudPart
             }
 
             var player = playerModule.PlayerRef;
+            var playerIndex = game.Players.IndexOf(player.abstractCreature);
+
+            if (playerIndex == -1)
+            {
+                continue;
+            }
 
             var cameras = player.abstractCreature.world.game.cameras;
             var rCam = cameras.First();
@@ -64,14 +71,14 @@ public class InventoryHUD : HudPart
             var truePos = playerPos - roomPos;
 
 
-            var activeIndex = playerModule.ActivePearlIndex;
+            var activePearlIndex = playerModule.ActivePearlIndex;
 
             if (!ModOptions.CompactInventoryHUD)
             {
                 for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {
                     var abstractObject = playerModule.Inventory[i];
-                    var diff = i - activeIndex;
+                    var diff = i - activePearlIndex;
 
                     var isActiveObject = playerModule.ActivePearl == abstractObject;
 
@@ -92,7 +99,7 @@ public class InventoryHUD : HudPart
                     symbol.Scale = isActiveObject ? 2.0f : 0.8f;
                 }
 
-                var circle = InventoryCircles[player.playerState.playerNumber];
+                var circle = InventoryCircles[playerIndex];
 
                 circle.SetPosition(Custom.Dist(circle.GetPosition(), truePos) > 300.0f ? truePos : Vector2.Lerp(circle.GetPosition(), truePos, 0.1f));
                 circle.scale = Custom.LerpMap(playerModule.HudFade, 0.0f, 1.0f, 0.75f, 1.05f);
@@ -105,7 +112,7 @@ public class InventoryHUD : HudPart
                 for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {
                     var abstractObject = playerModule.Inventory[i];
-                    var diff = i - activeIndex;
+                    var diff = i - activePearlIndex;
                     var absDiff = Mathf.Abs(diff ?? 0.0f);
 
                     var isActiveObject = playerModule.ActivePearl == abstractObject;
@@ -123,9 +130,9 @@ public class InventoryHUD : HudPart
 
                     var inventoryOffset = new Vector2(0.0f, 90.0f);
                     var itemPos = truePos + inventoryOffset;
-                
+
                     itemPos.x += spacing;
-                    itemPos.x -= (activeIndex ?? 0.0f) * GAP;
+                    itemPos.x -= (activePearlIndex ?? 0.0f) * GAP;
 
                     if (player.onBack is not null)
                     {

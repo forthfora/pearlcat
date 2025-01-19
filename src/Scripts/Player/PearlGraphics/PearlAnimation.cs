@@ -91,6 +91,10 @@ public abstract class PearlAnimation
                 continue;
             }
 
+            if (i >= HaloEffectStackers.Count) // Happens in meadow, not sure why though
+            {
+                break;
+            }
 
             pearlGraphics.DrawHalo = true;
             var haloEffectTimer = HaloEffectStackers[i];

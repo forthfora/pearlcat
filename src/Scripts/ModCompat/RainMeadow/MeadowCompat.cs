@@ -148,16 +148,32 @@ public static class MeadowCompat
     }
 
     private delegate void orig_OnPlayerSpecificOnlineHudUpdate(PlayerSpecificOnlineHud self);
+
     private static void OnPlayerSpecificOnlineHudUpdate(orig_OnPlayerSpecificOnlineHudUpdate orig, PlayerSpecificOnlineHud self)
     {
         orig(self);
 
-        if (!self.RealizedPlayer.TryGetPearlcatModule(out var playerModule))
+        if (self.abstractPlayer?.realizedCreature is not Player player)
+        {
+            return;
+        }
+
+        if (!player.TryGetPearlcatModule(out var playerModule))
         {
             return;
         }
 
         if (playerModule.ActivePearl is null)
+        {
+            return;
+        }
+
+        if (player.abstractCreature.Room != self.camera?.room?.abstractRoom)
+        {
+            return;
+        }
+
+        if (!self.found)
         {
             return;
         }
