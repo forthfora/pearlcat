@@ -191,7 +191,7 @@ public static class Menu_Hooks
         var miraSkipCheckbox = module.MiraCheckbox;
 
         var miscProg = Utils.MiscProgression;
-        var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked;
+        var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked && !ModCompat_Helpers.RainMeadow_IsOnline;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
         var miraSkipAvailable = !disableSave && ModCompat_Helpers.IsModEnabled_MiraInstallation && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding && !miscProg.UnlockedMira && ModManager.MSC;
@@ -220,11 +220,16 @@ public static class Menu_Hooks
         {
             //self.startButton.buttonBehav.greyedOut = true; // found issues with this, so don't restrict incase of false detection
 
-            self.startButton.fillTime = 240.0f;
+            self.startButton.fillTime = 120.0f;
+            self.startButton.warningMode = true;
 
             var text = self.Translate("WARNING") + "\n" + (miscProg.IsMSCSave ? self.Translate("MSC").Replace(" ", "\n") : self.Translate("NON-MSC").Replace(" ", "\n")) + self.Translate(" SAVE");
 
             self.startButton.menuLabel.text = text;
+        }
+        else
+        {
+            self.UpdateStartButtonText();
         }
 
 
@@ -256,6 +261,9 @@ public static class Menu_Hooks
             if (ModCompat_Helpers.ShowMiraVersionWarning)
             {
                 regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update..."));
+
+                self.startButton.fillTime = 120.0f;
+                self.startButton.warningMode = true;
             }
             else if (miscProg.IsMiraSkipEnabled)
             {
@@ -277,6 +285,9 @@ public static class Menu_Hooks
             {
                 newGamePage.difficultyLabel.text = self.Translate("VERSION WARNING");
                 newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Mira Installation requires a more recent version of Pearlcat! Please update..."));
+
+                self.startButton.fillTime = 120.0f;
+                self.startButton.warningMode = true;
             }
             else if (miscProg.IsSecretEnabled)
             {

@@ -168,7 +168,7 @@ public static class MeadowCompat
             return;
         }
 
-        if (player.abstractCreature.Room != self.camera?.room?.abstractRoom)
+        if (!self.camera.PositionCurrentlyVisible(player.firstChunk.pos, 10.0f, true))
         {
             return;
         }
