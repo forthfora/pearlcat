@@ -1,6 +1,7 @@
 ﻿
 namespace Pearlcat;
 
+// Version of T1_START for other campaigns / meadow, just sets the position and gives food
 public class T1_START_Alt : UpdatableAndDeletable
 {
     public Phase CurrentPhase { get; set; } = Phase.Init;
@@ -40,7 +41,7 @@ public class T1_START_Alt : UpdatableAndDeletable
 
             if (CurrentPhase == Phase.Init)
             {
-                player.playerState.foodInStomach = player.slugcatStats.foodToHibernate;
+                player.playerState.foodInStomach = SlugcatStats.SlugcatFoodMeter(player.SlugCatClass).y;
                 room.game.cameras[0].hud.foodMeter.NewShowCount(player.FoodInStomach);
             }
             else if (CurrentPhase == Phase.End)

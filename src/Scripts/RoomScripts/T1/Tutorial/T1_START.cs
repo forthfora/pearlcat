@@ -48,7 +48,7 @@ public class T1_START : UpdatableAndDeletable
 
             if (CurrentPhase == Phase.Init)
             {
-                player.playerState.foodInStomach = player.slugcatStats.foodToHibernate;
+                player.playerState.foodInStomach = SlugcatStats.SlugcatFoodMeter(player.SlugCatClass).y;
                 room.game.cameras[0].hud.foodMeter.NewShowCount(player.FoodInStomach);
 
                 player.controller = new PearlcatController(new(this, player.playerState.playerNumber));
@@ -223,14 +223,9 @@ public class T1_START : UpdatableAndDeletable
         }
     }
 
-    public class PearlcatController : Player.PlayerController
+    public class PearlcatController(PearlcatPlayer owner) : Player.PlayerController
     {
-        public PearlcatPlayer Owner { get; }
-
-        public PearlcatController(PearlcatPlayer owner)
-        {
-            Owner = owner;
-        }
+        public PearlcatPlayer Owner { get; } = owner;
 
         public override Player.InputPackage GetInput()
         {
@@ -238,20 +233,12 @@ public class T1_START : UpdatableAndDeletable
         }
     }
 
-    public class PearlcatPlayer
+    public class PearlcatPlayer(T1_START owner, int playerNumber)
     {
-        public T1_START Owner { get; }
-        public int PlayerNumber { get; }
-
-        public bool MainPlayer => Player is not null && Player.playerState.playerNumber == 0;
+        public T1_START Owner { get; } = owner;
+        public int PlayerNumber { get; } = playerNumber;
 
         public Player? Player => (Owner.room?.game.Players[PlayerNumber].realizedCreature) as Player;
-
-        public PearlcatPlayer(T1_START owner, int playerNumber)
-        {
-            Owner = owner;
-            PlayerNumber = playerNumber;
-        }
 
         public void Update()
         {
@@ -270,11 +257,7 @@ public class T1_START : UpdatableAndDeletable
                 return new Player.InputPackage(false, Options.ControlSetup.Preset.None, 0, 0, false, false, false, false, false);
             }
 
-            var x = 0;
-            var y = 0;
-            var jmp = false;
-
-            return new(false, Options.ControlSetup.Preset.KeyboardSinglePlayer, x, y, jmp, false, false, false, false);
+            return new(false, Options.ControlSetup.Preset.KeyboardSinglePlayer, 0, 0, false, false, false, false, false);
         }
     }
 }

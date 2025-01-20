@@ -140,6 +140,11 @@ public static class PlayerPearl_Helpers
 
     public static void RealizePlayerPearl(Player self, AbstractPhysicalObject abstractObject)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
+        {
+            return;
+        }
+
         // For warp
         abstractObject.world = self.abstractCreature.world;
 
@@ -197,6 +202,11 @@ public static class PlayerPearl_Helpers
 
     public static void AbstractPlayerPearl(AbstractPhysicalObject abstractObject)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
+        {
+            return;
+        }
+
         if (abstractObject.TryGetPlayerPearlModule(out var module))
         {
             // Pearlcat stuff

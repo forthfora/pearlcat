@@ -50,7 +50,7 @@ public static class ModOptions
 
 
     // OPTIONS
-    public static bool PearlpupRespawn => IsRemote ? OnlineOptions.PearlpupRespawn : OI.PearlpupRespawn.Value;
+    public static bool PearlpupRespawn => !ModCompat_Helpers.RainMeadow_IsOnline && OI.PearlpupRespawn.Value; // TODO: maybe reenable it for meadow when pups are fixed
 
     public static bool DisableCosmetics => OI.DisableCosmetics.Value;
     public static bool DisableTutorials => ModCompat_Helpers.RainMeadow_IsOnline || OI.DisableTutorials.Value;
