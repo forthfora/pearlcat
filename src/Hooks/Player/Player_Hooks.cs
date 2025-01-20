@@ -303,15 +303,7 @@ public static class Player_Hooks
     {
         if (self is Player player)
         {
-            var sameRoom = false;
-            
-            if (player.TryGetPearlcatModule(out var playerModule) || player.slugOnBack?.slugcat?.TryGetPearlcatModule(out playerModule) == true)
-            {
-                sameRoom = player.abstractCreature.Room == playerModule.LastRoom;
-            }
-
-            player.AbstractizeInventory(sameRoom);
-            player.slugOnBack?.slugcat?.AbstractizeInventory(sameRoom);
+            player.TryAbstractInventory();
         }
 
         orig(self, entrancePos, carriedByOther);

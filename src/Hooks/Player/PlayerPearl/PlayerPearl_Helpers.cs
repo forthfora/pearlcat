@@ -94,16 +94,6 @@ public static class PlayerPearl_Helpers
     // Realization & Abstraction
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
-        if (self.room is null)
-        {
-            return;
-        }
-
-        if (self.inVoidSea)
-        {
-            return;
-        }
-
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
@@ -160,12 +150,17 @@ public static class PlayerPearl_Helpers
         abstractObject.MarkAsPlayerPearl();
     }
 
-    public static void AbstractizeInventory(this Player self, bool excludeSentries = false)
+    public static void TryAbstractInventory(this Player self)
     {
+        self.slugOnBack?.slugcat?.TryAbstractInventory();
+
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
             return;
         }
+
+        // Also abstract sentries when changing rooms
+        var includingSentries = self.abstractCreature.Room != playerModule.LastRoom || self.inVoidSea;
 
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
@@ -176,7 +171,7 @@ public static class PlayerPearl_Helpers
                 continue;
             }
 
-            if (abstractObject.TryGetSentry(out _) && excludeSentries)
+            if (abstractObject.TryGetSentry(out _) && !includingSentries)
             {
                 continue;
             }

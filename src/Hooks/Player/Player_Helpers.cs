@@ -348,13 +348,15 @@ public static class Player_Helpers
             }
         }
 
-        // Do not show pearls in the void sea
-        if (self.inVoidSea)
+        // Inventory
+        if (self.room is null || self.inVoidSea)
         {
-            self.AbstractizeInventory();
+            self.TryAbstractInventory();
         }
-
-        self.TryRealizeInventory(playerModule);
+        else
+        {
+            self.TryRealizeInventory(playerModule);
+        }
 
 
         // Input
