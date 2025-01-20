@@ -233,7 +233,7 @@ public static class Menu_Hooks
         }
 
 
-        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding; // MSC not technically required
+        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding && !ModCompat_Helpers.RainMeadow_IsOnline; // MSC not technically required
 
         if (SecretIndex >= SecretPassword.Length)
         {

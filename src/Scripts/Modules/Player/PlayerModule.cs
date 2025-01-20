@@ -16,7 +16,8 @@ public partial class PlayerModule
     public bool IsAdultPearlpup =>
         PlayerRef is not null &&
         PlayerRef.abstractCreature.Room.world.game.IsPearlcatStory() &&
-        Utils.MiscProgression.HasTrueEnding;
+        Utils.MiscProgression.HasTrueEnding
+        && !ModCompat_Helpers.RainMeadow_IsOnline;
 
     public SlugcatStats BaseStats { get; set; }
     public SlugcatStats NormalStats { get; } = new(Enums.Pearlcat, false);

@@ -1,7 +1,9 @@
-﻿using MoreSlugcats;
+﻿using System;
+using MoreSlugcats;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using System.Text.RegularExpressions;
+using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -170,7 +172,8 @@ public static class World_Helpers
         {
             var randomDream = Random.Range(0.0f, 1.0f) < 0.1f;
 
-            if (randomDream)
+            // Also don't dream on the train
+            if (randomDream && save.denPosition != "T1_S01")
             {
                 dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
                 dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
@@ -292,5 +295,39 @@ public static class World_Helpers
         hideHud ??= ModManager.MMF;
 
         game.cameras.First().hud.textPrompt.AddMessage(Utils.Translator.Translate(text), wait, time, darken, (bool)hideHud);
+    }
+
+    public static void RemoveInventorySaveObjects(RegionState self)
+    {
+        try
+        {
+            var miscWorld = self.world.game.GetMiscWorld();
+
+            if (miscWorld is null)
+            {
+                return;
+            }
+
+            foreach (var inventory in miscWorld.Inventory.Values)
+            {
+                foreach (var pearl in inventory)
+                {
+                    var pearlId = EntityID.FromString(Regex.Split(pearl, "<oA>")[0]);
+
+                    self.savedObjects.RemoveAll(x => SaveStringToId(x) == pearlId);
+                }
+            }
+
+            return;
+
+            EntityID SaveStringToId(string x)
+            {
+                return EntityID.FromString(Regex.Split(x, "<oA>")[0]);
+            }
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError($"Error removing inventory save objects: {e}\n{e.StackTrace}");
+        }
     }
 }

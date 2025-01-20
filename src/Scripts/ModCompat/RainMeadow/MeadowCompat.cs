@@ -153,7 +153,12 @@ public static class MeadowCompat
     {
         orig(self);
 
-        if (self.abstractPlayer?.realizedCreature is not Player player)
+        if (self.abstractPlayer is null) // just sidestep a warning
+        {
+            return;
+        }
+
+        if (self.abstractPlayer.realizedCreature is not Player player)
         {
             return;
         }

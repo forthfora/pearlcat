@@ -2,7 +2,6 @@
 using RWCustom;
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using static Pearlcat.World_Helpers;
 using Random = UnityEngine.Random;
@@ -368,30 +367,8 @@ public static class World_Hooks
         RemoveInventorySaveObjects(self);
 
         orig(self);
-    }
 
-    // TODO: move this
-    private static void RemoveInventorySaveObjects(RegionState self)
-    {
-        var miscWorld = self.world.game.GetMiscWorld();
-
-        if (miscWorld is not null)
-        {
-            foreach (var inventory in miscWorld.Inventory.Values)
-            {
-                foreach (var pearl in inventory)
-                {
-                    var pearlId = EntityID.FromString(Regex.Split(pearl, "<oA>")[0]);
-
-                    self.savedObjects.RemoveAll(x => SaveStringToId(x) == pearlId);
-                }
-            }
-        }
-
-        EntityID SaveStringToId(string x)
-        {
-            return EntityID.FromString(Regex.Split(x, "<oA>")[0]);
-        }
+        RemoveInventorySaveObjects(self);
     }
 
     // Stop player pearls being saved in the shelter (duplicating)
@@ -428,6 +405,8 @@ public static class World_Hooks
         {
             Plugin.Logger.LogError("Error removing player pearls from the world state: \n" + e + "\n" + e.StackTrace);
         }
+
+        RemoveInventorySaveObjects(self);
 
         orig(self, playerShelter, activeGate);
 
