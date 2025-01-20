@@ -101,7 +101,7 @@ public static class PlayerAbilities_Helpers
         var abilityInput = self.IsSentryKeybindPressed(playerModule);
         var wasAbilityInput = playerModule.WasSentryInput;
 
-        if (abilityInput && !wasAbilityInput)
+        if (abilityInput && !wasAbilityInput && !playerModule.DisabledEffects.Contains(effect.MajorEffect))
         {
             DeploySentry(self, activeObj);
         }

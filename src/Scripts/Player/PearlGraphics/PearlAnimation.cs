@@ -197,8 +197,7 @@ public abstract class PearlAnimation
 
             if (playerModule.DisabledEffects.Contains(effect.MajorEffect))
             {
-                pearlGraphics.DrawSymbolCooldown = true;
-                pearlGraphics.SymbolColor = Color.white;
+                pearlGraphics.DrawSymbolCooldown = false;
             }
 
             if (ModOptions.HidePearls && !pearlGraphics.IsActivePearl)
