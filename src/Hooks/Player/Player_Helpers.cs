@@ -647,6 +647,11 @@ public static class Player_Helpers
 
     public static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        {
+            return;
+        }
+
         if (self.dead || playerModule.PostDeathInventory.Count == 0)
         {
             return;
@@ -677,7 +682,7 @@ public static class Player_Helpers
                 return;
             }
 
-            if (ModuleManager.PlayerPearlGraphicsData.TryGetValue(item, out var _))
+            if (ModuleManager.PlayerPearlGraphicsData.TryGetValue(item, out _))
             {
                 ModuleManager.PlayerPearlGraphicsData.Remove(item);
             }
@@ -765,11 +770,17 @@ public static class Player_Helpers
         // Outsider breaks looping SFX sometimes, this is safety
         try
         {
-            playerModule.MenuCrackleLoop.Update();
-            playerModule.MenuCrackleLoop.Volume = playerModule.HudFade;
+            if (playerModule.MenuCrackleLoop is not null)
+            {
+                playerModule.MenuCrackleLoop.Update();
+                playerModule.MenuCrackleLoop.Volume = playerModule.HudFade;
+            }
 
-            playerModule.ShieldHoldLoop.Update();
-            playerModule.ShieldHoldLoop.Volume = playerModule.ShieldTimer > 0 ? 1.0f : 0.0f;
+            if (playerModule.ShieldHoldLoop is not null)
+            {
+                playerModule.ShieldHoldLoop.Update();
+                playerModule.ShieldHoldLoop.Volume = playerModule.ShieldTimer > 0 ? 1.0f : 0.0f;
+            }
         }
         catch (Exception e)
         {

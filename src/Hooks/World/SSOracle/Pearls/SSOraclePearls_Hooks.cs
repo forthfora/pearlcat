@@ -51,6 +51,11 @@ public static class SSOraclePearls_Hooks
                 continue;
             }
 
+            if (!ModCompat_Helpers.RainMeadow_IsMine(dataPearl.abstractPhysicalObject))
+            {
+                continue;
+            }
+
             if (dataPearl.abstractPhysicalObject.IsPlayerPearl())
             {
                 continue;

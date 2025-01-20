@@ -26,12 +26,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         [OnlineField(nullable = true)]
         public RainMeadow.Generics.DynamicOrderedEntityIDs inventory = null!;
 
-        [OnlineField(nullable = true)]
-        public RainMeadow.Generics.DynamicOrderedEntityIDs postDeathInventory = null!;
-
-        [OnlineField]
-        public int postDeathActivePearlIndex;
-
         [OnlineField]
         public int activePearlIndex;
 
@@ -100,10 +94,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             }
 
             inventory = new(playerModule.Inventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
-            postDeathInventory = new(playerModule.PostDeathInventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
-
             activePearlIndex = playerModule.ActivePearlIndex ?? -1;
-            postDeathActivePearlIndex = playerModule.PostDeathActivePearlIndex ?? -1;
 
             currentPearlAnimation = playerModule.CurrentPearlAnimation is null ? 0 : playerModule.PearlAnimationMap.IndexOf(playerModule.CurrentPearlAnimation.GetType());
 
@@ -173,15 +164,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             playerModule.Inventory = remoteInventory;
 
-
-            var remotePostDeathInventory = postDeathInventory.list
-                .Where(x => x.FindEntity() is OnlinePhysicalObject)
-                .Select(x => ((OnlinePhysicalObject)x.FindEntity()).apo)
-                .ToList();
-
-            playerModule.PostDeathInventory = remotePostDeathInventory;
-
-
             if (activePearlIndex == -1)
             {
                 playerModule.ActivePearlIndex = null;
@@ -190,7 +172,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             {
                 player.SetActivePearl(activePearlIndex);
             }
-            playerModule.PostDeathActivePearlIndex = postDeathActivePearlIndex == -1 ? null : postDeathActivePearlIndex;
 
 
             // Pearl Animation

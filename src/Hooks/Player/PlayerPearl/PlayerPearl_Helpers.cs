@@ -518,7 +518,11 @@ public static class PlayerPearl_Helpers
         oldActive.SwapEffect(newActive);
 
         playerModule.ShowHUD(60);
-        self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
+
+        if (ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        {
+            self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
+        }
 
         self.UpdateInventorySaveData();
 
