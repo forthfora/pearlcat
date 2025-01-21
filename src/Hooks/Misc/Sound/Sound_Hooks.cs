@@ -18,7 +18,7 @@ public static class Sound_Hooks
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool(On.Room.orig_PlaySound_SoundID_BodyChunk_bool_float_float_bool orig,
         Room self, SoundID soundId, BodyChunk chunk, bool loop, float vol, float pitch, bool randomStartPosition)
     {
-        if (chunk.owner != null && chunk.owner.abstractPhysicalObject.IsPlayerPearl())
+        if (chunk.owner is not null && chunk.owner.abstractPhysicalObject.IsPlayerPearl())
         {
             if (soundId == SoundID.SS_AI_Marble_Hit_Floor && chunk.owner.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) && !module.PlayCollisionSound)
             {
@@ -53,7 +53,7 @@ public static class Sound_Hooks
 
     private static void MusicPlayer_Update(On.Music.MusicPlayer.orig_Update orig, MusicPlayer self)
     {
-        if (!ModOptions.PearlThreatMusic.Value)
+        if (!ModOptions.PearlThreatMusic)
         {
             orig(self);
             return;
@@ -78,16 +78,16 @@ public static class Sound_Hooks
                     continue;
                 }
 
-                if (playerModule.ActiveObject == null)
+                if (playerModule.ActivePearl is null)
                 {
                     continue;
                 }
 
-                var effect = playerModule.ActiveObject.GetPearlEffect();
+                var effect = playerModule.ActivePearl.GetPearlEffect();
 
-                if (effect.ThreatMusic != null)
+                if (effect.ThreatMusic is not null)
                 {
-                    if (self.proceduralMusic == null || (self.nextProcedural != effect.ThreatMusic && self.proceduralMusic.instruction.name != effect.ThreatMusic))
+                    if (self.proceduralMusic is null || (self.nextProcedural != effect.ThreatMusic && self.proceduralMusic.instruction.name != effect.ThreatMusic))
                     {
                         module.WasThreatPearlActive = true;
 
@@ -108,7 +108,7 @@ public static class Sound_Hooks
             // Stop New Threat Music
             if (!hasThreatMusicPearl && module.WasThreatPearlActive)
             {
-                if (region != null)
+                if (region is not null)
                 {
                     self.NewRegion(region);
                     //Plugin.Logger.LogWarning("STOP PEARL THREAT");

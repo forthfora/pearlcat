@@ -9,7 +9,7 @@ namespace Pearlcat;
 public sealed class TrainView : CustomBgScene
 {
     public bool IsInit { get; private set; }
-    public bool IsOutside { get; private set; }
+    public bool IsOutside { get; }
 
     public readonly int[] BgElementTimers;
 
@@ -17,7 +17,8 @@ public sealed class TrainView : CustomBgScene
     public static readonly int MultiplyColor = Shader.PropertyToID("_MultiplyColor");
     public static readonly int WindDir = Shader.PropertyToID("_windDir");
 
-    public const float TRAIN_WIND_DIR = 7.0f;
+    // Sort of important it's unique for compat, so add some extra decimals (but I don't know any mod that actually changes this param)
+    public const float TRAIN_WIND_DIR = 7.00237f;
     public const float TRAIN_VIEW_YSHIFT = -20000.0f;
 
     public TrainView(Room room) : base(room)
@@ -149,7 +150,7 @@ public sealed class TrainView : CustomBgScene
         foreach (var newElement in DynamicBgElements)
         {
             var newSLeaser = sLeasers.FirstOrDefault(x => x.drawableObject == newElement);
-            if (newSLeaser == null)
+            if (newSLeaser is null)
             {
                 continue;
             }
@@ -174,7 +175,7 @@ public sealed class TrainView : CustomBgScene
                 }
             }
 
-            if (targetLeaser != null)
+            if (targetLeaser is not null)
             {
                 foreach (var sprite in targetLeaser.sprites)
                 {
@@ -413,7 +414,7 @@ public sealed class TrainView : CustomBgScene
             _ => null,
         };
 
-        if (light == null)
+        if (light is null)
         {
             return;
         }

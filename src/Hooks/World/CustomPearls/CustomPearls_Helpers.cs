@@ -116,7 +116,7 @@ public static class CustomPearls_Helpers
 
             path = AssetManager.ResolveFilePath(langDir + sepString + fileName + ".txt");
 
-            if (saveFile != null)
+            if (saveFile is not null)
             {
                 var originalPath = path;
 

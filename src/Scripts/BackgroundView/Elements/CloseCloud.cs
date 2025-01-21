@@ -5,7 +5,7 @@ namespace Pearlcat;
 
 public class CloseCloud : Cloud
 {
-    public float CloudDepth { get; private set; }
+    public float CloudDepth { get; }
 
     public CloseCloud(CustomBgScene scene, Vector2 pos, float depth, int index) : base(scene, pos, scene.DepthFromCloud(depth), index)
     {
@@ -27,7 +27,7 @@ public class CloseCloud : Cloud
 
         };
         
-        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString())
+        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3))
         {
             shader = Utils.Shaders["Cloud"],
             anchorY = 1f,

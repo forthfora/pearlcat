@@ -41,7 +41,7 @@ public static class Player_Hooks
             return;
         }
 
-        if (ModOptions.EnableBackSpear.Value)
+        if (ModOptions.EnableBackSpear)
         {
             self.spearOnBack ??= new Player.SpearOnBack(self);
         }
@@ -49,7 +49,7 @@ public static class Player_Hooks
 
     private static void Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
-        if (self.TryGetPearlcatModule(out var playerModule) && self.spearOnBack != null)
+        if (self.TryGetPearlcatModule(out var playerModule) && self.spearOnBack is not null)
         {
             playerModule.WasSpearOnBack = self.spearOnBack.HasASpear;
         }
@@ -57,7 +57,7 @@ public static class Player_Hooks
         orig(self, eu);
 
         // zero G movement assist - applies to all slugcats
-        if (self.room != null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
+        if (self.room is not null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
         {
             if (self.firstChunk.vel.magnitude < 7.5f)
             {
@@ -70,7 +70,7 @@ public static class Player_Hooks
             }
         }
 
-        if (playerModule == null)
+        if (playerModule is null)
         {
             return;
         }
@@ -127,7 +127,7 @@ public static class Player_Hooks
         playerModule.ShieldTimer = 0;
         playerModule.SpearTimer = 0;
 
-        playerModule.PostDeathActiveObjectIndex = playerModule.ActiveObjectIndex;
+        playerModule.PostDeathActivePearlIndex = playerModule.ActivePearlIndex;
 
         self.room?.PlaySound(SoundID.Zapper_Zap, self.firstChunk.pos, 0.4f, 0.6f);
         self.room?.PlaySound(SoundID.Fire_Spear_Explode, self.firstChunk.pos, 0.7f, 0.6f);
@@ -147,7 +147,7 @@ public static class Player_Hooks
             playerModule.PostDeathInventory.Add(abstractObject);
 
 
-            if (i < PlayerPearl_Helpers.MaxPearlsWithEffects)
+            if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
                 if (playerModule.ReviveCount <= 0)
                 {
@@ -205,7 +205,7 @@ public static class Player_Hooks
     {
         var result = orig(self, obj);
 
-        if (obj != null && obj.abstractPhysicalObject.IsPlayerPearl())
+        if (obj is not null && obj.abstractPhysicalObject.IsPlayerPearl())
         {
             return Player.ObjectGrabability.CantGrab;
         }
@@ -266,7 +266,7 @@ public static class Player_Hooks
                 }
 
                 var effect = item.GetPearlEffect();
-                if (effect.MajorEffect != PearlEffect.MajorEffectType.SHIELD)
+                if (effect.MajorEffect != PearlEffect.MajorEffectType.Shield)
                 {
                     continue;
                 }
@@ -276,7 +276,7 @@ public static class Player_Hooks
                     continue;
                 }
 
-                if (owner.realizedObject == null)
+                if (owner.realizedObject is null)
                 {
                     continue;
                 }
@@ -288,7 +288,7 @@ public static class Player_Hooks
 
                 if (sentry.ShieldTimer <= 0)
                 {
-                    sentry.ShieldTimer = ModOptions.ShieldDuration.Value * 3.0f;
+                    sentry.ShieldTimer = ModOptions.ShieldDuration * 3.0f;
                 }
 
                 owner.realizedObject.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.7f);
@@ -303,15 +303,7 @@ public static class Player_Hooks
     {
         if (self is Player player)
         {
-            var sameRoom = false;
-            
-            if (player.TryGetPearlcatModule(out var playerModule) || player.slugOnBack?.slugcat?.TryGetPearlcatModule(out playerModule) == true)
-            {
-                sameRoom = player.abstractCreature.Room == playerModule.LastRoom;
-            }
-
-            player.AbstractizeInventory(sameRoom);
-            player.slugOnBack?.slugcat?.AbstractizeInventory(sameRoom);
+            player.TryAbstractInventory();
         }
 
         orig(self, entrancePos, carriedByOther);

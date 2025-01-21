@@ -36,8 +36,6 @@ public static class Menu_Hooks
         On.Menu.HoldButton.MyColor += HoldButton_MyColor;
 
         On.Menu.InputOptionsMenu.ctor += InputOptionsMenu_ctor;
-
-        On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
     }
 
 
@@ -165,7 +163,7 @@ public static class Menu_Hooks
         }
 
         var save = Utils.MiscProgression;
-        var color = ModOptions.InventoryOverride.Value ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.StoredActivePearl?.GetPearlColor();
+        var color = ModOptions.InventoryOverride ? ModOptions.GetOverridenInventory(true).FirstOrDefault()?.GetDataPearlColor() : save.IsNewPearlcatSave ? Pearls.RM_Pearlcat.GetDataPearlColor() : save.StoredActivePearl?.GetPearlColor(true);
 
         self.effectColor = color ?? Color.white;
 
@@ -193,7 +191,7 @@ public static class Menu_Hooks
         var miraSkipCheckbox = module.MiraCheckbox;
 
         var miscProg = Utils.MiscProgression;
-        var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked;
+        var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked && !ModCompat_Helpers.RainMeadow_IsOnline;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
         var miraSkipAvailable = !disableSave && ModCompat_Helpers.IsModEnabled_MiraInstallation && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding && !miscProg.UnlockedMira && ModManager.MSC;
@@ -222,15 +220,20 @@ public static class Menu_Hooks
         {
             //self.startButton.buttonBehav.greyedOut = true; // found issues with this, so don't restrict incase of false detection
 
-            self.startButton.fillTime = 240.0f;
+            self.startButton.fillTime = 120.0f;
+            self.startButton.warningMode = true;
 
             var text = self.Translate("WARNING") + "\n" + (miscProg.IsMSCSave ? self.Translate("MSC").Replace(" ", "\n") : self.Translate("NON-MSC").Replace(" ", "\n")) + self.Translate(" SAVE");
 
             self.startButton.menuLabel.text = text;
         }
+        else
+        {
+            self.UpdateStartButtonText();
+        }
 
 
-        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding; // MSC not technically required
+        var canSecretOccur = page is SlugcatSelectMenu.SlugcatPageNewGame && miscProg.IsSecretEnabled == miscProg.HasTrueEnding && !ModCompat_Helpers.RainMeadow_IsOnline; // MSC not technically required
 
         if (SecretIndex >= SecretPassword.Length)
         {
@@ -251,13 +254,16 @@ public static class Menu_Hooks
             }
         }
 
-        if (page is SlugcatSelectMenu.SlugcatPageContinue continuePage && module.OriginalRegionLabelText != null)
+        if (page is SlugcatSelectMenu.SlugcatPageContinue continuePage && module.OriginalRegionLabelText is not null)
         {
             var regionLabel = continuePage.regionLabel;
 
             if (ModCompat_Helpers.ShowMiraVersionWarning)
             {
                 regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update..."));
+
+                self.startButton.fillTime = 120.0f;
+                self.startButton.warningMode = true;
             }
             else if (miscProg.IsMiraSkipEnabled)
             {
@@ -279,6 +285,9 @@ public static class Menu_Hooks
             {
                 newGamePage.difficultyLabel.text = self.Translate("VERSION WARNING");
                 newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Mira Installation requires a more recent version of Pearlcat! Please update..."));
+
+                self.startButton.fillTime = 120.0f;
+                self.startButton.warningMode = true;
             }
             else if (miscProg.IsSecretEnabled)
             {
@@ -383,28 +392,9 @@ public static class Menu_Hooks
     {
         if (ModCompat_Helpers.IsModEnabled_ImprovedInputConfig)
         {
-            Input_Helpers.InitIICKeybinds();
+            ModCompat_Helpers.InitIICCompat();
         }
 
         orig(self, manager);
-    }
-
-
-    // Prevent player pearls being displayed to the map in a shelter
-    private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
-    {
-        var result = orig(world, room, index);
-
-        var abstractRoom = world.GetAbstractRoom(room);
-
-        if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
-        {
-            if (abstractObject.realizedObject != null && abstractObject.IsPlayerPearl())
-            {
-                return null;
-            }
-        }
-
-        return result;
     }
 }

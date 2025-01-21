@@ -1,7 +1,6 @@
 ﻿using MoreSlugcats;
 using RWCustom;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Pearlcat.World_Helpers;
@@ -16,19 +15,10 @@ public static class World_Hooks
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
 
         On.RegionState.AdaptRegionStateToWorld += RegionState_AdaptRegionStateToWorld;
-
-        On.Room.Loaded += Room_Loaded;
-        On.Room.Update += Room_Update;
-
-        On.RoomSpecificScript.AddRoomSpecificScript += RoomSpecificScript_AddRoomSpecificScript;
-
-        On.ShelterDoor.DrawSprites += ShelterDoor_DrawSprites;
-        On.ShelterDoor.DoorGraphic.DrawSprites += DoorGraphic_DrawSprites;
+        On.RegionState.AdaptWorldToRegionState += RegionStateOnAdaptWorldToRegionState;
 
         On.Spear.DrawSprites += Spear_DrawSprites_PearlSpear;
         On.Spear.Update += Spear_Update_PearlSpear;
-
-        On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
 
         On.SlugcatStats.HiddenOrUnplayableSlugcat += SlugcatStats_HiddenOrUnplayableSlugcat;
 
@@ -44,10 +34,40 @@ public static class World_Hooks
 
         On.RainWorldGame.ctor += RainWorldGame_ctor;
 
-        On.AboveCloudsView.ctor += AboveCloudsView_ctor;
-
         On.DataPearl.UniquePearlHighLightColor += DataPearl_UniquePearlHighLightColor;
         On.Room.PlaySound_SoundID_BodyChunk += Room_PlaySound_SoundID_BodyChunk;
+
+        On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
+    }
+
+
+    // Override shelter for trains and skips
+    private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)
+    {
+        var result = orig(self);
+
+        var miscProg = Utils.MiscProgression;
+        var miscWorld = self.miscWorldSaveData?.GetMiscWorld();
+
+        if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
+        {
+            if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride))
+            {
+                return ModOptions.StartShelterOverride;
+            }
+        }
+
+        if (miscWorld?.JustMiraSkipped == true)
+        {
+            return "SS_AI";
+        }
+
+        if (result == "T1_S01")
+        {
+            return "SS_T1_S01";
+        }
+
+        return result;
     }
 
 
@@ -63,7 +83,7 @@ public static class World_Hooks
 
         var miscWorld = self.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }
@@ -151,7 +171,7 @@ public static class World_Hooks
 
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (wasPlayer != null && wasEatCounter != null)
+        if (wasPlayer is not null && wasEatCounter is not null)
         {
             wasPlayer.eatCounter = (int)wasEatCounter;
         }
@@ -199,36 +219,6 @@ public static class World_Hooks
 
         return result;
     }
-
-    // Override shelter for trains and skips
-    private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)
-    {
-        var result = orig(self);
-
-        var miscProg = Utils.MiscProgression;
-        var miscWorld = self.miscWorldSaveData?.GetMiscWorld();
-
-        if (self.saveStateNumber == Enums.Pearlcat && miscProg.IsNewPearlcatSave)
-        {
-            if (!string.IsNullOrEmpty(ModOptions.StartShelterOverride.Value) && RainWorld.roomNameToIndex.ContainsKey(ModOptions.StartShelterOverride.Value))
-            {
-                return ModOptions.StartShelterOverride.Value;
-            }
-        }
-
-        if (miscWorld?.JustMiraSkipped == true)
-        {
-            return "SS_AI";
-        }
-
-        if (result == "T1_S01")
-        {
-            return "SS_T1_S01";
-        }
-
-        return result;
-    }
-
 
 
     // Custom Spears
@@ -304,9 +294,9 @@ public static class World_Hooks
                 var freeHand = player.FreeHand();
 
 
-                if ((player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1 || freeHand == -1) && playerModule.Inventory.Count < ModOptions.MaxPearlCount.Value)
+                if ((player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) != -1 || freeHand == -1) && playerModule.Inventory.Count < ModOptions.MaxPearlCount)
                 {
-                    if (self.room != null)
+                    if (self.room is not null)
                     {
                         self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
@@ -316,11 +306,11 @@ public static class World_Hooks
                     }
 
                     self.AllGraspsLetGoOfThisObject(true);
-                    player.StoreObject(self.abstractSpear, noSound: true, storeBeforeActive: true);
+                    player.StorePearl(self.abstractSpear, noSound: true, storeBeforeActive: true);
                 }
                 else if (freeHand != -1 && player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) == -1)
                 {
-                    if (self.room != null && player.graphicsModule != null)
+                    if (self.room is not null && player.graphicsModule is not null)
                     {
                         self.room.AddObject(new ShockWave(prevPos, 50.0f, 0.8f, 10));
                         self.room.AddObject(new ExplosionSpikes(self.room, prevPos, 10, 10.0f, 10, 10.0f, 80.0f, color));
@@ -371,189 +361,17 @@ public static class World_Hooks
         }
     }
 
-
-    // Room & World Loading
-    private static void RoomSpecificScript_AddRoomSpecificScript(On.RoomSpecificScript.orig_AddRoomSpecificScript orig, Room room)
+    // Another way to player pearls being saved in the shelter (duplicating), the other doesn't work in meadow for some reason
+    private static void RegionStateOnAdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
     {
-        orig(room);
+        RemoveInventorySaveObjects(self);
 
-        var roomName = room.roomSettings.name;
-
-        if (roomName == "T1_S01")
-        {
-            room.AddObject(new T1_S01(room));
-        }
-
-        if (roomName == "SS_T1_S01")
-        {
-            room.AddObject(new SS_T1_S01(room));
-        }
-
-        if (roomName == "SS_T1_CROSS" && !ModCompat_Helpers.IsModEnabled_MiraInstallation)
-        {
-            room.AddObject(new SS_T1_CROSS(room));
-        }
-
-
-        if (!room.game.IsPearlcatStory())
-        {
-            return;
-        }
-
-        var miscProg = Utils.MiscProgression;
-        var everVisited = room.game.GetStorySession.saveState.regionStates[room.world.region.regionNumber].roomsVisited.Contains(room.abstractRoom.name);
-
-        // Tutorial
-        if (!everVisited)
-        {
-            // Start
-            if (roomName == "T1_START")
-            {
-                room.AddObject(new T1_START(room));
-            }
-
-            // Rage (+ Possession)
-            if (roomName == "T1_CAR2")
-            {
-                room.AddObject(new T1_CAR2(room));
-            }
-
-            if (!miscProg.HasTrueEnding)
-            {
-                // Agility
-                if (roomName == "T1_CAR0")
-                {
-                    room.AddObject(new T1_CAR0(room));
-                }
-
-                // Shield
-                if (roomName == "T1_CAR1")
-                {
-                    room.AddObject(new T1_CAR1(room));
-                }
-
-                // Revive
-                if (roomName == "T1_CAR3")
-                {
-                    room.AddObject(new T1_CAR3(room));
-                }
-            }
-        }
-    }
-
-    private static void Room_Loaded(On.Room.orig_Loaded orig, Room self)
-    {
         orig(self);
 
-        if (TrainViewRooms.Contains(self.roomSettings.name))
-        {
-            self.AddObject(new TrainView(self));
-        }
+        RemoveInventorySaveObjects(self);
     }
 
-    private static void Room_Update(On.Room.orig_Update orig, Room self)
-    {
-        orig(self);
-
-        var miscProg = Utils.MiscProgression;
-
-        if (TrainViewRooms.Contains(self.roomSettings.name))
-        {
-            // Train view screen shake
-            var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.1f;
-            self.ScreenMovement(null, Vector2.right * 3.0f, intensity);
-
-            // Nighttime Palette
-            if (miscProg.HasTrueEnding)
-            {
-                foreach (var camera in self.game.cameras)
-                {
-                    if (camera.paletteA != 303)
-                    {
-                        camera.ChangeMainPalette(303);
-                    }
-                }
-            }
-        }
-
-        if (self.roomSettings.name == "T1_END")
-        {
-            // Outside train wind effect
-            foreach (var updatable in self.updateList)
-            {
-                if (updatable is not PhysicalObject physicalObject)
-                {
-                    continue;
-                }
-
-                if (physicalObject is not Player player)
-                {
-                    continue;
-                }
-
-                List<Player.BodyModeIndex> exemptBodyModes =
-                [
-                    Player.BodyModeIndex.Crawl,
-                    Player.BodyModeIndex.ClimbIntoShortCut,
-                    Player.BodyModeIndex.CorridorClimb,
-                ];
-
-                var target = player.canJump == 0 ? 1.0f : 0.85f;
-
-                if (!player.TryGetPearlcatModule(out var playerModule))
-                {
-                    continue;
-                }
-
-                if (playerModule.EarL == null || playerModule.EarR == null)
-                {
-                    continue;
-                }
-
-                foreach (var earSegment in playerModule.EarL)
-                {
-                    earSegment.vel.x += target * 1.25f;
-                }
-
-                foreach (var earSegment in playerModule.EarR)
-                {
-                    earSegment.vel.x += target * 1.25f;
-                }
-
-                if (player.graphicsModule is not PlayerGraphics graphics)
-                {
-                    continue;
-                }
-
-                foreach (var tailSegment in graphics.tail)
-                {
-                    tailSegment.vel.x += target * 1.25f;
-                }
-
-
-                if (!exemptBodyModes.Contains(player.bodyMode))
-                {
-                    foreach (var bodyChunk in player.bodyChunks)
-                    {
-                        bodyChunk.vel.x += target;
-                    }
-                }
-            }
-
-            // TrueEnd changes the music that plays ontop of the train
-            if (miscProg.HasTrueEnding)
-            {
-                if (self.roomSettings.triggers.FirstOrDefault(x => x is SpotTrigger) is SpotTrigger spotTrigger)
-                {
-                    if (spotTrigger.tEvent is MusicEvent musicEvent)
-                    {
-                        musicEvent.songName = "na_30 - distance";
-                    }
-                }
-            }
-        }
-    }
-
+    // Stop player pearls being saved in the shelter (duplicating)
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
     {
         try
@@ -585,42 +403,18 @@ public static class World_Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("ERROR REMOVING PERSISTENT TRACKERS FROM STORED OBJECTS: \n" + e);
+            Plugin.Logger.LogError("Error removing player pearls from the world state: \n" + e + "\n" + e.StackTrace);
         }
+
+        RemoveInventorySaveObjects(self);
 
         orig(self, playerShelter, activeGate);
+
+        RemoveInventorySaveObjects(self);
     }
 
 
-    // Hide door sprites for the train shelter
-    private static void DoorGraphic_DrawSprites(On.ShelterDoor.DoorGraphic.orig_DrawSprites orig, ShelterDoor.DoorGraphic self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        if (self.myShelter.room.roomSettings.name == "T1_S01")
-        {
-            foreach (var sprite in sLeaser.sprites)
-            {
-                sprite.isVisible = false;
-            }
-        }
-    }
-
-    private static void ShelterDoor_DrawSprites(On.ShelterDoor.orig_DrawSprites orig, ShelterDoor self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-    {
-        orig(self, sLeaser, rCam, timeStacker, camPos);
-
-        if (self.room.roomSettings.name == "T1_S01")
-        {
-            foreach (var sprite in sLeaser.sprites)
-            {
-                sprite.isVisible = false;
-            }
-        }
-    }
-
-
-    // Prevent PlayerPearls being saved in the shelter
+    // Prevent player pearls from being displayed on the map when in a shelter
     private static HUD.Map.ShelterMarker.ItemInShelterMarker.ItemInShelterData? Map_GetItemInShelterFromWorld(On.HUD.Map.orig_GetItemInShelterFromWorld orig, World world, int room, int index)
     {
         var result = orig(world, room, index);
@@ -629,24 +423,13 @@ public static class World_Hooks
 
         if (index < abstractRoom.entities.Count && abstractRoom.entities[index] is AbstractPhysicalObject abstractObject)
         {
-            if (abstractObject.realizedObject != null && abstractObject.IsPlayerPearl())
+            if (abstractObject.IsPlayerPearl())
             {
                 return null;
             }
         }
 
         return result;
-    }
-
-    // Reset this here instead, better for compat
-    private static void AboveCloudsView_ctor(On.AboveCloudsView.orig_ctor orig, AboveCloudsView self, Room room, RoomSettings.RoomEffect effect)
-    {
-        if (Shader.GetGlobalFloat(TrainView.WindDir) == TrainView.TRAIN_WIND_DIR)
-        {
-            Shader.SetGlobalFloat(TrainView.WindDir, ModManager.MSC ? -1.0f : 1.0f);
-        }
-
-        orig(self, room, effect);
     }
 
 

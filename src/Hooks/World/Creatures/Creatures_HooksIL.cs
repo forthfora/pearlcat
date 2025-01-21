@@ -77,7 +77,7 @@ public static class Creatures_HooksIL
 
             var playerData = self.abstractCreature?.world?.game?.GetAllPearlcatModules();
 
-            if (playerData == null)
+            if (playerData is null)
             {
                 return false;
             }
@@ -87,9 +87,9 @@ public static class Creatures_HooksIL
             {
                 foreach (var item in module.Inventory)
                 {
-                    if (item.TryGetPlayerPearlModule(out var poModule))
+                    if (item.TryGetPlayerPearlModule(out var pearlModule))
                     {
-                        if (poModule.VisitedObjects.TryGetValue(weapon, out _))
+                        if (pearlModule.VisitedObjects.TryGetValue(weapon, out _))
                         {
                             return true;
                         }
@@ -133,7 +133,7 @@ public static class Creatures_HooksIL
         {
             var playerData = self.abstractCreature?.world?.game?.GetAllPearlcatModules();
 
-            if (playerData == null)
+            if (playerData is null)
             {
                 return false;
             }
@@ -143,9 +143,9 @@ public static class Creatures_HooksIL
             {
                 foreach (var item in module.Inventory)
                 {
-                    if (item.TryGetPlayerPearlModule(out var poModule))
+                    if (item.TryGetPlayerPearlModule(out var pearlModule))
                     {
-                        if (poModule.VisitedObjects.TryGetValue(weapon, out _))
+                        if (pearlModule.VisitedObjects.TryGetValue(weapon, out _))
                         {
                             return true;
                         }
@@ -231,7 +231,7 @@ public static class Creatures_HooksIL
                 }
 
 
-                if (player.graphicsModule != null)
+                if (player.graphicsModule is not null)
                 {
                     self.graphicsModule.ReleaseSpecificInternallyContainedObjectSprites(player);
                 }
@@ -245,7 +245,7 @@ public static class Creatures_HooksIL
 
                     var graphics = item.realizedObject?.graphicsModule;
 
-                    if (graphics == null)
+                    if (graphics is null)
                     {
                         continue;
                     }

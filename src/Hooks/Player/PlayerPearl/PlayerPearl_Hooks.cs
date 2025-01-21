@@ -24,9 +24,14 @@ public static class PlayerPearl_Hooks
 
     
     // Management
-    public static void MarkAsPlayerObject(this AbstractPhysicalObject abstractObject)
+    public static void MarkAsPlayerPearl(this AbstractPhysicalObject abstractObject)
     {
         var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule());
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.AddMeadowPlayerPearlData(abstractObject);
+        }
 
         if (module.IsCurrentlyStored)
         {
@@ -35,7 +40,7 @@ public static class PlayerPearl_Hooks
 
         var physicalObject = abstractObject.realizedObject;
         
-        if (abstractObject.realizedObject == null)
+        if (abstractObject.realizedObject is null)
         {
             return;
         }
@@ -58,7 +63,7 @@ public static class PlayerPearl_Hooks
         }
     }
 
-    public static void ClearAsPlayerObject(this AbstractPhysicalObject abstractObject)
+    public static void ClearAsPlayerPearl(this AbstractPhysicalObject abstractObject)
     {
         if (!abstractObject.TryGetPlayerPearlModule(out var module))
         {
@@ -71,7 +76,7 @@ public static class PlayerPearl_Hooks
         }
 
         var physicalObject = abstractObject.realizedObject;
-        if (physicalObject == null)
+        if (physicalObject is null)
         {
             return;
         }
@@ -135,14 +140,14 @@ public static class PlayerPearl_Hooks
             var playerModule = self.room.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
             var effect = self.abstractPhysicalObject.GetPearlEffect();
             
-            if (effect.MajorEffect != PearlEffect.MajorEffectType.SHIELD || (playerModule != null && module.CooldownTimer != 0 && playerModule.PlayerRef.TryGetTarget(out var player) && player.airInLungs == 1.0f))
+            if (effect.MajorEffect != PearlEffect.MajorEffectType.Shield || (playerModule is not null && module.CooldownTimer != 0 && playerModule.PlayerRef is not null && playerModule.PlayerRef.airInLungs == 1.0f))
             {
                 module.CooldownTimer--;
             }
 
-            if (module.CooldownTimer == 0 && effect.MajorEffect == PearlEffect.MajorEffectType.SHIELD)
+            if (module.CooldownTimer == 0 && effect.MajorEffect == PearlEffect.MajorEffectType.Shield)
             {
-                if (ModOptions.InventoryPings.Value)
+                if (ModOptions.InventoryPings)
                 {
                     playerModule?.ShowHUD(80);
                 }
@@ -185,16 +190,19 @@ public static class PlayerPearl_Hooks
     {
         orig(self, eu);
 
-        if (!self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) || !module.IsCurrentlyStored)
+        if (self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) && module.IsCurrentlyStored)
         {
-            return;
+            self.CollideWithObjects = false;
+            self.CollideWithSlopes = false;
+            self.CollideWithTerrain = false;
+
+            self.glimmerWait = 40;
         }
 
-        self.CollideWithObjects = false;
-        self.CollideWithSlopes = false;
-        self.CollideWithTerrain = false;
-
-        self.glimmerWait = 40;
+        if (self.abstractPhysicalObject.TryGetPearlGraphicsModule(out var graphics))
+        {
+            graphics.CheckIfShouldDestroy();
+        }
     }
 
     private static void DataPearl_DrawSprites(On.DataPearl.orig_DrawSprites orig, DataPearl self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -259,7 +267,7 @@ public static class PlayerPearl_Hooks
         var result = orig(self, obj, weaponFiltered);
 
         // weird nullref here
-        if (obj?.abstractPhysicalObject != null && obj.abstractPhysicalObject.IsPlayerPearl())
+        if (obj?.abstractPhysicalObject is not null && obj.abstractPhysicalObject.IsPlayerPearl())
         {
             return 0;
         }

@@ -14,9 +14,9 @@ public static class Player_Helpers
 
 
     // Player Check
-    public static bool IsPearlcat(this Player player)
+    public static bool IsPearlcat(this Player? player)
     {
-        return player.SlugCatClass == Enums.Pearlcat;
+        return player?.SlugCatClass == Enums.Pearlcat;
     }
 
     public static bool IsFirstPearlcat(this Player player)
@@ -32,7 +32,7 @@ public static class Player_Helpers
         {
             var grasp = self.grasps[i];
 
-            if (grasp == null)
+            if (grasp is null)
             {
                 continue;
             }
@@ -74,7 +74,7 @@ public static class Player_Helpers
 
             var rep = AI.tracker.RepresentationForCreature(self.abstractCreature, false);
 
-            if (rep?.dynamicRelationship == null)
+            if (rep?.dynamicRelationship is null)
             {
                 return false;
             }
@@ -92,7 +92,7 @@ public static class Player_Helpers
         }
 
         // Player vs Player
-        if (self is Player && creature is Player player2 && !player2.isSlugpup)
+        if (self is Player && creature is Player otherPlayer && !otherPlayer.isSlugpup)
         {
             var game = self.abstractCreature.world.game;
 
@@ -100,12 +100,25 @@ public static class Player_Helpers
             {
                 return true;
             }
+
+            if (ModCompat_Helpers.RainMeadow_IsOnline)
+            {
+                if (ModCompat_Helpers.RainMeadow_FriendlyFire)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire)
+                {
+                    return true;
+                }
+            }
         }
 
-        var myRelationship =
-            self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
-        var creatureRelationship =
-            creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
+        var myRelationship = self.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
+        var creatureRelationship = creature.abstractCreature.creatureTemplate.CreatureRelationship(self.abstractCreature.creatureTemplate);
 
         return myRelationship.GoForKill || creatureRelationship.GoForKill;
     }
@@ -134,7 +147,7 @@ public static class Player_Helpers
             return;
         }
 
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -159,6 +172,16 @@ public static class Player_Helpers
 
     public static void RevivePlayer(this Player self)
     {
+        RevivePlayer_Local(self);
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.RPC_RevivePlayer(self);
+        }
+    }
+
+    public static void RevivePlayer_Local(Player self)
+    {
         self.Revive();
 
         self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
@@ -177,7 +200,7 @@ public static class Player_Helpers
             return;
         }
 
-        playerModule.PickObjectAnimation(self);
+        playerModule.PickPearlAnimation(self);
     }
 
     public static void Revive(this Creature self)
@@ -206,7 +229,7 @@ public static class Player_Helpers
     // Possession (Adult Pearlpup)
     public static void TryToRemoveHeart(Player self, PlayerModule playerModule)
     {
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -309,9 +332,36 @@ public static class Player_Helpers
     // Update
     public static void UpdatePearlcat(Player self, PlayerModule playerModule)
     {
+        playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
+
+        if (self.room is not null)
+        {
+            self.GivePearls(playerModule);
+        }
+
+        // If a pearl is in the wrong room abstract to reset it to the player's room
+        foreach (var pearl in playerModule.Inventory)
+        {
+            if (pearl.Room != self.abstractCreature.Room)
+            {
+                PlayerPearl_Helpers.AbstractPlayerPearl(pearl);
+            }
+        }
+
+        // Inventory
+        if (self.room is null || self.inVoidSea)
+        {
+            self.TryAbstractInventory();
+        }
+        else
+        {
+            self.TryRealizeInventory(playerModule);
+        }
+
+
         // Input
         var unblockedInput = playerModule.UnblockedInput;
-        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && self.controller == null;
+        var allowInput = self.Consious && !self.inVoidSea && !self.Sleeping && (self.controller is null || !ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject)); // meadow remote control
 
         var swapLeftInput = self.IsSwapLeftInput() && allowInput;
         var swapRightInput = self.IsSwapRightInput() && allowInput;
@@ -322,15 +372,16 @@ public static class Player_Helpers
         var agilityInput = self.IsAgilityKeybindPressed(playerModule) && allowInput;
         var sentryInput = self.IsSentryKeybindPressed(playerModule) && allowInput;
 
+
         playerModule.BlockInput = false;
 
         if (swapLeftInput && !playerModule.WasSwapLeftInput)
         {
-            self.SelectPreviousObject();
+            self.SelectPreviousPearl();
         }
         else if (swapRightInput && !playerModule.WasSwapRightInput)
         {
-            self.SelectNextObject();
+            self.SelectNextPearl();
         }
         else if (swapInput)
         {
@@ -341,12 +392,12 @@ public static class Player_Helpers
             {
                 if (unblockedInput.x < -0.5f)
                 {
-                    self.SelectPreviousObject();
+                    self.SelectPreviousPearl();
                     playerModule.WasSwapped = true;
                 }
                 else if (unblockedInput.x > 0.5f)
                 {
-                    self.SelectNextObject();
+                    self.SelectNextPearl();
                     playerModule.WasSwapped = true;
                 }
             }
@@ -356,29 +407,6 @@ public static class Player_Helpers
             }
         }
 
-
-        // Misc
-        playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
-
-        self.TryRealizeInventory(playerModule);
-
-        // Warp Fix
-        if (self.room != null && playerModule.JustWarped)
-        {
-            playerModule.LoadSaveData(self);
-            playerModule.JustWarped = false;
-        }
-
-        if (self.room != null)
-        {
-            self.GivePearls(playerModule);
-        }
-
-        // Do not show pearls in the void sea, or if a pearl is in the wrong room abstract to reset it to the player's room
-        if (self.inVoidSea || playerModule.Inventory.Any(x => x.Room != self.abstractCreature.Room))
-        {
-            self.AbstractizeInventory();
-        }
 
         // Main Methods
         UpdatePlayerDaze(self, playerModule);
@@ -439,7 +467,7 @@ public static class Player_Helpers
 
             var slugOnBack = self.slugOnBack?.slugcat;
 
-            if (slugOnBack != null)
+            if (slugOnBack is not null)
             {
                 slugOnBack.SuperHardSetPosition(playerModule.LastGroundedPos);
                 slugOnBack.graphicsModule?.Reset();
@@ -456,8 +484,10 @@ public static class Player_Helpers
         }
 
         // Revive pearlpup if they fall into a death pit (consumes a revive)
-        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup) && pup.room != null && pup.InDeathPit() && playerModule.ReviveCount > 0)
+        if (playerModule.PearlpupRef?.room is not null && playerModule.PearlpupRef.InDeathPit() && playerModule.ReviveCount > 0)
         {
+            var pup = playerModule.PearlpupRef;
+
             pup.SuperHardSetPosition(self.firstChunk.pos);
 
             pup.Die();
@@ -483,7 +513,7 @@ public static class Player_Helpers
         var toStore = self.grasps[0]?.grabbed;
         var isStoring = self.grasps[0]?.grabbed.abstractPhysicalObject.IsObjectStorable() ?? false;
 
-        if (isStoring && toStore == null)
+        if (isStoring && toStore is null)
         {
             return;
         }
@@ -493,35 +523,35 @@ public static class Player_Helpers
             return;
         }
 
-        if (!isStoring && playerModule.ActiveObject == null)
+        if (!isStoring && playerModule.ActivePearl is null)
         {
             return;
         }
 
 
         // Longer delay removing heart
-        if (playerModule.ActiveObject.IsHeartPearl() && !isStoring)
+        if (playerModule.ActivePearl.IsHeartPearl() && !isStoring)
         {
-            storeObjectDelay = playerModule.PossessionTarget == null ? REMOVE_HEART_DELAY : POSSESSION_DELAY;
+            storeObjectDelay = playerModule.PossessionTarget is null ? REMOVE_HEART_DELAY : POSSESSION_DELAY;
         }
 
 
         if (playerModule.StoreObjectTimer > storeObjectDelay)
         {
-            if (isStoring && toStore != null)
+            if (isStoring && toStore is not null)
             {
-                self.StoreObject(toStore.abstractPhysicalObject, true);
+                self.StorePearl(toStore.abstractPhysicalObject, true);
             }
-            else if (playerModule.ActiveObject != null)
+            else if (playerModule.ActivePearl is not null)
             {
-                if (playerModule.ActiveObject.IsHeartPearl())
+                if (playerModule.ActivePearl.IsHeartPearl())
                 {
                     TryToRemoveHeart(self, playerModule);
                 }
                 else
                 {
-                    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActiveObject.realizedObject.firstChunk);
-                    self.RetrieveActiveObject();
+                    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActivePearl.realizedObject.firstChunk);
+                    self.RetrieveActivePearl();
                 }
             }
 
@@ -533,7 +563,7 @@ public static class Player_Helpers
         {
             if (playerModule.StoreObjectTimer >= 0)
             {
-                if (isStoring || (playerModule.ActiveObject != null && playerModule.ActiveObject.TryGetPlayerPearlModule(out var module) && !module.IsReturningSentry))
+                if (isStoring || (playerModule.ActivePearl is not null && playerModule.ActivePearl.TryGetPlayerPearlModule(out var module) && !module.IsReturningSentry))
                 {
                     playerModule.StoreObjectTimer++;
 
@@ -547,16 +577,16 @@ public static class Player_Helpers
                         }
                         else
                         {
-                            var activeObj = playerModule.ActiveObject?.realizedObject;
+                            var activeObj = playerModule.ActivePearl?.realizedObject;
 
-                            if (playerModule.ActiveObject?.TryGetPlayerPearlModule(out module) == true)
+                            if (playerModule.ActivePearl?.TryGetPlayerPearlModule(out module) == true)
                             {
                                 if (!module.IsReturningSentry)
                                 {
                                     activeObj.ConnectEffect(self.firstChunk.pos);
                                 }
 
-                                module.RemoveSentry(playerModule.ActiveObject);
+                                module.ReturnSentry(playerModule.ActivePearl);
                             }
                             else
                             {
@@ -569,11 +599,11 @@ public static class Player_Helpers
                     var heartRemovalStart = 40;
 
                     // trying to remove heart
-                    if (playerModule.ActiveObject is DataPearl.AbstractDataPearl abstractHeart && abstractHeart.IsHeartPearl() && !isStoring)
+                    if (playerModule.ActivePearl is DataPearl.AbstractDataPearl abstractHeart && abstractHeart.IsHeartPearl() && !isStoring)
                     {
 
                         // Removing the heart without any possessable creatures nearby
-                        if (playerModule.PossessionTarget == null && playerModule.StoreObjectTimer > heartRemovalStart)
+                        if (playerModule.PossessionTarget is null && playerModule.StoreObjectTimer > heartRemovalStart)
                         {
                             var heart = (DataPearl)abstractHeart.realizedObject;
                             var bigSparkFreq = (int)Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 35, 1);
@@ -619,6 +649,11 @@ public static class Player_Helpers
 
     public static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        {
+            return;
+        }
+
         if (self.dead || playerModule.PostDeathInventory.Count == 0)
         {
             return;
@@ -629,7 +664,7 @@ public static class Player_Helpers
             var item = playerModule.PostDeathInventory[i];
             playerModule.PostDeathInventory.RemoveAt(i);
 
-            if (item.realizedObject == null)
+            if (item.realizedObject is null)
             {
                 continue;
             }
@@ -649,40 +684,45 @@ public static class Player_Helpers
                 return;
             }
 
-            if (ModuleManager.PlayerPearlGraphicsData.TryGetValue(item, out var _))
+            if (ModuleManager.PlayerPearlGraphicsData.TryGetValue(item, out _))
             {
                 ModuleManager.PlayerPearlGraphicsData.Remove(item);
             }
 
-            self.StoreObject(item);
+            self.StorePearl(item);
         }
 
-        if (playerModule.PostDeathActiveObjectIndex != null)
+        if (playerModule.PostDeathActivePearlIndex is not null)
         {
-            self.ActivateObjectInStorage((int)playerModule.PostDeathActiveObjectIndex);
+            self.SetActivePearl((int)playerModule.PostDeathActivePearlIndex);
         }
 
-        playerModule.PostDeathActiveObjectIndex = null;
+        playerModule.PostDeathActivePearlIndex = null;
     }
 
     public static void UpdatePlayerPearlAnimation(Player self, PlayerModule playerModule)
     {
+        if (self.graphicsModule is null)
+        {
+            return;
+        }
+
         if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
         {
-            playerModule.CurrentObjectAnimation = new PearlAnimation_FreeFall(self);
+            playerModule.CurrentPearlAnimation = new PearlAnimation_FreeFall(self);
         }
         else if (self.Sleeping || self.sleepCurlUp > 0.0f)
         {
-            playerModule.CurrentObjectAnimation = new PearlAnimation_Sleeping(self);
+            playerModule.CurrentPearlAnimation = new PearlAnimation_Sleeping(self);
         }
-        else if (playerModule.CurrentObjectAnimation is PearlAnimation_Sleeping or PearlAnimation_FreeFall)
+        else if (playerModule.CurrentPearlAnimation is PearlAnimation_Sleeping or PearlAnimation_FreeFall)
         {
             for (var i = 0; i < playerModule.Inventory.Count; i++)
             {
                 var abstractObject = playerModule.Inventory[i];
 
                 // just handle this before it gets out of hand
-                if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects)
+                if (i >= PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
                 {
                     break;
                 }
@@ -692,9 +732,9 @@ public static class Player_Helpers
                     continue;
                 }
 
-                if (ModOptions.HidePearls.Value)
+                if (ModOptions.HidePearls)
                 {
-                    if (playerModule.ActiveObject != abstractObject && !abstractObject.IsHeartPearl())
+                    if (playerModule.ActivePearl != abstractObject && !abstractObject.IsHeartPearl())
                     {
                         continue;
                     }
@@ -703,23 +743,23 @@ public static class Player_Helpers
                 abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
             }
 
-            playerModule.PickObjectAnimation(self);
+            playerModule.PickPearlAnimation(self);
         }
         else
         {
-            if (playerModule.CurrentObjectAnimation is PearlAnimation_SineWaveWeave or PearlAnimation_SineWave && self.firstChunk.vel.magnitude > 4.0f)
+            if (playerModule.CurrentPearlAnimation is PearlAnimation_SineWaveWeave or PearlAnimation_SineWave && self.firstChunk.vel.magnitude > 4.0f)
             {
-                playerModule.PickObjectAnimation(self);
+                playerModule.PickPearlAnimation(self);
             }
         }
 
-        if (playerModule.ObjectAnimationTimer > playerModule.ObjectAnimationDuration)
+        if (playerModule.PearlAnimationTimer > playerModule.PearlAnimationDuration)
         {
-            playerModule.PickObjectAnimation(self);
+            playerModule.PickPearlAnimation(self);
         }
 
-        playerModule.CurrentObjectAnimation?.Update(self);
-        playerModule.ObjectAnimationTimer++;
+        playerModule.CurrentPearlAnimation?.Update(self);
+        playerModule.PearlAnimationTimer++;
     }
 
     public static void UpdateSFX(Player self, PlayerModule playerModule)
@@ -732,15 +772,21 @@ public static class Player_Helpers
         // Outsider breaks looping SFX sometimes, this is safety
         try
         {
-            playerModule.MenuCrackleLoop.Update();
-            playerModule.MenuCrackleLoop.Volume = playerModule.HudFade;
+            if (playerModule.MenuCrackleLoop is not null)
+            {
+                playerModule.MenuCrackleLoop.Update();
+                playerModule.MenuCrackleLoop.Volume = playerModule.HudFade;
+            }
 
-            playerModule.ShieldHoldLoop.Update();
-            playerModule.ShieldHoldLoop.Volume = playerModule.ShieldTimer > 0 ? 1.0f : 0.0f;
+            if (playerModule.ShieldHoldLoop is not null)
+            {
+                playerModule.ShieldHoldLoop.Update();
+                playerModule.ShieldHoldLoop.Volume = playerModule.ShieldTimer > 0 ? 1.0f : 0.0f;
+            }
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("Handled exception updating player SFX:\n" + e);
+            Plugin.Logger.LogError("Handled exception updating player SFX:\n" + e + "\n" + e.StackTrace);
         }
     }
 
@@ -775,7 +821,7 @@ public static class Player_Helpers
 
     public static void UpdateRevive(Player self, PlayerModule playerModule)
     {
-        var shouldTryRevive = self.dead || (self.dangerGraspTime >= 60 && self.AI == null);
+        var shouldTryRevive = self.dead || (self.dangerGraspTime >= 60 && self.AI is null);
 
         if (!shouldTryRevive)
         {
@@ -800,13 +846,13 @@ public static class Player_Helpers
             playerModule.PostDeathInventory.Any(x => x is DataPearl.AbstractDataPearl dataPearl && dataPearl.IsHeartPearl());
 
         // Give heart if it is missing
-        if (self.room != null && !self.dead && !hasHeart)
+        if (self.room is not null && !self.dead && !hasHeart)
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world,
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
                 self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
 
-            self.StoreObject(pearl, overrideLimit: true);
+            self.StorePearl(pearl, overrideLimit: true);
         }
 
         if (playerModule.IsPossessingCreature)
@@ -919,7 +965,7 @@ public static class Player_Helpers
             return;
         }
 
-        if (!playerModule.ActiveObject.IsHeartPearl())
+        if (!playerModule.ActivePearl.IsHeartPearl())
         {
             playerModule.PossessionTarget = null;
             return;
@@ -929,7 +975,7 @@ public static class Player_Helpers
         const float possessionLostDist = 400.0f;
 
         // search for target
-        if (playerModule.PossessionTarget == null || !playerModule.PossessionTarget.TryGetTarget(out var target))
+        if (playerModule.PossessionTarget is null || !playerModule.PossessionTarget.TryGetTarget(out var target))
         {
             Creature? bestTarget = null;
             var shortestDist = float.MaxValue;
@@ -987,7 +1033,7 @@ public static class Player_Helpers
                 }
             }
 
-            if (bestTarget != null)
+            if (bestTarget is not null)
             {
                 playerModule.PossessionTarget = new(bestTarget);
             }
@@ -1045,7 +1091,7 @@ public static class Player_Helpers
         miscProg.HasPearlpup = false;
         miscProg.HasDeadPearlpup = false;
 
-        if (save != null)
+        if (save is not null)
         {
             save.HasPearlpupWithPlayer = false;
             save.HasPearlpupWithPlayerDeadOrAlive = false;
@@ -1053,8 +1099,10 @@ public static class Player_Helpers
 
 
         // Can get a reference to pearlpup (i.e. they're in the world somewhere)
-        if (playerModule.PearlpupRef != null && playerModule.PearlpupRef.TryGetTarget(out var pup))
+        if (playerModule.PearlpupRef is not null)
         {
+            var pup = playerModule.PearlpupRef;
+
             var sameRoom = pup.abstractCreature.Room == self.abstractCreature.Room;
 
             miscProg.HasPearlpup = !pup.dead && sameRoom;
@@ -1071,7 +1119,7 @@ public static class Player_Helpers
         }
 
 
-        if (self.room == null)
+        if (self.room is null)
         {
             return;
         }
@@ -1087,12 +1135,12 @@ public static class Player_Helpers
 
                 if (player.IsPearlpup())
                 {
-                    playerModule.PearlpupRef = new(player);
+                    playerModule.AbstractPearlpupRef = new(player.abstractCreature);
                     return;
                 }
             }
         }
 
-        playerModule.PearlpupRef = null;
+        playerModule.AbstractPearlpupRef = null;
     }
 }

@@ -52,7 +52,12 @@ public static class Menu_HooksIL
     {
         var result = orig(self);
 
-        return self.slugcatNumber == Enums.Pearlcat || result;
+        if (self.slugcatNumber == Enums.Pearlcat)
+        {
+            return self.slugcatImage?.sceneID == Enums.Scenes.Slugcat_Pearlcat;
+        }
+
+        return result;
     }
 
 
@@ -61,7 +66,12 @@ public static class Menu_HooksIL
     {
         var result = orig(self);
 
-        return self.slugcatNumber == Enums.Pearlcat || result;
+        if (self.slugcatNumber == Enums.Pearlcat)
+        {
+            return self.slugcatImage?.sceneID == Enums.Scenes.Slugcat_Pearlcat;
+        }
+
+        return result;
     }
 
 

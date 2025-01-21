@@ -14,8 +14,7 @@ public static class Utils
     public static InGameTranslator Translator => RainWorld.inGameTranslator;
     public static SaveMiscProgression MiscProgression => RainWorld.GetMiscProgression();
 
-
-    // Graphics Utils
+    // Prevents pure black (which is transparent)
     public static Color RWColorSafety(this Color color)
     {
         var hsl = Custom.RGB2HSL(color);
@@ -33,12 +32,20 @@ public static class Utils
         }
     }
 
-
-    // Debug Utils
     public static void LogHookException(this Exception e, [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "")
     {
         Plugin.Logger.LogError($"Caught exception applying a hook! May not be fatal, but likely to cause issues." +
                                $"\nRelated to ({Path.GetFileNameWithoutExtension(filePath)}.{memberName}). Details:" +
                                $"\n{e}\n{e.StackTrace}");
+    }
+
+    public static string TrimEnd(this string source, string value)
+    {
+        if (!source.EndsWith(value))
+        {
+            return source;
+        }
+
+        return source.Remove(source.LastIndexOf(value, StringComparison.Ordinal));
     }
 }

@@ -24,37 +24,38 @@ public static class ModuleManager
             playerModule = new PlayerModule(self);
             PearlcatData.Add(self.abstractCreature, playerModule);
 
-            playerModule.LoadSaveData(self);
+            playerModule.LoadInventorySaveData(self);
         }
 
         return true;
     }
     public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game)
     {
-        List<PlayerModule> allPlayerData = [];
+        List<PlayerModule> allPlayerModules = [];
         var players = game.Players;
 
-        if (players == null)
+        // TODO: kill it with fire
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            return allPlayerData;
+            players = MeadowCompat.GetAllPlayers();
         }
 
-        foreach (var creature in players)
+        if (players is null)
         {
-            if (creature.realizedCreature is not Player player)
+            return allPlayerModules;
+        }
+
+        foreach (var abstractCreature in players)
+        {
+            if (!PearlcatData.TryGetValue(abstractCreature, out var playerModule))
             {
                 continue;
             }
 
-            if (!PearlcatData.TryGetValue(player.abstractCreature, out var playerModule))
-            {
-                continue;
-            }
-
-            allPlayerData.Add(playerModule);
+            allPlayerModules.Add(playerModule);
         }
 
-        return allPlayerData;
+        return allPlayerModules;
     }
     
 
@@ -70,7 +71,7 @@ public static class ModuleManager
 
         if (!PearlpupData.TryGetValue(self.abstractCreature, out module))
         {
-            module = new PearlpupModule(self);
+            module = new PearlpupModule();
             PearlpupData.Add(self.abstractCreature, module);
         }
 
@@ -90,12 +91,12 @@ public static class ModuleManager
 
         var save = abstractCreature.world.game.GetMiscWorld();
 
-        if (save == null)
+        if (save is null)
         {
             return;
         }
 
-        if (save.PearlpupID != null)
+        if (save.PearlpupID is not null)
         {
             return;
         }
@@ -103,8 +104,8 @@ public static class ModuleManager
         save.PearlpupID = abstractCreature.ID.number;
     }
 
-    public static ConditionalWeakTable<DataPearl.AbstractDataPearl, PearlpupPearlModule> PearlpupPearlData { get; } = new();
-    public static bool TryGetPearlpupPearlModule(this DataPearl.AbstractDataPearl dataPearl, out PearlpupPearlModule module)
+    public static ConditionalWeakTable<DataPearl.AbstractDataPearl, HeartPearlModule> HeartPearlData { get; } = new();
+    public static bool TryGetHeartPearlModule(this DataPearl.AbstractDataPearl dataPearl, out HeartPearlModule module)
     {
         if (!dataPearl.IsHeartPearl())
         {
@@ -112,10 +113,10 @@ public static class ModuleManager
             return false;
         }
 
-        if (!PearlpupPearlData.TryGetValue(dataPearl, out module))
+        if (!HeartPearlData.TryGetValue(dataPearl, out module))
         {
             module = new(dataPearl);
-            PearlpupPearlData.Add(dataPearl, module);
+            HeartPearlData.Add(dataPearl, module);
         }
 
         return true;

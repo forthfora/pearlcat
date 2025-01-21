@@ -1,7 +1,9 @@
-﻿using MoreSlugcats;
+﻿using System;
+using MoreSlugcats;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using System.Text.RegularExpressions;
+using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -25,7 +27,7 @@ public static class World_Helpers
     {
         var roomName = gate.room?.roomSettings?.name;
 
-        if (gate.room == null || roomName == null)
+        if (gate.room is null || roomName is null)
         {
             return false;
         }
@@ -92,10 +94,17 @@ public static class World_Helpers
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (var i = 0; i < room.shortcuts.Length; i++)
-            if (shortcutGraphics.entranceSprites.Length > i && shortcutGraphics.entranceSprites[i, 0] != null)
+        {
+            if (shortcutGraphics.entranceSprites.Length <= i)
+            {
+                continue;
+            }
+
+            if (shortcutGraphics.entranceSprites[i, 0] is not null)
             {
                 shortcutGraphics.entranceSprites[i, 0].isVisible = false;
             }
+        }
     }
     public static void ShowShortcuts(this Room room)
     {
@@ -109,10 +118,17 @@ public static class World_Helpers
         var shortcutGraphics = rCam.shortcutGraphics;
 
         for (var i = 0; i < room.shortcuts.Length; i++)
-            if (shortcutGraphics.entranceSprites[i, 0] != null)
+        {
+            if (shortcutGraphics.entranceSprites.Length <= i)
+            {
+                continue;
+            }
+
+            if (shortcutGraphics.entranceSprites[i, 0] is not null)
             {
                 shortcutGraphics.entranceSprites[i, 0].isVisible = true;
             }
+        }
     }
 
 
@@ -156,7 +172,8 @@ public static class World_Helpers
         {
             var randomDream = Random.Range(0.0f, 1.0f) < 0.1f;
 
-            if (randomDream)
+            // Also don't dream on the train
+            if (randomDream && save.denPosition != "T1_S01")
             {
                 dreamPool.Add(Dreams.Dream_Pearlcat_Sick);
                 dreamPool.Add(Dreams.Dream_Pearlcat_Pearlpup);
@@ -194,7 +211,7 @@ public static class World_Helpers
             }
 
             // for reaching a full inventory of pearls (default size)
-            if (!ModOptions.InventoryOverride.Value && miscProg.StoredNonActivePearls.Count >= 8 && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Scholar))
+            if (!ModOptions.InventoryOverride && miscProg.StoredNonActivePearls.Count >= 8 && !storyGame.HasDreamt(Dreams.Dream_Pearlcat_Scholar))
             {
                 dreamPool.Add(Dreams.Dream_Pearlcat_Scholar);
             }
@@ -207,7 +224,7 @@ public static class World_Helpers
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return;
         }
@@ -227,7 +244,7 @@ public static class World_Helpers
     {
         var miscWorld = storyGame.saveState.miscWorldSaveData.GetMiscWorld();
 
-        if (miscWorld == null)
+        if (miscWorld is null)
         {
             return false;
         }
@@ -250,7 +267,7 @@ public static class World_Helpers
 
     public static int GetFirstPearlcatIndex(this RainWorldGame? game)
     {
-        if (game == null)
+        if (game is null)
         {
             return -1;
         }
@@ -258,6 +275,7 @@ public static class World_Helpers
         for (var i = 0; i < game.Players.Count; i++)
         {
             var abstractCreature = game.Players[i];
+
             if (abstractCreature.realizedCreature is not Player player)
             {
                 continue;
@@ -277,5 +295,39 @@ public static class World_Helpers
         hideHud ??= ModManager.MMF;
 
         game.cameras.First().hud.textPrompt.AddMessage(Utils.Translator.Translate(text), wait, time, darken, (bool)hideHud);
+    }
+
+    public static void RemoveInventorySaveObjects(RegionState self)
+    {
+        try
+        {
+            var miscWorld = self.world.game.GetMiscWorld();
+
+            if (miscWorld is null)
+            {
+                return;
+            }
+
+            foreach (var inventory in miscWorld.Inventory.Values)
+            {
+                foreach (var pearl in inventory)
+                {
+                    var pearlId = EntityID.FromString(Regex.Split(pearl, "<oA>")[0]);
+
+                    self.savedObjects.RemoveAll(x => SaveStringToId(x) == pearlId);
+                }
+            }
+
+            return;
+
+            EntityID SaveStringToId(string x)
+            {
+                return EntityID.FromString(Regex.Split(x, "<oA>")[0]);
+            }
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError($"Error removing inventory save objects: {e}\n{e.StackTrace}");
+        }
     }
 }

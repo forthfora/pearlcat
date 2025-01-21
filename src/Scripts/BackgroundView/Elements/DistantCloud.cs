@@ -5,7 +5,7 @@ namespace Pearlcat;
 
 public class DistantCloud : Cloud
 {
-    public float DistantCloudDepth { get; private set; }
+    public float DistantCloudDepth { get; }
 
     public DistantCloud(CustomBgScene scene, Vector2 pos, float depth, int index) : base(scene, pos, scene.DepthFromDistantCloud(depth), index)
     {
@@ -26,7 +26,7 @@ public class DistantCloud : Cloud
 
         };
 
-        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3).ToString())
+        sLeaser.sprites[1] = new FSprite("pearlcat_clouds" + (Index % 3))
         {
             shader = Utils.Shaders["CloudDistant"],
             anchorY = 1f,

@@ -22,9 +22,9 @@ public class SaveMiscProgression
         public string DataPearlType { get; set; } = "";
         public int PebblesPearlType { get; set; }
 
-        public Color GetPearlColor()
+        public Color GetPearlColor(bool includeUnique = false)
         {
-            if (Menu_Helpers.GetUniquePearlIllustration(DataPearlType) is not null)
+            if (Menu_Helpers.GetUniquePearlIllustration(DataPearlType) is not null && !includeUnique)
             {
                 return Color.white;
             }

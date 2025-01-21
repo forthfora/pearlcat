@@ -47,7 +47,7 @@ public static class Pearlpup_Hooks
     {
         orig(self, abstractCreature, world);
 
-        if (!ModOptions.PearlpupRespawn.Value)
+        if (!ModOptions.PearlpupRespawn)
         {
             return;
         }
@@ -137,7 +137,7 @@ public static class Pearlpup_Hooks
     {
         var result = orig(self, obj);
 
-        var hitPlayerByPlayer = obj is Player && self is Spear && self.thrownBy != null && self.thrownBy is Player;
+        var hitPlayerByPlayer = obj is Player && self is Spear && self.thrownBy is not null && self.thrownBy is Player;
 
         if (hitPlayerByPlayer && obj is Player player && player.IsPearlpup())
         {

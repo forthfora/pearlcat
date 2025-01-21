@@ -25,16 +25,16 @@ public class JsonColorHandler : JsonConverter
 
             return loadedColor;
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Plugin.Logger.LogError($"Failed to parse color {objectType} : {ex.Message}");
+            Plugin.Logger.LogError($"Failed to parse color: {objectType}\n{e}\n{e.StackTrace}");
             return null;
         }
     }
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        if (value == null)
+        if (value is null)
         {
             return;
         }

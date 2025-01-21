@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
 
-public static partial class PlayerPearl_Helpers
+public static class PlayerPearl_Helpers
 {
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
-        if (ModOptions.InventoryOverride.Value && playerModule.JustWarped)
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
         {
-            playerModule.GivenPearls = false;
+            return;
         }
 
-        if (playerModule.GivenPearls)
+        // Only give pearls once per cycle
+        if (playerModule.GivenPearlsThisCycle)
         {
             return;
         }
@@ -21,9 +23,16 @@ public static partial class PlayerPearl_Helpers
 
         var miscWorld = self.room.game.GetMiscWorld();
 
-        var alreadyGivenPearls = miscWorld is not null && miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber);
+        var id = self.playerState.playerNumber;
 
-        if (alreadyGivenPearls && !ModOptions.InventoryOverride.Value)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            id = ModCompat_Helpers.GetOwnerId(self.abstractPhysicalObject);
+        }
+
+        var alreadyGivenPearls = miscWorld is not null && miscWorld.PlayersGivenPearls.Contains(id);
+
+        if (alreadyGivenPearls && !ModOptions.InventoryOverride)
         {
             return;
         }
@@ -32,7 +41,7 @@ public static partial class PlayerPearl_Helpers
         List<DataPearlType> pearlsToAdd;
         var overrideLimit = false;
 
-        if (ModOptions.InventoryOverride.Value || ModOptions.StartingInventoryOverride.Value)
+        if (ModOptions.InventoryOverride || ModOptions.StartingInventoryOverride)
         {
             // Halcyon pearl condition
             var giveHalcyonPearl = self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession;
@@ -64,14 +73,20 @@ public static partial class PlayerPearl_Helpers
         foreach (var pearlType in pearlsToAdd)
         {
             var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
-            self.StoreObject(pearl, overrideLimit: overrideLimit);
+
+            self.StorePearl(pearl, overrideLimit: overrideLimit);
         }
 
-        playerModule.GivenPearls = true;
+        playerModule.GivenPearlsThisCycle = true;
 
-        if (miscWorld != null && !miscWorld.PlayersGivenPearls.Contains(self.playerState.playerNumber))
+        if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
         {
-            miscWorld.PlayersGivenPearls.Add(self.playerState.playerNumber);
+            miscWorld.PlayersGivenPearls.Add(id);
+        }
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.RPC_UpdateGivenPearlsSaveData(self);
         }
     }
 
@@ -79,96 +94,138 @@ public static partial class PlayerPearl_Helpers
     // Realization & Abstraction
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
-        if (self.room == null)
-        {
-            return;
-        }
-
-        if (playerModule.JustWarped)
-        {
-            return;
-        }
-
-        if (self.inVoidSea)
-        {
-            return;
-        }
-
-
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
-            
-            if (abstractObject == null)
+
+            if (abstractObject is null)
             {
                 continue;
             }
 
-            if (abstractObject.realizedObject != null)
+            if (abstractObject.realizedObject is not null)
             {
-                abstractObject.MarkAsPlayerObject();
+                abstractObject.MarkAsPlayerPearl();
                 continue;
             }
-            
-            abstractObject.pos = self.abstractCreature.pos;   
-            self.room.abstractRoom.AddEntity(abstractObject);
-            
-            abstractObject.RealizeInRoom();
 
-            abstractObject.MarkAsPlayerObject();
+            var hasEffect = false;
 
-            if (i < MaxPearlsWithEffects)
+            if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
-                if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
+                if (!ModOptions.HidePearls || abstractObject == playerModule.ActivePearl)
                 {
-                    abstractObject.realizedObject?.RealizedEffect();
+                    hasEffect = true;
                 }
+            }
+
+            RealizePlayerPearl(self, abstractObject);
+
+            if (hasEffect)
+            {
+                abstractObject.realizedObject?.RealizedEffect();
             }
         }
     }
 
-    public static void AbstractizeInventory(this Player self, bool excludeSentries = false)
+    public static void RealizePlayerPearl(Player self, AbstractPhysicalObject abstractObject)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
+        {
+            return;
+        }
+
+        // For warp
+        abstractObject.world = self.abstractCreature.world;
+
+        // Meadow needs this, before realization
+        abstractObject.InDen = false;
+
+        // Standard realization
+        abstractObject.pos = self.abstractCreature.pos;
+        self.abstractCreature.Room.AddEntity(abstractObject);
+        abstractObject.RealizeInRoom();
+
+        // Pearlcat stuff
+        abstractObject.MarkAsPlayerPearl();
+    }
+
+    public static void TryAbstractInventory(this Player self)
+    {
+        self.slugOnBack?.slugcat?.TryAbstractInventory();
+
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
             return;
         }
 
+        // Also abstract sentries when changing rooms
+        var includingSentries = self.abstractCreature.Room != playerModule.LastRoom || self.inVoidSea;
 
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
-            
-            if (abstractObject.realizedObject == null)
+
+            if (abstractObject.realizedObject is null)
             {
                 continue;
             }
 
-            if (abstractObject.TryGetSentry(out _) && excludeSentries)
+            if (abstractObject.TryGetSentry(out _) && !includingSentries)
             {
                 continue;
             }
 
-            if (abstractObject.TryGetPlayerPearlModule(out var module))
-            {
-                module.RemoveSentry(abstractObject);
-            }
+            var hasEffect = false;
 
-            if (i < MaxPearlsWithEffects)
+            if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
-                if (!ModOptions.HidePearls.Value || abstractObject == playerModule.ActiveObject)
+                if (!ModOptions.HidePearls || abstractObject == playerModule.ActivePearl)
                 {
-                    AbstractedEffect(abstractObject.realizedObject);
+                    hasEffect = true;
                 }
             }
-            
-            abstractObject.Abstractize(abstractObject.pos);
+
+            if (hasEffect)
+            {
+                abstractObject.realizedObject.AbstractedEffect();
+            }
+
+            AbstractPlayerPearl(abstractObject);
         }
+    }
+
+    public static void AbstractPlayerPearl(AbstractPhysicalObject abstractObject)
+    {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
+        {
+            return;
+        }
+
+        if (abstractObject.TryGetPlayerPearlModule(out var module))
+        {
+            // Pearlcat stuff
+            module.ReturnSentry(abstractObject);
+        }
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            // Meadow, set realized on the OnlinePhysicalObject to false
+            MeadowCompat.SetRealized(abstractObject, false);
+        }
+
+        // Standard abstraction
+        abstractObject.Abstractize(abstractObject.pos);
+        abstractObject.Room?.RemoveEntity(abstractObject);
+
+        // Meadow needs these
+        abstractObject.InDen = true;
+        abstractObject.pos.WashNode();
     }
 
 
     // Storage & Removal
-    public static void StoreObject(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false, bool overrideLimit = false, bool noSound = false, bool storeBeforeActive = false)
+    public static void StorePearl(this Player self, AbstractPhysicalObject abstractObject, bool fromGrasp = false, bool overrideLimit = false, bool noSound = false, bool storeBeforeActive = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
@@ -177,14 +234,14 @@ public static partial class PlayerPearl_Helpers
 
         var save = self.abstractCreature.world.game.GetMiscWorld();
     
-        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount.Value && !overrideLimit)
+        if (playerModule.Inventory.Count >= ModOptions.MaxPearlCount && !overrideLimit)
         {
-            if (save?.ShownFullInventoryTutorial == false && !ModOptions.DisableTutorials.Value)
+            if (save?.ShownFullInventoryTutorial == false && !ModOptions.DisableTutorials)
             {
                 var t = Utils.Translator;
 
                 save.ShownFullInventoryTutorial = true;
-                self.abstractCreature.world.game.AddTextPrompt(t.Translate("Storage limit reached (") + ModOptions.MaxPearlCount.Value + t.Translate("): swap out a pearl, or change the limit in the Remix options"), 40, 600);
+                self.abstractCreature.world.game.AddTextPrompt(t.Translate("Storage limit reached (") + ModOptions.MaxPearlCount + t.Translate("): swap out a pearl, or change the limit in the Remix options"), 40, 600);
             }
 
             self.room?.PlaySound(SoundID.MENU_Error_Ping, self.firstChunk, false, 2.0f, 1.0f);
@@ -203,8 +260,8 @@ public static partial class PlayerPearl_Helpers
 
         if (abstractObject is AbstractSpear spear && spear.TryGetModule(out var spearModule))
         {
-            abstractObject.destroyOnAbstraction = true;
-            abstractObject.Abstractize(abstractObject.pos);
+            abstractObject.realizedObject?.Destroy();
+            abstractObject.Destroy();
 
             ExtEnumBase.TryParse(typeof(DataPearlType), spearModule.PearlType, false, out var type);
 
@@ -229,24 +286,24 @@ public static partial class PlayerPearl_Helpers
 
         self.AddToInventory(abstractObject, storeBeforeActive);
 
-        if (!storeBeforeActive || playerModule.ActiveObjectIndex == null)
+        if (!storeBeforeActive || playerModule.ActivePearlIndex is null)
         {
-            var targetIndex = playerModule.ActiveObjectIndex ?? 0;
-            self.ActivateObjectInStorage(targetIndex);
+            var targetIndex = playerModule.ActivePearlIndex ?? 0;
+            self.SetActivePearl(targetIndex);
         }
         
-        playerModule.PickObjectAnimation(self);
+        playerModule.PickPearlAnimation(self);
         playerModule.ShowHUD(30);
 
-        self.UpdateInventorySaveData(playerModule);
+        self.UpdateInventorySaveData();
 
-        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SPEAR_CREATION && abstractObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType != DataPearlType.PebblesPearl && !ModOptions.DisableTutorials.Value)
+        if (save?.ShownSpearCreationTutorial == false && abstractObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.SpearCreation && abstractObject is DataPearl.AbstractDataPearl dataPearl && dataPearl.dataPearlType != DataPearlType.PebblesPearl && !ModOptions.DisableTutorials)
         {
             save.ShownSpearCreationTutorial = true;
 
             var t = Utils.Translator;
 
-            if (ModOptions.CustomSpearKeybind.Value)
+            if (ModOptions.CustomSpearKeybind)
             {
                 self.abstractCreature.world.game.AddTextPrompt(
                     t.Translate("Hold (") + Input_Helpers.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetAbilityKeybindDisplayName(true) + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
@@ -260,7 +317,7 @@ public static partial class PlayerPearl_Helpers
         }
     }
     
-    public static void RetrieveActiveObject(this Player self)
+    public static void RetrieveActivePearl(this Player self)
     {
         if (self.FreeHand() <= -1)
         {
@@ -272,25 +329,22 @@ public static partial class PlayerPearl_Helpers
             return;
         }
 
-        var activeObject = playerModule.ActiveObject;
-        if (activeObject == null)
+        var activePearl = playerModule.ActivePearl;
+        if (activePearl is null)
         {
             return;
         }
 
-        self.RemoveFromInventory(activeObject);
-        self.SlugcatGrab(activeObject.realizedObject, self.FreeHand());
+        self.RemoveFromInventory(activePearl);
+        self.SlugcatGrab(activePearl.realizedObject, self.FreeHand());
 
-        playerModule.PickObjectAnimation(self);
-        playerModule.ShowHUD(30);
-
-        if (playerModule.ActiveObject == null && playerModule.Inventory.Count > 0)
+        if (playerModule.ActivePearl is null && playerModule.Inventory.Count > 0)
         {
-            var targetIndex = playerModule.ActiveObjectIndex ?? 0;
+            var targetIndex = playerModule.ActivePearlIndex ?? 0;
 
-            if (playerModule.ActiveObjectIndex != null)
+            if (playerModule.ActivePearlIndex is not null)
             {
-                targetIndex = playerModule.ActiveObjectIndex.Value - 1;
+                targetIndex = playerModule.ActivePearlIndex.Value - 1;
 
                 if (targetIndex < 0)
                 {
@@ -298,10 +352,13 @@ public static partial class PlayerPearl_Helpers
                 }
             }
 
-            self.ActivateObjectInStorage(targetIndex);
+            self.SetActivePearl(targetIndex);
         }
 
-        self.UpdateInventorySaveData(playerModule);
+        playerModule.PickPearlAnimation(self);
+        playerModule.ShowHUD(30);
+
+        self.UpdateInventorySaveData();
     }
 
 
@@ -312,7 +369,7 @@ public static partial class PlayerPearl_Helpers
             return;
         }
 
-        var targetIndex = playerModule.ActiveObjectIndex ?? 0;
+        var targetIndex = playerModule.ActivePearlIndex ?? 0;
 
         if (addToEnd)
         {
@@ -320,7 +377,7 @@ public static partial class PlayerPearl_Helpers
         }
         else if (storeBeforeActive)
         {
-            if (playerModule.ActiveObjectIndex != null)
+            if (playerModule.ActivePearlIndex is not null)
             {
                 targetIndex -= 1;
 
@@ -337,9 +394,9 @@ public static partial class PlayerPearl_Helpers
             playerModule.Inventory.Insert(targetIndex, abstractObject);
         }
 
-        abstractObject.MarkAsPlayerObject();
+        abstractObject.MarkAsPlayerPearl();
     }
-    
+
     public static void RemoveFromInventory(this Player self, AbstractPhysicalObject abstractObject)
     {
         if (!self.TryGetPearlcatModule(out var playerModule))
@@ -353,29 +410,28 @@ public static partial class PlayerPearl_Helpers
         }
 
         playerModule.Inventory.Remove(abstractObject);
-        abstractObject.ClearAsPlayerObject();
+        abstractObject.ClearAsPlayerPearl();
 
-        if (abstractObject.TryGetPearlGraphicsModule(out var addon))
+        if (abstractObject.TryGetPearlGraphicsModule(out var pearlGraphics))
         {
-            addon.Destroy();
+            pearlGraphics.Destroy();
         }
 
         if (abstractObject.TryGetPlayerPearlModule(out var module))
         {
-            module.RemoveSentry(abstractObject);
+            module.ReturnSentry(abstractObject);
         }
 
         if (playerModule.Inventory.Count == 0)
         {
-            playerModule.ActiveObjectIndex = null;
+            playerModule.ActivePearlIndex = null;
         }
 
         InventoryHUD.Symbols.Remove(abstractObject);
     }
 
-
     // Selection
-    public static void SelectNextObject(this Player self)
+    public static void SelectNextPearl(this Player self)
     {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
@@ -383,7 +439,7 @@ public static partial class PlayerPearl_Helpers
         }
 
 
-        if (playerModule.ActiveObjectIndex == null)
+        if (playerModule.ActivePearlIndex is null)
         {
             return;
         }
@@ -394,17 +450,17 @@ public static partial class PlayerPearl_Helpers
         }
 
 
-        var targetIndex = (int)playerModule.ActiveObjectIndex + 1;
+        var targetIndex = (int)playerModule.ActivePearlIndex + 1;
 
         if (targetIndex >= playerModule.Inventory.Count)
         {
             targetIndex = 0;
         }
 
-        self.ActivateObjectInStorage(targetIndex);
+        self.SetActivePearl(targetIndex);
     }
 
-    public static void SelectPreviousObject(this Player self)
+    public static void SelectPreviousPearl(this Player self)
     {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
@@ -412,7 +468,7 @@ public static partial class PlayerPearl_Helpers
         }
 
 
-        if (playerModule.ActiveObjectIndex == null)
+        if (playerModule.ActivePearlIndex is null)
         {
             return;
         }
@@ -423,90 +479,92 @@ public static partial class PlayerPearl_Helpers
         }
 
 
-        var targetIndex = (int)playerModule.ActiveObjectIndex - 1;
+        var targetIndex = (int)playerModule.ActivePearlIndex - 1;
 
         if (targetIndex < 0)
         {
             targetIndex = playerModule.Inventory.Count - 1;
         }
 
-        self.ActivateObjectInStorage(targetIndex);
+        self.SetActivePearl(targetIndex);
     }
 
-    public static void ActivateObjectInStorage(this Player self, int objectIndex)
+    public static void SetActivePearl(this Player self, int pearlIndex)
     {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
             return;
         }
 
-        if (objectIndex < 0 ||  objectIndex >= playerModule.Inventory.Count)
+        if (pearlIndex < 0 ||  pearlIndex >= playerModule.Inventory.Count)
         {
             return;
         }
 
-        if (objectIndex == playerModule.ActiveObjectIndex)
+        if (pearlIndex == playerModule.ActivePearlIndex)
         {
             return;
         }
 
-        var oldObject = playerModule.ActiveObject?.realizedObject;
-        playerModule.ActiveObjectIndex = objectIndex;
-        var newObject = playerModule.ActiveObject?.realizedObject;
+        var oldActive = playerModule.ActivePearl?.realizedObject;
+        playerModule.ActivePearlIndex = pearlIndex;
+        var newActive = playerModule.ActivePearl?.realizedObject;
 
-        oldObject.SwapEffect(newObject);
+        oldActive.SwapEffect(newActive);
 
         playerModule.ShowHUD(60);
-        self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
-        
-        var save = self.room.game.GetMiscWorld();
 
-        if (save != null)
+        if (ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
         {
-            save.ActiveObjectIndex[self.playerState.playerNumber] = objectIndex;
+            self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
         }
 
-        if (self.graphicsModule is not PlayerGraphics pGraphics || newObject == null)
+        self.UpdateInventorySaveData();
+
+        if (self.graphicsModule is not PlayerGraphics pGraphics || newActive is null)
         {
             return;
         }
 
         //player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
-        pGraphics.LookAtPoint(newObject.firstChunk.pos, 1.0f);
-
-        self.UpdateInventorySaveData(playerModule);
+        pGraphics.LookAtPoint(newActive.firstChunk.pos, 1.0f);
     }
 
 
     // Save
-    public static void UpdateInventorySaveData(this Player self, PlayerModule playerModule)
+    public static void UpdateInventorySaveData(this Player self)
     {
-        if (ModOptions.InventoryOverride.Value)
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        {
+            return;
+        }
+
+        if (!self.TryGetPearlcatModule(out var playerModule))
         {
             return;
         }
 
         var save = self.room.game.GetMiscWorld();
 
-        if (save == null)
+        if (save is null)
         {
             return;
         }
 
-        List<string> inventory = [];
-
-        foreach (var item in playerModule.Inventory)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            inventory.Add(item.ToString());
+            MeadowCompat.RPC_UpdateInventorySaveData(self);
         }
-
-
-        save.Inventory[self.playerState.playerNumber] = inventory;
-
-        if (playerModule.Inventory.Count == 0)
+        else
         {
-            playerModule.ActiveObjectIndex = null;
-            save.ActiveObjectIndex[self.playerState.playerNumber] = null;
+            var playerNumber = self.playerState.playerNumber;
+
+            if (!ModOptions.InventoryOverride)
+            {
+                save.Inventory[playerNumber] = playerModule.Inventory.Select(x => x.ToString()).ToList();
+            }
+
+            save.ActiveObjectIndex[playerNumber] = playerModule.ActivePearlIndex;
         }
     }
 }

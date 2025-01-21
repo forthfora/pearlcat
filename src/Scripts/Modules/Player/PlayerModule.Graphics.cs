@@ -1,9 +1,10 @@
-﻿using SlugBase.DataTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using RWCustom;
+using SlugBase.DataTypes;
 using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
 
@@ -12,7 +13,6 @@ namespace Pearlcat;
 public partial class PlayerModule
 {
     public bool IsAdultPearlpupAppearance => IsAdultPearlpup;
-
 
     // Sprites
     public int FirstSprite { get; set; }
@@ -41,32 +41,48 @@ public partial class PlayerModule
 
 
     // Object Animation
-    public int ObjectAnimationTimer { get; set; }
-    public int ObjectAnimationDuration { get; set; }
-    public PearlAnimation? CurrentObjectAnimation { get; set; }
+    public int PearlAnimationTimer { get; set; }
+    public int PearlAnimationDuration { get; set; }
+    public PearlAnimation? CurrentPearlAnimation { get; set; }
 
-    public void PickObjectAnimation(Player player)
+    public List<Type> PearlAnimationMap { get; } =
+    [
+        typeof(PearlAnimation_BasicOrbit),
+        typeof(PearlAnimation_LayerOrbit),
+        typeof(PearlAnimation_MultiOrbit),
+        typeof(PearlAnimation_SineWave),
+        typeof(PearlAnimation_SineWaveWeave),
+        typeof(PearlAnimation_FreeFall),
+        typeof(PearlAnimation_Sleeping),
+    ];
+
+    public void PickPearlAnimation(Player player)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(player.abstractCreature))
+        {
+            return;
+        }
+
         var minTime = 480;
         var maxTime = 1600;
 
         // RANDOM
+        var randomSeed = (int)DateTime.Now.Ticks;
         var randState = Random.state;
-        Random.InitState((int)DateTime.Now.Ticks);
+        Random.InitState(randomSeed);
 
-        CurrentObjectAnimation = GetObjectAnimation(player);
-        ObjectAnimationTimer = 0;
+        CurrentPearlAnimation = GetRandomPearlAnimation(player);
+        PearlAnimationTimer = 0;
 
-        ObjectAnimationDuration = Random.Range(minTime, maxTime);
+        PearlAnimationDuration = Random.Range(minTime, maxTime);
 
         Random.state = randState;
-
 
         for (var i = 0; i < Inventory.Count; i++)
         {
             var abstractObject = Inventory[i];
 
-            if (i >= PlayerPearl_Helpers.MaxPearlsWithEffects)
+            if (i >= PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
             {
                 break;
             }
@@ -75,9 +91,9 @@ public partial class PlayerModule
         }
     }
 
-    public PearlAnimation GetObjectAnimation(Player player)
+    public PearlAnimation GetRandomPearlAnimation(Player player)
     {
-        if (ModOptions.HidePearls.Value)
+        if (ModOptions.HidePearls)
         {
             return new PearlAnimation_BasicOrbit(player);
         }
@@ -96,14 +112,14 @@ public partial class PlayerModule
         ];
 
 
-        if (player.firstChunk.vel.magnitude < 4.0f)
+        if (player.firstChunk.vel.magnitude < 4.0f && Inventory.Count > 1)
         {
             animationPool.AddRange(stillAnimationPool);
         }
 
-        if (CurrentObjectAnimation is not null && animationPool.Count > 1)
+        if (CurrentPearlAnimation is not null && animationPool.Count > 1)
         {
-            animationPool.RemoveAll(x => x.GetType() == CurrentObjectAnimation.GetType());
+            animationPool.RemoveAll(x => x.GetType() == CurrentPearlAnimation.GetType());
         }
 
         return animationPool[Random.Range(0, animationPool.Count)];
@@ -149,14 +165,11 @@ public partial class PlayerModule
     public Color BaseCloakColor { get; set; }
 
     public static Color DefaultBodyColor => Custom.hexToColor("283b2c");
-
     public static Color DefaultFaceColor => Color.white;
-
     public static Color DefaultAccentColor => Color.white;
-
     public static Color DefaultCloakColor => Custom.hexToColor("ca471b");
 
-    public Color ActiveColor => ActiveObject?.GetObjectColor() ?? Color.white;
+    public Color ActiveColor => ActivePearl?.GetObjectColor() ?? Color.white;
 
     public void InitColors(PlayerGraphics self)
     {
@@ -165,6 +178,17 @@ public partial class PlayerModule
 
         BaseAccentColor = new PlayerColor("Accent").GetColor(self) ?? DefaultAccentColor;
         BaseCloakColor = new PlayerColor("Cloak").GetColor(self) ?? DefaultCloakColor;
+
+        // TODO: can remove it when fix PR is merged
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            var id = self.player.SlugCatClass;
+
+            BaseBodyColor = GetPlayerColorFromMiscProg(id, 0) ?? DefaultBodyColor;
+            BaseFaceColor = GetPlayerColorFromMiscProg(id, 1) ?? DefaultFaceColor;
+            BaseAccentColor = GetPlayerColorFromMiscProg(id, 2) ?? DefaultAccentColor;
+            BaseCloakColor = GetPlayerColorFromMiscProg(id, 3) ?? DefaultCloakColor;
+        }
 
         if (IsAdultPearlpupAppearance)
         {
@@ -183,6 +207,43 @@ public partial class PlayerModule
             BaseAccentColor = accentColor;
             BaseCloakColor = cloakColor;
         }
+    }
+
+    private static Color? GetPlayerColorFromMiscProg(SlugcatStats.Name id, int partIndex)
+    {
+        var miscProg = Utils.RainWorld.progression.miscProgressionData;
+
+        if (!miscProg.colorsEnabled.TryGetValue(id.value, out var colorsEnabled))
+        {
+            return null;
+        }
+
+        if (!colorsEnabled)
+        {
+            return null;
+        }
+
+        if (!miscProg.colorChoices.TryGetValue(id.value, out var partColors))
+        {
+            return null;
+        }
+
+        if (partIndex < 0 || partIndex >= partColors.Count)
+        {
+            return null;
+        }
+
+        var partColor = partColors[partIndex];
+
+        if (!partColor.Contains(","))
+        {
+            return null;
+        }
+
+        var hslString = partColor.Split([',']);
+        var hsl = new Vector3(float.Parse(hslString[0], NumberStyles.Any, CultureInfo.InvariantCulture), float.Parse(hslString[1], NumberStyles.Any, CultureInfo.InvariantCulture), float.Parse(hslString[2], NumberStyles.Any, CultureInfo.InvariantCulture));
+
+        return Custom.HSL2RGB(hsl[0], hsl[1], hsl[2]);
     }
 
     public void UpdateColors(PlayerGraphics self)
@@ -224,14 +285,9 @@ public partial class PlayerModule
     public int EarLFlipDirection { get; set; } = 1;
     public int EarRFlipDirection { get; set; } = 1;
 
-    public void GenerateEarsBodyParts()
+    public void GenerateEarsBodyParts(Player player)
     {
-        if (!PlayerRef.TryGetTarget(out var player))
-        {
-            return;
-        }
-
-        if (player.graphicsModule == null)
+        if (player.graphicsModule is null)
         {
             return;
         }
@@ -263,7 +319,7 @@ public partial class PlayerModule
         }
 
 
-        if (EarL != null)
+        if (EarL is not null)
         {
             for (var i = 0; i < newEarL.Length && i < EarL.Length; i++)
             {
@@ -275,7 +331,7 @@ public partial class PlayerModule
             }
         }
 
-        if (EarR != null)
+        if (EarR is not null)
         {
             for (var i = 0; i < newEarR.Length && i < EarR.Length; i++)
             {
@@ -302,19 +358,14 @@ public partial class PlayerModule
     // Tail
     public int TailAccentSprite { get; set; }
 
-    public void GenerateTailBodyParts()
+    public void GenerateTailBodyParts(Player player)
     {
-        if (ModOptions.DisableCosmetics.Value)
+        if (ModOptions.DisableCosmetics)
         {
             return;
         }
 
-        if (!PlayerRef.TryGetTarget(out var player))
-        {
-            return;
-        }
-
-        if (player.graphicsModule == null)
+        if (player.graphicsModule is null)
         {
             return;
         }

@@ -1,46 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Pearlcat;
 
 public partial class PlayerModule
 {
-    public WeakReference<Player> PlayerRef { get; private set; }
-    public WeakReference<Player>? PearlpupRef { get; set; }
+    public WeakReference<AbstractCreature> AbstractPlayerRef { get; }
+    public Player? PlayerRef => AbstractPlayerRef.TryGetTarget(out var player) ? player.realizedCreature as Player : null;
 
-    public PlayerModule(Player self)
-    {
-        PlayerRef = new(self);
-
-        PlayerNumber = self.playerState.playerNumber;
-        BaseStats = NormalStats;
-    }
-
+    public WeakReference<AbstractCreature>? AbstractPearlpupRef { get; set; }
+    public Player? PearlpupRef => AbstractPearlpupRef?.TryGetTarget(out var player) == true ? player.realizedCreature as Player : null;
 
     public bool IsAdultPearlpup =>
-        PlayerRef.TryGetTarget(out var player) &&
-        player.abstractCreature.Room.world.game.IsPearlcatStory() &&
-        Utils.MiscProgression.HasTrueEnding;
-
-    public int PlayerNumber { get; }
+        PlayerRef is not null &&
+        PlayerRef.abstractCreature.Room.world.game.IsPearlcatStory() &&
+        Utils.MiscProgression.HasTrueEnding
+        && !ModCompat_Helpers.RainMeadow_IsOnline;
 
     public SlugcatStats BaseStats { get; set; }
-    public SlugcatStats NormalStats { get; private set; } = new(Enums.Pearlcat, false);
+    public SlugcatStats NormalStats { get; } = new(Enums.Pearlcat, false);
     public SlugcatStats MalnourishedStats { get; private set; } = new(Enums.Pearlcat, true);
 
 
-    public bool JustWarped { get; set; }
+    public bool GivenPearlsThisCycle { get; set; }
     public AbstractRoom? LastRoom { get; set; }
-    public int MaskCounter { get; set; }
-    public bool GivenPearls { get; set; }
+
+
+    public bool ForceLockSpearOnBack { get; set; }
+    public bool WasSpearOnBack { get; set; }
 
 
     public int SpearTimer { get; set; }
     public int SpearDelay { get; set; }
-    public bool ForceLockSpearOnBack { get; set; }
     public float SpearLerp { get; set; }
-    public bool WasSpearOnBack { get; set; }
 
 
     public float HoloLightAlpha { get; set; } = 1.0f;
@@ -54,20 +48,20 @@ public partial class PlayerModule
 
 
     public bool IsDazed => DazeTimer > 0;
-
     public int DazeTimer { get; set; }
 
 
-    // Inventory
-    public List<AbstractPhysicalObject> Inventory { get; } = [];
-    public List<AbstractPhysicalObject> PostDeathInventory { get; } = [];
-    public int? PostDeathActiveObjectIndex { get; set; }
-    public AbstractPhysicalObject? ActiveObject =>
-        ActiveObjectIndex != null && ActiveObjectIndex < Inventory.Count
-            ? Inventory[(int)ActiveObjectIndex]
-            : null;
+    public int MaskCounter { get; set; }
 
-    public int? ActiveObjectIndex { get; set; }
+
+    // Inventory
+    public List<AbstractPhysicalObject> Inventory { get; set; } = [];
+    public int? ActivePearlIndex { get; set; }
+
+    public List<AbstractPhysicalObject> PostDeathInventory { get; set; } = [];
+    public int? PostDeathActivePearlIndex { get; set; }
+
+    public AbstractPhysicalObject? ActivePearl => ActivePearlIndex is not null && ActivePearlIndex < Inventory.Count ? Inventory[(int)ActivePearlIndex] : null;
 
 
     // Input
@@ -83,34 +77,71 @@ public partial class PlayerModule
 
     public int StoreObjectTimer { get; set; }
 
-    
-    // HUD
-    public void ShowHUD(int duration)
-    {
-        HudFadeTimer = duration;
-    }
 
+    // HUD
     public float HudFade { get; set; }
     public float HudFadeTimer { get; set; }
 
 
-    public void LoadSaveData(Player self)
+    public PlayerModule(Player self)
     {
-        var world = self.abstractCreature.world;
-        var save = world.game.GetMiscWorld();
+        AbstractPlayerRef = new(self.abstractCreature);
 
-        if (save == null)
+        BaseStats = NormalStats;
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.AddMeadowPlayerData(self);
+        }
+    }
+
+    public void ShowHUD(int duration)
+    {
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            if (PlayerRef is null)
+            {
+                return;
+            }
+
+            // No need to show the HUD for other players in meadow
+            if (!ModCompat_Helpers.RainMeadow_IsMine(PlayerRef.abstractCreature))
+            {
+                return;
+            }
+        }
+
+        HudFadeTimer = duration;
+    }
+
+    public void LoadInventorySaveData(Player self)
+    {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
         {
             return;
         }
 
-        var playerNumber = self.playerState.playerNumber;
+        var world = self.abstractCreature.world;
+        var save = world.game.GetMiscWorld();
 
-        if (!ModOptions.InventoryOverride.Value)
+        if (save is null)
+        {
+            return;
+        }
+
+        var id = self.playerState.playerNumber;
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            id = ModCompat_Helpers.GetOwnerId(self.abstractPhysicalObject);
+        }
+
+
+        if (!ModOptions.InventoryOverride)
         {
             Inventory.Clear();
-            
-            if (save.Inventory.TryGetValue(playerNumber, out var inventory))
+
+            if (save.Inventory.TryGetValue(id, out var inventory))
             {
                 foreach (var item in inventory)
                 {
@@ -119,13 +150,23 @@ public partial class PlayerModule
             }
         }
 
-        ActiveObjectIndex = null;
-
-        if (save.ActiveObjectIndex.TryGetValue(playerNumber, out var activeObjectIndex) && Inventory.Count > 0)
+        if (Inventory.Any())
         {
-            ActiveObjectIndex = activeObjectIndex < Inventory.Count ? activeObjectIndex : 0;
+            if (save.ActiveObjectIndex.TryGetValue(id, out var activePearlIndex) && activePearlIndex < Inventory.Count)
+            {
+                ActivePearlIndex = activePearlIndex;
+            }
+            else
+            {
+                // Just in case
+                ActivePearlIndex = 0;
+            }
+        }
+        else
+        {
+            ActivePearlIndex = null;
         }
 
-        PickObjectAnimation(self);
+        PickPearlAnimation(self);
     }
 }

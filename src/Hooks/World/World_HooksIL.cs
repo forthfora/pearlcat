@@ -123,7 +123,7 @@ public static class World_HooksIL
 
             var miscWorld = game.GetMiscWorld();
 
-            if (miscWorld != null)
+            if (miscWorld is not null)
             {
                 miscWorld.JustBeatAltEnd = true;
             }
@@ -159,7 +159,7 @@ public static class World_HooksIL
                 var save = game.GetMiscWorld();
                 var miscProg = Utils.MiscProgression;
 
-                if (save?.PearlpupID == null && ModOptions.PearlpupRespawn.Value && !miscProg.HasTrueEnding)
+                if (save?.PearlpupID is null && ModOptions.PearlpupRespawn && !miscProg.HasTrueEnding)
                 {
                     return 0;
                 }
@@ -187,7 +187,7 @@ public static class World_HooksIL
 
         var save = self.saveState.miscWorldSaveData.GetMiscWorld();
 
-        if (save != null && save.PearlpupID == null)
+        if (save is not null && save.PearlpupID is null)
         {
             return 1;
         }

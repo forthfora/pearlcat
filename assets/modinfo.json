@@ -1,11 +1,12 @@
 {
 	"id": "pearlcat",
 	"name": "Pearlcat",
-	"version": "1.3.6",
+	"version": "1.4.0",
 	"authors": "forthfora, Geahgeah, Sidera",
 	"description": "A curious scholar with the unusual ability to harness pearls to their advantage.<LINE><LINE>Configure inputs, difficulty, cheats and more via the Remix config!<LINE><LINE>More Slugcats is optional, but strongly recommended.",
 	"requirements": ["slime-cubed.slugbase"],
 	"requirements_names": ["SlugBase"],
+	"priorities": ["moreslugcats", "improved-input-config", "myr.chasing_wind", "henpemaz_rainmeadow"],
 	"tags": ["Custom Slugcat", "Game Mechanics", "Campaigns", "Translations"],
 	"checksum_override_version": true
 }

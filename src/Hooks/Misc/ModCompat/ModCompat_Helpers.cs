@@ -8,39 +8,54 @@ public static class ModCompat_Helpers
     {
         if (IsModEnabled_ImprovedInputConfig)
         {
-            Input_Helpers.InitIICKeybinds();
+            // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
+            InitIICCompat();
         }
 
         if (IsModEnabled_ChasingWind)
         {
-            InitCWIntegration();
+            CWCompat.InitCompat();
         }
-    }
 
-
-    // Warp
-    public static bool IsWarpAllowed(this RainWorldGame game)
-    {
-        return game.IsStorySession && (!ModManager.MSC || !game.rainWorld.safariMode);
+        if (IsModEnabled_RainMeadow)
+        {
+            MeadowCompat.InitCompat();
+        }
     }
 
 
     // Mira Installation
     public static bool IsModEnabled_MiraInstallation => ModManager.ActiveMods.Any(x => x.id == "mira");
-    public static bool ShowMiraVersionWarning => IsModEnabled_MiraInstallation;
+    public static bool ShowMiraVersionWarning => IsModEnabled_MiraInstallation; // TODO
 
 
     // Chasing Wind
     public static bool IsModEnabled_ChasingWind => ModManager.ActiveMods.Any(x => x.id == "myr.chasing_wind");
 
-    public static void InitCWIntegration()
-    {
-        CWIntegration.Init();
-    }
-
 
     // Improved Input Config
     public static bool IsModEnabled_ImprovedInputConfig => ModManager.ActiveMods.Any(x => x.id == "improved-input-config");
+    public static bool IsIICActive => IsModEnabled_ImprovedInputConfig && !ModOptions.DisableImprovedInputConfig;
+    public static void InitIICCompat()
+    {
+        IICCompat.InitCompat();
+    }
 
-    public static bool IsIICActive => IsModEnabled_ImprovedInputConfig && !ModOptions.DisableImprovedInputConfig.Value;
+
+    // Rain Meadow
+    public static bool IsModEnabled_RainMeadow => ModManager.ActiveMods.Any(x => x.id == "henpemaz_rainmeadow");
+
+    public static bool RainMeadow_IsLobbyOwner => !IsModEnabled_RainMeadow || MeadowCompat.IsLobbyOwner;
+    public static bool RainMeadow_IsOnline => IsModEnabled_RainMeadow && MeadowCompat.IsOnline;
+    public static bool RainMeadow_FriendlyFire => IsModEnabled_RainMeadow && MeadowCompat.FriendlyFire;
+
+    public static bool RainMeadow_IsMine(AbstractPhysicalObject obj)
+    {
+        return !RainMeadow_IsOnline || MeadowCompat.IsLocal(obj);
+    }
+
+    public static int GetOwnerId(AbstractPhysicalObject obj)
+    {
+        return RainMeadow_IsOnline ? MeadowCompat.GetOwnerId(obj) : 0;
+    }
 }
