@@ -1,21 +1,14 @@
 [h1][b]¡Una erudita enigmática de una tierra lejana, dotada de la extraordinaria habilidad de emplear perlas![/b][/h1]
 
-[h1][b]Armada de este conocimiento, enfrenta los peligros y protege a tu cría; todo en tu viaje por descubrir el mundo y sus misterios...[/b][/h1]
-
-[h1][b]CARACTERÍSTICAS:[/b][/h1]
+[h3]Pearlcat tiene interacciones especiales con los siguientes mods:[/h3]
 [b][list]
-    [*]Lleva y almacena muchas perlas a la vez.
-    
-    [*]¡Interacciones exclusivas con Guijarros y Luna!
-Guijarros ayuda a Perlina y ahora leerá tus perlas también.
-    
-    [*]Nuevas cinemáticas y dos finales.
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - ¡completo soporte multijugador online!
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - soporte para todas las combinaciones de teclas únicas de Pearlcat.
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - interacciones y diálogos únicos
 [/list][/b]
-[h1][b]+ ¡Habilidades únicas por cada perla que almacenes, dependiendo del color![/b][/h1]
+[h3][u]Este mod NO requiere de More Slugcats (DLC). Sin embargo, es altamente recomendable.[/u][/h3]
 
-[b][u]Este mod NO requiere de More Slugcats (DLC). Sin embargo, es altamente recomendable.[/u]
-
-[b]CRÉDITOS:[/b]
+[h3]CRÉDITOS:[/h3]
 [b][list]
     [*]Geahgeah - Arte y diseño
     [*]Sidera - Diálogos y efectos de sonido
@@ -24,7 +17,7 @@ Guijarros ayuda a Perlina y ahora leerá tus perlas también.
     [*]zbiotr - Traducción al español
     [*]Kimi - Trabajo artístico adicional
 [/list][/b]
-[b]PLAYTESTERS:[/b]
+[h3]PLAYTESTERS:[/h3]
 [b][list]
     [*] TurtleMan27
     [*] Balagaga
@@ -34,4 +27,4 @@ Guijarros ayuda a Perlina y ahora leerá tus perlas también.
     [*] Lolight2
     [*] mayhemmm
 [/list][/b]
-[b]Descarga directa: [/b]https://github.com/forthfora/pearlcat/releases
+[h3]Descarga directa: https://github.com/forthfora/pearlcat/releases[/h3]

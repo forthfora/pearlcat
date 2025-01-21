@@ -1,21 +1,14 @@
 [h1][b]An enigmatic scholar from a faraway land, gifted with the unusual ability to harness pearls![/b][/h1]
 
-[h1][b]Armed with this knowledge, face peril and protect your pup - all on your journey to discover the world and its mysteries...[/b][/h1]
-
-[h1][b]FEATURES:[/b][/h1]
+[h3]Pearlcat has special interactions with the following mods:[/h3]
 [b][list]
-    [*]Carry and store many pearls at once
-    
-    [*]Unique interactions with Pebbles and Moon!
-Pebbles sees a use for Pearlcat, and now will read your pearls too
-    
-    [*]New cutscenes & 2 endings
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - full online multiplayer support!
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - support for all of Pearlcat's unique keybinds
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - unique interactions and dialog
 [/list][/b]
-[h1][b]+ Unique abilities for each pearl you store, depending on the color![/b][/h1]
+[h3][u]Pearlcat does not require More Slugcats (DLC), however it is strongly recommended[/u][/h3]
 
-[b][u]Pearlcat does NOT require More Slugcats (DLC), however it is strongly recommended[/u]
-
-[b]CREDITS:[/b]
+[h3]CREDITS:[/h3]
 [b][list]
     [*]Geahgeah - Art & Design   
     [*]Sidera - SFX & Dialogue
@@ -24,7 +17,7 @@ Pebbles sees a use for Pearlcat, and now will read your pearls too
     [*]zbiotr - Spanish Translation
     [*]Kimi - Additional Artwork
 [/list][/b]
-[b]PLAYTESTERS:[/b]
+[h3]PLAYTESTERS:[/h3]
 [b][list]
     [*] TurtleMan27
     [*] Balagaga
@@ -34,4 +27,4 @@ Pebbles sees a use for Pearlcat, and now will read your pearls too
     [*] Lolight2
     [*] mayhemmm
 [/list][/b]
-[b]Direct: [/b]https://github.com/forthfora/pearlcat/releases
+[h3]Direct Downloads: https://github.com/forthfora/pearlcat/releases[/h3]
