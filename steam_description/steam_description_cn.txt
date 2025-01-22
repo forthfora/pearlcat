@@ -1,9 +1,9 @@
 [h1][b]一位来自远方的神秘学者，有着驾驭珍珠的非凡能力！[/b][/h1]
 
-[h3]珍珠猫与以下修改器有特殊的交互作用：[/h3]
+[h3]珍珠猫与下列Mod有着特殊的相互影响：[/h3]
 [b][list]
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - 完全支持在线多人游戏！
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - 支持所有珍珠猫的独特的键位绑定
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - 支持珍珠猫所有独有的按键绑定
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - 独特的互动和对话
 [/list][/b]
 [h3][u]珍珠猫不需要更多蛞蝓猫扩展（DLC），但强烈建议使用[/u][/h3]
