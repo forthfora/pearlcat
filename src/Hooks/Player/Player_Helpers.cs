@@ -987,12 +987,12 @@ public static class Player_Helpers
             {
                 foreach (var physicalObject in roomObject)
                 {
-                    if (physicalObject is Player)
+                    if (physicalObject is not Creature creature)
                     {
                         continue;
                     }
 
-                    if (physicalObject is not Creature creature)
+                    if (!CanPossess(creature))
                     {
                         continue;
                     }
@@ -1078,6 +1078,21 @@ public static class Player_Helpers
                 playerModule.StoreObjectTimer = 0;
             }
         }
+    }
+
+    private static bool CanPossess(Creature creature)
+    {
+        if (creature is Player)
+        {
+            return false;
+        }
+
+        if (creature is Overseer)
+        {
+            return false;
+        }
+
+        return true;
     }
 
 
