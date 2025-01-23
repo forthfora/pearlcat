@@ -19,15 +19,6 @@ public static class PlayerPossessionFixes_HooksIL
 
         try
         {
-            IL.OverseerAI.Update += OverseerAIOnUpdate;
-        }
-        catch (Exception e)
-        {
-            e.LogHookException();
-        }
-
-        try
-        {
             IL.PoleMimic.Update += PoleMimicOnUpdate;
         }
         catch (Exception e)
@@ -74,47 +65,6 @@ public static class PlayerPossessionFixes_HooksIL
 
         c.Emit(OpCodes.Brtrue, label);
     }
-
-
-    // Stops the overseer hiding when a player is nearby
-    private static void OverseerAIOnUpdate(ILContext il)
-    {
-        var c = new ILCursor(il);
-
-        var label = c.DefineLabel();
-
-        if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchStloc(5),
-                x => x.MatchLdloc(5),
-                _ => true,
-                x => x.MatchBrfalse(out label)))
-        {
-            throw new Exception("Goto Failed");
-        }
-
-        c.Emit(OpCodes.Ldarg_0);
-        c.Emit(OpCodes.Ldloc, 5);
-
-        c.EmitDelegate<Func<OverseerAI, AbstractCreature, bool>>((self, creature) =>
-        {
-            if (creature.realizedCreature is Player player && player.TryGetPearlcatModule(out var playerModule))
-            {
-                if (playerModule.PossessedCreature is not null &&
-                    playerModule.PossessedCreature.TryGetTarget(out var possessed))
-                {
-                    if (possessed == self.creature)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        });
-
-        c.Emit(OpCodes.Brtrue, label);
-    }
-
 
     // Leviathan - prevent killing player when possessed
     private static void BigEel_JawsSnap(ILContext il)

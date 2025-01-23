@@ -1087,7 +1087,20 @@ public static class Player_Helpers
             return false;
         }
 
+        // Iggy (not controllable)
         if (creature is Overseer)
+        {
+            return false;
+        }
+
+        // Small Spiders (not controllable)
+        if (creature is Spider)
+        {
+            return false;
+        }
+
+        // Grapple Worm (controllable but safari doesn't allow it... so just to be safe)
+        if (creature is TubeWorm)
         {
             return false;
         }
