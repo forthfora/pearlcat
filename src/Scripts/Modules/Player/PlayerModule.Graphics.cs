@@ -360,7 +360,7 @@ public partial class PlayerModule
 
     public void GenerateTailBodyParts(Player player)
     {
-        if (ModOptions.DisableCosmetics)
+        if (ModOptions.DisableCosmetics_New)
         {
             return;
         }
