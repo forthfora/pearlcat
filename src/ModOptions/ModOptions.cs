@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Pearlcat;
@@ -9,6 +10,10 @@ using OI = ModOptionInterface;
 
 public static class ModOptions
 {
+    // Rotund World
+    [PublicAPI]
+    public static Configurable<bool> DisableCosmetics => OI.DisableCosmetics;
+
     public static bool IsRemote => !ModCompat_Helpers.RainMeadow_IsLobbyOwner;
 
     public static List<DataPearlType> GetOverridenInventory(bool giveHalcyonPearl)
@@ -52,7 +57,7 @@ public static class ModOptions
     // OPTIONS
     public static bool PearlpupRespawn => !ModCompat_Helpers.RainMeadow_IsOnline && OI.PearlpupRespawn.Value; // TODO: maybe reenable it for meadow when pups are fixed
 
-    public static bool DisableCosmetics => OI.DisableCosmetics.Value;
+    public static bool DisableCosmetics_New => OI.DisableCosmetics.Value;
     public static bool DisableTutorials => ModCompat_Helpers.RainMeadow_IsOnline || OI.DisableTutorials.Value;
 
 

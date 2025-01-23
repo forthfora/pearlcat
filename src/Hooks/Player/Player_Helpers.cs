@@ -654,16 +654,18 @@ public static class Player_Helpers
             return;
         }
 
-        if (self.dead || playerModule.PostDeathInventory.Count == 0)
+        if (playerModule.PostDeathInventory.Count == 0)
         {
             return;
         }
 
-        for (var i = playerModule.PostDeathInventory.Count - 1; i >= 0; i--)
+        if (self.dead)
         {
-            var item = playerModule.PostDeathInventory[i];
-            playerModule.PostDeathInventory.RemoveAt(i);
+            return;
+        }
 
+        foreach (var item in playerModule.PostDeathInventory)
+        {
             if (item.realizedObject is null)
             {
                 continue;
@@ -681,7 +683,7 @@ public static class Player_Helpers
 
             if (item.IsPlayerPearl())
             {
-                return;
+                continue;
             }
 
             if (ModuleManager.PlayerPearlGraphicsData.TryGetValue(item, out _))
@@ -697,6 +699,7 @@ public static class Player_Helpers
             self.SetActivePearl((int)playerModule.PostDeathActivePearlIndex);
         }
 
+        playerModule.PostDeathInventory.Clear();
         playerModule.PostDeathActivePearlIndex = null;
     }
 
@@ -984,12 +987,12 @@ public static class Player_Helpers
             {
                 foreach (var physicalObject in roomObject)
                 {
-                    if (physicalObject is Player)
+                    if (physicalObject is not Creature creature)
                     {
                         continue;
                     }
 
-                    if (physicalObject is not Creature creature)
+                    if (!CanPossess(creature))
                     {
                         continue;
                     }
@@ -1075,6 +1078,34 @@ public static class Player_Helpers
                 playerModule.StoreObjectTimer = 0;
             }
         }
+    }
+
+    private static bool CanPossess(Creature creature)
+    {
+        if (creature is Player)
+        {
+            return false;
+        }
+
+        // Iggy (not controllable)
+        if (creature is Overseer)
+        {
+            return false;
+        }
+
+        // Small Spiders (not controllable)
+        if (creature is Spider)
+        {
+            return false;
+        }
+
+        // Grapple Worm (controllable but safari doesn't allow it... so just to be safe)
+        if (creature is TubeWorm)
+        {
+            return false;
+        }
+
+        return true;
     }
 
 

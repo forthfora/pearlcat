@@ -293,7 +293,7 @@ public static class PlayerHeartPearl_Hooks
         // Umbilical
         // Disconnected from player, i.e. pearlpup is dead
         // Also hide when cosmetics are disabled
-        if (module.OwnerRef is null || !module.OwnerRef.TryGetTarget(out player) || !self.abstractPhysicalObject.IsPlayerPearl() || ModOptions.DisableCosmetics)
+        if (module.OwnerRef is null || !module.OwnerRef.TryGetTarget(out player) || !self.abstractPhysicalObject.IsPlayerPearl() || ModOptions.DisableCosmetics_New)
         {
             if (module.Umbilical is not null)
             {

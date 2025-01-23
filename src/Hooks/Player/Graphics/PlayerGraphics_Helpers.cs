@@ -179,7 +179,7 @@ public static class PlayerGraphics_Helpers
             playerModule.Cloak.visible = isVisible;
         }
 
-        if (ModOptions.DisableCosmetics)
+        if (ModOptions.DisableCosmetics_New)
         {
             feetSprite.isVisible = false;
 
@@ -516,7 +516,7 @@ public static class PlayerGraphics_Helpers
     // Tail
     public static void DrawTail(PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, PlayerModule playerModule, int tailSprite)
     {
-        if (ModOptions.DisableCosmetics)
+        if (ModOptions.DisableCosmetics_New)
         {
             return;
         }
@@ -598,7 +598,7 @@ public static class PlayerGraphics_Helpers
         }
 
 
-        if (ModOptions.DisableCosmetics)
+        if (ModOptions.DisableCosmetics_New)
         {
             return;
         }
