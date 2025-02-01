@@ -97,7 +97,7 @@ public static class PlayerPearl_Helpers_Graphics
     }
 
 
-    public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null)
+    public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null, bool syncOnline = false)
     {
         if (physicalObject?.room is null)
         {
@@ -117,7 +117,13 @@ public static class PlayerPearl_Helpers_Graphics
             lifeTime = 12.0f,
             lightningType = Custom.RGB2HSL(color).x,
         };
+
         physicalObject.room.AddObject(lightningBolt);
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline && syncOnline)
+        {
+            MeadowCompat.RPC_ConnectEffect(physicalObject, pos, color);
+        }
     }
 
     public static void ConnectEffect(this Room? room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f)

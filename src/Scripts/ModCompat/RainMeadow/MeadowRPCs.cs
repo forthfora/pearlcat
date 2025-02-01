@@ -1,4 +1,5 @@
 using RainMeadow;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -66,5 +67,16 @@ public static class MeadowRPCs
         {
             save.PlayersGivenPearls.Add(id);
         }
+    }
+
+    [RPCMethod]
+    public static void ConnectEffect(RPCEvent rpcEvent, OnlinePhysicalObject opo, Vector2 pos, Color color)
+    {
+        if (opo.apo.realizedObject is not PhysicalObject physicalObject)
+        {
+            return;
+        }
+
+        physicalObject.ConnectEffect(pos, color);
     }
 }

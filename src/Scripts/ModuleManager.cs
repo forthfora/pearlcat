@@ -34,7 +34,6 @@ public static class ModuleManager
         List<PlayerModule> allPlayerModules = [];
         var players = game.Players;
 
-        // TODO: kill it with fire
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             players = MeadowCompat.GetAllPlayers();

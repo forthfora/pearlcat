@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
 using RainMeadow;
+using UnityEngine;
 
 namespace Pearlcat;
 
@@ -390,5 +391,25 @@ public static class MeadowCompat
         var owner = OnlineManager.lobby.owner;
 
         owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateGivenPearlsSaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
+    }
+
+    public static void RPC_ConnectEffect(PhysicalObject physicalObject, Vector2 pos, Color color)
+    {
+        var opo = physicalObject.abstractPhysicalObject.GetOnlineObject();
+
+        if (opo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ConnectEffect))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, Vector2, Color>)), opo, pos, color);
+        }
     }
 }

@@ -32,6 +32,9 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         [OnlineField]
         public int currentPearlAnimation;
 
+        [OnlineField]
+        public int pearlAnimTimer;
+
 
         // Graphics
         // TODO: can get rid of it when sync PR is merged in meadow
@@ -97,6 +100,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             activePearlIndex = playerModule.ActivePearlIndex ?? -1;
 
             currentPearlAnimation = playerModule.CurrentPearlAnimation is null ? 0 : playerModule.PearlAnimationMap.IndexOf(playerModule.CurrentPearlAnimation.GetType());
+            pearlAnimTimer = playerModule.CurrentPearlAnimation is null ? 0 : playerModule.CurrentPearlAnimation.AnimTimer;
 
 
             baseBodyColor = playerModule.BaseBodyColor;
@@ -141,8 +145,8 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             // Compare local and remote inventory, call AddToInventory / RemoveFromInventory where appropriate to sync local to remote
             var remoteInventory = inventory.list
-                .Where(x => x.FindEntity() is OnlinePhysicalObject)
-                .Select(x => ((OnlinePhysicalObject)x.FindEntity()).apo)
+                .Where(x => x.FindEntity(true) is OnlinePhysicalObject)
+                .Select(x => ((OnlinePhysicalObject)x.FindEntity(true)).apo)
                 .ToList();
 
             var localInventory = playerModule.Inventory;
@@ -178,6 +182,11 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             if (playerModule.CurrentPearlAnimation?.GetType() != playerModule.PearlAnimationMap[currentPearlAnimation])
             {
                 playerModule.CurrentPearlAnimation = (PearlAnimation)Activator.CreateInstance(playerModule.PearlAnimationMap[currentPearlAnimation], player);
+            }
+
+            if (playerModule.CurrentPearlAnimation is not null)
+            {
+                playerModule.CurrentPearlAnimation.AnimTimer = pearlAnimTimer;
             }
 
 

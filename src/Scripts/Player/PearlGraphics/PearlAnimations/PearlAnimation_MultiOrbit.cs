@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -33,10 +31,8 @@ public sealed class PearlAnimation_MultiOrbit : PearlAnimation
             return;
         }
 
-        foreach (var randIndex in Enumerable.Range(0, playerModule.Inventory.Count).OrderBy(_ => Random.value))
+        foreach (var item in playerModule.Inventory)
         {
-            var item = playerModule.Inventory[randIndex];
-
             if (item == playerModule.ActivePearl)
             {
                 continue;
