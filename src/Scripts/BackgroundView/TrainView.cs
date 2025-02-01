@@ -143,7 +143,7 @@ public sealed class TrainView : CustomBgScene
         {
             UpdateBgElementTimers();
 
-            foreach (var element in elements.OfType<BgBuilding>())
+            foreach (var element in elements)
             {
                 element.Update(false);
             }
