@@ -573,7 +573,7 @@ public static class Player_Helpers
                         if (isStoring)
                         {
                             var activeObjPos = self.GetActivePearlPos();
-                            toStore?.ConnectEffect(activeObjPos);
+                            toStore?.ConnectEffect(activeObjPos, syncOnline: true);
                         }
                         else
                         {
@@ -583,14 +583,14 @@ public static class Player_Helpers
                             {
                                 if (!module.IsReturningSentry)
                                 {
-                                    activeObj.ConnectEffect(self.firstChunk.pos);
+                                    activeObj.ConnectEffect(self.firstChunk.pos, syncOnline: true);
                                 }
 
                                 module.ReturnSentry(playerModule.ActivePearl);
                             }
                             else
                             {
-                                activeObj.ConnectEffect(self.firstChunk.pos);
+                                activeObj.ConnectEffect(self.firstChunk.pos, syncOnline: true);
                             }
                         }
                     }

@@ -151,7 +151,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
                         self.SlugcatGrab(abstractSpear.realizedObject, self.FreeHand());
                     }
 
-                    (playerModule.ActivePearl?.realizedObject).ConnectEffect(abstractSpear.realizedObject.firstChunk.pos);
+                    (playerModule.ActivePearl?.realizedObject).ConnectEffect(abstractSpear.realizedObject.firstChunk.pos, syncOnline: true);
 
                     self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlStore, self.firstChunk, false, 0.5f,
                         Random.Range(2.2f, 2.5f));

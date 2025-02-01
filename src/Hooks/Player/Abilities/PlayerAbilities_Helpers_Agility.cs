@@ -179,7 +179,7 @@ public static class PlayerAbilities_Helpers_Agility
 
             if (overuse > 90 && Random.value < 0.03f)
             {
-                self.ConnectEffect(self.mainBodyChunk.pos + Custom.RNV() * 80.0f, playerModule.ActiveColor);
+                self.ConnectEffect(self.mainBodyChunk.pos + Custom.RNV() * 80.0f, playerModule.ActiveColor, syncOnline: true);
             }
         }
 
