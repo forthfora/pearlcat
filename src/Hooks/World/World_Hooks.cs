@@ -389,15 +389,22 @@ public static class World_Hooks
                         continue;
                     }
 
-                    if (abstractObject.IsPlayerPearl())
+                    if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
                     {
-                        if (abstractObject.world.game.IsStorySession)
-                        {
-                            abstractObject.world.game.GetStorySession.RemovePersistentTracker(abstractObject);
-                        }
-
-                        abstractRoom.RemoveEntity(entity);
+                        continue;
                     }
+
+                    if (!abstractObject.IsPlayerPearl())
+                    {
+                        continue;
+                    }
+
+                    if (abstractObject.world.game.IsStorySession)
+                    {
+                        abstractObject.world.game.GetStorySession.RemovePersistentTracker(abstractObject);
+                    }
+
+                    abstractRoom.RemoveEntity(entity);
                 }
             }
         }

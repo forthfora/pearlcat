@@ -22,7 +22,7 @@ namespace Pearlcat;
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 [BepInDependency("henpemaz.rainmeadow", BepInDependency.DependencyFlags.SoftDependency)] // Rain Meadow
 
-[BepInPlugin(MOD_ID, MOD_ID, "1.4.1")]
+[BepInPlugin(MOD_ID, MOD_ID, "1.4.2")]
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";
