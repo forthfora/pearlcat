@@ -102,7 +102,7 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
             }
 
 
-            var shouldSyncPos = false;
+            var shouldSyncPos = !pearlModule.IsCurrentlyStored;
 
             if (pearl.TryGetSentry(out var sentry))
             {

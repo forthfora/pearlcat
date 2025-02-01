@@ -75,11 +75,6 @@ public static class PlayerPearl_Hooks
             return;
         }
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            MeadowCompat.SetPosSynced(abstractObject, true);
-        }
-
         var physicalObject = abstractObject.realizedObject;
         if (physicalObject is null)
         {
