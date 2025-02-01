@@ -111,8 +111,6 @@ public static class Player_Hooks
 
         orig(self);
 
-        //Plugin.Logger.LogWarning(self.mainBodyChunk.pos);
-
         if (wasDead)
         {
             return;
@@ -123,11 +121,10 @@ public static class Player_Hooks
             return;
         }
 
+
         playerModule.ReviveTimer = 0;
         playerModule.ShieldTimer = 0;
         playerModule.SpearTimer = 0;
-
-        playerModule.PostDeathActivePearlIndex = playerModule.ActivePearlIndex;
 
         self.room?.PlaySound(SoundID.Zapper_Zap, self.firstChunk.pos, 0.4f, 0.6f);
         self.room?.PlaySound(SoundID.Fire_Spear_Explode, self.firstChunk.pos, 0.7f, 0.6f);
@@ -138,25 +135,44 @@ public static class Player_Hooks
             self.room?.AddObject(new ExplosionSpikes(self.room, self.firstChunk.pos, 5, 20.0f, 10, 20.0f, 20.0f, Color.red));
         }
 
+
+        // Use Post-Death Inventory in single-player, but for meadow just abstract the inventory
+        if (!ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            playerModule.PostDeathActivePearlIndex = playerModule.ActivePearlIndex;
+        }
+
         for (var i = playerModule.Inventory.Count - 1; i >= 0; i--)
         {
             var abstractObject = playerModule.Inventory[i];
 
-            self.RemoveFromInventory(abstractObject);
-
-            playerModule.PostDeathInventory.Add(abstractObject);
-
-
-            if (i < PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
+            if (!ModCompat_Helpers.RainMeadow_IsOnline)
             {
-                if (playerModule.ReviveCount <= 0)
-                {
-                    var randVec = Custom.RNV() * 150.0f;
+                self.RemoveFromInventory(abstractObject);
 
-                    self.room?.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80);
-                    abstractObject.realizedObject.DeathEffect();
-                }
+                playerModule.PostDeathInventory.Add(abstractObject);
             }
+
+            if (i >= PlayerPearl_Helpers_Graphics.MaxPearlsWithEffects)
+            {
+                continue;
+            }
+
+            if (playerModule.ReviveCount > 0)
+            {
+                continue;
+            }
+
+            var randVec = Custom.RNV() * 150.0f;
+
+            self.room?.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80);
+            abstractObject.realizedObject.DeathEffect();
+        }
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            self.TryAbstractInventory(true);
+            self.UpdateInventorySaveData();
         }
     }
 

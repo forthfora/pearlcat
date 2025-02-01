@@ -101,6 +101,12 @@ public static class PlayerPearl_Helpers
     // Realization & Abstraction
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
+        // Meadow handles dealing with the inventory on death differently
+        if (ModCompat_Helpers.RainMeadow_IsOnline && self.dead)
+        {
+            return;
+        }
+
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
@@ -157,7 +163,7 @@ public static class PlayerPearl_Helpers
         abstractObject.MarkAsPlayerPearl();
     }
 
-    public static void TryAbstractInventory(this Player self)
+    public static void TryAbstractInventory(this Player self, bool isForceIncludingSentries = false)
     {
         self.slugOnBack?.slugcat?.TryAbstractInventory();
 
@@ -167,7 +173,7 @@ public static class PlayerPearl_Helpers
         }
 
         // Also abstract sentries when changing rooms
-        var includingSentries = self.abstractCreature.Room != playerModule.LastRoom || self.inVoidSea;
+        var includingSentries = self.abstractCreature.Room != playerModule.LastRoom || self.inVoidSea || isForceIncludingSentries;
 
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {

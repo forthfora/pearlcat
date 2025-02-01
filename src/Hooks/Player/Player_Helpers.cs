@@ -649,7 +649,7 @@ public static class Player_Helpers
 
     public static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             return;
         }
