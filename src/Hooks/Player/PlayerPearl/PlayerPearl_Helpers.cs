@@ -27,7 +27,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            var ownerId = ModCompat_Helpers.GetOwnerIdOrNull(self.abstractPhysicalObject);
+            var ownerId = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(self.abstractPhysicalObject);
 
             if (ownerId is null)
             {
@@ -215,7 +215,7 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline && ModCompat_Helpers.GetOwnerIdOrNull(abstractObject) is null)
+        if (ModCompat_Helpers.RainMeadow_IsOnline && !ModCompat_Helpers.RainMeadow_HasOPO(abstractObject))
         {
             return;
         }
@@ -276,7 +276,7 @@ public static class PlayerPearl_Helpers
             self.ReleaseGrasp(0);
         }
 
-        if (abstractObject is AbstractSpear spear && spear.TryGetModule(out var spearModule))
+        if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out var spearModule))
         {
             abstractObject.realizedObject?.Destroy();
             abstractObject.Destroy();

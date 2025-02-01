@@ -22,7 +22,7 @@ public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(play
         if (activePearl is not null)
         {
             fallingObjects.Remove(activePearl);
-            activePearl.TryToAnimateToTargetPos(player, player.GetActivePearlPos(new Vector2(0.0f, 30.0f)));
+            activePearl.TryAnimateToTargetPos(player, player.GetActivePearlPos(new Vector2(0.0f, 30.0f)));
         }
 
 

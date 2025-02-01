@@ -75,6 +75,11 @@ public static class PlayerPearl_Hooks
             return;
         }
 
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.SetPosSynced(abstractObject, true);
+        }
+
         var physicalObject = abstractObject.realizedObject;
         if (physicalObject is null)
         {
@@ -83,7 +88,6 @@ public static class PlayerPearl_Hooks
 
         module.IsCurrentlyStored = false;
 
-        //physicalObject.gravity = module.Gravity;
         physicalObject.gravity = 1.0f; // yem
 
         physicalObject.CollideWithObjects = module.CollideWithObjects;

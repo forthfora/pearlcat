@@ -22,7 +22,7 @@ public class PearlAnimation_SineWave(Player player) : PearlAnimation(player)
         if (activePearl is not null)
         {
             floatingObjects.Remove(activePearl);
-            activePearl.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
+            activePearl.TryAnimateToTargetPos(player, player.GetActivePearlPos());
         }
 
         for (var i = 0; i < floatingObjects.Count; i++)
@@ -36,7 +36,7 @@ public class PearlAnimation_SineWave(Player player) : PearlAnimation(player)
             targetPos.x = player.firstChunk.pos.x + spacing * i - floatingObjects.Count / 2.0f * spacing + (spacing / 2.0f);
             targetPos.y = player.firstChunk.pos.y + 20.0f * Mathf.Sin(AnimTimer / 30.0f + i * (180.0f / floatingObjects.Count));
 
-            abstractObject.TryToAnimateToTargetPos(player, targetPos);
+            abstractObject.TryAnimateToTargetPos(player, targetPos);
         }
     }
 }

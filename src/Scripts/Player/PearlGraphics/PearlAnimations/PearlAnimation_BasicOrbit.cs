@@ -24,7 +24,7 @@ public class PearlAnimation_BasicOrbit(Player player) : PearlAnimation(player)
         if (activePearl is not null)
         {
             orbitObjects.Remove(activePearl);
-            activePearl.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
+            activePearl.TryAnimateToTargetPos(player, player.GetActivePearlPos());
         }
 
         AnimateOrbit(player, ((PlayerGraphics)player.graphicsModule).head.pos, RADIUS, ANGLE_FRAME_ADDITION, orbitObjects);

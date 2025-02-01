@@ -226,7 +226,7 @@ public static class World_Hooks
     {
         orig(self, eu);
 
-        if (!self.abstractSpear.TryGetModule(out var module))
+        if (!self.abstractSpear.TryGetSpearModule(out var module))
         {
             return;
         }
@@ -334,7 +334,7 @@ public static class World_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!self.abstractSpear.TryGetModule(out var module))
+        if (!self.abstractSpear.TryGetSpearModule(out var module))
         {
             return;
         }
@@ -455,7 +455,7 @@ public static class World_Hooks
     // Pearl Spears unique sounds
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk(On.Room.orig_PlaySound_SoundID_BodyChunk orig, Room self, SoundID soundId, BodyChunk? chunk)
     {
-        if (chunk?.owner is Spear spear && spear.abstractSpear.TryGetModule(out var spearModule) && spearModule.DecayTimer == 0)
+        if (chunk?.owner is Spear spear && spear.abstractSpear.TryGetSpearModule(out var spearModule) && spearModule.DecayTimer == 0)
         {
             if (soundId == SoundID.Spear_Bounce_Off_Creauture_Shell)
             {

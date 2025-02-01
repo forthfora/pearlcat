@@ -77,7 +77,7 @@ public sealed class PearlAnimation_MultiOrbit : PearlAnimation
         AnimateOrbit(player, headPos + (OrbitPearls_5.Count == 0 ? OrbitPearls_5_Offset : OrbitPearls_3_Offset), RADIUS_3, F_ADDITION_3, OrbitPearls_3);
         AnimateOrbit(player, headPos + OrbitPearls_2_Offset, RADIUS_2, F_ADDITION_2, OrbitPearls_2);
 
-        playerModule.ActivePearl?.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
+        playerModule.ActivePearl?.TryAnimateToTargetPos(player, player.GetActivePearlPos());
         prevActiveObject = playerModule.ActivePearl;
     }
 

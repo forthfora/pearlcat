@@ -133,7 +133,7 @@ public partial class PlayerModule
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            var ownerId = ModCompat_Helpers.GetOwnerIdOrNull(self.abstractPhysicalObject);
+            var ownerId = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(self.abstractPhysicalObject);
 
             if (ownerId is null)
             {

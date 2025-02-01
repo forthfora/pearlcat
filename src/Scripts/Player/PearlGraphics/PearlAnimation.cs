@@ -308,7 +308,7 @@ public abstract class PearlAnimation
             var angle = (i * Mathf.PI * 2.0f / abstractObjects.Count) + angleFrameAddition * AnimTimer;
 
             Vector2 targetPos = new(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
-            abstractObject.TryToAnimateToTargetPos(player, targetPos);
+            abstractObject.TryAnimateToTargetPos(player, targetPos);
         }
     }
 }

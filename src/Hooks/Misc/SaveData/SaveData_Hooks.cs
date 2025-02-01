@@ -91,7 +91,7 @@ public static class SaveData_Hooks
 
         if (ModCompat_Helpers.RainMeadow_IsOnline && firstPearlcatIndex != -1)
         {
-            firstPearlcatIndex = ModCompat_Helpers.GetOwnerIdOrNull(game.Players[firstPearlcatIndex]) ?? -1;
+            firstPearlcatIndex = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(game.Players[firstPearlcatIndex]) ?? -1;
         }
 
         if (miscWorld.Inventory.TryGetValue(firstPearlcatIndex, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(firstPearlcatIndex, out var activeIndex))

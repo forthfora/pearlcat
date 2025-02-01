@@ -194,7 +194,7 @@ public static class Player_Hooks
     {
         orig(self, spear);
 
-        if (spear.abstractSpear.TryGetModule(out var spearModule))
+        if (spear.abstractSpear.TryGetSpearModule(out var spearModule))
         {
             spearModule.ReturnTimer = -1;
             spearModule.ThrownByPlayer = new(self);

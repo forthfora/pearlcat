@@ -63,12 +63,31 @@ public static class MeadowCompat
         return abstractPhysicalObject.IsLocal();
     }
 
+    public static bool HasOPO(AbstractPhysicalObject abstractPhysicalObject)
+    {
+        var hasOpo = abstractPhysicalObject.GetOnlineObject() is not null;
+
+        if (!hasOpo)
+        {
+            Plugin.Logger.LogWarning("Player pearl is missing an Online Physical Object! Not fatal, but indicates something weird happened. Details:");
+            Plugin.Logger.LogWarning($"Room: {abstractPhysicalObject.Room.name}, Object Data: {abstractPhysicalObject}");
+        }
+
+        return hasOpo;
+    }
+
+    public static bool IsPosSynced(AbstractPhysicalObject abstractPhysicalObject)
+    {
+        return !abstractPhysicalObject.GetOnlineObject()?.lenientPos ?? false;
+    }
+
     public static int? GetOwnerId(AbstractPhysicalObject abstractPhysicalObject)
     {
         var opo = abstractPhysicalObject.GetOnlineObject();
 
         return opo?.owner.id.GetHashCode();
     }
+
 
     public static void SetRealized(AbstractPhysicalObject abstractPhysicalObject, bool realized)
     {
@@ -81,6 +100,19 @@ public static class MeadowCompat
 
         opo.realized = realized;
     }
+
+    public static void SetPosSynced(AbstractPhysicalObject abstractPhysicalObject, bool isPosSynced)
+    {
+        var opo = abstractPhysicalObject.GetOnlineObject();
+
+        if (opo is null)
+        {
+            return;
+        }
+
+        opo.lenientPos = !isPosSynced;
+    }
+
 
     public static List<AbstractCreature> GetAllPlayers()
     {

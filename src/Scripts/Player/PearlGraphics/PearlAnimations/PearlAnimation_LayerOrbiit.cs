@@ -72,7 +72,7 @@ public class PearlAnimation_LayerOrbit : PearlAnimation
         AnimateOrbit(player, headPos, RADIUS_3, F_ADDITION_3, OrbitPearls_3);
         AnimateOrbit(player, headPos, RADIUS_2, F_ADDITION_2, OrbitPearls_2);
 
-        playerModule.ActivePearl?.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
+        playerModule.ActivePearl?.TryAnimateToTargetPos(player, player.GetActivePearlPos());
         PrevActivePearl = playerModule.ActivePearl;
     }
 

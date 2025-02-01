@@ -76,7 +76,17 @@ public static class ModCompat_Helpers
         return !RainMeadow_IsOnline || MeadowCompat.IsLocal(obj);
     }
 
-    public static int? GetOwnerIdOrNull(AbstractPhysicalObject obj)
+    public static bool RainMeadow_HasOPO(AbstractPhysicalObject obj)
+    {
+        return RainMeadow_IsOnline && MeadowCompat.HasOPO(obj);
+    }
+
+    public static bool RainMeadow_IsPosSynced(AbstractPhysicalObject obj)
+    {
+        return RainMeadow_IsOnline && MeadowCompat.IsPosSynced(obj);
+    }
+
+    public static int? RainMeadow_GetOwnerIdOrNull(AbstractPhysicalObject obj)
     {
         return RainMeadow_IsOnline ? MeadowCompat.GetOwnerId(obj) : null;
     }

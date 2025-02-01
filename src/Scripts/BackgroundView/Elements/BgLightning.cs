@@ -6,7 +6,6 @@ namespace Pearlcat;
 public class BgLightning : CustomBgElement
 {
     public string AssetName { get; }
-    public int Index { get; set; }
 
     public float MinusDepthForLayering { get; set; }
     private bool RestoredDepth { get; set; }
