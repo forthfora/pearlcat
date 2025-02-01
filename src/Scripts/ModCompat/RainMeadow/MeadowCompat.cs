@@ -63,16 +63,11 @@ public static class MeadowCompat
         return abstractPhysicalObject.IsLocal();
     }
 
-    public static int GetOwnerId(AbstractPhysicalObject abstractPhysicalObject)
+    public static int? GetOwnerId(AbstractPhysicalObject abstractPhysicalObject)
     {
         var opo = abstractPhysicalObject.GetOnlineObject();
 
-        if (opo is null)
-        {
-            return 0;
-        }
-
-        return opo.owner.id.GetHashCode();
+        return opo?.owner.id.GetHashCode();
     }
 
     public static void SetRealized(AbstractPhysicalObject abstractPhysicalObject, bool realized)

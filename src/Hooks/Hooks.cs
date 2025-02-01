@@ -144,7 +144,7 @@ public static class Hooks
 
             SSOracleConversation_Helpers.RegisterConvoIdFileMap();
 
-            var debugInfoMessage = "PEARLCAT STARTUP DEBUG INFO";
+            var debugInfoMessage = "PEARLCAT STARTUP DEBUG INFO:";
 
             Debug.Log(debugInfoMessage);
             Plugin.LogPearlcatDebugInfo();

@@ -27,7 +27,14 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            id = ModCompat_Helpers.GetOwnerId(self.abstractPhysicalObject);
+            var ownerId = ModCompat_Helpers.GetOwnerIdOrNull(self.abstractPhysicalObject);
+
+            if (ownerId is null)
+            {
+                return;
+            }
+
+            id = (int)ownerId;
         }
 
         var alreadyGivenPearls = miscWorld is not null && miscWorld.PlayersGivenPearls.Contains(id);
@@ -198,6 +205,11 @@ public static class PlayerPearl_Helpers
     public static void AbstractPlayerPearl(AbstractPhysicalObject abstractObject)
     {
         if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
+        {
+            return;
+        }
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline && ModCompat_Helpers.GetOwnerIdOrNull(abstractObject) is null)
         {
             return;
         }

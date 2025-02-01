@@ -23,6 +23,8 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
     public float ShieldTimer { get; set; } = -1;
     public DynamicSoundLoop? ShieldHoldLoop { get; set; }
+
+    // ReSharper disable once UsageOfDefaultStructEquality, sorry ReSharper, you can blame Joar
     public Dictionary<ShortcutData, FSprite> LockedShortcutsSprites { get; } = new();
 
     public int RageCounter { get; set; } = 3;

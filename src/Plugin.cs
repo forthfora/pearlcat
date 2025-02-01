@@ -47,11 +47,11 @@ public class Plugin : BaseUnityPlugin
 
         if (input)
         {
-            LogPearlcatDebugInfo();
+            LogPearlcatDebugInfo(true);
         }
     }
 
-    public static void LogPearlcatDebugInfo()
+    public static void LogPearlcatDebugInfo(bool isWarning = false)
     {
         try
         {
@@ -175,8 +175,17 @@ public class Plugin : BaseUnityPlugin
 
             Debug.Log(message);
 
-            Logger.LogWarning("START OF BEPINEX LOG");
-            Logger.LogWarning(message);
+
+            if (isWarning)
+            {
+                Logger.LogWarning("START OF BEPINEX LOG");
+                Logger.LogWarning(message);
+            }
+            else
+            {
+                Logger.LogInfo("START OF BEPINEX LOG");
+                Logger.LogInfo(message);
+            }
         }
         catch (Exception e)
         {
