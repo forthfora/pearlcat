@@ -143,6 +143,15 @@ public static class Hooks
             PearlEffectManager.RegisterEffects();
 
             SSOracleConversation_Helpers.RegisterConvoIdFileMap();
+
+            var debugInfoMessage = "PEARLCAT STARTUP DEBUG INFO";
+
+            Debug.Log(debugInfoMessage);
+            Plugin.LogPearlcatDebugInfo();
+
+            Plugin.Logger.LogInfo("START OF BEPINEX LOG");
+            Plugin.Logger.LogInfo(debugInfoMessage);
+            Plugin.LogPearlcatDebugInfo();
         }
         catch (Exception e)
         {

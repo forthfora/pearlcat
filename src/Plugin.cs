@@ -47,7 +47,6 @@ public class Plugin : BaseUnityPlugin
 
         if (input)
         {
-            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             LogPearlcatDebugInfo();
         }
     }
@@ -75,8 +74,6 @@ public class Plugin : BaseUnityPlugin
 
                 $"PEARLCAT VERSION: {VERSION}\n" +
                 $"SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "slime-cubed.slugbase")?.version ?? "NOT FOUND"}\n" +
-                $"CRS VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "crs")?.version ?? "NOT FOUND"}\n" +
-                $"MIRA VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "mira")?.version ?? "NOT FOUND"}\n" +
 
                 "\n" +
 

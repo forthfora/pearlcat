@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 namespace Pearlcat;
@@ -8,18 +9,39 @@ public static class ModCompat_Helpers
     {
         if (IsModEnabled_ImprovedInputConfig)
         {
-            // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
-            InitIICCompat();
+            try
+            {
+                // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
+                InitIICCompat();
+            }
+            catch (Exception e)
+            {
+                Plugin.Logger.LogError($"Error initializing Improved Input Config compat: {e.Message}\n{e.StackTrace}");
+            }
         }
 
         if (IsModEnabled_ChasingWind)
         {
-            CWCompat.InitCompat();
+            try
+            {
+                CWCompat.InitCompat();
+            }
+            catch (Exception e)
+            {
+                Plugin.Logger.LogError($"Error initializing Chasing Wind compat: {e.Message}\n{e.StackTrace}");
+            }
         }
 
         if (IsModEnabled_RainMeadow)
         {
-            MeadowCompat.InitCompat();
+            try
+            {
+                MeadowCompat.InitCompat();
+            }
+            catch (Exception e)
+            {
+                Plugin.Logger.LogError($"Error initializing Rain Meadow compat: {e.Message}\n{e.StackTrace}");
+            }
         }
     }
 
