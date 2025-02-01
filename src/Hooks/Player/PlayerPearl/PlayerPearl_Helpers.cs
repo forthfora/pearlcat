@@ -148,11 +148,14 @@ public static class PlayerPearl_Helpers
             return;
         }
 
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            // Meadow needs this, before realization
+            abstractObject.InDen = false;
+        }
+
         // For warp
         abstractObject.world = self.abstractCreature.world;
-
-        // Meadow needs this, before realization
-        abstractObject.InDen = false;
 
         // Standard realization
         abstractObject.pos = self.abstractCreature.pos;
@@ -215,11 +218,6 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline && !ModCompat_Helpers.RainMeadow_HasOPO(abstractObject))
-        {
-            return;
-        }
-
         if (abstractObject.TryGetPlayerPearlModule(out var module))
         {
             // Pearlcat stuff
@@ -237,8 +235,11 @@ public static class PlayerPearl_Helpers
         abstractObject.Room?.RemoveEntity(abstractObject);
 
         // Meadow needs these
-        abstractObject.InDen = true;
-        abstractObject.pos.WashNode();
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            abstractObject.InDen = true;
+            abstractObject.pos.WashNode();
+        }
     }
 
 

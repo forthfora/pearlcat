@@ -38,8 +38,42 @@ public static class World_Hooks
         On.Room.PlaySound_SoundID_BodyChunk += Room_PlaySound_SoundID_BodyChunk;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
+        On.OverWorld.WorldLoaded += OverWorldOnWorldLoaded;
     }
 
+
+    private static void OverWorldOnWorldLoaded(On.OverWorld.orig_WorldLoaded orig, OverWorld self)
+    {
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            foreach (var playerModule in self.game.GetAllPearlcatModules())
+            {
+                playerModule.PlayerRef?.TryAbstractInventory(true);
+            }
+        }
+
+        var newWorld = self.worldLoader?.world;
+
+        orig(self);
+
+        if (!ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            return;
+        }
+
+        if (newWorld is null)
+        {
+            return;
+        }
+
+        foreach (var playerModule in self.game.GetAllPearlcatModules())
+        {
+            foreach (var item in playerModule.Inventory)
+            {
+                MeadowCompat.ApoEnteringWorld(item, newWorld);
+            }
+        }
+    }
 
     // Override shelter for trains and skips
     private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)

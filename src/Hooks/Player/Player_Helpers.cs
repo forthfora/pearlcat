@@ -346,6 +346,8 @@ public static class Player_Helpers
             {
                 PlayerPearl_Helpers.AbstractPlayerPearl(pearl);
             }
+
+            pearl.pos = self.abstractCreature.pos;
         }
 
         // Inventory

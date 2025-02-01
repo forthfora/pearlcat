@@ -27,17 +27,17 @@ public static class MeadowCompat
             e.LogHookException();
         }
 
-        try
-        {
-            _ = new Hook(
-                typeof(OnlineResource).GetMethod("ParticipantLeft", BindingFlags.Instance | BindingFlags.NonPublic),
-                typeof(MeadowCompat).GetMethod(nameof(OnParticipantLeft), BindingFlags.Static | BindingFlags.NonPublic)
-            );
-        }
-        catch (Exception e)
-        {
-            e.LogHookException();
-        }
+        // try
+        // {
+        //     _ = new Hook(
+        //         typeof(OnlineResource).GetMethod("ParticipantLeft", BindingFlags.Instance | BindingFlags.NonPublic),
+        //         typeof(MeadowCompat).GetMethod(nameof(OnParticipantLeft), BindingFlags.Static | BindingFlags.NonPublic)
+        //     );
+        // }
+        // catch (Exception e)
+        // {
+        //     e.LogHookException();
+        // }
 
         try
         {
@@ -89,6 +89,11 @@ public static class MeadowCompat
         return opo?.owner.id.GetHashCode();
     }
 
+    public static List<AbstractCreature> GetAllPlayers()
+    {
+        return OnlineManager.lobby.playerAvatars.Select(kvp => (kvp.Value.FindEntity(true) as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
+    }
+
 
     public static void SetRealized(AbstractPhysicalObject abstractPhysicalObject, bool realized)
     {
@@ -114,46 +119,47 @@ public static class MeadowCompat
         opo.lenientPos = !isPosSynced;
     }
 
-
-    public static List<AbstractCreature> GetAllPlayers()
+    public static void ApoEnteringWorld(AbstractPhysicalObject abstractPhysicalObject, World world)
     {
-        return OnlineManager.lobby.playerAvatars.Select(kvp => (kvp.Value.FindEntity(true) as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
+        var worldSession = world.GetResource();
+
+        worldSession?.ApoEnteringWorld(abstractPhysicalObject);
     }
 
 
-    private delegate void orig_OnParticipantLeft(OnlineResource self, OnlinePlayer onlinePlayer);
-    private static void OnParticipantLeft(orig_OnParticipantLeft orig, OnlineResource self, OnlinePlayer onlinePlayer)
-    {
-        orig(self, onlinePlayer);
-
-        if (self.activeEntities is null)
-        {
-            return;
-        }
-
-        var playerPearls = self.activeEntities.OfType<OnlinePhysicalObject>().Select(x => x.apo).Where(x => x.IsPlayerPearl());
-
-        foreach (var pearl in playerPearls)
-        {
-            if (pearl.TryGetPlayerPearlOwner(out var player))
-            {
-                var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
-
-                if (playerOpo is null)
-                {
-                    continue;
-                }
-
-                if (playerOpo.owner != onlinePlayer)
-                {
-                    continue;
-                }
-            }
-
-            pearl.realizedObject?.Destroy();
-            pearl.Destroy();
-        }
-    }
+    // private delegate void orig_OnParticipantLeft(OnlineResource self, OnlinePlayer onlinePlayer);
+    // private static void OnParticipantLeft(orig_OnParticipantLeft orig, OnlineResource self, OnlinePlayer onlinePlayer)
+    // {
+    //     orig(self, onlinePlayer);
+    //
+    //     if (self.activeEntities is null)
+    //     {
+    //         return;
+    //     }
+    //
+    //     var playerPearls = self.activeEntities.OfType<OnlinePhysicalObject>().Select(x => x.apo).Where(x => x.IsPlayerPearl());
+    //
+    //     foreach (var pearl in playerPearls)
+    //     {
+    //         if (pearl.TryGetPlayerPearlOwner(out var player))
+    //         {
+    //             var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+    //
+    //             if (playerOpo is null)
+    //             {
+    //                 continue;
+    //             }
+    //
+    //             if (playerOpo.owner != onlinePlayer)
+    //             {
+    //                 continue;
+    //             }
+    //         }
+    //
+    //         pearl.realizedObject?.Destroy();
+    //         pearl.Destroy();
+    //     }
+    // }
 
     private static void SlugcatStatsOnctor(On.SlugcatStats.orig_ctor orig, SlugcatStats self, SlugcatStats.Name slugcat, bool malnourished)
     {
