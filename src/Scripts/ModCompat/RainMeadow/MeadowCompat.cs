@@ -70,7 +70,7 @@ public static class MeadowCompat
         if (!hasOpo)
         {
             Plugin.Logger.LogWarning("Player pearl is missing an Online Physical Object! Not fatal, but indicates something weird happened. Details:");
-            Plugin.Logger.LogWarning($"Room: {abstractPhysicalObject.Room.name}, Object Data: {abstractPhysicalObject}");
+            Plugin.Logger.LogWarning($"Room: {abstractPhysicalObject.Room?.name ?? "null"}, Object Data: {abstractPhysicalObject}");
         }
 
         return hasOpo;
