@@ -72,7 +72,7 @@ public static class MeadowRPCs
     [RPCMethod]
     public static void ObjectConnectEffect(RPCEvent rpcEvent, OnlinePhysicalObject opo, Vector2 pos, Color color)
     {
-        if (opo.apo.realizedObject is not PhysicalObject physicalObject)
+        if (opo.apo?.realizedObject is not PhysicalObject physicalObject)
         {
             return;
         }
