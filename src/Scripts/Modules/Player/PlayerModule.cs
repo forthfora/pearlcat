@@ -139,6 +139,8 @@ public partial class PlayerModule
             {
                 return;
             }
+
+            id = (int)ownerId;
         }
 
         if (!ModOptions.InventoryOverride)
