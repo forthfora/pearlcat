@@ -393,7 +393,7 @@ public static class MeadowCompat
         owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateGivenPearlsSaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
     }
 
-    public static void RPC_ConnectEffect(PhysicalObject physicalObject, Vector2 pos, Color color)
+    public static void RPC_ObjectConnectEffect(PhysicalObject physicalObject, Vector2 pos, Color color)
     {
         var opo = physicalObject.abstractPhysicalObject.GetOnlineObject();
 
@@ -409,7 +409,27 @@ public static class MeadowCompat
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ConnectEffect))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, Vector2, Color>)), opo, pos, color);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ObjectConnectEffect))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, Vector2, Color>)), opo, pos, color);
+        }
+    }
+
+    public static void RPC_RoomConnectEffect(Room room, Vector2 startPos, Vector2 targetPos, Color color, float intensity, float lifeTime)
+    {
+        var roomSession = room.abstractRoom.GetResource();
+
+        if (roomSession is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RoomConnectEffect))!.CreateDelegate(typeof(Action<RPCEvent, RoomSession, Vector2, Vector2, Color, float, float>)), roomSession, startPos, targetPos, color, intensity, lifeTime, lifeTime);
         }
     }
 }

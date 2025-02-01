@@ -70,7 +70,7 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void ConnectEffect(RPCEvent rpcEvent, OnlinePhysicalObject opo, Vector2 pos, Color color)
+    public static void ObjectConnectEffect(RPCEvent rpcEvent, OnlinePhysicalObject opo, Vector2 pos, Color color)
     {
         if (opo.apo.realizedObject is not PhysicalObject physicalObject)
         {
@@ -78,5 +78,16 @@ public static class MeadowRPCs
         }
 
         physicalObject.ConnectEffect(pos, color);
+    }
+
+    [RPCMethod]
+    public static void RoomConnectEffect(RPCEvent rpcEvent, RoomSession roomSession, Vector2 startPos, Vector2 targetPos, Color color, float intensity, float lifeTime)
+    {
+        if (roomSession.absroom?.realizedRoom is not Room room)
+        {
+            return;
+        }
+
+        room.ConnectEffect(startPos, targetPos, color, intensity, lifeTime);
     }
 }

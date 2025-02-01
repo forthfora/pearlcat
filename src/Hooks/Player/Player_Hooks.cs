@@ -165,7 +165,7 @@ public static class Player_Hooks
 
             var randVec = Custom.RNV() * 150.0f;
 
-            self.room?.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80);
+            self.room?.ConnectEffect(self.firstChunk.pos, self.firstChunk.pos + randVec, abstractObject.GetObjectColor(), 1.5f, 80, true);
             abstractObject.realizedObject.DeathEffect();
         }
 
