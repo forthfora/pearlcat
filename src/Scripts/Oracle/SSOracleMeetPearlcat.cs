@@ -712,6 +712,11 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public void TakeRMPearl(Oracle thisOracle, bool withEffect = true)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(thisOracle.abstractPhysicalObject))
+        {
+            return;
+        }
+
         var miscWorld = thisOracle.room.game.GetMiscWorld();
 
         if (miscWorld is not null)
@@ -803,6 +808,11 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
     public void GiveSSPearl(Oracle thisOracle, bool withEffect = true)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(thisOracle.abstractPhysicalObject))
+        {
+            return;
+        }
+
         foreach (var roomObject in thisOracle.room.physicalObjects)
         {
             foreach (var physicalObject in roomObject)

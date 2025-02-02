@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-// well at least it's not the laziest copy paste I ever did
-public sealed class PearlAnimation_SineWaveWeave(Player player) : PearlAnimation(player)
+public abstract class PearlAnimation_SineBase(Player player) : PearlAnimation(player)
 {
+    protected virtual float YPeriod => 0.0f;
+
     public override void Update(Player player)
     {
         base.Update(player);
@@ -23,7 +24,7 @@ public sealed class PearlAnimation_SineWaveWeave(Player player) : PearlAnimation
         if (activePearl is not null)
         {
             floatingObjects.Remove(activePearl);
-            activePearl.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
+            activePearl.TryAnimateToTargetPos(player, player.GetActivePearlPos());
         }
 
         for (var i = 0; i < floatingObjects.Count; i++)
@@ -35,9 +36,9 @@ public sealed class PearlAnimation_SineWaveWeave(Player player) : PearlAnimation
             var spacing = 10.0f;
 
             targetPos.x = player.firstChunk.pos.x + spacing * i - floatingObjects.Count / 2.0f * spacing + (spacing / 2.0f);
-            targetPos.y = player.firstChunk.pos.y + 20.0f * Mathf.Sin(AnimTimer / 30.0f + i * (90.0f / floatingObjects.Count));
+            targetPos.y = player.firstChunk.pos.y + 20.0f * Mathf.Sin(AnimTimer / 30.0f + i * (YPeriod / floatingObjects.Count));
 
-            abstractObject.TryToAnimateToTargetPos(player, targetPos);
+            abstractObject.TryAnimateToTargetPos(player, targetPos);
         }
     }
 }

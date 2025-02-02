@@ -38,8 +38,43 @@ public static class World_Hooks
         On.Room.PlaySound_SoundID_BodyChunk += Room_PlaySound_SoundID_BodyChunk;
 
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
+        On.OverWorld.WorldLoaded += OverWorldOnWorldLoaded;
     }
 
+
+    // Meadow Gate Fix (inform meadow that the pearls are changing world)
+    private static void OverWorldOnWorldLoaded(On.OverWorld.orig_WorldLoaded orig, OverWorld self)
+    {
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            foreach (var playerModule in self.game.GetAllPearlcatModules())
+            {
+                playerModule.PlayerRef?.TryAbstractInventory(true);
+            }
+        }
+
+        var newWorld = self.worldLoader?.world;
+
+        orig(self);
+
+        if (!ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            return;
+        }
+
+        if (newWorld is null)
+        {
+            return;
+        }
+
+        foreach (var playerModule in self.game.GetAllPearlcatModules())
+        {
+            foreach (var item in playerModule.Inventory)
+            {
+                MeadowCompat.ApoEnteringWorld(item, newWorld);
+            }
+        }
+    }
 
     // Override shelter for trains and skips
     private static string SaveState_GetSaveStateDenToUse(On.SaveState.orig_GetSaveStateDenToUse orig, SaveState self)
@@ -226,7 +261,7 @@ public static class World_Hooks
     {
         orig(self, eu);
 
-        if (!self.abstractSpear.TryGetModule(out var module))
+        if (!self.abstractSpear.TryGetSpearModule(out var module))
         {
             return;
         }
@@ -334,7 +369,7 @@ public static class World_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (!self.abstractSpear.TryGetModule(out var module))
+        if (!self.abstractSpear.TryGetSpearModule(out var module))
         {
             return;
         }
@@ -389,21 +424,28 @@ public static class World_Hooks
                         continue;
                     }
 
-                    if (abstractObject.IsPlayerPearl())
+                    if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
                     {
-                        if (abstractObject.world.game.IsStorySession)
-                        {
-                            abstractObject.world.game.GetStorySession.RemovePersistentTracker(abstractObject);
-                        }
-
-                        abstractRoom.RemoveEntity(entity);
+                        continue;
                     }
+
+                    if (!abstractObject.IsPlayerPearl())
+                    {
+                        continue;
+                    }
+
+                    if (abstractObject.world.game.IsStorySession)
+                    {
+                        abstractObject.world.game.GetStorySession.RemovePersistentTracker(abstractObject);
+                    }
+
+                    abstractRoom.RemoveEntity(entity);
                 }
             }
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("Error removing player pearls from the world state: \n" + e + "\n" + e.StackTrace);
+            Plugin.Logger.LogError($"Error removing player pearls from the world state: \n{e}");
         }
 
         RemoveInventorySaveObjects(self);
@@ -448,7 +490,7 @@ public static class World_Hooks
     // Pearl Spears unique sounds
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk(On.Room.orig_PlaySound_SoundID_BodyChunk orig, Room self, SoundID soundId, BodyChunk? chunk)
     {
-        if (chunk?.owner is Spear spear && spear.abstractSpear.TryGetModule(out var spearModule) && spearModule.DecayTimer == 0)
+        if (chunk?.owner is Spear spear && spear.abstractSpear.TryGetSpearModule(out var spearModule) && spearModule.DecayTimer == 0)
         {
             if (soundId == SoundID.Spear_Bounce_Off_Creauture_Shell)
             {

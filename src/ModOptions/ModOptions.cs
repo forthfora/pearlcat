@@ -71,7 +71,7 @@ public static class ModOptions
     // MISC GAMEPLAY
     public static int MaxPearlCount => IsRemote ? OnlineOptions.MaxPearlCount : OI.MaxPearlCount.Value;
 
-    public static string StartShelterOverride => IsRemote ? "" : OI.StartShelterOverride.Value;
+    public static string StartShelterOverride => IsRemote ? OnlineOptions.StartShelterOverride : OI.StartShelterOverride.Value;
     public static int VisibilityMultiplier => IsRemote ? OnlineOptions.VisibilityMultiplier : OI.VisibilityMultiplier.Value;
     public static bool EnableBackSpear => IsRemote ? OnlineOptions.EnableBackSpear : OI.EnableBackSpear.Value;
     public static bool PearlThreatMusic => OI.PearlThreatMusic.Value;

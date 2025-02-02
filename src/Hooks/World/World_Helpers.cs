@@ -327,7 +327,7 @@ public static class World_Helpers
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError($"Error removing inventory save objects: {e}\n{e.StackTrace}");
+            Plugin.Logger.LogError($"Error removing inventory save objects:\n{e}");
         }
     }
 }

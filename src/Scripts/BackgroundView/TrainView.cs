@@ -8,7 +8,7 @@ namespace Pearlcat;
 
 public sealed class TrainView : CustomBgScene
 {
-    public bool IsInit { get; private set; }
+    public bool IsOutsideInit { get; private set; }
     public bool IsOutside { get; }
 
     public readonly int[] BgElementTimers;
@@ -113,22 +113,45 @@ public sealed class TrainView : CustomBgScene
 
         YShift = TRAIN_VIEW_YSHIFT;
 
-        // somehow this works flawlessly, not complaining
-        if (!IsInit)
+        if (IsOutside)
         {
-            IsInit = true;
-
-            for (var i = 0; i < 6000; i++)
-            {
-                Update(false);
-
-                foreach (var element in elements)
-                {
-                    element.Update(false);
-                }
-            }
+            InitOutside();
         }
 
+        UpdateBgElementTimers();
+
+        UpdateBgElements();
+
+        RemoveOffscreenBgElements();
+    }
+
+
+    // LAG CAUSER
+    // Prepares the outside scene by updating many times to move some buildings into position
+    private void InitOutside()
+    {
+        if (IsOutsideInit)
+        {
+            return;
+        }
+
+        IsOutsideInit = true;
+
+        var initUpdateCount = 6000;
+
+        for (var i = 0; i < initUpdateCount; i++)
+        {
+            UpdateBgElementTimers();
+
+            foreach (var element in elements)
+            {
+                element.Update(false);
+            }
+        }
+    }
+
+    private void UpdateBgElementTimers()
+    {
         for (var i = 0; i < BgElementTimers.Length; i++)
         {
             var timer = BgElementTimers[i];
@@ -143,13 +166,32 @@ public sealed class TrainView : CustomBgScene
 
             BgElementTimers[i]--;
         }
+    }
 
+    private void RemoveOffscreenBgElements()
+    {
+        for (var i = DynamicBgElements.Count - 1; i >= 0; i--)
+        {
+            var newElement = DynamicBgElements[i];
 
+            if (newElement.pos.x > 2000.0f)
+            {
+                DynamicBgElements.Remove(newElement);
+                elements.Remove(newElement);
+                newElement.slatedForDeletetion = true;
+                newElement.RemoveFromRoom();
+            }
+        }
+    }
+
+    private void UpdateBgElements()
+    {
         var sLeasers = room.world.game.cameras[0].spriteLeasers;
 
         foreach (var newElement in DynamicBgElements)
         {
             var newSLeaser = sLeasers.FirstOrDefault(x => x.drawableObject == newElement);
+
             if (newSLeaser is null)
             {
                 continue;
@@ -225,41 +267,8 @@ public sealed class TrainView : CustomBgScene
                 }
             }
         }
-
-        for (var i = DynamicBgElements.Count - 1; i >= 0; i--)
-        {
-            var newElement = DynamicBgElements[i];
-         
-            if (newElement.pos.x > 2000.0f)
-            {
-                DynamicBgElements.Remove(newElement);
-                elements.Remove(newElement);
-                newElement.slatedForDeletetion = true;
-                newElement.RemoveFromRoom();
-            }
-        }
-
-        //stacker++;
-
-        //if (stacker % 80 != 0) return;
-
-        //Plugin.Logger.LogWarning("---------------------------------------------------------------");
-
-        //foreach (var sLeaser in sLeasers)
-        //{
-        //    if (sLeaser.drawableObject is not CustomBgElement element) continue;
-
-        //    foreach (var sprite in sLeaser.sprites)
-        //        Plugin.Logger.LogWarning(sprite.element.name + " - " + element.depth);
-        //}
-
-        //foreach (var element in room.world.game.cameras.First().ReturnFContainer("Water")._childNodes)
-        //{
-        //    if (element is not FSprite sprite) continue;
-
-        //    Plugin.Logger.LogWarning(sprite.element.name);
-        //}
     }
+
 
     public int SetSpawnTime(BgElementType type)
     {

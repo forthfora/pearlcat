@@ -37,7 +37,7 @@ public static class SaveData_Hooks
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogError($"ERROR UPDATING SAVE DATA ON CYCLE COMPLETION:\n{e}\n{e.StackTrace}");
+                Plugin.Logger.LogError($"ERROR UPDATING SAVE DATA ON CYCLE COMPLETION:\n{e}");
             }
         }
 
@@ -91,7 +91,7 @@ public static class SaveData_Hooks
 
         if (ModCompat_Helpers.RainMeadow_IsOnline && firstPearlcatIndex != -1)
         {
-            firstPearlcatIndex = ModCompat_Helpers.GetOwnerId(game.Players[firstPearlcatIndex]);
+            firstPearlcatIndex = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(game.Players[firstPearlcatIndex]) ?? -1;
         }
 
         if (miscWorld.Inventory.TryGetValue(firstPearlcatIndex, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(firstPearlcatIndex, out var activeIndex))
@@ -173,7 +173,7 @@ public static class SaveData_Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError($"ERROR UPDATING SAVE BEFORE CYCLE START:\n{e}\n{e.StackTrace}");
+            Plugin.Logger.LogError($"ERROR UPDATING SAVE BEFORE CYCLE START:\n{e}");
         }
     }
 

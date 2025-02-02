@@ -83,7 +83,6 @@ public static class PlayerPearl_Hooks
 
         module.IsCurrentlyStored = false;
 
-        //physicalObject.gravity = module.Gravity;
         physicalObject.gravity = 1.0f; // yem
 
         physicalObject.CollideWithObjects = module.CollideWithObjects;
@@ -118,12 +117,30 @@ public static class PlayerPearl_Hooks
     {
         orig(self, time);
 
-        if (self.IsPlayerPearl() && self.Room.world.game.GetStorySession is StoryGameSession session)
+        if (!self.IsPlayerPearl())
+        {
+            return;
+        }
+
+        if (self.world.game.GetStorySession is StoryGameSession session)
         {
             session.RemovePersistentTracker(self);
         }
-    }
 
+
+        // Clean up if our abstract owner is gone (really only useful in Meadow for player disconnects as for Warp the room will be deleted too)
+        var playerData = self.world.game.GetAllPearlcatModules();
+
+        var hasOwner = playerData.Any(x => x.Inventory.Contains(self));
+
+        if (!hasOwner)
+        {
+            self.realizedObject?.AbstractedEffect();
+
+            self.realizedObject?.Destroy();
+            self.Destroy();
+        }
+    }
 
     private static void PhysicalObject_Update(On.PhysicalObject.orig_Update orig, PhysicalObject self, bool eu)
     {        
@@ -137,7 +154,7 @@ public static class PlayerPearl_Hooks
 
         if (module.CooldownTimer > 0)
         {
-            var playerModule = self.room.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
+            var playerModule = self.abstractPhysicalObject.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(self.abstractPhysicalObject));
             var effect = self.abstractPhysicalObject.GetPearlEffect();
             
             if (effect.MajorEffect != PearlEffect.MajorEffectType.Shield || (playerModule is not null && module.CooldownTimer != 0 && playerModule.PlayerRef is not null && playerModule.PlayerRef.airInLungs == 1.0f))

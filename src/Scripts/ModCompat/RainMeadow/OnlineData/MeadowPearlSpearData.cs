@@ -53,7 +53,7 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
                 return;
             }
 
-            if (!spear.TryGetModule(out var spearModule))
+            if (!spear.TryGetSpearModule(out var spearModule))
             {
                 return;
             }
@@ -74,7 +74,7 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
                 return;
             }
 
-            if (!spear.TryGetModule(out var spearModule))
+            if (!spear.TryGetSpearModule(out var spearModule))
             {
                 var miscWorld = spear.world.game.GetMiscWorld();
 

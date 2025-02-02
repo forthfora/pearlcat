@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 namespace Pearlcat;
@@ -8,18 +9,39 @@ public static class ModCompat_Helpers
     {
         if (IsModEnabled_ImprovedInputConfig)
         {
-            // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
-            InitIICCompat();
+            try
+            {
+                // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
+                InitIICCompat();
+            }
+            catch (Exception e)
+            {
+                Plugin.Logger.LogError($"Error initializing Improved Input Config compat:\n{e}");
+            }
         }
 
         if (IsModEnabled_ChasingWind)
         {
-            CWCompat.InitCompat();
+            try
+            {
+                CWCompat.InitCompat();
+            }
+            catch (Exception e)
+            {
+                Plugin.Logger.LogError($"Error initializing Chasing Wind compat:\n{e}");
+            }
         }
 
         if (IsModEnabled_RainMeadow)
         {
-            MeadowCompat.InitCompat();
+            try
+            {
+                MeadowCompat.InitCompat();
+            }
+            catch (Exception e)
+            {
+                Plugin.Logger.LogError($"Error initializing Rain Meadow compat:\n{e}");
+            }
         }
     }
 
@@ -54,8 +76,13 @@ public static class ModCompat_Helpers
         return !RainMeadow_IsOnline || MeadowCompat.IsLocal(obj);
     }
 
-    public static int GetOwnerId(AbstractPhysicalObject obj)
+    public static bool RainMeadow_IsPosSynced(AbstractPhysicalObject obj)
     {
-        return RainMeadow_IsOnline ? MeadowCompat.GetOwnerId(obj) : 0;
+        return RainMeadow_IsOnline && MeadowCompat.IsPosSynced(obj);
+    }
+
+    public static int? RainMeadow_GetOwnerIdOrNull(AbstractPhysicalObject obj)
+    {
+        return RainMeadow_IsOnline ? MeadowCompat.GetOwnerId(obj) : null;
     }
 }

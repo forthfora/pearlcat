@@ -36,7 +36,7 @@ public static class Utils
     {
         Plugin.Logger.LogError($"Caught exception applying a hook! May not be fatal, but likely to cause issues." +
                                $"\nRelated to ({Path.GetFileNameWithoutExtension(filePath)}.{memberName}). Details:" +
-                               $"\n{e}\n{e.StackTrace}");
+                               $"\n{e}");
     }
 
     public static string TrimEnd(this string source, string value)

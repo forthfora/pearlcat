@@ -16,8 +16,8 @@ public class MeadowOptionsData : OnlineResource.ResourceData
         return new State();
     }
 
-
-    public class State : ResourceDataState
+    [method: UsedImplicitly]
+    public class State() : ResourceDataState
     {
         [OnlineField]
         public bool pearlpupRespawn = ModOptions.PearlpupRespawn;
@@ -25,6 +25,9 @@ public class MeadowOptionsData : OnlineResource.ResourceData
 
         [OnlineField]
         public int maxPearlCount = ModOptions.MaxPearlCount;
+
+        [OnlineField]
+        public string startShelterOverride = ModOptions.StartShelterOverride;
 
         [OnlineField]
         public int visibilityMultiplier = ModOptions.VisibilityMultiplier;
@@ -99,19 +102,15 @@ public class MeadowOptionsData : OnlineResource.ResourceData
 
 
         [OnlineField]
-        public static bool oldRedPearlAbility = ModOptions.OldRedPearlAbility;
+        public bool oldRedPearlAbility = ModOptions.OldRedPearlAbility;
 
-
-        [UsedImplicitly]
-        public State()
-        {
-        }
 
         public override void ReadTo(OnlineResource.ResourceData data, OnlineResource resource)
         {
             MeadowOnlineOptions.PearlpupRespawn = pearlpupRespawn;
 
             MeadowOnlineOptions.MaxPearlCount = maxPearlCount;
+            MeadowOnlineOptions.StartShelterOverride = startShelterOverride;
             MeadowOnlineOptions.VisibilityMultiplier = visibilityMultiplier;
             MeadowOnlineOptions.EnableBackSpear = enableBackSpear;
 

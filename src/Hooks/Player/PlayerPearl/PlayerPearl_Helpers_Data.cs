@@ -10,12 +10,7 @@ public static class PlayerPearl_Helpers_Data
 {
     public static bool IsPlayerPearl(this AbstractPhysicalObject targetObject)
     {
-        if (targetObject.TryGetPlayerPearlModule(out var playerPearlModule))
-        {
-            return playerPearlModule.IsCurrentlyStored;
-        }
-
-        return false;
+        return targetObject.TryGetPlayerPearlModule(out var playerPearlModule) && playerPearlModule.IsCurrentlyStored;
     }
 
     public static bool IsObjectStorable(this AbstractPhysicalObject abstractObject)
@@ -55,7 +50,7 @@ public static class PlayerPearl_Helpers_Data
         }
 
         // Pearl Spear
-        if (abstractObject is AbstractSpear spear && spear.TryGetModule(out _))
+        if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out _))
         {
             return true;
         }
@@ -197,13 +192,13 @@ public static class PlayerPearl_Helpers_Data
 
     public static ConditionalWeakTable<AbstractPhysicalObject, StrongBox<Vector2>> TargetPositions { get; } = new();
 
-    public static void TryToAnimateToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
+    public static void TryAnimateToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
     {
         var pos = TargetPositions.GetValue(abstractObject, _ => new StrongBox<Vector2>());
         pos.Value = targetPos;
 
-        // Just let meadow handle the position, sync it from the owner
-        if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
+        // If the object's position is being handled by Meadow, don't interfere
+        if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject) && ModCompat_Helpers.RainMeadow_IsPosSynced(abstractObject))
         {
             return;
         }

@@ -1,7 +1,7 @@
 ﻿
 namespace Pearlcat;
 
-public class PearlAnimation_FreeFall(Player player) : PearlAnimation(player)
+public sealed class PearlAnimation_FreeFall(Player player) : PearlAnimation(player)
 {
     public override void Update(Player player)
     {

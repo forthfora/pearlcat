@@ -97,7 +97,7 @@ public static class PlayerPearl_Helpers_Graphics
     }
 
 
-    public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null)
+    public static void ConnectEffect(this PhysicalObject? physicalObject, Vector2 pos, Color? overrideColor = null, bool syncOnline = false)
     {
         if (physicalObject?.room is null)
         {
@@ -117,10 +117,16 @@ public static class PlayerPearl_Helpers_Graphics
             lifeTime = 12.0f,
             lightningType = Custom.RGB2HSL(color).x,
         };
+
         physicalObject.room.AddObject(lightningBolt);
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline && syncOnline)
+        {
+            MeadowCompat.RPC_ObjectConnectEffect(physicalObject, pos, color);
+        }
     }
 
-    public static void ConnectEffect(this Room? room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f)
+    public static void ConnectEffect(this Room? room, Vector2 startPos, Vector2 targetPos, Color color, float intensity = 0.75f, float lifeTime = 12.0f, bool syncOnline = false)
     {
         if (room is null)
         {
@@ -135,6 +141,11 @@ public static class PlayerPearl_Helpers_Graphics
         };
 
         room.AddObject(lightningBolt);
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline && syncOnline)
+        {
+            MeadowCompat.RPC_RoomConnectEffect(room, startPos, targetPos, color, intensity, lifeTime);
+        }
     }
 
 
@@ -171,7 +182,7 @@ public static class PlayerPearl_Helpers_Graphics
         for (var i = 0; i < 4; i++)
         {
             var randVec = Custom.RNV() * 150.0f;
-            room.ConnectEffect(pos, pos + randVec, Color.green, 1.5f, 80);
+            room.ConnectEffect(pos, pos + randVec, Color.green, 1.5f, 80, true);
         }
 
         room.PlaySound(SoundID.UI_Slugcat_Die, pos, 1.0f, 1.0f);

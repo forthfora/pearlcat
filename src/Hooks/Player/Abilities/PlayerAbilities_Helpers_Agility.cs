@@ -127,7 +127,7 @@ public static class PlayerAbilities_Helpers_Agility
                 {
                     var sulfurColor = Custom.hexToColor("ffc800");
 
-                    self.ConnectEffect(targetPos, sulfurColor);
+                    self.ConnectEffect(targetPos, sulfurColor, true);
 
                     if (self.room is not null)
                     {
@@ -141,7 +141,7 @@ public static class PlayerAbilities_Helpers_Agility
                 }
                 else
                 {
-                    self.ConnectEffect(targetPos, agilityObject.GetObjectColor());
+                    self.ConnectEffect(targetPos, agilityObject.GetObjectColor(), true);
                 }
             }
 
@@ -179,7 +179,7 @@ public static class PlayerAbilities_Helpers_Agility
 
             if (overuse > 90 && Random.value < 0.03f)
             {
-                self.ConnectEffect(self.mainBodyChunk.pos + Custom.RNV() * 80.0f, playerModule.ActiveColor);
+                self.ConnectEffect(self.mainBodyChunk.pos + Custom.RNV() * 80.0f, playerModule.ActiveColor, syncOnline: true);
             }
         }
 

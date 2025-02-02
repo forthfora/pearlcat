@@ -2,7 +2,7 @@
 
 namespace Pearlcat;
 
-public class PearlAnimation_BasicOrbit(Player player) : PearlAnimation(player)
+public sealed class PearlAnimation_BasicOrbit(Player player) : PearlAnimation(player)
 {
     public const float ANGLE_FRAME_ADDITION = 0.02f;
     public const float RADIUS = 25.0f;
@@ -24,7 +24,7 @@ public class PearlAnimation_BasicOrbit(Player player) : PearlAnimation(player)
         if (activePearl is not null)
         {
             orbitObjects.Remove(activePearl);
-            activePearl.TryToAnimateToTargetPos(player, player.GetActivePearlPos());
+            activePearl.TryAnimateToTargetPos(player, player.GetActivePearlPos());
         }
 
         AnimateOrbit(player, ((PlayerGraphics)player.graphicsModule).head.pos, RADIUS, ANGLE_FRAME_ADDITION, orbitObjects);

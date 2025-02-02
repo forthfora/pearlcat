@@ -5,6 +5,7 @@ using System.Security.Permissions;
 using System.Security;
 using System.Linq;
 using System;
+using Newtonsoft.Json;
 using UnityEngine;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -22,7 +23,7 @@ namespace Pearlcat;
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 [BepInDependency("henpemaz.rainmeadow", BepInDependency.DependencyFlags.SoftDependency)] // Rain Meadow
 
-[BepInPlugin(MOD_ID, MOD_ID, "1.4.1")]
+[BepInPlugin(MOD_ID, MOD_ID, "1.4.2")]
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";
@@ -47,12 +48,11 @@ public class Plugin : BaseUnityPlugin
 
         if (input)
         {
-            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-            LogPearlcatDebugInfo();
+            LogPearlcatDebugInfo(true);
         }
     }
 
-    public static void LogPearlcatDebugInfo()
+    public static void LogPearlcatDebugInfo(bool isWarning = false)
     {
         try
         {
@@ -75,8 +75,6 @@ public class Plugin : BaseUnityPlugin
 
                 $"PEARLCAT VERSION: {VERSION}\n" +
                 $"SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "slime-cubed.slugbase")?.version ?? "NOT FOUND"}\n" +
-                $"CRS VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "crs")?.version ?? "NOT FOUND"}\n" +
-                $"MIRA VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "mira")?.version ?? "NOT FOUND"}\n" +
 
                 "\n" +
 
@@ -85,33 +83,10 @@ public class Plugin : BaseUnityPlugin
                 $"REMIX ACTIVE: {ModManager.MMF}\n" +
                 $"JOLLY ACTIVE: {ModManager.JollyCoop}\n" +
 
-                $"\n-------------------\n" +
-                $"PEARLCAT MISC PROGRESSION:\n" +
-                $"{nameof(SaveMiscProgression.IsNewPearlcatSave)}: {pearlcatMiscProg.IsNewPearlcatSave}\n" +
-                $"{nameof(SaveMiscProgression.IsMSCSave)}: {pearlcatMiscProg.IsMSCSave}\n" +
-
-                "\n" +
-
-                $"{nameof(SaveMiscProgression.StoredActivePearl)}: {pearlcatMiscProg.StoredActivePearl?.DataPearlType ?? "None"}\n" +
-                $"{nameof(SaveMiscProgression.StoredNonActivePearls)}:\n{string.Join(",\n", pearlcatMiscProg.StoredNonActivePearls.Select(x => x.DataPearlType))}\n" +
-
-                "\n" +
-
-                $"{nameof(SaveMiscProgression.HasPearlpup)}: {pearlcatMiscProg.HasPearlpup}\n" +
-                $"{nameof(SaveMiscProgression.HasDeadPearlpup)}: {pearlcatMiscProg.HasDeadPearlpup}\n" +
-                $"{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n" +
-
-                "\n" +
-
-                $"{nameof(SaveMiscProgression.HasOEEnding)}: {pearlcatMiscProg.HasOEEnding}\n" +
-                $"{nameof(SaveMiscProgression.JustAscended)}: {pearlcatMiscProg.JustAscended}\n" +
-                $"{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n" +
-                $"{nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n" +
-
-                "\n" +
-
-                $"{nameof(SaveMiscProgression.DidHavePearlpup)}: {pearlcatMiscProg.DidHavePearlpup}\n" +
-                $"{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n";
+                "\n-------------------\n" +
+                "PEARLCAT MISC PROGRESSION:\n" +
+                JsonConvert.SerializeObject(pearlcatMiscProg, Formatting.Indented) +
+                "\n";
 
 
             if (saveState is not null && pearlcatMiscWorld is not null)
@@ -125,38 +100,8 @@ public class Plugin : BaseUnityPlugin
 
                     $"\n-------------------\n" +
                     $"PEARLCAT MISC WORLD:\n" +
-                    $"{nameof(SaveMiscWorld.Inventory)}:\n{string.Join("\n", pearlcatMiscWorld.Inventory.Select(x => $"{x.Key}:\n  {string.Join("\n  ", x.Value)}"))}\n" +
-
-                    "\n" +
-
-                    $"{nameof(SaveMiscWorld.ActiveObjectIndex)}:\n{string.Join("\n", pearlcatMiscWorld.ActiveObjectIndex)}\n" +
-                    $"{nameof(SaveMiscWorld.PlayersGivenPearls)}:\n{string.Join("\n", pearlcatMiscWorld.PlayersGivenPearls)}\n" +
-
-                    "\n" +
-
-                    $"Pearl Spear Count: {pearlcatMiscWorld.PearlSpears.Keys.Count}\n" +
-
-                    "\n" +
-
-                    $"{nameof(SaveMiscWorld.PebblesMeetCount)}: {pearlcatMiscWorld.PebblesMeetCount}\n" +
-                    $"{nameof(SaveMiscWorld.PebblesMetSickPup)}: {pearlcatMiscWorld.PebblesMetSickPup}\n" +
-                    $"{nameof(SaveMiscWorld.MoonSickPupMeetCount)}: {pearlcatMiscWorld.MoonSickPupMeetCount}\n" +
-                    $"{nameof(SaveMiscWorld.PearlIDsBroughtToPebbles)}: {string.Join(", ", pearlcatMiscWorld.PearlIDsBroughtToPebbles.Keys)}\n" +
-
-                    "\n" +
-
-                    $"{nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n" +
-                    $"{nameof(SaveMiscWorld.ShownFullInventoryTutorial)}: {pearlcatMiscWorld.ShownFullInventoryTutorial}\n" +
-
-                    "\n" +
-
-                    $"{nameof(SaveMiscWorld.PearlpupID)}: {pearlcatMiscWorld.PearlpupID ?? -1}\n" +
-                    $"{nameof(SaveMiscWorld.HasPearlpupWithPlayer)}: {pearlcatMiscWorld.HasPearlpupWithPlayer}\n" +
-
-                    "\n" +
-
-
-                    $"{nameof(SaveMiscWorld.JustBeatAltEnd)}: {pearlcatMiscWorld.JustBeatAltEnd}\n";
+                    JsonConvert.SerializeObject(pearlcatMiscWorld, Formatting.Indented) +
+                    "\n";
             }
             else
             {
@@ -176,14 +121,21 @@ public class Plugin : BaseUnityPlugin
                 message += $"> {mod.id} ({mod.name}) - {version}\n";
             }
 
+
             Debug.Log(message);
 
-            Logger.LogWarning("START OF BEPINEX LOG");
-            Logger.LogWarning(message);
+            if (isWarning)
+            {
+                Logger.LogWarning(message);
+            }
+            else
+            {
+                Logger.LogInfo(message);
+            }
         }
         catch (Exception e)
         {
-            Logger.LogError("PEARLCAT LOG DEBUG INFO ERROR: \n" + e + "\n" + e.StackTrace);
+            Logger.LogError($"PEARLCAT LOG DEBUG INFO ERROR:\n{e}");
         }
     }
 }

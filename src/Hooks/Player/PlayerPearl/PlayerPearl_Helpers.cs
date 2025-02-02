@@ -27,7 +27,14 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            id = ModCompat_Helpers.GetOwnerId(self.abstractPhysicalObject);
+            var ownerId = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(self.abstractPhysicalObject);
+
+            if (ownerId is null)
+            {
+                return;
+            }
+
+            id = (int)ownerId;
         }
 
         var alreadyGivenPearls = miscWorld is not null && miscWorld.PlayersGivenPearls.Contains(id);
@@ -94,6 +101,12 @@ public static class PlayerPearl_Helpers
     // Realization & Abstraction
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
+        // Meadow handles dealing with the inventory on death differently
+        if (ModCompat_Helpers.RainMeadow_IsOnline && self.dead)
+        {
+            return;
+        }
+
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
@@ -135,11 +148,14 @@ public static class PlayerPearl_Helpers
             return;
         }
 
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            // Meadow needs this, before realization
+            abstractObject.InDen = false;
+        }
+
         // For warp
         abstractObject.world = self.abstractCreature.world;
-
-        // Meadow needs this, before realization
-        abstractObject.InDen = false;
 
         // Standard realization
         abstractObject.pos = self.abstractCreature.pos;
@@ -150,7 +166,7 @@ public static class PlayerPearl_Helpers
         abstractObject.MarkAsPlayerPearl();
     }
 
-    public static void TryAbstractInventory(this Player self)
+    public static void TryAbstractInventory(this Player self, bool isForceIncludingSentries = false)
     {
         self.slugOnBack?.slugcat?.TryAbstractInventory();
 
@@ -160,7 +176,7 @@ public static class PlayerPearl_Helpers
         }
 
         // Also abstract sentries when changing rooms
-        var includingSentries = self.abstractCreature.Room != playerModule.LastRoom || self.inVoidSea;
+        var includingSentries = self.abstractCreature.Room != playerModule.LastRoom || self.inVoidSea || isForceIncludingSentries;
 
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
@@ -219,8 +235,11 @@ public static class PlayerPearl_Helpers
         abstractObject.Room?.RemoveEntity(abstractObject);
 
         // Meadow needs these
-        abstractObject.InDen = true;
-        abstractObject.pos.WashNode();
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            abstractObject.InDen = true;
+            abstractObject.pos.WashNode();
+        }
     }
 
 
@@ -258,7 +277,7 @@ public static class PlayerPearl_Helpers
             self.ReleaseGrasp(0);
         }
 
-        if (abstractObject is AbstractSpear spear && spear.TryGetModule(out var spearModule))
+        if (abstractObject is AbstractSpear spear && spear.TryGetSpearModule(out var spearModule))
         {
             abstractObject.realizedObject?.Destroy();
             abstractObject.Destroy();

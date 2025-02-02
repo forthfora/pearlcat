@@ -34,7 +34,6 @@ public static class ModuleManager
         List<PlayerModule> allPlayerModules = [];
         var players = game.Players;
 
-        // TODO: kill it with fire
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             players = MeadowCompat.GetAllPlayers();
@@ -186,7 +185,7 @@ public static class ModuleManager
 
     // Pearl Spear
     public static ConditionalWeakTable<AbstractPhysicalObject, SpearModule> TempPearlSpearData { get; } = new();
-    public static bool TryGetModule(this AbstractPhysicalObject self, out SpearModule module)
+    public static bool TryGetSpearModule(this AbstractPhysicalObject self, out SpearModule module)
     {
         var save = self.Room?.world?.game?.GetMiscWorld();
 

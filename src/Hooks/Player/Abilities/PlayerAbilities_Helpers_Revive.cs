@@ -50,7 +50,7 @@ public static class PlayerAbilities_Helpers_Revive
 
             if (playerModule.ReviveTimer % 3 == 0 && !pearlModule.IsReturningSentry)
             {
-                playerModule.ActivePearl.realizedObject.ConnectEffect(creature.firstChunk.pos);
+                playerModule.ActivePearl.realizedObject.ConnectEffect(creature.firstChunk.pos, syncOnline: true);
             }
 
             if (playerModule.ReviveTimer > 100)

@@ -346,6 +346,8 @@ public static class Player_Helpers
             {
                 PlayerPearl_Helpers.AbstractPlayerPearl(pearl);
             }
+
+            pearl.pos = self.abstractCreature.pos;
         }
 
         // Inventory
@@ -502,6 +504,11 @@ public static class Player_Helpers
 
     public static void UpdateStoreAndRetrieve(Player self, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractCreature))
+        {
+            return;
+        }
+
         if (self.inVoidSea)
         {
             return;
@@ -573,7 +580,7 @@ public static class Player_Helpers
                         if (isStoring)
                         {
                             var activeObjPos = self.GetActivePearlPos();
-                            toStore?.ConnectEffect(activeObjPos);
+                            toStore?.ConnectEffect(activeObjPos, syncOnline: true);
                         }
                         else
                         {
@@ -583,14 +590,14 @@ public static class Player_Helpers
                             {
                                 if (!module.IsReturningSentry)
                                 {
-                                    activeObj.ConnectEffect(self.firstChunk.pos);
+                                    activeObj.ConnectEffect(self.firstChunk.pos, syncOnline: true);
                                 }
 
                                 module.ReturnSentry(playerModule.ActivePearl);
                             }
                             else
                             {
-                                activeObj.ConnectEffect(self.firstChunk.pos);
+                                activeObj.ConnectEffect(self.firstChunk.pos, syncOnline: true);
                             }
                         }
                     }
@@ -649,7 +656,7 @@ public static class Player_Helpers
 
     public static void UpdatePostDeathInventory(Player self, PlayerModule playerModule)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             return;
         }
@@ -710,6 +717,20 @@ public static class Player_Helpers
             return;
         }
 
+        DeterminePearlAnimation(self, playerModule);
+
+        playerModule.CurrentPearlAnimation?.Update(self);
+        playerModule.PearlAnimationTimer++;
+    }
+
+    private static void DeterminePearlAnimation(Player self, PlayerModule playerModule)
+    {
+        // Don't handle this on remote in Meadow
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractCreature))
+        {
+            return;
+        }
+
         if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
         {
             playerModule.CurrentPearlAnimation = new PearlAnimation_FreeFall(self);
@@ -743,7 +764,7 @@ public static class Player_Helpers
                     }
                 }
 
-                abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
+                abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos, syncOnline: true);
             }
 
             playerModule.PickPearlAnimation(self);
@@ -760,9 +781,6 @@ public static class Player_Helpers
         {
             playerModule.PickPearlAnimation(self);
         }
-
-        playerModule.CurrentPearlAnimation?.Update(self);
-        playerModule.PearlAnimationTimer++;
     }
 
     public static void UpdateSFX(Player self, PlayerModule playerModule)
@@ -789,7 +807,7 @@ public static class Player_Helpers
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("Handled exception updating player SFX:\n" + e + "\n" + e.StackTrace);
+            Plugin.Logger.LogError($"Handled exception updating player SFX:\n{e}");
         }
     }
 

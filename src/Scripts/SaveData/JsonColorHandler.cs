@@ -27,7 +27,7 @@ public class JsonColorHandler : JsonConverter
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError($"Failed to parse color: {objectType}\n{e}\n{e.StackTrace}");
+            Plugin.Logger.LogError($"Failed to parse color: {objectType}\n{e}");
             return null;
         }
     }

@@ -101,11 +101,18 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
                 pearlModule.ReturnSentry(pearl);
             }
 
+
+            var shouldSyncPos = !pearlModule.IsCurrentlyStored;
+
             if (pearl.TryGetSentry(out var sentry))
             {
                 sentry.ShieldTimer = sentryShieldTimer;
                 sentry.RageCounter = sentryRageCounter;
+
+                shouldSyncPos = true;
             }
+
+            MeadowCompat.SetPosSynced(pearl, shouldSyncPos);
         }
 
         public override Type GetDataType()
