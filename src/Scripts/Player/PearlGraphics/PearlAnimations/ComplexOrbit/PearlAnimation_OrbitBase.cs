@@ -21,25 +21,26 @@ public abstract class PearlAnimation_OrbitBase : PearlAnimation
 
     protected void UpdateOrbitPearls(PlayerModule playerModule)
     {
+        OrbitPearls_2.Clear();
+        OrbitPearls_3.Clear();
+        OrbitPearls_Rest.Clear();
+
         foreach (var item in playerModule.Inventory)
         {
             if (item == playerModule.ActivePearl)
             {
-                OrbitPearls_2.Remove(item);
-                OrbitPearls_3.Remove(item);
-                OrbitPearls_Rest.Remove(item);
                 continue;
             }
 
-            if (OrbitPearls_2.Count < 2 && !OrbitPearls_2.Contains(item))
+            if (OrbitPearls_2.Count < 2)
             {
                 OrbitPearls_2.Add(item);
             }
-            else if (OrbitPearls_3.Count < 3 && !OrbitPearls_3.Contains(item))
+            else if (OrbitPearls_3.Count < 3)
             {
                 OrbitPearls_3.Add(item);
             }
-            else if (!OrbitPearls_2.Contains(item) && !OrbitPearls_3.Contains(item) && !OrbitPearls_Rest.Contains(item))
+            else
             {
                 OrbitPearls_Rest.Add(item);
             }

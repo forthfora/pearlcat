@@ -504,6 +504,11 @@ public static class Player_Helpers
 
     public static void UpdateStoreAndRetrieve(Player self, PlayerModule playerModule)
     {
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractCreature))
+        {
+            return;
+        }
+
         if (self.inVoidSea)
         {
             return;
@@ -712,6 +717,20 @@ public static class Player_Helpers
             return;
         }
 
+        DeterminePearlAnimation(self, playerModule);
+
+        playerModule.CurrentPearlAnimation?.Update(self);
+        playerModule.PearlAnimationTimer++;
+    }
+
+    private static void DeterminePearlAnimation(Player self, PlayerModule playerModule)
+    {
+        // Don't handle this on remote in Meadow
+        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractCreature))
+        {
+            return;
+        }
+
         if (self.bodyMode == Player.BodyModeIndex.Stunned || self.bodyMode == Player.BodyModeIndex.Dead)
         {
             playerModule.CurrentPearlAnimation = new PearlAnimation_FreeFall(self);
@@ -745,7 +764,7 @@ public static class Player_Helpers
                     }
                 }
 
-                abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos);
+                abstractObject.realizedObject.ConnectEffect(((PlayerGraphics)self.graphicsModule).head.pos, syncOnline: true);
             }
 
             playerModule.PickPearlAnimation(self);
@@ -762,9 +781,6 @@ public static class Player_Helpers
         {
             playerModule.PickPearlAnimation(self);
         }
-
-        playerModule.CurrentPearlAnimation?.Update(self);
-        playerModule.PearlAnimationTimer++;
     }
 
     public static void UpdateSFX(Player self, PlayerModule playerModule)

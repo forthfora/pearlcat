@@ -35,6 +35,9 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         [OnlineField]
         public int pearlAnimTimer;
 
+        [OnlineField]
+        public int storeObjectTimer;
+
 
         // Graphics
         // TODO: can get rid of it when sync PR is merged in meadow
@@ -103,7 +106,9 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             activePearlIndex = playerModule.ActivePearlIndex ?? -1;
 
             currentPearlAnimation = playerModule.CurrentPearlAnimation is null ? 0 : playerModule.PearlAnimationMap.IndexOf(playerModule.CurrentPearlAnimation.GetType());
-            pearlAnimTimer = playerModule.CurrentPearlAnimation is null ? 0 : playerModule.CurrentPearlAnimation.AnimTimer;
+            pearlAnimTimer = playerModule.CurrentPearlAnimation?.AnimTimer ?? 0;
+
+            storeObjectTimer = playerModule.StoreObjectTimer;
 
 
             baseBodyColor = playerModule.BaseBodyColor;
@@ -182,6 +187,8 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             {
                 player.SetActivePearl(activePearlIndex);
             }
+
+            playerModule.StoreObjectTimer = storeObjectTimer;
 
 
             // Pearl Animation
