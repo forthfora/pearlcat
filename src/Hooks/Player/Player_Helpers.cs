@@ -557,7 +557,11 @@ public static class Player_Helpers
                 }
                 else
                 {
-                    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActivePearl.realizedObject.firstChunk);
+                    if (playerModule.ActivePearl?.realizedObject is not null)
+                    {
+                        self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActivePearl.realizedObject.firstChunk);
+                    }
+
                     self.RetrieveActivePearl();
                 }
             }

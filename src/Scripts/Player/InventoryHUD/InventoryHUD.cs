@@ -25,7 +25,9 @@ public class InventoryHUD : HudPart
             return;
         }
 
-        for (var i = 0; i < game.Players.Count; i++)
+        var playerCount = GetAllPlayers(game).Count;
+
+        for (var i = 0; i < playerCount; i++)
         {
             var circle = new FSprite("pearlcat_hudcircle")
             {
@@ -54,7 +56,7 @@ public class InventoryHUD : HudPart
             }
 
             var player = playerModule.PlayerRef;
-            var playerIndex = game.Players.IndexOf(player.abstractCreature);
+            var playerIndex = GetAllPlayers(game).IndexOf(player.abstractCreature);
 
             if (playerIndex == -1)
             {
@@ -258,5 +260,10 @@ public class InventoryHUD : HudPart
         symbol.Fade = playerModule.PlayerRef?.room is null ? 0.0f : playerModule.HudFade;
 
         updatedSymbols.Add(symbol);
+    }
+
+    public static List<AbstractCreature> GetAllPlayers(RainWorldGame game)
+    {
+        return ModCompat_Helpers.RainMeadow_IsOnline ? MeadowCompat.GetAllPlayers() : game.Players;
     }
 }

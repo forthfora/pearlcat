@@ -121,6 +121,11 @@ public static class PlayerAbilities_Helpers_Rage
             return;
         }
 
+        if (pearl.room is null)
+        {
+            return;
+        }
+
         var targetPearlRange = 1500.0f;
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
