@@ -52,19 +52,6 @@ public static class MeadowCompat
         return abstractPhysicalObject.IsLocal();
     }
 
-    public static bool HasOPO(AbstractPhysicalObject abstractPhysicalObject)
-    {
-        var hasOpo = abstractPhysicalObject.GetOnlineObject() is not null;
-
-        if (!hasOpo)
-        {
-            Plugin.Logger.LogWarning("Player pearl is missing an Online Physical Object! Not fatal, but indicates something weird happened. Details:");
-            Plugin.Logger.LogWarning($"Room: {abstractPhysicalObject.Room?.name ?? "null"}, Object Data: {abstractPhysicalObject}");
-        }
-
-        return hasOpo;
-    }
-
     public static bool IsPosSynced(AbstractPhysicalObject abstractPhysicalObject)
     {
         return !abstractPhysicalObject.GetOnlineObject()?.lenientPos ?? false;
@@ -114,7 +101,7 @@ public static class MeadowCompat
         worldSession?.ApoEnteringWorld(abstractPhysicalObject);
     }
 
-    
+
     // Meadow SlugBase food fix (TODO: remove it if it ever gets fixed)
     private static void SlugcatStatsOnctor(On.SlugcatStats.orig_ctor orig, SlugcatStats self, SlugcatStats.Name slugcat, bool malnourished)
     {

@@ -76,11 +76,6 @@ public static class ModCompat_Helpers
         return !RainMeadow_IsOnline || MeadowCompat.IsLocal(obj);
     }
 
-    public static bool RainMeadow_HasOPO(AbstractPhysicalObject obj)
-    {
-        return RainMeadow_IsOnline && MeadowCompat.HasOPO(obj);
-    }
-
     public static bool RainMeadow_IsPosSynced(AbstractPhysicalObject obj)
     {
         return RainMeadow_IsOnline && MeadowCompat.IsPosSynced(obj);
