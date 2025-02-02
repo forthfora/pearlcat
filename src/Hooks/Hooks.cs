@@ -121,8 +121,6 @@ public static class Hooks
             var initMessage = $"PEARLCAT SAYS HELLO FROM INIT! (VERSION: {Plugin.VERSION})";
 
             Debug.Log(initMessage);
-
-            Plugin.Logger.LogInfo("START OF BEPINEX LOG");
             Plugin.Logger.LogInfo(initMessage);
         }
         catch (Exception e)
@@ -147,10 +145,8 @@ public static class Hooks
             var debugInfoMessage = "PEARLCAT STARTUP DEBUG INFO:";
 
             Debug.Log(debugInfoMessage);
-            Plugin.LogPearlcatDebugInfo();
-
-            Plugin.Logger.LogInfo("START OF BEPINEX LOG");
             Plugin.Logger.LogInfo(debugInfoMessage);
+
             Plugin.LogPearlcatDebugInfo();
         }
         catch (Exception e)

@@ -5,6 +5,7 @@ using System.Security.Permissions;
 using System.Security;
 using System.Linq;
 using System;
+using Newtonsoft.Json;
 using UnityEngine;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -82,33 +83,10 @@ public class Plugin : BaseUnityPlugin
                 $"REMIX ACTIVE: {ModManager.MMF}\n" +
                 $"JOLLY ACTIVE: {ModManager.JollyCoop}\n" +
 
-                $"\n-------------------\n" +
-                $"PEARLCAT MISC PROGRESSION:\n" +
-                $"{nameof(SaveMiscProgression.IsNewPearlcatSave)}: {pearlcatMiscProg.IsNewPearlcatSave}\n" +
-                $"{nameof(SaveMiscProgression.IsMSCSave)}: {pearlcatMiscProg.IsMSCSave}\n" +
-
-                "\n" +
-
-                $"{nameof(SaveMiscProgression.StoredActivePearl)}: {pearlcatMiscProg.StoredActivePearl?.DataPearlType ?? "None"}\n" +
-                $"{nameof(SaveMiscProgression.StoredNonActivePearls)}:\n{string.Join(",\n", pearlcatMiscProg.StoredNonActivePearls.Select(x => x.DataPearlType))}\n" +
-
-                "\n" +
-
-                $"{nameof(SaveMiscProgression.HasPearlpup)}: {pearlcatMiscProg.HasPearlpup}\n" +
-                $"{nameof(SaveMiscProgression.HasDeadPearlpup)}: {pearlcatMiscProg.HasDeadPearlpup}\n" +
-                $"{nameof(SaveMiscProgression.IsPearlpupSick)}: {pearlcatMiscProg.IsPearlpupSick}\n" +
-
-                "\n" +
-
-                $"{nameof(SaveMiscProgression.HasOEEnding)}: {pearlcatMiscProg.HasOEEnding}\n" +
-                $"{nameof(SaveMiscProgression.JustAscended)}: {pearlcatMiscProg.JustAscended}\n" +
-                $"{nameof(SaveMiscProgression.Ascended)}: {pearlcatMiscProg.Ascended}\n" +
-                $"{nameof(SaveMiscProgression.AscendedWithPup)}: {pearlcatMiscProg.AscendedWithPup}\n" +
-
-                "\n" +
-
-                $"{nameof(SaveMiscProgression.DidHavePearlpup)}: {pearlcatMiscProg.DidHavePearlpup}\n" +
-                $"{nameof(SaveMiscProgression.HasTrueEnding)}: {pearlcatMiscProg.HasTrueEnding}\n";
+                "\n-------------------\n" +
+                "PEARLCAT MISC PROGRESSION:\n" +
+                JsonConvert.SerializeObject(pearlcatMiscProg, Formatting.Indented) +
+                "\n";
 
 
             if (saveState is not null && pearlcatMiscWorld is not null)
@@ -122,38 +100,8 @@ public class Plugin : BaseUnityPlugin
 
                     $"\n-------------------\n" +
                     $"PEARLCAT MISC WORLD:\n" +
-                    $"{nameof(SaveMiscWorld.Inventory)}:\n{string.Join("\n", pearlcatMiscWorld.Inventory.Select(x => $"{x.Key}:\n  {string.Join("\n  ", x.Value)}"))}\n" +
-
-                    "\n" +
-
-                    $"{nameof(SaveMiscWorld.ActiveObjectIndex)}:\n{string.Join("\n", pearlcatMiscWorld.ActiveObjectIndex)}\n" +
-                    $"{nameof(SaveMiscWorld.PlayersGivenPearls)}:\n{string.Join("\n", pearlcatMiscWorld.PlayersGivenPearls)}\n" +
-
-                    "\n" +
-
-                    $"Pearl Spear Count: {pearlcatMiscWorld.PearlSpears.Keys.Count}\n" +
-
-                    "\n" +
-
-                    $"{nameof(SaveMiscWorld.PebblesMeetCount)}: {pearlcatMiscWorld.PebblesMeetCount}\n" +
-                    $"{nameof(SaveMiscWorld.PebblesMetSickPup)}: {pearlcatMiscWorld.PebblesMetSickPup}\n" +
-                    $"{nameof(SaveMiscWorld.MoonSickPupMeetCount)}: {pearlcatMiscWorld.MoonSickPupMeetCount}\n" +
-                    $"{nameof(SaveMiscWorld.PearlIDsBroughtToPebbles)}: {string.Join(", ", pearlcatMiscWorld.PearlIDsBroughtToPebbles.Keys)}\n" +
-
-                    "\n" +
-
-                    $"{nameof(SaveMiscWorld.ShownSpearCreationTutorial)}: {pearlcatMiscWorld.ShownSpearCreationTutorial}\n" +
-                    $"{nameof(SaveMiscWorld.ShownFullInventoryTutorial)}: {pearlcatMiscWorld.ShownFullInventoryTutorial}\n" +
-
-                    "\n" +
-
-                    $"{nameof(SaveMiscWorld.PearlpupID)}: {pearlcatMiscWorld.PearlpupID ?? -1}\n" +
-                    $"{nameof(SaveMiscWorld.HasPearlpupWithPlayer)}: {pearlcatMiscWorld.HasPearlpupWithPlayer}\n" +
-
-                    "\n" +
-
-
-                    $"{nameof(SaveMiscWorld.JustBeatAltEnd)}: {pearlcatMiscWorld.JustBeatAltEnd}\n";
+                    JsonConvert.SerializeObject(pearlcatMiscWorld, Formatting.Indented) +
+                    "\n";
             }
             else
             {
@@ -189,7 +137,7 @@ public class Plugin : BaseUnityPlugin
         }
         catch (Exception e)
         {
-            Logger.LogError($"PEARLCAT LOG DEBUG INFO ERROR: \n{e}");
+            Logger.LogError($"PEARLCAT LOG DEBUG INFO ERROR:\n{e}");
         }
     }
 }
