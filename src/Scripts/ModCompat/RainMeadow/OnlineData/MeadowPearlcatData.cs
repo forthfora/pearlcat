@@ -50,6 +50,9 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         [OnlineField]
         public Color baseFaceColor;
 
+        [OnlineField]
+        public int blink;
+
 
         // Abilities
         [OnlineField]
@@ -61,6 +64,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         [OnlineField]
         public int dazeTimer;
 
+
         [OnlineField]
         public int reviveTimer;
 
@@ -70,13 +74,12 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         [OnlineField]
         public int spearTimer;
 
+
         [OnlineField]
         public int agilityOveruseTimer;
 
-
-        // Misc
         [OnlineField]
-        public int blink;
+        public int rageAnimTimer;
 
 
         [UsedImplicitly]
@@ -112,10 +115,13 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             flyTimer = playerModule.FlyTimer;
             groundedTimer = playerModule.GroundedTimer;
             dazeTimer = playerModule.DazeTimer;
+
             reviveTimer = playerModule.ReviveTimer;
             shieldTimer = playerModule.ShieldTimer;
             spearTimer = playerModule.SpearTimer;
+
             agilityOveruseTimer = playerModule.AgilityOveruseTimer;
+            rageAnimTimer = playerModule.RageAnimTimer;
 
 
             if (player.graphicsModule is PlayerGraphics graphics)
@@ -199,10 +205,13 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             playerModule.FlyTimer = flyTimer;
             playerModule.GroundedTimer = groundedTimer;
             playerModule.DazeTimer = dazeTimer;
+
             playerModule.ReviveTimer = reviveTimer;
             playerModule.ShieldTimer = shieldTimer;
             playerModule.SpearTimer = spearTimer;
+
             playerModule.AgilityOveruseTimer = agilityOveruseTimer;
+            playerModule.RageAnimTimer = rageAnimTimer;
 
 
             if (player.graphicsModule is PlayerGraphics graphics)

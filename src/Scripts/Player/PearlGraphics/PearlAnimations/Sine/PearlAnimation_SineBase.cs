@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace Pearlcat;
 
-public class PearlAnimation_SineWave(Player player) : PearlAnimation(player)
+public abstract class PearlAnimation_SineBase(Player player) : PearlAnimation(player)
 {
+    protected virtual float YPeriod => 0.0f;
+
     public override void Update(Player player)
     {
         base.Update(player);
@@ -34,7 +36,7 @@ public class PearlAnimation_SineWave(Player player) : PearlAnimation(player)
             var spacing = 10.0f;
 
             targetPos.x = player.firstChunk.pos.x + spacing * i - floatingObjects.Count / 2.0f * spacing + (spacing / 2.0f);
-            targetPos.y = player.firstChunk.pos.y + 20.0f * Mathf.Sin(AnimTimer / 30.0f + i * (180.0f / floatingObjects.Count));
+            targetPos.y = player.firstChunk.pos.y + 20.0f * Mathf.Sin(AnimTimer / 30.0f + i * (YPeriod / floatingObjects.Count));
 
             abstractObject.TryAnimateToTargetPos(player, targetPos);
         }

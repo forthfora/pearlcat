@@ -2,7 +2,7 @@
 
 namespace Pearlcat;
 
-public class PearlAnimation_BasicOrbit(Player player) : PearlAnimation(player)
+public sealed class PearlAnimation_BasicOrbit(Player player) : PearlAnimation(player)
 {
     public const float ANGLE_FRAME_ADDITION = 0.02f;
     public const float RADIUS = 25.0f;

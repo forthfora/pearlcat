@@ -5,6 +5,7 @@ public static class MeadowOnlineOptions
     public static bool PearlpupRespawn { get; set; }
 
     public static int MaxPearlCount { get; set; }
+    public static string StartShelterOverride { get; set; } = "";
     public static int VisibilityMultiplier { get; set; }
     public static bool EnableBackSpear { get; set; }
 

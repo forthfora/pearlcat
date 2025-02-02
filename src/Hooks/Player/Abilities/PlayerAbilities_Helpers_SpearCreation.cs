@@ -33,60 +33,10 @@ public static class PlayerAbilities_Helpers_SpearCreation
 
         playerModule.ForceLockSpearOnBack = self.spearOnBack is not null && (self.spearOnBack.HasASpear != playerModule.WasSpearOnBack);
 
-        bool IsHoldingFoodOrPlayer(Player player)
-        {
-            var grasps = player.grasps;
-
-            foreach (var grasp in grasps)
-            {
-                if (grasp is null)
-                {
-                    continue;
-                }
-
-                if (grasp.grabbed is Player)
-                {
-                    return true;
-                }
-
-
-                // not hungry
-                if (self.CurrentFood == self.slugcatStats.maxFood)
-                {
-                    continue;
-                }
-
-                if (grasp.grabbed is Creature creature && creature.dead &&
-                    PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(creature) > 0)
-                {
-                    return true;
-                }
-
-
-                // not a consumable object
-                if (grasp.grabbed?.abstractPhysicalObject is not AbstractConsumable)
-                {
-                    continue;
-                }
-
-                if (grasp.grabbed?.abstractPhysicalObject is AbstractConsumable consumable
-                    && consumable.realizedObject is not null
-                    && PlayerFeatures.Diet.TryGet(self, out diet)
-                    && diet.GetFoodMultiplier(consumable.realizedObject) > 0)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         var abilityInput = self.IsSpearCreationKeybindPressed(playerModule) &&
-                           !self.IsStoreKeybindPressed(playerModule) && !IsHoldingFoodOrPlayer(self);
+                           !self.IsStoreKeybindPressed(playerModule) && !IsHoldingFoodOrPlayer(self, self);
 
         var holdingSpear = self.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) >= 0;
-
-        //Plugin.Logger.LogWarning(self.eatCounter);
 
         if (abilityInput && ((self.spearOnBack is null && !holdingSpear) ||
                              (self.spearOnBack is not null &&
@@ -175,7 +125,8 @@ public static class PlayerAbilities_Helpers_SpearCreation
         }
         else
         {
-            if (playerModule.SpearTimer > spearCreationTime / 2.0f)
+            // SpearTimer sync makes it look weird
+            if (playerModule.SpearTimer > spearCreationTime / 2.0f && !ModCompat_Helpers.RainMeadow_IsOnline)
             {
                 self.room?.AddObject(new ShockWave(playerModule.ActivePearl!.realizedObject.firstChunk.pos, 30.0f,
                     0.5f, 6));
@@ -184,5 +135,53 @@ public static class PlayerAbilities_Helpers_SpearCreation
             playerModule.SpearTimer = 0;
             playerModule.SpearDelay = 0;
         }
+    }
+
+    private static bool IsHoldingFoodOrPlayer(Player player, Player self)
+    {
+        var grasps = player.grasps;
+
+        foreach (var grasp in grasps)
+        {
+            if (grasp is null)
+            {
+                continue;
+            }
+
+            if (grasp.grabbed is Player)
+            {
+                return true;
+            }
+
+
+            // not hungry
+            if (self.CurrentFood == self.slugcatStats.maxFood)
+            {
+                continue;
+            }
+
+            if (grasp.grabbed is Creature creature && creature.dead &&
+                PlayerFeatures.Diet.TryGet(self, out var diet) && diet.GetFoodMultiplier(creature) > 0)
+            {
+                return true;
+            }
+
+
+            // not a consumable object
+            if (grasp.grabbed?.abstractPhysicalObject is not AbstractConsumable)
+            {
+                continue;
+            }
+
+            if (grasp.grabbed?.abstractPhysicalObject is AbstractConsumable consumable
+                && consumable.realizedObject is not null
+                && PlayerFeatures.Diet.TryGet(self, out diet)
+                && diet.GetFoodMultiplier(consumable.realizedObject) > 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

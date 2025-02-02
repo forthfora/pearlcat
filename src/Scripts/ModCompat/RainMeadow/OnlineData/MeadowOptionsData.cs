@@ -27,6 +27,9 @@ public class MeadowOptionsData : OnlineResource.ResourceData
         public int maxPearlCount = ModOptions.MaxPearlCount;
 
         [OnlineField]
+        public string startShelterOverride = ModOptions.StartShelterOverride;
+
+        [OnlineField]
         public int visibilityMultiplier = ModOptions.VisibilityMultiplier;
 
         [OnlineField]
@@ -107,6 +110,7 @@ public class MeadowOptionsData : OnlineResource.ResourceData
             MeadowOnlineOptions.PearlpupRespawn = pearlpupRespawn;
 
             MeadowOnlineOptions.MaxPearlCount = maxPearlCount;
+            MeadowOnlineOptions.StartShelterOverride = startShelterOverride;
             MeadowOnlineOptions.VisibilityMultiplier = visibilityMultiplier;
             MeadowOnlineOptions.EnableBackSpear = enableBackSpear;
 
