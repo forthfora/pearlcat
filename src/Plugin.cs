@@ -126,12 +126,10 @@ public class Plugin : BaseUnityPlugin
 
             if (isWarning)
             {
-                Logger.LogWarning("START OF BEPINEX LOG");
                 Logger.LogWarning(message);
             }
             else
             {
-                Logger.LogInfo("START OF BEPINEX LOG");
                 Logger.LogInfo(message);
             }
         }
