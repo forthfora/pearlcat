@@ -121,8 +121,8 @@ public class Plugin : BaseUnityPlugin
                 message += $"> {mod.id} ({mod.name}) - {version}\n";
             }
 
-            Debug.Log(message);
 
+            Debug.Log(message);
 
             if (isWarning)
             {
