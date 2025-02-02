@@ -37,7 +37,7 @@ public static class SaveData_Hooks
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogError($"ERROR UPDATING SAVE DATA ON CYCLE COMPLETION:\n{e}\n{e.StackTrace}");
+                Plugin.Logger.LogError($"ERROR UPDATING SAVE DATA ON CYCLE COMPLETION:\n{e}");
             }
         }
 
@@ -173,7 +173,7 @@ public static class SaveData_Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError($"ERROR UPDATING SAVE BEFORE CYCLE START:\n{e}\n{e.StackTrace}");
+            Plugin.Logger.LogError($"ERROR UPDATING SAVE BEFORE CYCLE START:\n{e}");
         }
     }
 

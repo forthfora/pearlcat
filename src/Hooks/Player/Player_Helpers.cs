@@ -807,7 +807,7 @@ public static class Player_Helpers
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("Handled exception updating player SFX:\n" + e + "\n" + e.StackTrace);
+            Plugin.Logger.LogError($"Handled exception updating player SFX:\n{e}");
         }
     }
 

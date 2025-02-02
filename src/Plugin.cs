@@ -189,7 +189,7 @@ public class Plugin : BaseUnityPlugin
         }
         catch (Exception e)
         {
-            Logger.LogError("PEARLCAT LOG DEBUG INFO ERROR: \n" + e + "\n" + e.StackTrace);
+            Logger.LogError($"PEARLCAT LOG DEBUG INFO ERROR: \n{e}");
         }
     }
 }

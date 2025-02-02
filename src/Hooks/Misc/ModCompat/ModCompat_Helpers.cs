@@ -16,7 +16,7 @@ public static class ModCompat_Helpers
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogError($"Error initializing Improved Input Config compat: {e.Message}\n{e.StackTrace}");
+                Plugin.Logger.LogError($"Error initializing Improved Input Config compat:\n{e}");
             }
         }
 
@@ -28,7 +28,7 @@ public static class ModCompat_Helpers
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogError($"Error initializing Chasing Wind compat: {e.Message}\n{e.StackTrace}");
+                Plugin.Logger.LogError($"Error initializing Chasing Wind compat:\n{e}");
             }
         }
 
@@ -40,7 +40,7 @@ public static class ModCompat_Helpers
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogError($"Error initializing Rain Meadow compat: {e.Message}\n{e.StackTrace}");
+                Plugin.Logger.LogError($"Error initializing Rain Meadow compat:\n{e}");
             }
         }
     }

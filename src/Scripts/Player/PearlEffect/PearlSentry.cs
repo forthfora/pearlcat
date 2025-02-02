@@ -642,7 +642,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogWarning("HANDLED: Shield Sentry Sound Exception:\n" + e + "\n" + e.StackTrace);
+            Plugin.Logger.LogWarning($"HANDLED: Shield Sentry Sound Exception:\n{e}");
         }
     }
 

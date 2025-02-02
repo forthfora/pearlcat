@@ -445,7 +445,7 @@ public static class World_Hooks
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError("Error removing player pearls from the world state: \n" + e + "\n" + e.StackTrace);
+            Plugin.Logger.LogError($"Error removing player pearls from the world state: \n{e}");
         }
 
         RemoveInventorySaveObjects(self);
