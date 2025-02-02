@@ -424,11 +424,6 @@ public static class World_Hooks
                         continue;
                     }
 
-                    if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
-                    {
-                        continue;
-                    }
-
                     if (!abstractObject.IsPlayerPearl())
                     {
                         continue;
@@ -439,7 +434,7 @@ public static class World_Hooks
                         abstractObject.world.game.GetStorySession.RemovePersistentTracker(abstractObject);
                     }
 
-                    abstractRoom.RemoveEntity(entity);
+                    abstractRoom.entities.Remove(entity);
                 }
             }
         }

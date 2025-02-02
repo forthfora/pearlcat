@@ -305,17 +305,31 @@ public static class World_Helpers
 
             if (miscWorld is null)
             {
+                Plugin.Logger.LogWarning("MISC WORLD NULL");
                 return;
             }
 
-            foreach (var inventory in miscWorld.Inventory.Values)
+            Plugin.Logger.LogWarning("INVENTORY PEARLS: ");
+
+            foreach (var kvp in miscWorld.Inventory)
             {
-                foreach (var pearl in inventory)
+                Plugin.Logger.LogWarning($"INVENTORY OF {kvp.Key}:");
+
+                foreach (var pearl in kvp.Value)
                 {
                     var pearlId = EntityID.FromString(Regex.Split(pearl, "<oA>")[0]);
 
+                    Plugin.Logger.LogWarning(pearl);
+
                     self.savedObjects.RemoveAll(x => SaveStringToId(x) == pearlId);
                 }
+            }
+
+            Plugin.Logger.LogWarning("SAVED OBJECTS: ");
+
+            foreach (var obj in self.savedObjects)
+            {
+                Plugin.Logger.LogWarning(obj);
             }
 
             return;
