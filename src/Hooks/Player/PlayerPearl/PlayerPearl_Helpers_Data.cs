@@ -10,12 +10,7 @@ public static class PlayerPearl_Helpers_Data
 {
     public static bool IsPlayerPearl(this AbstractPhysicalObject targetObject)
     {
-        if (targetObject.TryGetPlayerPearlModule(out var playerPearlModule))
-        {
-            return playerPearlModule.IsCurrentlyStored;
-        }
-
-        return false;
+        return targetObject.TryGetPlayerPearlModule(out var playerPearlModule) && playerPearlModule.IsCurrentlyStored;
     }
 
     public static bool IsObjectStorable(this AbstractPhysicalObject abstractObject)

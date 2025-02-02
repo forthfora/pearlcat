@@ -42,6 +42,7 @@ public static class World_Hooks
     }
 
 
+    // Meadow Gate Fix (inform meadow that the pearls are changing world)
     private static void OverWorldOnWorldLoaded(On.OverWorld.orig_WorldLoaded orig, OverWorld self)
     {
         if (ModCompat_Helpers.RainMeadow_IsOnline)
