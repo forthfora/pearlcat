@@ -130,7 +130,7 @@ public static class PlayerAbilities_Helpers_Rage
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
-        var riccochetVel = 75.0f;
+        var riccochetVel = 50.0f;
 
         var riccochetDamageMult = 1.25f;
         var riccochetDamageMultUpDownThrow = 2.0f;
@@ -262,9 +262,9 @@ public static class PlayerAbilities_Helpers_Rage
         // Redirection
         availableReds = availableReds.OrderBy(x => x.Value).ToList();
 
-        foreach (var roomObj in pearl.room.physicalObjects)
+        foreach (var layer in pearl.room.physicalObjects)
         {
-            foreach (var physObj in roomObj)
+            foreach (var physObj in layer)
             {
                 if (!Custom.DistLess(pearl.firstChunk.pos, physObj.firstChunk.pos, redirectRange))
                 {
@@ -307,6 +307,7 @@ public static class PlayerAbilities_Helpers_Rage
 
                 PhysicalObject? bestTarget = null;
                 Vector2? bestTargetPos = null!;
+                var bestTargetVel = Vector2.zero;
 
                 if (closestRed is not null && bestEnemy is not null)
                 {
@@ -334,38 +335,41 @@ public static class PlayerAbilities_Helpers_Rage
                     if (bestTarget == bestEnemy)
                     {
                         bestTargetPos = bestEnemy.mainBodyChunk.pos;
-
-                        if (bestEnemy is Lizard lizard)
-                        {
-                            bestTargetPos = lizard.mainBodyChunk.pos;
-                        }
+                        bestTargetVel = bestEnemy.mainBodyChunk.vel;
 
                         if (bestEnemy is Vulture vulture)
                         {
                             bestTargetPos = vulture.Head().pos;
+                            bestTargetVel = vulture.Head().vel;
                         }
                     }
                     else if (bestTarget == closestRed)
                     {
                         bestTargetPos = closestRed.firstChunk.pos;
+                        bestTargetVel = closestRed.firstChunk.vel; // TODO: check if it's good or not
                     }
                 }
 
-                //Plugin.Logger.LogWarning("REDIRECT:");
-                //Plugin.Logger.LogWarning(bestTarget?.GetType());
-                //Plugin.Logger.LogWarning(bestTargetPos);
 
-                // Maybe play a sound if the pearlspear has no valid targets left
+                var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
+
+                // No valid targets
                 if (bestTargetPos is null || bestTarget is null)
                 {
-                    //pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.8f, 0.75f);
-                    return;
+                    // Only stop if sentry
+                    if (isSentry)
+                    {
+                        weapon.firstChunk.vel = Vector2.zero;
+                        weapon.room.AddObject(new LightningMachine.Impact(weapon.firstChunk.pos, 0.5f, pearlColor, true));
+                        pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 0.5f, 0.6f);
+                    }
+                    continue;
                 }
 
 
                 if (weapon is Spear spear)
                 {
-                    var mult = 1.0f;
+                    float mult;
 
                     if (isSentry)
                     {
@@ -388,25 +392,18 @@ public static class PlayerAbilities_Helpers_Rage
                 }
 
 
-                var dist = Custom.Dist(weapon.firstChunk.pos, (Vector2)bestTargetPos);
+                var targetLeadPos = GetTargetLeadPos(weapon.firstChunk.pos, weapon.thrownBy?.firstChunk?.vel ?? Vector2.zero, (Vector2)bestTargetPos, bestTargetVel, riccochetVel, weapon.gravity);
+                var leadDir = Custom.DirVec(weapon.firstChunk.pos, targetLeadPos);
 
-                var time = dist / riccochetVel;
+                weapon.firstChunk.vel = leadDir * riccochetVel;
+                weapon.setRotation = leadDir;
 
-                var targetPredictedPos = (Vector2)bestTargetPos;
-                targetPredictedPos += bestTarget.firstChunk.vel * time;
-                targetPredictedPos += Vector2.up * 0.5f * weapon.gravity * Mathf.Pow(time, 2.0f); // s = 1/2 * a * t^2
-
-                var dir = Custom.DirVec(weapon.firstChunk.pos, targetPredictedPos);
-
-                weapon.firstChunk.vel = dir * riccochetVel;
-                weapon.setRotation = dir;
                 weapon.rotationSpeed = 0.0f;
                 weapon.throwModeFrames = 180;
 
                 module.VisitedObjects.Add(physObj, new());
 
                 var room = pearl.room;
-                var pearlColor = pearl.abstractPhysicalObject.GetObjectColor();
 
                 if (bestTarget == bestEnemy)
                 {
@@ -429,6 +426,32 @@ public static class PlayerAbilities_Helpers_Rage
                 }
             }
         }
+    }
+
+    // Returns the relevant lead position given a target and shooter so that a projectile fired from the shooter will hit the target
+    private static Vector2 GetTargetLeadPos(Vector2 shooterPos, Vector2 shooterVel, Vector2 targetPos, Vector2 targetVel, float projectileSpeed, float projectileGravity)
+    {
+        var a = projectileSpeed * projectileSpeed - Vector2.Dot(targetVel, targetVel);
+        var b = 2.0f * Vector2.Dot(targetVel,  targetPos - shooterPos);
+        var c = Vector2.Dot(targetPos - shooterPos, targetPos - shooterPos);
+
+        var time = 0.0f;
+
+        if (projectileSpeed > targetVel.magnitude)
+        {
+            // good 'ol quadratic formula
+            time = (b + Mathf.Sqrt(b * b + 4 * a * c)) / (2 * a);
+        }
+
+        var targetPredictedPos = targetPos + time * targetVel;
+
+        // Compensate for shooter's initial velocity (e.g. if player throws spear while falling)
+        var leadPos = targetPredictedPos - shooterVel;
+
+        // Compensate for weapon drop due to gravity
+        leadPos += Vector2.up * 0.5f * projectileGravity * time * time;
+
+        return leadPos;
     }
 
     private static void UpdateOldRage(Player self, PlayerModule playerModule, PearlEffect effect)
