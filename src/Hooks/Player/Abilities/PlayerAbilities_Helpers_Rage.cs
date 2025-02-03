@@ -429,6 +429,7 @@ public static class PlayerAbilities_Helpers_Rage
     }
 
     // Returns the relevant lead position given a target and shooter so that a projectile fired from the shooter will hit the target
+    // https://www.youtube.com/watch?v=ZjMjxj_blMQ <- great vid
     private static Vector2 GetTargetLeadPos(Vector2 shooterPos, Vector2 shooterVel, Vector2 targetPos, Vector2 targetVel, float projectileSpeed, float projectileGravity)
     {
         var a = projectileSpeed * projectileSpeed - Vector2.Dot(targetVel, targetVel);
@@ -449,6 +450,7 @@ public static class PlayerAbilities_Helpers_Rage
         var leadPos = targetPredictedPos - shooterVel;
 
         // Compensate for weapon drop due to gravity
+        // 1/2 * a * t^2
         leadPos += Vector2.up * 0.5f * projectileGravity * time * time;
 
         return leadPos;
