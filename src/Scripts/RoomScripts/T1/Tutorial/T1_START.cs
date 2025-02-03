@@ -39,7 +39,7 @@ public class T1_START : UpdatableAndDeletable
         var save = Utils.MiscProgression;
 
         // Per player
-        foreach (var crit in game.Players)
+        foreach (var crit in game.GetAllPlayers())
         {
             if (crit.realizedCreature is not Player player)
             {

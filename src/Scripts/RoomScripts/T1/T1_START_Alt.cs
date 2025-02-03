@@ -32,7 +32,7 @@ public class T1_START_Alt : UpdatableAndDeletable
         var game = room.game;
 
         // Per player
-        foreach (var crit in game.Players)
+        foreach (var crit in game.GetAllPlayers())
         {
             if (crit.realizedCreature is not Player player)
             {

@@ -38,9 +38,9 @@ public class PearlpupModule
         var baseScarfColor = BaseScarfColor;
 
         var game = self.player.abstractCreature.world.game;
-        var firstPearlcat = game.Players[game.GetFirstPearlcatIndex()];
+        var firstPearlcat = game.GetFirstPearlcat();
 
-        if (firstPearlcat.realizedCreature is Player player && player.TryGetPearlcatModule(out var playerModule))
+        if (firstPearlcat?.realizedCreature is Player player && player.TryGetPearlcatModule(out var playerModule))
         {
             if (playerModule.BaseBodyColor != PlayerModule.DefaultBodyColor)
             {

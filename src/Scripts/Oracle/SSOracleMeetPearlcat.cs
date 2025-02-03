@@ -279,9 +279,9 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 pup.RevivePlayer();
             }
 
-            var firstPearlcat = world.game.Players[world.game.GetFirstPearlcatIndex()];
+            var firstPearlcat = world.game.GetFirstPearlcat();
 
-            if (firstPearlcat.realizedCreature is Player thisPlayer)
+            if (firstPearlcat?.realizedCreature is Player thisPlayer)
             {
                 thisPlayer.slugOnBack.SlugToBack(pup);
             }

@@ -87,14 +87,22 @@ public static class SaveData_Hooks
         miscProg.StoredNonActivePearls.Clear();
         miscProg.StoredActivePearl = null;
 
-        var firstPearlcatIndex = game.GetFirstPearlcatIndex();
+        var firstPearlcat = game.GetFirstPearlcat();
+        var firstPearlcatId = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? -1;
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline && firstPearlcatIndex != -1)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            firstPearlcatIndex = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(game.Players[firstPearlcatIndex]) ?? -1;
+            if (firstPearlcat is not null)
+            {
+                firstPearlcatId = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(firstPearlcat) ?? -1;
+            }
+            else
+            {
+                firstPearlcatId = -1;
+            }
         }
 
-        if (miscWorld.Inventory.TryGetValue(firstPearlcatIndex, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(firstPearlcatIndex, out var activeIndex))
+        if (miscWorld.Inventory.TryGetValue(firstPearlcatId, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(firstPearlcatId, out var activeIndex))
         {
             for (var i = 0; i < inventory.Count; i++)
             {

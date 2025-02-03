@@ -3,6 +3,7 @@ using MoreSlugcats;
 using Music;
 using SlugBase.SaveData;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Pearlcat;
@@ -31,30 +32,25 @@ public static class ModuleManager
     }
     public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game)
     {
-        List<PlayerModule> allPlayerModules = [];
-        var players = game.Players;
+        var allPearlcats = game.GetAllPearlcats();
+        var playerModules = new List<PlayerModule>();
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        foreach (var abstractCreature in allPearlcats)
         {
-            players = MeadowCompat.GetAllPlayers();
-        }
-
-        if (players is null)
-        {
-            return allPlayerModules;
-        }
-
-        foreach (var abstractCreature in players)
-        {
-            if (!PearlcatData.TryGetValue(abstractCreature, out var playerModule))
+            if (abstractCreature.realizedObject is not Player player)
             {
                 continue;
             }
 
-            allPlayerModules.Add(playerModule);
+            if (!player.TryGetPearlcatModule(out var playerModule))
+            {
+                continue;
+            }
+
+            playerModules.Add(playerModule);
         }
 
-        return allPlayerModules;
+        return playerModules;
     }
     
 

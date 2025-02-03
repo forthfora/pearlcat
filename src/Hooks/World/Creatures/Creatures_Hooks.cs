@@ -215,7 +215,7 @@ public static class Creatures_Hooks
     {
         orig(self);
 
-        foreach (var crit in self.abstractCreature.Room.world.game.Players)
+        foreach (var crit in self.abstractCreature.Room.world.game.GetAllPlayers())
         {
 
             if (crit.realizedCreature is not Player player)
@@ -261,7 +261,7 @@ public static class Creatures_Hooks
             return;
         }
 
-        foreach (var crit in self.vulture.abstractCreature.Room.world.game.Players)
+        foreach (var crit in self.vulture.abstractCreature.Room.world.game.GetAllPlayers())
         {
             if (crit.realizedCreature is not Player player)
             {

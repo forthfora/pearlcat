@@ -262,32 +262,32 @@ public static class World_Helpers
 
     public static bool IsSingleplayer(this Player player)
     {
-        return player.abstractCreature.world.game.Players.Count == 1;
+        return !ModCompat_Helpers.RainMeadow_IsOnline && player.abstractCreature.world.game.GetAllPlayers().Count == 1;
     }
 
-    public static int GetFirstPearlcatIndex(this RainWorldGame? game)
+    public static AbstractCreature? GetFirstPearlcat(this RainWorldGame? game)
+    {
+        return game?.GetAllPearlcats().FirstOrDefault();
+    }
+
+    public static List<AbstractCreature> GetAllPearlcats(this RainWorldGame? game)
+    {
+        return game.GetAllPlayers().Where(x => x.realizedObject is Player player && player.IsPearlcat()).ToList();
+    }
+
+    public static List<AbstractCreature> GetAllPlayers(this RainWorldGame? game)
     {
         if (game is null)
         {
-            return -1;
+            return [];
         }
 
-        for (var i = 0; i < game.Players.Count; i++)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            var abstractCreature = game.Players[i];
-
-            if (abstractCreature.realizedCreature is not Player player)
-            {
-                continue;
-            }
-
-            if (player.IsPearlcat())
-            {
-                return i;
-            }
+            return MeadowCompat.GetAllPlayers();
         }
 
-        return -1;
+        return game.Players;
     }
 
     public static void AddTextPrompt(this RainWorldGame game, string text, int wait, int time, bool darken = false, bool? hideHud = null)
