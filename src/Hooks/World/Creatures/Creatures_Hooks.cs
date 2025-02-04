@@ -84,6 +84,7 @@ public static class Creatures_Hooks
                 {
                     if (pearlModule.VisitedObjects.TryGetValue(source, out _))
                     {
+                        self.DropMask(direction);
                         return true;
                     }
                 }
