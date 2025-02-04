@@ -130,7 +130,7 @@ public static class PlayerAbilities_Helpers_Rage
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
-        var riccochetVel = 50.0f;
+        var riccochetVel = 75.0f;
 
         var riccochetDamageMult = 1.25f;
         var riccochetDamageMultUpDownThrow = 2.0f;
@@ -450,9 +450,11 @@ public static class PlayerAbilities_Helpers_Rage
         var leadPos = targetPredictedPos - shooterVel;
 
         // Compensate for weapon drop due to gravity
+        // for some reason, compensation is too strong if we just consider weapon gravity
+        var compensationFac = 0.75f;
+
         // 1/2 * a * t^2
-        var gravityFac = 0.6f; // for some reason, compensation is too strong if we just consider weapon gravity
-        leadPos += Vector2.up * 0.5f * (gravityFac * projectileGravity) * time * time;
+        leadPos += Vector2.up * 0.5f * projectileGravity * time * time * compensationFac;
 
         return leadPos;
     }

@@ -40,7 +40,6 @@ public static class World_Hooks
         On.OverWorld.WorldLoaded += OverWorldOnWorldLoaded;
     }
 
-
     // Meadow Gate Fix (inform meadow that the pearls are changing world)
     private static void OverWorldOnWorldLoaded(On.OverWorld.orig_WorldLoaded orig, OverWorld self)
     {

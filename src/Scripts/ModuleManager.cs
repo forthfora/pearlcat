@@ -4,6 +4,7 @@ using Music;
 using SlugBase.SaveData;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 
 namespace Pearlcat;
 
@@ -11,6 +12,8 @@ public static class ModuleManager
 {
     // Pearlcat
     public static ConditionalWeakTable<AbstractCreature, PlayerModule> PearlcatData { get; } = new();
+
+    [PublicAPI] // Rotund World
     public static bool TryGetPearlcatModule(this Player self, out PlayerModule playerModule)
     {
         if (!self.IsPearlcat())

@@ -35,19 +35,6 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 
             var player = playerModule.PlayerRef;
 
-            if (!InventoryCircles.TryGetValue(player.abstractCreature, out var circle))
-            {
-                circle = new FSprite("pearlcat_hudcircle")
-                {
-                    alpha = 0.0f,
-                };
-
-                HUDFContainer.AddChild(circle);
-
-                InventoryCircles.Add(player.abstractCreature, circle);
-                AllHUDCircles.Add(circle);
-            }
-
             var cameras = player.abstractCreature.world.game.cameras;
             var rCam = cameras.First();
 
@@ -62,6 +49,22 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 
             if (!ModOptions.CompactInventoryHUD)
             {
+                if (!InventoryCircles.TryGetValue(player.abstractCreature, out var circle))
+                {
+                    circle = new FSprite("pearlcat_hudcircle")
+                    {
+                        alpha = 0.0f,
+                    };
+
+                    InventoryCircles.Add(player.abstractCreature, circle);
+                    AllHUDCircles.Add(circle);
+                }
+
+                if (circle.container != HUDFContainer)
+                {
+                    HUDFContainer.AddChild(circle);
+                }
+
                 for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {
                     var abstractObject = playerModule.Inventory[i];
@@ -92,8 +95,6 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
             }
             else
             {
-                AllHUDCircles.ForEach(x => x.alpha = 0.0f);
-
                 for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {
                     var abstractObject = playerModule.Inventory[i];
@@ -166,7 +167,11 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 
     public override void ClearSprites()
     {
-        AllHUDCircles.ForEach(x => x.RemoveFromContainer());
+        foreach (var x in AllHUDCircles)
+        {
+            x.RemoveFromContainer();
+        }
+
         AllHUDCircles.Clear();
 
         foreach (var x in AllSymbols)

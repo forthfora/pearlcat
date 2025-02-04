@@ -51,6 +51,46 @@ public static class Creatures_Hooks
         On.Leech.Attached += Leech_Attached;
 
         On.ArtificialIntelligence.VisualContact_BodyChunk += ArtificialIntelligenceOnVisualContact_BodyChunk;
+
+        On.Vulture.SpearStick += VultureOnSpearStick;
+
+    }
+
+
+    // Allow redirected spears to pierce vulture masks
+    private static bool VultureOnSpearStick(On.Vulture.orig_SpearStick orig, Vulture self, Weapon source, float dmg, BodyChunk? chunk, PhysicalObject.Appendage.Pos apppos, Vector2 direction)
+    {
+        var result = orig(self, source, dmg, chunk, apppos, direction);
+
+        // don't need to worry if it's not the head
+        if (chunk?.index != 4)
+        {
+            return result;
+        }
+
+        // don't need to worry if the mask is already gone
+        if ((self.State as Vulture.VultureState)?.mask == false)
+        {
+            return result;
+        }
+
+        var playerData = self.abstractCreature.world.game.GetAllPearlcatModules();
+
+        foreach (var module in playerData)
+        {
+            foreach (var item in module.Inventory)
+            {
+                if (item.TryGetPlayerPearlModule(out var pearlModule))
+                {
+                    if (pearlModule.VisitedObjects.TryGetValue(source, out _))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
 
