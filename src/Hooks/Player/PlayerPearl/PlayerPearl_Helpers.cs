@@ -79,7 +79,7 @@ public static class PlayerPearl_Helpers
 
         foreach (var pearlType in pearlsToAdd)
         {
-            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
+            var pearl = new DataPearl.AbstractDataPearl(self.abstractCreature.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.abstractCreature.world.game.GetNewID(), -1, -1, null, pearlType);
 
             self.StorePearl(pearl, overrideLimit: overrideLimit);
         }

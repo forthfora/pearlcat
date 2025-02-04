@@ -856,7 +856,7 @@ public static class Player_Helpers
         // Give heart if it is missing
         if (self.room is not null && !self.dead && !hasHeart)
         {
-            var pearl = new DataPearl.AbstractDataPearl(self.room.world,
+            var pearl = new DataPearl.AbstractDataPearl(self.abstractCreature.world,
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
                 self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
 
