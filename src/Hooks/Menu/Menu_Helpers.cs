@@ -47,13 +47,13 @@ public static class Menu_Helpers
         // If Pearlpup is alive and with the player (or a new save)
         if (fileName.HasConditionTag("pup", out var c))
         {
-            visible &= !ModCompat_Helpers.RainMeadow_IsOnline && (miscProg.HasPearlpup || miscProg.HasDeadPearlpup || (miscProg.IsNewPearlcatSave && ModManager.MSC)) == c;
+            visible &= (!ModCompat_Helpers.RainMeadow_IsOnline && (miscProg.HasPearlpup || miscProg.HasDeadPearlpup || (miscProg.IsNewPearlcatSave && ModManager.MSC))) == c;
         }
 
         // If true ending achieved
         if (fileName.HasConditionTag("trueend", out c))
         {
-            visible &= !ModCompat_Helpers.RainMeadow_IsOnline && miscProg.HasTrueEnding == c;
+            visible &= (!ModCompat_Helpers.RainMeadow_IsOnline && miscProg.HasTrueEnding) == c;
         }
 
         // If Pearlpup is sick
@@ -65,7 +65,7 @@ public static class Menu_Helpers
         // Had pearlpup and lost them, pearlpup is in the shelter but dead, or pearlpup is sick
         if (fileName.HasConditionTag("sad", out c))
         {
-            visible &= !ModCompat_Helpers.RainMeadow_IsOnline && (miscProg.IsPearlpupSick || miscProg.HasDeadPearlpup || (!miscProg.HasPearlpup && miscProg.DidHavePearlpup)) == c;
+            visible &= (!ModCompat_Helpers.RainMeadow_IsOnline && (miscProg.IsPearlpupSick || miscProg.HasDeadPearlpup || (!miscProg.HasPearlpup && miscProg.DidHavePearlpup))) == c;
         }
 
         self.visible = visible;
