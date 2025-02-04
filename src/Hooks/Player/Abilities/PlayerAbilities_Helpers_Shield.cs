@@ -107,15 +107,7 @@ public static class PlayerAbilities_Helpers_Shield
                             continue;
                         }
 
-                        // Jolly FF is off, doesn't apply to arena sessions, also check meadow FF if it's enabled
-                        if (!self.abstractCreature.world.game.IsArenaSession && !(ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire) && !ModCompat_Helpers.RainMeadow_FriendlyFire)
-                        {
-                            continue;
-                        }
-
-                        // Arena FF is off, only applies to arena sessions
-                        if (self.abstractCreature.world.game.IsArenaSession && !self.abstractCreature.world.game
-                                .GetArenaGameSession.GameTypeSetup.spearsHitPlayers)
+                        if (!self.abstractCreature.world.game.IsFriendlyFireEnabled())
                         {
                             continue;
                         }

@@ -94,26 +94,9 @@ public static class Player_Helpers
         // Player vs Player
         if (self is Player && creature is Player otherPlayer && !otherPlayer.isSlugpup)
         {
-            var game = self.abstractCreature.world.game;
-
-            if (game.IsArenaSession && game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers)
+            if (self.abstractCreature.world.game.IsFriendlyFireEnabled())
             {
                 return true;
-            }
-
-            if (ModCompat_Helpers.RainMeadow_IsOnline)
-            {
-                if (ModCompat_Helpers.RainMeadow_FriendlyFire)
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                if (ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire)
-                {
-                    return true;
-                }
             }
         }
 

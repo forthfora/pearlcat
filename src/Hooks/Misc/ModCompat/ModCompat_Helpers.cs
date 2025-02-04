@@ -69,7 +69,6 @@ public static class ModCompat_Helpers
 
     public static bool RainMeadow_IsLobbyOwner => !IsModEnabled_RainMeadow || MeadowCompat.IsLobbyOwner;
     public static bool RainMeadow_IsOnline => IsModEnabled_RainMeadow && MeadowCompat.IsOnline;
-    public static bool RainMeadow_FriendlyFire => IsModEnabled_RainMeadow && MeadowCompat.FriendlyFire;
 
     public static bool RainMeadow_IsMine(AbstractPhysicalObject obj)
     {

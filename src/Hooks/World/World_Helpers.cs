@@ -1,8 +1,6 @@
-﻿using System;
-using MoreSlugcats;
+﻿using MoreSlugcats;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;
@@ -50,6 +48,21 @@ public static class World_Helpers
 
 
         return false;
+    }
+
+    public static bool IsFriendlyFireEnabled(this RainWorldGame game)
+    {
+        if (game.IsArenaSession)
+        {
+            return game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers;
+        }
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            return MeadowCompat.FriendlyFire;
+        }
+
+        return ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire;
     }
 
 

@@ -346,7 +346,7 @@ public static class PlayerAbilities_Helpers_Rage
                     else if (bestTarget == closestRed)
                     {
                         bestTargetPos = closestRed.firstChunk.pos;
-                        bestTargetVel = closestRed.firstChunk.vel; // TODO: check if it's good or not
+                        bestTargetVel = closestRed.firstChunk.vel;
                     }
                 }
 
