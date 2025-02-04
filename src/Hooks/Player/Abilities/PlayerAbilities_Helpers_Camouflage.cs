@@ -62,6 +62,11 @@ public static class PlayerAbilities_Helpers_Camouflage
 
         if (ModOptions.DisableCamoflague || self.inVoidSea)
         {
+            if (self.inVoidSea)
+            {
+                playerModule.HoloLightScale = 0.0f;
+            }
+
             playerModule.DisabledEffects.Add(PearlEffect.MajorEffectType.Camouflage);
             return;
         }

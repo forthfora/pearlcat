@@ -8,34 +8,15 @@ using Vector2 = UnityEngine.Vector2;
 
 namespace Pearlcat;
 
-public class InventoryHUD : HudPart
+public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 {
+    public FContainer HUDFContainer { get; } = fContainer;
+
     public static ConditionalWeakTable<AbstractPhysicalObject, PlayerPearlSymbol> Symbols { get; } = new();
+    public static ConditionalWeakTable<AbstractCreature, FSprite> InventoryCircles { get; } = new();
+
     public List<PlayerPearlSymbol> AllSymbols { get; } = [];
-
-    public FContainer HUDFContainer { get; }
-    public List<FSprite> InventoryCircles { get; } = [];
-
-    public InventoryHUD(HUD.HUD hud, FContainer fContainer) : base(hud)
-    {
-        HUDFContainer = fContainer;
-
-        if (hud.rainWorld.processManager.currentMainLoop is not RainWorldGame game)
-        {
-            return;
-        }
-
-        for (var i = 0; i < game.Players.Count; i++)
-        {
-            var circle = new FSprite("pearlcat_hudcircle")
-            {
-                alpha = 0.0f,
-            };
-
-            fContainer.AddChild(circle);
-            InventoryCircles.Add(circle);
-        }
-    }
+    public List<FSprite> AllHUDCircles { get; } = [];
 
 
     public override void Draw(float timeStacker)
@@ -45,7 +26,6 @@ public class InventoryHUD : HudPart
             return;
         }
 
-
         foreach (var playerModule in game.GetAllPearlcatModules())
         {
             if (playerModule.PlayerRef is null)
@@ -54,12 +34,6 @@ public class InventoryHUD : HudPart
             }
 
             var player = playerModule.PlayerRef;
-            var playerIndex = game.Players.IndexOf(player.abstractCreature);
-
-            if (playerIndex == -1)
-            {
-                continue;
-            }
 
             var cameras = player.abstractCreature.world.game.cameras;
             var rCam = cameras.First();
@@ -75,6 +49,22 @@ public class InventoryHUD : HudPart
 
             if (!ModOptions.CompactInventoryHUD)
             {
+                if (!InventoryCircles.TryGetValue(player.abstractCreature, out var circle))
+                {
+                    circle = new FSprite("pearlcat_hudcircle")
+                    {
+                        alpha = 0.0f,
+                    };
+
+                    InventoryCircles.Add(player.abstractCreature, circle);
+                    AllHUDCircles.Add(circle);
+                }
+
+                if (circle.container != HUDFContainer)
+                {
+                    HUDFContainer.AddChild(circle);
+                }
+
                 for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {
                     var abstractObject = playerModule.Inventory[i];
@@ -99,16 +89,12 @@ public class InventoryHUD : HudPart
                     symbol.Scale = isActiveObject ? 2.0f : 0.8f;
                 }
 
-                var circle = InventoryCircles[playerIndex];
-
                 circle.SetPosition(Custom.Dist(circle.GetPosition(), truePos) > 300.0f ? truePos : Vector2.Lerp(circle.GetPosition(), truePos, 0.1f));
                 circle.scale = Custom.LerpMap(playerModule.HudFade, 0.0f, 1.0f, 0.75f, 1.05f);
                 circle.alpha = player.room is null ? 0.0f : Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 0.0f, 0.4f);
             }
             else
             {
-                InventoryCircles.ForEach(x => x.alpha = 0.0f);
-
                 for (var i = 0; i < playerModule.Inventory.Count; i++)
                 {
                     var abstractObject = playerModule.Inventory[i];
@@ -181,7 +167,20 @@ public class InventoryHUD : HudPart
 
     public override void ClearSprites()
     {
-        InventoryCircles.ForEach(x => x.RemoveFromContainer());
+        foreach (var x in AllHUDCircles)
+        {
+            x.RemoveFromContainer();
+        }
+
+        AllHUDCircles.Clear();
+
+        foreach (var x in AllSymbols)
+        {
+            x.SlatedForDeletion = true;
+            x.RemoveSprites();
+        }
+
+        AllSymbols.Clear();
     }
 
     public override void Update()

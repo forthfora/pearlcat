@@ -61,12 +61,12 @@ public static class Sound_Hooks
 
         var module = self.GetModule();
 
-        if (self.manager.currentMainLoop is RainWorldGame game && game.Players.Any(x => x.realizedCreature is Player player && player.IsPearlcat()))
+        if (self.manager.currentMainLoop is RainWorldGame game && game.GetAllPearlcats().Any())
         {
             var region = self.threatTracker?.region;
             var hasThreatMusicPearl = false;
             
-            foreach (var abstractCreature in game.Players)
+            foreach (var abstractCreature in game.GetAllPlayers())
             {
                 if (abstractCreature?.realizedCreature is not Player player)
                 {

@@ -1,8 +1,6 @@
-﻿using System;
-using MoreSlugcats;
+﻿using MoreSlugcats;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Random = UnityEngine.Random;
 
 namespace Pearlcat;
@@ -50,6 +48,21 @@ public static class World_Helpers
 
 
         return false;
+    }
+
+    public static bool IsFriendlyFireEnabled(this RainWorldGame game)
+    {
+        if (game.IsArenaSession)
+        {
+            return game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers;
+        }
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            return MeadowCompat.FriendlyFire;
+        }
+
+        return ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire;
     }
 
 
@@ -262,32 +275,32 @@ public static class World_Helpers
 
     public static bool IsSingleplayer(this Player player)
     {
-        return player.abstractCreature.world.game.Players.Count == 1;
+        return !ModCompat_Helpers.RainMeadow_IsOnline && player.abstractCreature.world.game.GetAllPlayers().Count == 1;
     }
 
-    public static int GetFirstPearlcatIndex(this RainWorldGame? game)
+    public static AbstractCreature? GetFirstPearlcat(this RainWorldGame? game)
+    {
+        return game?.GetAllPearlcats().FirstOrDefault();
+    }
+
+    public static List<AbstractCreature> GetAllPearlcats(this RainWorldGame? game)
+    {
+        return game.GetAllPlayers().Where(x => x.realizedObject is Player player && player.IsPearlcat()).ToList();
+    }
+
+    public static List<AbstractCreature> GetAllPlayers(this RainWorldGame? game)
     {
         if (game is null)
         {
-            return -1;
+            return [];
         }
 
-        for (var i = 0; i < game.Players.Count; i++)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            var abstractCreature = game.Players[i];
-
-            if (abstractCreature.realizedCreature is not Player player)
-            {
-                continue;
-            }
-
-            if (player.IsPearlcat())
-            {
-                return i;
-            }
+            return MeadowCompat.GetAllPlayers();
         }
 
-        return -1;
+        return game.Players;
     }
 
     public static void AddTextPrompt(this RainWorldGame game, string text, int wait, int time, bool darken = false, bool? hideHud = null)
@@ -295,39 +308,5 @@ public static class World_Helpers
         hideHud ??= ModManager.MMF;
 
         game.cameras.First().hud.textPrompt.AddMessage(Utils.Translator.Translate(text), wait, time, darken, (bool)hideHud);
-    }
-
-    public static void RemoveInventorySaveObjects(RegionState self)
-    {
-        try
-        {
-            var miscWorld = self.world.game.GetMiscWorld();
-
-            if (miscWorld is null)
-            {
-                return;
-            }
-
-            foreach (var inventory in miscWorld.Inventory.Values)
-            {
-                foreach (var pearl in inventory)
-                {
-                    var pearlId = EntityID.FromString(Regex.Split(pearl, "<oA>")[0]);
-
-                    self.savedObjects.RemoveAll(x => SaveStringToId(x) == pearlId);
-                }
-            }
-
-            return;
-
-            EntityID SaveStringToId(string x)
-            {
-                return EntityID.FromString(Regex.Split(x, "<oA>")[0]);
-            }
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError($"Error removing inventory save objects:\n{e}");
-        }
     }
 }

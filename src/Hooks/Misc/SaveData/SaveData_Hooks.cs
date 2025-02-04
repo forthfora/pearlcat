@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;
@@ -87,14 +88,25 @@ public static class SaveData_Hooks
         miscProg.StoredNonActivePearls.Clear();
         miscProg.StoredActivePearl = null;
 
-        var firstPearlcatIndex = game.GetFirstPearlcatIndex();
+        var firstPearlcat = game.GetFirstPearlcat();
+        var inventoryPearlcatId = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? -1;
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline && firstPearlcatIndex != -1)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            firstPearlcatIndex = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(game.Players[firstPearlcatIndex]) ?? -1;
+            // Get the pearlcat we're using if we're online
+            var myPearlcat = game.GetAllPearlcats().FirstOrDefault(ModCompat_Helpers.RainMeadow_IsMine);
+
+            if (myPearlcat is not null)
+            {
+                inventoryPearlcatId = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(myPearlcat) ?? -1;
+            }
+            else
+            {
+                inventoryPearlcatId = -1;
+            }
         }
 
-        if (miscWorld.Inventory.TryGetValue(firstPearlcatIndex, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(firstPearlcatIndex, out var activeIndex))
+        if (miscWorld.Inventory.TryGetValue(inventoryPearlcatId, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(inventoryPearlcatId, out var activeIndex))
         {
             for (var i = 0; i < inventory.Count; i++)
             {

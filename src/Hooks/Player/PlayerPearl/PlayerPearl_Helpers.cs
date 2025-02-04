@@ -48,11 +48,10 @@ public static class PlayerPearl_Helpers
         List<DataPearlType> pearlsToAdd;
         var overrideLimit = false;
 
+        var giveHalcyonPearl = self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession || ModCompat_Helpers.RainMeadow_IsOnline;
+
         if (ModOptions.InventoryOverride || ModOptions.StartingInventoryOverride)
         {
-            // Halcyon pearl condition
-            var giveHalcyonPearl = self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession;
-
             pearlsToAdd = ModOptions.GetOverridenInventory(giveHalcyonPearl);
         }
         else
@@ -69,7 +68,7 @@ public static class PlayerPearl_Helpers
 
             if (!playerModule.IsAdultPearlpup)
             {
-                var specialPearl = (self.IsFirstPearlcat() || self.abstractCreature.world.game.IsArenaSession) ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc;
+                var specialPearl = giveHalcyonPearl ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc;
 
                 pearlsToAdd.Add(specialPearl);
             }
@@ -79,7 +78,7 @@ public static class PlayerPearl_Helpers
 
         foreach (var pearlType in pearlsToAdd)
         {
-            var pearl = new DataPearl.AbstractDataPearl(self.room.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.room.game.GetNewID(), -1, -1, null, pearlType);
+            var pearl = new DataPearl.AbstractDataPearl(self.abstractCreature.world, AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos, self.abstractCreature.world.game.GetNewID(), -1, -1, null, pearlType);
 
             self.StorePearl(pearl, overrideLimit: overrideLimit);
         }

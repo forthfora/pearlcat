@@ -15,7 +15,6 @@ public static class World_Hooks
         On.HUD.Map.GetItemInShelterFromWorld += Map_GetItemInShelterFromWorld;
 
         On.RegionState.AdaptRegionStateToWorld += RegionState_AdaptRegionStateToWorld;
-        On.RegionState.AdaptWorldToRegionState += RegionStateOnAdaptWorldToRegionState;
 
         On.Spear.DrawSprites += Spear_DrawSprites_PearlSpear;
         On.Spear.Update += Spear_Update_PearlSpear;
@@ -40,7 +39,6 @@ public static class World_Hooks
         On.SaveState.GetSaveStateDenToUse += SaveState_GetSaveStateDenToUse;
         On.OverWorld.WorldLoaded += OverWorldOnWorldLoaded;
     }
-
 
     // Meadow Gate Fix (inform meadow that the pearls are changing world)
     private static void OverWorldOnWorldLoaded(On.OverWorld.orig_WorldLoaded orig, OverWorld self)
@@ -396,16 +394,7 @@ public static class World_Hooks
         }
     }
 
-    // Another way to player pearls being saved in the shelter (duplicating), the other doesn't work in meadow for some reason
-    private static void RegionStateOnAdaptWorldToRegionState(On.RegionState.orig_AdaptWorldToRegionState orig, RegionState self)
-    {
-        RemoveInventorySaveObjects(self);
-
-        orig(self);
-
-        RemoveInventorySaveObjects(self);
-    }
-
+    
     // Stop player pearls being saved in the shelter (duplicating)
     private static void RegionState_AdaptRegionStateToWorld(On.RegionState.orig_AdaptRegionStateToWorld orig, RegionState self, int playerShelter, int activeGate)
     {
@@ -424,11 +413,6 @@ public static class World_Hooks
                         continue;
                     }
 
-                    if (!ModCompat_Helpers.RainMeadow_IsMine(abstractObject))
-                    {
-                        continue;
-                    }
-
                     if (!abstractObject.IsPlayerPearl())
                     {
                         continue;
@@ -439,7 +423,7 @@ public static class World_Hooks
                         abstractObject.world.game.GetStorySession.RemovePersistentTracker(abstractObject);
                     }
 
-                    abstractRoom.RemoveEntity(entity);
+                    abstractRoom.entities.Remove(entity);
                 }
             }
         }
@@ -448,11 +432,7 @@ public static class World_Hooks
             Plugin.Logger.LogError($"Error removing player pearls from the world state: \n{e}");
         }
 
-        RemoveInventorySaveObjects(self);
-
         orig(self, playerShelter, activeGate);
-
-        RemoveInventorySaveObjects(self);
     }
 
 

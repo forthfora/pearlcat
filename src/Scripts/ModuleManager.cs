@@ -4,6 +4,7 @@ using Music;
 using SlugBase.SaveData;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 
 namespace Pearlcat;
 
@@ -11,6 +12,8 @@ public static class ModuleManager
 {
     // Pearlcat
     public static ConditionalWeakTable<AbstractCreature, PlayerModule> PearlcatData { get; } = new();
+
+    [PublicAPI] // Rotund World
     public static bool TryGetPearlcatModule(this Player self, out PlayerModule playerModule)
     {
         if (!self.IsPearlcat())
@@ -31,30 +34,25 @@ public static class ModuleManager
     }
     public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game)
     {
-        List<PlayerModule> allPlayerModules = [];
-        var players = game.Players;
+        var allPearlcats = game.GetAllPearlcats();
+        var playerModules = new List<PlayerModule>();
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        foreach (var abstractCreature in allPearlcats)
         {
-            players = MeadowCompat.GetAllPlayers();
-        }
-
-        if (players is null)
-        {
-            return allPlayerModules;
-        }
-
-        foreach (var abstractCreature in players)
-        {
-            if (!PearlcatData.TryGetValue(abstractCreature, out var playerModule))
+            if (abstractCreature.realizedObject is not Player player)
             {
                 continue;
             }
 
-            allPlayerModules.Add(playerModule);
+            if (!player.TryGetPearlcatModule(out var playerModule))
+            {
+                continue;
+            }
+
+            playerModules.Add(playerModule);
         }
 
-        return allPlayerModules;
+        return playerModules;
     }
     
 

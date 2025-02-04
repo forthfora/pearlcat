@@ -21,7 +21,7 @@ public static class Player_Helpers
 
     public static bool IsFirstPearlcat(this Player player)
     {
-        return player.playerState.playerNumber == (player.room?.game).GetFirstPearlcatIndex();
+        return player.abstractCreature.world.game.GetAllPearlcats().FirstOrDefault() == player.abstractCreature;
     }
 
 
@@ -94,26 +94,9 @@ public static class Player_Helpers
         // Player vs Player
         if (self is Player && creature is Player otherPlayer && !otherPlayer.isSlugpup)
         {
-            var game = self.abstractCreature.world.game;
-
-            if (game.IsArenaSession && game.GetArenaGameSession.GameTypeSetup.spearsHitPlayers)
+            if (self.abstractCreature.world.game.IsFriendlyFireEnabled())
             {
                 return true;
-            }
-
-            if (ModCompat_Helpers.RainMeadow_IsOnline)
-            {
-                if (ModCompat_Helpers.RainMeadow_FriendlyFire)
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                if (ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire)
-                {
-                    return true;
-                }
             }
         }
 
@@ -557,7 +540,11 @@ public static class Player_Helpers
                 }
                 else
                 {
-                    self.room.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActivePearl.realizedObject.firstChunk);
+                    if (playerModule.ActivePearl?.realizedObject is not null)
+                    {
+                        self.room?.PlaySound(Enums.Sounds.Pearlcat_PearlRetrieve, playerModule.ActivePearl.realizedObject.firstChunk);
+                    }
+
                     self.RetrieveActivePearl();
                 }
             }
@@ -619,24 +606,24 @@ public static class Player_Helpers
                             if (playerModule.StoreObjectTimer % bigSparkFreq == 0)
                             {
                                 var randVec = Custom.RNV() * Random.Range(150.0f, 250.0f);
-                                self.room.ConnectEffect(heart.firstChunk.pos, heart.firstChunk.pos + randVec, Color.red, 8.0f, 40);
-                                self.room.PlaySound(SoundID.Zapper_Zap, heart.firstChunk.pos, 0.8f, Random.Range(0.6f, 1.4f));
+                                self.room?.ConnectEffect(heart.firstChunk.pos, heart.firstChunk.pos + randVec, Color.red, 8.0f, 40);
+                                self.room?.PlaySound(SoundID.Zapper_Zap, heart.firstChunk.pos, 0.8f, Random.Range(0.6f, 1.4f));
                             }
 
                             if (playerModule.StoreObjectTimer % heartBeatFreq == 0)
                             {
-                                self.room.PlaySound(Enums.Sounds.Pearlcat_Heartbeat , heart.firstChunk.pos, Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 0.45f, 1.0f), 1.0f);
+                                self.room?.PlaySound(Enums.Sounds.Pearlcat_Heartbeat , heart.firstChunk.pos, Custom.LerpMap(playerModule.StoreObjectTimer, heartRemovalStart, storeObjectDelay, 0.45f, 1.0f), 1.0f);
                             }
 
                             if (playerModule.StoreObjectTimer % 10 == 0)
                             {
-                                self.room.AddObject(new LightningMachine.Impact(heart.firstChunk.pos, 0.4f, Color.red));
+                                self.room?.AddObject(new LightningMachine.Impact(heart.firstChunk.pos, 0.4f, Color.red));
                             }
 
                             if (playerModule.StoreObjectTimer % 30 == 0)
                             {
-                                self.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, heart.firstChunk.pos, 0.8f, 5.0f);
-                                self.room.AddObject(new ExplosionSpikes(self.room, heart.firstChunk.pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
+                                self.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, heart.firstChunk.pos, 0.8f, 5.0f);
+                                self.room?.AddObject(new ExplosionSpikes(self.room, heart.firstChunk.pos, 5, 100.0f, 20.0f, 25.0f, 100.0f, Color.red));
                             }
                         }
                     }
@@ -869,7 +856,7 @@ public static class Player_Helpers
         // Give heart if it is missing
         if (self.room is not null && !self.dead && !hasHeart)
         {
-            var pearl = new DataPearl.AbstractDataPearl(self.room.world,
+            var pearl = new DataPearl.AbstractDataPearl(self.abstractCreature.world,
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
                 self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
 
@@ -1129,6 +1116,12 @@ public static class Player_Helpers
 
     public static void UpdatePearlpup(Player self, PlayerModule playerModule)
     {
+        // TODO: pearlpup in meadow, maybe
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            return;
+        }
+
         if (!self.IsFirstPearlcat())
         {
             return;

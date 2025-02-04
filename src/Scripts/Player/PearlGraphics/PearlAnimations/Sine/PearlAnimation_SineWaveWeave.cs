@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public sealed class PearlAnimation_SineWaveWeave(Player player) : PearlAnimation_SineBase(player)
 {

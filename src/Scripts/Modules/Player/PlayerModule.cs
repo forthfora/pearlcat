@@ -129,25 +129,18 @@ public partial class PlayerModule
             return;
         }
 
-        var id = self.playerState.playerNumber;
+        var id = ModCompat_Helpers.RainMeadow_IsOnline ? ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(self.abstractPhysicalObject) : self.playerState?.playerNumber;
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        if (id is null)
         {
-            var ownerId = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(self.abstractPhysicalObject);
-
-            if (ownerId is null)
-            {
-                return;
-            }
-
-            id = (int)ownerId;
+            return;
         }
 
         if (!ModOptions.InventoryOverride)
         {
             Inventory.Clear();
 
-            if (save.Inventory.TryGetValue(id, out var inventory))
+            if (save.Inventory.TryGetValue((int)id, out var inventory))
             {
                 foreach (var item in inventory)
                 {
@@ -158,7 +151,7 @@ public partial class PlayerModule
 
         if (Inventory.Any())
         {
-            if (save.ActiveObjectIndex.TryGetValue(id, out var activePearlIndex) && activePearlIndex < Inventory.Count)
+            if (save.ActiveObjectIndex.TryGetValue((int)id, out var activePearlIndex) && activePearlIndex < Inventory.Count)
             {
                 ActivePearlIndex = activePearlIndex;
             }
