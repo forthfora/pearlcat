@@ -59,7 +59,7 @@ public static class Menu_Helpers
         // If Pearlpup is sick
         if (fileName.HasConditionTag("sick", out c))
         {
-            visible &= miscProg.IsPearlpupSick == c;
+            visible &= (!ModCompat_Helpers.RainMeadow_IsOnline && miscProg.IsPearlpupSick) == c;
         }
 
         // Had pearlpup and lost them, pearlpup is in the shelter but dead, or pearlpup is sick
