@@ -451,7 +451,8 @@ public static class PlayerAbilities_Helpers_Rage
 
         // Compensate for weapon drop due to gravity
         // 1/2 * a * t^2
-        leadPos += Vector2.up * 0.5f * projectileGravity * time * time;
+        var gravityFac = 0.6f; // for some reason, compensation is too strong if we just consider weapon gravity
+        leadPos += Vector2.up * 0.5f * (gravityFac * projectileGravity) * time * time;
 
         return leadPos;
     }
