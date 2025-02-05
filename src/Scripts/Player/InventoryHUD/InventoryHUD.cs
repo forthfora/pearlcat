@@ -44,8 +44,10 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 
             var truePos = playerPos - roomPos;
 
-
             var activePearlIndex = playerModule.ActivePearlIndex;
+
+            // Make inventory pearls movement independent of framerate
+            var lerpFac = 16.5f * Time.deltaTime;
 
             if (!ModOptions.CompactInventoryHUD)
             {
@@ -85,11 +87,11 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
                     var radius = Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 65.0f, 80.0f);
                     var invPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
-                    symbol.Pos = Custom.Dist(symbol.Pos, invPos) > 300.0f ? invPos : Vector2.Lerp(symbol.Pos, invPos, 0.1f);
+                    symbol.Pos = Custom.Dist(symbol.Pos, invPos) > 300.0f ? invPos : Vector2.Lerp(symbol.Pos, invPos, lerpFac);
                     symbol.Scale = isActiveObject ? 2.0f : 0.8f;
                 }
 
-                circle.SetPosition(Custom.Dist(circle.GetPosition(), truePos) > 300.0f ? truePos : Vector2.Lerp(circle.GetPosition(), truePos, 0.1f));
+                circle.SetPosition(Custom.Dist(circle.GetPosition(), truePos) > 300.0f ? truePos : Vector2.Lerp(circle.GetPosition(), truePos, lerpFac));
                 circle.scale = Custom.LerpMap(playerModule.HudFade, 0.0f, 1.0f, 0.75f, 1.05f);
                 circle.alpha = player.room is null ? 0.0f : Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 0.0f, 0.4f);
             }
@@ -126,7 +128,7 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
                     }
 
                     // lazy fix
-                    symbol.Pos = Custom.Dist(symbol.Pos, itemPos) > 300.0f ? itemPos : Vector2.Lerp(symbol.Pos, itemPos, 0.1f);
+                    symbol.Pos = Custom.Dist(symbol.Pos, itemPos) > 300.0f ? itemPos : Vector2.Lerp(symbol.Pos, itemPos, lerpFac);
                     symbol.Scale = isActiveObject ? 1.5f : 0.8f;
                 }
             }
