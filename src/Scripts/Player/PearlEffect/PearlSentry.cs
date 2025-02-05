@@ -199,7 +199,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     {
         PlaysMusic = true;
 
-        if (room is null)
+        if (room?.physicalObjects is null)
         {
             return;
         }
@@ -209,6 +209,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         foreach (var objLayer in self.room.physicalObjects)
         {
+            if (objLayer is null)
+            {
+                continue;
+            }
+
             foreach (var obj in objLayer)
             {
                 if (obj == self)
@@ -480,11 +485,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
         if (!SpearBombArmed && shouldArm)
         {
-            pearl.room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.0f, 3.0f);
+            pearl.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pearl.firstChunk.pos, 1.0f, 3.0f);
         }
 
         SpearBombArmed = shouldArm;
-        SpearBombRoom = SpearBombArmed ? pearl.room.abstractRoom : null;
+        SpearBombRoom = SpearBombArmed ? pearl.abstractPhysicalObject.Room : null;
     }
 
 
