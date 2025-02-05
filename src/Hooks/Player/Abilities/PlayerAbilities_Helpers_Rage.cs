@@ -222,7 +222,7 @@ public static class PlayerAbilities_Helpers_Rage
                     if (!player.IsHostileToMe(creature) && !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly))
                     {
                         // Exception for PVP - Pearlcat who deployed the sentry is still a valid target
-                        if (creature != player)
+                        if (!creature.abstractCreature.world.game.IsFriendlyFireEnabled() || creature != player)
                         {
                             continue;
                         }
