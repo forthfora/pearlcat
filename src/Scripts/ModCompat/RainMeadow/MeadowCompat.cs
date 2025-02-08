@@ -39,6 +39,18 @@ public static class MeadowCompat
             e.LogHookException();
         }
 
+        try
+        {
+            _ = new Hook(
+                typeof(StoryGameMode).GetMethod(nameof(StoryGameMode.LoadWorldAs), BindingFlags.Instance | BindingFlags.Public),
+                typeof(MeadowCompat).GetMethod(nameof(OnLoadWorldAs), BindingFlags.Static | BindingFlags.NonPublic)
+            );
+        }
+        catch (Exception e)
+        {
+            e.LogHookException();
+        }
+
         On.SlugcatStats.ctor += SlugcatStatsOnctor;
     }
 
@@ -164,6 +176,17 @@ public static class MeadowCompat
 
         // Raise the HUD so it doesn't obscure the active pearl
         self.drawpos.y += 50.0f;
+    }
+
+    // Meadow world state fix
+    private static SlugcatStats.Name OnLoadWorldAs(Func<StoryGameMode, RainWorldGame, SlugcatStats.Name> orig, StoryGameMode self, RainWorldGame game)
+    {
+        if (game.IsPearlcatStory())
+        {
+            return SlugcatStats.Name.Red;
+        }
+
+        return orig(self, game);
     }
 
     public static void UpdateOnlineInventorySaveData(OnlinePhysicalObject playerOpo)
