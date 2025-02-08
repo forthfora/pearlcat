@@ -47,7 +47,7 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
             var activePearlIndex = playerModule.ActivePearlIndex;
 
             // Make inventory pearls movement independent of framerate
-            var lerpFac = 16.5f * Time.deltaTime;
+            var lerpFac = 10.0f * Time.deltaTime;
 
             if (!ModOptions.CompactInventoryHUD)
             {
