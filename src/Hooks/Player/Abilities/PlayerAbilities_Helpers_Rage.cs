@@ -247,6 +247,11 @@ public static class PlayerAbilities_Helpers_Rage
 
                     var dist = Custom.Dist(creature.mainBodyChunk.pos, pearl.firstChunk.pos);
 
+                    if (dist > targetEnemyRange)
+                    {
+                        continue;
+                    }
+
                     availableEnemies.Add(new(creature, dist));
                 }
             }

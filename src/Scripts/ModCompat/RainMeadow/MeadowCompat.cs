@@ -123,9 +123,7 @@ public static class MeadowCompat
         self.foodToHibernate = onlineFood.y;
     }
 
-    private delegate void orig_OnPlayerSpecificOnlineHudUpdate(PlayerSpecificOnlineHud self);
-
-    private static void OnPlayerSpecificOnlineHudUpdate(orig_OnPlayerSpecificOnlineHudUpdate orig, PlayerSpecificOnlineHud self)
+    private static void OnPlayerSpecificOnlineHudUpdate(Action<PlayerSpecificOnlineHud> orig, PlayerSpecificOnlineHud self)
     {
         orig(self);
 
@@ -199,8 +197,7 @@ public static class MeadowCompat
 
 
     // Add Online Data
-    private delegate void orig_OnLobbyAvailable(OnlineResource self);
-    private static void OnLobbyAvailable(orig_OnLobbyAvailable orig, OnlineResource self)
+    private static void OnLobbyAvailable(Action<OnlineResource> orig, OnlineResource self)
     {
         orig(self);
 

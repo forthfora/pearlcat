@@ -22,8 +22,7 @@ public static class SSOraclePearls_HooksIL
     }
 
 
-    private delegate bool orig_PebblesPearlNotCarried(PebblesPearl self);
-    private static bool GetPebblesPearlNotCarried(orig_PebblesPearlNotCarried orig, PebblesPearl self)
+    private static bool GetPebblesPearlNotCarried(Func<PebblesPearl, bool> orig, PebblesPearl self)
     {
         var result = orig(self);
 

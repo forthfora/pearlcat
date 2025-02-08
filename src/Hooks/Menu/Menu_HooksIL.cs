@@ -47,8 +47,7 @@ public static class Menu_HooksIL
     }
 
 
-    private delegate bool orig_SlugcatPageHasMark(SlugcatSelectMenu.SlugcatPage self);
-    private static bool GetSlugcatPageHasMark(orig_SlugcatPageHasMark orig, SlugcatSelectMenu.SlugcatPage self)
+    private static bool GetSlugcatPageHasMark(Func<SlugcatSelectMenu.SlugcatPage, bool> orig, SlugcatSelectMenu.SlugcatPage self)
     {
         var result = orig(self);
 
@@ -61,8 +60,7 @@ public static class Menu_HooksIL
     }
 
 
-    private delegate bool orig_SlugcatPageHasGlow(SlugcatSelectMenu.SlugcatPage self);
-    private static bool GetSlugcatPageHasGlow(orig_SlugcatPageHasGlow orig, SlugcatSelectMenu.SlugcatPage self)
+    private static bool GetSlugcatPageHasGlow(Func<SlugcatSelectMenu.SlugcatPage, bool> orig, SlugcatSelectMenu.SlugcatPage self)
     {
         var result = orig(self);
 

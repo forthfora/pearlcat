@@ -175,8 +175,7 @@ public static class World_HooksIL
 
 
     // Only let pups spawn if pearlpup is missing
-    private delegate int orig_StoryGameSessionSlugPupMaxCount(StoryGameSession self);
-    private static int GetStoryGameSessionSlugPupMaxCount(orig_StoryGameSessionSlugPupMaxCount orig, StoryGameSession self)
+    private static int GetStoryGameSessionSlugPupMaxCount(Func<StoryGameSession, int> orig, StoryGameSession self)
     {
         var result = orig(self);
 
@@ -198,8 +197,7 @@ public static class World_HooksIL
 
 
     // Unlock certain gates (Bitter Aerie, Metropolis)
-    private delegate bool orig_RegionGateMeetRequirement(RegionGate self);
-    private static bool GetRegionGateMeetRequirement(orig_RegionGateMeetRequirement orig, RegionGate self)
+    private static bool GetRegionGateMeetRequirement(Func<RegionGate, bool> orig, RegionGate self)
     {
         var result = orig(self);
 
