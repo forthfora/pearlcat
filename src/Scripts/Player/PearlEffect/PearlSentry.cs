@@ -126,6 +126,11 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
+        if (pearl.room is null)
+        {
+            return;
+        }
+
         if (!pearl.abstractPhysicalObject.TryGetPlayerPearlModule(out var module))
         {
             return;

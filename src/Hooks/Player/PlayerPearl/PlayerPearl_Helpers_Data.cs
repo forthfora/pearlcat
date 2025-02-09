@@ -8,6 +8,8 @@ namespace Pearlcat;
 
 public static class PlayerPearl_Helpers_Data
 {
+    public static ConditionalWeakTable<AbstractPhysicalObject, StrongBox<Vector2>> TargetPositions { get; } = new();
+
     public static bool IsPlayerPearl(this AbstractPhysicalObject targetObject)
     {
         return targetObject.TryGetPlayerPearlModule(out var playerPearlModule) && playerPearlModule.IsCurrentlyStored;
@@ -188,9 +190,6 @@ public static class PlayerPearl_Helpers_Data
 
         return pos;
     }
-
-
-    public static ConditionalWeakTable<AbstractPhysicalObject, StrongBox<Vector2>> TargetPositions { get; } = new();
 
     public static void TryAnimateToTargetPos(this AbstractPhysicalObject abstractObject, Player player, Vector2 targetPos)
     {

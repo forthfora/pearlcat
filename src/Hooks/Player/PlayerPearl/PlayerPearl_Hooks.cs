@@ -24,83 +24,6 @@ public static class PlayerPearl_Hooks
 
     
     // Management
-    public static void MarkAsPlayerPearl(this AbstractPhysicalObject abstractObject)
-    {
-        var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule());
-
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            MeadowCompat.AddMeadowPlayerPearlData(abstractObject);
-        }
-
-        if (module.IsCurrentlyStored)
-        {
-            return;
-        }
-
-        var physicalObject = abstractObject.realizedObject;
-        
-        if (abstractObject.realizedObject is null)
-        {
-            return;
-        }
-
-        module.IsCurrentlyStored = true;
-        module.Gravity = physicalObject.gravity;
-
-        module.CollideWithObjects = physicalObject.CollideWithObjects;
-        module.CollideWithSlopes = physicalObject.CollideWithSlopes;
-        module.CollideWithTerrain = physicalObject.CollideWithTerrain;
-
-        if (physicalObject is DataPearl pearl)
-        {
-            module.PearlGlimmerWait = pearl.glimmerWait;
-        }
-
-        if (physicalObject is Weapon weapon)
-        {
-            module.WeaponRotationSpeed = weapon.rotationSpeed;
-        }
-    }
-
-    public static void ClearAsPlayerPearl(this AbstractPhysicalObject abstractObject)
-    {
-        if (!abstractObject.TryGetPlayerPearlModule(out var module))
-        {
-            return;
-        }
-
-        if (!module.IsCurrentlyStored)
-        {
-            return;
-        }
-
-        var physicalObject = abstractObject.realizedObject;
-        if (physicalObject is null)
-        {
-            return;
-        }
-
-        module.IsCurrentlyStored = false;
-
-        physicalObject.gravity = 1.0f; // yem
-
-        physicalObject.CollideWithObjects = module.CollideWithObjects;
-        physicalObject.CollideWithSlopes = module.CollideWithSlopes;
-        physicalObject.CollideWithTerrain = module.CollideWithTerrain;
-
-        if (physicalObject is DataPearl pearl)
-        {
-            pearl.glimmerWait = module.PearlGlimmerWait;
-        }
-
-        if (physicalObject is Weapon weapon)
-        {
-            weapon.rotationSpeed = module.WeaponRotationSpeed;
-        }
-    }
-
-    
     private static bool AbstractPhysicalObject_UsesAPersistantTracker(On.AbstractPhysicalObject.orig_UsesAPersistantTracker orig, AbstractPhysicalObject abs)
     {
         var result = orig(abs);
@@ -207,13 +130,36 @@ public static class PlayerPearl_Hooks
     {
         orig(self, eu);
 
-        if (self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) && module.IsCurrentlyStored)
+        if (self.abstractPhysicalObject.TryGetPlayerPearlModule(out var module))
         {
-            self.CollideWithObjects = false;
-            self.CollideWithSlopes = false;
-            self.CollideWithTerrain = false;
+            if (module.IsCurrentlyStored)
+            {
+                self.CollideWithObjects = false;
+                self.CollideWithSlopes = false;
+                self.CollideWithTerrain = false;
 
-            self.glimmerWait = 40;
+                self.glimmerWait = 40;
+            }
+
+            if (ModCompat_Helpers.RainMeadow_IsOnline)
+            {
+                var shouldSyncPos = !module.IsCurrentlyStored;
+
+                if (module.IsSentry)
+                {
+                    shouldSyncPos = true;
+                }
+                else
+                {
+                    // Player or graphics is missing, could be due to latency, just let Meadow sync the pos in that case
+                    if (!self.AbstractPearl.TryGetPlayerPearlOwner(out var player) || player.room is null || player.graphicsModule is null)
+                    {
+                        shouldSyncPos = true;
+                    }
+                }
+
+                MeadowCompat.SetPosSynced(self.AbstractPearl, shouldSyncPos);
+            }
         }
 
         if (self.abstractPhysicalObject.TryGetPearlGraphicsModule(out var graphics))

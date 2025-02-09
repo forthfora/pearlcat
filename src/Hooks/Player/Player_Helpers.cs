@@ -333,16 +333,17 @@ public static class Player_Helpers
             pearl.pos = self.abstractCreature.pos;
         }
 
+        var isDeadOnline = ModCompat_Helpers.RainMeadow_IsOnline && self.dead;
+
         // Inventory
-        if (self.room is null || self.inVoidSea)
+        if (self.room is null || self.inVoidSea || isDeadOnline)
         {
-            self.TryAbstractInventory();
+            self.TryAbstractInventory(isDeadOnline);
         }
         else
         {
             self.TryRealizeInventory(playerModule);
         }
-
 
         // Input
         var unblockedInput = playerModule.UnblockedInput;

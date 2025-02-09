@@ -319,7 +319,9 @@ public static class Player_Hooks
     {
         if (self is Player player)
         {
-            player.TryAbstractInventory();
+            var isChangingRooms = self.room?.shortcutData(entrancePos).shortCutType == ShortcutData.Type.RoomExit;
+
+            player.TryAbstractInventory(isChangingRooms);
         }
 
         orig(self, entrancePos, carriedByOther);
