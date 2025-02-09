@@ -19,7 +19,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     public int AnimCounter { get; set; }
 
     public bool SpearBombArmed { get; set; }
-    public AbstractRoom? SpearBombRoom { get; set; }
 
     public float ShieldTimer { get; set; } = -1;
     public DynamicSoundLoop? ShieldHoldLoop { get; set; }
@@ -31,7 +30,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     public WeakReference<Creature>? RageTarget { get; set; }
 
     public Vector2? AgilityPos { get; set; }
-    public AbstractRoom? AgilityRoom { get; set; }
 
     public float HoloLightScale { get; set; }
     public float HoloLightAlpha { get; set; }
@@ -457,7 +455,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         var canTP = !tooClose && !inGate && !possessingCreature;
 
         AgilityPos = canTP ? pearl.firstChunk.pos : null;
-        AgilityRoom = canTP ? pearl.AbstractPearl.Room : null;
     }
 
 
@@ -494,7 +491,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         }
 
         SpearBombArmed = shouldArm;
-        SpearBombRoom = SpearBombArmed ? pearl.abstractPhysicalObject.Room : null;
     }
 
 
@@ -878,7 +874,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
     }
 
 
-
     public override void Destroy()
     {
         base.Destroy();
@@ -915,7 +910,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 }
 
                 // Agility Teleport
-                if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && AgilityRoom == player.abstractCreature.Room)
+                if (module.CooldownTimer == 0 && AgilityPos is Vector2 agilityPos && module.WasSentryRecalled)
                 {
                     if (room is not null && owner.realizedObject is not null)
                     {
@@ -931,7 +926,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                     }
 
                     player.SuperHardSetPosition(agilityPos);
-                    
+
                     if (player.slugOnBack?.slugcat is Player slugOnBack)
                     {
                         slugOnBack.SuperHardSetPosition(agilityPos);
@@ -947,79 +942,16 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 }
 
                 // Spear Bomb
-                if (SpearBombArmed && SpearBombRoom == player.abstractCreature.Room)
+                if (SpearBombArmed && module.WasSentryRecalled)
                 {
                     if (room is not null && owner.realizedObject is not null)
                     {
-                        var pos = owner.realizedObject.firstChunk.pos;
-                        var color = pearlGraphics.SymbolColor;
-
-                        room.AddObject(new SootMark(room, pos, 40f, true));
-
-                        room.AddObject(new Explosion.ExplosionLight(pos, 280f, 1f, 7, color));
-                        room.AddObject(new Explosion.ExplosionLight(pos, 230f, 1f, 3, new Color(1f, 1f, 1f)));
-
-                        room.AddObject(new ExplosionSpikes(room, pos, 14, 30f, 9f, 7f, 120f, color));
-                        room.AddObject(new ShockWave(pos, 160f, 0.3f, 10));
-
-                        room.AddObject(new Explosion(room,
-                            owner.realizedObject,
-                            pos,
-                            7,
-                            125.0f,
-                            10.0f,
-                           2.0f,
-                            280.0f,
-                            0.25f,
-                            player,
-                            0.7f,
-                            160.0f,
-                            1.0f));
-
-                        room.PlaySound(SoundID.Bomb_Explode, pos);
-                        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1.2f, 0.75f);
-
-                        for (var i = 0; i < 25; i++)
+                        if (ModCompat_Helpers.RainMeadow_IsOnline)
                         {
-                            var randVec = Custom.RNV();
-
-                            if (room.GetTile(pos + randVec * 20f).Solid)
-                            {
-                                if (!room.GetTile(pos - randVec * 20f).Solid)
-                                {
-                                    randVec *= -1f;
-                                }
-                                else
-                                {
-                                    randVec = Custom.RNV();
-                                }
-                            }
-
-                            for (var j = 0; j < 3; j++)
-                            {
-                                room.AddObject(new Spark(pos + randVec * Mathf.Lerp(30f, 60f, Random.value),
-                                    randVec * Mathf.Lerp(7f, 38f, Random.value) + Custom.RNV() * 20f * Random.value,
-                                    Color.Lerp(color, new Color(1f, 1f, 1f), Random.value), null, 11, 28));
-                            }
-
-                            room.AddObject(new Explosion.FlashingSmoke(pos + randVec * 40f * Random.value,
-                                randVec * Mathf.Lerp(4f, 20f, Mathf.Pow(Random.value, 2f)),
-                                1f + 0.05f * Random.value, Color.white,
-                                color, Random.Range(3, 11)));
+                            MeadowCompat.RPC_ExplodeSentry(owner);
                         }
 
-                        for (var i = 0; i < 6; i++)
-                        {
-                            room.AddObject(new ScavengerBomb.BombFragment(pos, Custom.DegToVec((i + Random.value) / 6f * 360f) * Mathf.Lerp(18f, 38f, Random.value)));
-                        }
-
-                        room.ScreenMovement(pos, default, 1.3f);
-
-
-                        player.RemoveFromInventory(owner);
-
-                        owner.realizedObject?.Destroy();
-                        owner.Destroy();
+                        ExplodeSentry();
                     }
                 }
             }
@@ -1042,6 +974,100 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 musicPlayer.song?.StopAndDestroy();
                 musicPlayer.song = null;
             }
+        }
+    }
+
+    public void ExplodeSentry()
+    {
+        if (!OwnerRef.TryGetTarget(out var owner))
+        {
+            return;
+        }
+
+        if (!owner.TryGetPearlGraphicsModule(out var pearlGraphics))
+        {
+            return;
+        }
+
+        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
+
+        if (playerModule?.PlayerRef is null)
+        {
+            return;
+        }
+
+        var player = playerModule.PlayerRef;
+
+        var pos = owner.realizedObject.firstChunk.pos;
+        var color = pearlGraphics.SymbolColor;
+
+        room.AddObject(new SootMark(room, pos, 40f, true));
+
+        room.AddObject(new Explosion.ExplosionLight(pos, 280f, 1f, 7, color));
+        room.AddObject(new Explosion.ExplosionLight(pos, 230f, 1f, 3, new Color(1f, 1f, 1f)));
+
+        room.AddObject(new ExplosionSpikes(room, pos, 14, 30f, 9f, 7f, 120f, color));
+        room.AddObject(new ShockWave(pos, 160f, 0.3f, 10));
+
+        room.AddObject(new Explosion(room,
+            owner.realizedObject,
+            pos,
+            7,
+            125.0f,
+            10.0f,
+            2.0f,
+            280.0f,
+            0.25f,
+            player,
+            0.7f,
+            160.0f,
+            1.0f));
+
+        room.PlaySound(SoundID.Bomb_Explode, pos);
+        room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, pos, 1.2f, 0.75f);
+
+        for (var i = 0; i < 25; i++)
+        {
+            var randVec = Custom.RNV();
+
+            if (room.GetTile(pos + randVec * 20f).Solid)
+            {
+                if (!room.GetTile(pos - randVec * 20f).Solid)
+                {
+                    randVec *= -1f;
+                }
+                else
+                {
+                    randVec = Custom.RNV();
+                }
+            }
+
+            for (var j = 0; j < 3; j++)
+            {
+                room.AddObject(new Spark(pos + randVec * Mathf.Lerp(30f, 60f, Random.value),
+                    randVec * Mathf.Lerp(7f, 38f, Random.value) + Custom.RNV() * 20f * Random.value,
+                    Color.Lerp(color, new Color(1f, 1f, 1f), Random.value), null, 11, 28));
+            }
+
+            room.AddObject(new Explosion.FlashingSmoke(pos + randVec * 40f * Random.value,
+                randVec * Mathf.Lerp(4f, 20f, Mathf.Pow(Random.value, 2f)),
+                1f + 0.05f * Random.value, Color.white,
+                color, Random.Range(3, 11)));
+        }
+
+        for (var i = 0; i < 6; i++)
+        {
+            room.AddObject(new ScavengerBomb.BombFragment(pos, Custom.DegToVec((i + Random.value) / 6f * 360f) * Mathf.Lerp(18f, 38f, Random.value)));
+        }
+
+        room.ScreenMovement(pos, default, 1.3f);
+
+        if (ModCompat_Helpers.RainMeadow_IsMine(owner))
+        {
+            player.RemoveFromInventory(owner);
+
+            owner.realizedObject?.Destroy();
+            owner.Destroy();
         }
     }
 

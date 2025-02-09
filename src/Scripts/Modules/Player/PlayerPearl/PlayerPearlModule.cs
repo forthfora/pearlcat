@@ -25,6 +25,7 @@ public class PlayerPearlModule
 
     public bool IsSentry { get; set; }
     public bool IsReturningSentry { get; set; }
+    public bool WasSentryRecalled { get; set; }
 
     public ConditionalWeakTable<PhysicalObject, StrongBox<bool>> VisitedObjects { get; } = new();
 
@@ -43,11 +44,12 @@ public class PlayerPearlModule
         }
     }
 
-    public void ReturnSentry(AbstractPhysicalObject pearl)
+    public void ReturnSentry(AbstractPhysicalObject pearl, bool wasRecalled = false)
     {
         if (IsSentry)
         {
             IsReturningSentry = true;
+            WasSentryRecalled = wasRecalled;
         }
 
         IsSentry = false;

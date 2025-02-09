@@ -400,4 +400,24 @@ public static class MeadowCompat
             onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RoomConnectEffect))!.CreateDelegate(typeof(Action<RPCEvent, RoomSession, Vector2, Vector2, Color, float, float>)), roomSession, startPos, targetPos, color, intensity, lifeTime, lifeTime);
         }
     }
+
+    public static void RPC_ExplodeSentry(AbstractPhysicalObject sentryOwner)
+    {
+        var opo = sentryOwner.GetOnlineObject();
+
+        if (opo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ExplodeSentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
+        }
+    }
 }
