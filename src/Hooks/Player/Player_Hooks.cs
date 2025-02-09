@@ -262,6 +262,11 @@ public static class Player_Hooks
             mod.LastGroundedPos = thisPlayer.firstChunk.pos;
         }
 
+        if (self.abstractCreature?.Room?.world?.game is null)
+        {
+            return;
+        }
+
         foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPearlcatModules())
         {
             foreach (var item in playerModule.Inventory)
@@ -319,7 +324,9 @@ public static class Player_Hooks
     {
         if (self is Player player)
         {
-            player.TryAbstractInventory();
+            var isChangingRooms = self.room?.shortcutData(entrancePos).shortCutType == ShortcutData.Type.RoomExit;
+
+            player.TryAbstractInventory(isChangingRooms);
         }
 
         orig(self, entrancePos, carriedByOther);

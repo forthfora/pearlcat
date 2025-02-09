@@ -39,6 +39,18 @@ public static class MeadowCompat
             e.LogHookException();
         }
 
+        try
+        {
+            _ = new Hook(
+                typeof(StoryGameMode).GetMethod(nameof(StoryGameMode.LoadWorldAs), BindingFlags.Instance | BindingFlags.Public),
+                typeof(MeadowCompat).GetMethod(nameof(OnLoadWorldAs), BindingFlags.Static | BindingFlags.NonPublic)
+            );
+        }
+        catch (Exception e)
+        {
+            e.LogHookException();
+        }
+
         On.SlugcatStats.ctor += SlugcatStatsOnctor;
     }
 
@@ -123,9 +135,7 @@ public static class MeadowCompat
         self.foodToHibernate = onlineFood.y;
     }
 
-    private delegate void orig_OnPlayerSpecificOnlineHudUpdate(PlayerSpecificOnlineHud self);
-
-    private static void OnPlayerSpecificOnlineHudUpdate(orig_OnPlayerSpecificOnlineHudUpdate orig, PlayerSpecificOnlineHud self)
+    private static void OnPlayerSpecificOnlineHudUpdate(Action<PlayerSpecificOnlineHud> orig, PlayerSpecificOnlineHud self)
     {
         orig(self);
 
@@ -168,6 +178,17 @@ public static class MeadowCompat
         self.drawpos.y += 50.0f;
     }
 
+    // Meadow world state fix
+    private static SlugcatStats.Name OnLoadWorldAs(Func<StoryGameMode, RainWorldGame, SlugcatStats.Name> orig, StoryGameMode self, RainWorldGame game)
+    {
+        if (game.IsPearlcatStory())
+        {
+            return SlugcatStats.Name.Red;
+        }
+
+        return orig(self, game);
+    }
+
     public static void UpdateOnlineInventorySaveData(OnlinePhysicalObject playerOpo)
     {
         if (playerOpo.apo.realizedObject is not Player player)
@@ -199,8 +220,7 @@ public static class MeadowCompat
 
 
     // Add Online Data
-    private delegate void orig_OnLobbyAvailable(OnlineResource self);
-    private static void OnLobbyAvailable(orig_OnLobbyAvailable orig, OnlineResource self)
+    private static void OnLobbyAvailable(Action<OnlineResource> orig, OnlineResource self)
     {
         orig(self);
 
@@ -378,6 +398,26 @@ public static class MeadowCompat
             }
 
             onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.RoomConnectEffect))!.CreateDelegate(typeof(Action<RPCEvent, RoomSession, Vector2, Vector2, Color, float, float>)), roomSession, startPos, targetPos, color, intensity, lifeTime, lifeTime);
+        }
+    }
+
+    public static void RPC_ExplodeSentry(AbstractPhysicalObject sentryOwner)
+    {
+        var opo = sentryOwner.GetOnlineObject();
+
+        if (opo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ExplodeSentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
         }
     }
 }

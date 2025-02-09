@@ -138,15 +138,15 @@ public static class PlayerAbilities_Helpers_Rage
 
 
         // Target Finding
-        Creature? bestEnemy = null;
-        List<KeyValuePair<PhysicalObject, float>> availableReds = [];
-
-        var shortestEnemyDist = float.MaxValue;
+        // KVP = target : distance
+        var availableEnemies = new List<KeyValuePair<Creature, float>>();
+        var availableReds = new List<KeyValuePair<PhysicalObject, float>>();
 
         foreach (var roomObject in pearl.room.physicalObjects)
         {
             foreach (var physObj in roomObject)
             {
+                // Reset visited objects
                 if (physObj is Weapon weapon)
                 {
                     if (weapon.mode == Weapon.Mode.Carried && module.VisitedObjects.TryGetValue(physObj, out _))
@@ -154,6 +154,7 @@ public static class PlayerAbilities_Helpers_Rage
                         module.VisitedObjects.Remove(physObj);
                     }
                 }
+                // Targeting other rage pearls
                 else if (physObj.abstractPhysicalObject.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage)
                 {
                     if (physObj == pearl)
@@ -204,6 +205,7 @@ public static class PlayerAbilities_Helpers_Rage
 
                     availableReds.Add(new(physObj, dist));
                 }
+                // Targeting creatures
                 else if (physObj is Creature creature)
                 {
                     if (creature is Cicada)
@@ -219,7 +221,11 @@ public static class PlayerAbilities_Helpers_Rage
                     // Tutorial flies are VERY HOSTILE
                     if (!player.IsHostileToMe(creature) && !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly))
                     {
-                        continue;
+                        // Exception for PVP - Pearlcat who deployed the sentry is still a valid target
+                        if (!creature.abstractCreature.world.game.IsFriendlyFireEnabled() || creature != player)
+                        {
+                            continue;
+                        }
                     }
 
                     if (creature.dead)
@@ -246,22 +252,16 @@ public static class PlayerAbilities_Helpers_Rage
                         continue;
                     }
 
-                    if (dist > shortestEnemyDist)
-                    {
-                        continue;
-                    }
-
-
-                    bestEnemy = creature;
-                    shortestEnemyDist = dist;
+                    availableEnemies.Add(new(creature, dist));
                 }
             }
         }
 
+        // Order by distance
+        availableReds = availableReds.OrderBy(x => x.Value).ToList();
+        availableEnemies = availableEnemies.OrderBy(x => x.Value).ToList();
 
         // Redirection
-        availableReds = availableReds.OrderBy(x => x.Value).ToList();
-
         foreach (var layer in pearl.room.physicalObjects)
         {
             foreach (var physObj in layer)
@@ -287,11 +287,11 @@ public static class PlayerAbilities_Helpers_Rage
                 }
 
 
-                PhysicalObject? closestRed = null;
+                PhysicalObject? bestRed = null;
 
-                foreach (var redDist in availableReds)
+                foreach (var kvp in availableReds)
                 {
-                    if (!redDist.Key.abstractPhysicalObject.TryGetPlayerPearlModule(out var otherSentryModule))
+                    if (!kvp.Key.abstractPhysicalObject.TryGetPlayerPearlModule(out var otherSentryModule))
                     {
                         continue;
                     }
@@ -301,7 +301,22 @@ public static class PlayerAbilities_Helpers_Rage
                         continue;
                     }
 
-                    closestRed = redDist.Key;
+                    bestRed = kvp.Key;
+                    break;
+                }
+
+
+                Creature? bestEnemy = null;
+
+                foreach (var kvp in availableEnemies)
+                {
+                    // Never target the thrower of the weapon
+                    if (kvp.Key == weapon.thrownBy)
+                    {
+                        continue;
+                    }
+
+                    bestEnemy = kvp.Key;
                     break;
                 }
 
@@ -309,20 +324,20 @@ public static class PlayerAbilities_Helpers_Rage
                 Vector2? bestTargetPos = null!;
                 var bestTargetVel = Vector2.zero;
 
-                if (closestRed is not null && bestEnemy is not null)
+                if (bestRed is not null && bestEnemy is not null)
                 {
-                    if (player.room.VisualContact(closestRed.firstChunk.pos, bestEnemy.firstChunk.pos))
+                    if (player.room.VisualContact(bestRed.firstChunk.pos, bestEnemy.firstChunk.pos))
                     {
-                        bestTarget = closestRed;
+                        bestTarget = bestRed;
                     }
                     else
                     {
                         bestTarget = bestEnemy;
                     }
                 }
-                else if (closestRed is not null)
+                else if (bestRed is not null && bestRed.abstractPhysicalObject.TryGetSentry(out _))
                 {
-                    bestTarget = closestRed;
+                    bestTarget = bestRed;
                 }
                 else if (bestEnemy is not null)
                 {
@@ -343,10 +358,10 @@ public static class PlayerAbilities_Helpers_Rage
                             bestTargetVel = vulture.Head().vel;
                         }
                     }
-                    else if (bestTarget == closestRed)
+                    else if (bestTarget == bestRed)
                     {
-                        bestTargetPos = closestRed.firstChunk.pos;
-                        bestTargetVel = closestRed.firstChunk.vel;
+                        bestTargetPos = bestRed.firstChunk.pos;
+                        bestTargetVel = bestRed.firstChunk.vel;
                     }
                 }
 

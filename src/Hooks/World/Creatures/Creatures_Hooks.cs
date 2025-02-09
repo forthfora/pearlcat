@@ -256,6 +256,11 @@ public static class Creatures_Hooks
     {
         orig(self);
 
+        if (self.abstractCreature?.Room?.world?.game is null)
+        {
+            return;
+        }
+
         foreach (var crit in self.abstractCreature.Room.world.game.GetAllPlayers())
         {
 
@@ -298,6 +303,11 @@ public static class Creatures_Hooks
         orig(self, speed);
 
         if (self.mode != KingTusks.Tusk.Mode.ShootingOut)
+        {
+            return;
+        }
+
+        if (self.vulture?.abstractCreature?.Room?.world?.game is null)
         {
             return;
         }

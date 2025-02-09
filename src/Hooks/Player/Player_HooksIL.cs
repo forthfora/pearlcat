@@ -34,8 +34,7 @@ public static class Player_HooksIL
     }
 
 
-    private delegate float orig_PlayerVisibilityBonus(Player self);
-    private static float GetPlayerVisibilityBonus(orig_PlayerVisibilityBonus orig, Player self)
+    private static float GetPlayerVisibilityBonus(Func<Player, float> orig, Player self)
     {
         if (self.TryGetPearlcatModule(out var playerModule) || self.onBack?.TryGetPearlcatModule(out playerModule) == true ||
             (self.grabbedBy.FirstOrDefault(x => x.grabber is Player)?.grabber as Player)?.TryGetPearlcatModule(out playerModule) == true)

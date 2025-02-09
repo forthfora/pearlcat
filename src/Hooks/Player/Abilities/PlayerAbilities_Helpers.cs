@@ -128,11 +128,13 @@ public static class PlayerAbilities_Helpers
             if (!pearlModule.IsSentry)
             {
                 pearlModule.IsSentry = true;
+                pearlModule.WasSentryRecalled = false;
+
                 self.room.AddObject(new PearlSentry(activeObj));
             }
             else
             {
-                pearlModule.ReturnSentry(activeObj);
+                pearlModule.ReturnSentry(activeObj, true);
             }
         }
     }

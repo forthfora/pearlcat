@@ -90,4 +90,20 @@ public static class MeadowRPCs
 
         room.ConnectEffect(startPos, targetPos, color, intensity, lifeTime);
     }
+
+    [RPCMethod]
+    public static void ExplodeSentry(RPCEvent rpcEvent, OnlinePhysicalObject? opo)
+    {
+        if (opo?.apo is not AbstractPhysicalObject apo)
+        {
+            return;
+        }
+
+        if (!apo.TryGetSentry(out var sentry))
+        {
+            return;
+        }
+
+        sentry.ExplodeSentry();
+    }
 }

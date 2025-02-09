@@ -7,6 +7,82 @@ namespace Pearlcat;
 
 public static class PlayerPearl_Helpers
 {
+    public static void MarkAsPlayerPearl(this AbstractPhysicalObject abstractObject)
+    {
+        var module = ModuleManager.PlayerPearlData.GetValue(abstractObject, _ => new PlayerPearlModule());
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.AddMeadowPlayerPearlData(abstractObject);
+        }
+
+        if (module.IsCurrentlyStored)
+        {
+            return;
+        }
+
+        var physicalObject = abstractObject.realizedObject;
+
+        if (abstractObject.realizedObject is null)
+        {
+            return;
+        }
+
+        module.IsCurrentlyStored = true;
+        module.Gravity = physicalObject.gravity;
+
+        module.CollideWithObjects = physicalObject.CollideWithObjects;
+        module.CollideWithSlopes = physicalObject.CollideWithSlopes;
+        module.CollideWithTerrain = physicalObject.CollideWithTerrain;
+
+        if (physicalObject is DataPearl pearl)
+        {
+            module.PearlGlimmerWait = pearl.glimmerWait;
+        }
+
+        if (physicalObject is Weapon weapon)
+        {
+            module.WeaponRotationSpeed = weapon.rotationSpeed;
+        }
+    }
+
+    public static void ClearAsPlayerPearl(this AbstractPhysicalObject abstractObject)
+    {
+        if (!abstractObject.TryGetPlayerPearlModule(out var module))
+        {
+            return;
+        }
+
+        if (!module.IsCurrentlyStored)
+        {
+            return;
+        }
+
+        var physicalObject = abstractObject.realizedObject;
+        if (physicalObject is null)
+        {
+            return;
+        }
+
+        module.IsCurrentlyStored = false;
+
+        physicalObject.gravity = 1.0f; // yem
+
+        physicalObject.CollideWithObjects = module.CollideWithObjects;
+        physicalObject.CollideWithSlopes = module.CollideWithSlopes;
+        physicalObject.CollideWithTerrain = module.CollideWithTerrain;
+
+        if (physicalObject is DataPearl pearl)
+        {
+            pearl.glimmerWait = module.PearlGlimmerWait;
+        }
+
+        if (physicalObject is Weapon weapon)
+        {
+            weapon.rotationSpeed = module.WeaponRotationSpeed;
+        }
+    }
+
     public static void GivePearls(this Player self, PlayerModule playerModule)
     {
         if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
@@ -100,12 +176,6 @@ public static class PlayerPearl_Helpers
     // Realization & Abstraction
     public static void TryRealizeInventory(this Player self, PlayerModule playerModule)
     {
-        // Meadow handles dealing with the inventory on death differently
-        if (ModCompat_Helpers.RainMeadow_IsOnline && self.dead)
-        {
-            return;
-        }
-
         for (var i = 0; i < playerModule.Inventory.Count; i++)
         {
             var abstractObject = playerModule.Inventory[i];
@@ -447,6 +517,7 @@ public static class PlayerPearl_Helpers
 
         InventoryHUD.Symbols.Remove(abstractObject);
     }
+
 
     // Selection
     public static void SelectNextPearl(this Player self)
