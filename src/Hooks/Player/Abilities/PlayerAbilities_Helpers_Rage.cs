@@ -335,7 +335,7 @@ public static class PlayerAbilities_Helpers_Rage
                         bestTarget = bestEnemy;
                     }
                 }
-                else if (bestRed is not null)
+                else if (bestRed is not null && bestRed.abstractPhysicalObject.TryGetSentry(out _))
                 {
                     bestTarget = bestRed;
                 }
