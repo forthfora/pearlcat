@@ -35,6 +35,16 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 
             var player = playerModule.PlayerRef;
 
+            if (player.abstractCreature?.world is null)
+            {
+                continue;
+            }
+
+            if (player.abstractCreature.Room is null)
+            {
+                continue;
+            }
+
             var cameras = player.abstractCreature.world.game.cameras;
             var rCam = cameras.First();
 
