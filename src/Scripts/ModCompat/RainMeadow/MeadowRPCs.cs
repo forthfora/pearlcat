@@ -1,14 +1,15 @@
 using RainMeadow;
 using UnityEngine;
+// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
 namespace Pearlcat;
 
 public static class MeadowRPCs
 {
     [RPCMethod]
-    public static void RevivePlayer(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    public static void RevivePlayer(RPCEvent rpcEvent, OnlinePhysicalObject? playerOpo)
     {
-        if (playerOpo.apo.realizedObject is not Player player)
+        if (playerOpo?.apo?.realizedObject is not Player player)
         {
             return;
         }
@@ -17,9 +18,9 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void ActivateVisualShield(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    public static void ActivateVisualShield(RPCEvent rpcEvent, OnlinePhysicalObject? playerOpo)
     {
-        if (playerOpo.apo.realizedObject is not Player player)
+        if (playerOpo?.apo?.realizedObject is not Player player)
         {
             return;
         }
@@ -33,9 +34,9 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void UpdateInventorySaveData(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    public static void UpdateInventorySaveData(RPCEvent rpcEvent, OnlinePhysicalObject? playerOpo)
     {
-        if (!playerOpo.TryGetData<MeadowPearlcatData>(out var meadowPearlcatData))
+        if (playerOpo is null || !playerOpo.TryGetData<MeadowPearlcatData>(out var meadowPearlcatData))
         {
             return;
         }
@@ -47,9 +48,9 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void UpdateGivenPearlsSaveData(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    public static void UpdateGivenPearlsSaveData(RPCEvent rpcEvent, OnlinePhysicalObject? playerOpo)
     {
-        if (playerOpo.apo.realizedObject is not Player player)
+        if (playerOpo?.apo?.realizedObject is not Player player)
         {
             return;
         }
@@ -72,7 +73,7 @@ public static class MeadowRPCs
     [RPCMethod]
     public static void ObjectConnectEffect(RPCEvent rpcEvent, OnlinePhysicalObject? opo, Vector2 pos, Color color)
     {
-        if (opo?.apo.realizedObject is not PhysicalObject physicalObject)
+        if (opo?.apo?.realizedObject is not PhysicalObject physicalObject)
         {
             return;
         }
@@ -83,7 +84,7 @@ public static class MeadowRPCs
     [RPCMethod]
     public static void RoomConnectEffect(RPCEvent rpcEvent, RoomSession? roomSession, Vector2 startPos, Vector2 targetPos, Color color, float intensity, float lifeTime)
     {
-        if (roomSession?.absroom.realizedRoom is not Room room)
+        if (roomSession?.absroom?.realizedRoom is not Room room)
         {
             return;
         }
