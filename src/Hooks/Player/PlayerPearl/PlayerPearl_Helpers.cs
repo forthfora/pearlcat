@@ -23,13 +23,12 @@ public static class PlayerPearl_Helpers
 
         var physicalObject = abstractObject.realizedObject;
 
-        if (abstractObject.realizedObject is null)
+        if (physicalObject is null)
         {
             return;
         }
 
         module.IsCurrentlyStored = true;
-        module.Gravity = physicalObject.gravity;
 
         module.CollideWithObjects = physicalObject.CollideWithObjects;
         module.CollideWithSlopes = physicalObject.CollideWithSlopes;
@@ -59,6 +58,7 @@ public static class PlayerPearl_Helpers
         }
 
         var physicalObject = abstractObject.realizedObject;
+
         if (physicalObject is null)
         {
             return;

@@ -13,9 +13,7 @@ public class PlayerPearlModule
 
     public int PearlGlimmerWait { get; set; }
     public float WeaponRotationSpeed { get; set; }    
-    
-    public float Gravity { get; set; } = 1.0f;
-    
+
     public int CurrentCooldownTime { get; set; }
    
     public int LaserTimer { get; set; }
