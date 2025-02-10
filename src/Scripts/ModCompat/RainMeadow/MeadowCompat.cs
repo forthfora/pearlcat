@@ -43,12 +43,12 @@ public static class MeadowCompat
     }
 
 
-    public static bool IsLobbyOwner => !IsOnline || OnlineManager.lobby.isOwner;
+    public static bool IsHost => !IsOnline || OnlineManager.lobby.isOwner;
     public static bool IsOnline => OnlineManager.lobby is not null;
-    public static bool FriendlyFire => RainMeadow.RainMeadow.isStoryMode(out var story) && story.friendlyFire;
+    public static bool IsOnlineFriendlyFire => RainMeadow.RainMeadow.isStoryMode(out var story) && story.friendlyFire;
 
 
-    public static bool IsLocal(AbstractPhysicalObject abstractPhysicalObject)
+    public static bool IsMine(AbstractPhysicalObject abstractPhysicalObject)
     {
         return abstractPhysicalObject.IsLocal();
     }
@@ -103,7 +103,8 @@ public static class MeadowCompat
     }
 
 
-    // Meadow SlugBase food fix (TODO: remove it if it ever gets fixed)
+    // Meadow SlugBase food fix
+    // TODO: remove if fixed
     private static void SlugcatStatsOnctor(On.SlugcatStats.orig_ctor orig, SlugcatStats self, SlugcatStats.Name slugcat, bool malnourished)
     {
         orig(self, slugcat, malnourished);
@@ -124,6 +125,19 @@ public static class MeadowCompat
         self.foodToHibernate = onlineFood.y;
     }
 
+    // Meadow world state fix
+    // TODO: remove if fixed
+    private static SlugcatStats.Name OnLoadWorldAs(Func<StoryGameMode, RainWorldGame, SlugcatStats.Name> orig, StoryGameMode self, RainWorldGame game)
+    {
+        if (game.IsPearlcatStory())
+        {
+            return SlugcatStats.Name.Red;
+        }
+
+        return orig(self, game);
+    }
+
+    // Raise the HUD so it doesn't obscure the active pearl
     private static void OnPlayerSpecificOnlineHudUpdate(Action<PlayerSpecificOnlineHud> orig, PlayerSpecificOnlineHud self)
     {
         orig(self);
@@ -163,19 +177,7 @@ public static class MeadowCompat
             return;
         }
 
-        // Raise the HUD so it doesn't obscure the active pearl
         self.drawpos.y += 50.0f;
-    }
-
-    // Meadow world state fix
-    private static SlugcatStats.Name OnLoadWorldAs(Func<StoryGameMode, RainWorldGame, SlugcatStats.Name> orig, StoryGameMode self, RainWorldGame game)
-    {
-        if (game.IsPearlcatStory())
-        {
-            return SlugcatStats.Name.Red;
-        }
-
-        return orig(self, game);
     }
 
 
@@ -281,7 +283,7 @@ public static class MeadowCompat
 
     public static void RPC_UpdateInventorySaveData_OnHost(Player player, List<string> inventory, int? activePearlIndex)
     {
-        if (IsLobbyOwner)
+        if (IsHost)
         {
             return;
         }
@@ -304,7 +306,7 @@ public static class MeadowCompat
 
     public static void RPC_UpdateGivenPearlsSaveData_OnHost(Player player)
     {
-        if (IsLobbyOwner)
+        if (IsHost)
         {
             return;
         }

@@ -59,7 +59,7 @@ public static class World_Helpers
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            return MeadowCompat.FriendlyFire;
+            return MeadowCompat.IsOnlineFriendlyFire;
         }
 
         return ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire;
