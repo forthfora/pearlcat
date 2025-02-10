@@ -205,7 +205,11 @@ public static class Player_Helpers
             self.Stun(100);
         }
 
-        self.room.ReviveEffect(self.mainBodyChunk.pos);
+        // Revive for players is already synced, so don't duplicate the effect
+        if (!ModCompat_Helpers.RainMeadow_IsOnline || self is not Player)
+        {
+            self.room.ReviveEffect(self.mainBodyChunk.pos);
+        }
     }
 
 
