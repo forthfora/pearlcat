@@ -38,19 +38,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
 
         // Graphics
-        // TODO: can get rid of it when sync PR is merged in meadow
-        [OnlineField]
-        public Color baseBodyColor;
-
-        [OnlineField]
-        public Color baseAccentColor;
-
-        [OnlineField]
-        public Color baseCloakColor;
-
-        [OnlineField]
-        public Color baseFaceColor;
-
         [OnlineField]
         public int blink;
 
@@ -109,12 +96,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             storeObjectTimer = playerModule.StoreObjectTimer;
 
 
-            baseBodyColor = playerModule.BaseBodyColor;
-            baseAccentColor = playerModule.BaseAccentColor;
-            baseCloakColor = playerModule.BaseCloakColor;
-            baseFaceColor = playerModule.BaseFaceColor;
-
-
             flyTimer = playerModule.FlyTimer;
             groundedTimer = playerModule.GroundedTimer;
             dazeTimer = playerModule.DazeTimer;
@@ -135,11 +116,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
         public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
         {
-            if (data is not MeadowPearlcatData meadowPearlcatData)
-            {
-                return;
-            }
-
             var playerOpo = onlineEntity as OnlinePhysicalObject;
 
             if (playerOpo?.apo.realizedObject is not Player player)
@@ -201,12 +177,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             }
 
 
-            playerModule.BaseBodyColor = baseBodyColor;
-            playerModule.BaseAccentColor = baseAccentColor;
-            playerModule.BaseCloakColor = baseCloakColor;
-            playerModule.BaseFaceColor = baseFaceColor;
-
-
             playerModule.FlyTimer = flyTimer;
             playerModule.GroundedTimer = groundedTimer;
             playerModule.DazeTimer = dazeTimer;
@@ -222,7 +192,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             if (player.graphicsModule is PlayerGraphics graphics)
             {
                 // needs a bit of buffer
-                graphics.blink = blink + 2;
+                graphics.blink = blink + 5;
             }
         }
 

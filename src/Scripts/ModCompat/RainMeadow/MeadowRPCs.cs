@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using RainMeadow;
 using UnityEngine;
 // ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
@@ -35,9 +36,16 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void UpdateInventorySaveData(RPCEvent _, OnlinePhysicalObject? playerOpo, List<string> inventory, int activePearlIndex)
+    public static void UpdateInventorySaveData(RPCEvent _, OnlinePhysicalObject? playerOpo, string inventoryString, int activePearlIndex)
     {
         if (playerOpo?.apo?.realizedObject is not Player player)
+        {
+            return;
+        }
+
+        var inventory = JsonConvert.DeserializeObject<List<string>>(inventoryString);
+
+        if (inventory is null)
         {
             return;
         }

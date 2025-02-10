@@ -16,21 +16,6 @@ public static class MeadowCompat
         try
         {
             _ = new Hook(
-                typeof(OnlineResource).GetMethod("Available", BindingFlags.Instance | BindingFlags.NonPublic),
-                typeof(MeadowCompat).GetMethod(nameof(OnLobbyAvailable), BindingFlags.Static | BindingFlags.NonPublic)
-            );
-
-            // TODO: use this event instead when it's been pushed
-            // Lobby.ResourceAvailable
-        }
-        catch (Exception e)
-        {
-            e.LogHookException();
-        }
-
-        try
-        {
-            _ = new Hook(
                 typeof(PlayerSpecificOnlineHud).GetMethod(nameof(PlayerSpecificOnlineHud.Update), BindingFlags.Instance | BindingFlags.Public),
                 typeof(MeadowCompat).GetMethod(nameof(OnPlayerSpecificOnlineHudUpdate), BindingFlags.Static | BindingFlags.NonPublic)
             );
@@ -42,6 +27,7 @@ public static class MeadowCompat
 
         try
         {
+            // TODO: Replace this at some point if it gets fixed in Meadow
             _ = new Hook(
                 typeof(StoryGameMode).GetMethod(nameof(StoryGameMode.LoadWorldAs), BindingFlags.Instance | BindingFlags.Public),
                 typeof(MeadowCompat).GetMethod(nameof(OnLoadWorldAs), BindingFlags.Static | BindingFlags.NonPublic)
@@ -52,6 +38,7 @@ public static class MeadowCompat
             e.LogHookException();
         }
 
+        OnlineResource.OnAvailable += OnlineResourceOnOnAvailable;
         On.SlugcatStats.ctor += SlugcatStatsOnctor;
     }
 
@@ -59,6 +46,7 @@ public static class MeadowCompat
     public static bool IsLobbyOwner => !IsOnline || OnlineManager.lobby.isOwner;
     public static bool IsOnline => OnlineManager.lobby is not null;
     public static bool FriendlyFire => RainMeadow.RainMeadow.isStoryMode(out var story) && story.friendlyFire;
+
 
     public static bool IsLocal(AbstractPhysicalObject abstractPhysicalObject)
     {
@@ -192,12 +180,10 @@ public static class MeadowCompat
 
 
     // Add Online Data
-    private static void OnLobbyAvailable(Action<OnlineResource> orig, OnlineResource self)
+    private static void OnlineResourceOnOnAvailable(OnlineResource obj)
     {
-        orig(self);
-
-        self.AddData(new MeadowOptionsData());
-        self.AddData(new MeadowSaveData());
+        obj.AddData(new MeadowOptionsData());
+        obj.AddData(new MeadowSaveData());
     }
 
     public static void AddMeadowPlayerData(Player player)
@@ -309,9 +295,11 @@ public static class MeadowCompat
 
         var owner = OnlineManager.lobby.owner;
 
+        // Convert into a form that can be sent via RPC
+        var inventoryString = JsonConvert.SerializeObject(inventory);
         activePearlIndex ??= -1;
 
-        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateInventorySaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, List<string>, int>)), playerOpo, inventory, activePearlIndex);
+        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateInventorySaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, string, int>)), playerOpo, inventoryString, activePearlIndex);
     }
 
     public static void RPC_UpdateGivenPearlsSaveData_OnHost(Player player)
