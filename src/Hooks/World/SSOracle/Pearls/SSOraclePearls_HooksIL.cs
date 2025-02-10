@@ -26,7 +26,7 @@ public static class SSOraclePearls_HooksIL
     {
         var result = orig(self);
 
-        if (self.room.game.IsPearlcatStory())
+        if (self.abstractPhysicalObject.world.game.IsPearlcatStory())
         {
             if (self.oracle?.oracleBehavior is SSOracleBehavior behavior && behavior.timeSinceSeenPlayer >= 0)
             {

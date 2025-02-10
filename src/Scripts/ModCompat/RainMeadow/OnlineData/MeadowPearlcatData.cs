@@ -8,8 +8,6 @@ namespace Pearlcat;
 
 public class MeadowPearlcatData : OnlineEntity.EntityData
 {
-    public bool InventorySaveDataNeedsUpdate { get; set; }
-
     [UsedImplicitly]
     public MeadowPearlcatData()
     {
@@ -225,13 +223,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             {
                 // needs a bit of buffer
                 graphics.blink = blink + 2;
-            }
-
-            if (meadowPearlcatData.InventorySaveDataNeedsUpdate)
-            {
-                meadowPearlcatData.InventorySaveDataNeedsUpdate = false;
-
-                MeadowCompat.UpdateOnlineInventorySaveData(playerOpo);
             }
         }
 

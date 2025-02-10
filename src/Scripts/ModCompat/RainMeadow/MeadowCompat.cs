@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
+using Newtonsoft.Json;
 using RainMeadow;
 using UnityEngine;
 
@@ -189,35 +190,6 @@ public static class MeadowCompat
         return orig(self, game);
     }
 
-    public static void UpdateOnlineInventorySaveData(OnlinePhysicalObject playerOpo)
-    {
-        if (playerOpo.apo.realizedObject is not Player player)
-        {
-            return;
-        }
-
-        if (!player.TryGetPearlcatModule(out var playerModule))
-        {
-            return;
-        }
-
-        var save = player.abstractPhysicalObject.world.game.GetMiscWorld();
-
-        if (save is null)
-        {
-            return;
-        }
-
-        var id = playerOpo.owner.id.GetHashCode();
-
-        if (!ModOptions.InventoryOverride)
-        {
-            save.Inventory[id] = playerModule.Inventory.Select(x => x.ToString()).ToList();
-        }
-
-        save.ActiveObjectIndex[id] = playerModule.ActivePearlIndex;
-    }
-
 
     // Add Online Data
     private static void OnLobbyAvailable(Action<OnlineResource> orig, OnlineResource self)
@@ -321,8 +293,13 @@ public static class MeadowCompat
         }
     }
 
-    public static void RPC_UpdateInventorySaveData(Player player)
+    public static void RPC_UpdateInventorySaveData_OnHost(Player player, List<string> inventory, int? activePearlIndex)
     {
+        if (IsLobbyOwner)
+        {
+            return;
+        }
+
         var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
 
         if (playerOpo is null)
@@ -330,19 +307,14 @@ public static class MeadowCompat
             return;
         }
 
-        if (IsLobbyOwner)
-        {
-            UpdateOnlineInventorySaveData(playerOpo);
-        }
-        else
-        {
-            var owner = OnlineManager.lobby.owner;
+        var owner = OnlineManager.lobby.owner;
 
-            owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateInventorySaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
-        }
+        activePearlIndex ??= -1;
+
+        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateInventorySaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, List<string>, int>)), playerOpo, inventory, activePearlIndex);
     }
 
-    public static void RPC_UpdateGivenPearlsSaveData(Player player)
+    public static void RPC_UpdateGivenPearlsSaveData_OnHost(Player player)
     {
         if (IsLobbyOwner)
         {

@@ -863,7 +863,7 @@ public static class Player_Helpers
         {
             var pearl = new DataPearl.AbstractDataPearl(self.abstractCreature.world,
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
-                self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
+                self.abstractCreature.world.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
 
             self.StorePearl(pearl, overrideLimit: true);
         }

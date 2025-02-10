@@ -96,8 +96,7 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-
-        var miscWorld = self.room.game.GetMiscWorld();
+        var miscWorld = self.abstractCreature.world.game.GetMiscWorld();
 
         var id = self.playerState.playerNumber;
 
@@ -168,7 +167,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            MeadowCompat.RPC_UpdateGivenPearlsSaveData(self);
+            MeadowCompat.RPC_UpdateGivenPearlsSaveData_OnHost(self);
         }
     }
 
@@ -633,27 +632,45 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        var save = self.room.game.GetMiscWorld();
+        var inventory = playerModule.Inventory.Select(x => x.ToString()).ToList();
+        var activePearlIndex = playerModule.ActivePearlIndex;
+
+        self.UpdateInventorySaveData_Local(inventory, activePearlIndex);
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.RPC_UpdateInventorySaveData_OnHost(self, inventory, activePearlIndex);
+        }
+    }
+
+    public static void UpdateInventorySaveData_Local(this Player self, List<string> inventory, int? activePearlIndex)
+    {
+        var save = self.abstractCreature.world.game.GetMiscWorld();
 
         if (save is null)
         {
             return;
         }
 
+        var id = self.playerState.playerNumber;
+
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            MeadowCompat.RPC_UpdateInventorySaveData(self);
-        }
-        else
-        {
-            var playerNumber = self.playerState.playerNumber;
+            var ownerId = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(self.abstractPhysicalObject);
 
-            if (!ModOptions.InventoryOverride)
+            if (ownerId is null)
             {
-                save.Inventory[playerNumber] = playerModule.Inventory.Select(x => x.ToString()).ToList();
+                return;
             }
 
-            save.ActiveObjectIndex[playerNumber] = playerModule.ActivePearlIndex;
+            id = (int)ownerId;
         }
+
+        if (!ModOptions.InventoryOverride)
+        {
+            save.Inventory[id] = inventory;
+        }
+
+        save.ActiveObjectIndex[id] = activePearlIndex;
     }
 }
