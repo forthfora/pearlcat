@@ -90,7 +90,7 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
             if (isSentry && !pearlModule.IsSentry)
             {
                 // Deploy sentry
-                if (pearl.TryGetPlayerPearlOwner(out var player))
+                if (pearl.TryGetPlayerPearlOwner(out var player) && player.room is not null)
                 {
                     pearlModule.IsSentry = true;
 
