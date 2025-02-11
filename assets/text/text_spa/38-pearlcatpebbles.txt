@@ -45,7 +45,7 @@ No queda nada, está demasiado desvanecida como para leerla.
 
 Son instrucciones de desarrollo para el esqueleto de una criatura, seguramente utilizadas para algún propósito mundano, nada que puedas entender.
 
-Esta contiene una secuencia numérica que codifica todos los números de identificación<LINE>registrados para aquellos que residian en mi ciudad. No recuerdo ni una.
+Esta contiene una secuencia numérica que codifica todos los números de identificación<LINE>registrados para aquellos que residían en mi ciudad. No recuerdo ni una.
 
 Parte de una serie de números, probablemente utilizada como clave. Puedes quedártela, supongo.
 
@@ -67,7 +67,7 @@ Esto se lee como si alguien intentara copiar un libro solamente de memoria.<LINE
 
 Un himno clásico de una dinastía antigua.<LINE>Es muy breve y repetitivo, pero disfruto su simplicidad.
 
-Es un registro de un sensor que monitorea las condiciones en la superficie.<LINE>Finaliza abruptamente después de un tiempo, ya que el sensor sufrió daños irreparables por las fuertes lluvias.
+Es un registro de un sensor que monitoriza las condiciones en la superficie.<LINE>Finaliza abruptamente después de un tiempo, ya que el sensor sufrió daños irreparables por las fuertes lluvias.
 
 Hay una lista de 71 números en esta perla, y son algunos de los números de más mala suerte que alguna vez haya visto.
 
