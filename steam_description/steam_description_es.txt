@@ -1,10 +1,10 @@
 [h1][b]¡Una erudita enigmática de una tierra lejana, dotada de la extraordinaria habilidad de emplear perlas![/b][/h1]
 
-[h3]Pearlcat tiene interacciones especiales con los siguientes mods:[/h3]
+[h3]Perlina tiene interacciones especiales con los siguientes mods:[/h3]
 [b][list]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - ¡completo soporte multijugador online!
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - soporte para todas las combinaciones de teclas únicas de Pearlcat.
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - interacciones y diálogos únicos
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - ¡soporte completo para el modo multijugador en línea!
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - soporte para todos los botones personalizados de Perlina.
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - interacciones y diálogos únicos.
 [/list][/b]
 [h3][u]Este mod NO requiere de More Slugcats (DLC). Sin embargo, es altamente recomendable.[/u][/h3]
 
