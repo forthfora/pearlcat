@@ -21,7 +21,7 @@ public static class Player_Helpers
 
     public static bool IsFirstPearlcat(this Player player)
     {
-        return player.abstractCreature.world.game.GetAllPearlcats().FirstOrDefault() == player.abstractCreature;
+        return player.abstractCreature.world.game.GetFirstPearlcat() == player.abstractCreature;
     }
 
 

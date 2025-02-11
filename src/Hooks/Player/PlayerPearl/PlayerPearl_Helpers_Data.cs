@@ -63,7 +63,7 @@ public static class PlayerPearl_Helpers_Data
 
     public static bool TryGetPlayerPearlOwner(this AbstractPhysicalObject targetObject, out Player player)
     {
-        var playerData = targetObject.world.game.GetAllPearlcatModules();
+        var playerData = targetObject.world.game.GetAllPearlcatModules(true);
 
         foreach (var playerModule in playerData)
         {
