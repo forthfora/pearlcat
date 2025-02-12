@@ -21,7 +21,7 @@ public static class Player_Helpers
 
     public static bool IsFirstPearlcat(this Player player)
     {
-        return player.abstractCreature.world.game.GetAllPearlcats().FirstOrDefault() == player.abstractCreature;
+        return player.abstractCreature.world.game.GetFirstPearlcat() == player.abstractCreature;
     }
 
 
@@ -205,7 +205,11 @@ public static class Player_Helpers
             self.Stun(100);
         }
 
-        self.room.ReviveEffect(self.mainBodyChunk.pos);
+        // Revive for players is already synced, so don't duplicate the effect
+        if (!ModCompat_Helpers.RainMeadow_IsOnline || self is not Player)
+        {
+            self.room.ReviveEffect(self.mainBodyChunk.pos);
+        }
     }
 
 
@@ -859,7 +863,7 @@ public static class Player_Helpers
         {
             var pearl = new DataPearl.AbstractDataPearl(self.abstractCreature.world,
                 AbstractPhysicalObject.AbstractObjectType.DataPearl, null, self.abstractPhysicalObject.pos,
-                self.room.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
+                self.abstractCreature.world.game.GetNewID(), -1, -1, null, Enums.Pearls.Heart_Pearlpup);
 
             self.StorePearl(pearl, overrideLimit: true);
         }

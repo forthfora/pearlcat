@@ -57,7 +57,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
                     playerModule.SpearTimer = 0;
 
                     var abstractSpear = new AbstractSpear(self.abstractCreature.world, null,
-                        self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.room.game.GetNewID(), false);
+                        self.room.GetWorldCoordinate(self.mainBodyChunk.pos), self.abstractCreature.world.game.GetNewID(), false);
                     self.abstractCreature.Room.AddEntity(abstractSpear);
                     abstractSpear.pos = self.abstractCreature.pos;
                     abstractSpear.RealizeInRoom();

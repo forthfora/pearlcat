@@ -216,9 +216,6 @@ public static class World_Hooks
     {
         var result = orig(self);
 
-        //if (self.room.game.IsPearlcatStory() && self.room.game.IsStorySession && self.room.game.GetStorySession.saveState.denPosition.Contains("OE_"))
-        //    return true;
-
         if (self.room.game.IsPearlcatStory())
         {
             return true;

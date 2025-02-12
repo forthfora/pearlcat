@@ -67,12 +67,12 @@ public static class ModCompat_Helpers
     // Rain Meadow
     public static bool IsModEnabled_RainMeadow => ModManager.ActiveMods.Any(x => x.id == "henpemaz_rainmeadow");
 
-    public static bool RainMeadow_IsLobbyOwner => !IsModEnabled_RainMeadow || MeadowCompat.IsLobbyOwner;
+    public static bool RainMeadow_IsHost => !IsModEnabled_RainMeadow || MeadowCompat.IsHost;
     public static bool RainMeadow_IsOnline => IsModEnabled_RainMeadow && MeadowCompat.IsOnline;
 
     public static bool RainMeadow_IsMine(AbstractPhysicalObject obj)
     {
-        return !RainMeadow_IsOnline || MeadowCompat.IsLocal(obj);
+        return !RainMeadow_IsOnline || MeadowCompat.IsMine(obj);
     }
 
     public static bool RainMeadow_IsPosSynced(AbstractPhysicalObject obj)

@@ -59,7 +59,7 @@ public static class World_Helpers
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            return MeadowCompat.FriendlyFire;
+            return MeadowCompat.IsOnlineFriendlyFire;
         }
 
         return ModManager.CoopAvailable && Utils.RainWorld.options.friendlyFire;
@@ -280,22 +280,22 @@ public static class World_Helpers
 
     public static AbstractCreature? GetFirstPearlcat(this RainWorldGame? game)
     {
-        return game?.GetAllPearlcats().FirstOrDefault();
+        return game?.GetAllPearlcats(true).FirstOrDefault();
     }
 
-    public static List<AbstractCreature> GetAllPearlcats(this RainWorldGame? game)
+    public static List<AbstractCreature> GetAllPearlcats(this RainWorldGame? game, bool includingRemote = false)
     {
-        return game.GetAllPlayers().Where(x => x.realizedObject is Player player && player.IsPearlcat()).ToList();
+        return game.GetAllPlayers(includingRemote).Where(x => x.realizedObject is Player player && player.IsPearlcat()).ToList();
     }
 
-    public static List<AbstractCreature> GetAllPlayers(this RainWorldGame? game)
+    public static List<AbstractCreature> GetAllPlayers(this RainWorldGame? game, bool includingRemote = false)
     {
         if (game is null)
         {
             return [];
         }
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        if (ModCompat_Helpers.RainMeadow_IsOnline && includingRemote)
         {
             return MeadowCompat.GetAllPlayers();
         }

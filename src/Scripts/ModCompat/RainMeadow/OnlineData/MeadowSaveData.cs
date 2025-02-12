@@ -24,10 +24,10 @@ public class MeadowSaveData : OnlineResource.ResourceData
         public List<int> playersGivenPearls = [];
 
         [OnlineField]
-        public string inventory = "";
+        public string inventorySaveString = "";
 
         [OnlineField]
-        public string activePearlIndex = "";
+        public string activePearlIndexSaveString = "";
 
 
         [UsedImplicitly]
@@ -44,8 +44,8 @@ public class MeadowSaveData : OnlineResource.ResourceData
 
             playersGivenPearls = miscWorld.PlayersGivenPearls;
 
-            inventory = JsonConvert.SerializeObject(miscWorld.Inventory);
-            activePearlIndex = JsonConvert.SerializeObject(miscWorld.ActiveObjectIndex);
+            inventorySaveString = JsonConvert.SerializeObject(miscWorld.Inventory);
+            activePearlIndexSaveString = JsonConvert.SerializeObject(miscWorld.ActiveObjectIndex);
         }
 
         public override void ReadTo(OnlineResource.ResourceData data, OnlineResource resource)
@@ -61,8 +61,19 @@ public class MeadowSaveData : OnlineResource.ResourceData
 
             miscWorld.PlayersGivenPearls = playersGivenPearls;
 
-            miscWorld.Inventory = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(inventory)!;
-            miscWorld.ActiveObjectIndex = JsonConvert.DeserializeObject<Dictionary<int, int?>>(activePearlIndex)!;
+            var inventory = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(inventorySaveString);
+
+            if (inventory is not null)
+            {
+                miscWorld.Inventory = inventory;
+            }
+
+            var activePearlIndex = JsonConvert.DeserializeObject<Dictionary<int, int?>>(activePearlIndexSaveString);
+
+            if (activePearlIndex is not null)
+            {
+                miscWorld.ActiveObjectIndex = activePearlIndex;
+            }
         }
 
         public override Type GetDataType()

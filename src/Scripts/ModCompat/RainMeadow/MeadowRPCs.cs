@@ -1,14 +1,17 @@
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using RainMeadow;
 using UnityEngine;
+// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
 namespace Pearlcat;
 
 public static class MeadowRPCs
 {
     [RPCMethod]
-    public static void RevivePlayer(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    public static void RevivePlayer(RPCEvent _, OnlinePhysicalObject? playerOpo)
     {
-        if (playerOpo.apo.realizedObject is not Player player)
+        if (playerOpo?.apo?.realizedObject is not Player player)
         {
             return;
         }
@@ -17,9 +20,9 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void ActivateVisualShield(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    public static void ActivateVisualShield(RPCEvent _, OnlinePhysicalObject? playerOpo)
     {
-        if (playerOpo.apo.realizedObject is not Player player)
+        if (playerOpo?.apo?.realizedObject is not Player player)
         {
             return;
         }
@@ -33,23 +36,27 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void UpdateInventorySaveData(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    public static void UpdateInventorySaveData(RPCEvent _, OnlinePhysicalObject? playerOpo, string inventoryString, int activePearlIndex)
     {
-        if (!playerOpo.TryGetData<MeadowPearlcatData>(out var meadowPearlcatData))
+        if (playerOpo?.apo?.realizedObject is not Player player)
         {
             return;
         }
 
-        meadowPearlcatData.InventorySaveDataNeedsUpdate = true;
+        var inventory = JsonConvert.DeserializeObject<List<string>>(inventoryString);
 
-        // Can try update it immediately anyways, can't hurt
-        MeadowCompat.UpdateOnlineInventorySaveData(playerOpo);
+        if (inventory is null)
+        {
+            return;
+        }
+
+        player.UpdateInventorySaveData_Local(inventory, activePearlIndex == -1 ? null : activePearlIndex);
     }
 
     [RPCMethod]
-    public static void UpdateGivenPearlsSaveData(RPCEvent rpcEvent, OnlinePhysicalObject playerOpo)
+    public static void UpdateGivenPearlsSaveData(RPCEvent _, OnlinePhysicalObject? playerOpo)
     {
-        if (playerOpo.apo.realizedObject is not Player player)
+        if (playerOpo?.apo?.realizedObject is not Player player)
         {
             return;
         }
@@ -70,9 +77,9 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void ObjectConnectEffect(RPCEvent rpcEvent, OnlinePhysicalObject? opo, Vector2 pos, Color color)
+    public static void ObjectConnectEffect(RPCEvent _, OnlinePhysicalObject? opo, Vector2 pos, Color color)
     {
-        if (opo?.apo.realizedObject is not PhysicalObject physicalObject)
+        if (opo?.apo?.realizedObject is not PhysicalObject physicalObject)
         {
             return;
         }
@@ -81,9 +88,9 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void RoomConnectEffect(RPCEvent rpcEvent, RoomSession? roomSession, Vector2 startPos, Vector2 targetPos, Color color, float intensity, float lifeTime)
+    public static void RoomConnectEffect(RPCEvent _, RoomSession? roomSession, Vector2 startPos, Vector2 targetPos, Color color, float intensity, float lifeTime)
     {
-        if (roomSession?.absroom.realizedRoom is not Room room)
+        if (roomSession?.absroom?.realizedRoom is not Room room)
         {
             return;
         }
@@ -92,7 +99,7 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void ExplodeSentry(RPCEvent rpcEvent, OnlinePhysicalObject? opo)
+    public static void ExplodeSentry(RPCEvent _, OnlinePhysicalObject? opo)
     {
         if (opo?.apo is not AbstractPhysicalObject apo)
         {

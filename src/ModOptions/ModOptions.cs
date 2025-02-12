@@ -14,7 +14,7 @@ public static class ModOptions
     [PublicAPI]
     public static Configurable<bool> DisableCosmetics => OI.DisableCosmetics;
 
-    public static bool IsRemote => !ModCompat_Helpers.RainMeadow_IsLobbyOwner;
+    public static bool IsRemote => !ModCompat_Helpers.RainMeadow_IsHost;
 
     public static List<DataPearlType> GetOverridenInventory(bool giveHalcyonPearl)
     {

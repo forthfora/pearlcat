@@ -57,7 +57,7 @@ public static class Player_Hooks
         orig(self, eu);
 
         // zero G movement assist - applies to all slugcats
-        if (self.room is not null && self.room.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
+        if (self.room is not null && self.abstractCreature.world.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
         {
             if (self.firstChunk.vel.magnitude < 7.5f)
             {
