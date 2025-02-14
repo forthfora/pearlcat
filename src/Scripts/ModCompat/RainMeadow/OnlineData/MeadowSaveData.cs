@@ -8,6 +8,8 @@ namespace Pearlcat;
 
 public class MeadowSaveData : OnlineResource.ResourceData
 {
+    public bool WasSynced { get; set; }
+
     [UsedImplicitly]
     public MeadowSaveData()
     {
@@ -59,6 +61,11 @@ public class MeadowSaveData : OnlineResource.ResourceData
                 return;
             }
 
+            if (data is not MeadowSaveData saveData)
+            {
+                return;
+            }
+
             miscWorld.PlayersGivenPearls = playersGivenPearls;
 
             var inventory = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(inventorySaveString);
@@ -74,6 +81,8 @@ public class MeadowSaveData : OnlineResource.ResourceData
             {
                 miscWorld.ActiveObjectIndex = activePearlIndex;
             }
+
+            saveData.WasSynced = true;
         }
 
         public override Type GetDataType()

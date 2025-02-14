@@ -36,47 +36,6 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void UpdateInventorySaveData(RPCEvent _, OnlinePhysicalObject? playerOpo, string inventoryString, int activePearlIndex)
-    {
-        if (playerOpo?.apo?.realizedObject is not Player player)
-        {
-            return;
-        }
-
-        var inventory = JsonConvert.DeserializeObject<List<string>>(inventoryString);
-
-        if (inventory is null)
-        {
-            return;
-        }
-
-        player.UpdateInventorySaveData_Local(inventory, activePearlIndex == -1 ? null : activePearlIndex);
-    }
-
-    [RPCMethod]
-    public static void UpdateGivenPearlsSaveData(RPCEvent _, OnlinePhysicalObject? playerOpo)
-    {
-        if (playerOpo?.apo?.realizedObject is not Player player)
-        {
-            return;
-        }
-
-        var save = player.abstractPhysicalObject.world.game.GetMiscWorld();
-
-        if (save is null)
-        {
-            return;
-        }
-
-        var id = playerOpo.owner.id.GetHashCode();
-
-        if (!save.PlayersGivenPearls.Contains(id))
-        {
-            save.PlayersGivenPearls.Add(id);
-        }
-    }
-
-    [RPCMethod]
     public static void ObjectConnectEffect(RPCEvent _, OnlinePhysicalObject? opo, Vector2 pos, Color color)
     {
         if (opo?.apo?.realizedObject is not PhysicalObject physicalObject)

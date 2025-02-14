@@ -83,6 +83,12 @@ public partial class PlayerModule
     public float HudFadeTimer { get; set; }
 
 
+    // Online
+    public bool Online_InventoryNeedsLoading { get; set; }
+    public bool Online_GivenPearls { get; set; }
+    public bool Online_SaveDataDirty { get; set; }
+
+
     public PlayerModule(Player self)
     {
         AbstractPlayerRef = new(self.abstractCreature);
@@ -120,6 +126,22 @@ public partial class PlayerModule
         {
             return;
         }
+
+
+        if (!MeadowCompat.TryGetResourceData<MeadowSaveData>(out var meadowSaveData))
+        {
+            Online_InventoryNeedsLoading = true;
+            return;
+        }
+
+        if (!meadowSaveData.WasSynced)
+        {
+            Online_InventoryNeedsLoading = true;
+            return;
+        }
+
+        Online_InventoryNeedsLoading = false;
+
 
         var world = self.abstractCreature.world;
         var save = world.game.GetMiscWorld();

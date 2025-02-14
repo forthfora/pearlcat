@@ -97,11 +97,23 @@ public static class PlayerPearl_Helpers
         }
 
         var miscWorld = self.abstractCreature.world.game.GetMiscWorld();
-
         var id = self.playerState.playerNumber;
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
+            if (miscWorld is not null)
+            {
+                if (!MeadowCompat.TryGetResourceData<MeadowSaveData>(out var meadowSaveData))
+                {
+                    return;
+                }
+
+                if (!meadowSaveData.WasSynced)
+                {
+                    return;
+                }
+            }
+
             var ownerId = ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(self.abstractPhysicalObject);
 
             if (ownerId is null)
@@ -167,7 +179,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            MeadowCompat.RPC_UpdateGivenPearlsSaveData_OnHost(self);
+            playerModule.Online_GivenPearls = true;
         }
     }
 
@@ -635,16 +647,6 @@ public static class PlayerPearl_Helpers
         var inventory = playerModule.Inventory.Select(x => x.ToString()).ToList();
         var activePearlIndex = playerModule.ActivePearlIndex;
 
-        self.UpdateInventorySaveData_Local(inventory, activePearlIndex);
-
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            MeadowCompat.RPC_UpdateInventorySaveData_OnHost(self, inventory, activePearlIndex);
-        }
-    }
-
-    public static void UpdateInventorySaveData_Local(this Player self, List<string> inventory, int? activePearlIndex)
-    {
         var save = self.abstractCreature.world.game.GetMiscWorld();
 
         if (save is null)
@@ -672,5 +674,10 @@ public static class PlayerPearl_Helpers
         }
 
         save.ActiveObjectIndex[id] = activePearlIndex;
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline && !ModCompat_Helpers.RainMeadow_IsHost)
+        {
+            playerModule.Online_SaveDataDirty = true;
+        }
     }
 }

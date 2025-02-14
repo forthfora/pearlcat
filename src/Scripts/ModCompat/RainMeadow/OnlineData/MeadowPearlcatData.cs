@@ -194,6 +194,31 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
                 // needs a bit of buffer
                 graphics.blink = blink + 5;
             }
+
+            if (playerModule.Online_SaveDataDirty)
+            {
+                player.UpdateInventorySaveData();
+            }
+
+            if (playerModule.Online_GivenPearls)
+            {
+                SetGivenPearlsSaveData(player);
+            }
+        }
+
+        private static void SetGivenPearlsSaveData(Player player)
+        {
+            if (ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(player.abstractPhysicalObject) is not int id)
+            {
+                return;
+            }
+
+            var miscWorld = player.abstractPhysicalObject.world.game.GetMiscWorld();
+
+            if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
+            {
+                miscWorld.PlayersGivenPearls.Add(id);
+            }
         }
 
         public override Type GetDataType()
