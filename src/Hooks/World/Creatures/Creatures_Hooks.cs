@@ -58,9 +58,14 @@ public static class Creatures_Hooks
 
 
     // Allow redirected spears to pierce vulture masks
-    private static bool VultureOnSpearStick(On.Vulture.orig_SpearStick orig, Vulture self, Weapon source, float dmg, BodyChunk? chunk, PhysicalObject.Appendage.Pos apppos, Vector2 direction)
+    private static bool VultureOnSpearStick(On.Vulture.orig_SpearStick orig, Vulture self, Weapon? source, float dmg, BodyChunk? chunk, PhysicalObject.Appendage.Pos apppos, Vector2 direction)
     {
         var result = orig(self, source, dmg, chunk, apppos, direction);
+
+        if (source is null)
+        {
+            return result;
+        }
 
         // don't need to worry if it's not the head
         if (chunk?.index != 4)

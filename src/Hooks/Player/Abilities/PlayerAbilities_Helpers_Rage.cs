@@ -466,7 +466,7 @@ public static class PlayerAbilities_Helpers_Rage
 
         // Compensate for weapon drop due to gravity
         // for some reason, compensation is too strong if we just consider weapon gravity
-        var compensationFac = 0.75f;
+        var compensationFac = Custom.LerpMap(Custom.Dist(shooterPos, targetPos), 0.0f, 1500.0f, 1.0f, 0.5f);
 
         // 1/2 * a * t^2
         leadPos += Vector2.up * 0.5f * projectileGravity * time * time * compensationFac;
