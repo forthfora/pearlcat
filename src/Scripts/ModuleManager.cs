@@ -32,9 +32,9 @@ public static class ModuleManager
 
         return true;
     }
-    public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game, bool includingRemote = false)
+    public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game)
     {
-        var allPearlcats = game.GetAllPearlcats(includingRemote);
+        var allPearlcats = game.GetAllPearlcats();
         var playerModules = new List<PlayerModule>();
 
         foreach (var abstractCreature in allPearlcats)

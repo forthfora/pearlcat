@@ -94,7 +94,7 @@ public static class SaveData_Hooks
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             // Get the pearlcat we're using if we're online
-            var myPearlcat = game.GetAllPearlcats(true).FirstOrDefault(ModCompat_Helpers.RainMeadow_IsMine);
+            var myPearlcat = game.GetAllPearlcats().FirstOrDefault(ModCompat_Helpers.RainMeadow_IsMine);
 
             if (myPearlcat is not null)
             {

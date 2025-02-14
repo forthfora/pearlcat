@@ -280,22 +280,22 @@ public static class World_Helpers
 
     public static AbstractCreature? GetFirstPearlcat(this RainWorldGame? game)
     {
-        return game?.GetAllPearlcats(true).FirstOrDefault();
+        return game?.GetAllPearlcats().FirstOrDefault();
     }
 
-    public static List<AbstractCreature> GetAllPearlcats(this RainWorldGame? game, bool includingRemote = false)
+    public static List<AbstractCreature> GetAllPearlcats(this RainWorldGame? game)
     {
-        return game.GetAllPlayers(includingRemote).Where(x => x.realizedObject is Player player && player.IsPearlcat()).ToList();
+        return game.GetAllPlayers().Where(x => x.realizedObject is Player player && player.IsPearlcat()).ToList();
     }
 
-    public static List<AbstractCreature> GetAllPlayers(this RainWorldGame? game, bool includingRemote = false)
+    public static List<AbstractCreature> GetAllPlayers(this RainWorldGame? game)
     {
         if (game is null)
         {
             return [];
         }
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline && includingRemote)
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
             return MeadowCompat.GetAllPlayers();
         }
