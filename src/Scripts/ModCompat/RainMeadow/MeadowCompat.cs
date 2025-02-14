@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
-using Newtonsoft.Json;
 using RainMeadow;
 using UnityEngine;
 
@@ -353,5 +352,44 @@ public static class MeadowCompat
 
             onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ExplodeSentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
         }
+    }
+
+
+    public static void RPC_DirtyInventory_OnHost(Player player)
+    {
+        if (IsHost)
+        {
+            return;
+        }
+
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        var owner = OnlineManager.lobby.owner;
+
+        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.DirtyInventory))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
+    }
+
+    public static void RPC_SetGivenPearls_OnHost(Player player)
+    {
+        if (IsHost)
+        {
+            return;
+        }
+
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        var owner = OnlineManager.lobby.owner;
+
+        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.SetGivenPearls))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
     }
 }

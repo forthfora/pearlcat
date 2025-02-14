@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using RainMeadow;
-using UnityEngine;
 using System;
 using System.Linq;
 
@@ -8,6 +7,9 @@ namespace Pearlcat;
 
 public class MeadowPearlcatData : OnlineEntity.EntityData
 {
+    public bool InventoryDirty { get; set; }
+
+
     [UsedImplicitly]
     public MeadowPearlcatData()
     {
@@ -70,14 +72,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         public int rageAnimTimer;
 
 
-        // Save Data
-        [OnlineField]
-        public bool saveDataDirty;
-
-        [OnlineField]
-        public bool givePearlsDirty;
-
-
         [UsedImplicitly]
         public State()
         {
@@ -120,19 +114,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             {
                 blink = graphics.blink;
             }
-
-
-            if (playerModule.Online_SaveDataDirty)
-            {
-                playerModule.Online_SaveDataDirty = false;
-                saveDataDirty = true;
-            }
-
-            if (playerModule.Online_GivePearlsDirty)
-            {
-                playerModule.Online_GivePearlsDirty = false;
-                givePearlsDirty = true;
-            }
         }
 
         public override void ReadTo(OnlineEntity.EntityData data, OnlineEntity onlineEntity)
@@ -145,6 +126,11 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
+            {
+                return;
+            }
+
+            if (data is not MeadowPearlcatData pearlcatData)
             {
                 return;
             }
@@ -217,25 +203,11 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             }
 
 
-            if (saveDataDirty)
+            if (pearlcatData.InventoryDirty)
             {
-                saveDataDirty = false;
-                player.UpdateInventorySaveData();
-            }
+                pearlcatData.InventoryDirty = false;
 
-            if (givePearlsDirty)
-            {
-                givePearlsDirty = false;
-
-                if (ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(player.abstractPhysicalObject) is int id)
-                {
-                    var miscWorld = player.abstractPhysicalObject.world.game.GetMiscWorld();
-
-                    if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
-                    {
-                        miscWorld.PlayersGivenPearls.Add(id);
-                    }
-                }
+                player.UpdateInventorySaveData_Local(playerModule);
             }
         }
 

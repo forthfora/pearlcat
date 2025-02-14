@@ -175,11 +175,11 @@ public static class PlayerPearl_Helpers
         if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
         {
             miscWorld.PlayersGivenPearls.Add(id);
-        }
 
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            playerModule.Online_GivePearlsDirty = true;
+            if (ModCompat_Helpers.RainMeadow_IsOnline)
+            {
+                MeadowCompat.RPC_SetGivenPearls_OnHost(self);
+            }
         }
     }
 
@@ -644,6 +644,16 @@ public static class PlayerPearl_Helpers
             return;
         }
 
+        UpdateInventorySaveData_Local(self, playerModule);
+
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.RPC_DirtyInventory_OnHost(self);
+        }
+    }
+
+    public static void UpdateInventorySaveData_Local(this Player self, PlayerModule playerModule)
+    {
         var inventory = playerModule.Inventory.Select(x => x.ToString()).ToList();
         var activePearlIndex = playerModule.ActivePearlIndex;
 
@@ -674,10 +684,5 @@ public static class PlayerPearl_Helpers
         }
 
         save.ActiveObjectIndex[id] = activePearlIndex;
-
-        if (ModCompat_Helpers.RainMeadow_IsOnline && !ModCompat_Helpers.RainMeadow_IsHost)
-        {
-            playerModule.Online_SaveDataDirty = true;
-        }
     }
 }

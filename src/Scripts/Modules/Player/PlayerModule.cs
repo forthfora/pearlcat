@@ -63,6 +63,8 @@ public partial class PlayerModule
 
     public AbstractPhysicalObject? ActivePearl => ActivePearlIndex is not null && ActivePearlIndex < Inventory.Count ? Inventory[(int)ActivePearlIndex] : null;
 
+    public bool Online_InventoryNeedsLoading { get; set; } = true;
+
 
     // Input
     public bool WasSwapLeftInput { get; set; }
@@ -81,13 +83,6 @@ public partial class PlayerModule
     // HUD
     public float HudFade { get; set; }
     public float HudFadeTimer { get; set; }
-
-
-    // Online
-    public bool Online_InventoryNeedsLoading { get; set; } = true;
-
-    public bool Online_GivePearlsDirty { get; set; }
-    public bool Online_SaveDataDirty { get; set; }
 
 
     public PlayerModule(Player self)

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using RainMeadow;
 using UnityEngine;
 // ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
@@ -71,5 +69,43 @@ public static class MeadowRPCs
         }
 
         sentry.ExplodeSentry();
+    }
+
+    [RPCMethod]
+    public static void DirtyInventory(RPCEvent _, OnlinePhysicalObject? playerOpo)
+    {
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        if (!playerOpo.TryGetData<MeadowPearlcatData>(out var data))
+        {
+            return;
+        }
+
+        data.InventoryDirty = true;
+
+    }
+
+    [RPCMethod]
+    public static void SetGivenPearls(RPCEvent _, OnlinePhysicalObject? playerOpo)
+    {
+        if (playerOpo?.apo?.realizedObject is not Player player)
+        {
+            return;
+        }
+
+        if (ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(player.abstractPhysicalObject) is not int id)
+        {
+            return;
+        }
+
+        var miscWorld = player.abstractPhysicalObject.world.game.GetMiscWorld();
+
+        if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
+        {
+            miscWorld.PlayersGivenPearls.Add(id);
+        }
     }
 }
