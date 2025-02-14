@@ -84,8 +84,9 @@ public partial class PlayerModule
 
 
     // Online
-    public bool Online_InventoryNeedsLoading { get; set; }
-    public bool Online_GivenPearls { get; set; }
+    public bool Online_InventoryNeedsLoading { get; set; } = true;
+
+    public bool Online_GivePearlsDirty { get; set; }
     public bool Online_SaveDataDirty { get; set; }
 
 
@@ -122,22 +123,25 @@ public partial class PlayerModule
 
     public void LoadInventorySaveData(Player self)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            return;
-        }
+            if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+            {
+                return;
+            }
 
+            if (Online_InventoryNeedsLoading)
+            {
+                if (!MeadowCompat.TryGetResourceData<MeadowSaveData>(out var meadowSaveData))
+                {
+                    return;
+                }
 
-        if (!MeadowCompat.TryGetResourceData<MeadowSaveData>(out var meadowSaveData))
-        {
-            Online_InventoryNeedsLoading = true;
-            return;
-        }
-
-        if (!meadowSaveData.WasSynced)
-        {
-            Online_InventoryNeedsLoading = true;
-            return;
+                if (!meadowSaveData.WasSynced)
+                {
+                    return;
+                }
+            }
         }
 
         Online_InventoryNeedsLoading = false;

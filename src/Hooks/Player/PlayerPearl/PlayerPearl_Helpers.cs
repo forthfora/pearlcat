@@ -179,7 +179,7 @@ public static class PlayerPearl_Helpers
 
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            playerModule.Online_GivenPearls = true;
+            playerModule.Online_GivePearlsDirty = true;
         }
     }
 

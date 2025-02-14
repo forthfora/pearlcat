@@ -70,6 +70,14 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         public int rageAnimTimer;
 
 
+        // Save Data
+        [OnlineField]
+        public bool saveDataDirty;
+
+        [OnlineField]
+        public bool givePearlsDirty;
+
+
         [UsedImplicitly]
         public State()
         {
@@ -111,6 +119,19 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             if (player.graphicsModule is PlayerGraphics graphics)
             {
                 blink = graphics.blink;
+            }
+
+
+            if (playerModule.Online_SaveDataDirty)
+            {
+                playerModule.Online_SaveDataDirty = false;
+                saveDataDirty = true;
+            }
+
+            if (playerModule.Online_GivePearlsDirty)
+            {
+                playerModule.Online_GivePearlsDirty = false;
+                givePearlsDirty = true;
             }
         }
 
@@ -195,29 +216,26 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
                 graphics.blink = blink + 5;
             }
 
-            if (playerModule.Online_SaveDataDirty)
+
+            if (saveDataDirty)
             {
+                saveDataDirty = false;
                 player.UpdateInventorySaveData();
             }
 
-            if (playerModule.Online_GivenPearls)
+            if (givePearlsDirty)
             {
-                SetGivenPearlsSaveData(player);
-            }
-        }
+                givePearlsDirty = false;
 
-        private static void SetGivenPearlsSaveData(Player player)
-        {
-            if (ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(player.abstractPhysicalObject) is not int id)
-            {
-                return;
-            }
+                if (ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(player.abstractPhysicalObject) is int id)
+                {
+                    var miscWorld = player.abstractPhysicalObject.world.game.GetMiscWorld();
 
-            var miscWorld = player.abstractPhysicalObject.world.game.GetMiscWorld();
-
-            if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
-            {
-                miscWorld.PlayersGivenPearls.Add(id);
+                    if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
+                    {
+                        miscWorld.PlayersGivenPearls.Add(id);
+                    }
+                }
             }
         }
 

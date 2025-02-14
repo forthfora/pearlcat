@@ -8,7 +8,9 @@ namespace Pearlcat;
 
 public class MeadowSaveData : OnlineResource.ResourceData
 {
-    public bool WasSynced { get; set; }
+    // Whether this state has been ReadTo, so we don't try and load save data too early - IsHost check as host is always 'in sync' with itself
+    public bool WasSynced { get; set; } = ModCompat_Helpers.RainMeadow_IsHost;
+
 
     [UsedImplicitly]
     public MeadowSaveData()

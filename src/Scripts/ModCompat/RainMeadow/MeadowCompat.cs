@@ -70,7 +70,6 @@ public static class MeadowCompat
         return OnlineManager.lobby.playerAvatars.Select(kvp => (kvp.Value.FindEntity(true) as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
     }
 
-
     public static bool TryGetResourceData<T>(out T resourceData)
         where T : OnlineResource.ResourceData
     {
@@ -83,20 +82,6 @@ public static class MeadowCompat
         }
 
         return lobby.TryGetData(out resourceData);
-    }
-
-    public static bool TryGetEntityData<T>(AbstractPhysicalObject abstractPhysicalObject, out T entityData)
-        where T : OnlineEntity.EntityData
-    {
-        var opo = abstractPhysicalObject.GetOnlineObject();
-
-        if (opo is null)
-        {
-            entityData = null!;
-            return false;
-        }
-
-        return opo.TryGetData(out entityData);
     }
 
 

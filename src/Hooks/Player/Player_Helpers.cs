@@ -321,6 +321,11 @@ public static class Player_Helpers
     {
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
+        if (playerModule.Online_InventoryNeedsLoading)
+        {
+            playerModule.LoadInventorySaveData(self);
+        }
+
         if (self.room is not null)
         {
             self.GivePearls(playerModule);
