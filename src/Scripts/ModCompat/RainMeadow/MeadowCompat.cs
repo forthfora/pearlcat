@@ -334,7 +334,7 @@ public static class MeadowCompat
         }
     }
 
-    public static void RPC_ExplodeSentry(AbstractPhysicalObject sentryOwner)
+    public static void RPC_SentryExplode(AbstractPhysicalObject sentryOwner)
     {
         var opo = sentryOwner.GetOnlineObject();
 
@@ -350,7 +350,27 @@ public static class MeadowCompat
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ExplodeSentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.SentryExplode))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
+        }
+    }
+
+    public static void RPC_SentryDestroyEffecct(AbstractPhysicalObject sentryOwner)
+    {
+        var opo = sentryOwner.GetOnlineObject();
+
+        if (opo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.SentryDestroyEffect))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
         }
     }
 

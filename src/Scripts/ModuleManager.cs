@@ -185,7 +185,7 @@ public static class ModuleManager
     public static ConditionalWeakTable<AbstractPhysicalObject, SpearModule> TempPearlSpearData { get; } = new();
     public static bool TryGetSpearModule(this AbstractPhysicalObject self, out SpearModule module)
     {
-        var save = self.Room?.world?.game?.GetMiscWorld();
+        var save = self.world?.game?.GetMiscWorld();
 
         if (save is null)
         {

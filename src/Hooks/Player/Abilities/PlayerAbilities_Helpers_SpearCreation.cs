@@ -73,7 +73,7 @@ public static class PlayerAbilities_Helpers_SpearCreation
                     }
 
 
-                    var save = self.abstractCreature.Room.world.game.GetMiscWorld();
+                    var save = self.abstractCreature.world.game.GetMiscWorld();
 
                     // Story
                     if (save is not null)

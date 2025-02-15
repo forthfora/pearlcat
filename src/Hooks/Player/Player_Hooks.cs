@@ -262,12 +262,17 @@ public static class Player_Hooks
             mod.LastGroundedPos = thisPlayer.firstChunk.pos;
         }
 
-        if (self.abstractCreature?.Room?.world?.game is null)
+        if (self.abstractPhysicalObject?.world?.game is null)
         {
             return;
         }
 
-        foreach (var playerModule in self.abstractCreature.Room.world.game.GetAllPearlcatModules())
+        if (self is Player && !self.abstractPhysicalObject.world.game.IsFriendlyFireEnabled())
+        {
+            return;
+        }
+
+        foreach (var playerModule in self.abstractCreature.world.game.GetAllPearlcatModules())
         {
             foreach (var item in playerModule.Inventory)
             {
@@ -305,11 +310,6 @@ public static class Player_Hooks
                 if (!Custom.DistLess(owner.realizedObject.firstChunk.pos, newRoom.MiddleOfTile(pos), 75.0f))
                 {
                     continue;
-                }
-
-                if (sentry.ShieldTimer <= 0)
-                {
-                    sentry.ShieldTimer = ModOptions.ShieldDuration * 3.0f;
                 }
 
                 owner.realizedObject.room?.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.7f);
@@ -404,7 +404,7 @@ public static class Player_Hooks
         if (self.deepDivePhase == VoidSeaScene.DeepDivePhase.EggScenario)
         {
             var miscProg = Utils.MiscProgression;
-            var miscWorld = self.room.abstractRoom.world.game.GetMiscWorld();
+            var miscWorld = self.room.world.game.GetMiscWorld();
 
             miscProg.JustAscended = true;
             

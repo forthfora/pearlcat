@@ -56,7 +56,7 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void ExplodeSentry(RPCEvent _, OnlinePhysicalObject? opo)
+    public static void SentryExplode(RPCEvent _, OnlinePhysicalObject? opo)
     {
         if (opo?.apo is not AbstractPhysicalObject apo)
         {
@@ -68,7 +68,23 @@ public static class MeadowRPCs
             return;
         }
 
-        sentry.ExplodeSentry();
+        sentry.Explode();
+    }
+
+    [RPCMethod]
+    public static void SentryDestroyEffect(RPCEvent _, OnlinePhysicalObject? opo)
+    {
+        if (opo?.apo is not AbstractPhysicalObject apo)
+        {
+            return;
+        }
+
+        if (!apo.TryGetSentry(out var sentry))
+        {
+            return;
+        }
+
+        sentry.DestroyEffect();
     }
 
     [RPCMethod]

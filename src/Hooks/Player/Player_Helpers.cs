@@ -167,7 +167,7 @@ public static class Player_Helpers
     {
         self.Revive();
 
-        self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
+        self.abstractCreature.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
         self.playerState.permaDead = false;
         self.playerState.alive = true;
 
@@ -1146,7 +1146,7 @@ public static class Player_Helpers
             return;
         }
 
-        var save = self.abstractCreature.Room.world.game.GetMiscWorld();
+        var save = self.abstractCreature.world.game.GetMiscWorld();
         var miscProg = Utils.MiscProgression;
 
         miscProg.HasPearlpup = false;

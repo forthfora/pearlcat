@@ -56,7 +56,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule is null)
         {
@@ -439,7 +439,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule?.PlayerRef is null)
         {
@@ -465,7 +465,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule?.PlayerRef is null)
         {
@@ -506,7 +506,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule?.PlayerRef is null)
         {
@@ -690,7 +690,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         var cooldownTime = ModOptions.LaserRechargeTime;
         var shootDamage = ModOptions.LaserDamage;
 
-        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule?.PlayerRef is null)
         {
@@ -895,7 +895,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 module.ReturnSentry(owner);
             }
 
-            var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
+            var playerModule = owner.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
             if (owner.TryGetPearlGraphicsModule(out var pearlGraphics) && playerModule is not null && playerModule.PlayerRef is not null)
             {
@@ -905,8 +905,12 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                 {
                     room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 0.5f, 0.5f);
 
-                    room.AddObject(new ExplosionSpikes(room, owner.realizedObject.firstChunk.pos, 5, 30.0f, 10, 10.0f, 20.0f, pearlGraphics.SymbolColor));
-                    room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, pearlGraphics.SymbolColor, true));
+                    DestroyEffect();
+
+                    if (ModCompat_Helpers.RainMeadow_IsOnline)
+                    {
+                        MeadowCompat.RPC_SentryDestroyEffecct(owner);
+                    }
                 }
 
                 // Agility Teleport
@@ -948,10 +952,10 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                     {
                         if (ModCompat_Helpers.RainMeadow_IsOnline)
                         {
-                            MeadowCompat.RPC_ExplodeSentry(owner);
+                            MeadowCompat.RPC_SentryExplode(owner);
                         }
 
-                        ExplodeSentry();
+                        Explode();
                     }
                 }
             }
@@ -977,7 +981,24 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
         }
     }
 
-    public void ExplodeSentry()
+    public void DestroyEffect()
+    {
+        if (!OwnerRef.TryGetTarget(out var owner))
+        {
+            return;
+        }
+
+
+        if (!owner.TryGetPearlGraphicsModule(out var pearlGraphics))
+        {
+            return;
+        }
+
+        room.AddObject(new ExplosionSpikes(room, owner.realizedObject.firstChunk.pos, 5, 30.0f, 10, 10.0f, 20.0f, pearlGraphics.SymbolColor));
+        room.AddObject(new LightningMachine.Impact(owner.realizedObject.firstChunk.pos, 0.1f, pearlGraphics.SymbolColor, true));
+    }
+
+    public void Explode()
     {
         if (!OwnerRef.TryGetTarget(out var owner))
         {
@@ -989,7 +1010,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var playerModule = owner.Room.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
+        var playerModule = owner.world.game.GetAllPearlcatModules().FirstOrDefault(x => x.Inventory.Contains(owner));
 
         if (playerModule?.PlayerRef is null)
         {

@@ -15,7 +15,7 @@ public partial class PlayerModule
 
     public bool IsAdultPearlpup =>
         PlayerRef is not null &&
-        PlayerRef.abstractCreature?.Room?.world?.game?.IsPearlcatStory() == true &&
+        PlayerRef.abstractCreature?.world?.game?.IsPearlcatStory() == true &&
         Utils.MiscProgression.HasTrueEnding
         && !ModCompat_Helpers.RainMeadow_IsOnline;
 

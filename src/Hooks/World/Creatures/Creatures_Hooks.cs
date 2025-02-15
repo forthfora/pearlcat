@@ -261,12 +261,12 @@ public static class Creatures_Hooks
     {
         orig(self);
 
-        if (self.abstractCreature?.Room?.world?.game is null)
+        if (self.abstractCreature?.world?.game is null)
         {
             return;
         }
 
-        foreach (var crit in self.abstractCreature.Room.world.game.GetAllPlayers())
+        foreach (var crit in self.abstractCreature.world.game.GetAllPlayers())
         {
 
             if (crit.realizedCreature is not Player player)
@@ -312,12 +312,12 @@ public static class Creatures_Hooks
             return;
         }
 
-        if (self.vulture?.abstractCreature?.Room?.world?.game is null)
+        if (self.vulture?.abstractCreature?.world?.game is null)
         {
             return;
         }
 
-        foreach (var crit in self.vulture.abstractCreature.Room.world.game.GetAllPlayers())
+        foreach (var crit in self.vulture.abstractCreature.world.game.GetAllPlayers())
         {
             if (crit.realizedCreature is not Player player)
             {
