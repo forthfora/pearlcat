@@ -103,12 +103,7 @@ public static class PlayerPearl_Helpers
         {
             if (miscWorld is not null)
             {
-                if (!MeadowCompat.TryGetResourceData<MeadowSaveData>(out var meadowSaveData))
-                {
-                    return;
-                }
-
-                if (!meadowSaveData.WasSynced)
+                if (!MeadowCompat.WasSaveDataSynced())
                 {
                     return;
                 }

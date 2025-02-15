@@ -69,18 +69,21 @@ public static class MeadowCompat
         return OnlineManager.lobby.playerAvatars.Select(kvp => (kvp.Value.FindEntity(true) as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
     }
 
-    public static bool TryGetResourceData<T>(out T resourceData)
-        where T : OnlineResource.ResourceData
+    public static bool WasSaveDataSynced()
     {
         var lobby = OnlineManager.lobby;
 
         if (lobby is null)
         {
-            resourceData = null!;
             return false;
         }
 
-        return lobby.TryGetData(out resourceData);
+        if (!lobby.TryGetData<MeadowSaveData>(out var saveData))
+        {
+            return false;
+        }
+
+        return saveData.WasSynced;
     }
 
 

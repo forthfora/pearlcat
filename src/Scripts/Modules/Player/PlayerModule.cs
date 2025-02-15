@@ -127,12 +127,7 @@ public partial class PlayerModule
 
             if (Online_InventoryNeedsLoading)
             {
-                if (!MeadowCompat.TryGetResourceData<MeadowSaveData>(out var meadowSaveData))
-                {
-                    return;
-                }
-
-                if (!meadowSaveData.WasSynced)
+                if (!MeadowCompat.WasSaveDataSynced())
                 {
                     return;
                 }
