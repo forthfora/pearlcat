@@ -214,17 +214,13 @@ public sealed class PearlGraphics : UpdatableAndDeletable, IDrawable
 
         if (!IsVisible)
         {
-            foreach (var i in sLeaser.sprites)
-            {
-                i.isVisible = false;
-            }
+            sLeaser.RemoveAllSpritesFromContainer();
             return;
         }
 
-
-        foreach (var i in sLeaser.sprites)
+        if (sLeaser.sprites.First().container is null)
         {
-            i.isVisible = true;
+            AddToContainer(sLeaser, rCam, null!);
         }
 
         var setPos = Vector2.Lerp(OverrideLastPos - camPos ?? Pos, OverridePos - camPos ?? Pos, timeStacker);
