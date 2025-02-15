@@ -79,6 +79,8 @@ public static class PlayerAbilities_Helpers
         playerModule.DisabledEffects.Clear();
 
 
+        playerModule.RefreshMajorEffectCounts();
+
         PlayerAbilities_Helpers_SpearCreation.Update(self, playerModule, effect);
         PlayerAbilities_Helpers_Agility.Update(self, playerModule, effect);
         PlayerAbilities_Helpers_Revive.Update(self, playerModule, effect);
