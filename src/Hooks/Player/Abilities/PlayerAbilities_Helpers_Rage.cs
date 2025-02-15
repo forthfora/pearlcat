@@ -91,8 +91,16 @@ public static class PlayerAbilities_Helpers_Rage
         var angleFrameAddition = -Custom.LerpMap(ragePearls.Count, 1, 6, 0.05f, 0.025f);
         var radius = 80.0f;
 
+        // Restrict how many rage pearls can be active in the inventory, targeting doesn't work well with too many
+        var maxActiveCount = 8;
+
         for (var i = 0; i < ragePearls.Count; i++)
         {
+            if (i >= maxActiveCount)
+            {
+                break;
+            }
+
             var ragePearl = ragePearls[i];
 
             if (!ragePearl.abstractPhysicalObject.TryGetPearlGraphicsModule(out var pearlGraphics))
@@ -102,7 +110,7 @@ public static class PlayerAbilities_Helpers_Rage
 
             pearlGraphics.IsActiveRagePearl = true;
 
-            var angle = (i * Mathf.PI * 2.0f / ragePearls.Count) + angleFrameAddition * playerModule.RageAnimTimer;
+            var angle = (i * Mathf.PI * 2.0f / Mathf.Clamp(ragePearls.Count, 1, maxActiveCount)) + angleFrameAddition * playerModule.RageAnimTimer;
             var targetPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
             PlayerPearl_Helpers_Data.AnimateToTargetPos(ragePearl.abstractPhysicalObject, targetPos, playerModule);
@@ -130,7 +138,7 @@ public static class PlayerAbilities_Helpers_Rage
         var targetEnemyRange = 1500.0f;
         var redirectRange = isSentry ? 50.0f : 30.0f;
 
-        var riccochetVel = 75.0f;
+        var riccochetVel = 60.0f;
 
         var riccochetDamageMult = 1.25f;
         var riccochetDamageMultUpDownThrow = 2.0f;
