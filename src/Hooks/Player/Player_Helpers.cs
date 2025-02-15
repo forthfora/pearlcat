@@ -709,7 +709,7 @@ public static class Player_Helpers
 
         if (playerModule.PostDeathActivePearlIndex is not null)
         {
-            self.SetActivePearl((int)playerModule.PostDeathActivePearlIndex);
+            self.SetActivePearl((int)playerModule.PostDeathActivePearlIndex, true);
         }
 
         playerModule.PostDeathInventory.Clear();

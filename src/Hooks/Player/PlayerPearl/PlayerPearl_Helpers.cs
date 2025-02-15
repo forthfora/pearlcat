@@ -388,7 +388,7 @@ public static class PlayerPearl_Helpers
         if (!storeBeforeActive || playerModule.ActivePearlIndex is null)
         {
             var targetIndex = playerModule.ActivePearlIndex ?? 0;
-            self.SetActivePearl(targetIndex);
+            self.SetActivePearl(targetIndex, true);
         }
         
         playerModule.PickPearlAnimation(self);
@@ -436,23 +436,6 @@ public static class PlayerPearl_Helpers
 
         self.RemoveFromInventory(activePearl);
         self.SlugcatGrab(activePearl.realizedObject, self.FreeHand());
-
-        if (playerModule.ActivePearl is null && playerModule.Inventory.Count > 0)
-        {
-            var targetIndex = playerModule.ActivePearlIndex ?? 0;
-
-            if (playerModule.ActivePearlIndex is not null)
-            {
-                targetIndex = playerModule.ActivePearlIndex.Value - 1;
-
-                if (targetIndex < 0)
-                {
-                    targetIndex = playerModule.Inventory.Count - 1;
-                }
-            }
-
-            self.SetActivePearl(targetIndex);
-        }
 
         playerModule.PickPearlAnimation(self);
         playerModule.ShowHUD(30);
@@ -526,6 +509,23 @@ public static class PlayerPearl_Helpers
             playerModule.ActivePearlIndex = null;
         }
 
+        if (playerModule.ActivePearl is null && playerModule.Inventory.Count > 0)
+        {
+            var targetIndex = playerModule.ActivePearlIndex ?? 0;
+
+            if (playerModule.ActivePearlIndex is not null)
+            {
+                targetIndex = playerModule.ActivePearlIndex.Value - 1;
+
+                if (targetIndex < 0)
+                {
+                    targetIndex = playerModule.Inventory.Count - 1;
+                }
+            }
+
+            self.SetActivePearl(targetIndex, false);
+        }
+
         InventoryHUD.Symbols.Remove(abstractObject);
     }
 
@@ -557,7 +557,7 @@ public static class PlayerPearl_Helpers
             targetIndex = 0;
         }
 
-        self.SetActivePearl(targetIndex);
+        self.SetActivePearl(targetIndex, true);
     }
 
     public static void SelectPreviousPearl(this Player self)
@@ -586,10 +586,10 @@ public static class PlayerPearl_Helpers
             targetIndex = playerModule.Inventory.Count - 1;
         }
 
-        self.SetActivePearl(targetIndex);
+        self.SetActivePearl(targetIndex, true);
     }
 
-    public static void SetActivePearl(this Player self, int pearlIndex)
+    public static void SetActivePearl(this Player self, int pearlIndex, bool withEffect)
     {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
@@ -610,24 +610,23 @@ public static class PlayerPearl_Helpers
         playerModule.ActivePearlIndex = pearlIndex;
         var newActive = playerModule.ActivePearl?.realizedObject;
 
-        oldActive.SwapEffect(newActive);
-
-        playerModule.ShowHUD(60);
-
-        if (ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
-        {
-            self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
-        }
-
         self.UpdateInventorySaveData();
 
-        if (self.graphicsModule is not PlayerGraphics pGraphics || newActive is null)
+        if (withEffect)
         {
-            return;
-        }
+            oldActive.SwapEffect(newActive);
+            playerModule.ShowHUD(60);
 
-        //player.room.PlaySound(Enums.Sounds.Pearlcat_PearlEquip, newObject.firstChunk.pos);
-        pGraphics.LookAtPoint(newActive.firstChunk.pos, 1.0f);
+            if (ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+            {
+                self.PlayHUDSound(Enums.Sounds.Pearlcat_PearlScroll);
+            }
+
+            if (self.graphicsModule is PlayerGraphics pGraphics && newActive is not null)
+            {
+                pGraphics.LookAtPoint(newActive.firstChunk.pos, 1.0f);
+            }
+        }
     }
 
 

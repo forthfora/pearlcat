@@ -166,7 +166,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             }
             else if (activePearlIndex != playerModule.ActivePearlIndex)
             {
-                player.SetActivePearl(activePearlIndex);
+                player.SetActivePearl(activePearlIndex, true);
             }
 
             playerModule.StoreObjectTimer = storeObjectTimer;
