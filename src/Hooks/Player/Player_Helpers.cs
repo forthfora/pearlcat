@@ -332,11 +332,20 @@ public static class Player_Helpers
         }
 
         // If a pearl is in the wrong room abstract to reset it to the player's room
+        // Also, to fix an issue in Meadow where the pearl is missing an OPO, reset it by abstracting
         foreach (var pearl in playerModule.Inventory)
         {
+            var isMissingOpo = ModCompat_Helpers.RainMeadow_IsOnline && ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(pearl) is null;
+
             if (pearl.Room != self.abstractCreature.Room)
             {
                 PlayerPearl_Helpers.AbstractPlayerPearl(pearl);
+            }
+
+            if (isMissingOpo)
+            {
+                PlayerPearl_Helpers.AbstractPlayerPearl(pearl);
+                pearl.slatedForDeletion = false;
             }
 
             pearl.pos = self.abstractCreature.pos;
