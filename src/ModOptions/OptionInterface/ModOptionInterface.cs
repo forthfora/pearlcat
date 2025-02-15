@@ -108,7 +108,7 @@ public sealed partial class ModOptionInterface : OptionsTemplate
 
     public static Configurable<int> SpearPearlCount { get; } = Instance.config.Bind(nameof(SpearPearlCount), 1, new ConfigurableInfo(
         "Number of spear creation pearls (white). Effective only when Inventory Override? is checked.",
-        new ConfigAcceptableRange<int>(0, int.MaxValue), "",
+        new ConfigAcceptableRange<int>(int.MinValue, int.MaxValue), "",
         "Spear Pearl Count"));
 
     public static Configurable<int> RevivePearlCount { get; } = Instance.config.Bind(nameof(RevivePearlCount), 1, new ConfigurableInfo(

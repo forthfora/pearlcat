@@ -45,9 +45,19 @@ public static class ModOptions
             pearls.Add(Enums.Pearls.AS_PearlRed);
         }
 
-        for (var i = 0; i < SpearPearlCount; i++)
+        if (SpearPearlCount >= 0)
         {
-            pearls.Add(i == 0 && giveHalcyonPearl ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc);
+            for (var i = 0; i < SpearPearlCount; i++)
+            {
+                pearls.Add(i == 0 && giveHalcyonPearl ? Enums.Pearls.RM_Pearlcat : DataPearlType.Misc);
+            }
+        }
+        else
+        {
+            for (var i = 0; i < Mathf.Abs(SpearPearlCount); i++)
+            {
+                pearls.Add(DataPearlType.Misc);
+            }
         }
 
         return pearls;

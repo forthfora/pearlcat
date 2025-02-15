@@ -77,6 +77,11 @@ public partial class PlayerModule
 
         Random.state = randState;
 
+        if (ModOptions.HidePearls)
+        {
+            return;
+        }
+
         for (var i = 0; i < Inventory.Count; i++)
         {
             var abstractObject = Inventory[i];
