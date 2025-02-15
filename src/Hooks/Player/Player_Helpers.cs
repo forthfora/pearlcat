@@ -427,7 +427,7 @@ public static class Player_Helpers
         UpdateRevive(self, playerModule);
         UpdateDeathpitRevive(self, playerModule);
 
-        UpdateHUD(self, playerModule);
+        UpdateHUD(playerModule);
         UpdateSFX(self, playerModule);
 
 
@@ -817,7 +817,7 @@ public static class Player_Helpers
         }
     }
 
-    public static void UpdateHUD(Player self, PlayerModule playerModule)
+    public static void UpdateHUD(PlayerModule playerModule)
     {
         if (playerModule.HudFadeTimer > 0)
         {

@@ -162,6 +162,16 @@ public abstract class PearlAnimation
                 continue;
             }
 
+            pearlGraphics.IsActivePearl = i == playerModule.ActivePearlIndex;
+
+
+            if (ModOptions.HidePearls && !pearlGraphics.IsActivePearl && !pearlGraphics.IsSentry && !pearlGraphics.IsActiveRagePearl && !abstractObject.IsHeartPearl())
+            {
+                pearlGraphics.IsVisible = false;
+                pearlGraphics.CamoLerp = 1.0f;
+                continue;
+            }
+
             if (player.room is null || pearlGraphics.Pos == Vector2.zero)
             {
                 pearlGraphics.IsVisible = false;
@@ -173,7 +183,6 @@ public abstract class PearlAnimation
 
             var effect = abstractObject.GetPearlEffect();
 
-            pearlGraphics.IsActivePearl = i == playerModule.ActivePearlIndex;
             pearlGraphics.SymbolColor = effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage ? Color.white : abstractObject.GetObjectColor();
 
             if (pearlModule.CooldownTimer != 0)
@@ -200,18 +209,13 @@ public abstract class PearlAnimation
                 pearlGraphics.DrawSymbolCooldown = false;
             }
 
-            if (ModOptions.HidePearls && !pearlGraphics.IsActivePearl)
-            {
-                pearlGraphics.DrawSymbolCooldown = false;
-            }
-
 
             pearlGraphics.Symbol = PearlGraphics.SpriteFromPearl(abstractObject);
             pearlGraphics.SymbolAlpha = pearlGraphics.IsActivePearl ? Mathf.Lerp(pearlGraphics.SymbolAlpha, 1.0f, 0.05f) : Mathf.Lerp(pearlGraphics.SymbolAlpha, 0.0f, 0.05f);
 
-            pearlGraphics.CamoLerp = ModOptions.HidePearls && !pearlGraphics.IsActivePearl && !abstractObject.IsHeartPearl() && !pearlGraphics.IsActiveRagePearl ? 1.0f : playerModule.CamoLerp;
+            pearlGraphics.CamoLerp = playerModule.CamoLerp;
 
-            if ((!ModOptions.HidePearls || pearlGraphics.IsActivePearl) && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
+            if (effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage)
             {
                 pearlGraphics.CamoLerp = 0.0f;
             }
@@ -220,7 +224,6 @@ public abstract class PearlAnimation
 
             pearlGraphics.ShieldCounter = playerModule.ShieldCount;
             pearlGraphics.ReviveCounter = playerModule.ReviveCount;
-
 
 
             pearlGraphics.IsSentry = pearlModule.IsSentry || pearlModule.IsReturningSentry;
