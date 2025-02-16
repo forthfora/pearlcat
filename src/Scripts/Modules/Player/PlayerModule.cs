@@ -160,7 +160,7 @@ public partial class PlayerModule
             {
                 foreach (var item in inventory)
                 {
-                    self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item), addToEnd: true);
+                    self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item), fromLoadInventory: true);
                 }
             }
         }

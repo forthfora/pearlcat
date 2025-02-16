@@ -549,7 +549,7 @@ public static class Player_Helpers
         {
             if (isStoring && toStore is not null)
             {
-                self.StorePearl(toStore.abstractPhysicalObject, true);
+                self.StorePearl(toStore.abstractPhysicalObject, fromGrasp: true);
             }
             else if (playerModule.ActivePearl is not null)
             {

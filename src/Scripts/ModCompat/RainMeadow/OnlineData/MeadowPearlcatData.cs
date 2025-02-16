@@ -7,9 +7,6 @@ namespace Pearlcat;
 
 public class MeadowPearlcatData : OnlineEntity.EntityData
 {
-    public bool InventoryDirty { get; set; }
-
-
     [UsedImplicitly]
     public MeadowPearlcatData()
     {
@@ -200,14 +197,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             {
                 // needs a bit of buffer
                 graphics.blink = blink + 5;
-            }
-
-
-            if (pearlcatData.InventoryDirty)
-            {
-                pearlcatData.InventoryDirty = false;
-
-                player.UpdateInventorySaveData_Local(playerModule);
             }
         }
 

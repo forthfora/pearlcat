@@ -69,6 +69,24 @@ public static class MeadowCompat
         return OnlineManager.lobby.playerAvatars.Select(kvp => (kvp.Value.FindEntity(true) as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
     }
 
+
+    public static void SetWasSaveDataSynced(bool value)
+    {
+        var lobby = OnlineManager.lobby;
+
+        if (lobby is null)
+        {
+            return;
+        }
+
+        if (!lobby.TryGetData<MeadowSaveData>(out var saveData))
+        {
+            return;
+        }
+
+        saveData.WasSynced = value;
+    }
+    
     public static bool WasSaveDataSynced()
     {
         var lobby = OnlineManager.lobby;
@@ -375,26 +393,6 @@ public static class MeadowCompat
 
             onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.SentryDestroyEffect))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
         }
-    }
-
-
-    public static void RPC_DirtyInventory_OnHost(Player player)
-    {
-        if (IsHost)
-        {
-            return;
-        }
-
-        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
-
-        if (playerOpo is null)
-        {
-            return;
-        }
-
-        var owner = OnlineManager.lobby.owner;
-
-        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.DirtyInventory))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
     }
 
     public static void RPC_SetGivenPearls_OnHost(Player player)

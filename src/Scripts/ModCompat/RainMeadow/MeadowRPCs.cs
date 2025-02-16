@@ -88,23 +88,6 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void DirtyInventory(RPCEvent _, OnlinePhysicalObject? playerOpo)
-    {
-        if (playerOpo is null)
-        {
-            return;
-        }
-
-        if (!playerOpo.TryGetData<MeadowPearlcatData>(out var data))
-        {
-            return;
-        }
-
-        data.InventoryDirty = true;
-
-    }
-
-    [RPCMethod]
     public static void SetGivenPearls(RPCEvent _, OnlinePhysicalObject? playerOpo)
     {
         if (playerOpo?.apo?.realizedObject is not Player player)

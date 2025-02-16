@@ -109,6 +109,13 @@ public static class World_Hooks
     {
         orig(self, manager);
 
+        // Reset for Meadow
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
+        {
+            MeadowCompat.SetWasSaveDataSynced(ModCompat_Helpers.RainMeadow_IsHost);
+        }
+
+
         if (!self.IsPearlcatStory())
         {
             return;
@@ -336,7 +343,7 @@ public static class World_Hooks
                     }
 
                     self.AllGraspsLetGoOfThisObject(true);
-                    player.StorePearl(self.abstractSpear, noSound: true, storeBeforeActive: true);
+                    player.StorePearl(self.abstractSpear, fromPearlSpear: true);
                 }
                 else if (freeHand != -1 && player.GraspsHasType(AbstractPhysicalObject.AbstractObjectType.Spear) == -1)
                 {

@@ -113,8 +113,6 @@ public static class PlayerAbilities_Helpers_SpearCreation
 
                         activeObj.realizedObject.Destroy();
                         activeObj.Destroy();
-
-                        self.UpdateInventorySaveData();
                     }
                 }
             }
