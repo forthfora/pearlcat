@@ -513,8 +513,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
             return;
         }
 
-        var player = playerModule.PlayerRef;
-
         if (module.CooldownTimer == 1)
         {
             room.AddObject(new ExplosionSpikes(room, InitialPos, 5, 30.0f, 10, 10.0f, 20.0f, pearlGraphics.SymbolColor));

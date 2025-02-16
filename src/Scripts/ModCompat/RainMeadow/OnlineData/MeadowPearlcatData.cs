@@ -127,11 +127,6 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
                 return;
             }
 
-            if (data is not MeadowPearlcatData pearlcatData)
-            {
-                return;
-            }
-
             // Compare local and remote inventory, call AddToInventory / RemoveFromInventory where appropriate to sync local to remote
             var remoteInventory = inventory.list
                 .Where(x => x.FindEntity(true) is OnlinePhysicalObject)
