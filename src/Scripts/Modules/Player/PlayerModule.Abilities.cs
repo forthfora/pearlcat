@@ -33,12 +33,22 @@ public partial class PlayerModule
 
 
     // Count
-    public int RageCount => ModOptions.DisableRage ? -1 : MajorEffectCount(MajorEffectType.Rage);
-    public int AgilityCount => ModOptions.DisableAgility ? -1 : MajorEffectCount(MajorEffectType.Agility);
-    public int CamoCount => ModOptions.DisableCamoflague ? -1 : MajorEffectCount(MajorEffectType.Camouflage);
-    public int ReviveCount => ModOptions.DisableRevive ? -1 : MajorEffectCount(MajorEffectType.Revive);
-    public int SpearCount => ModOptions.DisableSpear ? -1 : MajorEffectCount(MajorEffectType.SpearCreation);
-    public int ShieldCount => ModOptions.DisableShield ? -1 : MajorEffectCount(MajorEffectType.Shield);
+    public int RageCount { get; set; }
+    public int AgilityCount { get; set; }
+    public int CamoCount { get; set; }
+    public int ReviveCount { get; set; }
+    public int SpearCount { get; set; }
+    public int ShieldCount { get; set; }
+
+    public void RefreshMajorEffectCounts()
+    {
+        RageCount = ModOptions.DisableRage ? -1 : MajorEffectCount(MajorEffectType.Rage);
+        AgilityCount = ModOptions.DisableAgility ? -1 : MajorEffectCount(MajorEffectType.Agility);
+        CamoCount = ModOptions.DisableCamoflague ? -1 : MajorEffectCount(MajorEffectType.Camouflage);
+        ReviveCount = ModOptions.DisableRevive ? -1 : MajorEffectCount(MajorEffectType.Revive);
+        SpearCount = ModOptions.DisableSpear ? -1 : MajorEffectCount(MajorEffectType.SpearCreation);
+        ShieldCount = ModOptions.DisableShield ? -1 : MajorEffectCount(MajorEffectType.Shield);
+    }
 
     public int MajorEffectCount(MajorEffectType type)
     {

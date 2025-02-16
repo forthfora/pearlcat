@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using RainMeadow;
-using UnityEngine;
 using System;
 using System.Linq;
 
@@ -141,7 +140,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             foreach (var pearl in pearlsToAdd)
             {
-                player.AddToInventory(pearl);
+                player.AddToInventory(pearl, fromOnline: true);
             }
 
             for (var i = pearlsToRemove.Count - 1; i >= 0; i--) // prevent 'collection was modified' exceptions
@@ -159,7 +158,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
             }
             else if (activePearlIndex != playerModule.ActivePearlIndex)
             {
-                player.SetActivePearl(activePearlIndex);
+                player.SetActivePearl(activePearlIndex, true);
             }
 
             playerModule.StoreObjectTimer = storeObjectTimer;

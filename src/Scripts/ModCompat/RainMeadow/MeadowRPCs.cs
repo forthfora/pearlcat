@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using RainMeadow;
 using UnityEngine;
 // ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
@@ -36,47 +34,6 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void UpdateInventorySaveData(RPCEvent _, OnlinePhysicalObject? playerOpo, string inventoryString, int activePearlIndex)
-    {
-        if (playerOpo?.apo?.realizedObject is not Player player)
-        {
-            return;
-        }
-
-        var inventory = JsonConvert.DeserializeObject<List<string>>(inventoryString);
-
-        if (inventory is null)
-        {
-            return;
-        }
-
-        player.UpdateInventorySaveData_Local(inventory, activePearlIndex == -1 ? null : activePearlIndex);
-    }
-
-    [RPCMethod]
-    public static void UpdateGivenPearlsSaveData(RPCEvent _, OnlinePhysicalObject? playerOpo)
-    {
-        if (playerOpo?.apo?.realizedObject is not Player player)
-        {
-            return;
-        }
-
-        var save = player.abstractPhysicalObject.world.game.GetMiscWorld();
-
-        if (save is null)
-        {
-            return;
-        }
-
-        var id = playerOpo.owner.id.GetHashCode();
-
-        if (!save.PlayersGivenPearls.Contains(id))
-        {
-            save.PlayersGivenPearls.Add(id);
-        }
-    }
-
-    [RPCMethod]
     public static void ObjectConnectEffect(RPCEvent _, OnlinePhysicalObject? opo, Vector2 pos, Color color)
     {
         if (opo?.apo?.realizedObject is not PhysicalObject physicalObject)
@@ -99,7 +56,7 @@ public static class MeadowRPCs
     }
 
     [RPCMethod]
-    public static void ExplodeSentry(RPCEvent _, OnlinePhysicalObject? opo)
+    public static void SentryExplode(RPCEvent _, OnlinePhysicalObject? opo)
     {
         if (opo?.apo is not AbstractPhysicalObject apo)
         {
@@ -111,6 +68,43 @@ public static class MeadowRPCs
             return;
         }
 
-        sentry.ExplodeSentry();
+        sentry.Explode();
+    }
+
+    [RPCMethod]
+    public static void SentryDestroyEffect(RPCEvent _, OnlinePhysicalObject? opo)
+    {
+        if (opo?.apo is not AbstractPhysicalObject apo)
+        {
+            return;
+        }
+
+        if (!apo.TryGetSentry(out var sentry))
+        {
+            return;
+        }
+
+        sentry.DestroyEffect();
+    }
+
+    [RPCMethod]
+    public static void SetGivenPearls(RPCEvent _, OnlinePhysicalObject? playerOpo)
+    {
+        if (playerOpo?.apo?.realizedObject is not Player player)
+        {
+            return;
+        }
+
+        if (ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(player.abstractPhysicalObject) is not int id)
+        {
+            return;
+        }
+
+        var miscWorld = player.abstractPhysicalObject.world.game.GetMiscWorld();
+
+        if (miscWorld is not null && !miscWorld.PlayersGivenPearls.Contains(id))
+        {
+            miscWorld.PlayersGivenPearls.Add(id);
+        }
     }
 }

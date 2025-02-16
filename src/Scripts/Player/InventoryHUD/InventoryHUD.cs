@@ -18,6 +18,8 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
     public List<PlayerPearlSymbol> AllSymbols { get; } = [];
     public List<FSprite> AllHUDCircles { get; } = [];
 
+    public bool HardSetPos { get; set; }
+
 
     public override void Draw(float timeStacker)
     {
@@ -26,16 +28,19 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
             return;
         }
 
-        foreach (var playerModule in game.GetAllPearlcatModules())
-        {
-            if (playerModule.PlayerRef is null)
-            {
-                continue;
-            }
+        var allPearlcatModules = game.GetAllPearlcatModules();
 
+        if (allPearlcatModules.All(x => x.HudFade < 0.001f))
+        {
+            HardSetPos = true;
+            return;
+        }
+
+        foreach (var playerModule in allPearlcatModules)
+        {
             var player = playerModule.PlayerRef;
 
-            if (player.abstractCreature?.world is null)
+            if (player?.abstractCreature?.world is null)
             {
                 continue;
             }
@@ -58,6 +63,13 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 
             // Make inventory pearls movement independent of framerate
             var lerpFac = 10.0f * Time.deltaTime;
+
+            // Reset position when an inventory is shown
+            if (HardSetPos)
+            {
+                lerpFac = 1.0f;
+                HardSetPos = false;
+            }
 
             if (!ModOptions.CompactInventoryHUD)
             {
@@ -203,6 +215,12 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
         }
 
         var playerData = game.GetAllPearlcatModules();
+
+        if (playerData.All(x => x.HudFade < 0.001f))
+        {
+            HardSetPos = true;
+            return;
+        }
 
         List<PlayerPearlSymbol> updatedSymbols = [];
 

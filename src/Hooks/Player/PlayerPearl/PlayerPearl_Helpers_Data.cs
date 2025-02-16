@@ -63,7 +63,7 @@ public static class PlayerPearl_Helpers_Data
 
     public static bool TryGetPlayerPearlOwner(this AbstractPhysicalObject targetObject, out Player player)
     {
-        var playerData = targetObject.world.game.GetAllPearlcatModules(true);
+        var playerData = targetObject.world.game.GetAllPearlcatModules();
 
         foreach (var playerModule in playerData)
         {
@@ -228,23 +228,23 @@ public static class PlayerPearl_Helpers_Data
     public static void AnimateToTargetPos(AbstractPhysicalObject abstractObject, Vector2 targetPos, PlayerModule playerModule)
     {
         // Magic numbers ^^
-        var minFricSpeed = 100.0f;
-        var maxFricSpeed = 70.0f;
+        const float minFricSpeed = 100.0f;
+        const float maxFricSpeed = 70.0f;
 
-        var minFricMult = 0.999f;
-        var maxFricMult = 0.5f;
+        const float minFricMult = 0.999f;
+        const float maxFricMult = 0.5f;
 
-        var cutoffDist = 50.0f;
+        const float cutoffDist = 50.0f;
 
-        var cutoffMinSpeed = 0.1f;
-        var cutoffMaxSpeed = 12.0f;
+        const float cutoffMinSpeed = 0.1f;
+        const float cutoffMaxSpeed = 12.0f;
 
-        var dazeMaxSpeed = 2.0f;
+        const float dazeMaxSpeed = 2.0f;
 
-        var maxDist = 1000.0f;
+        const float maxDist = 1000.0f;
 
-        var minSpeed = 8.0f;
-        var maxSpeed = 20.0f;
+        const float minSpeed = 8.0f;
+        const float maxSpeed = 20.0f;
 
 
         var firstChunk = abstractObject.realizedObject.firstChunk;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
-using Newtonsoft.Json;
 using RainMeadow;
 using UnityEngine;
 
@@ -68,6 +67,41 @@ public static class MeadowCompat
     public static List<AbstractCreature> GetAllPlayers()
     {
         return OnlineManager.lobby.playerAvatars.Select(kvp => (kvp.Value.FindEntity(true) as OnlinePhysicalObject)?.apo).OfType<AbstractCreature>().ToList();
+    }
+
+
+    public static void SetWasSaveDataSynced(bool value)
+    {
+        var lobby = OnlineManager.lobby;
+
+        if (lobby is null)
+        {
+            return;
+        }
+
+        if (!lobby.TryGetData<MeadowSaveData>(out var saveData))
+        {
+            return;
+        }
+
+        saveData.WasSynced = value;
+    }
+    
+    public static bool WasSaveDataSynced()
+    {
+        var lobby = OnlineManager.lobby;
+
+        if (lobby is null)
+        {
+            return false;
+        }
+
+        if (!lobby.TryGetData<MeadowSaveData>(out var saveData))
+        {
+            return false;
+        }
+
+        return saveData.WasSynced;
     }
 
 
@@ -281,48 +315,6 @@ public static class MeadowCompat
         }
     }
 
-    public static void RPC_UpdateInventorySaveData_OnHost(Player player, List<string> inventory, int? activePearlIndex)
-    {
-        if (IsHost)
-        {
-            return;
-        }
-
-        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
-
-        if (playerOpo is null)
-        {
-            return;
-        }
-
-        var owner = OnlineManager.lobby.owner;
-
-        // Convert into a form that can be sent via RPC
-        var inventoryString = JsonConvert.SerializeObject(inventory);
-        activePearlIndex ??= -1;
-
-        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateInventorySaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject, string, int>)), playerOpo, inventoryString, activePearlIndex);
-    }
-
-    public static void RPC_UpdateGivenPearlsSaveData_OnHost(Player player)
-    {
-        if (IsHost)
-        {
-            return;
-        }
-
-        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
-
-        if (playerOpo is null)
-        {
-            return;
-        }
-
-        var owner = OnlineManager.lobby.owner;
-
-        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.UpdateGivenPearlsSaveData))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
-    }
-
     public static void RPC_ObjectConnectEffect(PhysicalObject physicalObject, Vector2 pos, Color color)
     {
         var opo = physicalObject.abstractPhysicalObject.GetOnlineObject();
@@ -363,7 +355,7 @@ public static class MeadowCompat
         }
     }
 
-    public static void RPC_ExplodeSentry(AbstractPhysicalObject sentryOwner)
+    public static void RPC_SentryExplode(AbstractPhysicalObject sentryOwner)
     {
         var opo = sentryOwner.GetOnlineObject();
 
@@ -379,7 +371,46 @@ public static class MeadowCompat
                 continue;
             }
 
-            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.ExplodeSentry))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.SentryExplode))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
         }
+    }
+
+    public static void RPC_SentryDestroyEffecct(AbstractPhysicalObject sentryOwner)
+    {
+        var opo = sentryOwner.GetOnlineObject();
+
+        if (opo is null)
+        {
+            return;
+        }
+
+        foreach (var onlinePlayer in OnlineManager.players)
+        {
+            if (onlinePlayer.isMe)
+            {
+                continue;
+            }
+
+            onlinePlayer.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.SentryDestroyEffect))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), opo);
+        }
+    }
+
+    public static void RPC_SetGivenPearls_OnHost(Player player)
+    {
+        if (IsHost)
+        {
+            return;
+        }
+
+        var playerOpo = player.abstractPhysicalObject.GetOnlineObject();
+
+        if (playerOpo is null)
+        {
+            return;
+        }
+
+        var owner = OnlineManager.lobby.owner;
+
+        owner.InvokeRPC(typeof(MeadowRPCs).GetMethod(nameof(MeadowRPCs.SetGivenPearls))!.CreateDelegate(typeof(Action<RPCEvent, OnlinePhysicalObject>)), playerOpo);
     }
 }

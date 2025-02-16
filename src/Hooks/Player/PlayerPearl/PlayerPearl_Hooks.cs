@@ -52,7 +52,7 @@ public static class PlayerPearl_Hooks
 
 
         // Clean up if our abstract owner is gone (really only useful in Meadow for player disconnects as for Warp the room will be deleted too)
-        var playerData = self.world.game.GetAllPearlcatModules(true);
+        var playerData = self.world.game.GetAllPearlcatModules();
 
         var hasOwner = playerData.Any(x => x.Inventory.Contains(self));
 

@@ -126,7 +126,7 @@ public static class Pearlpup_Hooks
         }
 
         // DEBUG: for convenience
-        if (self.abstractCreature?.Room?.world?.game?.devToolsActive == true && Input.GetKey("q"))
+        if (self.abstractCreature?.world?.game?.devToolsActive == true && Input.GetKey("q"))
         {
             self.AddFood(1);
         }

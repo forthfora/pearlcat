@@ -15,7 +15,7 @@ public partial class PlayerModule
 
     public bool IsAdultPearlpup =>
         PlayerRef is not null &&
-        PlayerRef.abstractCreature?.Room?.world?.game?.IsPearlcatStory() == true &&
+        PlayerRef.abstractCreature?.world?.game?.IsPearlcatStory() == true &&
         Utils.MiscProgression.HasTrueEnding
         && !ModCompat_Helpers.RainMeadow_IsOnline;
 
@@ -62,6 +62,8 @@ public partial class PlayerModule
     public int? PostDeathActivePearlIndex { get; set; }
 
     public AbstractPhysicalObject? ActivePearl => ActivePearlIndex is not null && ActivePearlIndex < Inventory.Count ? Inventory[(int)ActivePearlIndex] : null;
+
+    public bool Online_InventoryNeedsLoading { get; set; } = true;
 
 
     // Input
@@ -116,10 +118,24 @@ public partial class PlayerModule
 
     public void LoadInventorySaveData(Player self)
     {
-        if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+        if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
-            return;
+            if (!ModCompat_Helpers.RainMeadow_IsMine(self.abstractPhysicalObject))
+            {
+                return;
+            }
+
+            if (Online_InventoryNeedsLoading)
+            {
+                if (!MeadowCompat.WasSaveDataSynced())
+                {
+                    return;
+                }
+            }
         }
+
+        Online_InventoryNeedsLoading = false;
+
 
         var world = self.abstractCreature.world;
         var save = world.game.GetMiscWorld();
@@ -144,7 +160,7 @@ public partial class PlayerModule
             {
                 foreach (var item in inventory)
                 {
-                    self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item), addToEnd: true);
+                    self.AddToInventory(SaveState.AbstractPhysicalObjectFromString(world, item), fromLoadInventory: true);
                 }
             }
         }

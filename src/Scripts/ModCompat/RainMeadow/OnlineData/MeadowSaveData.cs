@@ -8,6 +8,9 @@ namespace Pearlcat;
 
 public class MeadowSaveData : OnlineResource.ResourceData
 {
+    // Whether this state has been ReadTo, so we don't try and load save data too early - IsHost check as host is always 'in sync' with itself
+    public bool WasSynced { get; set; } = ModCompat_Helpers.RainMeadow_IsHost;
+
     [UsedImplicitly]
     public MeadowSaveData()
     {
@@ -59,6 +62,11 @@ public class MeadowSaveData : OnlineResource.ResourceData
                 return;
             }
 
+            if (data is not MeadowSaveData saveData)
+            {
+                return;
+            }
+
             miscWorld.PlayersGivenPearls = playersGivenPearls;
 
             var inventory = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(inventorySaveString);
@@ -74,6 +82,8 @@ public class MeadowSaveData : OnlineResource.ResourceData
             {
                 miscWorld.ActiveObjectIndex = activePearlIndex;
             }
+
+            saveData.WasSynced = true;
         }
 
         public override Type GetDataType()

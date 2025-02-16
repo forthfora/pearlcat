@@ -4,8 +4,8 @@ public static class Pearlpup_Helpers
 {
     public static bool IsPearlpup(this AbstractCreature crit)
     {
-        return crit.Room?.world?.game?.IsPearlcatStory() == true &&
-               crit.Room.world.game.GetMiscWorld()?.PearlpupID == crit.ID.number;
+        return crit.world?.game?.IsPearlcatStory() == true &&
+               crit.world.game.GetMiscWorld()?.PearlpupID == crit.ID.number;
     }
 
     public static bool IsPearlpup(this Player player)

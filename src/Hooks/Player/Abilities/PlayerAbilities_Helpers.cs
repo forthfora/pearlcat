@@ -59,7 +59,8 @@ public static class PlayerAbilities_Helpers
         }
         else
         {
-            stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, ModManager.MSC ? 0 : 1, 2);
+            // TODO: check meadow monk damage later
+            stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, (ModManager.MSC && !ModCompat_Helpers.RainMeadow_IsOnline) ? 0 : 1, 2);
 
             stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.01f, 2.5f);
             stats.runspeedFac = Mathf.Clamp(baseStats.runspeedFac + effect.RunSpeedFac, 0.5f, float.MaxValue);
@@ -77,6 +78,8 @@ public static class PlayerAbilities_Helpers
 
         playerModule.DisabledEffects.Clear();
 
+
+        playerModule.RefreshMajorEffectCounts();
 
         PlayerAbilities_Helpers_SpearCreation.Update(self, playerModule, effect);
         PlayerAbilities_Helpers_Agility.Update(self, playerModule, effect);

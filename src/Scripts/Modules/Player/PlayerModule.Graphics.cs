@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using RWCustom;
@@ -77,6 +76,11 @@ public partial class PlayerModule
         PearlAnimationDuration = Random.Range(minTime, maxTime);
 
         Random.state = randState;
+
+        if (ModOptions.HidePearls)
+        {
+            return;
+        }
 
         for (var i = 0; i < Inventory.Count; i++)
         {

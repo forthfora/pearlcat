@@ -32,9 +32,9 @@ public static class ModuleManager
 
         return true;
     }
-    public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game, bool includingRemote = false)
+    public static List<PlayerModule> GetAllPearlcatModules(this RainWorldGame game)
     {
-        var allPearlcats = game.GetAllPearlcats(includingRemote);
+        var allPearlcats = game.GetAllPearlcats();
         var playerModules = new List<PlayerModule>();
 
         foreach (var abstractCreature in allPearlcats)
@@ -185,7 +185,7 @@ public static class ModuleManager
     public static ConditionalWeakTable<AbstractPhysicalObject, SpearModule> TempPearlSpearData { get; } = new();
     public static bool TryGetSpearModule(this AbstractPhysicalObject self, out SpearModule module)
     {
-        var save = self.Room?.world?.game?.GetMiscWorld();
+        var save = self.world?.game?.GetMiscWorld();
 
         if (save is null)
         {

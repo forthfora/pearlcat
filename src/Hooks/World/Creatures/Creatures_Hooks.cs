@@ -58,9 +58,14 @@ public static class Creatures_Hooks
 
 
     // Allow redirected spears to pierce vulture masks
-    private static bool VultureOnSpearStick(On.Vulture.orig_SpearStick orig, Vulture self, Weapon source, float dmg, BodyChunk? chunk, PhysicalObject.Appendage.Pos apppos, Vector2 direction)
+    private static bool VultureOnSpearStick(On.Vulture.orig_SpearStick orig, Vulture self, Weapon? source, float dmg, BodyChunk? chunk, PhysicalObject.Appendage.Pos apppos, Vector2 direction)
     {
         var result = orig(self, source, dmg, chunk, apppos, direction);
+
+        if (source is null)
+        {
+            return result;
+        }
 
         // don't need to worry if it's not the head
         if (chunk?.index != 4)
@@ -256,12 +261,12 @@ public static class Creatures_Hooks
     {
         orig(self);
 
-        if (self.abstractCreature?.Room?.world?.game is null)
+        if (self.abstractCreature?.world?.game is null)
         {
             return;
         }
 
-        foreach (var crit in self.abstractCreature.Room.world.game.GetAllPlayers())
+        foreach (var crit in self.abstractCreature.world.game.GetAllPlayers())
         {
 
             if (crit.realizedCreature is not Player player)
@@ -307,12 +312,12 @@ public static class Creatures_Hooks
             return;
         }
 
-        if (self.vulture?.abstractCreature?.Room?.world?.game is null)
+        if (self.vulture?.abstractCreature?.world?.game is null)
         {
             return;
         }
 
-        foreach (var crit in self.vulture.abstractCreature.Room.world.game.GetAllPlayers())
+        foreach (var crit in self.vulture.abstractCreature.world.game.GetAllPlayers())
         {
             if (crit.realizedCreature is not Player player)
             {

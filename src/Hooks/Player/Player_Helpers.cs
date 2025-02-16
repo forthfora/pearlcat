@@ -167,7 +167,7 @@ public static class Player_Helpers
     {
         self.Revive();
 
-        self.abstractCreature.Room.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
+        self.abstractCreature.world.game.cameras.First().hud.textPrompt.gameOverMode = false;
         self.playerState.permaDead = false;
         self.playerState.alive = true;
 
@@ -321,17 +321,31 @@ public static class Player_Helpers
     {
         playerModule.BaseStats = self.Malnourished ? playerModule.MalnourishedStats : playerModule.NormalStats;
 
+        if (playerModule.Online_InventoryNeedsLoading)
+        {
+            playerModule.LoadInventorySaveData(self);
+        }
+
         if (self.room is not null)
         {
             self.GivePearls(playerModule);
         }
 
         // If a pearl is in the wrong room abstract to reset it to the player's room
+        // Also, to fix an issue in Meadow where the pearl is missing an OPO, reset it by abstracting
         foreach (var pearl in playerModule.Inventory)
         {
+            var isMissingOpo = ModCompat_Helpers.RainMeadow_IsOnline && ModCompat_Helpers.RainMeadow_GetOwnerIdOrNull(pearl) is null;
+
             if (pearl.Room != self.abstractCreature.Room)
             {
                 PlayerPearl_Helpers.AbstractPlayerPearl(pearl);
+            }
+
+            if (isMissingOpo)
+            {
+                PlayerPearl_Helpers.AbstractPlayerPearl(pearl);
+                pearl.slatedForDeletion = false;
             }
 
             pearl.pos = self.abstractCreature.pos;
@@ -413,7 +427,7 @@ public static class Player_Helpers
         UpdateRevive(self, playerModule);
         UpdateDeathpitRevive(self, playerModule);
 
-        UpdateHUD(self, playerModule);
+        UpdateHUD(playerModule);
         UpdateSFX(self, playerModule);
 
 
@@ -535,7 +549,7 @@ public static class Player_Helpers
         {
             if (isStoring && toStore is not null)
             {
-                self.StorePearl(toStore.abstractPhysicalObject, true);
+                self.StorePearl(toStore.abstractPhysicalObject, fromGrasp: true);
             }
             else if (playerModule.ActivePearl is not null)
             {
@@ -695,7 +709,7 @@ public static class Player_Helpers
 
         if (playerModule.PostDeathActivePearlIndex is not null)
         {
-            self.SetActivePearl((int)playerModule.PostDeathActivePearlIndex);
+            self.SetActivePearl((int)playerModule.PostDeathActivePearlIndex, true);
         }
 
         playerModule.PostDeathInventory.Clear();
@@ -803,7 +817,7 @@ public static class Player_Helpers
         }
     }
 
-    public static void UpdateHUD(Player self, PlayerModule playerModule)
+    public static void UpdateHUD(PlayerModule playerModule)
     {
         if (playerModule.HudFadeTimer > 0)
         {
@@ -1132,7 +1146,7 @@ public static class Player_Helpers
             return;
         }
 
-        var save = self.abstractCreature.Room.world.game.GetMiscWorld();
+        var save = self.abstractCreature.world.game.GetMiscWorld();
         var miscProg = Utils.MiscProgression;
 
         miscProg.HasPearlpup = false;
