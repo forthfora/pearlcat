@@ -430,7 +430,7 @@ public static class PlayerPearl_Helpers
     }
 
 
-    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool fromLoadInventory = false, bool fromPearlSpear = false)
+    public static void AddToInventory(this Player self, AbstractPhysicalObject abstractObject, bool fromLoadInventory = false, bool fromPearlSpear = false, bool fromOnline = false)
     {
         if (!self.TryGetPearlcatModule(out var playerModule))
         {
@@ -471,11 +471,14 @@ public static class PlayerPearl_Helpers
             return;
         }
 
-        if (!fromPearlSpear || playerModule.ActivePearlIndex is null)
+        if (!fromOnline)
         {
-            targetIndex = playerModule.ActivePearlIndex ?? 0;
+            if (!fromPearlSpear || playerModule.ActivePearlIndex is null)
+            {
+                targetIndex = playerModule.ActivePearlIndex ?? 0;
 
-            self.SetActivePearl(targetIndex, true);
+                self.SetActivePearl(targetIndex, true);
+            }
         }
 
         self.UpdateInventorySaveData();
