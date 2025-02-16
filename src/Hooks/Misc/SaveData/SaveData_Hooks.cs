@@ -108,6 +108,26 @@ public static class SaveData_Hooks
 
         if (miscWorld.Inventory.TryGetValue(inventoryPearlcatId, out var inventory) && miscWorld.ActiveObjectIndex.TryGetValue(inventoryPearlcatId, out var activeIndex))
         {
+            void AddInvalidPearl(int i)
+            {
+                if (i == activeIndex)
+                {
+                    miscProg.StoredActivePearl = new()
+                    {
+                        DataPearlType = "Pearlcat_Invalid",
+                    };
+                }
+                else
+                {
+                    var menuPearlData = new SaveMiscProgression.StoredPearlData()
+                    {
+                        DataPearlType = "Pearlcat_Invalid",
+                    };
+
+                    miscProg.StoredNonActivePearls.Add(menuPearlData);
+                }
+            }
+
             for (var i = 0; i < inventory.Count; i++)
             {
                 var item = inventory[i];
@@ -115,6 +135,7 @@ public static class SaveData_Hooks
 
                 if (split.Length < 5)
                 {
+                    AddInvalidPearl(i);
                     continue;
                 }
 
@@ -122,11 +143,13 @@ public static class SaveData_Hooks
 
                 if (!ExtEnumBase.TryParse(typeof(DataPearlType), possibleType, false, out var type))
                 {
+                    AddInvalidPearl(i);
                     continue;
                 }
 
                 if (type is not DataPearlType dataPearlType)
                 {
+                    AddInvalidPearl(i);
                     continue;
                 }
 

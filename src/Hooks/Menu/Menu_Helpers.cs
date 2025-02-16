@@ -1064,6 +1064,11 @@ public static class Menu_Helpers
             return "unique_biggoldenpearl";
         }
 
+        if (menuPearlType == "Pearlcat_Invalid")
+        {
+            return "unique_invalid";
+        }
+
         return null;
     }
 

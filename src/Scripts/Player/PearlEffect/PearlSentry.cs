@@ -560,32 +560,32 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                             }
                         }
                     }
-                    else if (physicalObject is Creature crit)
-                    {
-                        if (crit.abstractCreature.controlled)
-                        {
-                            continue;
-                        }
-
-                        if (!player.IsHostileToMe(crit) && crit is not Lizard or Scavenger)
-                        {
-                            continue;
-                        }
-
-                        if (crit.dead)
-                        {
-                            continue;
-                        }
-
-                        crit.mainBodyChunk.vel = Custom.DirVec(pearl.firstChunk.pos, crit.firstChunk.pos) * 10.0f;
-
-                        if (ShieldTimer <= 0)
-                        {
-                            pearl.room.DeflectEffect(crit.mainBodyChunk.pos);
-                            ShieldTimer = ModOptions.ShieldDuration * 3.0f;
-                            room.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, pearl.firstChunk);
-                        }
-                    }
+                    // else if (physicalObject is Creature crit)
+                    // {
+                    //     if (crit.abstractCreature.controlled)
+                    //     {
+                    //         continue;
+                    //     }
+                    //
+                    //     if (!player.IsHostileToMe(crit) && crit is not Lizard or Scavenger)
+                    //     {
+                    //         continue;
+                    //     }
+                    //
+                    //     if (crit.dead)
+                    //     {
+                    //         continue;
+                    //     }
+                    //
+                    //     crit.mainBodyChunk.vel = Custom.DirVec(pearl.firstChunk.pos, crit.firstChunk.pos) * 10.0f;
+                    //
+                    //     if (ShieldTimer <= 0)
+                    //     {
+                    //         pearl.room.DeflectEffect(crit.mainBodyChunk.pos);
+                    //         ShieldTimer = ModOptions.ShieldDuration * 3.0f;
+                    //         room.PlaySound(Enums.Sounds.Pearlcat_ShieldStart, pearl.firstChunk);
+                    //     }
+                    // }
                 }
             }
         }
