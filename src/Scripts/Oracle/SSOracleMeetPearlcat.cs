@@ -1,10 +1,7 @@
 ﻿using RWCustom;
-using System.Linq;
 using static Conversation;
 using static SSOracleBehavior;
-using Random = UnityEngine.Random;
 using static AbstractPhysicalObject;
-using UnityEngine;
 using MoreSlugcats;
 
 namespace Pearlcat;

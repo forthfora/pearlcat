@@ -1,7 +1,5 @@
 ﻿using MoreSlugcats;
 using RWCustom;
-using System.Collections.Generic;
-using UnityEngine;
 using Color = UnityEngine.Color;
 
 namespace Pearlcat;

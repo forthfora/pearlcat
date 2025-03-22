@@ -1,6 +1,4 @@
 ﻿
-using UnityEngine;
-
 namespace Pearlcat;
 
 public class HorizonCloud(CustomBgScene scene, Vector2 pos, float depth, int index, float flatten, float alpha, float shaderColor)

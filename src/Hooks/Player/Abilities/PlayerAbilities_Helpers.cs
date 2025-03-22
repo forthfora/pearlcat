@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public static class PlayerAbilities_Helpers
 {

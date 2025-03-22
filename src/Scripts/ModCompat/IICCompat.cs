@@ -1,5 +1,4 @@
 ﻿using ImprovedInput;
-using UnityEngine;
 
 namespace Pearlcat;
 

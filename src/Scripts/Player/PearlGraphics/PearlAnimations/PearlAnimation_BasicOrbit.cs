@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public sealed class PearlAnimation_BasicOrbit(Player player) : PearlAnimation(player)
 {

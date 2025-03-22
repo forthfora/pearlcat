@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using RWCustom;
+﻿using RWCustom;
 using Color = UnityEngine.Color;
 
 namespace Pearlcat;

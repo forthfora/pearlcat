@@ -1,8 +1,5 @@
 ﻿using RWCustom;
-using System.Linq;
-using UnityEngine;
 using static Pearlcat.CustomBgElement;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 

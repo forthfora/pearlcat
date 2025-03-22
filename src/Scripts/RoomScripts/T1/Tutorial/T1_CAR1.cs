@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public class T1_CAR1 : UpdatableAndDeletable
 {

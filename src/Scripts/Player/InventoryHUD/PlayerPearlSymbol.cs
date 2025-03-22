@@ -1,6 +1,4 @@
 ﻿using RWCustom;
-using System;
-using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 
 namespace Pearlcat;

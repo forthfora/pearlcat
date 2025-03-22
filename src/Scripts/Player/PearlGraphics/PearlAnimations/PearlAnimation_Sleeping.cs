@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public sealed class PearlAnimation_Sleeping(Player player) : PearlAnimation(player)
 {

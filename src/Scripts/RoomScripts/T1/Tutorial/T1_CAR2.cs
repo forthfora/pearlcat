@@ -1,6 +1,4 @@
 ﻿
-using UnityEngine;
-
 namespace Pearlcat;
 
 public class T1_CAR2 : UpdatableAndDeletable

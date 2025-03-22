@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using static Pearlcat.PearlpupGraphics_Helpers;
+﻿using static Pearlcat.PearlpupGraphics_Helpers;
 using static Pearlcat.PlayerGraphics_Helpers;
 
 namespace Pearlcat;

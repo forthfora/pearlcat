@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using RWCustom;
-using UnityEngine;
+﻿using RWCustom;
 using static DataPearl.AbstractDataPearl;
 using static Pearlcat.PearlEffect;
 using DataPearlTypeMSC = MoreSlugcats.MoreSlugcatsEnums.DataPearlType;

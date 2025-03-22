@@ -1,7 +1,5 @@
 ﻿using RWCustom;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 using Color = UnityEngine.Color;
 
 namespace Pearlcat;

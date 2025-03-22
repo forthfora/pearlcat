@@ -1,11 +1,6 @@
 ﻿using RWCustom;
-using System;
-using System.Linq;
-using UnityEngine;
 using static Pearlcat.PearlEffect;
 using MoreSlugcats;
-using Random = UnityEngine.Random;
-using System.Collections.Generic;
 using Music;
 
 namespace Pearlcat;

@@ -1,6 +1,4 @@
 ﻿using RWCustom;
-using System;
-using UnityEngine;
 
 namespace Pearlcat;
 

@@ -1,8 +1,6 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Music;
-using System;
-using System.Linq;
 
 namespace Pearlcat;
 

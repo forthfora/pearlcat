@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Pearlcat;
 
 // Improved Input Config integration - need the buffer methods so it's not a hard dependency

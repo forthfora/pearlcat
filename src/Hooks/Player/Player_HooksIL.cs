@@ -1,8 +1,6 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Pearlcat;

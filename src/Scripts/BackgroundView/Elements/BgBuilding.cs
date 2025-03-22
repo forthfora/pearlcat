@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public class BgBuilding(CustomBgScene scene, string assetName, Vector2 pos, float depth, float atmosphericalDepthAdd, CustomBgElement.BgElementType type)
     : CustomBgElement(scene, pos, depth, type)

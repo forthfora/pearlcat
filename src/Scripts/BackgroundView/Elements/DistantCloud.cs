@@ -1,6 +1,4 @@
 ﻿
-using UnityEngine;
-
 namespace Pearlcat;
 
 public class DistantCloud : Cloud

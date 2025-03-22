@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using static AbstractPhysicalObject;
+﻿using static AbstractPhysicalObject;
 using static DataPearl.AbstractDataPearl;
 
 namespace Pearlcat;

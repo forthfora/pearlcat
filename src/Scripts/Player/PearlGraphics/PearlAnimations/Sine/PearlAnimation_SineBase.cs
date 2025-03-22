@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public abstract class PearlAnimation_SineBase(Player player) : PearlAnimation(player)
 {

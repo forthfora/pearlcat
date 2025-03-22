@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using MoreSlugcats;
+﻿using MoreSlugcats;
 using RWCustom;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 

@@ -1,6 +1,4 @@
 ﻿using MoreSlugcats;
-using System.Linq;
-using UnityEngine;
 using static Pearlcat.Pearlpup_Helpers;
 
 namespace Pearlcat;
