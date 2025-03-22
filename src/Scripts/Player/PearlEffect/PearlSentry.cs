@@ -915,9 +915,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                         room.AddObject(new ShockWave(agilityPos, 100.0f, 0.3f, 20));
                         room.AddObject(new ExplosionSpikes(room, agilityPos, 5, 70.0f, 25, 10.0f, 40.0f, pearlGraphics.SymbolColor));
 
-
-                        room.PlaySound(Enums.Sounds.Pearlcat_CamoFade, owner.realizedObject.firstChunk, false, 1.0f, 1.5f);
-
                         room.PlaySound(SoundID.Fire_Spear_Explode, owner.realizedObject.firstChunk, false, 0.5f, 1.0f);
                         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.3f);
                     }
