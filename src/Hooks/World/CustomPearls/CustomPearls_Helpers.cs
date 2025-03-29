@@ -99,12 +99,12 @@ public static class CustomPearls_Helpers
     // Based on decompiled code from Conversation.LoadEventsFromFile - just changed to accept a string fileName parameter + remove encryption
     public static void LoadCustomEventsFromFile(this Conversation self, string fileName, SlugcatStats.Name? saveFile = null, bool oneRandomLine = false, int randomSeed = 0)
     {
-        var targetLanguage = self.interfaceOwner.rainWorld.inGameTranslator.currentLanguage;
+        var targetLanguage = Utils.RainWorld.inGameTranslator.currentLanguage;
         string path;
 
         while (true)
         {
-            var langDir = self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
+            var langDir = Utils.RainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
 
             var sepChar = Path.DirectorySeparatorChar;
 
@@ -118,7 +118,7 @@ public static class CustomPearls_Helpers
 
                 var finalFileName = new string[6];
 
-                finalFileName[0] = self.interfaceOwner.rainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
+                finalFileName[0] = Utils.RainWorld.inGameTranslator.SpecificTextFolderDirectory(targetLanguage);
 
                 sepChar = Path.DirectorySeparatorChar;
 

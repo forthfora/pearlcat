@@ -37,11 +37,11 @@ public static class PlayerAbilities_Helpers_Camouflage
                 {
                     nightVisionCreatures.AddRange(new List<CreatureTemplate.Type>
                     {
-                        MoreSlugcatsEnums.CreatureTemplateType.AquaCenti,
-                        MoreSlugcatsEnums.CreatureTemplateType.Inspector,
-                        MoreSlugcatsEnums.CreatureTemplateType.MotherSpider,
-                        MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs,
-                        MoreSlugcatsEnums.CreatureTemplateType.MirosVulture,
+                        DLCSharedEnums.CreatureTemplateType.AquaCenti,
+                        DLCSharedEnums.CreatureTemplateType.Inspector,
+                        DLCSharedEnums.CreatureTemplateType.MotherSpider,
+                        DLCSharedEnums.CreatureTemplateType.TerrorLongLegs,
+                        DLCSharedEnums.CreatureTemplateType.MirosVulture,
                     });
                 }
 

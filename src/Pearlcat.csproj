@@ -55,8 +55,8 @@
         <Private>False</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json">
-        <HintPath>lib\Managed\Newtonsoft.Json.dll</HintPath>
-        <Private>False</Private>
+        <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+        <Private>True</Private>
         </Reference>
         <Reference Include="Rain Meadow">
         <HintPath>lib\Rain Meadow.dll</HintPath>
