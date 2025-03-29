@@ -74,12 +74,54 @@ public static class PlayerAbilities_Helpers_Camouflage
         var camoSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 0.001f, 0.01f);
         var camoMaxMoveSpeed = Custom.LerpMap(playerModule.CamoCount, 1, 5, 2.0f, 10.0f);
 
-        var shouldCamo = (((self.canJump > 0 || self.bodyMode == Player.BodyModeIndex.ClimbingOnBeam ||
-                            self.bodyMode == Player.BodyModeIndex.CorridorClimb)
-                           && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) ||
-                          self.bodyMode == Player.BodyModeIndex.Crawl)
+        var redPearlBlock = false;
+
+        if (self.abstractPhysicalObject.world.game.IsFriendlyFireEnabled() && self.room is not null && !ModOptions.OldRedPearlAbility)
+        {
+            if (playerModule.ActivePearl?.GetPearlEffect().MajorEffect == PearlEffect.MajorEffectType.Rage)
+            {
+                redPearlBlock = true;
+            }
+            else
+            {
+                foreach (var obj in self.room.physicalObjects.SelectMany(x => x))
+                {
+                    if (!Custom.DistLess(obj.firstChunk.pos, self.firstChunk.pos, 75.0f))
+                    {
+                        continue;
+                    }
+
+                    if (!obj.abstractPhysicalObject.TryGetSentry(out var sentry))
+                    {
+                        continue;
+                    }
+
+                    if (!sentry.OwnerRef.TryGetTarget(out var owner))
+                    {
+                        continue;
+                    }
+
+                    if (owner.GetPearlEffect().MajorEffect != PearlEffect.MajorEffectType.Rage)
+                    {
+                        continue;
+                    }
+
+                    redPearlBlock = true;
+                    break;
+                }
+            }
+
+        }
+
+        var camoMovementFlag = (((self.canJump > 0 || self.bodyMode == Player.BodyModeIndex.ClimbingOnBeam ||
+                   self.bodyMode == Player.BodyModeIndex.CorridorClimb)
+                  && self.firstChunk.vel.magnitude < camoMaxMoveSpeed) ||
+                 self.bodyMode == Player.BodyModeIndex.Crawl);
+
+        var shouldCamo = camoMovementFlag == !self.abstractPhysicalObject.world.game.IsArenaSession
                          && effect.MajorEffect == PearlEffect.MajorEffectType.Camouflage &&
-                         playerModule.StoreObjectTimer <= 0 && playerModule.CamoCount > 0;
+                         playerModule.StoreObjectTimer <= 0 && playerModule.CamoCount > 0
+                         && !redPearlBlock;
 
         // LAG CAUSER
         if (shouldCamo || playerModule.BodyColor != playerModule.BaseBodyColor)
