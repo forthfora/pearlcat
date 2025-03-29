@@ -10,7 +10,7 @@ public static class Sound_HooksIL
     {
         try
         {
-            IL.Music.ProceduralMusic.Reset += ProceduralMusic_Reset;
+            IL.Music.ProceduralMusic.BuildThreatLayerPool += ProceduralMusic_BuildThreatLayerPool;
         }
         catch (Exception e)
         {
@@ -18,7 +18,7 @@ public static class Sound_HooksIL
         }
     }
 
-    private static void ProceduralMusic_Reset(ILContext il)
+    private static void ProceduralMusic_BuildThreatLayerPool(ILContext il)
     {
         var c = new ILCursor(il);
 
