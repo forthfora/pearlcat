@@ -99,9 +99,9 @@ public static class Hooks
                 return;
             }
 
-            Plugin.MOD_NAME = mod.name;
-            Plugin.VERSION = mod.version;
-            Plugin.AUTHORS = mod.authors;
+            Plugin.ModName = mod.name;
+            Plugin.Version = mod.version;
+            Plugin.Author = mod.authors;
 
 
             // Init
@@ -115,7 +115,7 @@ public static class Hooks
 
 
             // Startup Log
-            var initMessage = $"PEARLCAT SAYS HELLO FROM INIT! (VERSION: {Plugin.VERSION})";
+            var initMessage = $"PEARLCAT SAYS HELLO FROM INIT! (VERSION: {Plugin.Version})";
 
             Debug.Log(initMessage);
             Plugin.Logger.LogInfo(initMessage);

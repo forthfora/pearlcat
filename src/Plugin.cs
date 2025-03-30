@@ -27,9 +27,9 @@ public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";
 
-    public static string MOD_NAME = "";
-    public static string VERSION = "";
-    public static string AUTHORS = "";
+    public static string ModName { get; set; } = "";
+    public static string Version { get; set; }= "";
+    public static string Author { get; set; } = "";
 
     public new static ManualLogSource Logger { get; private set; } = null!;
 
@@ -72,7 +72,7 @@ public class Plugin : BaseUnityPlugin
 
                 "\n" +
 
-                $"PEARLCAT VERSION: {VERSION}\n" +
+                $"PEARLCAT VERSION: {Version}\n" +
                 $"SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "slime-cubed.slugbase")?.version ?? "NOT FOUND"}\n" +
 
                 "\n" +
