@@ -1,5 +1,4 @@
 ﻿using ImprovedInput;
-using UnityEngine;
 
 namespace Pearlcat;
 
@@ -27,7 +26,7 @@ public static class IICCompat
         AbilityKeybind.HideConfig = hide;
     }
 
-    public static PlayerKeybind StoreKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:store_pearl", Plugin.MOD_NAME, "Store Pearl", KeyCode.None, KeyCode.None);
+    public static PlayerKeybind StoreKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:store_pearl", Plugin.ModName, "Store Pearl", KeyCode.None, KeyCode.None);
     public static bool IsStorePressed(Player player)
     {
         return player.IsPressed(StoreKeybind);
@@ -39,7 +38,7 @@ public static class IICCompat
     }
 
 
-    public static PlayerKeybind SwapKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_pearl", Plugin.MOD_NAME, "Swap Pearl", KeyCode.LeftAlt, KeyCode.JoystickButton3);
+    public static PlayerKeybind SwapKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_pearl", Plugin.ModName, "Swap Pearl", KeyCode.LeftAlt, KeyCode.JoystickButton3);
     public static bool IsSwapPressed(Player player)
     {
         return player.IsPressed(SwapKeybind);
@@ -51,7 +50,7 @@ public static class IICCompat
     }
 
 
-    public static PlayerKeybind SwapLeftKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_left", Plugin.MOD_NAME, "Swap Left", KeyCode.A, KeyCode.None);
+    public static PlayerKeybind SwapLeftKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_left", Plugin.ModName, "Swap Left", KeyCode.A, KeyCode.None);
     public static bool IsSwapLeftPressed(Player player)
     {
         return player.IsPressed(SwapLeftKeybind);
@@ -63,7 +62,7 @@ public static class IICCompat
     }
 
 
-    public static PlayerKeybind SwapRightKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_right", Plugin.MOD_NAME, "Swap Right", KeyCode.D, KeyCode.None);
+    public static PlayerKeybind SwapRightKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_right", Plugin.ModName, "Swap Right", KeyCode.D, KeyCode.None);
     public static bool IsSwapRightPressed(Player player)
     {
         return player.IsPressed(SwapRightKeybind);
@@ -75,7 +74,7 @@ public static class IICCompat
     }
 
 
-    public static PlayerKeybind SentryKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:sentry_pearl", Plugin.MOD_NAME, "Sentry Pearl", KeyCode.C, KeyCode.JoystickButton4);
+    public static PlayerKeybind SentryKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:sentry_pearl", Plugin.ModName, "Sentry Pearl", KeyCode.C, KeyCode.JoystickButton4);
     public static bool IsSentryPressed(Player player)
     {
         return player.IsPressed(SentryKeybind);
@@ -87,7 +86,7 @@ public static class IICCompat
     }
 
 
-    public static PlayerKeybind AbilityKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:ability", Plugin.MOD_NAME, "Pearl Ability", KeyCode.None, KeyCode.None);
+    public static PlayerKeybind AbilityKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:ability", Plugin.ModName, "Pearl Ability", KeyCode.None, KeyCode.None);
     public static bool IsAbilityPressed(Player player)
     {
         return player.IsPressed(AbilityKeybind);

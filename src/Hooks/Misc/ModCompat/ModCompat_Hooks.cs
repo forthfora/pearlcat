@@ -1,9 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public static class ModCompat_Hooks
 {

@@ -1,6 +1,4 @@
 ﻿using RWCustom;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 using static Pearlcat.PlayerGraphics_Helpers;
 

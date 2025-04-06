@@ -1,11 +1,6 @@
 ﻿using RWCustom;
-using System;
-using System.Linq;
-using UnityEngine;
 using static Pearlcat.PearlEffect;
 using MoreSlugcats;
-using Random = UnityEngine.Random;
-using System.Collections.Generic;
 using Music;
 
 namespace Pearlcat;
@@ -621,8 +616,33 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
                 LockedShortcutsSprites.Add(shortcut, sprite);
             }
-        }
 
+            foreach (var otherPearl in room.game.GetAllPearlcatModules().SelectMany(x => x.Inventory))
+            {
+                if (otherPearl.realizedObject is null)
+                {
+                    continue;
+                }
+
+                if (!otherPearl.TryGetSentry(out var sentry))
+                {
+                    continue;
+                }
+
+                if (sentry == this)
+                {
+                    continue;
+                }
+
+                if (!Custom.DistLess(room.MiddleOfTile(shortcut.DestTile), otherPearl.realizedObject.firstChunk.pos, 75.0f))
+                {
+                    continue;
+                }
+
+                module.CooldownTimer = 5;
+                break;
+            }
+        }
 
         ShieldHoldLoop ??= new ChunkDynamicSoundLoop(owner.realizedObject.firstChunk)
         {
@@ -745,7 +765,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                     }
 
 
-                    if (!player.IsHostileToMe(creature) && !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly))
+                    if (!player.IsHostileToMe(creature) && !(pearl.AbstractPearl.Room.name == "T1_CAR2" && creature is Fly))
                     {
                         continue;
                     }
@@ -919,9 +939,6 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                         player.ConnectEffect(agilityPos, pearlGraphics.SymbolColor);
                         room.AddObject(new ShockWave(agilityPos, 100.0f, 0.3f, 20));
                         room.AddObject(new ExplosionSpikes(room, agilityPos, 5, 70.0f, 25, 10.0f, 40.0f, pearlGraphics.SymbolColor));
-
-
-                        room.PlaySound(Enums.Sounds.Pearlcat_CamoFade, owner.realizedObject.firstChunk, false, 1.0f, 1.5f);
 
                         room.PlaySound(SoundID.Fire_Spear_Explode, owner.realizedObject.firstChunk, false, 0.5f, 1.0f);
                         room.PlaySound(SoundID.SS_AI_Give_The_Mark_Boom, owner.realizedObject.firstChunk, false, 1.0f, 0.3f);

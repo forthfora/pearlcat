@@ -1,4 +1,3 @@
-using UnityEngine;
 using static Pearlcat.CustomPearls_Helpers;
 
 namespace Pearlcat;

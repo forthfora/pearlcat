@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public abstract class CustomBgElement(CustomBgScene scene, Vector2 pos, float depth, CustomBgElement.BgElementType type) : BackgroundScene.BackgroundSceneElement(scene, pos, depth)
 {

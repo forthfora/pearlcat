@@ -1,8 +1,5 @@
 ﻿using RWCustom;
-using System.Linq;
-using UnityEngine;
 using static Pearlcat.CustomBgElement;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -25,7 +22,7 @@ public sealed class TrainView : CustomBgScene
     {
         var save = Utils.MiscProgression;
 
-        IsOutside = room.roomSettings.name == "T1_END";
+        IsOutside = room.abstractRoom.name == "T1_END";
 
         var effectAmount = 10000f - 30000f;
         sceneOrigo = new Vector2(2514f, effectAmount);

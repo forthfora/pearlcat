@@ -1,19 +1,18 @@
-﻿using BepInEx;
+﻿global using UnityEngine;
+global using Random = UnityEngine.Random;
+
+using BepInEx;
 using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Security;
-using System.Linq;
-using System;
 using Newtonsoft.Json;
-using UnityEngine;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: IgnoresAccessChecksTo("Assembly-CSharp")]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 [module: UnverifiableCode]
 #pragma warning restore CS0618 // Type or member is obsolete
-
 
 namespace Pearlcat;
 
@@ -23,14 +22,14 @@ namespace Pearlcat;
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 [BepInDependency("henpemaz.rainmeadow", BepInDependency.DependencyFlags.SoftDependency)] // Rain Meadow
 
-[BepInPlugin(MOD_ID, MOD_ID, "1.4.7")]
+[BepInPlugin(MOD_ID, MOD_ID, "1.5.0")]
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";
 
-    public static string MOD_NAME = "";
-    public static string VERSION = "";
-    public static string AUTHORS = "";
+    public static string ModName { get; set; } = "";
+    public static string Version { get; set; }= "";
+    public static string Author { get; set; } = "";
 
     public new static ManualLogSource Logger { get; private set; } = null!;
 
@@ -73,7 +72,7 @@ public class Plugin : BaseUnityPlugin
 
                 "\n" +
 
-                $"PEARLCAT VERSION: {VERSION}\n" +
+                $"PEARLCAT VERSION: {Version}\n" +
                 $"SLUGBASE VERSION: {ModManager.ActiveMods.FirstOrDefault(x => x.id == "slime-cubed.slugbase")?.version ?? "NOT FOUND"}\n" +
 
                 "\n" +

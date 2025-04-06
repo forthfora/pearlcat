@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 using StoredPearlData = SaveMiscProgression.StoredPearlData;
 

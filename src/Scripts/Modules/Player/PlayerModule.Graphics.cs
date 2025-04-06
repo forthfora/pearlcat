@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using RWCustom;
+﻿using RWCustom;
 using SlugBase.DataTypes;
-using Random = UnityEngine.Random;
 using Color = UnityEngine.Color;
 
 namespace Pearlcat;

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Action = SSOracleBehavior.Action;
+﻿using Action = SSOracleBehavior.Action;
 
 namespace Pearlcat;
 

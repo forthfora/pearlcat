@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public class Fog : BackgroundScene.FullScreenSingleColor
 {

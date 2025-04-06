@@ -1,5 +1,4 @@
 ﻿using RWCustom;
-using UnityEngine;
 using VoidSea;
 using static Pearlcat.Player_Helpers;
 
@@ -57,7 +56,7 @@ public static class Player_Hooks
         orig(self, eu);
 
         // zero G movement assist - applies to all slugcats
-        if (self.room is not null && self.abstractCreature.world.game.IsPearlcatStory() && self.room.roomSettings.name == "SS_AI" && self.room.gravity == 0.0f)
+        if (self.room is not null && self.abstractCreature.world.game.IsPearlcatStory() && self.abstractPhysicalObject.Room.name == "SS_AI" && self.room.gravity == 0.0f)
         {
             if (self.firstChunk.vel.magnitude < 7.5f)
             {
@@ -237,7 +236,7 @@ public static class Player_Hooks
             return;
         }
 
-        var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
+        var inVoid = (player.inVoidSea || player.room?.abstractRoom?.name == "SB_L01");
 
         if (inVoid && player.IsPearlcat() && self.grabbed?.firstChunk?.owner is Player pup && pup.IsPearlpup())
         {
@@ -292,6 +291,7 @@ public static class Player_Hooks
                 }
 
                 var effect = item.GetPearlEffect();
+
                 if (effect.MajorEffect != PearlEffect.MajorEffectType.Shield)
                 {
                     continue;

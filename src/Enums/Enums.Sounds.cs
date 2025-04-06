@@ -13,9 +13,7 @@ public static partial class Enums
         public static SoundID Pearlcat_ShieldStart { get; } = new(nameof(Pearlcat_ShieldStart), true);
         public static SoundID Pearlcat_ShieldOff { get; } = new(nameof(Pearlcat_ShieldOff), true);
         public static SoundID Pearlcat_ShieldHold { get; }= new(nameof(Pearlcat_ShieldHold), true);
-
-        public static SoundID Pearlcat_CamoFade { get; } = new(nameof(Pearlcat_CamoFade), true);
-
+        
         public static SoundID Pearlcat_Heartbeat { get; } = new(nameof(Pearlcat_Heartbeat), true);
     }
 }

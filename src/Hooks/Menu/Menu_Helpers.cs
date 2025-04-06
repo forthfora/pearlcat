@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Menu;
+﻿using Menu;
 using RWCustom;
-using System.IO;
-using System.Linq;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -803,7 +797,7 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(911, 450);
+                i.SetPosition(890, 450);
                 i.SetDepth(2.3f);
                 i.LayerInFrontOf("pearlcat_(!trueend)_(!pup)_(!sad)");
                 return;

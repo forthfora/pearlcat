@@ -1,8 +1,6 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Pearlcat;
@@ -75,7 +73,7 @@ public static class Player_HooksIL
                 return false;
             }
 
-            var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
+            var inVoid = (player.inVoidSea || player.room?.abstractRoom?.name == "SB_L01");
 
             if (inVoid && player.IsPearlpup())
             {

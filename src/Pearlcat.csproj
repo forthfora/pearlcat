@@ -1,111 +1,114 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net481</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
-    <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
-    <PathMap>$(AppOutputBase)=Pearlcat\</PathMap>
-  </PropertyGroup>
+    <PropertyGroup>
+        <!-- Project Specific -->
+        <TargetFramework>net481</TargetFramework>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
+        <!-- Global -->
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+        <PathMap>$(AppOutputBase)=Pearlcat</PathMap>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\pearlcat\plugins&quot;" />
-  </Target>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="PUBLIC-Assembly-CSharp">
-      <HintPath>lib\BepInEx\utils\PUBLIC-Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="HOOKS-Assembly-CSharp">
-      <HintPath>lib\BepInEx\plugins\HOOKS-Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="BepInEx">
-      <HintPath>lib\BepInEx\core\BepInEx.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>lib\Managed\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod">
-      <HintPath>lib\BepInEx\core\MonoMod.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.RuntimeDetour">
-      <HintPath>lib\Managed\MonoMod.RuntimeDetour.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.Utils">
-      <HintPath>lib\Managed\MonoMod.Utils.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>lib\Managed\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Rain Meadow">
-      <HintPath>lib\Rain Meadow.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>lib\Managed\Unity.Mathematics.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>lib\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>lib\Managed\UnityEngine.AudioModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>lib\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>lib\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>lib\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SlugBase">
-      <HintPath>lib\SlugBase.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="CWStuff">
-      <HintPath>lib\CWStuff.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ImprovedInput">
-      <HintPath>lib\ImprovedInput.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="copy /Y &quot;$(TargetDir)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\pearlcat\newest\plugins&quot;" />
+    </Target>
 
-  <ItemGroup>
-    <Compile Remove="lib\**" />
-  </ItemGroup>
+    <ItemGroup>
+        <Reference Include="PUBLIC-Assembly-CSharp">
+        <HintPath>lib\BepInEx\utils\PUBLIC-Assembly-CSharp.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="HOOKS-Assembly-CSharp">
+        <HintPath>lib\BepInEx\plugins\HOOKS-Assembly-CSharp.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="BepInEx">
+        <HintPath>lib\BepInEx\core\BepInEx.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil">
+        <HintPath>lib\Managed\Mono.Cecil.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod">
+        <HintPath>lib\BepInEx\core\MonoMod.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.RuntimeDetour">
+        <HintPath>lib\Managed\MonoMod.RuntimeDetour.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.Utils">
+        <HintPath>lib\Managed\MonoMod.Utils.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+        <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+        <Private>True</Private>
+        </Reference>
+        <Reference Include="Rain Meadow">
+        <HintPath>lib\Rain Meadow.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="Unity.Mathematics">
+        <HintPath>lib\Managed\Unity.Mathematics.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine">
+        <HintPath>lib\Managed\UnityEngine.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+        <HintPath>lib\Managed\UnityEngine.AudioModule.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+        <HintPath>lib\Managed\UnityEngine.CoreModule.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ImageConversionModule">
+        <HintPath>lib\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+        <HintPath>lib\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="SlugBase">
+        <HintPath>lib\SlugBase.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="CWStuff">
+        <HintPath>lib\CWStuff.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+        <Reference Include="ImprovedInput">
+        <HintPath>lib\ImprovedInput.dll</HintPath>
+        <Private>False</Private>
+        </Reference>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Remove="lib\**" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="lib\**" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="lib\**" />
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Remove="lib\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="lib\**" />
+    </ItemGroup>
 </Project>

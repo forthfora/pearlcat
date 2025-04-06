@@ -1,7 +1,4 @@
 ﻿using Menu.Remix.MixedUI;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 namespace Pearlcat;
 
@@ -63,14 +60,14 @@ public abstract class OptionsTemplate : OptionInterface
 
 		AddAndDrawLargeDivider(ref Tabs[tabIndex]);
 
-		AddTextLabel(Plugin.MOD_NAME, bigText: true);
+		AddTextLabel(Plugin.ModName, bigText: true);
         DrawTextLabels(ref Tabs[tabIndex]);
 
 		AddAndDrawLargeDivider(ref Tabs[tabIndex]);
 
         AddNewLine(0.5f);
-        AddTextLabel(Translate("Version") + " " + Plugin.VERSION, FLabelAlignment.Left);
-        AddTextLabel(Translate("by") + " " + Plugin.AUTHORS, FLabelAlignment.Right);
+        AddTextLabel(Translate("Version") + " " + Plugin.Version, FLabelAlignment.Left);
+        AddTextLabel(Translate("by") + " " + Plugin.Author, FLabelAlignment.Right);
         DrawTextLabels(ref Tabs[tabIndex]);
 
         AddNewLine();

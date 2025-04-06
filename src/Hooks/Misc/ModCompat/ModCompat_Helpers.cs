@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-
 namespace Pearlcat;
 
 public static class ModCompat_Helpers

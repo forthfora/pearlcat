@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using RWCustom;
-using UnityEngine;
+﻿using RWCustom;
 
 namespace Pearlcat;
 
@@ -59,6 +57,16 @@ public static class PlayerPearl_Hooks
         if (!hasOwner)
         {
             self.realizedObject?.AbstractedEffect();
+
+            if (self.TryGetSentry(out var sentry))
+            {
+                sentry.Destroy();
+            }
+
+            if (self.TryGetPearlGraphicsModule(out var pearlGraphics))
+            {
+                pearlGraphics.Destroy();
+            }
 
             self.realizedObject?.Destroy();
             self.Destroy();

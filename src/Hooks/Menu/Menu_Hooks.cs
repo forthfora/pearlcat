@@ -1,7 +1,5 @@
 ﻿using Menu;
 using RWCustom;
-using System.Linq;
-using UnityEngine;
 using static Pearlcat.Enums;
 
 using static Pearlcat.Menu_Helpers;

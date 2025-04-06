@@ -1,6 +1,4 @@
 ﻿using Music;
-using System.Linq;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -16,9 +14,9 @@ public static class Sound_Hooks
 
 
     private static ChunkSoundEmitter Room_PlaySound_SoundID_BodyChunk_bool_float_float_bool(On.Room.orig_PlaySound_SoundID_BodyChunk_bool_float_float_bool orig,
-        Room self, SoundID soundId, BodyChunk chunk, bool loop, float vol, float pitch, bool randomStartPosition)
+        Room self, SoundID soundId, BodyChunk? chunk, bool loop, float vol, float pitch, bool randomStartPosition)
     {
-        if (chunk.owner is not null && chunk.owner.abstractPhysicalObject.IsPlayerPearl())
+        if (chunk?.owner?.abstractPhysicalObject?.IsPlayerPearl() == true)
         {
             if (soundId == SoundID.SS_AI_Marble_Hit_Floor && chunk.owner.abstractPhysicalObject.TryGetPlayerPearlModule(out var module) && !module.PlayCollisionSound)
             {

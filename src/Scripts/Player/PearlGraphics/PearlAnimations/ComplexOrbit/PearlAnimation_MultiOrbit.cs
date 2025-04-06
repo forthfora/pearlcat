@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public sealed class PearlAnimation_MultiOrbit(Player player) : PearlAnimation_OrbitBase(player)
 {

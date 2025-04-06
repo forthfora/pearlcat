@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using Random = UnityEngine.Random;
-
+﻿
 namespace Pearlcat;
 
 public abstract class Cloud(CustomBgScene scene, Vector2 pos, float depth, int index)

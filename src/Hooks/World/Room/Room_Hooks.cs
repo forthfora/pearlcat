@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using static Pearlcat.World_Helpers;
+﻿using static Pearlcat.World_Helpers;
 using static Pearlcat.Room_Helpers;
 
 namespace Pearlcat;
@@ -22,7 +19,7 @@ public static class Room_Hooks
     {
         orig(room);
 
-        var roomName = room.roomSettings.name;
+        var roomName = room.abstractRoom.name;
 
         AddRoomSpecificScript_SS(room, roomName);
 
@@ -35,7 +32,7 @@ public static class Room_Hooks
 
         var miscProg = Utils.MiscProgression;
 
-        if (self.roomSettings.name == "T1_END")
+        if (self.abstractRoom.name == "T1_END")
         {
             // Outside train wind effect
             foreach (var updatable in self.updateList)
@@ -112,10 +109,10 @@ public static class Room_Hooks
             }
         }
 
-        if (TrainViewRooms.Contains(self.roomSettings.name))
+        if (TrainViewRooms.Contains(self.abstractRoom.name))
         {
             // Train view screen shake
-            var intensity = self.roomSettings.name == "T1_END" ? 0.15f : 0.1f;
+            var intensity = self.abstractRoom.name == "T1_END" ? 0.15f : 0.1f;
             self.ScreenMovement(null, Vector2.right * 3.0f, intensity);
 
             // Nighttime Palette
@@ -137,7 +134,7 @@ public static class Room_Hooks
     {
         orig(self);
 
-        if (TrainViewRooms.Contains(self.roomSettings.name))
+        if (TrainViewRooms.Contains(self.abstractRoom.name))
         {
             self.AddObject(new TrainView(self));
         }
@@ -148,7 +145,7 @@ public static class Room_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (self.myShelter.room.roomSettings.name == "T1_S01")
+        if (self.myShelter.room.abstractRoom.name == "T1_S01")
         {
             foreach (var sprite in sLeaser.sprites)
             {
@@ -161,7 +158,7 @@ public static class Room_Hooks
     {
         orig(self, sLeaser, rCam, timeStacker, camPos);
 
-        if (self.room.roomSettings.name == "T1_S01")
+        if (self.room.abstractRoom.name == "T1_S01")
         {
             foreach (var sprite in sLeaser.sprites)
             {

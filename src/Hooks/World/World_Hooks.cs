@@ -1,10 +1,6 @@
 ﻿using MoreSlugcats;
 using RWCustom;
-using System;
-using System.Linq;
-using UnityEngine;
 using static Pearlcat.World_Helpers;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -41,7 +37,7 @@ public static class World_Hooks
     }
 
     // Meadow Gate Fix (inform meadow that the pearls are changing world)
-    private static void OverWorldOnWorldLoaded(On.OverWorld.orig_WorldLoaded orig, OverWorld self)
+    private static void OverWorldOnWorldLoaded(On.OverWorld.orig_WorldLoaded orig, OverWorld self, bool warpused)
     {
         if (ModCompat_Helpers.RainMeadow_IsOnline)
         {
@@ -53,7 +49,7 @@ public static class World_Hooks
 
         var newWorld = self.worldLoader?.world;
 
-        orig(self);
+        orig(self, warpused);
 
         if (!ModCompat_Helpers.RainMeadow_IsOnline)
         {

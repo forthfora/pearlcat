@@ -1,9 +1,6 @@
 ﻿using HUD;
 using RWCustom;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 
 namespace Pearlcat;

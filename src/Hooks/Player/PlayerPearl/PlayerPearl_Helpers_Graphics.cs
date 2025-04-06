@@ -1,6 +1,4 @@
 ﻿using RWCustom;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 
 namespace Pearlcat;

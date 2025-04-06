@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using MoreSlugcats;
+﻿using MoreSlugcats;
 using RWCustom;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Pearlcat;
 
@@ -1135,12 +1131,6 @@ public static class Player_Helpers
 
     public static void UpdatePearlpup(Player self, PlayerModule playerModule)
     {
-        // TODO: pearlpup in meadow, maybe
-        if (ModCompat_Helpers.RainMeadow_IsOnline)
-        {
-            return;
-        }
-
         if (!self.IsFirstPearlcat())
         {
             return;

@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using Vector2 = UnityEngine.Vector2;
+﻿using Vector2 = UnityEngine.Vector2;
 
 using static Pearlcat.PlayerGraphics_Helpers;
 

@@ -1,6 +1,4 @@
 ﻿using RWCustom;
-using System.Collections.Generic;
-using UnityEngine;
 using static Pearlcat.SSOraclePearls_Helpers;
 
 namespace Pearlcat;

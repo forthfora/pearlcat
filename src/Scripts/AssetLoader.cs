@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public static class AssetLoader
 {

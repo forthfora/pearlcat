@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Pearlcat;
+﻿namespace Pearlcat;
 
 public static class PearlpupIllness_Hooks
 {

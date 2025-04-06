@@ -1,8 +1,6 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Music;
-using System;
-using System.Linq;
 
 namespace Pearlcat;
 
@@ -12,7 +10,7 @@ public static class Sound_HooksIL
     {
         try
         {
-            IL.Music.ProceduralMusic.Reset += ProceduralMusic_Reset;
+            IL.Music.ProceduralMusic.BuildThreatLayerPool += ProceduralMusic_BuildThreatLayerPool;
         }
         catch (Exception e)
         {
@@ -20,7 +18,7 @@ public static class Sound_HooksIL
         }
     }
 
-    private static void ProceduralMusic_Reset(ILContext il)
+    private static void ProceduralMusic_BuildThreatLayerPool(ILContext il)
     {
         var c = new ILCursor(il);
 
@@ -38,6 +36,21 @@ public static class Sound_HooksIL
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Func<int, int, MusicPlayer, ProceduralMusic, bool>>((j, k, musicPlayer, self) =>
         {
+            if (!ModOptions.PearlThreatMusic)
+            {
+                return false;
+            }
+
+            if (j >= self.instruction.layers.Count)
+            {
+                return false;
+            }
+
+            if (k >= self.instruction.layers[j].tracks.Count)
+            {
+                return false;
+            }
+
             var track = self.instruction.layers[j].tracks[k];
             var module = musicPlayer.GetModule();
 

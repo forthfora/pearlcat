@@ -1,8 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using MoreSlugcats;
 using RWCustom;
-using UnityEngine;
 
 namespace Pearlcat;
 
@@ -227,7 +224,7 @@ public static class PlayerAbilities_Helpers_Rage
                     }
 
                     // Tutorial flies are VERY HOSTILE
-                    if (!player.IsHostileToMe(creature) && !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly))
+                    if (!player.IsHostileToMe(creature) && !(pearl.abstractPhysicalObject.Room.name == "T1_CAR2" && creature is Fly))
                     {
                         // Exception for PVP - Pearlcat who deployed the sentry is still a valid target
                         if (!creature.abstractCreature.world.game.IsFriendlyFireEnabled() || creature != player)
@@ -570,7 +567,7 @@ public static class PlayerAbilities_Helpers_Rage
                     }
 
                     // Fly exception for the tutorial
-                    if (!self.IsHostileToMe(creature) && !(self.room.roomSettings.name == "T1_CAR2" && creature is Fly))
+                    if (!self.IsHostileToMe(creature) && !(self.abstractPhysicalObject.Room.name == "T1_CAR2" && creature is Fly))
                     {
                         continue;
                     }

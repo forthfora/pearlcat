@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using static Conversation;
+﻿using static Conversation;
 using static SSOracleBehavior;
-using Random = UnityEngine.Random;
 
 using MSCID = MoreSlugcats.MoreSlugcatsEnums.ConversationID;
 
