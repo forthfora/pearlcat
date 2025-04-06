@@ -20,7 +20,7 @@ public static class World_Helpers
 
     public static bool IsGateOpenForPearlcat(this RegionGate gate)
     {
-        var roomName = gate.room?.roomSettings?.name;
+        var roomName = gate.room?.abstractRoom?.name;
 
         if (gate.room is null || roomName is null)
         {

@@ -73,7 +73,7 @@ public static class Player_HooksIL
                 return false;
             }
 
-            var inVoid = (player.inVoidSea || player.room?.roomSettings?.name == "SB_L01");
+            var inVoid = (player.inVoidSea || player.room?.abstractRoom?.name == "SB_L01");
 
             if (inVoid && player.IsPearlpup())
             {

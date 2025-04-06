@@ -740,7 +740,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
                     }
 
 
-                    if (!player.IsHostileToMe(creature) && !(pearl.room.roomSettings.name == "T1_CAR2" && creature is Fly))
+                    if (!player.IsHostileToMe(creature) && !(pearl.AbstractPearl.Room.name == "T1_CAR2" && creature is Fly))
                     {
                         continue;
                     }
