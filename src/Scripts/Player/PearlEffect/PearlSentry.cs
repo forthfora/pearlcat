@@ -616,8 +616,33 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
                 LockedShortcutsSprites.Add(shortcut, sprite);
             }
-        }
 
+            foreach (var otherPearl in room.game.GetAllPearlcatModules().SelectMany(x => x.Inventory))
+            {
+                if (otherPearl.realizedObject is null)
+                {
+                    continue;
+                }
+
+                if (!otherPearl.TryGetSentry(out var sentry))
+                {
+                    continue;
+                }
+
+                if (sentry == this)
+                {
+                    continue;
+                }
+
+                if (!Custom.DistLess(room.MiddleOfTile(shortcut.DestTile), otherPearl.realizedObject.firstChunk.pos, 75.0f))
+                {
+                    continue;
+                }
+
+                module.CooldownTimer = 5;
+                break;
+            }
+        }
 
         ShieldHoldLoop ??= new ChunkDynamicSoundLoop(owner.realizedObject.firstChunk)
         {

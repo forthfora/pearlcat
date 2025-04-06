@@ -57,7 +57,6 @@ public static class PlayerAbilities_Helpers
         }
         else
         {
-            // TODO: check meadow monk damage later
             stats.throwingSkill = (int)Mathf.Clamp(baseStats.throwingSkill + effect.ThrowingSkill, (ModManager.MSC && !ModCompat_Helpers.RainMeadow_IsOnline) ? 0 : 1, 2);
 
             stats.lungsFac = Mathf.Clamp(baseStats.lungsFac + effect.LungsFac, 0.01f, 2.5f);

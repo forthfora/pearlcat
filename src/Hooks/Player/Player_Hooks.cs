@@ -291,6 +291,7 @@ public static class Player_Hooks
                 }
 
                 var effect = item.GetPearlEffect();
+
                 if (effect.MajorEffect != PearlEffect.MajorEffectType.Shield)
                 {
                     continue;
