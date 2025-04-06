@@ -36,6 +36,21 @@ public static class Sound_HooksIL
         c.Emit(OpCodes.Ldarg_0);
         c.EmitDelegate<Func<int, int, MusicPlayer, ProceduralMusic, bool>>((j, k, musicPlayer, self) =>
         {
+            if (!ModOptions.PearlThreatMusic)
+            {
+                return false;
+            }
+
+            if (j >= self.instruction.layers.Count)
+            {
+                return false;
+            }
+
+            if (k >= self.instruction.layers[j].tracks.Count)
+            {
+                return false;
+            }
+
             var track = self.instruction.layers[j].tracks[k];
             var module = musicPlayer.GetModule();
 

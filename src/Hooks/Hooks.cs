@@ -4,7 +4,7 @@ namespace Pearlcat;
 
 public static class Hooks
 {
-    public static bool IsInit { get; private set; }
+    private static bool IsInit { get; set; }
 
     public static void ApplyInitHooks()
     {
