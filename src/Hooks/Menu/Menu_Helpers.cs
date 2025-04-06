@@ -797,7 +797,7 @@ public static class Menu_Helpers
 
             if (type == IllustrationType.PearlActive)
             {
-                i.SetPosition(911, 450);
+                i.SetPosition(890, 450);
                 i.SetDepth(2.3f);
                 i.LayerInFrontOf("pearlcat_(!trueend)_(!pup)_(!sad)");
                 return;
