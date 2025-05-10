@@ -4,19 +4,6 @@ public static class ModCompat_Helpers
 {
     public static void InitModCompat()
     {
-        if (IsModEnabled_ImprovedInputConfig)
-        {
-            try
-            {
-                // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
-                InitIICCompat();
-            }
-            catch (Exception e)
-            {
-                Plugin.Logger.LogError($"Error initializing Improved Input Config compat:\n{e}");
-            }
-        }
-
         if (IsModEnabled_ChasingWind)
         {
             try

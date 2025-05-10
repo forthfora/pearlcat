@@ -6,6 +6,7 @@ using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Security;
+using BepInEx.Bootstrap;
 using Newtonsoft.Json;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -22,7 +23,7 @@ namespace Pearlcat;
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 [BepInDependency("henpemaz.rainmeadow", BepInDependency.DependencyFlags.SoftDependency)] // Rain Meadow
 
-[BepInPlugin(MOD_ID, MOD_ID, "1.5.0")]
+[BepInPlugin(MOD_ID, MOD_ID, "1.5.1")]
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";
@@ -37,6 +38,19 @@ public class Plugin : BaseUnityPlugin
     {
         Logger = base.Logger;
         Hooks.ApplyInitHooks();
+
+        if (Chainloader.PluginInfos.Keys.Any(x => x == "com.dual.improved-input-config"))
+        {
+            try
+            {
+                // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
+                ModCompat_Helpers.InitIICCompat();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"Error initializing Improved Input Config compat:\n{e}");
+            }
+        }
     }
 
     public void Update()
