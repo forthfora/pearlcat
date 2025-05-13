@@ -212,16 +212,9 @@ public sealed partial class ModOptionInterface
     {
         AddTab(ref tabIndex, "Swap Input");
 
-        AddDragger(SwapTriggerPlayer);
-        DrawDraggers(ref Tabs[tabIndex], offsetX: 150.0f);
-
-        AddNewLine();
-        AddAndDrawLargeDivider(ref Tabs[tabIndex]);
-        AddNewLine(-1);
-
         if (ModCompat_Helpers.IsIICActive)
         {
-            AddNewLine(6);
+            AddNewLine(4);
 
             AddTextLabel("Improved Input Config is active!", bigText: true);
             DrawTextLabels(ref Tabs[tabIndex]);
@@ -233,6 +226,13 @@ public sealed partial class ModOptionInterface
         }
         else
         {
+            AddDragger(SwapTriggerPlayer);
+            DrawDraggers(ref Tabs[tabIndex], offsetX: 150.0f);
+
+            AddNewLine();
+            AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+            AddNewLine(-1);
+
             AddNewLine(4);
 
             AddAndDrawKeybinder(SwapLeftKeybind, ref Tabs[tabIndex]);
