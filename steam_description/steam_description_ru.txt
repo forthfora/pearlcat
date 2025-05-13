@@ -1,21 +1,21 @@
-[h1][b]Загадочный исследователь из далёких земель, одаренный необычной способностью овладевать жемчужинами![/b][/h1]
+[h1][b]Загадочная учёная из далёких земель, наделённая необычной способностью управлять жемчугом![/b][/h1]
 
-[h3]Жемчугокот кошка особым образом взаимодействует со следующими модами:[/h3]
+[h3]Жемчужная кошка имеет особые взаимодействия со следующими модами:[/h3]
 [b][list]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - полная поддержка онлайнового мультиплеера!
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - поддержка всех уникальных комбинаций клавиш Pearlcat
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - уникальные взаимодействия и диалоги
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - полная поддержка многопользовательской игры!
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - поддержка всех уникальных сочетаний клавиш Pearlcat.
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - уникальные взаимодействия и диалоги.
 [/list][/b]
-[h3][u]Жемчугокот НЕ требует MSC, однако настоятельно рекомендуется[/u][/h3]
+[h3][u]Для Жемчужной кошки не требуется дополнение More Slugcats (DLC), однако настоятельно рекомендуется его приобрести.[/u][/h3]
 
-[h3]КРЕДИТЫ:[/h3]
+[h3]СОЗДАТЕЛИ:[/h3]
 [b][list]
-    [*]Geahgeah – арт и дизайн
-    [*]Sidera - звуковые эффекты и диалоги
-    [*]Noir - код с ушами и шарфом
-    [*]Linnnnnna - перевод на китайский
+    [*]Geahgeah - Иллюстрации, Дизайн
+    [*]Sidera - SFX, Диалоги
+    [*]Noir - Гибкие уши, Шарф
+    [*]Linnnnnna - Китайский перевод
     [*]zbiotr - Испанский перевод
-    [*]Kimi - дополнительное арт
+    [*]Kimi - Доп иллюстрации
 [/list][/b]
 [h3]ТЕСТЕРЫ:[/h3]
 [b][list]
@@ -27,4 +27,4 @@
     [*] Lolight2
     [*] mayhemmm
 [/list][/b]
-[h3]Прямая ссылка: https://github.com/forthfora/pearlcat/releases[/h3]
+[h3]Прямая Загрузка: https://github.com/forthfora/pearlcat/releases[/h3]
