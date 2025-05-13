@@ -19,7 +19,7 @@ namespace Pearlcat;
 
 [BepInDependency("slime-cubed.slugbase")] // SlugBase
 
-[BepInDependency("improved-input-config", BepInDependency.DependencyFlags.SoftDependency)] // Improved Input Config
+[BepInDependency("com.dual.improved-input-config", BepInDependency.DependencyFlags.SoftDependency)] // Improved Input Config
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 [BepInDependency("henpemaz.rainmeadow", BepInDependency.DependencyFlags.SoftDependency)] // Rain Meadow
 
@@ -39,16 +39,16 @@ public class Plugin : BaseUnityPlugin
         Logger = base.Logger;
         Hooks.ApplyInitHooks();
 
-        if (Chainloader.PluginInfos.Keys.Any(x => x == "com.dual.improved-input-config"))
+        // IIC needs to be initialized early, in OnEnable
+        if (ModCompat_Helpers.IsModEnabled_ImprovedInputConfig)
         {
             try
             {
-                // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
                 ModCompat_Helpers.InitIICCompat();
             }
             catch (Exception e)
             {
-                Logger.LogError($"Error initializing Improved Input Config compat:\n{e}");
+                Logger.LogError($"Error initialising Improved Input Config compat:\n{e}");
             }
         }
     }
