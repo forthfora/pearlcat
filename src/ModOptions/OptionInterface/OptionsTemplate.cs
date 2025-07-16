@@ -91,7 +91,7 @@ public abstract class OptionsTemplate : OptionInterface
     protected void AddNewLinesUntilEnd()
     {
         Pos.x = MarginX.x;
-        Pos.y = SPACING * 3;
+        Pos.y = SPACING * 2.5f;
     }
 
     protected void AddBox()
