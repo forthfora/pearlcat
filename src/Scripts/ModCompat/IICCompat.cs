@@ -5,7 +5,16 @@ namespace Pearlcat;
 
 public static class IICCompat
 {
-    public static void InitCompat()
+    public static PlayerKeybind StoreKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:store_pearl", "Pearlcat", "Store Pearl", KeyCode.None, KeyCode.None);
+
+    public static PlayerKeybind SwapKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_pearl", "Pearlcat", "Swap Pearl", KeyCode.LeftAlt, KeyCode.JoystickButton3);
+    public static PlayerKeybind SwapLeftKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_left", "Pearlcat", "Swap Left", KeyCode.A, KeyCode.None);
+    public static PlayerKeybind SwapRightKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_right", "Pearlcat", "Swap Right", KeyCode.D, KeyCode.None);
+
+    public static PlayerKeybind SentryKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:sentry_pearl", "Pearlcat", "Sentry Pearl", KeyCode.C, KeyCode.JoystickButton4);
+    public static PlayerKeybind AbilityKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:ability", "Pearlcat", "Pearl Ability", KeyCode.None, KeyCode.None);
+
+    public static void RefreshConfigs()
     {
         var t = Utils.Translator;
 
@@ -26,72 +35,55 @@ public static class IICCompat
         AbilityKeybind.HideConfig = hide;
     }
 
-    public static PlayerKeybind StoreKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:store_pearl", Plugin.ModName, "Store Pearl", KeyCode.None, KeyCode.None);
     public static bool IsStorePressed(Player player)
     {
         return player.IsPressed(StoreKeybind);
     }
-
     public static KeyCode GetStoreKeybind(bool controller)
     {
         return controller ? StoreKeybind.GamepadPreset : StoreKeybind.CurrentBinding(0);
     }
 
-
-    public static PlayerKeybind SwapKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_pearl", Plugin.ModName, "Swap Pearl", KeyCode.LeftAlt, KeyCode.JoystickButton3);
     public static bool IsSwapPressed(Player player)
     {
         return player.IsPressed(SwapKeybind);
     }
-
     public static KeyCode GetSwapKeybind(bool controller)
     {
         return controller ? SwapKeybind.GamepadPreset : SwapKeybind.CurrentBinding(0);
     }
 
-
-    public static PlayerKeybind SwapLeftKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_left", Plugin.ModName, "Swap Left", KeyCode.A, KeyCode.None);
     public static bool IsSwapLeftPressed(Player player)
     {
         return player.IsPressed(SwapLeftKeybind);
     }
-
     public static KeyCode GetSwapLeftKeybind(bool controller)
     {
         return controller ? SwapLeftKeybind.GamepadPreset : SwapLeftKeybind.CurrentBinding(0);
     }
 
-
-    public static PlayerKeybind SwapRightKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:swap_right", Plugin.ModName, "Swap Right", KeyCode.D, KeyCode.None);
     public static bool IsSwapRightPressed(Player player)
     {
         return player.IsPressed(SwapRightKeybind);
     }
-
     public static KeyCode GetSwapRightKeybind(bool controller)
     {
         return controller ? SwapRightKeybind.GamepadPreset : SwapRightKeybind.CurrentBinding(0);
     }
 
-
-    public static PlayerKeybind SentryKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:sentry_pearl", Plugin.ModName, "Sentry Pearl", KeyCode.C, KeyCode.JoystickButton4);
     public static bool IsSentryPressed(Player player)
     {
         return player.IsPressed(SentryKeybind);
     }
-
     public static KeyCode GetSentryKeybind(bool controller)
     {
         return controller ? SentryKeybind.GamepadPreset : SentryKeybind.CurrentBinding(0);
     }
 
-
-    public static PlayerKeybind AbilityKeybind { get; } = PlayerKeybind.Register($"{Plugin.MOD_ID}:ability", Plugin.ModName, "Pearl Ability", KeyCode.None, KeyCode.None);
     public static bool IsAbilityPressed(Player player)
     {
         return player.IsPressed(AbilityKeybind);
     }
-
     public static KeyCode GetAbilityKeybind(bool controller)
     {
         return controller ? AbilityKeybind.GamepadPreset : AbilityKeybind.CurrentBinding(0);

@@ -1,10 +1,13 @@
 [h1][b]一位来自远方的神秘学者，有着驾驭珍珠的非凡能力！[/b][/h1]
 
-[h3]珍珠猫与下列Mod有着特殊的相互影响：[/h3]
+[h3]关于珍珠猫能力更深入的指南，请查阅Wiki！ https://rainworldmods.miraheze.org/wiki/Pearlcat[/h3]
+
+[h3]珍珠猫与下列Mod有着特殊的互动：[/h3]
 [b][list]
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - 完全支持在线多人游戏！
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - 支持珍珠猫所有独有的按键绑定
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - 独特的互动和对话
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2928004252]Rotund World[/url] - 独特的圆润互动（感谢Willow！）
 [/list][/b]
 [h3][u]珍珠猫不需要更多蛞蝓猫扩展（DLC），但强烈建议使用[/u][/h3]
 
@@ -15,6 +18,7 @@
     [*]Noir - 耳朵和围巾代码
     [*]Linnnnnna - 中文翻译
     [*]zbiotr - 西班牙语翻译
+    [*]_Wolf_ - 俄语翻译
     [*]Kimi - 附加插图
 [/list][/b]
 [h3]游戏测试人员：[/h3]

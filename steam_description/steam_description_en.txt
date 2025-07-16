@@ -1,10 +1,13 @@
 [h1][b]An enigmatic scholar from a faraway land, gifted with the unusual ability to harness pearls![/b][/h1]
 
+[h3]For an in-depth guide on Pearlcat's abilities, check the wiki! https://rainworldmods.miraheze.org/wiki/Pearlcat[/h3]
+
 [h3]Pearlcat has special interactions with the following mods:[/h3]
 [b][list]
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3388224007]Rain Meadow[/url] - full online multiplayer support!
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2944727862]Improved Input Config[/url] - support for all of Pearlcat's unique keybinds
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3232063592]Chasing Wind[/url] - unique interactions and dialog
+    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2928004252]Rotund World[/url] - unique rotundness interactions (thanks Willow!)
 [/list][/b]
 [h3][u]Pearlcat does not require More Slugcats (DLC), however it is strongly recommended[/u][/h3]
 
@@ -15,6 +18,7 @@
     [*]Noir - Ear & Scarf Code
     [*]Linnnnnna - Chinese Translation
     [*]zbiotr - Spanish Translation
+    [*]_Wolf_ - Russian Translation
     [*]Kimi - Additional Artwork
 [/list][/b]
 [h3]PLAYTESTERS:[/h3]

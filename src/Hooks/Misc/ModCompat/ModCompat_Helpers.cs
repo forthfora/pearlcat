@@ -9,7 +9,7 @@ public static class ModCompat_Helpers
             try
             {
                 // Needs a buffer method as there are statics in the IICCompat class which reference the DLL
-                InitIICCompat();
+                RefreshIICConfigs();
             }
             catch (Exception e)
             {
@@ -55,9 +55,15 @@ public static class ModCompat_Helpers
     // Improved Input Config
     public static bool IsModEnabled_ImprovedInputConfig => ModManager.ActiveMods.Any(x => x.id == "improved-input-config");
     public static bool IsIICActive => IsModEnabled_ImprovedInputConfig && !ModOptions.DisableImprovedInputConfig;
+
     public static void InitIICCompat()
     {
-        IICCompat.InitCompat();
+        _ = IICCompat.StoreKeybind;
+    }
+
+    public static void RefreshIICConfigs()
+    {
+        IICCompat.RefreshConfigs();
     }
 
 

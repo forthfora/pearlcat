@@ -212,16 +212,9 @@ public sealed partial class ModOptionInterface
     {
         AddTab(ref tabIndex, "Swap Input");
 
-        AddDragger(SwapTriggerPlayer);
-        DrawDraggers(ref Tabs[tabIndex], offsetX: 150.0f);
-
-        AddNewLine();
-        AddAndDrawLargeDivider(ref Tabs[tabIndex]);
-        AddNewLine(-1);
-
         if (ModCompat_Helpers.IsIICActive)
         {
-            AddNewLine(6);
+            AddNewLine(8);
 
             AddTextLabel("Improved Input Config is active!", bigText: true);
             DrawTextLabels(ref Tabs[tabIndex]);
@@ -229,10 +222,17 @@ public sealed partial class ModOptionInterface
             AddTextLabel("Edit keybinds through the normal input menu.");
             DrawTextLabels(ref Tabs[tabIndex]);
 
-            AddNewLine(9);
+            AddNewLinesUntilEnd();
         }
         else
         {
+            AddDragger(SwapTriggerPlayer);
+            DrawDraggers(ref Tabs[tabIndex], offsetX: 150.0f);
+
+            AddNewLine();
+            AddAndDrawLargeDivider(ref Tabs[tabIndex]);
+            AddNewLine(-1);
+
             AddNewLine(4);
 
             AddAndDrawKeybinder(SwapLeftKeybind, ref Tabs[tabIndex]);
@@ -267,7 +267,7 @@ public sealed partial class ModOptionInterface
 
         if (ModCompat_Helpers.IsIICActive)
         {
-            AddNewLine(6);
+            AddNewLine(7);
 
             AddTextLabel("Improved Input Config is active!", bigText: true);
             DrawTextLabels(ref Tabs[tabIndex]);
@@ -275,7 +275,7 @@ public sealed partial class ModOptionInterface
             AddTextLabel("Edit keybinds through the normal input menu.");
             DrawTextLabels(ref Tabs[tabIndex]);
 
-            AddNewLine(9);
+            AddNewLinesUntilEnd();
         }
         else
         {
