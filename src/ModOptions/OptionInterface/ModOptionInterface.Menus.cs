@@ -222,7 +222,7 @@ public sealed partial class ModOptionInterface
             AddTextLabel("Edit keybinds through the normal input menu.");
             DrawTextLabels(ref Tabs[tabIndex]);
 
-            AddNewLine(9);
+            AddNewLinesUntilEnd();
         }
         else
         {

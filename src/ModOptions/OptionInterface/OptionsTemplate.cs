@@ -88,7 +88,11 @@ public abstract class OptionsTemplate : OptionInterface
         Pos.y -= spacingModifier * SPACING;
     }
 
-
+    protected void AddNewLinesUntilEnd()
+    {
+        Pos.x = MarginX.x;
+        Pos.y = SPACING * 3;
+    }
 
     protected void AddBox()
     {
@@ -141,7 +145,7 @@ public abstract class OptionsTemplate : OptionInterface
 
             OpCheckBox checkBox = new(configurable, new Vector2(_posX, Pos.y))
             {
-                description = Translate(configurable.info?.description) ?? "",
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(checkBox);
 
@@ -223,7 +227,7 @@ public abstract class OptionsTemplate : OptionInterface
             OpComboBox comboBox = new(configurable, Pos, width, ComboBoxLists[comboBoxIndex])
             {
                 allowEmpty = ComboBoxAllowEmpty[comboBoxIndex],
-                description = Translate(configurable.info?.description) ?? "",
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(opLabel, comboBox);
 
@@ -288,7 +292,7 @@ public abstract class OptionsTemplate : OptionInterface
             OpSlider slider = new(configurable, new(sliderCenter - 0.5f * sliderSizeX, Pos.y), (int)sliderSizeX)
             {
                 size = new(sliderSizeX, FONT_HEIGHT),
-                description = Translate(configurable.info?.description) ?? "",
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(slider);
 
@@ -326,7 +330,7 @@ public abstract class OptionsTemplate : OptionInterface
 
         OpLabel textLabel = new(new Vector2(), new Vector2(20f, textHeight), translate ? Translate(text) : text, alignment, bigText) // minimal size.x = 20f
         {
-            autoWrap = true,
+            autoWrap = true
         };
 
 		if (color is not null)
@@ -406,7 +410,7 @@ public abstract class OptionsTemplate : OptionInterface
             OpFloatSlider slider = new(configurable, new Vector2(sliderCenter - 0.5f * sliderSizeX, Pos.y), (int)sliderSizeX)
             {
                 size = new Vector2(sliderSizeX, FONT_HEIGHT),
-                description = Translate(configurable.info?.description) ?? "",
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(slider);
 
@@ -459,7 +463,7 @@ public abstract class OptionsTemplate : OptionInterface
 
             OpDragger dragger = new(configurable, new Vector2(_posX, Pos.y))
             {
-                description = Translate(configurable.info?.description) ?? "",
+                description = Translate(configurable.info?.description) ?? ""
             };
             tab.AddItems(dragger);
             _posX += DraggerWithSpacing;
@@ -544,8 +548,8 @@ public abstract class OptionsTemplate : OptionInterface
 			{
 				alignment = FLabelAlignment.Right,
 				verticalAlignment = OpLabel.LabelVAlignment.Center,
-				description = Translate(configurable.info?.description),
-            },
+				description = Translate(configurable.info?.description)
+			},
 			new OpKeyBinder(configurable, new Vector2(235.0f, Pos.y) + (offset ?? Vector2.zero), new(146f, 30f), false)
 		);
 
