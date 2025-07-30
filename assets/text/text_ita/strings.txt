@@ -1,854 +1,844 @@
-﻿... |...
-
-pearl|perla
-
-Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|Inizia all'inizio della trama di Mira ... <fine> Il mondo sarà preservato e le perle si riporteranno!
-
-Is my memory so bad to forget how your little one looks? They seem paler...|La mia memoria è così male dimenticare come appare il tuo piccolo?Sembrano più chiari ...
-
-Alternatively, hold (|In alternativa, tieni premuto (
-
-So curious...|Così curioso ...
-
-The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|Il potere che possiedi, è affascinante.Non ho mai visto nulla di simile dal tuo genere.
-
-Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read...|Dato
-
-Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|Lanciare qualsiasi arma nel raggio di una perla rossa lo farà casa sulla creatura ostile più vicina
-
-WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP - Nessun nuovo finale ancora! <LINE> Se trovi dei bug, ti preghiamo di segnalarli a Forthfora!
-
-I... I have nothing more to say...|Io ... non ho altro da dire ...
-
-Laser Damage (OLD)|Danno laser (vecchio)
-
-General|Generale
-
-Keybind for Player 2.|Keybind per il giocatore 2.
-
-Death is not the end... even death that seems permanent.|La morte non è la fine ... anche la morte che sembra permanente.
-
-And just who might you be?|E solo chi potresti essere?
-
-Is that you, little scholar? I'm speechless...|Sei tu, piccolo studioso?Sono senza parole ...
-
-Press (|Premere (
-
-Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|Preferisci utilizzare i tasti personalizzati di seguito per la creazione di lance, anziché predefinito (GRAB)
-
-Hello again, strange scholar!|Ciao di nuovo, strano studioso!
-
-RED symbolizes power. With a red pearl active, all stored red pearls will circle you|Il rosso simboleggia il potere.Con una perla rossa attiva, tutte le perle rosse immagazzinate ti circonderanno
-
-But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Ma ... il segno che possiedi, è molto insolito. <LINE> Non qualcosa nel gruppo locale potrebbe conferire ...
-
-Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Ogni perla rossa fornisce un laser aggiuntivo - e sì, queste battute sono molto ostili!
-
-Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Numero di perle di agilità (blu).Efficace solo quando l'inventario si sovrascrive?è controllato.
-
-It doesn't matter I suppose, you may stay, so long as you don't disturb my work...|Non importa, suppongo che tu possa restare, fintanto che non disturbi il mio lavoro ...
-
-You would be a hard one to forget after all, <PlayerName>!|Saresti difficile da dimenticare dopo tutto, <Playername>!
-
-I see you have not found a cure for their illness. Not yet...|Vedo che non hai trovato una cura per la loro malattia.Non ancora...
-
-Custom Sentry Keybind?|Sentint Keybind personalizzato?
-
-) with an active common pearl to convert it into a pearl spear|) con una perla comune attiva per convertirla in una lancia perla
-
-If only I had my memories, I might have a clue...|Se solo avessi i miei ricordi, potrei avere un indizio ...
-
-Sentry Pearl|Sentry Pearl
-
-In any case, you are welcome to stay as long as you like. Anything to ease the pain.|In ogni caso, sei invitato a rimanere tutto il tempo che vuoi.Qualsiasi cosa per alleviare il dolore.
-
-You... I didn't forget...|Tu ... non ho dimenticato ...
-
-Disable Agility Effect?|Disabilita l'effetto di agilità?
-
-I already read this one. I can read it again, I suppose.|Ho già letto questo.Posso leggerlo di nuovo, suppongo.
-
-However, given a lack of other options, this is the best I can do.|Tuttavia, data la mancanza di altre opzioni, questo è il meglio che posso fare.
-
-Menu|Menu
-
-Input a shelter name to have it override where Pearlcat starts a new game.|Inserisci un nome di rifugio per farlo sovrascrivere dove Pearlcat inizia un nuovo gioco.
-
-Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Numero di perle di scudo (giallo).Efficace solo quando l'inventario si sovrascrive?è controllato.
-
-So curious... I wonder what it is you're searching for?|Così curioso ... Mi chiedo cosa stai cercando?
-
-.  .  .|...
-
-Disable Improved Input Config?|Disabilitare la configurazione di input migliorata?
-
-Think of this mutually, I can 'see' a little further outside this can...|Pensa a ciò reciprocamente, posso "vedere" un po 'più fuori questo può ...
-
-YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|Il giallo simboleggia la protezione.Ogni perla gialla immagazzinata fornirà una carica di scudo
-
-Another? And I shall read this one to you as well...|Un altro?E lo leggerò anche a te ...
-
-I assure you it will be a more than suitable replacement for your primitive needs.|Ti assicuro che sarà un sostituto più che adeguato per le tue esigenze primitive.
-
-) to deploy, and again to return.|) da distribuire e di nuovo per tornare.
-
-Disable Cosmetics?|Disabilita i cosmetici?
-
-Ah, you didn't happen to find a way to tell me about your travels, did you?|Ah, non ti è capitato di trovare un modo per parlarmi dei tuoi viaggi, vero?
-
-When checked, all tutorials will be disabled.|Quando controllati, tutti i tutorial saranno disabilitati.
-
-Starting Inventory Override?|Avvio della sovraccarico dell'inventario?
-
-Nevermind... this anger is useless...|Nevermind ... questa rabbia è inutile ...
-
-Some time ago now, I encountered a scholar and their dying pup...|Qualche tempo fa, ho incontrato uno studioso e il loro cucciolo morente ...
-
-Ability P1|Abilità P1
-
-JoystickButton|Joystickbutton
-
-...and don't look to me, it's not my fault...|... e non guardarmi, non è colpa mia ...
-
-No, I do not care for your little one.|No, non mi interessa il tuo piccolo.
-
-Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Danneggiare il laser di ogni perla rossa per scatto.Sopravvissuto Danno alla lancia = 1.0
-
-Ability P3|Abilità P3
-
-VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update...|Avviso di versione <LINE> L'installazione Mira richiede una versione più recente di PearlCat!Si prega di aggiornare ...
-
- SAVE|SALVA
-
-When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Quando controllati, sovrascrive le perle iniziali con l'opzione seguente.Solo efficace all'inizio di un nuovo gioco, a differenza della sovraccarico dell'inventario?
-
-pearlcat-description|Uno studioso curioso con l'insolita capacità di sfruttare le perle a proprio vantaggio. <fine> <fine> Configurare input, difficoltà, trucchi e altro tramite il remix config! <LINE> <LINE> più slugcats è facoltativo, ma fortemente consigliato.
-
-Oh! It is good to see you two again!|OH!È bello rivedervi!
-
-To retrieve pearls, have an empty main hand, and hold (|Per recuperare le perle, avere una mano principale vuota e tenere premuto (
-
-Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|Bene, se la mia memoria mi serve correttamente, è bello rivederti ... strano studioso.
-
-Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Numero massimo di perle che possono essere conservate contemporaneamente, inclusa la perla attiva.L'impostazione predefinita è 9. Tieni premuto e trascina su o giù per cambiare.
-
-Laser Recharge Time (OLD)|Tempo di ricarica laser (vecchio)
-
-Intended for fun, may change gameplay significantly!|Destinato al divertimento, può cambiare il gameplay in modo significativo!
-
-Disable Camoflague Effect?|Disabilita l'effetto Camoflague?
-
-), or the triggers on controller|) o i trigger sul controller
-
-This illness, it is unlike any I have seen before - I can say it is likely fatal.|Questa malattia, è diversa da quella che ho visto prima: posso dire che è probabilmente fatale.
-
-pearlcat|Pearlcat
-
-Hello again, <PlayerName>!|Ciao di nuovo, <Playername>!
-
-You are welcome to stay as long as you like. Anything to ease the pain.|Sei il benvenuto per rimanere tutto il tempo che vuoi.Qualsiasi cosa per alleviare il dolore.
-
-...that pearl you carry, the purple one, where did you find it?|... Quella perla che porti, quella viola, dove l'hai trovata?
-
-I am not sure if you are aware, but your child appears very unwell...|Non sono sicuro che tu sia consapevole, ma tuo figlio sembra molto male ...
-
-Who... who is there?|Chi ... chi c'è?
-
-All times here are in frames.<LINE>40 frames = 1 second.|Tutti i tempi qui sono in frame. <Linea> 40 frame = 1 secondo.
-
-Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|Il tempo in cornici lo scudo di perle giallo dura dopo l'attivazione.Predefinito 1,5 secondi.
-
-I do enjoy the company of you and your friend though, <PlayerName>.|Mi piace la compagnia di te e del tuo amico, <Playername>.
-
-) & (|) & (
-
-...ah... are those still a fascination to you? You really are no different from your mother...|... Ah ... quelli sono ancora un fascino per te?Non sei davvero diverso da tua madre ...
-
-- Dialogue, SFX|- Dialogo, SFX
-
-Oh, and for direction - there is a gate to the far west of here, where the ground fissures...|Oh, e per la direzione - c'è un cancello all'estremo ovest di qui, dove le fenditure di terra ...
-
-For the number of visits you pay me, how could there only be one of you?|Per il numero di visite che mi paghi, come potrebbe esserci solo uno di voi?
+﻿Swaps the active pearl to the right.|Scambia la perla attiva a destra.
 
 You're welcome to stay a while... your ability is fascinating.|Sei il benvenuto a rimanere un po '... La tua abilità è affascinante.
 
-I'm just so glad you're safe, too many things have come into my memory, only to be washed away...|Sono così felice che tu sia al sicuro, troppe cose sono venute nella mia memoria, solo per essere lavato via ...
-
 R-Stick|R-stick
 
-Has it really been so long...? And considering your current state, you've been through a lot...|È passato così tanto tempo ...?E considerando il tuo stato attuale, hai passato molto ...
-
-I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|Ho notato che l'aumento ti ha mantenuto in vita non appena sei tornato qui - non lo dico leggermente, ma è al di là di me come funziona.
-
-To cycle between pearls, use (|Per andare in bicicletta tra le perle, utilizzare (
-
-I have so little... please don't take... this... this is all I have...|Ho così poco ... per favore non prendere ... questo ... questo è tutto ciò che ho ...
-
-...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...OH?Prendili, i dati che contengono sono inutili per me.Suppongo che ti sarebbero molto più utili ...
-
-Clearly artificial creations. But from where? Sent by who?|Creazioni chiaramente artificiali.Ma da dove?Inviato da chi?
-
-I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Mi piacerebbe studiarlo, aiutare a trattare la mia afflizione, tuttavia richiederebbe ... rimozione dell'aumento.
-
-When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|Se controllati, la maggior parte delle perle (quando attive) costringerà il tema della minaccia per tutte le regioni sul tema della regione da cui provenivano.
-
-Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Tempo in cornici per un laser di perla rossa per sparare dopo aver acquisito un bersaglio.Predefinito 1,5 secondi.
-
-Number of rage pearls (red). Effective only when Inventory Override? is checked.|Numero di perle di rabbia (rosso).Efficace solo quando l'inventario si sovrascrive?è controllato.
-
-Enable Backspear?|Abilita backspear?
-
-Hello. Again.|Ciao.Ancora.
-
-When checked, disables the revive effect granted by an active pearl.|Se controllato, disabilita l'effetto di rilancio concesso da una perla attiva.
-
-I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten.|Presumo che potresti trovarli nelle vicinanze della zona che sei arrivato;Questo è tramite l'albero di accesso, se hai dimenticato.
-
-I have nothing for you, I'm afraid... but I hope you find the answers you seek.|Non ho niente per te, temo ... ma spero che trovi le risposte che cerchi.
-
-...there.|...Là.
-
-Good luck, mysterious scholar.|Buona fortuna, studioso misterioso.
-
-Shield Recharge Time|Tempo di ricarica dello scudo
-
-Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|Preferisci utilizzare i tasti personalizzati per la distribuzione di perle Sentry, anziché l'impostazione predefinita (afferrare + salto + giù)
-
-Agility Pearl Count|Agility Pearl Count
-
-And who is your little friend? They are quite adorable!|E chi è il tuo piccolo amico?Sono abbastanza adorabili!
-
-pupheart|Pupheart
-
-I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...|Lo faccio, vorrei che tu potessi dirmi cosa è successo nei tuoi viaggi ... Non ricordo quasi l'ultima volta che ho visto oltre questa camera ...
-
-You must be very brave to have made it all the way here. Very brave indeed...|Devi essere molto coraggioso per averlo fatto fino in fondo qui.Davvero molto coraggioso ...
-
-Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|Tempo in cornici per un laser di perla rossa da ricaricare dopo aver sparato.Predefinito 1,5 secondi.
-
-When checked, enables Pearlcat to carry a backspear.|Se controllato, abilita Pearlcat di trasportare un backspear.
-
-Transit System|Sistema di transito
-
-It appears to contain a hymn that once meant a lot to the inhabitants of my city...|Sembra contenere un inno che una volta significava molto per gli abitanti della mia città ...
-
-My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|I miei sorveglianti non hanno fatto pace per il tuo arrivo: avevo l'impressione che il sistema di transito era per lo più inutilizzabile.
-
-Disable Tutorials?|Disabilita tutorial?
-
-Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|Considerando lo stato in cui hai lasciato, ho pensato impossibile che ti vedessi di nuovo ... eppure eccoti qui.
-
-When checked, disables the agility effect granted by an active pearl.|Se controllato, disabilita l'effetto di agilità concesso da una perla attiva.
-
-VERSION WARNING|Avviso di versione
-
-pearlcat-name|Pearlcat
-
-(unfortunately, control of the creature requires the Downpour DLC to be enabled, however you can still be a passenger!)|(Sfortunatamente, il controllo della creatura richiede che il DLC di acquazzone sia abilitato, tuttavia puoi ancora essere un passeggero!)
-
-When checked, the inventory HUD will be replaced with a more compact version.|Se controllato, l'inventario HUD verrà sostituito con una versione più compatta.
-
-Something new to read... it has been too long...|Qualcosa di nuovo da leggere ... è passato troppo tempo ...
-
-WARNING|AVVERTIMENTO
-
-Let us see what- oh, again?|Vediamo cosa- oh, di nuovo?
-
-I must resume my work. I will be waiting here, as always.|Devo riprendere il mio lavoro.Aspetterò qui, come sempre.
-
-I have sent a request for the stationary cargo transports in my city to resume operation.|Ho inviato una richiesta per i trasporti di carico stazionari nella mia città per riprendere il funzionamento.
-
-I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?|Non mentirò, sono così curioso di come sei sopravvissuto e come sei finito qui ...?
-
-...are you alright, little one? The modifications to your body are quite... unusual.|... Stai bene, piccolo?Le modifiche al tuo corpo sono abbastanza ... insolite.
-
-Keybind for Keyboard.|KeyBind per la tastiera.
-
-Welcome back, you two!|Bentornato, voi due!
-
-The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|La distesa oltre sarebbe un posto sicuro per te per crescere la tua famiglia e stare lontano dalla mia attività.
-
-...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|... Hai il dono della comunicazione! <fine> Forse hai fatto visita al mio vicino, cinque ciottoli ...?
-
-I believe that child was you.|Credo che quel bambino fossi tu.
-
-When checked, disables the spear creation effect granted by an active pearl.|Se controllato, disabilita l'effetto di creazione di lancia concessa da una perla attiva.
-
-You are just a lot to take in for little old me! A fascinating power, the gift of communication;|Sei solo molto da prendere per me!Un potere affascinante, il dono della comunicazione;
-
-No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|No, non sono così egoista da sacrificarti per un capriccio per questo: una cura non è nemmeno garantita.
-
-There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|Non posso fare nulla: non sono una struttura medica e anche se lo fossi, la mia attrezzatura è tutt'altro che incontaminata.
-
-But it's best not to dwell on the past, don't you agree <PlayerName>?|Ma è meglio non soffermarsi sul passato, non sei d'accordo <Playername>?
-
-Hello! Strange scholar, it is good to see you!|Ciao!Strano studioso, è bello vederti!
-
-...you can manipulate our storage medium in unforseen ways...|... Puoi manipolare il nostro mezzo di archiviazione in modi spietati ...
-
-PEARLCAT|Pearlcat
-
-Please try not to push me too hard; with the number of neurons I have... let's just say my mind gets a little foggy.|Per favore, cerca di non spingermi troppo forte;Con il numero di neuroni che ho ... diciamo solo che la mia mente diventa un po 'nebbiosa.
-
-Number of camo pearls (black). Effective only when Inventory Override? is checked.|Numero di perle mimetiche (nero).Efficace solo quando l'inventario si sovrascrive?è controllato.
-
-I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Sono ancora più che felice di leggere eventuali perle che mi porti; <fine> soprattutto date le tue abilità uniche.
-
-...help... please...|... aiuto ... per favore ...
-
-Max Pearl Count|Max Pearl Count
-
-. . .|...
-
-If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond.|Se sei stato in grado di raggiungermi tramite il sistema di transito, posso solo supporre che potresti essere in grado di raggiungere gli altri ben oltre.
-
-You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|Vieni da una certa distanza?Puoi comunicare con noi, ma il segno che possiedi è estraneo a me ...
-
-I do enjoy the company of you and your friend though, strange scholar.|Mi piace la compagnia di te e del tuo amico, Strange Scholar.
-
-Get... get away... strange... thing.|Metti ... allontanati ... strano ... cosa.
-
-I see you've returned, yet again.|Vedo che sei tornato, ancora una volta.
-
-I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|Spero che i cicli ti stiano trattando bene ... deve essere difficile prenderti cura l'uno dell'altro là fuori.
-
-Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|Ah, mi dispiace ... è sbagliato essere così invasivi e non dovrei essere così sentimentale.
-
-You. Again. I still remember what you did...|Voi.Ancora.Ricordo ancora quello che hai fatto ...
-
-You and your family are always welcome here - please visit often!|Tu e la tua famiglia siete sempre i benvenuti qui - visita spesso!
-
-View|Visualizzazione
-
-I do enjoy the company though... it gets lonely out here.|Mi piace la compagnia però ... diventa solo qui.
-
-Rage Pearl Count|Conteggio delle perle di rabbia
-
-Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|Gli addebiti vengono consumati per fornire protezione.Ogni perla riempie individualmente la sua carica dopo un po 'di tempo
-
-Hello, again. You are very curious. Very curious indeed.|Ciao, di nuovo.Sei molto curioso.Davvero molto curioso.
-
-A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Uno studioso di origine oscura, armato di un'energia enigmatica e una sete di conoscenza. <LINE> fisicamente fragile, ma con perle come alleato - cosa scoprirai nei tuoi viaggi?
-
-And a nasty scar, poor thing... I can't imagine where you got that, or even where you came from...?|E una brutta cicatrice, una cosa povera ... non riesco a immaginare dove l'hai preso, o anche da dove vieni ...?
-
-I do not know what to make of this.|Non so cosa fare di questo.
-
-I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...|Sto scherzando, ovviamente!La mia immaginazione sarà sufficiente, anche se la curiosità mi brucia dentro ...
-
-The Pearlcat|The Pearlcat
-
-Sentry P4|Sentry P4
-
-) while in the air to perform a double jump|) mentre è in aria per eseguire un doppio salto
-
-A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|Uno studioso con la capacità di manipolare le perle ...?Oh ... sì!Mi ricordo!
-
-Was it really so long ago that you were only half my height...?|Era davvero tanto tempo fa che eri solo metà della mia altezza ...?
-
-Custom Keybind?|Keybind personalizzato?
-
-Button East|Button East
-
-- Spanish Translation|- Traduzione spagnola
-
-Ah, yet another one? You are even better at finding these than I imagined...|Ah, ancora un altro?Sei ancora più bravo a trovarli di quanto immaginassi ...
-
-Hello! I remember you! I remember...|Ciao!Mi ricordo di te!Mi ricordo...
-
-My neighbour, Five Pebbles, is a little temperamental, but means well.|Il mio vicino, cinque ciottoli, è un po 'temperamentale, ma significa bene.
-
-(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)|(Sfortunatamente per la spawn di Pearlpup, richiede che il DLC dell'acconto sia abilitato)
-
-Ability Input|Input di abilità
-
-Disable Rage Effect?|Disabilita l'effetto di rabbia?
-
-Hold () or (|Hold () o (
-
-Spear Pearl Count|Conteggio delle perle di lancia
-
-Number of revive pearls (green). Effective only when Inventory Override? is checked.|Numero di perle revive (verde).Efficace solo quando l'inventario si sovrascrive?è controllato.
-
-Swaps the active pearl to the left.|Scambia la perla attiva a sinistra.
-
-They are unwell, <PlayerName>, very unwell indeed.|Non stanno bene, <Playername>, davvero male.
-
-You... I still remember what you did.|Tu ... Ricordo ancora quello che hai fatto.
-
-Please, stay as long as you'd like, I can't begin to imagine what you've been through.|Per favore, resta tutto il tempo che desideri, non posso iniziare a immaginare cosa hai passato.
-
-I am so sorry.|Mi dispiace tanto.
-
-Pearls may also be deployed as temporary sentries. Press (|Le perle possono anche essere distribuite come sentinelle temporanee.Premere (
-
-Skip to Mira Storyline|Salta la trama di Mira
-
-...and you can gather more of that data you so clearly desire.|... e puoi raccogliere più di questi dati che desideri così chiaramente.
-
-I still don't have much to offer, sadly... aside from my pearl readings, and company of course!|Non ho ancora molto da offrire, purtroppo ... a parte le mie letture di perle e ovviamente compagnia!
-
-Play around with sentries to see what they do!|Gioca con le sentinelle per vedere cosa fanno!
-
-Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...|Ah, non mentirò ... Sono curioso di sapere come sei finito qui, e cosa è successo nei tuoi viaggi ...
-
-Inventory Pings?|Ping di inventario?
-
-PLAYTESTERS|Playtesters
-
-Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Il moltiplicatore percentuale sulla visibilità generale di Pearlcat, influenza l'attrazione dei predatori.Per impostazione predefinita, Pearlcat è significativamente più visibile di persino Hunter.
-
-And please keep your child under control.|E per favore tieni sotto controllo tuo figlio.
-
-And now here you are, with a perfect copy.|E ora eccoti qui, con una copia perfetta.
-
-Pearl spears will attempt to return to you after being thrown, if they are not stuck|Pearl Spears tenterà di tornare da te dopo essere stata lanciata, se non sono bloccate
-
-Oh, hello! Hello!|Oh, ciao!Ciao!
-
-Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|Le perle possono anche essere distribuite come sentinelle temporanee.Premere (afferrare + salto + giù) per distribuire e di nuovo per tornare.
-
-Welcome back, I suppose.|Bentornato, suppongo.
-
-I know that quite well.|Lo so abbastanza bene.
-
-I've accepted my fate - and one day, you will meet an end too...|Ho accettato il mio destino - e un giorno, incontrerai anche una fine ...
-
-Ability P4|Abilità P4
-
-OE_SEXTRA|Oe_sextra
-
-Reverts to the old red pearl mechanics - auto targeting lasers.|Ritorna ai vecchi meccanici di perle rosse - Laser di targeting automatico.
-
-So... anything for me to read?|Allora ... qualcosa da leggere per me?
-
-...well, given your unique set of skills... if you ever need something read...|... beh, dato il tuo set unico di abilità ... se hai mai bisogno di qualcosa letta ...
-
-Why did you come back here...? I can only imagine it brings back some painful memories.|Perché sei tornato qui ...?Posso solo immaginare che riporta alcuni ricordi dolorosi.
-
-Start Shelter Override|Inizia a Shelter Override
-
-Yes, help yourself. They are not edible.|Sì, aiuta te stesso.Non sono commestibili.
-
-Back again? You do visit often...|Di nuovo?Visiti spesso ...
-
-Oh...? Hello! Hello...|OH...?Ciao!Ciao...
-
-And why... to me?|E perché ... per me?
-
-If you do not plan to provide me with any meaningful data, that is your best course of action;|Se non hai intenzione di fornirmi dati significativi, questa è la tua migliore linea d'azione;
-
-Given your unique abilities, if you are curious as to the contents of those pearls -|Date le tue abilità uniche, se sei curioso del contenuto di quelle perle -
-
-There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|Non c'è niente che io possa fare per fermarti, quindi ecco la mia richiesta: <fine> Lasciami essere o finiscilo rapidamente.
+So curious... I wonder what it is you're searching for?|Così curioso ... Mi chiedo cosa stai cercando?
 
 To release possession, try to deploy the pearl as a sentry|Per rilasciare il possesso, prova a distribuire la perla come sentinella
 
-You have a knack for finding these pearls, yes?|Hai un talento per trovare queste perle, sì?
+...you have the gift of communication!<LINE>Perhaps you paid a visit to my neighbour, Five Pebbles...?|... Hai il dono della comunicazione! <fine> Forse hai fatto visita al mio vicino, cinque ciottoli ...?
 
-When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|Se controllati, le perle non concederanno più modifiche alle statistiche, attive o altro, e le statistiche di base sono impostate per essere simili a Hunter.
-
-Ah... you seem, familiar...? ...but in such a strange way...|Ah ... sembri, familiare ...?... ma in un modo così strano ...
-
-And just who might you two be?|E solo chi potreste essere voi due?
-
-Back again? I hope you have brought me something this time.|Di nuovo?Spero che tu mi abbia portato qualcosa questa volta.
-
-I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|Sono contento che tu abbia trovato la tua soluzione ... anche se è una perversione disgustosa della legge naturale.
-
-NON-MSC|Non-MSC
-
-I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Suppongo che l'unica cosa che apprezzi in queste perle sia quanto è puro il loro reticolo?Ti sostituirò con uno molto più raffinato di questo.
-
-You are... so familiar...|Sei ... così familiare ...
-
-- Additional Artwork|- Opere d'arte aggiuntive
-
-Pearlcat|Pearlcat
-
-Version|Versione
-
-I would guess they will grow up into quite the scholar themself, someday...|Immagino che cresceranno in uno studioso da soli, un giorno ...
-
-Edit keybinds through the normal input menu.|Modifica keybinds tramite il normale menu di input.
-
-I'll always enjoy your company... it gets lonely out here.|Mi piacerà sempre la tua compagnia ... è solo qui.
-
-...one which still means a lot to me.|... uno che significa ancora molto per me.
-
-Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|Il tuo cuore ti permetterà di possedere gli altri, con esso attivo, mantieni la linea di vista con una creatura e cercherà di recuperare la perla per possedere
-
-Another one? I shouldn't be surprised. Let's see...|Un altro?Non dovrei essere sorpreso.Vediamo ...
-
-Sentry P3|Sentry P3
-
-Oh, hello there!|Oh, ciao!
-
-CREDITS|Crediti
-
-Ah, you have returned? You look about as sickly as I remember.|Ah, sei tornato?Ti guardi così male come ricordo.
-
-This one again? I have better things to do... but...|Di nuovo questo?Ho cose migliori da fare ... ma ...
-
-I do not have much else to occupy my time with these days...|Non ho molto altro con cui occupare il mio tempo in questi giorni ...
-
-When checked, disables the rage effect granted by an active pearl.|Se controllato, disabilita l'effetto di rabbia concesso da una perla attiva.
-
-Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|La sventura non discrimina, purtroppo.Spero che un destino migliore ti aspetti, nel tempo.
-
-...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|... ma ... penserò al tuo problema, per ora.Forse posso trovare una soluzione per entrambi.
-
-Player 4|Giocatore 4
-
-Your attachment to that thing is unavoidable, I suppose.|Il tuo attaccamento a quella cosa è inevitabile, suppongo.
-
-When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|Se controllato, Pearlpup si rigillerà nel prossimo rifugio nel ciclo seguente ogni volta che si perdono.
-
-Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!|Più perle rosse possono incatenare questo effetto insieme - e sì, queste battute sono molto ostili!
-
-He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|È molto meglio equipaggiato di me al momento - consiglierei di pagargli una visita, se puoi. <LINE> Sebbene non sia stato progettato come una struttura medica, potrebbe essere in grado di aiutarti, in qualche modo.
-
-For now, my only lens into the outside is those pearls you carry.|Per ora, la mia unica lente all'esterno è quelle perle che porti.
-
-Improved Input Config is active!|La configurazione di input migliorata è attiva!
-
-You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|Sembra che tu stia andando bene per te stesso, la tua tenacia da qualunque cosa accada è ammirevole!
-
-Oh... oh no...|Oh ... oh no ...
-
-Storage limit reached (|Limite di stoccaggio raggiunto (
-
-I can only hope you have not come... to hurt me more.|Posso solo sperare che tu non sia venuto ... per farmi del male.
-
-Welc- Hello. Hello again.|Welc-ciao.Ciao di nuovo.
-
-...familiar ...help... please...|... familiare ... aiuto ... per favore ...
-
-) & use the (LEFT) & (RIGHT) directional inputs|) e usa gli ingressi direzionali (a sinistra) e (a destra)
-
-Compact Inventory HUD?|Inventario compatto HUD?
-
-Shield Duration|Durata dello scudo
-
-I remember this one... don't you? Well...|Ricordo questo ... vero?BENE...
-
-Disable Revive Effect?|Disabilita l'effetto RIVIVE?
-
-You really do remind me so much of your mother...|Mi ricordi davvero così tanto di tua madre ...
-
-I'll be waiting right here - not like I can go far, anyways!|Sarò in attesa di sé proprio qui - non come posso andare lontano, comunque 
-
-MSC|MSC
-
-Keybind for Player 3.|Keybind per il giocatore 3.
-
-Button North|Button North
-
-Clearly an artifical creation. But from where? Sent by who?|Chiaramente una creazione artificiale.Ma da dove?Inviato da chi?
-
-Pearlpup Respawn?|Pearlpup Respawn?
-
-Player 3|Giocatore 3
-
-Custom Spear Keybind?|Keybind della lancia personalizzata?
-
-Oh... the memories can hurt a little... but I shouldn't well on them.|Oh ... i ricordi possono far male un po '... ma non dovrei bene su di loro.
-
-Inventory Override?|Inventario Override?
-
-Press (JUMP + GRAB) while in the air to perform a double jump|Premere (salta + afferrare) mentre è in aria per eseguire un doppio salto
-
-BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|Il blu simboleggia l'agilità.Ogni perla blu memorizzata fornirà un doppio salto aggiuntivo
-
-I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|Non posso garantire nulla: queste locomotive non sono state operative poiché la mia struttura è stata messa in blocco ...
-
-Pearl Threat Music?|Musica per minacce di perle?
-
-Store Pearl|Conserva Pearl
-
-Difficulty|Difficoltà
-
-Hello again.|Ciao di nuovo.
-
-Keybind to swap to the stored pearl to the left. Limited to Player 1.|Keybind per scambiare verso la perla immagazzinata a sinistra.Limitato al giocatore 1.
-
-Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.|KeyBind personalizzato per eseguire determinate abilità di Pearl, configurare che utilizzano il bind personalizzato nella configurazione remix di Pearlcat.
-
-Oh, hello strange scholar!|Oh, ciao strano studioso!
-
-What do you want? To take away more of my life...?|Cosa vuoi?Per togliere più della mia vita ...?
-
-Your biology... it is both familiar and foreign to me. How curious.|La tua biologia ... è sia familiare che estraneo a me.Che curioso.
-
-Deploys the active pearl as a sentry, or returns it if it is already deployed.|Distribuisce la perla attiva come sentinella o la restituisce se è già distribuita.
-
-Mira Installation requires a more recent version of Pearlcat! Please update...|L'installazione di Mira richiede una versione più recente di Pearlcat!Si prega di aggiornare ...
-
-PEARLPUP|Pearlpup
-
-Button South|Button South
-
-When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|Se controllato, imposta l'inventario sul numero specificato di perle colorate al di sotto di ogni ciclo.Non salva sull'inventario attuale: viene restituito quando non controllato.
-
-RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|Il rosso simboleggia il potere.Con una perla rossa attiva, la creatura ostile più vicina verrà presa di mira
-
-I... wish there was more I could do... but even... nevermind in my current state.|Vorrei che ci fosse di più che potevo fare ... ma anche ... non importa nel mio stato attuale.
-
-L-Stick|L-stick
-
-You would be a hard one to forget after all, strange scholar!|Saresti difficile da dimenticare dopo tutto, strano studioso!
-
-Grab a creature and hold (GRAB) with an active green pearl to revive them|Prendi una creatura e tieni premuto (afferra) con una perla verde attiva per rianimarli
-
-...but, you are not like I remember them? Am I misremembering so badly?|... ma non sei come se li ricordi?Sto commessando così male?
-
-Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Numero di perle di creazione di lance (bianco).Efficace solo quando l'inventario si sovrascrive?è controllato.
-
-Oh, hello! Hello...|Oh, ciao!Ciao...
+I've accepted my fate - and one day, you will meet an end too...|Ho accettato il mio destino - e un giorno, incontrerai anche una fine ...
 
 You gave me quite the fright! I do not get visitors often these days;<LINE>much less visitors quite like you, who I can talk to...|Mi hai dato abbastanza paura!Non ricevo spesso visitatori in questi giorni; <fine> Molto meno visitatori come te, con chi posso parlare ...
 
-Hello again, strange scholar...|Ciao di nuovo, strano studioso ...
+I am so sorry.|Mi dispiace tanto.
 
-I may not have the facilities to aid you, however...|Potrei non avere le strutture per aiutarti, tuttavia ...
+pearlcat|Pearlcat
 
-Visibility Multiplier|Moltiplicatore di visibilità
-
-)|)
-
-Oh, hello <PlayerName>!|Oh, ciao <Playername>!
-
-...I am not sure if this is comforting, but...|... Non sono sicuro che sia confortante, ma ...
-
-Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.|Apre l'interfaccia utente di inventario quando tenuta, permettendo alla perla attiva di essere scambiato con le chiavi di movimento.
-
-Hold (GRAB) with an active common pearl to convert it into a pearl spear|Tieni premuto (afferrare) con una perla comune attiva per convertirla in una lancia perla
-
-Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Abilita i tasti personalizzati di seguito, al contrario del predefinito (up + pickup).
-
-When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Se controllato, i cosmetici di Pearlcat saranno disabilitati, destinati a consentire sprite personalizzate tramite DMS.Questo non include le perle stesse.
-
-You. I didn't forget...|Voi.Non ho dimenticato ...
-
-So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...|Quindi per favore, portami di più, purché non sia troppo pericoloso per te ... queste visite sono davvero il momento clou dei miei giorni qui ...
-
-Pearlpup|Pearlpup
-
-...hello?|...Ciao?
-
-Keybind to swap to the stored pearl to the right. Limited to Player 1.|Keybind per scambiare verso la perla immagazzinata a destra.Limitato al giocatore 1.
-
-Welcome back, <PlayerName>!|Bentornato, <Playername>!
-
-) or (|) O (
-
-You're more than welcome to stay a while... your ability will always be a little miracle to me...|Sei più che benvenuto per rimanere un po '... La tua abilità sarà sempre un po' miracolo per me ...
-
-...we were built to solve problems. It is a shame not every problem has a solution.|... Siamo stati costruiti per risolvere i problemi.È un peccato che non tutti i problemi abbiano una soluzione.
-
-...and you have brought your little friend along, of course.|... e hai portato il tuo piccolo amico, ovviamente.
-
-Your little friend is still quite sick, unfortunately.|Il tuo piccolo amico è ancora abbastanza malato, sfortunatamente.
-
-Is the implant... painful? Not that it matters, of course. Just noting some common ground.|L'impianto è ... doloroso?Non che sia importante, ovviamente.Basta notare un terreno comune.
-
-Your survival gives me some hope, little one.|La tua sopravvivenza mi dà qualche speranza, piccola.
-
-Left Bumper|Bumper sinistro
-
-Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer...|Altrimenti, devo riprendere il mio lavoro, sembra che il percorso per la mia cura sia purtroppo molto più lungo ...
-
-Background|Sfondo
-
-To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Per recuperare le perle, avere una mano principale vuota e tenere premuto (afferrare + up)
-
-PEARLCAT_MIRA_SKIP|Pearlcat_mira_skip
-
-Old Red Pearl Ability?|Old Red Pearl Abilità?
-
-Button West|Button West
-
-Right Bumper|Bumper destro
-
-Keyboard|Tastiera
-
-Ability P2|Abilità P2
-
-Player 2|Giocatore 2
-
-When checked, some abilties will show the inventory when recharged or depleted.|Se controllati, alcune abilità mostreranno l'inventario quando ricaricate o esaurite.
-
-My own time is limited, after all...|Il mio tempo è limitato, dopo tutto ...
-
-Hides the visuals of inactive pearls and turns you into... cat.|Nasconde la grafica delle perle inattive e ti trasforma in ... gatto.
-
-When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|Se selezionato, disabilita il supporto di configurazione di input migliorato, ripristinando a Remix Config.Esci e rientri nel menu Remix per avere effetto.
-
-Sentry P2|Sentry P2
-
-Look at yourself! You know how it feels, to be within an inch of death...|Guardati!Sai come ci si sente, essere entro un centimetro dalla morte ...
-
-Extra Cheats|Trucchi extra
-
-Disable Spear Effect?|Disabilita l'effetto di lancia?
-
-Surely it must be another little beast with a pearl for a heart?|Sicuramente deve essere un'altra piccola bestia con una perla per un cuore?
-
-I have tried to reconstruct it from memory many times, fruitlessly.|Ho cercato di ricostruirlo dalla memoria molte volte, inutilmente.
-
-Player 1|Giocatore 1
-
-Brought me something to read? Or just wasting my time, as per usual?|Mi ha portato qualcosa da leggere?O semplicemente sprecare il mio tempo, come al solito?
-
-Disable Shield Effect?|Disabilita l'effetto dello scudo?
-
-Swap Pearl|Swap Pearl
-
-I hope you are staying safe out there...|Spero che tu stia al sicuro là fuori ...
-
-Pearl Ability|Abilità perla
-
-The company of you and your friend makes my day, strange scholar.|La compagnia di te e del tuo amico rende la mia giornata, strano studioso.
-
-Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|Il tempo in cornici lo scudo di perle giallo prende per ricaricarsi dopo l'attivazione.Predefinito 40 secondi.
-
-Trigger Player|Trigger Player
-
-Swap Right|Scambia a destra
-
-): swap out a pearl, or change the limit in the Remix options|): scambiare una perla o modificare il limite nelle opzioni di remix
-
-GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|Il verde simboleggia la vitalità.Ogni perla verde immagazzinata può far rivivere una creatura per ciclo, incluso te
-
-The surviving scholar returns once more... how poetic.|Lo studioso sopravvissuto ritorna ancora una volta ... quanto poetico.
-
-If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.|Se ti capita di avere un momento da perdere, sarei più che felice di leggere quelle perle ... <fine> non c'è molto altro da fare per passare il tempo.
-
-Ability KB|Abilità KB
-
-Cheats|Trucchi
-
-- Chinese Translation|- Traduzione cinese
+Storage limit reached (|Limite di stoccaggio raggiunto (
 
 I'm sorry... it's wrong to be so invasive, it's none of my business really.|Mi dispiace ... è sbagliato essere così invasivi, non sono davvero affari miei.
 
- Pearlpup will be revived.|Pearlpup verrà rianimato.
+View|Visualizzazione
 
-I will tolerate your pressence, so long as you bring me something meaningful.|Tollererò la tua presenza, fintanto che mi porterai qualcosa di significativo.
+Shield Recharge Time|Tempo di ricarica dello scudo
 
-I am... sorry.|Mi dispiace.
-
-...and what happened to your parent...|... e cosa è successo al tuo genitore ...
-
-Sentry KB|Sentry KB
-
-Store Input|Archiviare input
-
-I very much enjoy the company though... you and your little friend are always welcome here.|Mi piace molto la compagnia però ... Tu e il tuo piccolo amico siete sempre i benvenuti qui.
-
-When checked, disables the shield effect granted by an active pearl.|Se controllato, disabilita l'effetto scudo concesso da una perla attiva.
-
-Keybind for Player 1.|Keybind per il giocatore 1.
-
-Please... this all I have left... you have so much... ...why take mine?|Per favore ... tutto ciò che mi è rimasto ... hai così tanto ... ... perché prendere il mio?
-
-When checked, disables the camoflague effect granted by an active pearl.|Se controllato, disabilita l'effetto CAMOFLAGUE concesso da una perla attiva.
-
-Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.|Mi dispiace, non dovrei essere così invadente, dopo tutto sono abbastanza nello stato.
-
-...did they have a child? ...could you be?|... avevano un figlio?... potresti essere?
-
-thing|cosa
+Press (|Premere (
 
 Camo Pearl Count|CAMO COUNG CAMO
 
-Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|Preferisci utilizzare i tasti personalizzati di seguito per l'agilità Double Jump, anziché predefinito (GRAB + JUMP)
+Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|Danneggiare il laser di ogni perla rossa per scatto.Sopravvissuto Danno alla lancia = 1.0
 
-Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.|Memorizza la perla nella mano principale o recupera l'attuale perla attiva se la mano principale è vuota.
+Swaps the active pearl to the left.|Scambia la perla attiva a sinistra.
 
-Swaps the active pearl to the right.|Scambia la perla attiva a destra.
+Clearly artificial creations. But from where? Sent by who?|Creazioni chiaramente artificiali.Ma da dove?Inviato da chi?
 
-To store, hold the same keybind with a pearl in your main hand|Per archiviare, tieni lo stesso keybind con una perla nella tua mano principale
+Death is not the end... even death that seems permanent.|La morte non è la fine ... anche la morte che sembra permanente.
 
-It would be pointless to ask why...|Sarebbe inutile chiedere perché ...
+When checked, pearls will no longer grant stat changes, active or otherwise, and base stats are set to be similar to Hunter.|Se controllati, le perle non concederanno più modifiche alle statistiche, attive o altro, e le statistiche di base sono impostate per essere simili a Hunter.
 
-Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|Scusa se sembro un po 'lento a proposito, siamo progettati per operare con milioni di neuroni, al contrario, beh ...
+All times here are in frames.<LINE>40 frames = 1 second.|Tutti i tempi qui sono in frame. <Linea> 40 frame = 1 secondo.
 
-I won't be going anywhere any time soon... if you need company, you know who to visit!|Non andrò da nessuna parte presto ... se hai bisogno di compagnia, sai chi visitare!
+Number of revive pearls (green). Effective only when Inventory Override? is checked.|Numero di perle revive (verde).Efficace solo quando l'inventario si sovrascrive?è controllato.
 
-I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|Suppongo, visto che non puoi leggere le informazioni archiviate su di loro, posso leggerle per te, se lo desideri.
+Press (JUMP + GRAB) while in the air to perform a double jump|Premere (salta + afferrare) mentre è in aria per eseguire un doppio salto
 
-And who is your little friend? They are...|E chi è il tuo piccolo amico?Sono...
+...I am not sure if this is comforting, but...|... Non sono sicuro che sia confortante, ma ...
 
-Ah. So you've returned.|Ah.Quindi sei tornato.
+If only I had my memories, I might have a clue...|Se solo avessi i miei ricordi, potrei avere un indizio ...
 
-Whichever path you take, I hope you find the help that you seek.|Qualunque sia il percorso che prendi, spero che tu trovi l'aiuto che cerchi.
-
-The choice is yours.|La scelta è tua.
-
-Keybind for Player 4.|Keybind per il giocatore 4.
-
-Shield Pearl Count|Shield Pearl Count
-
-Laser Windup TIme (OLD)|Tempo di WindUp laser (vecchio)
-
-Welcome back, <PlayerName>, and your little one too.|Bentornato, <Playername> e anche il tuo piccolo.
-
-Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|La loro curiosità insaziabile, Pearcat si avventura ancora una volta nel perseguimento di <fine> di espandere la loro collezione
-
-You...|Voi...
-
-I very much enjoy the company though... you and your family are always welcome here.|Mi piace molto la compagnia però ... Tu e la tua famiglia siete sempre i benvenuti qui.
-
-- Artwork|- Opere d'arte
-
-YOU!|VOI!
-
-The Gutter|La grondaia
-
-Four! Well, if you insist...|Quattro!Bene, se insisti ...
-
-by|di
-
-Swap Input|Input di scambio
-
-FIND MIRA...|Trova Mira ...
-
-Chimney Canopy|Terpa di camino
-
-...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|... hai mangiato ... io.Per favore, vai via.Non parlo ... a te. <fine> I ... non posso parlarti ... perché ... hai mangiato ... io ... ... e perché?
-
-Something else new? Allow me to see...|Qualcos'altro di nuovo?Permettimi di vedere ...
-
-Which player controller trigger swapping will apply to. 0 disables trigger swapping. Negative player numbers invert the triggers. Hold and drag up or down to change.|A quale scambio di trigger controller giocatore si applicherà.0 disabilita lo scambio di trigger.I numeri dei giocatori negativi invertono i trigger.Tieni premuto e trascina su o giù per cambiare.
-
-Sentry P1|Sentry P1
-
-- Floppy Ears, Scarf|- orecchie floppy, sciarpa
-
-And a third? So it is...|E un terzo?Quindi è ...
-
-You're more than welcome to stay a while... your ability will always be a miracle to me...|Sei più che benvenuto per rimanere un po '... La tua abilità sarà sempre un miracolo per me ...
-
-Disable Minor Effects?|Disabilitare gli effetti minori?
+Store Pearl|Conserva Pearl
 
 Read this one too? Yes, yes, here it is...|Leggi anche questo?Sì, sì, eccolo ...
 
-Swap Left|Scambia a sinistra
+Your little friend is still quite sick, unfortunately.|Il tuo piccolo amico è ancora abbastanza malato, sfortunatamente.
 
-Hide Pearls?|Nascondere le perle?
+Laser Recharge Time (OLD)|Tempo di ricarica laser (vecchio)
 
-Ah, I hope you both stay safe out there...|Ah, spero che vi siete entrambi al sicuro ...
+Grab a creature and hold (GRAB) with an active green pearl to revive them|Prendi una creatura e tieni premuto (afferra) con una perla verde attiva per rianimarli
 
-Intended to make gameplay more challenging, may change gameplay significantly!|Destinato a rendere il gameplay più impegnativo, può cambiare il gameplay in modo significativo!
+No, I am not so selfish as to sacrifice you on a whim for this - a cure is not even guaranteed.|No, non sono così egoista da sacrificarti per un capriccio per questo: una cura non è nemmeno garantita.
 
-Revive Pearl Count|Rivivi il numero di perle
-
-I think I may still have some use left after all!|Penso che potrei ancora avere un po 'di uso dopo tutto! 
-
-Custom Agility Keybind?|Keybind di agilità personalizzato?
+Ah... you seem, familiar...? ...but in such a strange way...|Ah ... sembri, familiare ...?... ma in un modo così strano ...
 
 ...there is nothing I can do for your pup at present. I am sorry. I will... think on it.|... Al momento non posso fare niente per il tuo cucciolo.Mi dispiace.Ci penserò.
 
+Whichever path you take, I hope you find the help that you seek.|Qualunque sia il percorso che prendi, spero che tu trovi l'aiuto che cerchi.
+
+Charges are consumed to provide protection. Each pearl individually replenishes its charge after some time|Gli addebiti vengono consumati per fornire protezione.Ogni perla riempie individualmente la sua carica dopo un po 'di tempo
+
+... |...
+
+There is nothing I can do - I am not a medical facility, and even if I were, my equipment is far from pristine.|Non posso fare nulla: non sono una struttura medica e anche se lo fossi, la mia attrezzatura è tutt'altro che incontaminata.
+
+Time in frames the yellow pearl shield lasts after activating. Default 1.5 seconds.|Il tempo in cornici lo scudo di perle giallo dura dopo l'attivazione.Predefinito 1,5 secondi.
+
+I must resume my work. I will be waiting here, as always.|Devo riprendere il mio lavoro.Aspetterò qui, come sempre.
+
+Ability KB|Abilità KB
+
+Button South|Button South
+
+I won't lie, I'm so curious as to how you... survived, and how you ended up back here...?|Non mentirò, sono così curioso di come sei sopravvissuto e come sei finito qui ...?
+
+Your biology... it is both familiar and foreign to me. How curious.|La tua biologia ... è sia familiare che estraneo a me.Che curioso.
+
+Keybind to swap to the stored pearl to the left. Limited to Player 1.|Keybind per scambiare verso la perla immagazzinata a sinistra.Limitato al giocatore 1.
+
+Welcome back, <PlayerName>, and your little one too.|Bentornato, <Playername> e anche il tuo piccolo.
+
+Custom Agility Keybind?|Keybind di agilità personalizzato?
+
+Enables custom keybinds below, as opposed to the default (UP + PICKUP).|Abilita i tasti personalizzati di seguito, al contrario del predefinito (up + pickup).
+
+Your survival gives me some hope, little one.|La tua sopravvivenza mi dà qualche speranza, piccola.
+
+heart|cuore
+
+If you do not plan to provide me with any meaningful data, that is your best course of action;|Se non hai intenzione di fornirmi dati significativi, questa è la tua migliore linea d'azione;
+
+MSC|MSC
+
+I still don't have much to offer, sadly... aside from my pearl readings, and company of course!|Non ho ancora molto da offrire, purtroppo ... a parte le mie letture di perle e ovviamente compagnia!
+
+Number of shield pearls (yellow). Effective only when Inventory Override? is checked.|Numero di perle di scudo (giallo).Efficace solo quando l'inventario si sovrascrive?è controllato.
+
+A scholar of obscure origin, armed with an enigmatic energy and a thirst for knowledge.<LINE>Physically frail, but with pearls as your ally - what will you discover on your travels?|Uno studioso di origine oscura, armato di un'energia enigmatica e una sete di conoscenza. <LINE> fisicamente fragile, ma con perle come alleato - cosa scoprirai nei tuoi viaggi?
+
+Who... who is there?|Chi ... chi c'è?
+
+The choice is yours.|La scelta è tua.
+
+...we were built to solve problems. It is a shame not every problem has a solution.|... Siamo stati costruiti per risolvere i problemi.È un peccato che non tutti i problemi abbiano una soluzione.
+
+Welcome back, you two!|Bentornato, voi due!
+
+Get... get away... strange... thing.|Metti ... allontanati ... strano ... cosa.
+
+Keybind for Player 3.|Keybind per il giocatore 3.
+
+You...|Voi...
+
+And just who might you two be?|E solo chi potreste essere voi due?
+
+...familiar ...help... please...|... familiare ... aiuto ... per favore ...
+
+Oh, and for direction - there is a gate to the far west of here, where the ground fissures...|Oh, e per la direzione - c'è un cancello all'estremo ovest di qui, dove le fenditure di terra ...
+
+Hello again.|Ciao di nuovo.
+
+I assure you it will be a more than suitable replacement for your primitive needs.|Ti assicuro che sarà un sostituto più che adeguato per le tue esigenze primitive.
+
+Sentry P1|Sentry P1
+
+Disable Rage Effect?|Disabilita l'effetto di rabbia?
+
+Ah, yet another one? You are even better at finding these than I imagined...|Ah, ancora un altro?Sei ancora più bravo a trovarli di quanto immaginassi ...
+
+Begin at the start of 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over.|Inizia all'inizio della trama "The Well" ... <fine> Il mondo sarà preservato e le perle porteranno il passaggio.
+
+You're more than welcome to stay a while... your ability will always be a little miracle to me...|Sei più che benvenuto per rimanere un po '... La tua abilità sarà sempre un po' miracolo per me ...
+
+Transit System|Sistema di transito
+
+You and your family are always welcome here - please visit often!|Tu e la tua famiglia siete sempre i benvenuti qui - visita spesso!
+
+I assume you may find them nearby the area you arrived; that is via the access shaft, if you have forgotten.|Presumo che potresti trovarli nelle vicinanze della zona che sei arrivato;Questo è tramite l'albero di accesso, se hai dimenticato.
+
+Given you have inherited your mother's traits, if you want to make these visits worth my time, bring me something to read...|Dato
+
+When checked, disables the revive effect granted by an active pearl.|Se controllato, disabilita l'effetto di rilancio concesso da una perla attiva.
+
+So curious...|Così curioso ...
+
+Sentry P2|Sentry P2
+
+I... I have nothing more to say...|Io ... non ho altro da dire ...
+
+I will tolerate your pressence, so long as you bring me something meaningful.|Tollererò la tua presenza, fintanto che mi porterai qualcosa di significativo.
+
+Considering the state you left in, I thought it impossible I would see you again... and yet here you are.|Considerando lo stato in cui hai lasciato, ho pensato impossibile che ti vedessi di nuovo ... eppure eccoti qui.
+
+Hides the visuals of inactive pearls and turns you into... cat.|Nasconde la grafica delle perle inattive e ti trasforma in ... gatto.
+
+Hello again, strange scholar!|Ciao di nuovo, strano studioso!
+
+Maximum number of pearls that can be stored at once, including the active pearl. Default is 9. Hold and drag up or down to change.|Numero massimo di perle che possono essere conservate contemporaneamente, inclusa la perla attiva.L'impostazione predefinita è 9. Tieni premuto e trascina su o giù per cambiare.
+
+Disable Cosmetics?|Disabilita i cosmetici?
+
+I... wish there was more I could do... but even... nevermind in my current state.|Vorrei che ci fosse di più che potevo fare ... ma anche ... non importa nel mio stato attuale.
+
+PLAYTESTERS|Playtesters
+
+I am... sorry.|Mi dispiace.
+
+Sentry Pearl|Sentry Pearl
+
+And who is your little friend? They are...|E chi è il tuo piccolo amico?Sono...
+
+Think of this mutually, I can 'see' a little further outside this can...|Pensa a ciò reciprocamente, posso "vedere" un po 'più fuori questo può ...
+
+Is my memory so bad to forget how your little one looks? They seem paler...|La mia memoria è così male dimenticare come appare il tuo piccolo?Sembrano più chiari ...
+
+Sentry KB|Sentry KB
+
+Extra Cheats|Trucchi extra
+
+I'm just so glad you're safe, too many things have come into my memory, only to be washed away...|Sono così felice che tu sia al sicuro, troppe cose sono venute nella mia memoria, solo per essere lavato via ...
+
+Throwing any weapon within a red pearl's radius will cause it to home onto the nearest hostile creature|Lanciare qualsiasi arma nel raggio di una perla rossa lo farà casa sulla creatura ostile più vicina
+
+Sentry P3|Sentry P3
+
+...there.|...Là.
+
+JoystickButton|Joystickbutton
+
+Reverts to the old red pearl mechanics - auto targeting lasers.|Ritorna ai vecchi meccanici di perle rosse - Laser di targeting automatico.
+
+...and you have brought your little friend along, of course.|... e hai portato il tuo piccolo amico, ovviamente.
+
+The Pearlcat|The Pearlcat
+
+Back again? I hope you have brought me something this time.|Di nuovo?Spero che tu mi abbia portato qualcosa questa volta.
+
+Difficulty|Difficoltà
+
+Custom Keybind?|Keybind personalizzato?
+
+Compact Inventory HUD?|Inventario compatto HUD?
+
+Four! Well, if you insist...|Quattro!Bene, se insisti ...
+
+Play around with sentries to see what they do!|Gioca con le sentinelle per vedere cosa fanno!
+
+Ah, you have returned? You look about as sickly as I remember.|Ah, sei tornato?Ti guardi così male come ricordo.
+
+Please, stay as long as you'd like, I can't begin to imagine what you've been through.|Per favore, resta tutto il tempo che desideri, non posso iniziare a immaginare cosa hai passato.
+
+My own time is limited, after all...|Il mio tempo è limitato, dopo tutto ...
+
+I cannot guarantee anything - these locomotives have not been operational since my facility was placed into lockdown...|Non posso garantire nulla: queste locomotive non sono state operative poiché la mia struttura è stata messa in blocco ...
+
+Hide Pearls?|Nascondere le perle?
+
+You must be very brave to have made it all the way here. Very brave indeed...|Devi essere molto coraggioso per averlo fatto fino in fondo qui.Davvero molto coraggioso ...
+
+And a nasty scar, poor thing... I can't imagine where you got that, or even where you came from...?|E una brutta cicatrice, una cosa povera ... non riesco a immaginare dove l'hai preso, o anche da dove vieni ...?
+
+Number of camo pearls (black). Effective only when Inventory Override? is checked.|Numero di perle mimetiche (nero).Efficace solo quando l'inventario si sovrascrive?è controllato.
+
+Sorry, I shouldn't be so intrusive, I am in quite the state myself after all.|Mi dispiace, non dovrei essere così invadente, dopo tutto sono abbastanza nello stato.
+
+Pearl Threat Music?|Musica per minacce di perle?
+
+Percentage multiplier on Pearlcat's general visibility, influences predator attraction. By default, Pearlcat is significantly more visible than even Hunter.|Il moltiplicatore percentuale sulla visibilità generale di Pearlcat, influenza l'attrazione dei predatori.Per impostazione predefinita, Pearlcat è significativamente più visibile di persino Hunter.
+
+ SAVE|SALVA
+
+Custom keybind to perform certain pearl abilities, configure which use the custom bind in Pearlcat's Remix config.|KeyBind personalizzato per eseguire determinate abilità di Pearl, configurare che utilizzano il bind personalizzato nella configurazione remix di Pearlcat.
+
+), or the triggers on controller|) o i trigger sul controller
+
+Old Red Pearl Ability?|Old Red Pearl Abilità?
+
+Your HEART will let you possess others, with it active, maintain line of sight with a creature and try to retrieve the pearl to possess|Il tuo cuore ti permetterà di possedere gli altri, con esso attivo, mantieni la linea di vista con una creatura e cercherà di recuperare la perla per possedere
+
+pearlcat-description|Uno studioso curioso con l'insolita capacità di sfruttare le perle a proprio vantaggio. <fine> <fine> Configurare input, difficoltà, trucchi e altro tramite il remix config! <LINE> <LINE> più slugcats è facoltativo, ma fortemente consigliato.
+
+Shield Duration|Durata dello scudo
+
+by|di
+
+Sentry P4|Sentry P4
+
+Background|Sfondo
+
+Disable Spear Effect?|Disabilita l'effetto di lancia?
+
+Your attachment to that thing is unavoidable, I suppose.|Il tuo attaccamento a quella cosa è inevitabile, suppongo.
+
+Multiple red pearls may chain this effect together - and yes, these batflies are VERY HOSTILE!|Più perle rosse possono incatenare questo effetto insieme - e sì, queste battute sono molto ostili!
+
+)|)
+
+(unfortunately for Pearlpup to spawn, it requires the Downpour DLC to be enabled)|(Sfortunatamente per la spawn di Pearlpup, richiede che il DLC dell'acconto sia abilitato)
+
+To retrieve pearls, have an empty main hand, and hold (|Per recuperare le perle, avere una mano principale vuota e tenere premuto (
+
+- Dialogue, SFX|- Dialogo, SFX
+
+You. I didn't forget...|Voi.Non ho dimenticato ...
+
+Hello! I remember you! I remember...|Ciao!Mi ricordo di te!Mi ricordo...
+
+I noticed the augment keeping you alive as soon as you returned here - I don't say this lightly, but it is beyond me how it works.|Ho notato che l'aumento ti ha mantenuto in vita non appena sei tornato qui - non lo dico leggermente, ma è al di là di me come funziona.
+
+RED symbolizes power. With a red pearl active, all stored red pearls will circle you|Il rosso simboleggia il potere.Con una perla rossa attiva, tutte le perle rosse immagazzinate ti circonderanno
+
+I see you've returned, yet again.|Vedo che sei tornato, ancora una volta.
+
+Ah. So you've returned.|Ah.Quindi sei tornato.
+
+Max Pearl Count|Max Pearl Count
+
+However, given a lack of other options, this is the best I can do.|Tuttavia, data la mancanza di altre opzioni, questo è il meglio che posso fare.
+
+Hello. Again.|Ciao.Ancora.
+
+So please, bring me more, as long as it isn't too dangerous for you... these visits really are the highlight of my days here...|Quindi per favore, portami di più, purché non sia troppo pericoloso per te ... queste visite sono davvero il momento clou dei miei giorni qui ...
+
+To cycle between pearls, use (|Per andare in bicicletta tra le perle, utilizzare (
+
+Pearls may also be deployed as temporary sentries. Press (GRAB + JUMP + DOWN) to deploy, and again to return.|Le perle possono anche essere distribuite come sentinelle temporanee.Premere (afferrare + salto + giù) per distribuire e di nuovo per tornare.
+
+Deploys the active pearl as a sentry, or returns it if it is already deployed.|Distribuisce la perla attiva come sentinella o la restituisce se è già distribuita.
+
+I won't be going anywhere any time soon... if you need company, you know who to visit!|Non andrò da nessuna parte presto ... se hai bisogno di compagnia, sai chi visitare!
+
+...help... please...|... aiuto ... per favore ...
+
+Pearls may also be deployed as temporary sentries. Press (|Le perle possono anche essere distribuite come sentinelle temporanee.Premere (
+
+Has it really been so long...? And considering your current state, you've been through a lot...|È passato così tanto tempo ...?E considerando il tuo stato attuale, hai passato molto ...
+
+Chimney Canopy|Terpa di camino
+
+The company of you and your friend makes my day, strange scholar.|La compagnia di te e del tuo amico rende la mia giornata, strano studioso.
+
+They are unwell, <PlayerName>, very unwell indeed.|Non stanno bene, <Playername>, davvero male.
+
+- Spanish Translation|- Traduzione spagnola
+
+...that pearl you carry, the purple one, where did you find it?|... Quella perla che porti, quella viola, dove l'hai trovata?
+
+I'm kidding, of course! My imagination will suffice, though the curiosity does burn me up inside...|Sto scherzando, ovviamente!La mia immaginazione sarà sufficiente, anche se la curiosità mi brucia dentro ...
+
+. . .|...
+
+Keybind for Keyboard.|KeyBind per la tastiera.
+
+YOU!|VOI!
+
+GREEN symbolizes vitality. Each green pearl stored may revive one creature per cycle, including you|Il verde simboleggia la vitalità.Ogni perla verde immagazzinata può far rivivere una creatura per ciclo, incluso te
+
+My overseers have made no peace over your arrival - I was under the impression the transit system was mostly inoperable.|I miei sorveglianti non hanno fatto pace per il tuo arrivo: avevo l'impressione che il sistema di transito era per lo più inutilizzabile.
+
+I do enjoy the company of you and your friend though, <PlayerName>.|Mi piace la compagnia di te e del tuo amico, <Playername>.
+
+Oh, hello! Hello...|Oh, ciao!Ciao...
+
+Cheats|Trucchi
+
+I'll always enjoy your company... it gets lonely out here.|Mi piacerà sempre la tua compagnia ... è solo qui.
+
+Oh... oh no...|Oh ... oh no ...
+
+...ah... are those still a fascination to you? You really are no different from your mother...|... Ah ... quelli sono ancora un fascino per te?Non sei davvero diverso da tua madre ...
+
+Intended for fun, may change gameplay significantly!|Destinato al divertimento, può cambiare il gameplay in modo significativo!
+
+halo|alone
+
+Keyboard|Tastiera
+
+Given your unique abilities, if you are curious as to the contents of those pearls -|Date le tue abilità uniche, se sei curioso del contenuto di quelle perle -
+
+I think I may still have some use left after all!|Penso che potrei ancora avere un po 'di uso dopo tutto! 
+
+Oh... the memories can hurt a little... but I shouldn't well on them.|Oh ... i ricordi possono far male un po '... ma non dovrei bene su di loro.
+
+Something else new? Allow me to see...|Qualcos'altro di nuovo?Permettimi di vedere ...
+
+A scholar with the ability to manipulate pearls...? Oh... yes! I remember!|Uno studioso con la capacità di manipolare le perle ...?Oh ... sì!Mi ricordo!
+
+...one which still means a lot to me.|... uno che significa ancora molto per me.
+
+If you happen to have a moment to spare, I'd be more than happy to read those pearls...<LINE>There is not much else to do to pass the time.|Se ti capita di avere un momento da perdere, sarei più che felice di leggere quelle perle ... <fine> non c'è molto altro da fare per passare il tempo.
+
+Disable Revive Effect?|Disabilita l'effetto RIVIVE?
+
+Back again? You do visit often...|Di nuovo?Visiti spesso ...
+
+) while in the air to perform a double jump|) mentre è in aria per eseguire un doppio salto
+
+Disable Minor Effects?|Disabilitare gli effetti minori?
+
+You come from quite a distance? You can communicate with us, but the mark you possess is foreign to me...|Vieni da una certa distanza?Puoi comunicare con noi, ma il segno che possiedi è estraneo a me ...
+
+YELLOW symbolizes protection. Each yellow pearl stored will provide a shield charge|Il giallo simboleggia la protezione.Ogni perla gialla immagazzinata fornirà una carica di scudo
+
+I have nothing for you, I'm afraid... but I hope you find the answers you seek.|Non ho niente per te, temo ... ma spero che trovi le risposte che cerchi.
+
+...but... I will think on your problem, for now. Perhaps I can find a solution for both of us.|... ma ... penserò al tuo problema, per ora.Forse posso trovare una soluzione per entrambi.
+
+To store, hold the same keybind with a pearl in your main hand|Per archiviare, tieni lo stesso keybind con una perla nella tua mano principale
+
+General|Generale
+
+Starting Inventory Override?|Avvio della sovraccarico dell'inventario?
+
+It doesn't matter I suppose, you may stay, so long as you don't disturb my work...|Non importa, suppongo che tu possa restare, fintanto che non disturbi il mio lavoro ...
+
+Prefer to use the custom keybinds below for spear creation, instead of the default (GRAB)|Preferisci utilizzare i tasti personalizzati di seguito per la creazione di lance, anziché predefinito (GRAB)
+
+It would be pointless to ask why...|Sarebbe inutile chiedere perché ...
+
+...but, you are not like I remember them? Am I misremembering so badly?|... ma non sei come se li ricordi?Sto commessando così male?
+
+This illness, it is unlike any I have seen before - I can say it is likely fatal.|Questa malattia, è diversa da quella che ho visto prima: posso dire che è probabilmente fatale.
+
+When checked, sets the inventory to the specified numbers of coloured pearls below every cycle. Does not save over the current inventory - it is returned to when unchecked.|Se controllato, imposta l'inventario sul numero specificato di perle colorate al di sotto di ogni ciclo.Non salva sull'inventario attuale: viene restituito quando non controllato.
+
+Misfortune does not discriminate, sadly. I hope a better fate awaits you, in time.|La sventura non discrimina, purtroppo.Spero che un destino migliore ti aspetti, nel tempo.
+
+Ah, I won't lie... I am curious as to how you ended up back here, and what happened on your travels...|Ah, non mentirò ... Sono curioso di sapere come sei finito qui, e cosa è successo nei tuoi viaggi ...
+
+Keybind for Player 1.|Keybind per il giocatore 1.
+
+Input a shelter name to have it override where Pearlcat starts a new game.|Inserisci un nome di rifugio per farlo sovrascrivere dove Pearlcat inizia un nuovo gioco.
+
+Oh, hello there!|Oh, ciao!
+
+Keybind to swap to the stored pearl to the right. Limited to Player 1.|Keybind per scambiare verso la perla immagazzinata a destra.Limitato al giocatore 1.
+
+Keybind for Player 2.|Keybind per il giocatore 2.
+
+Visibility Multiplier|Moltiplicatore di visibilità
+
+Number of agility pearls (blue). Effective only when Inventory Override? is checked.|Numero di perle di agilità (blu).Efficace solo quando l'inventario si sovrascrive?è controllato.
+
+When checked, disables the agility effect granted by an active pearl.|Se controllato, disabilita l'effetto di agilità concesso da una perla attiva.
+
+PEARLCAT|Pearlcat
+
+BLUE symbolizes agility. Each blue pearl stored will provide an additional double jump|Il blu simboleggia l'agilità.Ogni perla blu memorizzata fornirà un doppio salto aggiuntivo
+
+When checked, Pearlpup will respawn in the next shelter on the following cycle whenever they are lost.|Se controllato, Pearlpup si rigillerà nel prossimo rifugio nel ciclo seguente ogni volta che si perdono.
+
+Hello! Strange scholar, it is good to see you!|Ciao!Strano studioso, è bello vederti!
+
+I hope you are staying safe out there...|Spero che tu stia al sicuro là fuori ...
+
+But it's best not to dwell on the past, don't you agree <PlayerName>?|Ma è meglio non soffermarsi sul passato, non sei d'accordo <Playername>?
+
+Oh! It is good to see you two again!|OH!È bello rivedervi!
+
+Let us see what- oh, again?|Vediamo cosa- oh, di nuovo?
+
+Disable Camoflague Effect?|Disabilita l'effetto Camoflague?
+
+Clearly an artifical creation. But from where? Sent by who?|Chiaramente una creazione artificiale.Ma da dove?Inviato da chi?
+
+Swap Pearl|Swap Pearl
+
+RED symbolizes power. With a red pearl active, the nearest hostile creature will be targeted|Il rosso simboleggia il potere.Con una perla rossa attiva, la creatura ostile più vicina verrà presa di mira
+
+When checked, disables the shield effect granted by an active pearl.|Se controllato, disabilita l'effetto scudo concesso da una perla attiva.
+
+.  .  .|...
+
+I may not have the facilities to aid you, however...|Potrei non avere le strutture per aiutarti, tuttavia ...
+
+VERSION WARNING|Avviso di versione
+
+ Pearlpup will be revived.|Pearlpup verrà rianimato.
+
+You. Again. I still remember what you did...|Voi.Ancora.Ricordo ancora quello che hai fatto ...
+
+Edit keybinds through the normal input menu.|Modifica keybinds tramite il normale menu di input.
+
+Pearlpup Respawn?|Pearlpup Respawn?
+
+(unfortunately, control of the creature requires the Downpour DLC to be enabled, however you can still be a passenger!)|(Sfortunatamente, il controllo della creatura richiede che il DLC di acquazzone sia abilitato, tuttavia puoi ancora essere un passeggero!)
+
+I very much enjoy the company though... you and your little friend are always welcome here.|Mi piace molto la compagnia però ... Tu e il tuo piccolo amico siete sempre i benvenuti qui.
+
+Oh... the memories can hurt a little... but I shouldn't dwell on them.|Oh ... i ricordi possono far male un po '... ma non dovrei soffermarsi su di loro.
+
+I would guess they will grow up into quite the scholar themself, someday...|Immagino che cresceranno in uno studioso da soli, un giorno ...
+
+- Chinese Translation|- Traduzione cinese
+
+sick|malato
+
+Was it really so long ago that you were only half my height...?|Era davvero tanto tempo fa che eri solo metà della mia altezza ...?
+
+Pearl Ability|Abilità perla
+
+And why... to me?|E perché ... per me?
+
+Prefer to use the custom keybinds for deploying sentry pearls, instead of the default (GRAB + JUMP + DOWN)|Preferisci utilizzare i tasti personalizzati per la distribuzione di perle Sentry, anziché l'impostazione predefinita (afferrare + salto + giù)
+
+Another one? I shouldn't be surprised. Let's see...|Un altro?Non dovrei essere sorpreso.Vediamo ...
+
+Please... this all I have left... you have so much... ...why take mine?|Per favore ... tutto ciò che mi è rimasto ... hai così tanto ... ... perché prendere il mio?
+
+Ah, I'm sorry... it's wrong to be so invasive, and I shouldn't be so sentimental anyways.|Ah, mi dispiace ... è sbagliato essere così invasivi e non dovrei essere così sentimentale.
+
+I have sent a request for the stationary cargo transports in my city to resume operation.|Ho inviato una richiesta per i trasporti di carico stazionari nella mia città per riprendere il funzionamento.
+
+I hope the cycles have been treating you well... it must be hard to take care of eachother out there.|Spero che i cicli ti stiano trattando bene ... deve essere difficile prenderti cura l'uno dell'altro là fuori.
+
+Enable Backspear?|Abilita backspear?
+
+Time in frames the yellow pearl shield take to recharge after activating. Default 40 seconds.|Il tempo in cornici lo scudo di perle giallo prende per ricaricarsi dopo l'attivazione.Predefinito 40 secondi.
+
+Number of spear creation pearls (white). Effective only when Inventory Override? is checked.|Numero di perle di creazione di lance (bianco).Efficace solo quando l'inventario si sovrascrive?è controllato.
+
+You would be a hard one to forget after all, strange scholar!|Saresti difficile da dimenticare dopo tutto, strano studioso!
+
+Shield Pearl Count|Shield Pearl Count
+
+thing|cosa
+
+Is that you, little scholar? I'm speechless...|Sei tu, piccolo studioso?Sono senza parole ...
+
+...and don't look to me, it's not my fault...|... e non guardarmi, non è colpa mia ...
+
+Otherwise, I must resume my work, it seems the path to my own cure is unfortunately much longer...|Altrimenti, devo riprendere il mio lavoro, sembra che il percorso per la mia cura sia purtroppo molto più lungo ...
+
+Welcome back, <PlayerName>!|Bentornato, <Playername>!
+
+Custom Spear Keybind?|Keybind della lancia personalizzata?
+
+...you can manipulate our storage medium in unforseen ways...|... Puoi manipolare il nostro mezzo di archiviazione in modi spietati ...
+
+Brought me something to read? Or just wasting my time, as per usual?|Mi ha portato qualcosa da leggere?O semplicemente sprecare il mio tempo, come al solito?
+
+When checked, the inventory HUD will be replaced with a more compact version.|Se controllato, l'inventario HUD verrà sostituito con una versione più compatta.
+
+...oh? Take them, the data they contain is worthless to me. I suppose they'd be far more useful to you...|...OH?Prendili, i dati che contengono sono inutili per me.Suppongo che ti sarebbero molto più utili ...
+
+I am glad you found your own solution... even if it is an abhorrent perversion of natural law.|Sono contento che tu abbia trovato la tua soluzione ... anche se è una perversione disgustosa della legge naturale.
+
+Why did you come back here...? I can only imagine it brings back some painful memories.|Perché sei tornato qui ...?Posso solo immaginare che riporta alcuni ricordi dolorosi.
+
+I see you have not found a cure for their illness. Not yet...|Vedo che non hai trovato una cura per la loro malattia.Non ancora...
+
+It appears to contain a hymn that once meant a lot to the inhabitants of my city...|Sembra contenere un inno che una volta significava molto per gli abitanti della mia città ...
+
+I already read this one. I can read it again, I suppose.|Ho già letto questo.Posso leggerlo di nuovo, suppongo.
+
+Laser Damage (OLD)|Danno laser (vecchio)
+
+Disable Improved Input Config?|Disabilitare la configurazione di input migliorata?
+
+Pearl spears will attempt to return to you after being thrown, if they are not stuck|Pearl Spears tenterà di tornare da te dopo essere stata lanciata, se non sono bloccate
+
+When checked, some abilties will show the inventory when recharged or depleted.|Se controllati, alcune abilità mostreranno l'inventario quando ricaricate o esaurite.
+
+You have a knack for finding these pearls, yes?|Hai un talento per trovare queste perle, sì?
+
+You would be a hard one to forget after all, <PlayerName>!|Saresti difficile da dimenticare dopo tutto, <Playername>!
+
+You are just a lot to take in for little old me! A fascinating power, the gift of communication;|Sei solo molto da prendere per me!Un potere affascinante, il dono della comunicazione;
+
+Something new to read... it has been too long...|Qualcosa di nuovo da leggere ... è passato troppo tempo ...
+
+acursed|maledetto
+
+Hold () or (|Hold () o (
+
+Welc- Hello. Hello again.|Welc-ciao.Ciao di nuovo.
+
+Ability P3|Abilità P3
+
+Hello, again. You are very curious. Very curious indeed.|Ciao, di nuovo.Sei molto curioso.Davvero molto curioso.
+
+The expanse beyond would be a safe place for you to raise your family - and to stay far away from my business.|La distesa oltre sarebbe un posto sicuro per te per crescere la tua famiglia e stare lontano dalla mia attività.
+
+Menu|Menu
+
+Swap Left|Scambia a sinistra
+
+I'll be waiting right here - not like I can go far, anyways!|Sarò in attesa di sé proprio qui - non come posso andare lontano, comunque 
+
+Skip to 'The Well' Storyline|Salta la trama "The Well"
+
+So... anything for me to read?|Allora ... qualcosa da leggere per me?
+
+I do not know what to make of this.|Non so cosa fare di questo.
+
+Another? And I shall read this one to you as well...|Un altro?E lo leggerò anche a te ...
+
+Opens the inventory UI when held, allowing the active pearl to be swapped with the movement keys.|Apre l'interfaccia utente di inventario quando tenuta, permettendo alla perla attiva di essere scambiato con le chiavi di movimento.
+
+): swap out a pearl, or change the limit in the Remix options|): scambiare una perla o modificare il limite nelle opzioni di remix
+
+Hello again, <PlayerName>!|Ciao di nuovo, <Playername>!
+
+Prefer to use the custom keybinds below for agility double jump, instead of the default (GRAB + JUMP)|Preferisci utilizzare i tasti personalizzati di seguito per l'agilità Double Jump, anziché predefinito (GRAB + JUMP)
+
+The surviving scholar returns once more... how poetic.|Lo studioso sopravvissuto ritorna ancora una volta ... quanto poetico.
+
+I do enjoy the company of you and your friend though, strange scholar.|Mi piace la compagnia di te e del tuo amico, Strange Scholar.
+
+Agility Pearl Count|Agility Pearl Count
+
+WIP - no new ending yet!<LINE>If you find any bugs, please report them to forthfora!|WIP - Nessun nuovo finale ancora! <LINE> Se trovi dei bug, ti preghiamo di segnalarli a Forthfora!
+
+My neighbour, Five Pebbles, is a little temperamental, but means well.|Il mio vicino, cinque ciottoli, è un po 'temperamentale, ma significa bene.
+
+Player 2|Giocatore 2
+
+I very much enjoy the company though... you and your family are always welcome here.|Mi piace molto la compagnia però ... Tu e la tua famiglia siete sempre i benvenuti qui.
+
+When checked, disables the spear creation effect granted by an active pearl.|Se controllato, disabilita l'effetto di creazione di lancia concessa da una perla attiva.
+
+Ah, I hope you both stay safe out there...|Ah, spero che vi siete entrambi al sicuro ...
+
+Stores the pearl in your main hand, or retrieves the current active pearl if your main hand is empty.|Memorizza la perla nella mano principale o recupera l'attuale perla attiva se la mano principale è vuota.
+
+WARNING|AVVERTIMENTO
+
+I suppose the only thing you value in these pearls is how pure their lattice is? I will substitute you with one much more refined than this.|Suppongo che l'unica cosa che apprezzi in queste perle sia quanto è puro il loro reticolo?Ti sostituirò con uno molto più raffinato di questo.
+
+Ability Input|Input di abilità
+
+Disable Shield Effect?|Disabilita l'effetto dello scudo?
+
+Which player controller trigger swapping will apply to. 0 disables trigger swapping. Negative player numbers invert the triggers. Hold and drag up or down to change.|A quale scambio di trigger controller giocatore si applicherà.0 disabilita lo scambio di trigger.I numeri dei giocatori negativi invertono i trigger.Tieni premuto e trascina su o giù per cambiare.
+
+I'm still more than happy to read any pearls you bring me;<LINE>especially given your unique abilities.|Sono ancora più che felice di leggere eventuali perle che mi porti; <fine> soprattutto date le tue abilità uniche.
+
+) & (|) & (
+
+When checked, disables the camoflague effect granted by an active pearl.|Se controllato, disabilita l'effetto CAMOFLAGUE concesso da una perla attiva.
+
+) with an active common pearl to convert it into a pearl spear|) con una perla comune attiva per convertirla in una lancia perla
+
+...and what happened to your parent...|... e cosa è successo al tuo genitore ...
+
+Improved Input Config is active!|La configurazione di input migliorata è attiva!
+
+Well, if my memory is serving me correctly, it is nice to see you again... strange scholar.|Bene, se la mia memoria mi serve correttamente, è bello rivederti ... strano studioso.
+
+I believe that child was you.|Credo che quel bambino fossi tu.
+
+Inventory Override?|Inventario Override?
+
+But... the mark you possess, it is very unusual.<LINE>Not something anyone in the local group could bestow...|Ma ... il segno che possiedi, è molto insolito. <LINE> Non qualcosa nel gruppo locale potrebbe conferire ...
+
+Swap Right|Scambia a destra
+
+I have so little... please don't take... this... this is all I have...|Ho così poco ... per favore non prendere ... questo ... questo è tutto ciò che ho ...
+
+Time in frames for a red pearl's laser to recharge after firing. Default 1.5 seconds.|Tempo in cornici per un laser di perla rossa da ricaricare dopo aver sparato.Predefinito 1,5 secondi.
+
+Their curiosity insatiable, Pearlcat ventures out once more in<LINE>pursuit of expanding their collection|La loro curiosità insaziabile, Pearcat si avventura ancora una volta nel perseguimento di <fine> di espandere la loro collezione
+
+This one again? I have better things to do... but...|Di nuovo questo?Ho cose migliori da fare ... ma ...
+
+Ability P1|Abilità P1
+
+Yes, help yourself. They are not edible.|Sì, aiuta te stesso.Non sono commestibili.
+
+I do enjoy the company though... it gets lonely out here.|Mi piace la compagnia però ... diventa solo qui.
+
+And just who might you be?|E solo chi potresti essere?
+
+Keybind for Player 4.|Keybind per il giocatore 4.
+
+I remember this one... don't you? Well...|Ricordo questo ... vero?BENE...
+
+Nevermind... this anger is useless...|Nevermind ... questa rabbia è inutile ...
+
+Button West|Button West
+
+Surely it must be another little beast with a pearl for a heart?|Sicuramente deve essere un'altra piccola bestia con una perla per un cuore?
+
+For the number of visits you pay me, how could there only be one of you?|Per il numero di visite che mi paghi, come potrebbe esserci solo uno di voi?
+
+scholar|studioso
+
+...and you can gather more of that data you so clearly desire.|... e puoi raccogliere più di questi dati che desideri così chiaramente.
+
+) or (|) O (
+
+...did they have a child? ...could you be?|... avevano un figlio?... potresti essere?
+
+) to deploy, and again to return.|) da distribuire e di nuovo per tornare.
+
+Laser Windup TIme (OLD)|Tempo di WindUp laser (vecchio)
+
+For now, my only lens into the outside is those pearls you carry.|Per ora, la mia unica lente all'esterno è quelle perle che porti.
+
+pearlcat-name|Pearlcat
+
+I have tried to reconstruct it from memory many times, fruitlessly.|Ho cercato di ricostruirlo dalla memoria molte volte, inutilmente.
+
+- Floppy Ears, Scarf|- orecchie floppy, sciarpa
+
+When checked, overrides the starting pearls with the option below. Only effective at the start of a new game, unlike Inventory Override?|Quando controllati, sovrascrive le perle iniziali con l'opzione seguente.Solo efficace all'inizio di un nuovo gioco, a differenza della sovraccarico dell'inventario?
+
+Time in frames for a red pearl's laser to fire after acquiring a target. Default 1.5 seconds.|Tempo in cornici per un laser di perla rossa per sparare dopo aver acquisito un bersaglio.Predefinito 1,5 secondi.
+
+Right Bumper|Bumper destro
+
+Start Shelter Override|Inizia a Shelter Override
+
+In any case, you are welcome to stay as long as you like. Anything to ease the pain.|In ogni caso, sei invitato a rimanere tutto il tempo che vuoi.Qualsiasi cosa per alleviare il dolore.
+
+Spear Pearl Count|Conteggio delle perle di lancia
+
+And who is your little friend? They are quite adorable!|E chi è il tuo piccolo amico?Sono abbastanza adorabili!
+
+Swap Input|Input di scambio
+
+You seem to be doing well for yourself nonetheless, your tenacity from whatever occurred is admirable!|Sembra che tu stia andando bene per te stesso, la tua tenacia da qualunque cosa accada è ammirevole!
+
+Each red pearl provides an additional laser - and yes, these batflies are VERY HOSTILE!|Ogni perla rossa fornisce un laser aggiuntivo - e sì, queste battute sono molto ostili!
+
+Player 3|Giocatore 3
+
+The power you possess, it is fascinating. I have never seen anything quite like it from your kind.|Il potere che possiedi, è affascinante.Non ho mai visto nulla di simile dal tuo genere.
+
+SKIP|SALTARE
+
+When checked, all tutorials will be disabled.|Quando controllati, tutti i tutorial saranno disabilitati.
+
+Button North|Button North
+
+Button East|Button East
+
+And a third? So it is...|E un terzo?Quindi è ...
+
+Welcome back, I suppose.|Bentornato, suppongo.
+
+Hold (GRAB) with an active common pearl to convert it into a pearl spear|Tieni premuto (afferrare) con una perla comune attiva per convertirla in una lancia perla
+
+...well, given your unique set of skills... if you ever need something read...|... beh, dato il tuo set unico di abilità ... se hai mai bisogno di qualcosa letta ...
+
+No, I do not care for your little one.|No, non mi interessa il tuo piccolo.
+
+Ability P2|Abilità P2
+
+Pearlcat|Pearlcat
+
+When checked, Pearlcat's cosmetics will be disabled, intended to allow custom sprites via DMS. This does not include the pearls themselves.|Se controllato, i cosmetici di Pearlcat saranno disabilitati, destinati a consentire sprite personalizzate tramite DMS.Questo non include le perle stesse.
+
+Is the implant... painful? Not that it matters, of course. Just noting some common ground.|L'impianto è ... doloroso?Non che sia importante, ovviamente.Basta notare un terreno comune.
+
+Some time ago now, I encountered a scholar and their dying pup...|Qualche tempo fa, ho incontrato uno studioso e il loro cucciolo morente ...
+
+When checked, most pearls (when active) will force the threat theme for all regions to the theme of the region they were originally from.|Se controllati, la maggior parte delle perle (quando attive) costringerà il tema della minaccia per tutte le regioni sul tema della regione da cui provenivano.
+
+- Artwork|- Opere d'arte
+
+When checked, disables improved input config support, reverting to Remix config. Exit and re-enter the Remix menu to take effect.|Se selezionato, disabilita il supporto di configurazione di input migliorato, ripristinando a Remix Config.Esci e rientri nel menu Remix per avere effetto.
+
+- Additional Artwork|- Opere d'arte aggiuntive
+
+I do so wish you could tell me what happened on your travels... I hardly remember the last time I saw beyond this chamber...|Lo faccio, vorrei che tu potessi dirmi cosa è successo nei tuoi viaggi ... Non ricordo quasi l'ultima volta che ho visto oltre questa camera ...
+
+...are you alright, little one? The modifications to your body are quite... unusual.|... Stai bene, piccolo?Le modifiche al tuo corpo sono abbastanza ... insolite.
+
+You... I still remember what you did.|Tu ... Ricordo ancora quello che hai fatto.
+
+Good luck, mysterious scholar.|Buona fortuna, studioso misterioso.
+
+Disable Agility Effect?|Disabilita l'effetto di agilità?
+
 ...are you alright, little one? The modifications to your body are quite... extreme.|... Stai bene, piccolo?Le modifiche al tuo corpo sono abbastanza ... estreme.
+
+Intended to make gameplay more challenging, may change gameplay significantly!|Destinato a rendere il gameplay più impegnativo, può cambiare il gameplay in modo significativo!
+
+I know that quite well.|Lo so abbastanza bene.
+
+Look at yourself! You know how it feels, to be within an inch of death...|Guardati!Sai come ci si sente, essere entro un centimetro dalla morte ...
+
+I would love to study it, to help treat my own affliction, however it would require... removal of the augment.|Mi piacerebbe studiarlo, aiutare a trattare la mia afflizione, tuttavia richiederebbe ... rimozione dell'aumento.
+
+Left Bumper|Bumper sinistro
+
+What do you want? To take away more of my life...?|Cosa vuoi?Per togliere più della mia vita ...?
+
+Custom Sentry Keybind?|Sentint Keybind personalizzato?
+
+I am not sure if you are aware, but your child appears very unwell...|Non sono sicuro che tu sia consapevole, ma tuo figlio sembra molto male ...
+
+You're more than welcome to stay a while... your ability will always be a miracle to me...|Sei più che benvenuto per rimanere un po '... La tua abilità sarà sempre un miracolo per me ...
+
+And now here you are, with a perfect copy.|E ora eccoti qui, con una copia perfetta.
+
+Player 4|Giocatore 4
+
+You really do remind me so much of your mother...|Mi ricordi davvero così tanto di tua madre ...
+
+Sorry if I seem a little slow by the way, we are designed to operate with millions of neurons, as opposed to, well...|Scusa se sembro un po 'lento a proposito, siamo progettati per operare con milioni di neuroni, al contrario, beh ...
+
+Oh...? Hello! Hello...|OH...?Ciao!Ciao...
+
+Ah, you didn't happen to find a way to tell me about your travels, did you?|Ah, non ti è capitato di trovare un modo per parlarmi dei tuoi viaggi, vero?
+
+Alternatively, hold (|In alternativa, tieni premuto (
+
+L-Stick|L-stick
+
+When checked, enables Pearlcat to carry a backspear.|Se controllato, abilita Pearlcat di trasportare un backspear.
+
+I do not have much else to occupy my time with these days...|Non ho molto altro con cui occupare il mio tempo in questi giorni ...
+
+...hello?|...Ciao?
+
+...You ate... me. Please go away. I won't speak... to you.<LINE>I... CAN'T speak to you... because... you ate...me... ...and why?|... hai mangiato ... io.Per favore, vai via.Non parlo ... a te. <fine> I ... non posso parlarti ... perché ... hai mangiato ... io ... ... e perché?
+
+) & use the (LEFT) & (RIGHT) directional inputs|) e usa gli ingressi direzionali (a sinistra) e (a destra)
+
+...scholar?|...studioso?
+
+Revive Pearl Count|Rivivi il numero di perle
+
+You are... so familiar...|Sei ... così familiare ...
+
+There is nothing I can do to stop you, so here is my request:<LINE>Leave me be, or end it quickly.|Non c'è niente che io possa fare per fermarti, quindi ecco la mia richiesta: <fine> Lasciami essere o finiscilo rapidamente.
+
+Player 1|Giocatore 1
+
+I suppose, seeing as you cannot read the information stored on them, I can read them for you, if you wish.|Suppongo, visto che non puoi leggere le informazioni archiviate su di loro, posso leggerle per te, se lo desideri.
+
+The Gutter|La grondaia
+
+PEARLPUP|Pearlpup
+
+And please keep your child under control.|E per favore tieni sotto controllo tuo figlio.
+
+Inventory Pings?|Ping di inventario?
+
+Number of rage pearls (red). Effective only when Inventory Override? is checked.|Numero di perle di rabbia (rosso).Efficace solo quando l'inventario si sovrascrive?è controllato.
+
+When checked, disables the rage effect granted by an active pearl.|Se controllato, disabilita l'effetto di rabbia concesso da una perla attiva.
+
+Oh, hello! Hello!|Oh, ciao!Ciao!
+
+To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|Per recuperare le perle, avere una mano principale vuota e tenere premuto (afferrare + up)
+
+Rage Pearl Count|Conteggio delle perle di rabbia
+
+Version|Versione
+
+He is much better equipped than me at present - I would recommend paying him a visit, if you can.<LINE>Although he was not designed as a medical facility, he may be able to aid you, in some way.|È molto meglio equipaggiato di me al momento - consiglierei di pagargli una visita, se puoi. <LINE> Sebbene non sia stato progettato come una struttura medica, potrebbe essere in grado di aiutarti, in qualche modo.
+
+CREDITS|Crediti
+
+If you were able to reach me via the transit system, I can only assume that you may be able to reach others far beyond.|Se sei stato in grado di raggiungermi tramite il sistema di transito, posso solo supporre che potresti essere in grado di raggiungere gli altri ben oltre.
+
+Trigger Player|Trigger Player
+
+VERSION WARNING<LINE>'The Well' requires a more recent version of Pearlcat! Please update...|Avviso di versione <LINE> 'The Well' richiede una versione più recente di Pearlcat! Si prega di aggiornare ...
+
+NON-MSC|Non-MSC
+
+Ability P4|Abilità P4
+
+Begin at the start of the 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over.|Inizia all'inizio della trama "The Well" ... <fine> Il mondo sarà preservato e le perle porteranno il passaggio.
+
+Store Input|Archiviare input
+
+Disable Tutorials?|Disabilita tutorial?
 

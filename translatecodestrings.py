@@ -100,10 +100,13 @@ excludedStrings = [
     "LOCKPATHS",
     "illustrations",
     "GRAV",
-    "|| menuPearlType == ",
+    " || menuPearlType == ",
     "placeholder",
     "trueend",
     "pearlcatbody",
+    "(trueend)",
+    "heartcore",
+    "pup"
 ]
 
 
