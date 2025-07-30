@@ -4,7 +4,7 @@ public class SaveMiscWorld
 {
     // Meta
     public bool JustBeatAltEnd { get; set; }
-    public bool JustMiraSkipped { get; set; }
+    public bool JustStorySkipped { get; set; }
 
 
     // Pearlcat

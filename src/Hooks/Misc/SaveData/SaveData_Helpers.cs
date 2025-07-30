@@ -32,7 +32,7 @@ public static class SaveData_Helpers
         }
     }
 
-    public static void StartFromMira(this SaveState saveState)
+    public static void SkipStory(this SaveState saveState)
     {
         if (saveState.saveStateNumber != Enums.Pearlcat)
         {
@@ -63,7 +63,7 @@ public static class SaveData_Helpers
         baseMiscWorld.SLOracleState.playerEncountersWithMark = 0;
         baseMiscWorld.SLOracleState.playerEncounters = 1;
 
-        miscWorld.JustMiraSkipped = true;
+        miscWorld.JustStorySkipped = true;
 
         SlugBase.Assets.CustomScene.SetSelectMenuScene(saveState, Enums.Scenes.Slugcat_Pearlcat_Sick);
     }

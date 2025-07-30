@@ -28,9 +28,9 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         }
 
 
-        if (miscWorld.JustMiraSkipped)
+        if (miscWorld.JustStorySkipped)
         {
-            MiraSkipMeet(miscWorld);
+            StorySkipMeet(miscWorld);
             return;
         }
 
@@ -214,7 +214,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
         oracle.room.world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles, true);
     }
 
-    private void MiraSkipMeet(SaveMiscWorld miscWorld)
+    private void StorySkipMeet(SaveMiscWorld miscWorld)
     {
         TakeRMPearl(oracle, false);
         GiveSSPearl(oracle, false);
@@ -286,7 +286,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
         world.game.GetStorySession.TryDream(Enums.Dreams.Dream_Pearlcat_Pebbles, false);
 
-        miscWorld.JustMiraSkipped = false;
+        miscWorld.JustStorySkipped = false;
     }
 
     public override void Update()
@@ -447,9 +447,9 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                 }
                 else if (ConvoCount == 5)
                 {
-                    if (ModCompat_Helpers.IsModEnabled_MiraInstallation && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
+                    if (ModCompat_Helpers.IsModEnabled_TheWell && miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedTrueEnding)
                     {
-                        owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoUnlockMira, this);
+                        owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoUnlockWellGate, this);
                     }
 
                     ConvoCount++;
@@ -482,7 +482,7 @@ public class SSOracleMeetPearlcat : ConversationBehavior
                         owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoRMPearlInspect, this);
                         ConvoCount++;
                     }
-                    else if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedMira)
+                    else if (miscWorld.HasPearlpupWithPlayer && miscProg.IsPearlpupSick && !miscProg.UnlockedTrueEnding)
                     {
                         if (!miscWorld.PebblesMetSickPup)
                         {
@@ -493,12 +493,12 @@ public class SSOracleMeetPearlcat : ConversationBehavior
 
                             ConvoCount++;
                         }
-                        else if (ModCompat_Helpers.IsModEnabled_MiraInstallation && !miscProg.UnlockedMira)
+                        else if (ModCompat_Helpers.IsModEnabled_TheWell && !miscProg.UnlockedTrueEnding)
                         {
                             owner.LockShortcuts();
                             owner.getToWorking = 0.0f;
 
-                            owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoUnlockMira, this);
+                            owner.InitateConversation(Enums.Oracle.Pearlcat_SSConvoUnlockWellGate, this);
 
                             ConvoCount++;
                         }

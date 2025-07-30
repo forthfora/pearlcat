@@ -218,7 +218,7 @@ public static class SaveData_Hooks
         // Meta
         miscProg.JustAscended = false;
         miscWorld.JustBeatAltEnd = false;
-        miscWorld.JustMiraSkipped = false;
+        miscWorld.JustStorySkipped = false;
 
 
         // New save
@@ -233,18 +233,18 @@ public static class SaveData_Hooks
                 miscProg.IsSecretEnabled = true;
 
 
-                self.StartFromMira();
+                self.SkipStory();
 
-                miscWorld.JustMiraSkipped = false;
+                miscWorld.JustStorySkipped = false;
 
 
                 self.GiveTrueEnding();
             }
-            else if (miscProg.IsMiraSkipEnabled)
+            else if (miscProg.IsStorySkipEnabled)
             {
                 miscProg.ResetSave();
 
-                miscProg.IsMiraSkipEnabled = true;
+                miscProg.IsStorySkipEnabled = true;
             }
             else
             {
@@ -252,11 +252,11 @@ public static class SaveData_Hooks
             }
         }
 
-        if (miscProg.IsMiraSkipEnabled)
+        if (miscProg.IsStorySkipEnabled)
         {
-            self.StartFromMira();
+            self.SkipStory();
 
-            miscProg.IsMiraSkipEnabled = false;
+            miscProg.IsStorySkipEnabled = false;
         }
     }
 }

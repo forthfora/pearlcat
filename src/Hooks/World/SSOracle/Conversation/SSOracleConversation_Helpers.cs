@@ -438,9 +438,9 @@ public static class SSOracleConversation_Helpers
             return true;
         }
 
-        if (id == Enums.Oracle.Pearlcat_SSConvoUnlockMira)
+        if (id == Enums.Oracle.Pearlcat_SSConvoUnlockWellGate)
         {
-            miscProg.UnlockedMira = true;
+            miscProg.UnlockedTrueEnding = true;
 
             e.Add(new WaitEvent(self, 160));
 

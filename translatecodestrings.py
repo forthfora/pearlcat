@@ -119,7 +119,7 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
         "Version",
         "by",
 
-        "Skip to Mira Storyline"
+        "Skip to 'The Well' Storyline"
     ]
 
     mappedStrings = {

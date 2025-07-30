@@ -86,7 +86,7 @@ public static class World_Hooks
             }
         }
 
-        if (miscWorld?.JustMiraSkipped == true)
+        if (miscWorld?.JustStorySkipped == true)
         {
             return "SS_AI";
         }
