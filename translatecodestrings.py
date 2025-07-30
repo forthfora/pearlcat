@@ -1,5 +1,6 @@
 import os
 import re
+import asyncio
 
 from googletrans import Translator
 
@@ -92,10 +93,21 @@ excludedStrings = [
     "CC",
     "SS_AI",
     "soundeffects/ambient",
+    "PEARLCAT STARTUP DEBUG INFO (PostModsInit):",
+    "PARTIALGRAV",
+    "UNLOCKPATHS",
+    "pearlcathead",
+    "LOCKPATHS",
+    "illustrations",
+    "GRAV",
+    "|| menuPearlType == ",
+    "placeholder",
+    "trueend",
+    "pearlcatbody",
 ]
 
 
-def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTranslatedLines = False):
+async def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTranslatedLines = False):
     print("TRANSLATING: " + targetLang)
 
     strings = [
@@ -146,15 +158,15 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
             contents = f.read()
 
             regexConditions = [
-                "(?<!LogError\()",
-                "(?<!LogWarning\()",
-                "(?<!LogInfo\()",
-                "(?<!Texture\()",
-                "(?<!hexToColor\()",
-                "(?<!== )",
-                "(?<!new\()",
-                "(?<!Ldstr, )",
-                "\"(.*?)\""
+                r"(?<!LogError\()",
+                r"(?<!LogWarning\()",
+                r"(?<!LogInfo\()",
+                r"(?<!Texture\()",
+                r"(?<!hexToColor\()",
+                r"(?<!== )",
+                r"(?<!new\()",
+                r"(?<!Ldstr, )",
+                r"\"(.*?)\""
             ]
 
             pattern = ''.join(regexConditions)
@@ -167,6 +179,8 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
 
 
     strings = [*set(strings)] # remove duplicates
+
+    strings = [x for x in strings if "_" not in x]
     
     strings = [x for x in strings if x not in excludedStrings]
 
@@ -188,6 +202,11 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
             if str.isspace(line): continue
 
             lineSplit = line.split("|")
+
+            if len(lineSplit) <= 1:
+                print("Line is missing key:", lineSplit[0])
+                continue
+
             lineSplit[1] = lineSplit[1].removesuffix("\n")
 
             existingStrings[lineSplit[0]] = lineSplit[1]
@@ -218,7 +237,12 @@ def Translate(targetLang, preserveExisting, actuallyTranslate = True, printTrans
                 if string in mappedStrings.keys():
                     string = mappedStrings[string]
 
-                translated = "NO_TRANSLATION" if not actuallyTranslate else translator.translate(string, src=SRC, dest=targetLang).text
+                translated = "NO_TRANSLATION"
+
+                if not actuallyTranslate: continue
+
+                result = await translator.translate(string, src=SRC, dest=targetLang)
+                translated = result.text
 
                 output = key + "|" + translated + "\n\n"
 
@@ -277,4 +301,4 @@ dontTranslate = [
 ]
 
 for lang in toTranslate:
-    Translate(lang, lang in preserveLangMap, lang not in dontTranslate, True)
+    asyncio.run(Translate(lang, lang in preserveLangMap, lang not in dontTranslate, True))
