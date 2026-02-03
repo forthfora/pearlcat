@@ -388,9 +388,6 @@ public sealed class TrainView : CustomBgScene
             BgElementType.VeryFarSpire => 300.0f,
             BgElementType.FarthestSpire => 300.0f,
 
-            BgElementType.BgSupport => 0.0f,
-            BgElementType.FgSupport => 0.0f,
-
             _ => 0.0f,
         };
 

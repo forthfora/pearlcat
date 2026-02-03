@@ -29,8 +29,8 @@ public static class Sound_HooksIL
             throw new Exception("Goto Failed");
         }
 
-        c.Emit(OpCodes.Ldloc_2);
-        c.Emit(OpCodes.Ldloc, 4);
+        c.Emit(OpCodes.Ldloc_3); // j
+        c.Emit(OpCodes.Ldloc, 5); // k
         c.Emit(OpCodes.Ldarg_0);
         c.Emit(OpCodes.Ldfld, typeof(ProceduralMusic).GetField(nameof(ProceduralMusic.musicPlayer)));
         c.Emit(OpCodes.Ldarg_0);

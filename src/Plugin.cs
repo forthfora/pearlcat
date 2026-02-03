@@ -6,7 +6,6 @@ using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Security;
-using BepInEx.Bootstrap;
 using Newtonsoft.Json;
 
 #pragma warning disable CS0618 // Type or member is obsolete

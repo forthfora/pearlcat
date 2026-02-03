@@ -41,7 +41,7 @@ public static class IICCompat
     }
     public static KeyCode GetStoreKeybind(bool controller)
     {
-        return controller ? StoreKeybind.GamepadPreset : StoreKeybind.CurrentBinding(0);
+        return controller ? StoreKeybind.GamepadPreset : StoreKeybind.KeyboardPreset;
     }
 
     public static bool IsSwapPressed(Player player)
@@ -50,7 +50,7 @@ public static class IICCompat
     }
     public static KeyCode GetSwapKeybind(bool controller)
     {
-        return controller ? SwapKeybind.GamepadPreset : SwapKeybind.CurrentBinding(0);
+        return controller ? SwapKeybind.GamepadPreset : SwapKeybind.KeyboardPreset;
     }
 
     public static bool IsSwapLeftPressed(Player player)
@@ -59,7 +59,7 @@ public static class IICCompat
     }
     public static KeyCode GetSwapLeftKeybind(bool controller)
     {
-        return controller ? SwapLeftKeybind.GamepadPreset : SwapLeftKeybind.CurrentBinding(0);
+        return controller ? SwapLeftKeybind.GamepadPreset : SwapLeftKeybind.KeyboardPreset;
     }
 
     public static bool IsSwapRightPressed(Player player)
@@ -68,7 +68,7 @@ public static class IICCompat
     }
     public static KeyCode GetSwapRightKeybind(bool controller)
     {
-        return controller ? SwapRightKeybind.GamepadPreset : SwapRightKeybind.CurrentBinding(0);
+        return controller ? SwapRightKeybind.GamepadPreset : SwapRightKeybind.KeyboardPreset;
     }
 
     public static bool IsSentryPressed(Player player)
@@ -77,7 +77,7 @@ public static class IICCompat
     }
     public static KeyCode GetSentryKeybind(bool controller)
     {
-        return controller ? SentryKeybind.GamepadPreset : SentryKeybind.CurrentBinding(0);
+        return controller ? SentryKeybind.GamepadPreset : SentryKeybind.KeyboardPreset;
     }
 
     public static bool IsAbilityPressed(Player player)
@@ -86,6 +86,6 @@ public static class IICCompat
     }
     public static KeyCode GetAbilityKeybind(bool controller)
     {
-        return controller ? AbilityKeybind.GamepadPreset : AbilityKeybind.CurrentBinding(0);
+        return controller ? AbilityKeybind.GamepadPreset : AbilityKeybind.KeyboardPreset;
     }
 }
