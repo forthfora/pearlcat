@@ -22,19 +22,17 @@ public static class MeadowCompat
 
         try
         {
-            // TODO: Replace this at some point if it gets fixed in Meadow
             _ = new Hook(
-                typeof(StoryGameMode).GetMethod(nameof(StoryGameMode.LoadWorldAs), BindingFlags.Instance | BindingFlags.Public),
-                typeof(MeadowCompat).GetMethod(nameof(OnLoadWorldAs), BindingFlags.Static | BindingFlags.NonPublic)
+                typeof(StoryGameMode).GetMethod(nameof(StoryGameMode.LoadWorldIn), BindingFlags.Instance | BindingFlags.Public),
+                typeof(MeadowCompat).GetMethod(nameof(OnLoadWorldIn), BindingFlags.Static | BindingFlags.NonPublic)
             );
         }
         catch (Exception e)
         {
             e.LogHookException();
         }
-
+        
         OnlineResource.OnAvailable += OnlineResourceOnOnAvailable;
-        On.SlugcatStats.ctor += SlugcatStatsOnctor;
     }
 
 
@@ -132,36 +130,13 @@ public static class MeadowCompat
         worldSession?.ApoEnteringWorld(abstractPhysicalObject);
     }
 
-
-    // Meadow SlugBase food fix
-    // TODO: remove if fixed
-    private static void SlugcatStatsOnctor(On.SlugcatStats.orig_ctor orig, SlugcatStats self, SlugcatStats.Name slugcat, bool malnourished)
-    {
-        orig(self, slugcat, malnourished);
-
-        if (slugcat != Enums.Pearlcat)
-        {
-            return;
-        }
-
-        if (!RainMeadow.RainMeadow.isStoryMode(out var storyGameMode))
-        {
-            return;
-        }
-
-        var onlineFood = SlugcatStats.SlugcatFoodMeter(storyGameMode.currentCampaign);
-
-        self.maxFood = onlineFood.x;
-        self.foodToHibernate = onlineFood.y;
-    }
-
     // Meadow world state fix
     // TODO: remove if fixed
-    private static SlugcatStats.Name OnLoadWorldAs(Func<StoryGameMode, RainWorldGame, SlugcatStats.Name> orig, StoryGameMode self, RainWorldGame game)
+    private static SlugcatStats.Timeline OnLoadWorldIn(Func<StoryGameMode, RainWorldGame?, SlugcatStats.Timeline> orig, StoryGameMode self, RainWorldGame? game)
     {
         if (game.IsPearlcatStory())
         {
-            return SlugcatStats.Name.Red;
+            return SlugcatStats.Timeline.Red;
         }
 
         return orig(self, game);
@@ -371,7 +346,7 @@ public static class MeadowCompat
         }
     }
 
-    public static void RPC_SentryDestroyEffecct(AbstractPhysicalObject sentryOwner)
+    public static void RPC_SentryDestroyEffect(AbstractPhysicalObject sentryOwner)
     {
         var opo = sentryOwner.GetOnlineObject();
 
