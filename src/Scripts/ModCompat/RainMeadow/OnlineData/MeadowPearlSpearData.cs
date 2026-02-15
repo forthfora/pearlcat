@@ -12,7 +12,15 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
 
     public override EntityDataState MakeState(OnlineEntity entity, OnlineResource inResource)
     {
-        return new State(entity);
+        try
+        {
+            return new State(entity);
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError($"Failed to make state: {e}");
+            return null!;
+        }
     }
 
     public class State : EntityDataState
@@ -48,12 +56,12 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not AbstractSpear spear)
             {
-                return;
+                throw new Exception("APO is not AbstractSpear.");
             }
 
             if (!spear.TryGetSpearModule(out var spearModule))
             {
-                return;
+                throw new Exception("Failed to get SpearModule.");
             }
 
             color = spearModule.Color;
@@ -69,7 +77,7 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not AbstractSpear spear)
             {
-                return;
+                throw new Exception("APO is not AbstractSpear.");
             }
 
             if (!spear.TryGetSpearModule(out var spearModule))

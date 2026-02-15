@@ -12,7 +12,15 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
     public override EntityDataState MakeState(OnlineEntity entity, OnlineResource inResource)
     {
-        return new State(entity);
+        try
+        {
+            return new State(entity);
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError($"Failed to make state: {e}");
+            return null!;
+        }
     }
 
     public class State : EntityDataState
@@ -76,12 +84,12 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo.realizedObject is not Player player)
             {
-                return;
+                throw new Exception("OPO is not Player.");
             }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
-                return;
+                throw new Exception("Failed to get PlayerModule.");
             }
 
             inventory = new(playerModule.Inventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
@@ -117,12 +125,12 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             if (playerOpo?.apo.realizedObject is not Player player)
             {
-                return;
+                throw new Exception("OPO is not Player.");
             }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
-                return;
+                throw new Exception("Failed to get PlayerModule.");
             }
 
             // Compare local and remote inventory, call AddToInventory / RemoveFromInventory where appropriate to sync local to remote

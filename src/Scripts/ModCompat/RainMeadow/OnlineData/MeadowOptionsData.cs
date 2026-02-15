@@ -12,7 +12,15 @@ public class MeadowOptionsData : OnlineResource.ResourceData
 
     public override ResourceDataState MakeState(OnlineResource inResource)
     {
-        return new State();
+        try
+        {
+            return new State();
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError($"Failed to make state: {e}");
+            return null!;
+        }
     }
 
     [method: UsedImplicitly]
