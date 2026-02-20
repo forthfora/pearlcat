@@ -13,7 +13,7 @@ MSC|ARCHIVO~DE GUARDADO CON~MSC
 NON-MSC|ARCHIVO~DE GUARDADO SIN~MSC
  SAVE|﻿
 VERSION WARNING<LINE>'The Well' requires a more recent version of Pearlcat! Please update...|ADVERTENCIA SOBRE LA VERSIÓN:<LINE>¡'The Well' requiere una versión más reciente de Perlina! Por favor, actualiza...
-Begin at the start of 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over.|Empezar al inicio de la trama de 'The Well'...<LINE>El mundo será preservado y las perlas se trasladarán.
+Begin at the start of 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over!|Empezar al inicio de la trama de 'The Well'...<LINE>¡El mundo será preservado y las perlas se trasladarán!
  Pearlpup will be revived.| La Cría de Perlina será resucitada.
 VERSION WARNING|ADVERTENCIA SOBRE LA VERSIÓN:
 'The Well' requires a more recent version of Pearlcat! Please update...|¡'The Well' requiere una versión más reciente de Perlina! Por favor, actualiza...
