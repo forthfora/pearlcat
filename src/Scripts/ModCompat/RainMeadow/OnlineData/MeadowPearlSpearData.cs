@@ -48,11 +48,13 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not AbstractSpear spear)
             {
+                Plugin.Logger.LogError("APO is not AbstractSpear");
                 return;
             }
 
             if (!spear.TryGetSpearModule(out var spearModule))
             {
+                Plugin.Logger.LogError("Failed to get SpearModule");
                 return;
             }
 
@@ -69,6 +71,7 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not AbstractSpear spear)
             {
+                Plugin.Logger.LogError("APO is not AbstractSpear");
                 return;
             }
 

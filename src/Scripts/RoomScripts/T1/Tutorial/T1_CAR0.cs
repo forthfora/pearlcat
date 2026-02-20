@@ -73,7 +73,11 @@ public class T1_CAR0 : UpdatableAndDeletable
 
                 if (ModOptions.CustomAgilityKeybind)
                 {
-                    game.AddTextPrompt(t.Translate("Press (") + Input_Helpers.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetAbilityKeybindDisplayName(true) + t.Translate(") while in the air to perform a double jump"), 0, 600);
+                    game.AddTextPrompt(t.Translate("Press (")
+                       + (ModCompat_Helpers.IsIICActive ?
+                           Input_Helpers.GetAbilityKeybindDisplayName(false) :
+                           (Input_Helpers.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetAbilityKeybindDisplayName(true)))
+                       + t.Translate(") while in the air to perform a double jump"), 0, 600);
                 }
 
                 game.AddTextPrompt("Press (JUMP + GRAB) while in the air to perform a double jump", 0, 600);

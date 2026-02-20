@@ -26,8 +26,8 @@ public static class Menu_Helpers
     public static int SecretIndex { get; set; }
 
 
-    public const string MIRA_SKIP_ID = "PEARLCAT_MIRA_SKIP";
-    public static Color MiraMenuColor { get; } = Custom.hexToColor("9487c9");
+    public const string STORY_SKIP_ID = "PEARLCAT_STORY_SKIP";
+    public static Color StorySkipMenuColor { get; } = Custom.hexToColor("9487c9");
 
 
     // Allows tags to be specified in an illustration's filename to disable / enable them under specific conditions

@@ -2,7 +2,7 @@
 
 pearl|pearl
 
-Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!|从米拉的故事情节开始时开始……<LINE>世界将被保存，珍珠将延续下去！
+Begin at the start of the 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over!|从'井'的故事情节开始时开始……<LINE>世界将被保存，珍珠将延续下去！
 
 Is my memory so bad to forget how your little one looks? They seem paler...|难道是我记性太差，忘记了小家伙的长相吗？他们看起来更加苍白了……
 
@@ -116,7 +116,7 @@ Damage each red pearl's laser does per shot. Survivor spear damage = 1.0|每颗�
 
 Ability P3|能力 P3
 
-VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update...|版本警告<LINE> MIRA安装需要更新的PearlCat版本！请更新...
+VERSION WARNING<LINE>'The Well' requires a more recent version of Pearlcat! Please update...|版本警告<LINE>'井'需要更新的PearlCat版本！请更新...
 
  SAVE| 保存
 
@@ -388,7 +388,7 @@ I am so sorry.|我很遗憾。
 
 Pearls may also be deployed as temporary sentries. Press (|珍珠也可以作为临时哨兵被部署。按下（
 
-Skip to Mira Storyline|跳过米拉的故事情节
+Skip to 'The Well' Storyline|跳过'井'的故事情节
 
 ...and you can gather more of that data you so clearly desire.|……并且你可以收集更多你明确想要的数据。
 
@@ -592,7 +592,7 @@ Your biology... it is both familiar and foreign to me. How curious.|你的生理
 
 Deploys the active pearl as a sentry, or returns it if it is already deployed.|将激活的珍珠作为哨兵部署，如果已部署哨兵这返回。
 
-Mira Installation requires a more recent version of Pearlcat! Please update...|Mira安装需要更新版本的PearlCat！请更新...
+'The Well' requires a more recent version of Pearlcat! Please update...|'井'需要更新版本的PearlCat！请更新...
 
 PEARLPUP|珍珠猫幼崽
 
@@ -671,8 +671,6 @@ Otherwise, I must resume my work, it seems the path to my own cure is unfortunat
 Background|Background
 
 To retrieve pearls, have an empty main hand, and hold (GRAB + UP)|要想取回珍珠，在主手为空的情况下按住（抓取 + 上）
-
-PEARLCAT_MIRA_SKIP|PEARLCAT_MIRA_SKIP
 
 Old Red Pearl Ability?|旧版红色珍珠能力？
 
@@ -822,7 +820,7 @@ by|作者
 
 Swap Input|交换输入
 
-FIND MIRA...|找到米拉……
+SKIP|跳过
 
 Chimney Canopy|烟囱天棚
 

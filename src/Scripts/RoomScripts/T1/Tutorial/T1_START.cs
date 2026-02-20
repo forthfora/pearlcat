@@ -162,10 +162,14 @@ public class T1_START : UpdatableAndDeletable
                 {
                     var t = Utils.Translator;
 
-                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + Input_Helpers.GetSwapLeftKeybindDisplayName(false) + t.Translate(") & (") + Input_Helpers.GetSwapRightKeybindDisplayName(false) + t.Translate("), or the triggers on controller"), 0, 600);
+                    game.AddTextPrompt(t.Translate("To cycle between pearls, use (") + Input_Helpers.GetSwapLeftKeybindDisplayName() + t.Translate(") & (") + Input_Helpers.GetSwapRightKeybindDisplayName() + t.Translate("), or the triggers on controller"), 0, 600);
 
                     game.AddTextPrompt(
-                        t.Translate("Alternatively, hold (") + Input_Helpers.GetSwapKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetSwapKeybindDisplayName(true) + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
+                        t.Translate("Alternatively, hold (")
+                        + (ModCompat_Helpers.IsIICActive ?
+                            Input_Helpers.GetSwapKeybindDisplayName(false) :
+                            (Input_Helpers.GetSwapKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetSwapKeybindDisplayName(true)))
+                        + t.Translate(") & use the (LEFT) & (RIGHT) directional inputs"), 50, 500);
 
                     PhaseTimer = 1100;
                     CurrentPhase = Phase.StoreTutorial;
@@ -176,9 +180,12 @@ public class T1_START : UpdatableAndDeletable
 
                     if (ModOptions.UsesCustomStoreKeybind)
                     {
-                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (") + Input_Helpers.GetStoreKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetStoreKeybindDisplayName(true) + t.Translate(")"), 0, 800);
+                        game.AddTextPrompt(t.Translate("To retrieve pearls, have an empty main hand, and hold (")
+                           + (ModCompat_Helpers.IsIICActive ?
+                               Input_Helpers.GetStoreKeybindDisplayName(false) :
+                               (Input_Helpers.GetStoreKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetStoreKeybindDisplayName(true)))
+                            + t.Translate(")"), 0, 800);
                     }
-
                     else
                     {
                         game.AddTextPrompt("To retrieve pearls, have an empty main hand, and hold (GRAB + UP)", 0, 600);
@@ -195,8 +202,11 @@ public class T1_START : UpdatableAndDeletable
 
                     if (ModOptions.CustomSentryKeybind)
                     {
-                        game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (") + Input_Helpers.GetSentryKeybindDisplayName(false) + t.Translate(") or (")
-                            + Input_Helpers.GetSentryKeybindDisplayName(true) + t.Translate(") to deploy, and again to return."), 0, 600);
+                        game.AddTextPrompt(t.Translate("Pearls may also be deployed as temporary sentries. Press (")
+                            + (ModCompat_Helpers.IsIICActive ?
+                                Input_Helpers.GetSentryKeybindDisplayName(false) :
+                               (Input_Helpers.GetSentryKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetSentryKeybindDisplayName(true)))
+                            + t.Translate(") to deploy, and again to return."), 0, 600);
                     }
                     else
                     {

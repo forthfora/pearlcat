@@ -1,4 +1,3 @@
-using MoreSlugcats;
 using RWCustom;
 
 namespace Pearlcat;

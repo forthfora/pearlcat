@@ -927,7 +927,7 @@ public class PearlSentry : UpdatableAndDeletable, IDrawable
 
                     if (ModCompat_Helpers.RainMeadow_IsOnline)
                     {
-                        MeadowCompat.RPC_SentryDestroyEffecct(owner);
+                        MeadowCompat.RPC_SentryDestroyEffect(owner);
                     }
                 }
 

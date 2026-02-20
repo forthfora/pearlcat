@@ -76,11 +76,13 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo.realizedObject is not Player player)
             {
+                Plugin.Logger.LogError("OPO is not Player");
                 return;
             }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
+                Plugin.Logger.LogError("Failed to get PlayerModule");
                 return;
             }
 
@@ -117,11 +119,13 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             if (playerOpo?.apo.realizedObject is not Player player)
             {
+                Plugin.Logger.LogError("OPO is not Player");
                 return;
             }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
+                Plugin.Logger.LogError("Failed to get PlayerModule");
                 return;
             }
 
@@ -168,11 +172,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
                 playerModule.CurrentPearlAnimation = (PearlAnimation)Activator.CreateInstance(playerModule.PearlAnimationMap[currentPearlAnimation], player);
             }
 
-            if (playerModule.CurrentPearlAnimation is not null)
-            {
-                playerModule.CurrentPearlAnimation.AnimTimer = pearlAnimTimer;
-            }
-
+            playerModule.CurrentPearlAnimation?.AnimTimer = pearlAnimTimer;
 
             playerModule.FlyTimer = flyTimer;
             playerModule.GroundedTimer = groundedTimer;

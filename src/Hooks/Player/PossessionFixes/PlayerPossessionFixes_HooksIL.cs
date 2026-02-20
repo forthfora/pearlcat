@@ -35,7 +35,7 @@ public static class PlayerPossessionFixes_HooksIL
         var label = c.DefineLabel();
 
         if (!c.TryGotoNext(MoveType.After,
-                x => x.MatchLdloc(10),
+                x => x.MatchLdloc(11),
                 x => x.MatchLdfld<AbstractWorldEntity>(nameof(AbstractWorldEntity.InDen)),
                 x => x.MatchBrtrue(out label)))
         {
@@ -43,7 +43,7 @@ public static class PlayerPossessionFixes_HooksIL
         }
 
         c.Emit(OpCodes.Ldarg_0);
-        c.Emit(OpCodes.Ldloc, 10);
+        c.Emit(OpCodes.Ldloc, 11); // AbstractCreature
 
         c.EmitDelegate<Func<PoleMimic, AbstractCreature, bool>>((self, creature) =>
         {

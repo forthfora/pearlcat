@@ -124,7 +124,7 @@ public class SS_T1_CROSS : UpdatableAndDeletable, IDrawable
 
         leftGlyph.pos = new(2085.0f, 210.0f);
 
-        leftGlyphLeaser.sprites[1].element = Futile.atlasManager.GetElementWithName("pearlcat_milock");
+        leftGlyphLeaser.sprites[1].element = Futile.atlasManager.GetElementWithName("pearlcat_twlock");
         leftGlyphLeaser.sprites[1].alpha = 0.95f;
 
         leftGlyph.myDefaultColor = Custom.hexToColor("a486c2");

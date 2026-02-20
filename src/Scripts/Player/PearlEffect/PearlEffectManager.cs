@@ -402,7 +402,6 @@ public static class PearlEffectManager
                 -1 => IteratorBlue,
                 0 => IteratorOrange,
                 1 => IteratorWhite,
-                2 => IteratorBlack,
 
                 _ => IteratorBlack,
             };

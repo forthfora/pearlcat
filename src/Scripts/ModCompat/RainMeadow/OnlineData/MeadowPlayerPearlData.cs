@@ -51,6 +51,7 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not DataPearl.AbstractDataPearl pearl)
             {
+                Plugin.Logger.LogError("APO is not AbstractDataPearl");
                 return;
             }
 
@@ -74,6 +75,7 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not DataPearl.AbstractDataPearl pearl)
             {
+                Plugin.Logger.LogError("APO is not AbstractDataPearl");
                 return;
             }
             

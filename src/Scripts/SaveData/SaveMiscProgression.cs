@@ -6,7 +6,7 @@ public class SaveMiscProgression
     public bool IsNewPearlcatSave { get; set; } = true;
     public bool IsMSCSave { get; set; } = ModManager.MSC;
     
-    public bool IsMiraSkipEnabled { get; set; }
+    public bool IsStorySkipEnabled { get; set; }
     public bool IsSecretEnabled { get; set; }
 
 
@@ -53,7 +53,7 @@ public class SaveMiscProgression
     public bool Ascended { get; set; }
     public bool AscendedWithPup { get; set; }
 
-    public bool UnlockedMira { get; set; }
+    public bool UnlockedTrueEnding { get; set; }
     public bool HasTrueEnding { get; set; }
 
 
@@ -75,14 +75,14 @@ public class SaveMiscProgression
         Ascended = false;
         AscendedWithPup = false;
 
-        UnlockedMira = false;
+        UnlockedTrueEnding = false;
         HasTrueEnding = false;
 
         IsMSCSave = ModManager.MSC;
-        UnlockedMira = !ModManager.MSC;
+        UnlockedTrueEnding = !ModManager.MSC;
 
 
         IsSecretEnabled = false;
-        IsMiraSkipEnabled = false;
+        IsStorySkipEnabled = false;
     }
 }

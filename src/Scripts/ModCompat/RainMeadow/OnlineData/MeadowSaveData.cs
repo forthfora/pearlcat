@@ -22,13 +22,16 @@ public class MeadowSaveData : OnlineResource.ResourceData
     public class State : ResourceDataState
     {
         [OnlineField]
-        public List<int> playersGivenPearls = [];
+        public List<int> playersGivenPearls;
 
         [OnlineField]
-        public string inventorySaveString = "";
+        public string inventorySaveString;
 
         [OnlineField]
-        public string activePearlIndexSaveString = "";
+        public string activePearlIndexSaveString;
+        
+        [OnlineField]
+        public bool isValid; // need to know whether we're sending valid data or a blank (prob a way to pause the state being sent but yeah, been a while)
 
 
         [UsedImplicitly]
@@ -40,31 +43,45 @@ public class MeadowSaveData : OnlineResource.ResourceData
 
             if (miscWorld is null)
             {
+                playersGivenPearls = [];
+                inventorySaveString = "";
+                activePearlIndexSaveString = "";
+                isValid = false;
                 return;
             }
 
             playersGivenPearls = miscWorld.PlayersGivenPearls;
-
+            
             inventorySaveString = JsonConvert.SerializeObject(miscWorld.Inventory);
             activePearlIndexSaveString = JsonConvert.SerializeObject(miscWorld.ActiveObjectIndex);
+            
+            isValid = true;
         }
 
         public override void ReadTo(OnlineResource.ResourceData data, OnlineResource resource)
         {
+            // i.e. miscWorld is null on the sender
+            if (!isValid)
+            {
+                return;
+            }
+            
             var game = Utils.RainWorld.processManager.currentMainLoop as RainWorldGame;
 
             var miscWorld = game?.GetMiscWorld();
 
             if (miscWorld is null)
             {
+                // we don't care if miscWorld is null on the receiver we just reject it gracefully
                 return;
             }
 
             if (data is not MeadowSaveData saveData)
             {
+                Plugin.Logger.LogError("Data is not MeadowSaveData");
                 return;
             }
-
+            
             miscWorld.PlayersGivenPearls = playersGivenPearls;
 
             var inventory = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(inventorySaveString);

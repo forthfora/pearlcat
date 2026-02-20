@@ -6,7 +6,6 @@ using BepInEx.Logging;
 using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Security;
-using BepInEx.Bootstrap;
 using Newtonsoft.Json;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -23,7 +22,7 @@ namespace Pearlcat;
 [BepInDependency("lb-fgf-m4r-ik.chatoyant-waterfalls-but-real", BepInDependency.DependencyFlags.SoftDependency)] // Chasing Wind
 [BepInDependency("henpemaz.rainmeadow", BepInDependency.DependencyFlags.SoftDependency)] // Rain Meadow
 
-[BepInPlugin(MOD_ID, MOD_ID, "1.5.1")]
+[BepInPlugin(MOD_ID, MOD_ID, "1.5.2")]
 public class Plugin : BaseUnityPlugin
 {
     public const string MOD_ID = "pearlcat";

@@ -33,33 +33,33 @@ public static class Input_Helpers_IIC
         return IICCompat.IsAbilityPressed(player);
     }
 
-    public static KeyCode GetStoreKeybindIIC(bool controller)
+    public static string GetStoreBindingNameIIC()
     {
-        return IICCompat.GetStoreKeybind(controller);
+        return IICCompat.GetStoreBindingName();
     }
 
-    public static KeyCode GetSwapKeybindIIC(bool controller)
+    public static string GetSwapBindingNameIIC()
     {
-        return IICCompat.GetSwapKeybind(controller);
+        return IICCompat.GetSwapBindingName();
     }
 
-    public static KeyCode GetSwapLeftKeybindIIC(bool controller)
+    public static string GetSwapLeftKeybindNameIIC()
     {
-        return IICCompat.GetSwapLeftKeybind(controller);
+        return IICCompat.GetSwapLeftBindingName();
     }
 
-    public static KeyCode GetSwapRightKeybindIIC(bool controller)
+    public static string GetSwapRightKeybindNameIIC()
     {
-        return IICCompat.GetSwapRightKeybind(controller);
+        return IICCompat.GetSwapRightBindingName();
     }
 
-    public static KeyCode GetSentryKeybindIIC(bool controller)
+    public static string GetSentryKeybindNameIIC()
     {
-        return IICCompat.GetSentryKeybind(controller);
+        return IICCompat.GetSentryBindingName();
     }
 
-    public static KeyCode GetAbilityKeybindIIC(bool controller)
+    public static string GetAbilityKeybindNameIIC()
     {
-        return IICCompat.GetAbilityKeybind(controller);
+        return IICCompat.GetAbilityBindingName();
     }
 }

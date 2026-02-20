@@ -4,7 +4,7 @@ public static class Room_Helpers
 {
     public static void AddRoomSpecificScript_SS(Room room, string roomName)
     {
-        if (ModCompat_Helpers.IsModEnabled_MiraInstallation)
+        if (ModCompat_Helpers.IsModEnabled_TheWell)
         {
             return;
         }

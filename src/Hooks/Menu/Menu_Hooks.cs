@@ -179,33 +179,33 @@ public static class Menu_Hooks
         SecretIndex = 0;
     }
 
-    // Mira Skip, Secret, Version Warning, MSC/Non MSC Warning
+    // Story Skip, Secret, Version Warning, MSC/Non MSC Warning
     private static void SlugcatSelectMenu_Update(On.Menu.SlugcatSelectMenu.orig_Update orig, SlugcatSelectMenu self)
     {
         orig(self);
 
         var page = self.slugcatPages[self.slugcatPageIndex];
         var module = self.GetModule();
-        var miraSkipCheckbox = module.MiraCheckbox;
+        var storySkipCheckbox = module.StoryCheckbox;
 
         var miscProg = Utils.MiscProgression;
         var disableSave = !miscProg.IsNewPearlcatSave && miscProg.IsMSCSave != ModManager.MSC && !self.restartChecked && !ModCompat_Helpers.RainMeadow_IsOnline;
 
         var isPearlcatPage = page.slugcatNumber == Enums.Pearlcat;
-        var miraSkipAvailable = !disableSave && ModCompat_Helpers.IsModEnabled_MiraInstallation && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding && !miscProg.UnlockedMira && ModManager.MSC;
+        var storySkipAvailable = !disableSave && ModCompat_Helpers.IsModEnabled_TheWell && isPearlcatPage && !self.restartChecked && !miscProg.HasTrueEnding && !miscProg.UnlockedTrueEnding && ModManager.MSC;
 
-        if (miraSkipAvailable)
+        if (storySkipAvailable)
         {
-            miraSkipCheckbox.pos = Vector2.Lerp(miraSkipCheckbox.pos, module.CheckboxUpPos, 0.2f);
-            miraSkipCheckbox.buttonBehav.greyedOut = false;
-            miraSkipCheckbox.selectable = true;
+            storySkipCheckbox.pos = Vector2.Lerp(storySkipCheckbox.pos, module.CheckboxUpPos, 0.2f);
+            storySkipCheckbox.buttonBehav.greyedOut = false;
+            storySkipCheckbox.selectable = true;
         }
         else
         {
-            miraSkipCheckbox.pos = Vector2.Lerp(miraSkipCheckbox.pos, module.CheckboxDownPos, 0.2f);
-            miraSkipCheckbox.buttonBehav.greyedOut = true;
-            miraSkipCheckbox.selectable = false;
-            miraSkipCheckbox.Checked = false;
+            storySkipCheckbox.pos = Vector2.Lerp(storySkipCheckbox.pos, module.CheckboxDownPos, 0.2f);
+            storySkipCheckbox.buttonBehav.greyedOut = true;
+            storySkipCheckbox.selectable = false;
+            storySkipCheckbox.Checked = false;
         }
 
 
@@ -256,16 +256,16 @@ public static class Menu_Hooks
         {
             var regionLabel = continuePage.regionLabel;
 
-            if (ModCompat_Helpers.ShowMiraVersionWarning)
+            if (ModCompat_Helpers.ShowTheWellVersionWarning)
             {
-                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("VERSION WARNING<LINE>Mira Installation requires a more recent version of Pearlcat! Please update..."));
+                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("VERSION WARNING<LINE>'The Well' requires a more recent version of Pearlcat! Please update..."));
 
                 self.startButton.fillTime = 120.0f;
                 self.startButton.warningMode = true;
             }
-            else if (miscProg.IsMiraSkipEnabled)
+            else if (miscProg.IsStorySkipEnabled)
             {
-                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
+                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over!"));
 
                 if (miscProg.IsMSCSave && !miscProg.HasPearlpup)
                 {
@@ -279,10 +279,10 @@ public static class Menu_Hooks
         }
         else if (page is SlugcatSelectMenu.SlugcatPageNewGame newGamePage)
         {
-            if (ModCompat_Helpers.ShowMiraVersionWarning)
+            if (ModCompat_Helpers.ShowTheWellVersionWarning)
             {
                 newGamePage.difficultyLabel.text = self.Translate("VERSION WARNING");
-                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Mira Installation requires a more recent version of Pearlcat! Please update..."));
+                newGamePage.infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("'The Well' requires a more recent version of Pearlcat! Please update..."));
 
                 self.startButton.fillTime = 120.0f;
                 self.startButton.warningMode = true;
@@ -296,9 +296,9 @@ public static class Menu_Hooks
             {
                 var infoLabel = newGamePage.infoLabel;
 
-                if (miscProg.IsMiraSkipEnabled)
+                if (miscProg.IsStorySkipEnabled)
                 {
-                    infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the Mira storyline...<LINE>The world will be preserved, and pearls will carry over!"));
+                    infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over!"));
                 }
                 else
                 {
@@ -312,14 +312,14 @@ public static class Menu_Hooks
     }
 
 
-    // Mira Skip
+    // Story Skip
     private static Color CheckBox_MyColor(On.Menu.CheckBox.orig_MyColor orig, CheckBox self, float timeStacker)
     {
         var result = orig(self, timeStacker);
 
-        if (self.IDString == MIRA_SKIP_ID)
+        if (self.IDString == STORY_SKIP_ID)
         {
-            return MiraMenuColor;
+            return StorySkipMenuColor;
         }
 
         return result;
@@ -329,9 +329,9 @@ public static class Menu_Hooks
     {
         var save = Utils.MiscProgression;
         
-        if (box.IDString == MIRA_SKIP_ID)
+        if (box.IDString == STORY_SKIP_ID)
         {
-            save.IsMiraSkipEnabled = c;
+            save.IsStorySkipEnabled = c;
             self.UpdateStartButtonText();
             return;
         }
@@ -343,10 +343,10 @@ public static class Menu_Hooks
     {
         var result = orig(self, box);
         
-        if (box.IDString == MIRA_SKIP_ID)
+        if (box.IDString == STORY_SKIP_ID)
         {
             var save = Utils.MiscProgression;
-            return save.IsMiraSkipEnabled;
+            return save.IsStorySkipEnabled;
         }
 
         return result;
@@ -356,10 +356,10 @@ public static class Menu_Hooks
     {
         var save = Utils.MiscProgression;
 
-        if (save.IsMiraSkipEnabled)
+        if (save.IsStorySkipEnabled)
         {
             self.startButton.fillTime = 240.0f;
-            self.startButton.menuLabel.text = self.Translate("FIND MIRA...");
+            self.startButton.menuLabel.text = self.Translate("SKIP");
             return;
         }
 
@@ -375,9 +375,9 @@ public static class Menu_Hooks
         {
             var save = Utils.MiscProgression;
             
-            if (save.IsMiraSkipEnabled)
+            if (save.IsStorySkipEnabled)
             {
-                return MiraMenuColor;
+                return StorySkipMenuColor;
             }
         }
 

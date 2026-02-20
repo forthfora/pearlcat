@@ -19,7 +19,7 @@ public static partial class Enums
         public static Conversation.ID Pearlcat_SSConvoTakeRMPearl { get; } = new(nameof(Pearlcat_SSConvoTakeRMPearl), true);
 
         public static Conversation.ID Pearlcat_SSConvoSickPup { get; } = new(nameof(Pearlcat_SSConvoSickPup), true);
-        public static Conversation.ID Pearlcat_SSConvoUnlockMira { get; } = new(nameof(Pearlcat_SSConvoUnlockMira), true);
+        public static Conversation.ID Pearlcat_SSConvoUnlockWellGate { get; } = new(nameof(Pearlcat_SSConvoUnlockWellGate), true);
 
         public static Conversation.ID Pearlcat_SSConvoFirstMeetTrueEnd { get; } = new(nameof(Pearlcat_SSConvoFirstMeetTrueEnd), true);
 
