@@ -391,7 +391,11 @@ public static class PlayerPearl_Helpers
             if (ModOptions.CustomSpearKeybind)
             {
                 self.abstractCreature.world.game.AddTextPrompt(
-                    t.Translate("Hold (") + Input_Helpers.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetAbilityKeybindDisplayName(true) + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
+                    t.Translate("Hold (")
+                    + (ModCompat_Helpers.IsIICActive ?
+                        Input_Helpers.GetAbilityKeybindDisplayName(false) :
+                        (Input_Helpers.GetAbilityKeybindDisplayName(false) + t.Translate(") or (") + Input_Helpers.GetAbilityKeybindDisplayName(true)))
+                    + t.Translate(") with an active common pearl to convert it into a pearl spear"), 0, 800);
             }
             else
             {
