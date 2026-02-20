@@ -43,8 +43,7 @@ public static class IICCompat
     
     public static string GetStoreBindingName()
     {
-        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
-        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        var playerNumber = GetFirstPearlcatPlayerNumber();
         return StoreKeybind.CurrentBindingName(playerNumber);
     }
 
@@ -56,8 +55,7 @@ public static class IICCompat
     
     public static string GetSwapBindingName()
     {
-        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
-        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        var playerNumber = GetFirstPearlcatPlayerNumber();
         return SwapKeybind.CurrentBindingName(playerNumber);
     }
 
@@ -69,8 +67,7 @@ public static class IICCompat
     
     public static string GetSwapLeftBindingName()
     {
-        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
-        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        var playerNumber = GetFirstPearlcatPlayerNumber();
         return SwapLeftKeybind.CurrentBindingName(playerNumber);
     }
 
@@ -82,8 +79,7 @@ public static class IICCompat
     
     public static string GetSwapRightBindingName()
     {
-        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
-        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        var playerNumber = GetFirstPearlcatPlayerNumber();
         return SwapRightKeybind.CurrentBindingName(playerNumber);
     }
 
@@ -95,8 +91,7 @@ public static class IICCompat
     
     public static string GetSentryBindingName()
     {
-        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
-        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        var playerNumber = GetFirstPearlcatPlayerNumber();
         return SentryKeybind.CurrentBindingName(playerNumber);
     }
 
@@ -108,8 +103,14 @@ public static class IICCompat
     
     public static string GetAbilityBindingName()
     {
-        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
-        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        var playerNumber = GetFirstPearlcatPlayerNumber();
         return AbilityKeybind.CurrentBindingName(playerNumber);
+    }
+
+
+    private static int GetFirstPearlcatPlayerNumber()
+    {
+        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
+        return (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
     }
 }
