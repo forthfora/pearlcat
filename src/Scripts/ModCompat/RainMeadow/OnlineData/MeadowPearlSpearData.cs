@@ -48,12 +48,14 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not AbstractSpear spear)
             {
-                throw new Exception("APO is not AbstractSpear.");
+                Plugin.Logger.LogError("APO is not AbstractSpear");
+                return;
             }
 
             if (!spear.TryGetSpearModule(out var spearModule))
             {
-                throw new Exception("Failed to get SpearModule.");
+                Plugin.Logger.LogError("Failed to get SpearModule");
+                return;
             }
 
             color = spearModule.Color;
@@ -69,7 +71,7 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not AbstractSpear spear)
             {
-                RainMeadow.RainMeadow.Error("APO is not AbstractSpear");
+                Plugin.Logger.LogError("APO is not AbstractSpear");
                 return;
             }
 

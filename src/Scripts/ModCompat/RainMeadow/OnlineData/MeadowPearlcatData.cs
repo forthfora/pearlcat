@@ -76,12 +76,14 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo.realizedObject is not Player player)
             {
-                throw new Exception("OPO is not Player.");
+                Plugin.Logger.LogError("OPO is not Player");
+                return;
             }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
-                throw new Exception("Failed to get PlayerModule.");
+                Plugin.Logger.LogError("Failed to get PlayerModule");
+                return;
             }
 
             inventory = new(playerModule.Inventory.Select(x => x?.GetOnlineObject()?.id).OfType<OnlineEntity.EntityId>().ToList());
@@ -117,13 +119,13 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             if (playerOpo?.apo.realizedObject is not Player player)
             {
-                RainMeadow.RainMeadow.Error("OPO is not Player");
+                Plugin.Logger.LogError("OPO is not Player");
                 return;
             }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
-                RainMeadow.RainMeadow.Error("Failed to get PlayerModule");
+                Plugin.Logger.LogError("Failed to get PlayerModule");
                 return;
             }
 

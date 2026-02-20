@@ -78,7 +78,7 @@ public class MeadowSaveData : OnlineResource.ResourceData
 
             if (data is not MeadowSaveData saveData)
             {
-                RainMeadow.RainMeadow.Error("Data is not MeadowSaveData");
+                Plugin.Logger.LogError("Data is not MeadowSaveData");
                 return;
             }
             
