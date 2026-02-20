@@ -16,15 +16,7 @@ public class MeadowSaveData : OnlineResource.ResourceData
 
     public override ResourceDataState MakeState(OnlineResource inResource)
     {
-        try
-        {
-            return new State();
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError($"Failed to make state: {e}");
-            return null!;
-        }
+        return new State();
     }
 
     public class State : ResourceDataState
@@ -86,7 +78,8 @@ public class MeadowSaveData : OnlineResource.ResourceData
 
             if (data is not MeadowSaveData saveData)
             {
-                throw new Exception("Data is not MeadowSaveData");
+                RainMeadow.RainMeadow.Error("Data is not MeadowSaveData");
+                return;
             }
             
             miscWorld.PlayersGivenPearls = playersGivenPearls;

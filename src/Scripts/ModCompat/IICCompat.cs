@@ -35,57 +35,81 @@ public static class IICCompat
         AbilityKeybind.HideConfig = hide;
     }
 
+    
     public static bool IsStorePressed(Player player)
     {
         return player.IsPressed(StoreKeybind);
     }
-    public static KeyCode GetStoreKeybind(bool controller)
+    
+    public static string GetStoreBindingName()
     {
-        return controller ? StoreKeybind.GamepadPreset : StoreKeybind.KeyboardPreset;
+        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
+        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        return StoreKeybind.CurrentBindingName(playerNumber);
     }
 
+    
     public static bool IsSwapPressed(Player player)
     {
         return player.IsPressed(SwapKeybind);
     }
-    public static KeyCode GetSwapKeybind(bool controller)
+    
+    public static string GetSwapBindingName()
     {
-        return controller ? SwapKeybind.GamepadPreset : SwapKeybind.KeyboardPreset;
+        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
+        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        return SwapKeybind.CurrentBindingName(playerNumber);
     }
 
+    
     public static bool IsSwapLeftPressed(Player player)
     {
         return player.IsPressed(SwapLeftKeybind);
     }
-    public static KeyCode GetSwapLeftKeybind(bool controller)
+    
+    public static string GetSwapLeftBindingName()
     {
-        return controller ? SwapLeftKeybind.GamepadPreset : SwapLeftKeybind.KeyboardPreset;
+        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
+        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        return SwapLeftKeybind.CurrentBindingName(playerNumber);
     }
 
+    
     public static bool IsSwapRightPressed(Player player)
     {
         return player.IsPressed(SwapRightKeybind);
     }
-    public static KeyCode GetSwapRightKeybind(bool controller)
+    
+    public static string GetSwapRightBindingName()
     {
-        return controller ? SwapRightKeybind.GamepadPreset : SwapRightKeybind.KeyboardPreset;
+        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
+        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        return SwapRightKeybind.CurrentBindingName(playerNumber);
     }
 
+    
     public static bool IsSentryPressed(Player player)
     {
         return player.IsPressed(SentryKeybind);
     }
-    public static KeyCode GetSentryKeybind(bool controller)
+    
+    public static string GetSentryBindingName()
     {
-        return controller ? SentryKeybind.GamepadPreset : SentryKeybind.KeyboardPreset;
+        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
+        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        return SentryKeybind.CurrentBindingName(playerNumber);
     }
 
+    
     public static bool IsAbilityPressed(Player player)
     {
         return player.IsPressed(AbilityKeybind);
     }
-    public static KeyCode GetAbilityKeybind(bool controller)
+    
+    public static string GetAbilityBindingName()
     {
-        return controller ? AbilityKeybind.GamepadPreset : AbilityKeybind.KeyboardPreset;
+        var firstPearlcat = (Utils.RainWorld.processManager.currentMainLoop as RainWorldGame)?.GetFirstPearlcat();
+        var playerNumber = (firstPearlcat?.realizedCreature as Player)?.playerState.playerNumber ?? 0;
+        return AbilityKeybind.CurrentBindingName(playerNumber);
     }
 }

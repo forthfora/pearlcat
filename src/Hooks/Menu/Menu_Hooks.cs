@@ -265,7 +265,7 @@ public static class Menu_Hooks
             }
             else if (miscProg.IsStorySkipEnabled)
             {
-                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over."));
+                regionLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over!"));
 
                 if (miscProg.IsMSCSave && !miscProg.HasPearlpup)
                 {
@@ -298,7 +298,7 @@ public static class Menu_Hooks
 
                 if (miscProg.IsStorySkipEnabled)
                 {
-                    infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over."));
+                    infoLabel.text = Custom.ReplaceLineDelimeters(self.Translate("Begin at the start of the 'The Well' storyline...<LINE>The world will be preserved, and pearls will carry over!"));
                 }
                 else
                 {

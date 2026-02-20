@@ -12,15 +12,7 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
 
     public override EntityDataState MakeState(OnlineEntity entity, OnlineResource inResource)
     {
-        try
-        {
-            return new State(entity);
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError($"Failed to make state: {e}");
-            return null!;
-        }
+        return new State(entity);
     }
 
     public class State : EntityDataState
@@ -77,7 +69,8 @@ public class MeadowPearlSpearData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not AbstractSpear spear)
             {
-                throw new Exception("APO is not AbstractSpear.");
+                RainMeadow.RainMeadow.Error("APO is not AbstractSpear");
+                return;
             }
 
             if (!spear.TryGetSpearModule(out var spearModule))

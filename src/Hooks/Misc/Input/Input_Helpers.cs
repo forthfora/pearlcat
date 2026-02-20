@@ -220,7 +220,7 @@ public static class Input_Helpers
 
         if (ModOptions.CustomAgilityKeybind)
         {
-            return IsCustomAbilityKeybindPressed(player);
+            return player.IsCustomAbilityKeybindPressed();
         }
 
         var input = playerModule.UnblockedInput;
@@ -236,7 +236,7 @@ public static class Input_Helpers
 
         if (ModOptions.CustomSpearKeybind)
         {
-            return IsCustomAbilityKeybindPressed(player);
+            return player.IsCustomAbilityKeybindPressed();
         }
 
         var input = playerModule.UnblockedInput;
@@ -294,7 +294,7 @@ public static class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return Input_Helpers_IIC.GetStoreKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetStoreBindingNameIIC();
         }
 
         return (controller ? ModOptions.StoreKeybindPlayer1 : ModOptions.StoreKeybindKeyboard).GetDisplayName();
@@ -304,7 +304,7 @@ public static class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return Input_Helpers_IIC.GetSwapKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetSwapBindingNameIIC();
         }
 
         return (controller ? ModOptions.SwapKeybindPlayer1 : ModOptions.SwapKeybindKeyboard).GetDisplayName();
@@ -314,7 +314,7 @@ public static class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return Input_Helpers_IIC.GetSentryKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetSentryKeybindNameIIC();
         }
 
         return (controller ? ModOptions.SentryKeybindPlayer1 : ModOptions.SentryKeybindKeyboard).GetDisplayName();
@@ -324,28 +324,28 @@ public static class Input_Helpers
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return Input_Helpers_IIC.GetAbilityKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetAbilityKeybindNameIIC();
         }
 
         return (controller ? ModOptions.AbilityKeybindPlayer1 : ModOptions.AbilityKeybindKeyboard).GetDisplayName();
     }
 
 
-    public static string GetSwapLeftKeybindDisplayName(bool controller)
+    public static string GetSwapLeftKeybindDisplayName()
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return Input_Helpers_IIC.GetSwapLeftKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetSwapLeftKeybindNameIIC();
         }
 
         return ModOptions.SwapLeftKeybind.GetDisplayName();
     }
 
-    public static string GetSwapRightKeybindDisplayName(bool controller)
+    public static string GetSwapRightKeybindDisplayName()
     {
         if (ModCompat_Helpers.IsIICActive)
         {
-            return Input_Helpers_IIC.GetSwapRightKeybindIIC(controller).GetDisplayName();
+            return Input_Helpers_IIC.GetSwapRightKeybindNameIIC();
         }
 
         return ModOptions.SwapRightKeybind.GetDisplayName();

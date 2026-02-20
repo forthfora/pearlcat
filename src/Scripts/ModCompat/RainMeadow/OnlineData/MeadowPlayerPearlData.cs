@@ -12,15 +12,7 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
 
     public override EntityDataState MakeState(OnlineEntity entity, OnlineResource inResource)
     {
-        try
-        {
-            return new State(entity);
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError($"Failed to make state: {e}");
-            return null!;
-        }
+        return new State(entity);
     }
 
     public class State : EntityDataState
@@ -82,7 +74,8 @@ public class MeadowPlayerPearlData : OnlineEntity.EntityData
         {
             if ((onlineEntity as OnlinePhysicalObject)?.apo is not DataPearl.AbstractDataPearl pearl)
             {
-                throw new Exception("APO is not AbstractDataPearl.");
+                RainMeadow.RainMeadow.Error("APO is not AbstractDataPearl");
+                return;
             }
             
             var pearlModule = ModuleManager.PlayerPearlData.GetValue(pearl, _ => new PlayerPearlModule());

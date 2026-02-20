@@ -12,15 +12,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
     public override EntityDataState MakeState(OnlineEntity entity, OnlineResource inResource)
     {
-        try
-        {
-            return new State(entity);
-        }
-        catch (Exception e)
-        {
-            Plugin.Logger.LogError($"Failed to make state: {e}");
-            return null!;
-        }
+        return new State(entity);
     }
 
     public class State : EntityDataState
@@ -125,12 +117,14 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
 
             if (playerOpo?.apo.realizedObject is not Player player)
             {
-                throw new Exception("OPO is not Player.");
+                RainMeadow.RainMeadow.Error("OPO is not Player");
+                return;
             }
 
             if (!player.TryGetPearlcatModule(out var playerModule))
             {
-                throw new Exception("Failed to get PlayerModule.");
+                RainMeadow.RainMeadow.Error("Failed to get PlayerModule");
+                return;
             }
 
             // Compare local and remote inventory, call AddToInventory / RemoveFromInventory where appropriate to sync local to remote
@@ -176,11 +170,7 @@ public class MeadowPearlcatData : OnlineEntity.EntityData
                 playerModule.CurrentPearlAnimation = (PearlAnimation)Activator.CreateInstance(playerModule.PearlAnimationMap[currentPearlAnimation], player);
             }
 
-            if (playerModule.CurrentPearlAnimation is not null)
-            {
-                playerModule.CurrentPearlAnimation.AnimTimer = pearlAnimTimer;
-            }
-
+            playerModule.CurrentPearlAnimation?.AnimTimer = pearlAnimTimer;
 
             playerModule.FlyTimer = flyTimer;
             playerModule.GroundedTimer = groundedTimer;
