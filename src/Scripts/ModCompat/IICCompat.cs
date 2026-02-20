@@ -33,6 +33,8 @@ public static class IICCompat
         SwapRightKeybind.HideConfig = hide;
         SentryKeybind.HideConfig = hide;
         AbilityKeybind.HideConfig = hide;
+
+        SentryKeybind.HideConflict = k => k == PlayerKeybind.Special;
     }
 
     
